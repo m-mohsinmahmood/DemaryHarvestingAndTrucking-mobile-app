@@ -1,0 +1,6 @@
+{
+	"appId": "com.avuity.vuo365",
+	"appName": "Avuity",
+	"webDir": "www",
+	"bundledWebRuntime": false
+}

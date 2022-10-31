@@ -1,0 +1,7 @@
+{
+  "name": "Avuity",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
