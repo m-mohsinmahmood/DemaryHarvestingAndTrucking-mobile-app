@@ -7,7 +7,12 @@ const routes: Routes = [
   {
     path: '',
     component: HomePage
+  },
+  {
+    path: 'crew-tasks',
+    loadChildren: () => import('./crew-tasks/crew-tasks.module').then( m => m.CrewTasksPageModule)
   }
+
 ];
 
 @NgModule({

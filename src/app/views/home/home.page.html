@@ -1,328 +1,108 @@
-<div *ngIf="isMobileDevice" class="bg-primary-background h-full w-full overflow-y-scroll"> 
-  <!-- HEADER -->
+<!-- ===================== Dashboard Starts =========================== -->
 
-    <div class="h-56 bg-primary px-4 py-12">
-      <div class="flex items-center justify-between text-white">
-        <div class="flex flex-col">
-          <span class="text-lg">Hi, <strong>Wilson Smith</strong></span>
-          <span class="text-sm">You have <strong>5 upcoming bookings</strong></span>
-        </div>
-        <div class="flex gap-x-4">
-          <div>
-            <svg width="20" height="22" viewBox="0 0 20 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M16.0279 6.94397C16.0279 3.66121 13.3667 1 10.0839 1C6.80116 1 4.13995 3.66121 4.13995 6.94397C4.13995 13.8786 1.16797 15.8599 1.16797 15.8599H18.9999C18.9999 15.8599 16.0279 13.8786 16.0279 6.94397" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M13.1201 18.8105C12.5022 20.0436 11.3637 20.8026 10.1321 20.8026C8.90048 20.8026 7.76203 20.0436 7.14404 18.8105" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </div>
-          <div>
-            <svg width="18" height="20" viewBox="0 0 18 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M5 5C5 2.79 6.79 1 9 1C11.21 1 13 2.79 13 5C13 7.21 11.21 9 9 9C6.79 9 5 7.21 5 5Z" stroke="currentColor" stroke-width="2"/>
-        <path d="M1 17C1 14.34 6.33 13 9 13C11.67 13 17 14.34 17 17V19H1V17Z" stroke="currentColor" stroke-width="2"/>
-      </svg>
-          </div>
-        </div>
-      </div>
-      <div class="mt-4">
-        <ion-segment class="custom-segment w-fit" [(ngModel)]="selectedSegment">
-          <ion-segment-button value="bookings">
-            <ion-label>Bookings</ion-label>
-          </ion-segment-button>
-          <ion-segment-button value="favorites">
-            <ion-label>Favorites</ion-label>
-          </ion-segment-button>
-        </ion-segment>
-      </div>
-    </div>
-
-    <!-- SLIDER -->
-    <div class="relative -top-[4.2rem]">
-      <div class="overflow-x-auto pb-4">
-        <div class="flex gap-2 px-4">
-          <div class="min-w-[75%] rounded-xl bg-white py-2 px-4 shadow-lg">
-            <div class="flex justify-between">
-              <div class="flex items-center gap-x-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
-                <span class="text-xs text-gray-600"> 11 Aug, 2020 </span>
-              </div>
-              <div>
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z" />
-                </svg>
-              </div>
-            </div>
-            <div class="mt-4 flex flex-col">
-              <span class="text-gray-700">Desk 11</span>
-              <div class="flex gap-2">
-                <span class="text-sm text-gray-500">Floor 2, Argentina Office</span>
-              </div>
-            </div>
-            <div class="mt-4 flex items-center justify-between">
-              <div class="flex items-center gap-x-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                <span class="text-xs text-gray-700">1 PM - 2 PM</span>
-              </div>
-              <div class="flex items-center text-primary">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
-                <span class="text-xs">View</span>
-              </div>
-            </div>
-          </div>
-          <div class="min-w-[75%] rounded-xl bg-white py-2 px-4 shadow-lg">
-            <div class="flex justify-between">
-              <div class="flex items-center gap-x-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
-                <span class="text-xs text-gray-600"> 11 Aug, 2020 </span>
-              </div>
-              <div>
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z" />
-                </svg>
-              </div>
-            </div>
-            <div class="mt-4 flex flex-col">
-              <span class="text-gray-700">Desk 11</span>
-              <div class="flex gap-2">
-                <span class="text-sm text-gray-500">Floor 2, Argentina Office</span>
-              </div>
-            </div>
-            <div class="mt-4 flex items-center justify-between">
-              <div class="flex items-center gap-x-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                <span class="text-xs text-gray-700">1 PM - 2 PM</span>
-              </div>
-              <div class="flex items-center text-primary">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
-                <span class="text-xs">View</span>
-              </div>
-            </div>
-          </div>
-          <div class="min-w-[75%] rounded-xl bg-white py-2 px-4 shadow-lg">
-            <div class="flex justify-between">
-              <div class="flex items-center gap-x-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
-                <span class="text-xs text-gray-600"> 11 Aug, 2020 </span>
-              </div>
-              <div>
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z" />
-                </svg>
-              </div>
-            </div>
-            <div class="mt-4 flex flex-col">
-              <span class="text-gray-700">Desk 11</span>
-              <div class="flex gap-2">
-                <span class="text-sm text-gray-500">Floor 2, Argentina Office</span>
-              </div>
-            </div>
-            <div class="mt-4 flex items-center justify-between">
-              <div class="flex items-center gap-x-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                <span class="text-xs text-gray-700">1 PM - 2 PM</span>
-              </div>
-              <div class="flex items-center text-primary">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
-                <span class="text-xs">View</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- SLIDER -->
-
-  <!-- HEADER -->
-
-  <!-- CONTENT -->
-  <div class="-mt-20">
-
-    <div class="p-4">
+<ion-header class="ion-no-border">
+  <ion-toolbar class="header-background-color">
+    <div>
       <div>
-        <span class="text-sm text-gray-700 font-semibold">March 28, 2022</span>
-        
-        <div class="bg-white shadow-sm rounded-xl p-4 mt-4">
-          <div class="flex">
-            <span class="text-gray-700 font-semibold">Group A</span>
-          </div>
-          <div class="flex">
-            <p class="text-sm text-gray-500">
-              7 out of 10 members of Group A have reserved
-            </p>
-          </div>
-          <div class="flex mt-2 items-center gap-x-1">
-            <div class="ml-1 flex">
-              <img class="rounded-full h-8 w-8 -ml-2 border-white border-2" src="https://angular-material.fusetheme.com/assets/images/avatars/brian-hughes.jpg"/>
-              <img class="rounded-full h-8 w-8 -ml-2 border-white border-2" src="https://angular-material.fusetheme.com/assets/images/avatars/male-01.jpg"/>
-              <img class="rounded-full h-8 w-8 -ml-2 border-white border-2" src="https://angular-material.fusetheme.com/assets/images/avatars/female-01.jpg"/>
-              <img class="rounded-full h-8 w-8 -ml-2 border-white border-2" src="https://angular-material.fusetheme.com/assets/images/avatars/male-02.jpg"/>
-              <img class="rounded-full h-8 w-8 -ml-2 border-white border-2" src="https://angular-material.fusetheme.com/assets/images/avatars/female-02.jpg"/>
-            </div>
-            <a class="text-primary underline text-sm font-semibold">+2 members</a>
-          </div>
-          <div class="mt-2 gap-x-2">            
-            <ion-chip color="primary">
-              <ion-icon name="location-outline"></ion-icon>
-              <ion-label>USA Chicago, IL</ion-label>              
-            </ion-chip>
-            <ion-chip color="primary">
-              <ion-icon name="business-outline"></ion-icon>
-              <ion-label>Old Post Office</ion-label>              
-            </ion-chip>
-            <ion-chip color="primary">
-              <ion-icon name="layers-outline"></ion-icon>
-              <ion-label>Juice Plus</ion-label>              
-            </ion-chip>
-          </div>
-        </div>
-        
-        <div class="bg-white shadow-sm rounded-xl p-4 mt-4">
-          <div class="flex">
-            <span class="text-gray-700 font-semibold">Group A</span>
-          </div>
-          <div class="flex">
-            <p class="text-sm text-gray-500">
-              7 out of 10 members of Group A have reserved
-            </p>
-          </div>
-          <div class="flex mt-2 items-center gap-x-1">
-            <div class="ml-1 flex">
-              <img class="rounded-full h-8 w-8 -ml-2 border-white border-2" src="https://angular-material.fusetheme.com/assets/images/avatars/brian-hughes.jpg"/>
-              <img class="rounded-full h-8 w-8 -ml-2 border-white border-2" src="https://angular-material.fusetheme.com/assets/images/avatars/male-01.jpg"/>
-              <img class="rounded-full h-8 w-8 -ml-2 border-white border-2" src="https://angular-material.fusetheme.com/assets/images/avatars/female-01.jpg"/>
-              <img class="rounded-full h-8 w-8 -ml-2 border-white border-2" src="https://angular-material.fusetheme.com/assets/images/avatars/male-02.jpg"/>
-              <img class="rounded-full h-8 w-8 -ml-2 border-white border-2" src="https://angular-material.fusetheme.com/assets/images/avatars/female-02.jpg"/>
-            </div>
-            <a class="text-primary underline text-sm font-semibold">+2 members</a>
-          </div>
-          <div class="mt-2 gap-x-2">            
-            <ion-chip color="primary">
-              <ion-icon name="location-outline"></ion-icon>
-              <ion-label>USA Chicago, IL</ion-label>              
-            </ion-chip>
-            <ion-chip color="primary">
-              <ion-icon name="business-outline"></ion-icon>
-              <ion-label>Old Post Office</ion-label>              
-            </ion-chip>
-            <ion-chip color="primary">
-              <ion-icon name="layers-outline"></ion-icon>
-              <ion-label>Juice Plus</ion-label>              
-            </ion-chip>
-          </div>
-        </div>
-
-        <div class="bg-white shadow-sm rounded-xl p-4 mt-4">
-          <div class="flex">
-            <span class="text-gray-700 font-semibold">Group A</span>
-          </div>
-          <div class="flex">
-            <p class="text-sm text-gray-500">
-              7 out of 10 members of Group A have reserved
-            </p>
-          </div>
-          <div class="flex mt-2 items-center gap-x-1">
-            <div class="ml-1 flex">
-              <img class="rounded-full h-8 w-8 -ml-2 border-white border-2" src="https://angular-material.fusetheme.com/assets/images/avatars/brian-hughes.jpg"/>
-              <img class="rounded-full h-8 w-8 -ml-2 border-white border-2" src="https://angular-material.fusetheme.com/assets/images/avatars/male-01.jpg"/>
-              <img class="rounded-full h-8 w-8 -ml-2 border-white border-2" src="https://angular-material.fusetheme.com/assets/images/avatars/female-01.jpg"/>
-              <img class="rounded-full h-8 w-8 -ml-2 border-white border-2" src="https://angular-material.fusetheme.com/assets/images/avatars/male-02.jpg"/>
-              <img class="rounded-full h-8 w-8 -ml-2 border-white border-2" src="https://angular-material.fusetheme.com/assets/images/avatars/female-02.jpg"/>
-            </div>
-            <a class="text-primary underline text-sm font-semibold">+2 members</a>
-          </div>
-          <div class="mt-2 gap-x-2">            
-            <ion-chip color="primary">
-              <ion-icon name="location-outline"></ion-icon>
-              <ion-label>USA Chicago, IL</ion-label>              
-            </ion-chip>
-            <ion-chip color="primary">
-              <ion-icon name="business-outline"></ion-icon>
-              <ion-label>Old Post Office</ion-label>              
-            </ion-chip>
-            <ion-chip color="primary">
-              <ion-icon name="layers-outline"></ion-icon>
-              <ion-label>Juice Plus</ion-label>              
-            </ion-chip>
-          </div>
-        </div>
-        
-
+        <ion-title class="ion-text-center title-style">Dashboard</ion-title>
+      </div>
+      <div>
       </div>
     </div>
+  </ion-toolbar>
+</ion-header>
 
+<ion-content>
+    <!-- =============================== Header =============================== -->
 
+  <div class="grid-background">
+    <ion-grid>
+      <ion-row>
+        <ion-col size="10" style="display: flex; flex-direction: row;align-items: center;" >
+          <ion-avatar>
+            <img src="../../../assets/icon//Oval.png" alt="">
+          </ion-avatar>
+          <div style="display: flex;flex-direction: column; margin-left: 10px;">
+            <ion-text class="font-bold">Wade Warren</ion-text>
+            <span class="font-normal">Crew Chief</span>
+          </div>
+        </ion-col>
+        <ion-col size="2" style="" class="content-center">
+          <ion-icon name="notifications-outline" class="size-32"></ion-icon>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
   </div>
-  <!-- CONTENT -->
-</div>
 
-<div *ngIf="!isMobileDevice" class="bg-primary-background h-full w-full p-4 flex flex-col gap-y-4">
+  <!-- =============================== Top Cards =============================== -->
+  <ion-grid style="padding:10px">
+  <ion-row style="">
+   <ion-col size="6" >
+    <ion-card class="card"  [routerLink]="['crew-tasks']">
+      <ion-card-content>
+        <ion-icon name="image-outline"></ion-icon>
+         <ion-text>Harvesting</ion-text>
+      </ion-card-content>
+    </ion-card>
+   </ion-col>
+   <ion-col size="6">
+    <ion-card class="card">
+      <ion-card-content>
+        <ion-icon name="image-outline"></ion-icon>
+         <ion-text>Farming</ion-text>
+      </ion-card-content>
+    </ion-card>
+   </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col size="6">
+     <ion-card class="card">
+       <ion-card-content>
+         <ion-icon name="image-outline"></ion-icon>
+          <ion-text>Trucking</ion-text>
+       </ion-card-content>
+     </ion-card>
+    </ion-col>
+    <ion-col size="6">
+     <ion-card class="card">
+       <ion-card-content>
+         <ion-icon name="image-outline"></ion-icon>
+          <ion-text>Maintenance & Repair</ion-text>
+       </ion-card-content>
+     </ion-card>
+    </ion-col>
+   </ion-row>
+   <ion-row>
+    <ion-col size="6">
+     <ion-card class="card">
+       <ion-card-content>
+         <ion-icon name="image-outline"></ion-icon>
+          <ion-text>Training</ion-text>
+       </ion-card-content>
+     </ion-card>
+    </ion-col>
+    <ion-col size="6">
+     <ion-card class="card">
+       <ion-card-content>
+         <ion-icon name="image-outline"></ion-icon>
+          <ion-text>Other</ion-text>
+       </ion-card-content>
+     </ion-card>
+    </ion-col>
+   </ion-row>
 
-  <!-- MAP WIDGET FOR LAST VISITED LOCATION -->
-  <div class="rounded-xl bg-white p-4 shadow">
-    <div class="flex w-full items-center justify-between">
-      <span class="text-base font-semibold text-gray-700">Recently Visited</span>
-      <div class="flex gap-x-4">
-        <div>
-          <span class="text-sm text-gray-700">Location: </span>
-          <span class="text-sm text-gray-400">USA - Barrington R&D, IL</span>
-        </div>
-        <div>
-          <span class="text-sm text-gray-700">Building: </span>
-          <span class="text-sm text-gray-400">Barrington Main</span>
-        </div>
-        <div>
-          <span class="text-sm text-gray-700">Floor: </span>
-          <span class="text-sm text-gray-400">1st Floor</span>
-        </div>
-      </div>
-    </div>
 
-    <div class="mt-4 flex h-80 w-full items-center justify-center bg-gray-400">MAP WILL BE SHOWN HERE</div>
-
-    <div class="mt-4 flex w-full justify-end gap-x-6">
-      <div class="flex gap-x-2">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-        </svg>
-        <span class="text-sm font-normal text-gray-400">11 July, 2022</span>
-      </div>
-    </div>
-  </div>
-  <!-- MAP WIDGET FOR LAST VISITED LOCATION -->
-
-  <div class="flex w-full gap-x-4">
-    <div class="bg-white h-80 rounded-xl p-4 shadow w-full">
-      <div class="flex justify-between">
-        <div>
-          <span class="text-base font-semibold text-gray-700">Bookings</span>
-        </div>
-      </div>
-    </div>
-    <div class="bg-white h-80 rounded-xl p-4 shadow w-full">
-      <div class="flex justify-between">
-        <div>
-          <span class="text-base font-semibold text-gray-700">Community</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+           <!-- ===================== Bottom Card Check-in =========================== -->
+   <ion-row>
+    <ion-col size="12" style="">
+      <ion-card class="card-bottom">
+        <ion-card-content>
+          <ion-button expand="block">Clock-in</ion-button>
+           <ion-text>Log your work hours to begin tasks for the day!</ion-text>
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+   </ion-row>
+  </ion-grid>
+</ion-content>
+<!-- ===================== Dashboard Ends =========================== -->
