@@ -1,0 +1,49 @@
+<!-- Start Daily Combining Job /Data Collection Start -->
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-icon name="chevron-back-outline" (click)="goBack()"></ion-icon>
+    <ion-title class="text-center">Close-out Daily Combining Job/ Data Collection</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+<div class="p-4">
+  <ion-grid class="mt-2">
+    <ion-row>
+      <ion-col size="6" class="">
+      <div class="flex justify-start items-center">
+        <ion-icon name="time-outline" class="w-6 h-6" [ngStyle]="{'color':'#888B8D'}"></ion-icon>
+        <span class="ml-2 text-lg" [ngStyle]="{'color':'#888B8D'}">09:00 AM</span>
+      </div>
+      </ion-col>
+      <ion-col size="6" class="">
+        <div class="flex justify-center items-center">
+          <ion-icon name="calendar-outline" class="w-6 h-6" [ngStyle]="{'color':'#888B8D'}"></ion-icon>
+          <span class="ml-2 text-lg" [ngStyle]="{'color':'#888B8D'}">Oct 08, 2022</span>
+        </div>
+        </ion-col>
+    </ion-row>
+  </ion-grid>
+  <div>
+    <form [formGroup]="customerSetupForm" novalidate>
+   <ion-list>
+      <div>
+        <ion-item>
+          <ion-label position="floating">Separator Hours(Ending)</ion-label>
+          <ion-input formControlName="separator_hours" placeholder="State"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Engine Hours(Ending)</ion-label>
+          <ion-input formControlName="engine_hours" placeholder="Customer Name"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">GPS Acres Completed</ion-label>
+          <ion-input formControlName="acres_completed" placeholder="Farm"></ion-input>
+        </ion-item>
+          <ion-button expand="block" class="mt-5">Add</ion-button>
+      </div>
+    </ion-list>
+  </form>
+  </div>
+</div>
+</ion-content>
+<!-- Start Daily Combining Job /Data Collection End -->
