@@ -31,6 +31,14 @@ const routes: Routes = [
   {
     path: 'close-daily-combining',
     loadChildren: () => import('./close-daily-combining/close-daily-combining.module').then( m => m.CloseDailyCombiningPageModule)
+  },
+  {
+    path: 'delivery-ticket',
+    loadChildren: () => import('./delivery-ticket/delivery-ticket.module').then( m => m.DeliveryTicketPageModule)
+  },
+  {
+    path: 'verify-ticket',
+    loadChildren: () => import('./verify-ticket/verify-ticket.module').then( m => m.VerifyTicketPageModule)
   }
 ];
 
