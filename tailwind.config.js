@@ -7,6 +7,9 @@ module.exports = {
         'primary-background': '#F5F5F5',
         'navbar-background': '#0E172A',
       },
+      fontFamily:{
+          'Lato':['"Lato"']
+      }
     },
   },
   plugins: [
