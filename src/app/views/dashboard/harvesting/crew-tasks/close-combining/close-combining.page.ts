@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-close-combining',
@@ -7,9 +9,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CloseCombiningPage implements OnInit {
 
-  constructor() { }
+  customerSetupForm: FormGroup;
+  constructor(
+    private location: Location,
+    private formBuilder: FormBuilder,
+  ) { }
 
   ngOnInit() {
+    this.customerSetupForm = this.formBuilder.group({
+      separator_hours: [null, [Validators.required]],
+      engine_hours: [null, [Validators.required]],
+      acres_completed: [null, [Validators.required]],
+    });
+  }
+  goBack(){
+    this.location.back();
   }
 
 }

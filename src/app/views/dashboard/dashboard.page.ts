@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./dashboard.page.scss'],
 })
 export class DashboardPage implements OnInit {
-role = 'crew-chief';
+role = 'kart-operator';
 role2= 'dispatcher';
   constructor() { }
 

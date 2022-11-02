@@ -7,6 +7,18 @@ const routes: Routes = [
   {
     path: '',
     component: CombineOperatorTasksPage
+  },
+  {
+    path: 'start-combining',
+    loadChildren: () => import('./start-combining/start-combining.module').then( m => m.StartCombiningPageModule)
+  },
+  {
+    path: 'close-combining',
+    loadChildren: () => import('./close-combining/close-combining.module').then( m => m.CloseCombiningPageModule)
+  },
+  {
+    path: 'change-field',
+    loadChildren: () => import('./change-field/change-field.module').then( m => m.ChangeFieldPageModule)
   }
 ];
 

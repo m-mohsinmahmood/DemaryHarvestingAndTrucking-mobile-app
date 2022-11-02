@@ -1,9 +1,65 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>kart-operator-tasks</ion-title>
+    <ion-icon name="chevron-back-outline" (click)="goBack()"></ion-icon>
+    <ion-title>Kart Operator Tasks</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
+<div class="padding">
+  <p class="text-xl font-bold font-Lato">Job Management</p>
+</div>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12">
+        <ion-card class="card" [routerLink]="['start-combining']">
+          <ion-card-content>
+             <p class="font-15px font-bold font-Lato">Start Daily Kart Operator Job/ Data Collection</p>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col size="12">
+        <ion-card class="card" [routerLink]="['change-field']">
+          <ion-card-content>
+             <p class="font-15px font-bold font-Lato">Change Field</p>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col size="12">
+        <ion-card class="card" [routerLink]="['close-combining']">
+          <ion-card-content>
+             <p class="font-15px font-bold font-Lato">Close-out Daily Kart Operator Job/ Data Collection</p>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <div class="padding">
+    <p class="text-xl font-bold font-Lato">Ticket Management</p>
+  </div>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="12">
+          <ion-card class="card" [routerLink]="['tickets']">
+            <ion-card-content>
+               <p class="font-15px font-bold font-Lato">Create and Print Delivery Ticket</p>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+        <ion-col size="12">
+          <ion-card class="card" [routerLink]="['verify-tickets']">
+            <ion-card-content>
+               <p class="font-15px font-bold font-Lato">Verify Delivery Ticket</p>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+        <ion-col size="12">
+          <ion-card class="card" [routerLink]="['reassign-tickets']">
+            <ion-card-content>
+               <p class="font-15px font-bold font-Lato">Reassign Delivery Ticket</p>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
 </ion-content>
