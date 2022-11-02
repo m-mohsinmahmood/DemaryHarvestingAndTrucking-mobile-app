@@ -1,5 +1,5 @@
-import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-crew-tasks',
@@ -7,9 +7,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./crew-tasks.page.scss'],
 })
 export class CrewTasksPage implements OnInit {
-role = 'truck-driver';
+
   constructor(
     private location: Location
+
   ) { }
 
   ngOnInit() {
@@ -17,4 +18,5 @@ role = 'truck-driver';
   goBack(){
     this.location.back();
   }
+
 }

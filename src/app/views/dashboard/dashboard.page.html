@@ -4,7 +4,7 @@
   <ion-toolbar class="header-background-color">
     <div>
       <div>
-        <ion-title class="ion-text-center title-style  font-Lato">Dashboard</ion-title>
+        <ion-title class="ion-text-center title-style  font-Lato">Dashboard New</ion-title>
       </div>
       <div>
       </div>
@@ -24,7 +24,7 @@
           </ion-avatar>
           <div style="display: flex;flex-direction: column; margin-left: 10px;">
             <ion-text class="font-bold font-Lato">Wade Warren</ion-text>
-            <span class="font-normal font-Lato">Crew Chief</span>
+            <span class="font-normal font-Lato" *ngIf="role ==='crew-chief'">Crew Chief</span>
           </div>
         </ion-col>
         <ion-col size="2" style="" class="content-center">
@@ -39,21 +39,34 @@
   <ion-row style="">
    <ion-col size="6" >
 
-    <ion-card class="card"  [routerLink]="['combine-operator-tasks']">
+    <ion-card class="card"  [routerLink]="['crew-tasks']" *ngIf="role ==='crew-chief'">
       <ion-card-content>
         <ion-icon name="image-outline"></ion-icon>
          <ion-text class="font-Lato">Harvesting</ion-text>
       </ion-card-content>
     </ion-card>
    </ion-col>
-   <ion-col size="6">
-    <ion-card class="card">
+<!-- Farming Dispatcher -->
+   <ion-col size="6" *ngIf="role2 ==='dispatcher'">
+    <ion-card class="card" [routerLink]="['dispatcher']">
       <ion-card-content>
         <ion-icon name="image-outline"></ion-icon>
          <ion-text class="font-Lato">Farming</ion-text>
       </ion-card-content>
     </ion-card>
    </ion-col>
+
+   <!-- Farming Tractor Driver -->
+   <ion-col size="6" *ngIf="role2 ==='tractor-driver'">
+    <ion-card class="card" [routerLink]="['tractor-driver']">
+      <ion-card-content>
+        <ion-icon name="image-outline"></ion-icon>
+         <ion-text class="font-Lato">Farming</ion-text>
+      </ion-card-content>
+    </ion-card>
+   </ion-col>
+
+
   </ion-row>
   <ion-row>
     <ion-col size="6">

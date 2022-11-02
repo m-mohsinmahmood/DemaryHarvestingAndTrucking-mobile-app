@@ -11,7 +11,7 @@ const routes: Routes = [
   {
     path: 'crew-tasks',
     loadChildren: () => import('./crew-tasks/crew-tasks.module').then( m => m.CrewTasksPageModule)
-  }
+  },
 
 ];
 

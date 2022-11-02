@@ -1,0 +1,39 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-icon name="chevron-back-outline" (click)="goBack()"></ion-icon>
+    <ion-title class="font-Lato">Change Farm/Crop</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+<div class="p-4">
+  <div>
+    <form [formGroup]="customerSetupForm" novalidate>
+   <ion-list>
+      <div>
+        <ion-item>
+          <ion-label position="floating">State</ion-label>
+          <ion-input formControlName="state" placeholder="State"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Customer Name</ion-label>
+          <ion-input formControlName="customer_name" placeholder="Customer Name"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Farm</ion-label>
+          <ion-input formControlName="farm" placeholder="Farm"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Crop</ion-label>
+          <ion-input formControlName="crop" placeholder="Crop"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Initial Field</ion-label>
+          <ion-input formControlName="initial_field" placeholder="Initial Field"></ion-input>
+        </ion-item>
+          <ion-button expand="block" class="mt-5 font-Lato">Add</ion-button>
+      </div>
+    </ion-list>
+  </form>
+  </div>
+</div>
+</ion-content>
