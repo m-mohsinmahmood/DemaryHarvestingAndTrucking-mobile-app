@@ -4,7 +4,7 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'tabs',
+    redirectTo: 'dashboard',
     pathMatch: 'full'
   },
   {
@@ -30,7 +30,8 @@ const routes: Routes = [
   {
     path: 'profile',
     loadChildren: () => import('./views/profile/profile.module').then( m => m.ProfilePageModule)
-  },  {
+  },
+  {
     path: 'dashboard',
     loadChildren: () => import('./views/dashboard/dashboard.module').then( m => m.DashboardPageModule)
   }

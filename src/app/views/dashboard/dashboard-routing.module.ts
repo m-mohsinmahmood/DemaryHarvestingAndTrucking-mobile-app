@@ -10,27 +10,27 @@ const routes: Routes = [
   },
   {
     path: 'crew-tasks',
-    loadChildren: () => import('./harvesting/crew-tasks/crew-tasks.module').then( m => m.CrewTasksPageModule)
+    loadChildren: () => import('./harvesting/crew-tasks/crew-tasks.module').then(m => m.CrewTasksPageModule)
   },
   {
     path: 'combine-operator-tasks',
-    loadChildren: () => import('./harvesting/combine-operator-tasks/combine-operator-tasks.module').then( m => m.CombineOperatorTasksPageModule)
+    loadChildren: () => import('./harvesting/combine-operator-tasks/combine-operator-tasks.module').then(m => m.CombineOperatorTasksPageModule)
   },
   {
     path: 'kart-operator-tasks',
-    loadChildren: () => import('./harvesting/kart-operator-tasks/kart-operator-tasks.module').then( m => m.KartOperatorTasksPageModule)
+    loadChildren: () => import('./harvesting/kart-operator-tasks/kart-operator-tasks.module').then(m => m.KartOperatorTasksPageModule)
   },
   {
     path: 'truck-driver-tasks',
-    loadChildren: () => import('./harvesting/truck-driver-tasks/truck-driver-tasks.module').then( m => m.TruckDriverTasksPageModule)
+    loadChildren: () => import('./harvesting/truck-driver-tasks/truck-driver-tasks.module').then(m => m.TruckDriverTasksPageModule)
   },
   {
     path: 'dispatcher',
-    loadChildren: () => import('./farming/dispatcher/dispatcher.module').then( m => m.DispatcherPageModule)
+    loadChildren: () => import('./farming/dispatcher/dispatcher.module').then(m => m.DispatcherPageModule)
   },
   {
     path: 'tractor-driver',
-    loadChildren: () => import('./farming/tractor-driver/tractor-driver.module').then( m => m.TractorDriverPageModule)
+    loadChildren: () => import('./farming/tractor-driver/tractor-driver.module').then(m => m.TractorDriverPageModule)
   },
 
 ];
@@ -39,4 +39,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class DashboardPageRoutingModule {}
+export class DashboardPageRoutingModule { }

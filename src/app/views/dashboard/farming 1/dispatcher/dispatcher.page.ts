@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-dispatcher',
@@ -7,9 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DispatcherPage implements OnInit {
 
-  constructor() { }
+  role = "dispatcher";
+
+  constructor(private location: Location) { }
 
   ngOnInit() {
+  }
+
+  goBack() {
+    this.location.back();
   }
 
 }
