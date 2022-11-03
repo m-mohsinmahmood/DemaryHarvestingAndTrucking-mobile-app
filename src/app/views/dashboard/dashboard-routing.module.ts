@@ -26,11 +26,11 @@ const routes: Routes = [
   },
   {
     path: 'dispatcher',
-    loadChildren: () => import('./farming/dispatcher/dispatcher.module').then(m => m.DispatcherPageModule)
+    loadChildren: () => import('./farming 1/dispatcher/dispatcher.module').then(m => m.DispatcherPageModule)
   },
   {
     path: 'tractor-driver',
-    loadChildren: () => import('./farming/tractor-driver/tractor-driver.module').then(m => m.TractorDriverPageModule)
+    loadChildren: () => import('./farming 1/tractor-driver/tractor-driver.module').then(m => m.TractorDriverPageModule)
   },
 
 ];
