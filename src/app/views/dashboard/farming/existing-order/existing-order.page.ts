@@ -2,11 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 
 @Component({
-  selector: 'app-ticket-generated',
-  templateUrl: './ticket-generated.page.html',
-  styleUrls: ['./ticket-generated.page.scss'],
+  selector: 'app-existing-order',
+  templateUrl: './existing-order.page.html',
+  styleUrls: ['./existing-order.page.scss'],
 })
-export class TicketGeneratedPage implements OnInit {
+export class ExistingOrderPage implements OnInit {
+
+  segment = 'existing'; // For Segment
 
   constructor(
     private location: Location

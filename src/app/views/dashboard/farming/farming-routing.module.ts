@@ -10,11 +10,24 @@ const routes: Routes = [
   },
   {
     path: 'create-order',
-    loadChildren: () => import('./create-order/create-order.module').then( m => m.CreateOrderPageModule)
-  },  {
+    loadChildren: () => import('./create-order/create-order.module').then(m => m.CreateOrderPageModule)
+  },
+  {
     path: 'ticket-generated',
-    loadChildren: () => import('./ticket-generated/ticket-generated.module').then( m => m.TicketGeneratedPageModule)
-  }
+    loadChildren: () => import('./ticket-generated/ticket-generated.module').then(m => m.TicketGeneratedPageModule)
+  },
+  {
+    path: 'verify-orders',
+    loadChildren: () => import('./verify-orders/verify-orders.module').then(m => m.VerifyOrdersPageModule)
+  },
+  {
+    path: 'existing-order',
+    loadChildren: () => import('./existing-order/existing-order.module').then(m => m.ExistingOrderPageModule)
+  },  {
+    path: 'change-field',
+    loadChildren: () => import('./change-field/change-field.module').then( m => m.ChangeFieldPageModule)
+  },
+
 
 ];
 
@@ -22,4 +35,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class FarmingPageRoutingModule {}
+export class FarmingPageRoutingModule { }

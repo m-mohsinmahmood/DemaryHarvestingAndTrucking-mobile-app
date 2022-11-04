@@ -6,7 +6,9 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<!-- Role: Dispatcher-->
+
+<ion-content *ngIf="role === 'dispatcher'">
   <ion-grid>
     <ion-row>
       <ion-col size="12">
@@ -20,7 +22,7 @@
 
     <ion-row>
       <ion-col size="12">
-        <ion-card class="card" [routerLink]="['delivery-ticket']">
+        <ion-card class="card" [routerLink]="['verify-orders']">
           <ion-card-content>
             <p class="font-bold">Verify New Work Orders</p>
           </ion-card-content>
@@ -28,5 +30,50 @@
       </ion-col>
     </ion-row>
 
+  </ion-grid>
+</ion-content>
+
+<!-- Role: Tractor Driver-->
+<ion-content *ngIf="role === 'tractor-driver'">
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12">
+        <ion-card class="card" [routerLink]="['create-order']">
+          <ion-card-content>
+            <p class="font-bold">Create New Work Order</p>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col size="12">
+        <ion-card class="card" [routerLink]="['existing-order']">
+          <ion-card-content>
+            <p class="font-bold">Complete Existing Work Order (Dispatched)</p>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col size="12">
+        <ion-card class="card" [routerLink]="['change-field']">
+          <ion-card-content>
+            <p class="font-bold">Change Field</p>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col size="12">
+        <ion-card class="card" [routerLink]="['verify-orders']">
+          <ion-card-content>
+            <p class="font-bold">Close-Out Work Order</p>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
   </ion-grid>
 </ion-content>

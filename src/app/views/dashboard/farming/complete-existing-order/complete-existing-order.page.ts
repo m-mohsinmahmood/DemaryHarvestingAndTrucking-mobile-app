@@ -2,13 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 
 @Component({
-  selector: 'app-dispatcher',
-  templateUrl: './farming.page.html',
-  styleUrls: ['./farming.page.scss'],
+  selector: 'app-complete-existing-order',
+  templateUrl: './complete-existing-order.page.html',
+  styleUrls: ['./complete-existing-order.page.scss'],
 })
-export class FarmingPage implements OnInit {
-
-  role = "tractor-driver";
+export class CompleteExistingOrderPage implements OnInit {
 
   constructor(private location: Location) { }
 
@@ -18,5 +16,4 @@ export class FarmingPage implements OnInit {
   goBack() {
     this.location.back();
   }
-
 }

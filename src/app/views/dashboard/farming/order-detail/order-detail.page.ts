@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 
 @Component({
-  selector: 'app-ticket-generated',
-  templateUrl: './ticket-generated.page.html',
-  styleUrls: ['./ticket-generated.page.scss'],
+  selector: 'app-order-detail',
+  templateUrl: './order-detail.page.html',
+  styleUrls: ['./order-detail.page.scss'],
 })
-export class TicketGeneratedPage implements OnInit {
+export class OrderDetailPage implements OnInit {
 
   constructor(
     private location: Location
