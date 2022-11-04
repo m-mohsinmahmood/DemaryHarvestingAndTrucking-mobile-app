@@ -13,12 +13,12 @@
 </ion-header>
 
 <ion-content>
-    <!-- =============================== Header =============================== -->
+  <!-- =============================== Header =============================== -->
 
   <div class="grid-background">
     <ion-grid>
       <ion-row>
-        <ion-col size="10" style="display: flex; flex-direction: row;align-items: center;" >
+        <ion-col size="10" style="display: flex; flex-direction: row;align-items: center;">
           <ion-avatar>
             <img src="../../../assets/images//Oval.png" alt="">
           </ion-avatar>
@@ -39,108 +39,98 @@
 
   <!-- =============================== Top Cards =============================== -->
   <ion-grid style="padding:10px">
-  <ion-row style="">
-    <!-- Harrvesting Roles -->
-    <!-- Role: Crew Chief -->
-   <ion-col size="6" *ngIf="role ==='crew-chief'">
-    <ion-card class="card"  [routerLink]="['crew-tasks']" >
-      <ion-card-content>
-        <ion-icon name="image-outline"></ion-icon>
-         <ion-text class="font-Lato">Harvesting</ion-text>
-      </ion-card-content>
-    </ion-card>
-   </ion-col>
+    <ion-row style="">
+      <!-- Harrvesting Roles -->
+      <!-- Role: Crew Chief -->
+      <ion-col size="6" *ngIf="role ==='crew-chief'">
+        <ion-card class="card" [routerLink]="['crew-tasks']">
+          <ion-card-content>
+            <ion-icon name="image-outline"></ion-icon>
+            <ion-text class="font-Lato">Harvesting</ion-text>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
 
-<!-- Role: Combine Operator -->
-   <ion-col size="6" *ngIf="role ==='combine-operator'">
-    <ion-card class="card"  [routerLink]="['combine-operator-tasks']" >
-      <ion-card-content>
-        <ion-icon name="image-outline"></ion-icon>
-         <ion-text class="font-Lato">Harvesting</ion-text>
-      </ion-card-content>
-    </ion-card>
-   </ion-col>
+      <!-- Role: Combine Operator -->
+      <ion-col size="6" *ngIf="role ==='combine-operator'">
+        <ion-card class="card" [routerLink]="['combine-operator-tasks']">
+          <ion-card-content>
+            <ion-icon name="image-outline"></ion-icon>
+            <ion-text class="font-Lato">Harvesting</ion-text>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
 
-   <!-- Role: Kart Operator -->
-   <ion-col size="6" *ngIf="role ==='kart-operator'">
-    <ion-card class="card"  [routerLink]="['kart-operator-tasks']" >
-      <ion-card-content>
-        <ion-icon name="image-outline"></ion-icon>
-         <ion-text class="font-Lato">Harvesting</ion-text>
-      </ion-card-content>
-    </ion-card>
-   </ion-col>
+      <!-- Role: Kart Operator -->
+      <ion-col size="6" *ngIf="role ==='kart-operator'">
+        <ion-card class="card" [routerLink]="['kart-operator-tasks']">
+          <ion-card-content>
+            <ion-icon name="image-outline"></ion-icon>
+            <ion-text class="font-Lato">Harvesting</ion-text>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
 
-<!-- Role: Farming Dispatcher -->
-   <ion-col size="6" *ngIf="role2 ==='dispatcher'">
-    <ion-card class="card" [routerLink]="['dispatcher']">
-      <ion-card-content>
-        <ion-icon name="image-outline"></ion-icon>
-         <ion-text class="font-Lato">Farming</ion-text>
-      </ion-card-content>
-    </ion-card>
-   </ion-col>
+      <!-- Role: Farming Dispatcher -->
+      <ion-col size="6">
+        <ion-card class="card" [routerLink]="['farming']">
+          <ion-card-content>
+            <ion-icon name="image-outline"></ion-icon>
+            <ion-text class="font-Lato">Farming</ion-text>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
 
-   <!-- Role: Farming Tractor Driver -->
-   <ion-col size="6" *ngIf="role2 ==='tractor-driver'">
-    <ion-card class="card" [routerLink]="['tractor-driver']">
-      <ion-card-content>
-        <ion-icon name="image-outline"></ion-icon>
-         <ion-text class="font-Lato">Farming</ion-text>
-      </ion-card-content>
-    </ion-card>
-   </ion-col>
-
-  </ion-row>
-  <ion-row>
-    <ion-col size="6">
-     <ion-card class="card">
-       <ion-card-content>
-         <ion-icon name="image-outline"></ion-icon>
-          <ion-text class="font-Lato">Trucking</ion-text>
-       </ion-card-content>
-     </ion-card>
-    </ion-col>
-    <ion-col size="6">
-     <ion-card class="card">
-       <ion-card-content>
-         <ion-icon name="image-outline"></ion-icon>
-          <ion-text class="font-Lato">Maintenance & Repair</ion-text>
-       </ion-card-content>
-     </ion-card>
-    </ion-col>
-   </ion-row>
-   <ion-row>
-    <ion-col size="6">
-     <ion-card class="card">
-       <ion-card-content>
-         <ion-icon name="image-outline"></ion-icon>
-          <ion-text class="font-Lato">Training</ion-text>
-       </ion-card-content>
-     </ion-card>
-    </ion-col>
-    <ion-col size="6">
-     <ion-card class="card">
-       <ion-card-content>
-         <ion-icon name="image-outline"></ion-icon>
-          <ion-text class="font-Lato">Other</ion-text>
-       </ion-card-content>
-     </ion-card>
-    </ion-col>
-   </ion-row>
+    </ion-row>
+    <ion-row>
+      <ion-col size="6">
+        <ion-card class="card">
+          <ion-card-content>
+            <ion-icon name="image-outline"></ion-icon>
+            <ion-text class="font-Lato">Trucking</ion-text>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col size="6">
+        <ion-card class="card">
+          <ion-card-content>
+            <ion-icon name="image-outline"></ion-icon>
+            <ion-text class="font-Lato">Maintenance & Repair</ion-text>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="6">
+        <ion-card class="card">
+          <ion-card-content>
+            <ion-icon name="image-outline"></ion-icon>
+            <ion-text class="font-Lato">Training</ion-text>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col size="6">
+        <ion-card class="card">
+          <ion-card-content>
+            <ion-icon name="image-outline"></ion-icon>
+            <ion-text class="font-Lato">Other</ion-text>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
 
 
-           <!-- ===================== Bottom Card Check-in =========================== -->
-   <ion-row>
-    <ion-col size="12" style="">
-      <ion-card class="card-bottom">
-        <ion-card-content>
-          <ion-button expand="block" class="font-Lato">Clock-in</ion-button>
-           <ion-text class="font-Lato">Log your work hours to begin tasks for the day!</ion-text>
-        </ion-card-content>
-      </ion-card>
-    </ion-col>
-   </ion-row>
+    <!-- ===================== Bottom Card Check-in =========================== -->
+    <ion-row>
+      <ion-col size="12" style="">
+        <ion-card class="card-bottom">
+          <ion-card-content>
+            <ion-button expand="block" class="font-Lato">Clock-in</ion-button>
+            <ion-text class="font-Lato">Log your work hours to begin tasks for the day!</ion-text>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
   </ion-grid>
 </ion-content>
 <!-- ===================== Dashboard Ends =========================== -->

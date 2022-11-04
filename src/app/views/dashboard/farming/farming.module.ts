@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { TractorDriverPageRoutingModule } from './tractor-driver-routing.module';
+import { FarmingPageRoutingModule } from './farming-routing.module';
 
-import { TractorDriverPage } from './tractor-driver.page';
+import { FarmingPage } from './farming.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    TractorDriverPageRoutingModule
+    FarmingPageRoutingModule
   ],
-  declarations: [TractorDriverPage]
+  declarations: [FarmingPage]
 })
-export class TractorDriverPageModule {}
+export class FarmingPageModule {}

@@ -34,7 +34,11 @@ const routes: Routes = [
   {
     path: 'dashboard',
     loadChildren: () => import('./views/dashboard/dashboard.module').then( m => m.DashboardPageModule)
+  },  {
+    path: 'create-order',
+    loadChildren: () => import('./create-order/create-order.module').then( m => m.CreateOrderPageModule)
   }
+
 
 ];
 

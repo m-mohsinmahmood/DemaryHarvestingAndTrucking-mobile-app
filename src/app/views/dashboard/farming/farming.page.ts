@@ -3,10 +3,10 @@ import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-dispatcher',
-  templateUrl: './dispatcher.page.html',
-  styleUrls: ['./dispatcher.page.scss'],
+  templateUrl: './farming.page.html',
+  styleUrls: ['./farming.page.scss'],
 })
-export class DispatcherPage implements OnInit {
+export class FarmingPage implements OnInit {
 
   role = "dispatcher";
 
