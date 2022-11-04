@@ -11,7 +11,11 @@ const routes: Routes = [
   {
     path: 'create-order',
     loadChildren: () => import('./create-order/create-order.module').then( m => m.CreateOrderPageModule)
+  },  {
+    path: 'ticket-generated',
+    loadChildren: () => import('./ticket-generated/ticket-generated.module').then( m => m.TicketGeneratedPageModule)
   }
+
 ];
 
 @NgModule({
