@@ -23,11 +23,15 @@ const routes: Routes = [
   {
     path: 'existing-order',
     loadChildren: () => import('./existing-order/existing-order.module').then(m => m.ExistingOrderPageModule)
-  },  {
+  },
+  {
     path: 'change-field',
     loadChildren: () => import('./change-field/change-field.module').then( m => m.ChangeFieldPageModule)
   },
-
+  {
+    path: 'close-out-order',
+    loadChildren: () => import('./close-out-order/close-out-order.module').then( m => m.CloseOutOrderPageModule)
+  },
 
 ];
 

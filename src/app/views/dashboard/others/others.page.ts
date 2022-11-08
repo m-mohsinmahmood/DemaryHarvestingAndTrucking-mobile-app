@@ -2,13 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 
 @Component({
-  selector: 'app-dispatcher',
-  templateUrl: './farming.page.html',
-  styleUrls: ['./farming.page.scss'],
+  selector: 'app-others',
+  templateUrl: './others.page.html',
+  styleUrls: ['./others.page.scss'],
 })
-export class FarmingPage implements OnInit {
-
-  role = "dispatcher";
+export class OthersPage implements OnInit {
 
   constructor(private location: Location) { }
 

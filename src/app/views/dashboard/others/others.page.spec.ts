@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { ChangeFieldPage } from './change-field.page';
+import { OthersPage } from './others.page';
 
-describe('ChangeFieldPage', () => {
-  let component: ChangeFieldPage;
-  let fixture: ComponentFixture<ChangeFieldPage>;
+describe('OthersPage', () => {
+  let component: OthersPage;
+  let fixture: ComponentFixture<OthersPage>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ ChangeFieldPage ],
+      declarations: [ OthersPage ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ChangeFieldPage);
+    fixture = TestBed.createComponent(OthersPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

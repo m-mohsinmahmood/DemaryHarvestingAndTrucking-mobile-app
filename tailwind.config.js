@@ -6,6 +6,7 @@ module.exports = {
         primary: '#FF9A00',
         'primary-background': '#F5F5F5',
         'navbar-background': '#0E172A',
+        'project-green':'#5BBE62'
       },
       fontFamily:{
           'Lato':['"Lato"']

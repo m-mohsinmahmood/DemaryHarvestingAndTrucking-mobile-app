@@ -2,13 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 
 @Component({
-  selector: 'app-dispatcher',
-  templateUrl: './farming.page.html',
-  styleUrls: ['./farming.page.scss'],
+  selector: 'app-close-out-order',
+  templateUrl: './close-out-order.page.html',
+  styleUrls: ['./close-out-order.page.scss'],
 })
-export class FarmingPage implements OnInit {
-
-  role = "dispatcher";
+export class CloseOutOrderPage implements OnInit {
 
   constructor(private location: Location) { }
 

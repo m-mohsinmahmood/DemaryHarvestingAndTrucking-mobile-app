@@ -27,7 +27,11 @@ const routes: Routes = [
   {
     path: 'farming',
     loadChildren: () => import('./farming/farming.module').then(m => m.FarmingPageModule)
+  },  {
+    path: 'others',
+    loadChildren: () => import('./others/others.module').then( m => m.OthersPageModule)
   },
+
 
 
 ];
