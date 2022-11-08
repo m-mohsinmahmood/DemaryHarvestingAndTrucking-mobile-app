@@ -11,8 +11,17 @@ const routes: Routes = [
   },
   {
     path: 'harvesting',
-    loadChildren: () => import('./harvesting/harvesting.module').then( m => m.HarvestingPageModule)
+    loadChildren: () => import('./harvesting/harvesting.module').then(m => m.HarvestingPageModule)
   },
+  {
+    path: 'farming',
+    loadChildren: () => import('./farming/farming.module').then(m => m.FarmingPageModule)
+  },
+  {
+    path: 'others',
+    loadChildren: () => import('./others/others.module').then(m => m.OthersPageModule)
+  },
+
 
 ];
 

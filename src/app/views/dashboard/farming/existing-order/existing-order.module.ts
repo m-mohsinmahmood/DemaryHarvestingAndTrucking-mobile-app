@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { ChangeFarmPageRoutingModule } from './change-farm-routing.module';
+import { ExistingOrderPageRoutingModule } from './existing-order-routing.module';
 
-import { ChangeFarmPage } from './change-farm.page';
+import { ExistingOrderPage } from './existing-order.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ChangeFarmPageRoutingModule
+    ExistingOrderPageRoutingModule
   ],
-  declarations: [ChangeFarmPage]
+  declarations: [ExistingOrderPage]
 })
-export class ChangeFarmPageModule {}
+export class ExistingOrderPageModule {}

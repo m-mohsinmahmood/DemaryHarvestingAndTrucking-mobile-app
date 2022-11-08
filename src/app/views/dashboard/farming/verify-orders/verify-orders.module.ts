@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { CloseJobPageRoutingModule } from './close-job-routing.module';
+import { VerifyOrdersPageRoutingModule } from './verify-orders-routing.module';
 
-import { CloseJobPage } from './close-job.page';
+import { VerifyOrdersPage } from './verify-orders.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    CloseJobPageRoutingModule
+    VerifyOrdersPageRoutingModule
   ],
-  declarations: [CloseJobPage]
+  declarations: [VerifyOrdersPage]
 })
-export class CloseJobPageModule {}
+export class VerifyOrdersPageModule {}

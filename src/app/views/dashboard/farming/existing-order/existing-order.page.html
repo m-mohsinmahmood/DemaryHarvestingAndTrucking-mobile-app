@@ -1,0 +1,103 @@
+<!-- Verify Delivery ticket Start -->
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-icon name="chevron-back-outline" (click)="goBack()"></ion-icon>
+    <ion-title class="font-Lato">Existing Work Orders</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <div class="p-2">
+    <div class="segment-style">
+      <ion-segment [(ngModel)]="segment" scrollable>
+        <ion-segment-button value="existing"> Existing </ion-segment-button>
+        <ion-segment-button value="completed"> Completed </ion-segment-button>
+      </ion-segment>
+
+      <div [ngSwitch]="segment">
+        <div *ngSwitchCase="'existing'">
+          <ion-card class="existingTicket p-2" [routerLink]="['complete-existing-order']">
+            <div class="flex flex-col">
+              <div class="flex flex-row py-2">
+                <div class="w-8/12 flex flex-col">
+                  <span class="text-sm font-Lato">Ticket#: 12345 </span>
+                  <span class="text-lg text-black font-Lato font-semibold	">Farming Task 1</span>
+                </div>
+                <div class="w-4/12 flex justify-end">
+                  <span class="text-sm text-black font-Lato"> In Progress</span>
+                </div>
+              </div>
+
+              <div class="mt-2.5 flex justify-between p-0">
+                <div>
+                  <span class="text-sm font-Lato">Truck Driver: </span>
+                  <span class="text-sm text-black font-Lato">{{"Mike Allen"}}</span>
+                </div>
+                <div>
+                  <span class="text-sm font-Lato">Destination: </span>
+                  <span class="text-sm text-black font-Lato">{{"Dakota"}}</span>
+                </div>
+              </div>
+            </div>
+          </ion-card>
+        </div>
+
+        <div *ngSwitchCase="'completed'">
+          <ion-card class="completedTicket p-2" [routerLink]="['complete-existing-order']">
+            <div class="flex flex-col">
+              <div class="flex flex-row py-2">
+                <div class="w-8/12 flex flex-col">
+                  <span class="text-sm font-Lato">Ticket#: 3213</span>
+                  <span class="text-lg text-black font-Lato font-semibold	">Farming Task 2</span>
+                </div>
+                <div class="w-4/12 flex justify-end">
+                  <span class="text-sm text-black font-Lato"> Pending</span>
+                </div>
+              </div>
+
+              <div class="mt-2.5 flex justify-between p-0">
+                <div>
+                  <span class="text-sm font-Lato">Truck Driver: </span>
+                  <span class="text-sm text-black font-Lato">{{"Mike Allen"}}</span>
+                </div>
+                <div>
+                  <span class="text-sm font-Lato">Destination: </span>
+                  <span class="text-sm text-black font-Lato">{{"Dakota"}}</span>
+                </div>
+              </div>
+            </div>
+          </ion-card>
+        </div>
+
+        <div *ngSwitchCase="'verified'">
+          <ion-card class="verifiedTicket p-2" [routerLink]="['order-detail']">
+            <div class="flex flex-col">
+              <div class="flex flex-row py-2">
+                <div class="w-8/12 flex flex-col">
+                  <span class="text-lg text-black font-Lato font-semibold	">Farming Task 3</span>
+                  <span class="font-Lato">Coronodo Feed Center, Arizona</span>
+                </div>
+                <div class="w-4/12 flex justify-end">
+                  <span class="text-sm font-Lato">Ticket#: </span>
+                  <span class="text-sm text-black font-Lato"> {{"334355"}}</span>
+                </div>
+              </div>
+
+              <div class="mt-2.5 flex justify-between p-0">
+                <div>
+                  <span class="text-sm font-Lato">Truck Driver: </span>
+                  <span class="text-sm text-black font-Lato">{{"Mike Allen"}}</span>
+                </div>
+                <div>
+                  <span class="text-sm font-Lato">Destination: </span>
+                  <span class="text-sm text-black font-Lato">{{"Dakota"}}</span>
+                </div>
+              </div>
+            </div>
+          </ion-card>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</ion-content>
+<!-- Verify Delivery ticket End -->
