@@ -4,9 +4,9 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { DashboardPageRoutingModule } from './dashboard-routing.module';
+import { HarvestingPageRoutingModule } from './harvesting-routing.module';
 
-import { DashboardPage } from './dashboard.page';
+import { HarvestingPage } from './harvesting.page';
 import { HeaderComponent } from 'src/app/components/header/header.component';
 
 @NgModule({
@@ -14,8 +14,8 @@ import { HeaderComponent } from 'src/app/components/header/header.component';
     CommonModule,
     FormsModule,
     IonicModule,
-    DashboardPageRoutingModule
+    HarvestingPageRoutingModule,
   ],
-  declarations: [DashboardPage]
+  declarations: [HarvestingPage]
 })
-export class DashboardPageModule {}
+export class HarvestingPageModule {}

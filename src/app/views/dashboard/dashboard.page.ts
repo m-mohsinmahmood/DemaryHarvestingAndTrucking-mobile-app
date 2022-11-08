@@ -6,11 +6,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./dashboard.page.scss'],
 })
 export class DashboardPage implements OnInit {
-role = 'kart-operator';
+role = 'crew-chief';
 role2= 'dispatcher';
   constructor() { }
 
   ngOnInit() {
+    localStorage.setItem('role',this.role);
   }
 
 }

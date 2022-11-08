@@ -22,15 +22,15 @@
           <ion-avatar>
             <img src="../../../assets/images//Oval.png" alt="">
           </ion-avatar>
-          <div style="display: flex;flex-direction: column; margin-left: 10px;">
-            <ion-text class="font-bold font-Lato">Wade Warren</ion-text>
-            <span class="font-normal font-Lato" *ngIf="role ==='crew-chief'">Crew Chief</span>
-            <span class="font-normal font-Lato" *ngIf="role ==='combine-operator'">Combine Operator</span>
-            <span class="font-normal font-Lato" *ngIf="role ==='kart-operator'">Kart Operator</span>
-
+          <div  class="flex flex-col ml-2">
+            <ion-text class="font-semibold font-Lato">Wade Warren</ion-text>
+            <span class=" text-xs font-semibold font-Lato" *ngIf="role ==='crew-chief'">Crew Chief</span>
+            <span class="text-xs font-semibold font-Lato" *ngIf="role ==='combine-operator'">Combine Operator</span>
+            <span class="text-xs font-semibold font-Lato" *ngIf="role ==='kart-operator'">Kart Operator</span>
+            <span class="text-xs font-semibold font-Lato" *ngIf="role ==='truck-driver'">Truck Driver</span>
           </div>
         </ion-col>
-        <ion-col size="2" style="" class="content-center">
+        <ion-col size="2" class="flex justify-center items-center">
           <ion-icon name="notifications-outline" class="size-32"></ion-icon>
         </ion-col>
       </ion-row>
@@ -39,11 +39,10 @@
 
   <!-- =============================== Top Cards =============================== -->
   <ion-grid style="padding:10px">
-  <ion-row style="">
-    <!-- Harrvesting Roles -->
-    <!-- Role: Crew Chief -->
-   <ion-col size="6" *ngIf="role ==='crew-chief'">
-    <ion-card class="card"  [routerLink]="['crew-tasks']" >
+  <ion-row >
+
+   <ion-col size="6" >
+    <ion-card class="card"  [routerLink]="['harvesting']" >
       <ion-card-content>
         <ion-icon name="image-outline"></ion-icon>
          <ion-text class="font-Lato">Harvesting</ion-text>
@@ -51,25 +50,6 @@
     </ion-card>
    </ion-col>
 
-<!-- Role: Combine Operator -->
-   <ion-col size="6" *ngIf="role ==='combine-operator'">
-    <ion-card class="card"  [routerLink]="['combine-operator-tasks']" >
-      <ion-card-content>
-        <ion-icon name="image-outline"></ion-icon>
-         <ion-text class="font-Lato">Harvesting</ion-text>
-      </ion-card-content>
-    </ion-card>
-   </ion-col>
-
-   <!-- Role: Kart Operator -->
-   <ion-col size="6" *ngIf="role ==='kart-operator'">
-    <ion-card class="card"  [routerLink]="['kart-operator-tasks']" >
-      <ion-card-content>
-        <ion-icon name="image-outline"></ion-icon>
-         <ion-text class="font-Lato">Harvesting</ion-text>
-      </ion-card-content>
-    </ion-card>
-   </ion-col>
 
 <!-- Role: Farming Dispatcher -->
    <ion-col size="6" *ngIf="role2 ==='dispatcher'">

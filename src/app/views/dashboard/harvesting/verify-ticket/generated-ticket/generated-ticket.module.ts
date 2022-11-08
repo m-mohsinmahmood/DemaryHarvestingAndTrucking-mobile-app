@@ -4,9 +4,9 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { DashboardPageRoutingModule } from './dashboard-routing.module';
+import { GeneratedTicketPageRoutingModule } from './generated-ticket-routing.module';
 
-import { DashboardPage } from './dashboard.page';
+import { GeneratedTicketPage } from './generated-ticket.page';
 import { HeaderComponent } from 'src/app/components/header/header.component';
 
 @NgModule({
@@ -14,8 +14,8 @@ import { HeaderComponent } from 'src/app/components/header/header.component';
     CommonModule,
     FormsModule,
     IonicModule,
-    DashboardPageRoutingModule
+    GeneratedTicketPageRoutingModule
   ],
-  declarations: [DashboardPage]
+  declarations: [GeneratedTicketPage]
 })
-export class DashboardPageModule {}
+export class GeneratedTicketPageModule {}
