@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { DashboardPage } from './dashboard.page';
+import { CloseJobPage } from './close-job.page';
 
-describe('DashboardPage', () => {
-  let component: DashboardPage;
-  let fixture: ComponentFixture<DashboardPage>;
+describe('CloseJobPage', () => {
+  let component: CloseJobPage;
+  let fixture: ComponentFixture<CloseJobPage>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ DashboardPage ],
+      declarations: [ CloseJobPage ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(DashboardPage);
+    fixture = TestBed.createComponent(CloseJobPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));
