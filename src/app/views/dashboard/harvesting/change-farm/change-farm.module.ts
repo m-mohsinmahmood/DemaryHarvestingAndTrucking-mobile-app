@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { ChangeFarmPageRoutingModule } from './change-farm-routing.module';
 
 import { ChangeFarmPage } from './change-farm.page';
+import { HeaderModule } from 'src/app/components/header/header.module';
 
 @NgModule({
   imports: [
-    CommonModule,
+  CommonModule,
     FormsModule,
     IonicModule,
-    ChangeFarmPageRoutingModule
+    ChangeFarmPageRoutingModule,
+    HeaderModule
   ],
   declarations: [ChangeFarmPage]
 })

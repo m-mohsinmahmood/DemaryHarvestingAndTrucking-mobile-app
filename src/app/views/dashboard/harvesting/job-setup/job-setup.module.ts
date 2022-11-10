@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { JobSetupPageRoutingModule } from './job-setup-routing.module';
 
 import { JobSetupPage } from './job-setup.page';
+import { HeaderModule } from 'src/app/components/header/header.module';
 
 @NgModule({
   imports: [
-    CommonModule,
+  CommonModule,
     FormsModule,
     IonicModule,
-    JobSetupPageRoutingModule
+    JobSetupPageRoutingModule,
+    HeaderModule
   ],
   declarations: [JobSetupPage]
 })

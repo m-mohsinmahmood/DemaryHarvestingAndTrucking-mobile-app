@@ -1,13 +1,6 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-icon name="chevron-back-outline" (click)="goBack()"></ion-icon>
-    <ion-title *ngIf="role === 'crew-chief'">Crew Tasks</ion-title>
-    <ion-title *ngIf="role === 'combine-operator'">Combine Operator Tasks</ion-title>
-    <ion-title *ngIf="role === 'kart-operator'">Kart Operator Tasks</ion-title>
-    <ion-title *ngIf="role === 'truck-driver'">Truck Driver Tasks</ion-title>
 
-  </ion-toolbar>
-</ion-header>
+<app-header [title]="role ==='crew-chief'? 'Crew Tasks' : '' || role === 'combine-operator'? 'Combine Operator Tasks': '' || role ==='kart-operator'? 'Kart Operator Tasks' : '' || role ==='truck-driver'? 'Truck Driver Tasks' : ''"></app-header>
+
 <!-- Crew-Tasks -->
 <ion-content *ngIf="role === 'crew-chief'">
   <p class="text-xl font-bold font-Lato mt-8 ml-7">Job Set-up</p>

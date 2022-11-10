@@ -7,14 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { HarvestingPageRoutingModule } from './harvesting-routing.module';
 
 import { HarvestingPage } from './harvesting.page';
-import { HeaderComponent } from 'src/app/components/header/header.component';
+import { HeaderModule } from 'src/app/components/header/header.module';
 
 @NgModule({
   imports: [
-    CommonModule,
+  CommonModule,
     FormsModule,
     IonicModule,
     HarvestingPageRoutingModule,
+    HeaderModule
   ],
   declarations: [HarvestingPage]
 })

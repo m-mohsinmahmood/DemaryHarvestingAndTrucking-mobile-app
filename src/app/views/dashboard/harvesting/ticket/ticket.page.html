@@ -1,11 +1,7 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-icon name="chevron-back-outline" (click)="goBack()"></ion-icon>
-    <ion-title *ngIf="role === 'kart-operator' && !isReassign">Create Delivery Ticket</ion-title>
-    <ion-title *ngIf="role === 'kart-operator' && isReassign">Rassign Delivery Ticket</ion-title>
-
-  </ion-toolbar>
-</ion-header>
+<app-header
+  [title]="role === 'kart-operator' && !isReassign? 'Create Delivery Ticket' : '' ||
+  role === 'kart-operator' && isReassign? 'Rassign Delivery Ticket': ''"
+></app-header>
 
 <!-- Kart-Operator -->
 <ion-content *ngIf="role === 'kart-operator'">

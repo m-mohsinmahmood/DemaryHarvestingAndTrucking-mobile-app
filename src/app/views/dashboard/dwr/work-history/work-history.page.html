@@ -1,0 +1,51 @@
+
+<app-header [title]="'View Work History'"></app-header>
+<ion-content>
+  <div class="p-2">
+  <div class="segment-style">
+    <ion-segment [(ngModel)]="segment" scrollable>
+      <ion-segment-button value="day">By Day </ion-segment-button>
+      <ion-segment-button value="month">By Month </ion-segment-button>
+    </ion-segment>
+    <div [ngSwitch]="segment" [routerLink]="['generated-ticket']">
+      <div *ngSwitchCase="'day'">
+        <ion-card class="p-2 flex flex-col justify-between items-center" (click)="navigate('work-history')">
+          <ion-text class="font-Lato text-lg text-project-green">August 23, 2021</ion-text>
+          <ion-text class="font-Lato text-base mt-1">Total Hours: 8</ion-text>
+        </ion-card>
+        <ion-card class="p-2 flex flex-col justify-between items-center" >
+          <ion-text class="font-Lato text-lg text-project-green">August 23, 2021</ion-text>
+          <ion-text class="font-Lato text-base mt-1">Total Hours: 8</ion-text>
+        </ion-card>
+        <ion-card class="p-2 flex flex-col justify-between items-center" >
+          <ion-text class="font-Lato text-lg text-project-green">August 23, 2021</ion-text>
+          <ion-text class="font-Lato text-base mt-1">Total Hours: 8</ion-text>
+        </ion-card>
+        <ion-card class="p-2 flex flex-col justify-between items-center" >
+          <ion-text class="font-Lato text-lg text-project-green">August 23, 2021</ion-text>
+          <ion-text class="font-Lato text-base mt-1">Total Hours: 8</ion-text>
+        </ion-card>
+      </div>
+      <div *ngSwitchCase="'month'">
+        <ion-card class="p-2 flex flex-col justify-between items-center" >
+          <ion-text class="font-Lato text-lg text-project-green">August 23, 2021</ion-text>
+          <ion-text class="font-Lato text-base mt-1">Total Hours: 8</ion-text>
+        </ion-card>
+        <ion-card class="p-2 flex flex-col justify-between items-center" >
+          <ion-text class="font-Lato text-lg text-project-green">August 23, 2021</ion-text>
+          <ion-text class="font-Lato text-base mt-1">Total Hours: 8</ion-text>
+        </ion-card>
+        <ion-card class="p-2 flex flex-col justify-between items-center" >
+          <ion-text class="font-Lato text-lg text-project-green">August 23, 2021</ion-text>
+          <ion-text class="font-Lato text-base mt-1">Total Hours: 8</ion-text>
+        </ion-card>
+        <ion-card class="p-2 flex flex-col justify-between items-center" >
+          <ion-text class="font-Lato text-lg text-project-green">August 23, 2021</ion-text>
+          <ion-text class="font-Lato text-base mt-1">Total Hours: 8</ion-text>
+        </ion-card>
+      </div>
+
+    </div>
+  </div>
+</div>
+</ion-content>

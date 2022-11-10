@@ -20,7 +20,11 @@ const routes: Routes = [
   {
     path: 'others',
     loadChildren: () => import('./others/others.module').then(m => m.OthersPageModule)
+  },  {
+    path: 'dwr',
+    loadChildren: () => import('./dwr/dwr.module').then( m => m.DwrPageModule)
   },
+
 
 
 ];

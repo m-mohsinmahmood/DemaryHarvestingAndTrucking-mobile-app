@@ -8,6 +8,11 @@ module.exports = {
         'navbar-background': '#0E172A',
         'project-green': '#59C64F',
         'taskbar':'#888B8D',
+        'E64646':'#E64646',
+        'e64646':'#e64646',
+        '81809F':'#81809F',
+        'bec1be':'#bec1be',
+        '636366':'#636366',
       },
       fontFamily:{
           'Lato':['"Lato"']

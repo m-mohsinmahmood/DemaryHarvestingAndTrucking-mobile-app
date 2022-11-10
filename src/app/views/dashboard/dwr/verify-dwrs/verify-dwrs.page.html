@@ -1,0 +1,33 @@
+
+<app-header [title]="'Verify DWRs'"></app-header>
+
+<ion-content>
+  <p class="font-semibold text-lg font-Lato ml-6 my-3">Outstanding DWRs</p>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12">
+        <ion-card class="card" [routerLink]="['verify-dwr']">
+          <ion-card-content>
+            <ion-text class="font-bold font-Lato ion-text-center">October 25th, 2022 <span class="bg-project-green p-3 rounded-full text-white ml-2">3</span></ion-text>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col size="12">
+        <ion-card class="card" [routerLink]="['']">
+          <ion-card-content>
+            <ion-text class="font-bold font-Lato ion-text-center">October 25th, 2022 <span class="bg-project-green p-3 rounded-full text-white ml-2">3</span></ion-text>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col size="12">
+        <ion-card class="card" [routerLink]="['']">
+          <ion-card-content class="flex justify-between items-center">
+            <ion-text class="font-bold font-Lato ion-text-center">October 25th, 2022 <span class="bg-E64646 p-3 rounded-full text-white ml-2">3</span></ion-text>
+          <ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-20 rounded-full px-2 py-1">Overdue</ion-text>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  </ion-content>

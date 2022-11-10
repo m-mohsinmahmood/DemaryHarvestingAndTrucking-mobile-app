@@ -8,15 +8,17 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { DomSanitizerPipe } from './pipes/dom-sanitizer/dom-sanitizer.pipe';
 import { HeaderComponent } from 'src/app/components/header/header.component';
+import { HeaderModule } from './components/header/header.module';
 
 @NgModule({
   declarations: [AppComponent, DomSanitizerPipe],
   imports: [
-  BrowserModule,
+BrowserModule,
     IonicModule.forRoot({
       mode: 'ios'
     }),
-    AppRoutingModule
+    AppRoutingModule,
+    HeaderModule
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],

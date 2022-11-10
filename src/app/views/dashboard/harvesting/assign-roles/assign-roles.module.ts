@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { AssignRolesPageRoutingModule } from './assign-roles-routing.module';
 
 import { AssignRolesPage } from './assign-roles.page';
+import { HeaderModule } from 'src/app/components/header/header.module';
 
 @NgModule({
   imports: [
-    CommonModule,
+  CommonModule,
     FormsModule,
     IonicModule,
-    AssignRolesPageRoutingModule
+    AssignRolesPageRoutingModule,
+    HeaderModule
   ],
   declarations: [AssignRolesPage]
 })
