@@ -24,6 +24,10 @@ const routes: Routes = [
     path: 'dwr',
     loadChildren: () => import('./dwr/dwr.module').then( m => m.DwrPageModule)
   },
+  {
+    path: 'training',
+    loadChildren: () => import('./training/training.module').then( m => m.TrainingPageModule)
+  },
 
 
 
