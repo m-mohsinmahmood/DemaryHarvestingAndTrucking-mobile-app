@@ -1,25 +1,35 @@
 <app-header [title]="'Training'"></app-header>
 
-<ion-content>
-<ion-grid>
+<ion-content >
+<ion-grid class="h-3/4 p-3">
   <ion-row>
     <ion-col size="6">
       <ion-card class="h-32 bg-project-green m-0">
         <ion-card-content class="flex flex-col justify-center items-center">
-          <ion-icon name="image-outline" class="w-8 h-8"></ion-icon>
-          <ion-text class="font-Lato font-medium text-xl mt-5 text-white">Trainee</ion-text>
+          <img src="../../../../assets/images/Rectangle.png" class="w-12 h-12 object-contain">
+          <ion-text class="font-Lato font-medium text-xl mt-3 text-white">Trainee</ion-text>
         </ion-card-content>
       </ion-card>
     </ion-col>
 
     <ion-col size="6">
-      <ion-card class="h-32 bg-project-green m-0">
+      <ion-card class="h-32 m-0">
         <ion-card-content class="flex flex-col justify-center items-center">
-          <ion-icon name="image-outline" class="w-8 h-8"></ion-icon>
+          <img src="../../../../assets/images/Rectangle (1).png" class="w-12 h-12 object-contain">
           <ion-text class="font-Lato font-medium text-xl mt-5">Trainer</ion-text>
         </ion-card-content>
       </ion-card>
     </ion-col>
   </ion-row>
 </ion-grid>
+<div>
+  <ion-card class="h-1/4">
+    <ion-card-content class="fl">
+      <ion-button expand="block" class="font-Lato text-white">Clock-in</ion-button>
+    </ion-card-content>
+    <div class="ion-text-center pb-3">
+      <ion-text class="font-Lato text-sm ">You can work in 03:45:33</ion-text>
+    </div>
+  </ion-card>
+</div>
 </ion-content>
