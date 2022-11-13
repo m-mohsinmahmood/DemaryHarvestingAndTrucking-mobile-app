@@ -1,0 +1,14 @@
+
+ion-checkbox {
+  --size: 24px;
+  --background-checked: #59C64F;
+  --checkmark-color: rgb(255, 255, 255);
+}
+
+ion-checkbox::part(container) {
+  border-radius: 6px;
+  border: 1px solid #59C64F;
+}
+.fontt{
+  font-family: 'Lato' !important;
+}

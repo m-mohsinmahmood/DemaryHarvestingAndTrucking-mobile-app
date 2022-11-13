@@ -4,21 +4,21 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { TraineePageRoutingModule } from './trainee-routing.module';
+import { PreTripPageRoutingModule } from './pre-trip-routing.module';
 
-import { TraineePage } from './trainee.page';
+import { PreTripPage } from './pre-trip.page';
 import { HeaderModule } from 'src/app/components/header/header.module';
 import { TimerModule } from 'src/app/components/timer/timer.module';
 
 @NgModule({
   imports: [
-  CommonModule,
+CommonModule,
     FormsModule,
     IonicModule,
-    TraineePageRoutingModule,
+    PreTripPageRoutingModule,
     HeaderModule,
     TimerModule
   ],
-  declarations: [TraineePage]
+  declarations: [PreTripPage]
 })
-export class TraineePageModule {}
+export class PreTripPageModule {}

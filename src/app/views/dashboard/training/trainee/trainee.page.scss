@@ -1,0 +1,13 @@
+  ion-segment {
+    --background: none;
+    ion-segment-button {
+      min-width: 10px;
+      color: #aaaaaa;
+      --border-color: none;
+      --indicator-color: none;
+      --indicator-box-shadow: 0;
+      ion-icon {
+        zoom: 1;
+      }
+    }
+  }
