@@ -1,3 +1,4 @@
+<!-- Ticket Generation of Commercial-->
 <ion-header class="ion-no-border">
   <ion-toolbar>
     <ion-icon name="chevron-back-outline" (click)="goBack()"></ion-icon>
@@ -47,9 +48,9 @@
             </label>
           </div>
 
-          <ion-card *ngIf="imgRes.length > 0">
+          <ion-card class="mb-1" *ngIf="imgRes.length > 0">
             <ion-grid>
-              <ion-row>
+              <ion-row class="flex justify-around">
                 <ion-col size="6" *ngFor="let item of imgRes">
                   <ion-img class="border-2" [ngStyle]="{'border-color':'#5BBE62'}" src="{{item}}"></ion-img>
                 </ion-col>
@@ -93,11 +94,12 @@
             <ion-label position="floating">Dispatcher Notes</ion-label>
             <ion-input placeholder="N/A"></ion-input>
           </ion-item>
-          <ion-button expand="block" class="mt-5 font-Lato text-white"
-            (click)="navigateTo('dashboard/trucking/commercial')">Generate Ticket
+          <ion-button expand="block" class="mt-5 font-Lato text-white" [routerLink]="['ticket-generated']">Generate Ticket
           </ion-button>
         </ion-list>
       </form>
     </div>
   </div>
 </ion-content>
+
+<!-- Generated Ticket details of Commercial-->

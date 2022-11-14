@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-ticket',
@@ -13,9 +12,7 @@ export class CreateTicketPage implements OnInit {
   imgRes: string[] = [];
 
   constructor(
-    private location: Location,
-    private router: Router,
-
+    private location: Location
   ) { }
 
   ngOnInit() {
@@ -23,10 +20,6 @@ export class CreateTicketPage implements OnInit {
 
   goBack() {
     this.location.back();
-  }
-
-  navigateTo(navURL: string) {
-    this.router.navigateByUrl(navURL);
   }
 
   chooseImage(event) {
