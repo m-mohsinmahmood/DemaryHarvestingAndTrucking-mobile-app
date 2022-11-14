@@ -4,22 +4,21 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { GeneratedTicketPageRoutingModule } from './generated-ticket-routing.module';
+import { CloseOutPageRoutingModule } from './close-out-routing.module';
 
-import { GeneratedTicketPage } from './generated-ticket.page';
-import { HeaderComponent } from 'src/app/components/header/header.component';
+import { CloseOutPage } from './close-out.page';
+
 import { HeaderModule } from 'src/app/components/header/header.module';
 import { TimerModule } from 'src/app/components/timer/timer.module';
-
 @NgModule({
   imports: [
-CommonModule,
+  CommonModule,
     FormsModule,
     IonicModule,
-    GeneratedTicketPageRoutingModule,
+    CloseOutPageRoutingModule,
     HeaderModule,
     TimerModule
   ],
-  declarations: [GeneratedTicketPage]
+  declarations: [CloseOutPage]
 })
-export class GeneratedTicketPageModule {}
+export class CloseOutPageModule {}

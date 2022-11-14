@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 export class TicketPage implements OnInit {
 role: any;
 isReassign: boolean;
+isSplitTrue = false;
   constructor(
     private location: Location,
     private router: Router,
@@ -22,5 +23,8 @@ isReassign: boolean;
   }
   goBack(){
     this.location.back();
+  }
+  buttton(){
+    this.isSplitTrue = !this.isSplitTrue;
   }
 }

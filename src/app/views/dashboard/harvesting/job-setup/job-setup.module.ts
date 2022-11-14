@@ -8,14 +8,17 @@ import { JobSetupPageRoutingModule } from './job-setup-routing.module';
 
 import { JobSetupPage } from './job-setup.page';
 import { HeaderModule } from 'src/app/components/header/header.module';
+import { TimerModule } from 'src/app/components/timer/timer.module';
 
 @NgModule({
   imports: [
-  CommonModule,
+CommonModule,
     FormsModule,
     IonicModule,
     JobSetupPageRoutingModule,
-    HeaderModule
+    HeaderModule,
+    TimerModule
+
   ],
   declarations: [JobSetupPage]
 })

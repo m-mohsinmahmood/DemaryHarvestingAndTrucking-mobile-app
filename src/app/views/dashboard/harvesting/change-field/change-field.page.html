@@ -3,23 +3,8 @@
 
 <!-- Crew-Chief -->
  <ion-content *ngIf="role === 'crew-chief'">
+  <app-timer [value]="'23:00:12'"></app-timer>
   <div class="p-4">
-<ion-grid class="mt-2">
-  <ion-row>
-    <ion-col size="6" class="">
-    <div class="flex justify-start items-center ">
-      <ion-icon name="time-outline" class="w-6 h-6" [ngStyle]="{'color':'#888B8D'}"></ion-icon>
-      <span class="ml-2 text-lg font-Lato"  [ngStyle]="{'color':'#888B8D'}">09:00 AM</span>
-    </div>
-    </ion-col>
-    <ion-col size="6" class="">
-      <div class="flex justify-center items-center">
-        <ion-icon name="calendar-outline" class="w-6 h-6" [ngStyle]="{'color':'#888B8D'}"></ion-icon>
-        <span class="ml-2 text-lg font-Lato"  [ngStyle]="{'color':'#888B8D'}">Oct 08, 2022</span>
-      </div>
-      </ion-col>
-  </ion-row>
-</ion-grid>
 <ion-card class="m-0 mb-2">
   <ion-card-header>
     <ion-card-title class="font-Lato">Customer Profile</ion-card-title>
@@ -27,13 +12,13 @@
   <ion-card-content>
     <ion-grid>
       <ion-row>
-        <ion-col size="6" class="text-sm text-black font-Lato">Customer Name</ion-col>
+        <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Customer Name</ion-col>
         <ion-col size="6" class="text-sm flex justify-end font-Lato">Mike Allen</ion-col>
-        <ion-col size="6" class="text-sm text-black font-Lato">State</ion-col>
+        <ion-col size="6" class="text-sm text-black font-Lato font-semibold">State</ion-col>
         <ion-col size="6" class="text-sm flex justify-end font-Lato">Arizona</ion-col>
-        <ion-col size="6" class="text-sm text-black font-Lato">Farm</ion-col>
+        <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Farm</ion-col>
         <ion-col size="6" class="text-sm flex justify-end font-Lato">Dakota </ion-col>
-        <ion-col size="6" class="text-sm text-black font-Lato">Crop</ion-col>
+        <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Crop</ion-col>
         <ion-col size="6" class="text-sm flex justify-end font-Lato">Corn</ion-col>
       </ion-row>
     </ion-grid>
@@ -41,11 +26,11 @@
 </ion-card>
 <div class="">
   <ion-item>
-    <ion-label position="floating">Field Name</ion-label>
+    <ion-label position="floating" class="font">Field Name</ion-label>
     <ion-input placeholder="Field Name"></ion-input>
   </ion-item>
   <ion-item>
-    <ion-label position="floating">GPS Acres Completed (for prior field)</ion-label>
+    <ion-label position="floating" class="font">GPS Acres Completed (for prior field)</ion-label>
     <ion-input placeholder="GPS Acres Completed (for prior field)"></ion-input>
   </ion-item>
 </div>
@@ -56,22 +41,6 @@
 <!-- Combine Operator -->
 <ion-content *ngIf="role === 'combine-operator'">
   <div class="p-4">
-<ion-grid class="mt-2">
-  <ion-row>
-    <ion-col size="6" class="">
-    <div class="flex justify-start items-center ">
-      <ion-icon name="time-outline" class="w-6 h-6" [ngStyle]="{'color':'#888B8D'}"></ion-icon>
-      <span class="ml-2 text-lg font-Lato"  [ngStyle]="{'color':'#888B8D'}">09:00 AM</span>
-    </div>
-    </ion-col>
-    <ion-col size="6" class="">
-      <div class="flex justify-center items-center">
-        <ion-icon name="calendar-outline" class="w-6 h-6" [ngStyle]="{'color':'#888B8D'}"></ion-icon>
-        <span class="ml-2 text-lg font-Lato"  [ngStyle]="{'color':'#888B8D'}">Oct 08, 2022</span>
-      </div>
-      </ion-col>
-  </ion-row>
-</ion-grid>
 <ion-card class="m-0 mb-2">
   <ion-card-header>
     <ion-card-title class="font-Lato">Customer Profile</ion-card-title>
@@ -79,13 +48,13 @@
   <ion-card-content>
     <ion-grid>
       <ion-row>
-        <ion-col size="6" class="text-sm text-black font-Lato">Customer Name</ion-col>
+        <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Customer Name</ion-col>
         <ion-col size="6" class="text-sm flex justify-end font-Lato">Mike Allen</ion-col>
-        <ion-col size="6" class="text-sm text-black font-Lato">State</ion-col>
+        <ion-col size="6" class="text-sm text-black font-Lato font-semibold">State</ion-col>
         <ion-col size="6" class="text-sm flex justify-end font-Lato">Arizona</ion-col>
-        <ion-col size="6" class="text-sm text-black font-Lato">Farm</ion-col>
+        <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Farm</ion-col>
         <ion-col size="6" class="text-sm flex justify-end font-Lato">Dakota </ion-col>
-        <ion-col size="6" class="text-sm text-black font-Lato">Crop</ion-col>
+        <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Crop</ion-col>
         <ion-col size="6" class="text-sm flex justify-end font-Lato">Corn</ion-col>
       </ion-row>
     </ion-grid>
@@ -95,12 +64,12 @@
 <p class="text-xl font-bold font-Lato mt-8">Job Set-up</p>
 <div class="">
   <ion-item>
-    <ion-label position="floating">Enter New Field</ion-label>
+    <ion-label position="floating" class="font">Enter New Field</ion-label>
     <ion-input placeholder="Enter New Field"></ion-input>
   </ion-item>
 
   <ion-item>
-    <ion-label position="floating">GPS Acres Completed (for prior field)</ion-label>
+    <ion-label position="floating" class="font">GPS Acres Completed (for prior field)</ion-label>
     <ion-input placeholder="GPS Acres Completed (for prior field)"></ion-input>
   </ion-item>
 </div>
@@ -110,23 +79,8 @@
 
 <!-- Kart-Operator -->
 <ion-content *ngIf="role === 'kart-operator'">
+  <app-timer [value]="'23:00:12'"></app-timer>
   <div class="p-4">
-<ion-grid class="mt-2">
-  <ion-row>
-    <ion-col size="6" class="">
-    <div class="flex justify-start items-center ">
-      <ion-icon name="time-outline" class="w-6 h-6" [ngStyle]="{'color':'#888B8D'}"></ion-icon>
-      <span class="ml-2 text-lg font-Lato"  [ngStyle]="{'color':'#888B8D'}">09:00 AM</span>
-    </div>
-    </ion-col>
-    <ion-col size="6" class="">
-      <div class="flex justify-center items-center">
-        <ion-icon name="calendar-outline" class="w-6 h-6" [ngStyle]="{'color':'#888B8D'}"></ion-icon>
-        <span class="ml-2 text-lg font-Lato"  [ngStyle]="{'color':'#888B8D'}">Oct 08, 2022</span>
-      </div>
-      </ion-col>
-  </ion-row>
-</ion-grid>
 <ion-card class="m-0 mb-2">
   <ion-card-header>
     <ion-card-title class="font-Lato">Customer Profile</ion-card-title>
@@ -134,13 +88,13 @@
   <ion-card-content>
     <ion-grid>
       <ion-row>
-        <ion-col size="6" class="text-sm text-black font-Lato">Customer Name</ion-col>
+        <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Customer Name</ion-col>
         <ion-col size="6" class="text-sm flex justify-end font-Lato">Mike Allen</ion-col>
-        <ion-col size="6" class="text-sm text-black font-Lato">State</ion-col>
+        <ion-col size="6" class="text-sm text-black font-Lato font-semibold">State</ion-col>
         <ion-col size="6" class="text-sm flex justify-end font-Lato">Arizona</ion-col>
-        <ion-col size="6" class="text-sm text-black font-Lato">Farm</ion-col>
+        <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Farm</ion-col>
         <ion-col size="6" class="text-sm flex justify-end font-Lato">Dakota </ion-col>
-        <ion-col size="6" class="text-sm text-black font-Lato">Crop</ion-col>
+        <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Crop</ion-col>
         <ion-col size="6" class="text-sm flex justify-end font-Lato">Corn</ion-col>
       </ion-row>
     </ion-grid>
@@ -148,12 +102,12 @@
 </ion-card>
 <div class="">
   <ion-item>
-    <ion-label position="floating">Enter New Field</ion-label>
+    <ion-label position="floating" class="font">Enter New Field</ion-label>
     <ion-input placeholder="Enter New Field"></ion-input>
   </ion-item>
 
   <ion-item>
-    <ion-label position="floating">GPS Acres Completed (for prior field)</ion-label>
+    <ion-label position="floating" class="font">GPS Acres Completed (for prior field)</ion-label>
     <ion-input placeholder="GPS Acres Completed (for prior field)"></ion-input>
   </ion-item>
 </div>

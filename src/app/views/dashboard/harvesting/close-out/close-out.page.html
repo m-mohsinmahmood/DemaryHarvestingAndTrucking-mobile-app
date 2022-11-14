@@ -1,0 +1,36 @@
+
+<app-header [title]="'Close-out Customer Job'"></app-header>
+
+ <ion-content>
+  <app-timer [value]="'23:00:12'"></app-timer>
+  <div class="p-4">
+<ion-card class="m-0 mb-2">
+  <ion-card-header>
+    <ion-card-title class="font-Lato">Customer Profile</ion-card-title>
+  </ion-card-header>
+  <ion-card-content>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Customer Name</ion-col>
+        <ion-col size="6" class="text-sm flex justify-end font-Lato">Mike Allen</ion-col>
+        <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Farm</ion-col>
+        <ion-col size="6" class="text-sm flex justify-end font-Lato">Dakota </ion-col>
+        <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Crop</ion-col>
+        <ion-col size="6" class="text-sm flex justify-end font-Lato">Corn</ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-card-content>
+</ion-card>
+<div class="">
+  <ion-item>
+    <ion-label position="floating" class="font">Total Acres</ion-label>
+    <ion-input placeholder="Enter acres"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating" class="font">Total GPS Acres</ion-label>
+    <ion-input placeholder="Enter total GPS tcres"></ion-input>
+  </ion-item>
+</div>
+<ion-button expand="block" class="mt-5 font-Lato text-white">Save</ion-button>
+</div>
+</ion-content>

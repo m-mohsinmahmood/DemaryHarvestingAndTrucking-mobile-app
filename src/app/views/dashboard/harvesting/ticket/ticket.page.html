@@ -5,23 +5,8 @@
 
 <!-- Kart-Operator -->
 <ion-content *ngIf="role === 'kart-operator'">
+  <app-timer [value]="'12:11:19'"></app-timer>
   <div class="p-4">
-<ion-grid class="mt-2">
-  <ion-row>
-    <ion-col size="6" class="">
-    <div class="flex justify-start items-center ">
-      <ion-icon name="time-outline" class="w-6 h-6" [ngStyle]="{'color':'#888B8D'}"></ion-icon>
-      <span class="ml-2 text-lg font-Lato"  [ngStyle]="{'color':'#888B8D'}">09:00 AM</span>
-    </div>
-    </ion-col>
-    <ion-col size="6" class="">
-      <div class="flex justify-center items-center">
-        <ion-icon name="calendar-outline" class="w-6 h-6" [ngStyle]="{'color':'#888B8D'}"></ion-icon>
-        <span class="ml-2 text-lg font-Lato"  [ngStyle]="{'color':'#888B8D'}">Oct 08, 2022</span>
-      </div>
-      </ion-col>
-  </ion-row>
-</ion-grid>
 <ion-card class="m-0 mb-2">
   <ion-card-header>
     <ion-card-title class="font-Lato">Customer Profile</ion-card-title>
@@ -29,13 +14,13 @@
   <ion-card-content>
     <ion-grid>
       <ion-row>
-        <ion-col size="6" class="text-sm text-black font-Lato">Customer Name</ion-col>
+        <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Customer Name</ion-col>
         <ion-col size="6" class="text-sm flex justify-end font-Lato">Mike Allen</ion-col>
-        <ion-col size="6" class="text-sm text-black font-Lato">State</ion-col>
+        <ion-col size="6" class="text-sm text-black font-Lato font-semibold">State</ion-col>
         <ion-col size="6" class="text-sm flex justify-end font-Lato">Arizona</ion-col>
-        <ion-col size="6" class="text-sm text-black font-Lato">Farm</ion-col>
+        <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Farm</ion-col>
         <ion-col size="6" class="text-sm flex justify-end font-Lato">Dakota </ion-col>
-        <ion-col size="6" class="text-sm text-black font-Lato">Crop</ion-col>
+        <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Crop</ion-col>
         <ion-col size="6" class="text-sm flex justify-end font-Lato">Corn</ion-col>
       </ion-row>
     </ion-grid>
@@ -44,46 +29,79 @@
 
 <div class="">
   <ion-item>
-    <ion-label position="floating">Truck Driver</ion-label>
+    <ion-label position="floating" class="font">Truck Driver</ion-label>
     <ion-input placeholder="Enter Truck Driver"></ion-input>
   </ion-item>
 
   <ion-item>
-    <ion-label position="floating">Destination</ion-label>
+    <ion-label position="floating" class="font">Destination</ion-label>
     <ion-input placeholder="Enter Destination"></ion-input>
   </ion-item>
   <ion-item>
-    <ion-label position="floating">Loaded Miles</ion-label>
+    <ion-label position="floating" class="font">Loaded Miles</ion-label>
     <ion-input placeholder="Enter Loaded Miles"></ion-input>
   </ion-item>
   <ion-item>
-    <ion-label position="floating">Field</ion-label>
+    <ion-label position="floating" class="font">Field</ion-label>
     <ion-input placeholder="Enter Field"></ion-input>
   </ion-item>
   <ion-item>
-    <ion-label position="floating">Kart Scale Weight (optional)</ion-label>
+    <ion-checkbox slot="start" (ionChange)="buttton()"></ion-checkbox>
+    <ion-label class="font">Split Load</ion-label>
+  </ion-item>
+  <div *ngIf="!isSplitTrue">
+  <ion-item>
+    <ion-label position="floating" class="font">Kart Scale Weight (optional)</ion-label>
     <ion-input placeholder="Enter Kart Scale Weight (optional)"></ion-input>
   </ion-item>
   <ion-item>
-    <ion-checkbox slot="start"></ion-checkbox>
-    <ion-label>Split Load</ion-label>
-  </ion-item>
-  <ion-item>
-    <ion-label position="floating">Delivery Ticket Number</ion-label>
+    <ion-label position="floating" class="font">Delivery Ticket Number</ion-label>
     <ion-input placeholder="Delivery Ticket Number"></ion-input>
   </ion-item>
   <ion-item>
-    <ion-label position="floating">Truck Driver Company</ion-label>
+    <ion-label position="floating" class="font">Truck Driver Company</ion-label>
     <ion-input placeholder="Truck Driver Company"></ion-input>
   </ion-item>
   <ion-item>
-    <ion-label position="floating">Truck#</ion-label>
+    <ion-label position="floating" class="font">Truck#</ion-label>
     <ion-input placeholder="Enter Truck Number"></ion-input>
   </ion-item>
-
 </div>
-<ion-button expand="block" class="mt-5 font-Lato text-white" *ngIf="!isReassign">Generate Ticket</ion-button>
+<div *ngIf="isSplitTrue">
+  <ion-item>
+    <ion-input value="123123lb"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating" class="font">Kart Scale Weight (Split Load)</ion-label>
+    <ion-input placeholder="Enter Kart Scale Weight (Split Load)"></ion-input>
+  </ion-item>
+    <ion-item>
+      <ion-label position="floating" class="font">Kart Scale Weight (optional)</ion-label>
+      <ion-input placeholder="Enter Kart Scale Weight (optional)"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating" class="font">Field (Split Load)</ion-label>
+      <ion-input placeholder="Enter Field (Split Load)"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating" class="font">Delivery Ticket Number</ion-label>
+      <ion-input placeholder="Enter Delivery Ticket Number"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating" class="font">Kart Operator Name</ion-label>
+      <ion-input placeholder="Enter Kart Operator Name"></ion-input>
+    </ion-item>
+  <ion-item>
+    <ion-label position="floating" class="font">Truck Driver Company</ion-label>
+    <ion-input placeholder="Truck Driver Company"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating" class="font">Truck#</ion-label>
+    <ion-input placeholder="Enter Truck Number"></ion-input>
+  </ion-item>
+</div>
+</div>
+<ion-button expand="block" class="mt-5 font-Lato text-white" *ngIf="!isReassign">Generate and Send</ion-button>
 <ion-button expand="block" class="mt-5 font-Lato text-white" *ngIf="isReassign">Reassign Delivery Ticket</ion-button>
-
 </div>
 </ion-content>
