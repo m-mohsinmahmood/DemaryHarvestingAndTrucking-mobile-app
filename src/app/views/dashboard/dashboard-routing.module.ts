@@ -20,7 +20,11 @@ const routes: Routes = [
   {
     path: 'others',
     loadChildren: () => import('./others/others.module').then(m => m.OthersPageModule)
+  },  {
+    path: 'trucking',
+    loadChildren: () => import('./trucking/trucking.module').then( m => m.TruckingPageModule)
   },
+
 
 
 ];

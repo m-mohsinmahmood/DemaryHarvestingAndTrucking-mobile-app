@@ -1,0 +1,69 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-icon name="chevron-back-outline" (click)="goBack()"></ion-icon>
+    <ion-title class="font-Lato">Create Delivery Ticket</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="p-4">
+    <ion-grid class="mt-2">
+      <ion-row>
+        <ion-col size="6">
+          <div class="flex justify-start items-center">
+            <ion-icon name="time-outline" class="w-6 h-6" [ngStyle]="{'color':'#888B8D'}"></ion-icon>
+            <span class="ml-2 text-lg font-Lato" [ngStyle]="{'color':'#888B8D'}">09:00 AM</span>
+          </div>
+        </ion-col>
+        <ion-col size="6">
+          <div class="flex justify-center items-center">
+            <ion-icon name="calendar-outline" class="w-6 h-6" [ngStyle]="{'color':'#888B8D'}"></ion-icon>
+            <span class="ml-2 text-lg font-Lato" [ngStyle]="{'color':'#888B8D'}">Oct 08, 2022</span>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <div>
+      <form>
+        <ion-list>
+          <ion-item>
+            <ion-label position="floating">Delivery Ticket #</ion-label>
+            <ion-input placeholder="State" disabled></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Dispatcher Name</ion-label>
+            <ion-input placeholder="Dispatcher Name"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Driver Name</ion-label>
+            <ion-input placeholder="Driver Name"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Cargo</ion-label>
+            <ion-input placeholder="Cargo"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Origin City</ion-label>
+            <ion-input placeholder="Origin City"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Destination City</ion-label>
+            <ion-input placeholder="Destination City"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Destination State</ion-label>
+            <ion-input placeholder="Destination State"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Destination Notes(optional)</ion-label>
+            <ion-input placeholder="Destination Notes"></ion-input>
+          </ion-item>
+          <ion-button expand="block" class="mt-5 font-Lato text-white"
+            (click)="navigateTo('/dashboard/trucking/in-house')">Generate Ticket
+          </ion-button>
+        </ion-list>
+      </form>
+    </div>
+  </div>
+</ion-content>

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-order-detail',
@@ -9,14 +10,20 @@ import { Location } from '@angular/common';
 export class OrderDetailPage implements OnInit {
 
   constructor(
-    private location: Location
+    private location: Location,
+    private router: Router
 
   ) { }
 
   ngOnInit() {
   }
+
   goBack() {
     this.location.back();
+  }
+
+  navigateTo(nav: string) {
+    this.router.navigateByUrl(nav);
   }
 
 }
