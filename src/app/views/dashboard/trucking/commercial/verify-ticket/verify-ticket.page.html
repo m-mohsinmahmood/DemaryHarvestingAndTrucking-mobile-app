@@ -1,0 +1,107 @@
+<!-- Verify Delivery ticket Start -->
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-icon name="chevron-back-outline" (click)="goBack()"></ion-icon>
+    <ion-title class="font-Lato">Verify Tickets</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="p-2">
+    <div class="segment-style">
+      <ion-segment [(ngModel)]="segment" scrollable>
+        <ion-segment-button value="sent"> Sent </ion-segment-button>
+        <ion-segment-button value="pending"> Pending </ion-segment-button>
+        <ion-segment-button value="verified"> Verified </ion-segment-button>
+      </ion-segment>
+
+      <div [ngSwitch]="segment">
+        <div *ngSwitchCase="'sent'">
+          <ion-card class="sentTicket p-2" [routerLink]="['ticket-detail']">
+            <div class="flex flex-col">
+              <div class="flex flex-row py-2">
+                <div class="w-8/12 flex flex-col">
+                  <span class="text-lg text-black font-Lato font-semibold">Trucking (In House)</span>
+                  <span class="font-Lato"> Coronado Freed Center, Arizona</span>
+                </div>
+                <div class="w-4/12 flex justify-end rounded-3xl h-6 flex items-center justify-center"
+                  [ngStyle]="{'background-color':'#E6F0F9'}">
+                  <span class="text-sm text-black font-Lato"> Ticket# 12345</span>
+                </div>
+              </div>
+
+              <div class="mt-2.5 flex justify-between p-0">
+                <div>
+                  <span class="text-sm font-Lato">Truck Driver: </span>
+                  <span class="text-sm text-black font-Lato">{{"Mohsin"}}</span>
+                </div>
+                <div>
+                  <span class="text-sm font-Lato">Destination: </span>
+                  <span class="text-sm text-black font-Lato">{{"Dakota"}}</span>
+                </div>
+              </div>
+            </div>
+          </ion-card>
+        </div>
+
+        <div *ngSwitchCase="'pending'">
+          <ion-card class="pendingTicket p-2" [routerLink]="['ticket-detail']">
+            <div class="flex flex-col">
+              <div class="flex flex-row py-2">
+                <div class="w-8/12 flex flex-col">
+                  <span class="text-lg text-black font-Lato font-semibold">Trucking (In House)</span>
+                  <span class="font-Lato"> Point 1, Canada</span>
+                </div>
+                <div class="w-4/12 flex justify-end rounded-3xl h-6 flex items-center justify-center"
+                  [ngStyle]="{'background-color':'#E6F0F9'}">
+                  <span class="text-sm text-black font-Lato"> Ticket# 3214</span>
+                </div>
+              </div>
+
+              <div class="mt-2.5 flex justify-between p-0">
+                <div>
+                  <span class="text-sm font-Lato">Truck Driver: </span>
+                  <span class="text-sm text-black font-Lato">{{"Dillon"}}</span>
+                </div>
+                <div>
+                  <span class="text-sm font-Lato">Destination: </span>
+                  <span class="text-sm text-black font-Lato">{{"Dakota"}}</span>
+                </div>
+              </div>
+            </div>
+          </ion-card>
+        </div>
+
+        <div *ngSwitchCase="'verified'">
+          <ion-card class="verifiedTicket p-2" [routerLink]="['ticket-detail']">
+            <div class="flex flex-col">
+              <div class="flex flex-row py-2">
+                <div class="w-8/12 flex flex-col">
+                  <span class="text-lg text-black font-Lato font-semibold">Trucking (In House)</span>
+                  <span class="font-Lato"> Berlin, Germany</span>
+                </div>
+                <div class="w-4/12 flex justify-end rounded-3xl h-6 flex items-center justify-center"
+                  [ngStyle]="{'background-color':'#E6F0F9'}">
+                  <span class="text-sm text-black font-Lato"> Ticket# 04256</span>
+                </div>
+              </div>
+
+              <div class="mt-2.5 flex justify-between p-0">
+                <div>
+                  <span class="text-sm font-Lato">Truck Driver: </span>
+                  <span class="text-sm text-black font-Lato">{{"Mike Allen"}}</span>
+                </div>
+                <div>
+                  <span class="text-sm font-Lato">Destination: </span>
+                  <span class="text-sm text-black font-Lato">{{"Dakota"}}</span>
+                </div>
+              </div>
+            </div>
+          </ion-card>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</ion-content>
+<!-- Verify Delivery ticket End -->

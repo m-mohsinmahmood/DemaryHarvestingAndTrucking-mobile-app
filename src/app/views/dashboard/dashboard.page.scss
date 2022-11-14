@@ -7,23 +7,18 @@
 
 .card {
   box-shadow: none;
-  // margin: 20px 20px !important;
-  // border: 2px solid #aaaaaa;
   background: #F2F1F1;
   text-align: center;
-  //   width: 140px;
   height: 135px;
   margin: 0px;
 
   ion-card-content {
-    // background-color: red;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 
     ion-icon {
-      // font-size: 64px;
       width: 30px;
       height: 30px;
     }
@@ -38,3 +33,22 @@
   }
 }
 
+.card-bottom {
+  box-shadow: 0px 4px 25px #E7E7E7;
+  text-align: center;
+  margin: 0px;
+
+  ion-button {
+    --background: #888B8D;
+    color: #FFFFFF;
+  }
+
+  ion-text {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 14px;
+    letter-spacing: 0.0015em;
+    color: #7D9181;
+  }
+}

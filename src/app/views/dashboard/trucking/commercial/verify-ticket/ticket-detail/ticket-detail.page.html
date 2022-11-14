@@ -1,0 +1,110 @@
+<!-- Verify Delivery ticket Start -->
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-icon name="chevron-back-outline" (click)="goBack()"></ion-icon>
+    <ion-title class="font-Lato">Verify Ticket</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title class="flex justify-center text-xl font-Lato">Commercial Delivery Ticket</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-grid>
+
+        <!-- First Row -->
+        <ion-row class="mb-5 h-20">
+          <ion-col size="6" class="flex flex-col ">
+            <p class="font-Lato text-black font-bold font-14">Ticket #</p>
+            <span class="font-Lato font-14">12345</span>
+          </ion-col>
+          <ion-col size="6" class="flex flex-col  ">
+            <p class="font-Lato text-black font-bold font-14">Dispatcher</p>
+            <span class="font-Lato font-14">Mike Allen</span>
+          </ion-col>
+        </ion-row>
+
+        <!-- Second Row -->
+        <ion-row class="mb-5 h-20">
+          <ion-col size="6" class="flex flex-col  ">
+            <p class="font-Lato text-black font-bold font-14">Load Date</p>
+            <span class="font-Lato font-14">22-11-2022</span>
+          </ion-col>
+          <ion-col size="6" class="flex flex-col  ">
+            <p class="font-Lato text-black font-bold font-14">Driver</p>
+            <span class="font-Lato font-14">Mike</span>
+          </ion-col>
+        </ion-row>
+
+        <!-- Third Row -->
+        <ion-row class="mb-5 h-20">
+          <ion-col size="6" class="flex flex-col ">
+            <p class="font-Lato text-black font-bold font-14">Customer</p>
+            <span class="font-Lato font-14">Dakota</span>
+          </ion-col>
+          <ion-col size="6" class="flex flex-col ">
+            <p class="font-Lato text-black font-bold font-14">Load #</p>
+            <span class="font-Lato font-14">12345</span>
+          </ion-col>
+        </ion-row>
+
+        <ion-row class="mb-5 h-20">
+          <ion-col size="6" class="flex flex-col ">
+            <p class="font-Lato text-black font-bold font-14">Destination City</p>
+            <span class="font-Lato font-14">Dakota</span>
+          </ion-col>
+          <ion-col size="6" class="flex flex-col ">
+            <p class="font-Lato text-black font-bold font-14">Origin City</p>
+            <span class="font-Lato font-14">Dakota</span>
+          </ion-col>
+        </ion-row>
+
+        <ion-row class="mb-5 h-20">
+          <ion-col size="6" class="flex flex-col ">
+            <p class="font-Lato text-black font-bold font-14">Destination State </p>
+            <span class="font-Lato font-14">Virginia</span>
+          </ion-col>
+          <ion-col size="6" class="flex flex-col ">
+            <p class="font-Lato text-black font-bold font-14">Cargo</p>
+            <span class="font-Lato font-14">Bags</span>
+          </ion-col>
+        </ion-row>
+
+        <ion-row class="mb-5 h-20">
+          <ion-col size="6" class="flex flex-col ">
+            <p class="font-Lato text-black font-bold font-14">Rate Type </p>
+            <span class="font-Lato font-14">Type</span>
+          </ion-col>
+          <ion-col size="6" class="flex flex-col ">
+            <p class="font-Lato text-black font-bold font-14">Dispatcher Notes</p>
+            <span class="font-Lato font-14">N/A</span>
+          </ion-col>
+        </ion-row>
+
+        <ion-row class="mb-5 h-20">
+          <ion-col size="12" class="flex flex-col ">
+            <span class="font-Lato font-14">Load Rate Sheet</span>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col size="4">
+            <ion-img src="https://docs-demo.ionic.io/assets/madison.jpg"></ion-img>
+          </ion-col>
+          <ion-col size="4">
+            <ion-img src="https://docs-demo.ionic.io/assets/madison.jpg"></ion-img>
+          </ion-col>
+          <ion-col size="4">
+            <ion-img src="https://docs-demo.ionic.io/assets/madison.jpg"></ion-img>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      <ion-button expand="block" class="mt-5 font-Lato  text-white"
+        (click)="navigateTo('/dashboard/trucking/commercial')">Verify
+      </ion-button>
+
+    </ion-card-content>
+  </ion-card>
+</ion-content>

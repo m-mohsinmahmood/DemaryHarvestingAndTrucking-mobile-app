@@ -1,0 +1,28 @@
+ion-header {
+    ion-toolbar {
+        --background: #5BBE62;
+        color: #fff;
+        padding: 6px 0px;
+
+        ion-icon {
+            zoom: 1.8;
+        }
+    }
+}
+
+input[type="file"] {
+    display: none !important;
+}
+
+.custom-file-upload {
+    border: 1px solid #5BBE62;
+    margin-top: 1.5rem;
+    margin-left: 1rem;
+    height: 3rem;
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    cursor: pointer;
+}

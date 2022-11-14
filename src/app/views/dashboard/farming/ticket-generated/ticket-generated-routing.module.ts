@@ -7,11 +7,6 @@ const routes: Routes = [
   {
     path: '',
     component: TicketGeneratedPage
-  },
-
-  {
-    path: 'farming-main',
-    component: FarmingPage
   }
 ];
 

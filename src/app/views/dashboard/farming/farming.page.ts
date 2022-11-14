@@ -8,7 +8,8 @@ import { Location } from '@angular/common';
 })
 export class FarmingPage implements OnInit {
 
-  role = "tractor-driver";
+  rolesOptions = ['dispatcher', 'tractor-driver']
+  role = this.rolesOptions[0];
 
   constructor(private location: Location) { }
 
