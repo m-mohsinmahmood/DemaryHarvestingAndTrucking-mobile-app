@@ -4,17 +4,17 @@
   <app-timer [value]="'01:23:45'"></app-timer>
   <form>
     <ion-item class="mt-9">
-      <ion-select placeholder="Select Pre-Trip Check Catrgory for Evaluation" interface="alert">
-        <ion-select-option value="">Engine / Compartment</ion-select-option>
-        <ion-select-option value="">In Cab</ion-select-option>
-        <ion-select-option value="">Vehicle/External</ion-select-option>
-        <ion-select-option value="">Coupling</ion-select-option>
-        <ion-select-option value="">Suspension/Brakes</ion-select-option>
+      <ion-select placeholder="Select Pre-Trip Check Catrgory for Evaluation" interface="alert" (ionChange)="onSelect($event)">
+        <ion-select-option value="1">Engine / Compartment</ion-select-option>
+        <ion-select-option value="2">In Cab</ion-select-option>
+        <ion-select-option value="3">Vehicle/External</ion-select-option>
+        <ion-select-option value="4">Coupling</ion-select-option>
+        <ion-select-option value="5">Suspension/Brakes</ion-select-option>
       </ion-select>
     </ion-item>
     <p class="text-lg font-semibold font-Lato mt-8 ml-4">Pre-Trip Check Items</p>
     <!-- Engine/Compartment -->
-    <!-- <div class="mx-4">
+     <div class="mx-4" *ngIf="value === '1'">
       <div class="flex justify-between items-center my-3">
        <ion-text class="font-Lato font-medium">Oil Level</ion-text>
         <ion-checkbox slot="start"></ion-checkbox>
@@ -86,13 +86,13 @@
        <ion-text class="text-sm font-semibold font-Lato text-black mt-2">Add Comments</ion-text>
        <ion-item>
          <ion-textarea [autoGrow]="true"
-           value="Add your comments here :)">
+         placeholder="Add your comments here :)">
          </ion-textarea>
        </ion-item>
-      </div> -->
+      </div>
 
       <!-- In-cab -->
-      <!-- <div class="mx-4">
+       <div class="mx-4" *ngIf="value === '2'">
         <div class="flex justify-between items-center my-3">
          <ion-text class="font-Lato font-medium">Safety Belt</ion-text>
           <ion-checkbox slot="start"></ion-checkbox>
@@ -168,13 +168,13 @@
          <ion-text class="text-sm font-semibold font-Lato text-black mt-2">Add Comments</ion-text>
          <ion-item>
            <ion-textarea [autoGrow]="true"
-             value="Add your comments here :)">
+             placeholder="Add your comments here :)">
            </ion-textarea>
          </ion-item>
-        </div> -->
+        </div>
 
         <!-- Vehicle/External -->
-      <!-- <div class="mx-4">
+      <div class="mx-4" *ngIf="value === '3'">
         <div class="flex justify-between items-center my-3">
          <ion-text class="font-Lato font-medium">Light Function</ion-text>
           <ion-checkbox slot="start"></ion-checkbox>
@@ -246,13 +246,13 @@
          <ion-text class="text-sm font-semibold font-Lato text-black mt-2">Add Comments</ion-text>
          <ion-item>
            <ion-textarea [autoGrow]="true"
-             value="Add your comments here :)">
+           placeholder="Add your comments here :)">
            </ion-textarea>
          </ion-item>
-        </div> -->
+        </div>
 
         <!-- Coupling -->
-      <!-- <div class="mx-4">
+     <div class="mx-4" *ngIf="value === '4'">
         <div class="flex justify-between items-center my-3">
          <ion-text class="font-Lato font-medium">Air Connectors</ion-text>
           <ion-checkbox slot="start"></ion-checkbox>
@@ -324,13 +324,13 @@
          <ion-text class="text-sm font-semibold font-Lato text-black mt-2">Add Comments</ion-text>
          <ion-item>
            <ion-textarea [autoGrow]="true"
-             value="Add your comments here :)">
+           placeholder="Add your comments here :)">
            </ion-textarea>
          </ion-item>
-      </div> -->
+      </div>
 
         <!-- Suspension/Brakes -->
-      <div class="mx-4">
+       <div class="mx-4" *ngIf="value === '5'">
         <div class="flex justify-between items-center my-3">
          <ion-text class="font-Lato font-medium">Springs (3)</ion-text>
           <ion-checkbox slot="start"></ion-checkbox>
@@ -406,7 +406,7 @@
          <ion-text class="text-sm font-semibold font-Lato text-black mt-2">Add Comments</ion-text>
          <ion-item>
            <ion-textarea [autoGrow]="true"
-             value="Add your comments here :)">
+           placeholder="Add your comments here :)">
            </ion-textarea>
          </ion-item>
 

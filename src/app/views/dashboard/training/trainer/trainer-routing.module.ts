@@ -11,7 +11,19 @@ const routes: Routes = [
   {
     path: 'pre-trip',
     loadChildren: () => import('./pre-trip/pre-trip.module').then( m => m.PreTripPageModule)
+  },  {
+    path: 'basic-skills',
+    loadChildren: () => import('./basic-skills/basic-skills.module').then( m => m.BasicSkillsPageModule)
+  },
+  {
+    path: 'road-skills',
+    loadChildren: () => import('./road-skills/road-skills.module').then( m => m.RoadSkillsPageModule)
+  },
+  {
+    path: 'training-records',
+    loadChildren: () => import('./training-records/training-records.module').then( m => m.TrainingRecordsPageModule)
   }
+
 ];
 
 @NgModule({
