@@ -1,8 +1,18 @@
 ion-header{
-  ion-toolbar{
-    --background: #59C64F;
+  .toolbar{
+
+    // --background: #59C64F;
     color: #fff;
     padding: 6px 0px;
+    &.harvesting {
+      --background: #129476;
+    }
+    &.training {
+      --background: #4256F9;
+    }
+    &.dwr {
+      --background: #59C64F;
+    }
     ion-icon{
       zoom: 1.8;
     }

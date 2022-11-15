@@ -9,6 +9,7 @@ import { Location } from '@angular/common';
 
 export class HeaderComponent implements OnInit {
 @Input() title: any;
+@Input() color: any;
   constructor(
     private location: Location
   ) { }
