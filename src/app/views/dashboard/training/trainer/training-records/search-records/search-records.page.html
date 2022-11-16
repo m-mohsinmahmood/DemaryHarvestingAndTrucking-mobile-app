@@ -32,7 +32,8 @@
       >Pre-Trip Check History</ion-text
     >
     <!-- Cards for Paper Form Starts-->
-    <!-- <ion-card class="p-3">
+    <div *ngIf="formType === 'paper-form'">
+    <ion-card class="p-3">
     <ion-card-header class="border-b-2 m-0 p-2">
       <ion-text class="font-Lato text-base font-semibold text-black">October 21st, 2021</ion-text>
     </ion-card-header>
@@ -61,9 +62,13 @@
         <img src="../../../../../../.././assets/images/record.png" alt="" >
       </div>
     </ion-card-content>
-  </ion-card> -->
+  </ion-card>
+  <ion-button expand="block" class="close-out-button font-Lato mb-4 mt-0 mx-8 bg-opacity-10 text-white">Exit</ion-button>
+</div>
     <!-- Cards for Paper Form Ends-->
+
     <!-- Cards for Digital Form Starts-->
+    <div *ngIf="formType === 'digital-form'">
     <ion-card [routerLink]="['view-records']">
       <ion-card-content>
         <div class="flex justify-between items-center mb-2">
@@ -82,6 +87,7 @@
         <ion-text>Score: <span class="font-Lato text-black font-semibold">82%</span></ion-text>
       </ion-card-content>
     </ion-card>
+  </div>
         <!-- Cards for Digital Form Ends-->
   </div>
 </ion-content>

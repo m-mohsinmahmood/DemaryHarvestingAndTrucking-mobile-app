@@ -22,6 +22,10 @@ const routes: Routes = [
   {
     path: 'training-records',
     loadChildren: () => import('./training-records/training-records.module').then( m => m.TrainingRecordsPageModule)
+  },
+  {
+    path: 'training-tasks',
+    loadChildren: () => import('./training-tasks/training-tasks.module').then( m => m.TrainingTasksPageModule)
   }
 
 ];

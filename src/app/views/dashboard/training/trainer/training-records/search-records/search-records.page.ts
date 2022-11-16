@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-search-records',
@@ -6,9 +7,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./search-records.page.scss'],
 })
 export class SearchRecordsPage implements OnInit {
+  formType: any;
 
-  constructor() { }
+  constructor(
+    private router: Router,
+  ) { }
   ngOnInit() {
+    this.formType = this.router.getCurrentNavigation().extras.state.formType;
+
   }
 
 }
