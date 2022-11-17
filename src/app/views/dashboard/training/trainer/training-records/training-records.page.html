@@ -1,0 +1,33 @@
+<app-header [title]="'Training Records'" [color]="'training'"></app-header>
+<ion-content>
+  <app-timer [value]="'11:22:00'"></app-timer>
+<div class="h-5/6 mx-6">
+  <div class="pt-4">
+    <ion-text class="font-Lato text-636366">Select trainee and evaluation form to view training records</ion-text>
+  </div>
+  <ion-item class="mt-5">
+    <ion-select placeholder="Select Trainee" interface="alert">
+      <ion-select-option value="1">Mike Allen</ion-select-option>
+      <ion-select-option value="2">Ben Hehr</ion-select-option>
+      <ion-select-option value="2">John wick</ion-select-option>
+    </ion-select>
+  </ion-item>
+  <ion-item class="mt-6">
+    <ion-select placeholder="Evaluation Form" interface="alert">
+      <ion-select-option value="1">Pre-Trip Check</ion-select-option>
+      <ion-select-option value="2">Basic Skills</ion-select-option>
+      <ion-select-option value="2">road Test Skills</ion-select-option>
+      <ion-select-option value="2">Summary</ion-select-option>
+    </ion-select>
+  </ion-item>
+  <ion-item class="mt-6">
+    <ion-select placeholder="Type of Evaluation Form" interface="alert" (ionChange)="onSelect($event)">
+      <ion-select-option value="paper-form">Paper Form</ion-select-option>
+      <ion-select-option value="digital-form">Digital Form</ion-select-option>
+    </ion-select>
+  </ion-item>
+</div>
+<div class="">
+  <ion-button expand="block" class="close-out-button font-Lato mb-4 mt-0 mx-8 bg-opacity-10 text-white" (click)="navigate()">Search Training Records</ion-button>
+</div>
+</ion-content>

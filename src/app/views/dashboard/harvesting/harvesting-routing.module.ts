@@ -47,7 +47,11 @@ const routes: Routes = [
   {
     path: 'pre-check',
     loadChildren: () => import('./pre-check/pre-check.module').then( m => m.PreCheckPageModule)
+  },  {
+    path: 'close-out',
+    loadChildren: () => import('./close-out/close-out.module').then( m => m.CloseOutPageModule)
   }
+
 ];
 
 @NgModule({

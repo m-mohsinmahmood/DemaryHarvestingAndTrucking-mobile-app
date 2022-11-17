@@ -1,0 +1,30 @@
+<app-header [title]="'Basic Skills Digital Evaluation Form'" [color]="'training'"></app-header>
+<ion-content>
+<app-timer [value]="'23:00:00'"></app-timer>
+<div class="mx-4">
+<form class=" ">
+  <ion-item class="mt-9">
+    <ion-select placeholder="Select basic skills" interface="alert">
+      <ion-select-option value="1">Straight Line Backing</ion-select-option>
+      <ion-select-option value="2">Alley Docking</ion-select-option>
+      <ion-select-option value="3">Off Set Backing</ion-select-option>
+      <ion-select-option value="4">Parallel Parking - Blind</ion-select-option>
+      <ion-select-option value="5">Parallel Parking - Sight</ion-select-option>
+      <ion-select-option value="5">Coupling & Uncoupling</ion-select-option>
+    </ion-select>
+  </ion-item>
+  <div class="w-full border-b-2 my-3 py-1">
+    <ion-text class="text-base font-semibold font-Lato">Attempts</ion-text>
+  </div>
+  <div class="flex justify-between items-center my-3">
+    <ion-text class="font-semibold font-Lato">Pull-Ups</ion-text>
+    <input type="number" value="1" min="1" max="999">
+    <!-- <ion-input type="number" min="360" max="500" value="400" step="1"></ion-input> -->
+  </div>
+  <div class="flex justify-between items-center my-3">
+    <ion-text class="font-semibold font-Lato">Encroach</ion-text>
+    <input type="number" value="1" min="1" max="999">
+  </div>
+</form>
+</div>
+</ion-content>

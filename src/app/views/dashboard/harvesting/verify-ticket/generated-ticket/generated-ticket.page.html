@@ -1,15 +1,15 @@
 
-<app-header [title]="'Verify Delivery Tickets'"></app-header>
+<app-header [title]="'Verify Delivery Tickets'" [color]="'harvesting'"></app-header>
 
 
 <ion-content *ngIf="role === 'kart-operator'">
+  <app-timer [value]="'12:32:11'"></app-timer>
 <ion-card>
   <ion-card-header>
     <ion-card-title class="flex justify-center text-2xl font-Lato">DHT Delivery Ticket</ion-card-title>
   </ion-card-header>
   <ion-card-content>
     <ion-grid>
-
       <!-- First Row -->
       <ion-row class="mb-6 h-20">
         <ion-col size="4" class="flex flex-col justify-between items-center border-r-2 ion-text-center">

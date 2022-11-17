@@ -9,6 +9,7 @@ import { VerifyTicketPageRoutingModule } from './verify-ticket-routing.module';
 import { VerifyTicketPage } from './verify-ticket.page';
 import { HeaderComponent } from './../../../../components/header/header.component';
 import { HeaderModule } from 'src/app/components/header/header.module';
+import { TimerModule } from 'src/app/components/timer/timer.module';
 
 @NgModule({
   imports: [
@@ -16,7 +17,8 @@ CommonModule,
     FormsModule,
     IonicModule,
     VerifyTicketPageRoutingModule,
-    HeaderModule
+    HeaderModule,
+    TimerModule
   ],
   declarations: [VerifyTicketPage]
 })

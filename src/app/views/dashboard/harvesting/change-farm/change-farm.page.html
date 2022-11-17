@@ -1,7 +1,9 @@
 
-<app-header [title]="'Change Farm'"></app-header>
+<app-header [title]="'Change Farm'" [color]="'harvesting'"></app-header>
 
 <ion-content>
+  <app-timer [value]="'13:02:344'"></app-timer>
+
   <div class="p-4">
     <div>
       <form>
@@ -27,7 +29,7 @@
             <ion-label position="floating">Initial Field</ion-label>
             <ion-input placeholder="Initial Field"></ion-input>
           </ion-item>
-            <ion-button expand="block" class="mt-5 font-Lato">Save</ion-button>
+            <ion-button expand="block" class="mt-5 font-Lato text-white">Save</ion-button>
         </div>
       </ion-list>
     </form>

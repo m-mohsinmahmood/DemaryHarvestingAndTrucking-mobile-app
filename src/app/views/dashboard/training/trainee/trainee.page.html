@@ -1,4 +1,4 @@
-<app-header [title]="'Trainee'"></app-header>
+<app-header [title]="'Trainee'" [color]="'training'"></app-header>
 
 
 <ion-content>
@@ -8,26 +8,26 @@
     <ion-list>
        <div>
          <ion-item>
-           <ion-label position="floating">Trainee</ion-label>
+           <ion-label position="floating" class="font">Trainee</ion-label>
            <ion-input placeholder="Enter Trainee Name"></ion-input>
          </ion-item>
          <ion-item>
-           <ion-label position="floating">Trainer</ion-label>
+           <ion-label position="floating" class="font">Trainer</ion-label>
            <ion-input placeholder="Enter Trainer Name"></ion-input>
          </ion-item>
          <ion-item>
-           <ion-label position="floating">City</ion-label>
+           <ion-label position="floating" class="font">City</ion-label>
            <ion-input placeholder="Enter City"></ion-input>
          </ion-item>
          <ion-item>
-           <ion-label position="floating">State</ion-label>
+           <ion-label position="floating" class="font">State</ion-label>
            <ion-input  placeholder="Enter State"></ion-input>
          </ion-item>
           <ion-item>
             <ion-select placeholder="Type of Training" interface="alert">
               <ion-select-option value="ct">Company Training</ion-select-option>
-              <ion-select-option value="st">Safety Training</ion-select-option>
-              <ion-select-option value="cdlt">CDL Training</ion-select-option>
+              <ion-select-option value="st" >Safety Training</ion-select-option>
+              <ion-select-option value="cdlt" >CDL Training</ion-select-option>
             </ion-select>
           </ion-item>
           <ion-item>
@@ -40,10 +40,13 @@
             </ion-select>
           </ion-item>
           <ion-item>
-            <ion-label position="floating">Detail</ion-label>
+            <ion-label position="floating" class="font">Details</ion-label>
             <ion-input placeholder="Enter details" value=""></ion-input>
           </ion-item>
-        <div class="flex px-4 py-2">
+          <div class="ml-5 mt-4">
+            <ion-label class="font font-medium text-aaaaaa">Training docs (upload here)</ion-label>
+          </div>
+          <div class="flex px-4 py-2">
         <div class="w-16 h-16 mr-2">
           <ion-card
             [ngClass]="!upload_1 ? ' shadow-none m-0 border-2 border-aaaaaa bg-e9e6e6' : 'shadow-none m-0 border-2 border-project-green bg-white'"

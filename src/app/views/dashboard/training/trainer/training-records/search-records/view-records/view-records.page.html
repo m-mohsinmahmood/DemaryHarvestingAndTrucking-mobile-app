@@ -1,0 +1,156 @@
+<app-header [title]="'Training Records'" [color]="'training'"></app-header>
+
+<!-- CHECKBOXES BLOCK -->
+<!-- <ion-content>
+  <div class="mx-4">
+    <div class="border-b-2 py-2 mt-2">
+      <ion-text class="font-Lato font-semibold">October 21st, 2020</ion-text>
+    </div>
+    <div class="flex justify-between items-center my-5">
+      <ion-text class="font-Lato text-sm text-9B9BA4">Trainer</ion-text>
+      <ion-text class="font-Lato text-sm text-black font-semibold">Mike Allen</ion-text>
+    </div>
+    <div class="flex justify-between items-center my-5">
+      <ion-text class="font-Lato text-sm text-9B9BA4">Total Time</ion-text>
+      <ion-text class="font-Lato text-sm text-black font-semibold">2.45 hrs</ion-text>
+    </div>
+    <div class="my-3"><ion-text class="font-Lato font-semibold">Evaluation Results</ion-text></div>
+    <div class="flex justify-between items-center my-3">
+     <ion-text class="font-Lato font-medium">Oil Level</ion-text>
+      <ion-checkbox slot="start"></ion-checkbox>
+    </div>
+    <div class="flex justify-between items-center my-3">
+      <ion-text class="font-Lato font-medium" >Coolent Level</ion-text>
+       <ion-checkbox slot="start"></ion-checkbox>
+     </div>
+     <div class="flex justify-between items-center my-3">
+      <ion-text class="font-Lato font-medium">Power Steeling Level</ion-text>
+       <ion-checkbox slot="start"></ion-checkbox>
+     </div>
+     <div class="flex justify-between items-center my-3">
+      <ion-text class="font-Lato font-medium">H20 Pump engine</ion-text>
+       <ion-checkbox slot="start"></ion-checkbox>
+     </div>
+     <div class="flex justify-between items-center my-3">
+      <ion-text class="font-Lato font-medium">Alternator Belt</ion-text>
+       <ion-checkbox slot="start"></ion-checkbox>
+     </div>
+     <div class="flex justify-between items-center my-3">
+      <ion-text class="font-Lato font-medium">Air Compressor Engine</ion-text>
+       <ion-checkbox slot="start"></ion-checkbox>
+     </div>
+     <div class="flex justify-between items-center my-3">
+      <ion-text class="font-Lato font-medium">Leaks & Hoses</ion-text>
+       <ion-checkbox slot="start"></ion-checkbox>
+     </div>
+     <div class="flex justify-between items-center my-3">
+      <ion-text class="font-Lato font-medium">Fan & Shroud</ion-text>
+       <ion-checkbox slot="start"></ion-checkbox>
+     </div>
+     <div class="flex justify-between items-center my-3">
+      <ion-text class="font-Lato font-medium">Radiator</ion-text>
+       <ion-checkbox slot="start"></ion-checkbox>
+     </div>
+     <div class="flex justify-between items-center my-3">
+      <ion-text class="font-Lato font-medium">Wiring</ion-text>
+       <ion-checkbox slot="start"></ion-checkbox>
+     </div>
+     <div class="flex justify-between items-center my-3">
+      <ion-text class="font-Lato font-medium">Steering Box</ion-text>
+       <ion-checkbox slot="start"></ion-checkbox>
+     </div>
+     <div class="flex justify-between items-center my-3">
+      <ion-text class="font-Lato font-medium">Steering Linkage</ion-text>
+       <ion-checkbox slot="start"></ion-checkbox>
+     </div>
+     <div class="flex justify-between items-center my-3">
+      <ion-text class="font-Lato font-medium">Hoses(Steering)</ion-text>
+       <ion-checkbox slot="start"></ion-checkbox>
+     </div>
+     <div class="flex justify-between items-center my-3">
+      <ion-text class="font-Lato font-medium">Turbo</ion-text>
+       <ion-checkbox slot="start"></ion-checkbox>
+     </div>
+     <div class="flex justify-between items-center my-3">
+      <ion-text class="font-Lato font-medium">Window Fluid</ion-text>
+       <ion-checkbox slot="start"></ion-checkbox>
+     </div>
+     <div class="flex justify-between items-center my-3">
+      <ion-text class="font-Lato font-medium">Mirror</ion-text>
+       <ion-checkbox slot="start"></ion-checkbox>
+     </div>
+     <div class="flex justify-between items-center my-3">
+      <ion-text class="font-Lato font-medium">Clutch Condition</ion-text>
+       <ion-checkbox slot="start"></ion-checkbox>
+     </div>
+     <div class="flex justify-between items-center my-3">
+      <ion-text class="font-Lato font-bold text-lg">Score</ion-text>
+      <ion-text class="font-Lato font-bold text-lg">85%</ion-text>
+     </div>
+     <ion-text class="text-sm font-semibold font-Lato text-black mt-2">Notes</ion-text>
+     <ion-item>
+       <ion-textarea [autoGrow]="true"
+       placeholder="Add your notes here :)">
+       </ion-textarea>
+     </ion-item>
+     <ion-button expand="block" class="close-out-button font-Lato mb-8 mt-4 mx-8 bg-opacity-10 text-white">Exit</ion-button>
+ </div>
+</ion-content> -->
+
+<!-- SATISFACTORY & UNSATISFACTORY BLOCK -->
+<ion-content>
+  <div class="mx-4">
+    <div class="border-b-2 py-2 mt-2">
+      <ion-text class="font-Lato font-semibold">October 21st, 2020</ion-text>
+    </div>
+    <div class="flex justify-between items-center my-5">
+      <ion-text class="font-Lato text-sm text-9B9BA4">Trainer</ion-text>
+      <ion-text class="font-Lato text-sm text-black font-semibold">Mike Allen</ion-text>
+    </div>
+    <div class="flex justify-between items-center my-5">
+      <ion-text class="font-Lato text-sm text-9B9BA4">Total Time</ion-text>
+      <ion-text class="font-Lato text-sm text-black font-semibold">2.45 hrs</ion-text>
+    </div>
+    <div class="my-3"><ion-text class="font-Lato font-semibold">Evaluation Results</ion-text></div>
+
+    <ion-grid>
+      <ion-row class="bg-d9d9d95c py-2 px-2">
+        <ion-col size="5" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">Skill</ion-text></ion-col>
+        <ion-col size="4" class="ion-text-center"><ion-text class="font-Lato text-black font-semibold">S/U</ion-text></ion-col>
+        <ion-col size="3" class="ion-text-end"><ion-text class="font-Lato text-black font-semibold">Attempts</ion-text></ion-col>
+      </ion-row>
+    </ion-grid>
+    <ion-grid>
+      <ion-row class="my-4">
+        <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">Alley Docking (45/90)</ion-text></ion-col>
+        <ion-col size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
+        <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">5</ion-text></ion-col>
+      </ion-row>
+      <ion-row class="my-4">
+        <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">Off Set Backing</ion-text></ion-col>
+        <ion-col size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">Unsatisfactory</ion-text></ion-col>
+        <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">2</ion-text></ion-col>
+      </ion-row>
+      <ion-row class="my-4">
+        <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">Parallel Parking Blind</ion-text></ion-col>
+        <ion-col size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
+        <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">6</ion-text></ion-col>
+      </ion-row>
+      <ion-row class="my-4">
+        <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">Parallel Parking Sight</ion-text></ion-col>
+        <ion-col size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
+        <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">5</ion-text></ion-col>
+      </ion-row>
+    </ion-grid>
+    <ion-card>
+      <ion-card-content>
+        <div class="flex justify-between items-center mb-2">
+          <ion-text class="font-Lato text-black font-semibold">Total Attempts / Results</ion-text>
+          <ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text>
+        </div>
+        <ion-text class="font-Lato text-9B9BA4">Total Attempts: <span class="font-Lato text-black">15</span></ion-text>
+      </ion-card-content>
+    </ion-card>
+     <ion-button expand="block" class="close-out-button font-Lato mb-8 mt-4 mx-8 bg-opacity-10 text-white">Close</ion-button>
+    </div>
+</ion-content>

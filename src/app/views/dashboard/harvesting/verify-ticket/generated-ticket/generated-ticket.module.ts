@@ -9,14 +9,16 @@ import { GeneratedTicketPageRoutingModule } from './generated-ticket-routing.mod
 import { GeneratedTicketPage } from './generated-ticket.page';
 import { HeaderComponent } from 'src/app/components/header/header.component';
 import { HeaderModule } from 'src/app/components/header/header.module';
+import { TimerModule } from 'src/app/components/timer/timer.module';
 
 @NgModule({
   imports: [
-  CommonModule,
+CommonModule,
     FormsModule,
     IonicModule,
     GeneratedTicketPageRoutingModule,
-    HeaderModule
+    HeaderModule,
+    TimerModule
   ],
   declarations: [GeneratedTicketPage]
 })
