@@ -1,0 +1,86 @@
+<app-header [title]="['Create New Repair Ticket']" [color]="'maintenance-repair'" *ngIf="category === 'repair'">
+</app-header>
+<app-header [title]="['Create New Maintenance Ticket']" [color]="'maintenance-repair'"
+  *ngIf="category === 'maintenance'">
+</app-header>
+
+<ion-content>
+  <app-timer [value]="'12-11-2023'"></app-timer>
+
+  <div class="p-4">
+    <form>
+      <ion-list>
+
+        <ion-item class="mb-8">
+          <ion-label position="floating" *ngIf="category === 'repair'">Repair Ticket Number</ion-label>
+          <ion-label position="floating" *ngIf="category === 'maintenance'">Maintenance Ticket Number</ion-label>
+          <ion-input placeholder="Repair Ticket Number"></ion-input>
+        </ion-item>
+
+        <ion-label class="ml-5" position="floating">Assigned by Mechanic/Supervisor</ion-label>
+        <ion-item>
+          <ion-select interface="popover" placeholder="Assigned by">
+            <ion-select-option value="mike-kennedy">Mike Kennedy</ion-select-option>
+            <ion-select-option value="bile-handy">Bile Handy</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Assigned to Mechanic/Employee</ion-label>
+          <ion-input placeholder="Enter Employee Name"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Equipment ID</ion-label>
+          <ion-input placeholder="Equipment ID"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Equipment Location (City)</ion-label>
+          <ion-input placeholder="City"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Equipment Location (State)</ion-label>
+          <ion-input placeholder="State"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Category</ion-label>
+          <ion-input placeholder="Enter Category"></ion-input>
+        </ion-item>
+
+        <ion-item class="mb-8">
+          <ion-label position="floating">Severity</ion-label>
+          <ion-input placeholder="Severity"></ion-input>
+        </ion-item>
+
+        <ion-label class="ml-5" position="floating">Status</ion-label>
+        <ion-item>
+          <ion-select interface="popover" placeholder="Status">
+            <ion-select-option value="mike-kennedy" *ngIf="category === 'repair'">Repair In Process</ion-select-option>
+            <ion-select-option value="mike-kennedy" *ngIf="category === 'maintenance'">Maintenance In Process
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Detailed Description of Issue</ion-label>
+          <ion-textarea placeholder="Type something here"></ion-textarea>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating" *ngIf="category === 'repair'">Repair Summary</ion-label>
+          <ion-label position="floating" *ngIf="category === 'maintenance'">Maintenance Summary</ion-label>
+
+          <ion-textarea placeholder="Enter Summary"></ion-textarea>
+        </ion-item>
+      </ion-list>
+
+      <ion-button class="font-Lato text-white mt-8" expand="block" [routerLink]="['/tabs/home/maintenance-repair']">
+        Save and Submit
+      </ion-button>
+    </form>
+  </div>
+
+</ion-content>

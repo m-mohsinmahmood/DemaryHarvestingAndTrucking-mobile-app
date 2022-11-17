@@ -32,7 +32,11 @@ const routes: Routes = [
   {
     path: 'trucking',
     loadChildren: () => import('./trucking/trucking.module').then( m => m.TruckingPageModule)
+  },  {
+    path: 'maintenance-repair',
+    loadChildren: () => import('./maintenance-repair/maintenance-repair.module').then( m => m.MaintenanceRepairPageModule)
   },
+
 ];
 
 @NgModule({

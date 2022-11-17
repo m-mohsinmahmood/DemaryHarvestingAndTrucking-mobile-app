@@ -1,0 +1,80 @@
+<app-header [title]="'Assign Ticket'" [color]="'maintenance-repair'"></app-header>
+
+<ion-content>
+  <app-timer [value]="'01:12:45'"></app-timer>
+
+  <div class="p-4">
+    <form>
+      <ion-list>
+
+        <ion-item>
+          <ion-label position="floating">Repair Ticket Number</ion-label>
+          <ion-input placeholder="Repair Ticket Number"></ion-input>
+        </ion-item>
+
+        <ion-item class="mb-8">
+          <ion-label position="floating">Employee (Issue Reported)</ion-label>
+          <ion-input placeholder="Employee Name"></ion-input>
+        </ion-item>
+
+        <ion-label class="ml-5" position="floating">Assigned by Mechanic/Supervisor</ion-label>
+        <ion-item>
+          <ion-select interface="popover" placeholder="Assigned by">
+            <ion-select-option value="mike-kennedy">Mike Kennedy</ion-select-option>
+            <ion-select-option value="bile-handy">Bile Handy</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Assigned to Mechanic/Employee</ion-label>
+          <ion-input placeholder="Enter Employee Name"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Equipment ID</ion-label>
+          <ion-input placeholder="Equipment ID"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">City</ion-label>
+          <ion-input placeholder="City"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">State</ion-label>
+          <ion-input placeholder="State"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Category</ion-label>
+          <ion-input placeholder="Enter Category"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Severity</ion-label>
+          <ion-input placeholder="Severity"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Status</ion-label>
+          <ion-input placeholder="Severity"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Detailed Description of Issue</ion-label>
+          <ion-textarea placeholder="Type something here"></ion-textarea>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Repair Summary</ion-label>
+          <ion-textarea placeholder="Enter Repair Summary"></ion-textarea>
+        </ion-item>
+      </ion-list>
+
+      <ion-button class="font-Lato text-white mt-8" expand="block" [routerLink]="['/tabs/home/maintenance-repair']">
+        Save and Submit
+      </ion-button>
+    </form>
+
+  </div>
+</ion-content>

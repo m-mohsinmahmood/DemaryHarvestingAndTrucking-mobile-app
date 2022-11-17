@@ -1,0 +1,17 @@
+.card {
+    box-shadow: none;
+    background: #F2F1F1;
+    text-align: center;
+    height: 135px;
+    margin: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    ion-text {
+        font-style: normal;
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 24px;
+    }
+}

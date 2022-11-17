@@ -15,7 +15,12 @@ const routes: Routes = [
   {
     path: 'verify-ticket',
     loadChildren: () => import('./verify-ticket/verify-ticket.module').then( m => m.VerifyTicketPageModule)
+  },
+  {
+    path: 'pre-check-form',
+    loadChildren: () => import('./complete-pre-check-form/complete-pre-check-form.module').then( m => m.CompletePreCheckFormPageModule)
   }
+
 ];
 
 @NgModule({

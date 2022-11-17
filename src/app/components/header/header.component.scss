@@ -1,9 +1,25 @@
-ion-header{
-  ion-toolbar{
-    --background: #59C64F;
+ion-header {
+  .toolbar {
     color: #fff;
     padding: 6px 0px;
-    ion-icon{
+
+    &.harvesting {
+      --background: #129476;
+    }
+
+    &.training {
+      --background: #0CA3C7;
+    }
+
+    &.dwr {
+      --background: #59C64F;
+    }
+
+    &.maintenance-repair {
+      --background: #FF7272;
+    }
+
+    ion-icon {
       zoom: 1.8;
     }
   }

@@ -14,8 +14,10 @@
           <div class="flex flex-col ml-2">
             <ion-text class="font-semibold font-Lato">Wade Warren</ion-text>
             <span class=" text-xs font-medium font-Lato text-gray-400" *ngIf="role ==='crew-chief'">Crew Chief</span>
-            <span class="text-xs font-medium font-Lato text-gray-400" *ngIf="role ==='combine-operator'">Combine Operator</span>
-            <span class="text-xs font-medium font-Lato text-gray-400" *ngIf="role ==='kart-operator'">Kart Operator</span>
+            <span class="text-xs font-medium font-Lato text-gray-400" *ngIf="role ==='combine-operator'">Combine
+              Operator</span>
+            <span class="text-xs font-medium font-Lato text-gray-400" *ngIf="role ==='kart-operator'">Kart
+              Operator</span>
             <span class="text-xs font-medium font-Lato text-gray-400" *ngIf="role ==='truck-driver'">Truck Driver</span>
           </div>
         </ion-col>
@@ -60,7 +62,7 @@
           </ion-card-content>
         </ion-card>
       </ion-col>
-      <ion-col size="6">
+      <ion-col size="6" [routerLink]="['maintenance-repair']">
         <ion-card class="card">
           <ion-card-content>
             <ion-icon name="image-outline"></ion-icon>
@@ -91,7 +93,7 @@
 
     <!-- ===================== Bottom Card Check-in =========================== -->
     <ion-row>
-      <ion-col size="12" >
+      <ion-col size="12">
         <ion-button expand="block" class="font-Lato text-white">Clock-in</ion-button>
         <div class="ion-text-center">
           <ion-text class="font-Lato">Log your work hours to begin tasks for the day!</ion-text>
