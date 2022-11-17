@@ -10,3 +10,9 @@ ion-checkbox::part(container) {
   border: 1px solid #59C64F;
 }
 
+ion-progress-bar {
+  --background: #F2F3F5;
+  --progress-background: #59C64F;
+  height: 7px;
+  border-radius: 10px;
+}

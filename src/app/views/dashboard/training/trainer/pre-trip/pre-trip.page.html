@@ -2,19 +2,23 @@
 <app-header [title]="'Pre-Trip Check Digital Evaluation Form'" [color]="'training'"></app-header>
 <ion-content>
   <app-timer [value]="'01:23:45'"></app-timer>
+  <div class="mx-4 my-2">
+    <ion-progress-bar class="mb-2" [buffer]="buffer" [value]="progress" ></ion-progress-bar>
+    <ion-text class="text-lg font-semibold justify-start flex font-Lato text-black ml-2">{{progress * 5}} of 5 Categories Completed</ion-text>
+  </div>
   <form>
     <ion-item class="mt-9">
       <ion-select placeholder="Select Pre-Trip Check Catrgory for Evaluation" interface="alert" (ionChange)="onSelect($event)">
-        <ion-select-option value="1">Engine / Compartment</ion-select-option>
-        <ion-select-option value="2">In Cab</ion-select-option>
-        <ion-select-option value="3">Vehicle/External</ion-select-option>
-        <ion-select-option value="4">Coupling</ion-select-option>
-        <ion-select-option value="5">Suspension/Brakes</ion-select-option>
+        <ion-select-option value="engine/compartment">Engine / Compartment</ion-select-option>
+        <ion-select-option value="incab">In Cab</ion-select-option>
+        <ion-select-option value="vehicle/external">Vehicle/External</ion-select-option>
+        <ion-select-option value="coupling">Coupling</ion-select-option>
+        <ion-select-option value="suspension/brakes">Suspension/Brakes</ion-select-option>
       </ion-select>
     </ion-item>
     <p class="text-lg font-semibold font-Lato mt-8 ml-4">Pre-Trip Check Items</p>
     <!-- Engine/Compartment -->
-     <div class="mx-4" *ngIf="value === '1'">
+     <div class="mx-4" *ngIf="value === 'engine/compartment'">
       <div class="flex justify-between items-center my-3">
        <ion-text class="font-Lato font-medium">Oil Level</ion-text>
         <ion-checkbox slot="start"></ion-checkbox>
@@ -92,7 +96,7 @@
       </div>
 
       <!-- In-cab -->
-       <div class="mx-4" *ngIf="value === '2'">
+       <div class="mx-4" *ngIf="value === 'incab'">
         <div class="flex justify-between items-center my-3">
          <ion-text class="font-Lato font-medium">Safety Belt</ion-text>
           <ion-checkbox slot="start"></ion-checkbox>
@@ -174,7 +178,7 @@
         </div>
 
         <!-- Vehicle/External -->
-      <div class="mx-4" *ngIf="value === '3'">
+      <div class="mx-4" *ngIf="value === 'vehicle/external'">
         <div class="flex justify-between items-center my-3">
          <ion-text class="font-Lato font-medium">Light Function</ion-text>
           <ion-checkbox slot="start"></ion-checkbox>
@@ -252,7 +256,7 @@
         </div>
 
         <!-- Coupling -->
-     <div class="mx-4" *ngIf="value === '4'">
+     <div class="mx-4" *ngIf="value === 'coupling'">
         <div class="flex justify-between items-center my-3">
          <ion-text class="font-Lato font-medium">Air Connectors</ion-text>
           <ion-checkbox slot="start"></ion-checkbox>
@@ -330,7 +334,7 @@
       </div>
 
         <!-- Suspension/Brakes -->
-       <div class="mx-4" *ngIf="value === '5'">
+       <div class="mx-4" *ngIf="value === 'suspension/brakes'">
         <div class="flex justify-between items-center my-3">
          <ion-text class="font-Lato font-medium">Springs (3)</ion-text>
           <ion-checkbox slot="start"></ion-checkbox>
