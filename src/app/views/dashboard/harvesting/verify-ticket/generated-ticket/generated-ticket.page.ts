@@ -8,6 +8,7 @@ import { Location } from '@angular/common';
 })
 export class GeneratedTicketPage implements OnInit {
 role: any;
+
   constructor(
     private location: Location
   ) { }

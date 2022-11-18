@@ -8,13 +8,22 @@ import { Router } from '@angular/router';
 })
 export class SearchRecordsPage implements OnInit {
   formType: any;
+  evaluationType: any;
 
   constructor(
     private router: Router,
   ) { }
   ngOnInit() {
     this.formType = this.router.getCurrentNavigation().extras.state.formType;
-
+    this.evaluationType = this.router.getCurrentNavigation().extras.state.evaluationType;
+  }
+  navigate(x: any){
+    console.log('evaluation',x);
+    this.router.navigateByUrl('/tabs/home/training/trainer/training-records/search-records/view-records',{
+      state:{
+        evaluationType: x
+      }
+    });
   }
 
 }

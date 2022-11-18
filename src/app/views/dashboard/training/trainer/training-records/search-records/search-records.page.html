@@ -8,11 +8,11 @@
     </div>
     <div class="flex justify-between items-center my-3">
       <ion-text class="font-Lato text-9B9BA4"> Evaluation Form</ion-text>
-      <ion-text class="font-Lato font-semibold"> Road Test Skills</ion-text>
+      <ion-text class="font-Lato font-semibold"> {{evaluationType}}</ion-text>
     </div>
     <div class="flex justify-between items-center my-3">
       <ion-text class="font-Lato text-9B9BA4"> Form Type</ion-text>
-      <ion-text class="font-Lato font-semibold"> Paper Form</ion-text>
+      <ion-text class="font-Lato font-semibold"> {{formType === 'paper-form'?'Paper Form' : 'Digital Form'}}</ion-text>
     </div>
     <div class="my-9">
       <div class="ion-text-start mb-3">
@@ -69,7 +69,7 @@
 
     <!-- Cards for Digital Form Starts-->
     <div *ngIf="formType === 'digital-form'">
-    <ion-card [routerLink]="['view-records']">
+    <ion-card (click)="navigate(evaluationType)">
       <ion-card-content>
         <div class="flex justify-between items-center mb-2">
           <ion-text class="font-Lato text-black font-semibold text-lg">October 21st, 2020</ion-text>

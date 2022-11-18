@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 })
 export class TrainingRecordsPage implements OnInit {
 formtype;
+evaluationType;
   constructor(
     private router: Router,
   ) { }
@@ -17,11 +18,30 @@ formtype;
   onSelect(e){
 this.formtype = e.target.value;
 }
+onSelectEvaluation(e){
+  this.evaluationType = e.target.value;
+}
+
 navigate(){
+  console.log('first',this.evaluationType);
+  if(this.evaluationType === 'summary'){
+    console.log('first');
+    this.router.navigateByUrl('/tabs/home/training/trainer/training-records/search-records/view-records',{
+      state:{
+        evaluationType: this.evaluationType,
+      }
+    });
+  }
+else{
+  console.log('firsfft');
+
   this.router.navigateByUrl('/tabs/home/training/trainer/training-records/search-records',{
     state:{
-      formType: this.formtype
+      formType: this.formtype,
+      evaluationType: this.evaluationType,
     }
   });
+
+}
 }
 }

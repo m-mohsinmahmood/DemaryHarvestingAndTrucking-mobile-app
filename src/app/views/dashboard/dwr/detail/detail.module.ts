@@ -8,14 +8,16 @@ import { DetailPageRoutingModule } from './detail-routing.module';
 
 import { DetailPage } from './detail.page';
 import { HeaderModule } from 'src/app/components/header/header.module';
+import { TimerModule } from 'src/app/components/timer/timer.module';
 
 @NgModule({
   imports: [
-  CommonModule,
+CommonModule,
     FormsModule,
     IonicModule,
     DetailPageRoutingModule,
-    HeaderModule
+    HeaderModule,
+    TimerModule
   ],
   declarations: [DetailPage]
 })

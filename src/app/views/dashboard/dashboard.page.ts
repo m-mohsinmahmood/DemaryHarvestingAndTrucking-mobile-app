@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardPage implements OnInit {
   roleOptions = ['crew-chief','kart-operator','combine-operator','truck-driver'];
-role = this.roleOptions[1];
+role = this.roleOptions[3];
   constructor() { }
 
   ngOnInit() {

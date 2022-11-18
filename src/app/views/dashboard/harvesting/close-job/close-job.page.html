@@ -1,8 +1,8 @@
 <app-header
   [title]="role ==='crew-chief'? 'Submit End of Day Work Data' : '' ||
 role === 'combine-operator'? 'Submit End of Day Work Data': '' ||
-role ==='kart-operator'? 'Close-out Kart Operator Job' : '' ||
-role ==='truck-driver'? 'Close-out Truck Driver Job' : ''"
+role ==='kart-operator'? 'Submit End of Day Work Data' : '' ||
+role ==='truck-driver'? 'Submit End of Day Work Data' : ''"
 [color]="'harvesting'"
 ></app-header>
 
@@ -113,40 +113,12 @@ role ==='truck-driver'? 'Close-out Truck Driver Job' : ''"
 
 <!-- Truck Driver -->
 <ion-content *ngIf="role === 'truck-driver'">
+  <app-timer [value]="'23:14:12'"></app-timer>
   <div class="p-4">
-    <ion-grid class="mt-2">
-      <ion-row>
-        <ion-col size="6" class="">
-          <div class="flex justify-start items-center">
-            <ion-icon
-              name="time-outline"
-              class="w-6 h-6"
-              [ngStyle]="{'color':'#888B8D'}"
-            ></ion-icon>
-            <span class="ml-2 text-lg font-Lato" [ngStyle]="{'color':'#888B8D'}"
-              >09:00 AM</span
-            >
-          </div>
-        </ion-col>
-        <ion-col size="6" class="">
-          <div class="flex justify-center items-center">
-            <ion-icon
-              name="calendar-outline"
-              class="w-6 h-6"
-              [ngStyle]="{'color':'#888B8D'}"
-            ></ion-icon>
-            <span class="ml-2 text-lg font-Lato" [ngStyle]="{'color':'#888B8D'}"
-              >Oct 08, 2022</span
-            >
-          </div>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-
     <div class="">
       <ion-item>
-        <ion-label position="floating">Enter Ending Odometer Miles</ion-label>
-        <ion-input placeholder="Enter Ending Ending Odometer Miles"></ion-input>
+        <ion-label position="floating" class="font">Enter Ending Odometer Miles</ion-label>
+        <ion-input placeholder="Enter Ending Ending Odometer Miles" class="placeholder:font-Lato"></ion-input>
       </ion-item>
     </div>
     <ion-button expand="block" class="mt-5 font-Lato text-white"
