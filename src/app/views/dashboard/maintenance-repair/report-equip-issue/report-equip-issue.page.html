@@ -1,0 +1,72 @@
+<app-header [title]="'Report New Equipment Issue'" [color]="'maintenance-repair'"></app-header>
+
+<ion-content>
+  <app-timer [value]="'01:12:45'"></app-timer>
+
+  <div class="p-4">
+    <form>
+      <ion-list>
+
+        <ion-item>
+          <ion-label position="floating">Employee Name</ion-label>
+          <ion-input placeholder="Employee Name"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">City</ion-label>
+          <ion-input placeholder="City"></ion-input>
+        </ion-item>
+
+        <ion-item class="mb-8">
+          <ion-label position="floating">State</ion-label>
+          <ion-input placeholder="State"></ion-input>
+        </ion-item>
+
+        <ion-label class="ml-5" position="floating">Maintenance or Repair</ion-label>
+        <ion-item class="mb-8">
+          <ion-select interface="popover" placeholder="Select category">
+            <ion-select-option value="maintenance">Maintenance</ion-select-option>
+            <ion-select-option value="repair">Repair</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-label class="ml-5" position="floating">Ticket Number</ion-label>
+        <ion-item class="mb-8">
+          <ion-text>12345</ion-text>
+        </ion-item>
+
+        <ion-label class="ml-5" position="floating">Category</ion-label>
+        <ion-item class="mb-8">
+          <ion-select interface="popover" placeholder="Select Category">
+            <ion-select-option value="electrical">Electrical</ion-select-option>
+            <ion-select-option value="mechanical">Mechanical</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-label class="ml-5" position="floating">Severity</ion-label>
+        <ion-item class="mb-8">
+          <ion-select interface="popover" placeholder="Select Category">
+            <ion-select-option value="critical">Critical</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-label class="ml-5" position="floating">Status</ion-label>
+        <ion-item>
+          <ion-select interface="popover" placeholder="Select Category">
+            <ion-select-option value="repaired">Repair Reported</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Detail Description of Issue</ion-label>
+          <ion-textarea placeholder="Type something here"></ion-textarea>
+        </ion-item>
+      </ion-list>
+
+      <ion-button class="font-Lato text-white mt-8" expand="block" [routerLink]="['/tabs/home/maintenance-repair']">
+        Save and Submit
+      </ion-button>
+    </form>
+
+  </div>
+</ion-content>

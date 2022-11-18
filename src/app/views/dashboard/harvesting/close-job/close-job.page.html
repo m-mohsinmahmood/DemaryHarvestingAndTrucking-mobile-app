@@ -1,0 +1,156 @@
+<app-header
+  [title]="role ==='crew-chief'? 'Submit End of Day Work Data' : '' ||
+role === 'combine-operator'? 'Submit End of Day Work Data': '' ||
+role ==='kart-operator'? 'Close-out Kart Operator Job' : '' ||
+role ==='truck-driver'? 'Close-out Truck Driver Job' : ''"
+[color]="'harvesting'"
+></app-header>
+
+<!-- Crew Chief -->
+<ion-content *ngIf="role === 'crew-chief'">
+  <app-timer [value]="'22:32:43'"></app-timer>
+  <div class="p-4">
+    <div>
+      <form novalidate>
+        <ion-list>
+          <div>
+            <ion-item>
+              <ion-label position="floating" class="font">Separator Hours(Ending)</ion-label>
+              <ion-input placeholder="State"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="floating" class="font">Engine Hours(Ending)</ion-label>
+              <ion-input placeholder="Customer Name"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="floating" class="font">GPS Acres Completed</ion-label>
+              <ion-input placeholder="Farm"></ion-input>
+            </ion-item>
+            <ion-button expand="block" class="mt-5 font-Lato text-white"
+              >Save</ion-button
+            >
+          </div>
+        </ion-list>
+      </form>
+    </div>
+  </div>
+</ion-content>
+
+<!-- Combine-Operator -->
+<ion-content *ngIf="role === 'combine-operator'">
+  <app-timer [value]="'22:32:43'"></app-timer>
+  <div class="p-4">
+    <ion-card class="m-0 mb-2">
+      <ion-card-header>
+        <ion-card-title class="font-Lato">Customer Profile</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-grid>
+          <ion-row>
+            <ion-col size="6" class="text-sm text-black font-Lato font-semibold"
+              >Customer Name</ion-col
+            >
+            <ion-col size="6" class="text-sm flex justify-end font-Lato"
+              >Mike Allen</ion-col
+            >
+            <ion-col size="6" class="text-sm text-black font-Lato font-semibold"
+              >State</ion-col
+            >
+            <ion-col size="6" class="text-sm flex justify-end font-Lato"
+              >Arizona</ion-col
+            >
+            <ion-col size="6" class="text-sm text-black font-Lato font-semibold"
+              >Farm</ion-col
+            >
+            <ion-col size="6" class="text-sm flex justify-end font-Lato"
+              >Dakota
+            </ion-col>
+            <ion-col size="6" class="text-sm text-black font-Lato font-semibold"
+              >Crop</ion-col
+            >
+            <ion-col size="6" class="text-sm flex justify-end font-Lato "
+              >Corn</ion-col
+            >
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+    <div class="">
+      <ion-item>
+        <ion-label position="floating" class="font">Ending Separator Hours</ion-label>
+        <ion-input placeholder="Enter Separator Hours"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating" class="font">Ending Engine Hours</ion-label>
+        <ion-input placeholder="Enter Ending Engine Hours"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating" class="font">GPS Acres Completed</ion-label>
+        <ion-input placeholder="Enter GPS Acres Completed"></ion-input>
+      </ion-item>
+    </div>
+    <ion-button expand="block" class="mt-5 font-Lato text-white"
+      >Save and Close-out Job</ion-button
+    >
+  </div>
+</ion-content>
+
+<!-- Kart-Operator -->
+<ion-content *ngIf="role === 'kart-operator'">
+  <app-timer [value]="'23:22:01'"></app-timer>
+  <div class="p-4">
+    <div class="">
+      <ion-item>
+        <ion-label position="floating" class="font">Enter Ending Engine Hours</ion-label>
+        <ion-input placeholder="Enter Ending Engine Hours"></ion-input>
+      </ion-item>
+    </div>
+    <ion-button expand="block" class="mt-5 font-Lato text-white"
+      >Save and Close-out Job</ion-button
+    >
+  </div>
+</ion-content>
+
+<!-- Truck Driver -->
+<ion-content *ngIf="role === 'truck-driver'">
+  <div class="p-4">
+    <ion-grid class="mt-2">
+      <ion-row>
+        <ion-col size="6" class="">
+          <div class="flex justify-start items-center">
+            <ion-icon
+              name="time-outline"
+              class="w-6 h-6"
+              [ngStyle]="{'color':'#888B8D'}"
+            ></ion-icon>
+            <span class="ml-2 text-lg font-Lato" [ngStyle]="{'color':'#888B8D'}"
+              >09:00 AM</span
+            >
+          </div>
+        </ion-col>
+        <ion-col size="6" class="">
+          <div class="flex justify-center items-center">
+            <ion-icon
+              name="calendar-outline"
+              class="w-6 h-6"
+              [ngStyle]="{'color':'#888B8D'}"
+            ></ion-icon>
+            <span class="ml-2 text-lg font-Lato" [ngStyle]="{'color':'#888B8D'}"
+              >Oct 08, 2022</span
+            >
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <div class="">
+      <ion-item>
+        <ion-label position="floating">Enter Ending Odometer Miles</ion-label>
+        <ion-input placeholder="Enter Ending Ending Odometer Miles"></ion-input>
+      </ion-item>
+    </div>
+    <ion-button expand="block" class="mt-5 font-Lato text-white"
+      >Save and Close-out Job</ion-button
+    >
+  </div>
+</ion-content>

@@ -32,19 +32,23 @@ button {
     border-left-style: inherit !important;
 }
 
-.custom-segment {
-    ion-segment-button {
-        --color-checked: var(--ion-color-primary);
-    }
-}
+// .custom-segment {
+//     ion-segment-button {
+//         --color-checked: var(--ion-color-primary);
+//     }
+// }
 
-ion-chip {
-    font-size: x-small !important;
-    ion-icon {
-        font-size: small !important;
-    }
-}
+// ion-chip {
+//     font-size: x-small !important;
+//     ion-icon {
+//         font-size: small !important;
+//     }
+// }
 
-ion-menu {
-    max-width: 280px !important;
+// ion-menu {
+//     max-width: 280px !important;
+// }
+@font-face {
+  font-family: 'Lato';
+  src: url('./assets/fonts/Lato/Lato-Regular.ttf');
 }

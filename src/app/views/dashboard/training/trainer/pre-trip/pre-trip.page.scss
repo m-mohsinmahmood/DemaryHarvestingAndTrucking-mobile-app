@@ -1,0 +1,18 @@
+
+ion-checkbox {
+  --size: 24px;
+  --background-checked: #59C64F;
+  --checkmark-color: rgb(255, 255, 255);
+}
+
+ion-checkbox::part(container) {
+  border-radius: 6px;
+  border: 1px solid #59C64F;
+}
+
+ion-progress-bar {
+  --background: #F2F3F5;
+  --progress-background: #59C64F;
+  height: 7px;
+  border-radius: 10px;
+}

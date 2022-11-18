@@ -1,0 +1,152 @@
+<app-header [title]="'Trainee'" [color]="'training'"></app-header>
+
+
+<ion-content>
+  <!-- Timer -->
+  <app-timer [value]="'04:22:12'"></app-timer>
+  <form>
+    <ion-list>
+       <div>
+         <ion-item>
+           <ion-label position="floating" class="font">Trainee</ion-label>
+           <ion-input placeholder="Enter Trainee Name"></ion-input>
+         </ion-item>
+         <ion-item>
+           <ion-label position="floating" class="font">Trainer</ion-label>
+           <ion-input placeholder="Enter Trainer Name"></ion-input>
+         </ion-item>
+         <ion-item>
+           <ion-label position="floating" class="font">City</ion-label>
+           <ion-input placeholder="Enter City"></ion-input>
+         </ion-item>
+         <ion-item>
+           <ion-label position="floating" class="font">State</ion-label>
+           <ion-input  placeholder="Enter State"></ion-input>
+         </ion-item>
+          <ion-item>
+            <ion-select placeholder="Type of Training" interface="alert">
+              <ion-select-option value="ct">Company Training</ion-select-option>
+              <ion-select-option value="st" >Safety Training</ion-select-option>
+              <ion-select-option value="cdlt" >CDL Training</ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-item>
+            <ion-select placeholder="Topic" interface="alert">
+              <ion-select-option value="ct">Behind-the-Wheel Range</ion-select-option>
+              <ion-select-option value="st">Behind-the-Wheel Public</ion-select-option>
+              <ion-select-option value="cdlt">CDL Classroom</ion-select-option>
+              <ion-select-option value="cdlt">CDL Group Practical</ion-select-option>
+              <ion-select-option value="cdlt">Other</ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating" class="font">Details</ion-label>
+            <ion-input placeholder="Enter details" value=""></ion-input>
+          </ion-item>
+          <div class="ml-5 mt-4">
+            <ion-label class="font font-medium text-aaaaaa">Training docs (upload here)</ion-label>
+          </div>
+          <div class="flex px-4 py-2">
+        <div class="w-16 h-16 mr-2">
+          <ion-card
+            [ngClass]="!upload_1 ? ' shadow-none m-0 border-2 border-aaaaaa bg-e9e6e6' : 'shadow-none m-0 border-2 border-project-green bg-white'"
+            (click)="upload__1.click()"
+          >
+            <ion-card-content class="p-0 w-16 h-16 flex justify-center items-center">
+                <ion-segment scrollable value="done" class="bg-none">
+                  <ion-segment-button value="upload" *ngIf="!upload_1">
+                    <ion-icon
+                      [ngStyle]="{'color' : !upload_1 ? '#aaaaaa' : ''}"
+                      name="cloud-upload-outline"
+                    >
+                    </ion-icon>
+                  </ion-segment-button>
+
+                  <ion-segment-button value="done" *ngIf="upload_1">
+                    <ion-icon
+                      [ngStyle]="{'color' : upload_1 ? '#59C64F' : ''}"
+                      name="cloud-done-outline"
+                    >
+                    </ion-icon>
+                  </ion-segment-button>
+                  <input
+                    #upload__1
+                    type="file"
+                    class=" invisible hidden"
+                    (change)="onSelectedFiles($event, 'upload_1')"
+                  />
+                </ion-segment>
+            </ion-card-content>
+          </ion-card>
+        </div>
+        <div class="w-16 h-16 mr-2">
+          <ion-card
+            [ngClass]="!upload_2 ? ' shadow-none m-0 border-2 border-aaaaaa bg-e9e6e6' : 'shadow-none m-0 border-2 border-project-green bg-white'"
+            (click)="upload__2.click()"
+          >
+            <ion-card-content class="p-0 w-16 h-16 flex justify-center items-center">
+                <ion-segment scrollable value="done" class="bg-none">
+                  <ion-segment-button value="upload" *ngIf="!upload_2">
+                    <ion-icon
+                      [ngStyle]="{'color' : !upload_2 ? '#aaaaaa' : ''}"
+                      name="cloud-upload-outline"
+                    >
+                    </ion-icon>
+                  </ion-segment-button>
+
+                  <ion-segment-button value="done" *ngIf="upload_2">
+                    <ion-icon
+                      [ngStyle]="{'color' : upload_2 ? '#59C64F' : ''}"
+                      name="cloud-done-outline"
+                    >
+                    </ion-icon>
+                  </ion-segment-button>
+                  <input
+                    #upload__2
+                    type="file"
+                    class=" invisible hidden"
+                    (change)="onSelectedFiles($event, 'upload_2')"
+                  />
+                </ion-segment>
+            </ion-card-content>
+          </ion-card>
+        </div>
+        <div class="w-16 h-16 mr-2">
+          <ion-card
+            [ngClass]="!upload_3 ? ' shadow-none m-0 border-2 border-aaaaaa bg-e9e6e6' : 'shadow-none m-0 border-2 border-project-green bg-white'"
+            (click)="upload__3.click()"
+          >
+            <ion-card-content class="p-0 w-16 h-16 flex justify-center items-center">
+                <ion-segment scrollable value="done" class="bg-none">
+                  <ion-segment-button value="upload" *ngIf="!upload_3">
+                    <ion-icon
+                      [ngStyle]="{'color' : !upload_3 ? '#aaaaaa' : ''}"
+                      name="cloud-upload-outline"
+                    >
+                    </ion-icon>
+                  </ion-segment-button>
+
+                  <ion-segment-button value="done" *ngIf="upload_3">
+                    <ion-icon
+                      [ngStyle]="{'color' : upload_3 ? '#59C64F' : ''}"
+                      name="cloud-done-outline"
+                    >
+                    </ion-icon>
+                  </ion-segment-button>
+                  <input
+                    #upload__3
+                    type="file"
+                    class=" invisible hidden"
+                    (change)="onSelectedFiles($event, 'upload_3')"
+
+                  />
+                </ion-segment>
+            </ion-card-content>
+          </ion-card>
+        </div>
+      </div>
+           <ion-button expand="block" class="mt-5 font-Lato text-white">Save</ion-button>
+       </div>
+     </ion-list>
+   </form>
+</ion-content>

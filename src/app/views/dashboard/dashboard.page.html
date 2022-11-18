@@ -1,0 +1,128 @@
+<!-- ===================== Dashboard Starts =========================== -->
+<!-- <app-header [title]="'Dashboard'"></app-header> -->
+
+<ion-content>
+  <!-- =============================== Header =============================== -->
+
+  <div class="grid-background">
+    <ion-grid>
+      <ion-row>
+        <ion-col size="10" class="flex flex-row	items-center">
+          <ion-avatar>
+            <img src="../../../assets/images//Oval.png" alt="">
+          </ion-avatar>
+          <div class="flex flex-col ml-2">
+            <ion-text class="font-semibold font-Lato">Wade Warren</ion-text>
+            <span class=" text-xs font-medium font-Lato text-gray-400" *ngIf="role ==='crew-chief'">Crew Chief</span>
+            <span class="text-xs font-medium font-Lato text-gray-400" *ngIf="role ==='combine-operator'">Combine
+              Operator</span>
+            <span class="text-xs font-medium font-Lato text-gray-400" *ngIf="role ==='kart-operator'">Kart
+              Operator</span>
+            <span class="text-xs font-medium font-Lato text-gray-400" *ngIf="role ==='truck-driver'">Truck Driver</span>
+          </div>
+        </ion-col>
+        <ion-col size="2" class="flex justify-center items-center">
+          <ion-tab-button class="relative">
+          <img src="../../../assets/icon/bell_notification.png" alt="" class="w-8 h-8 object-contain">
+            <ion-badge class="text-white absolute left-6 top-1">6</ion-badge>
+          </ion-tab-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+  <!-- =============================== Top Cards =============================== -->
+  <ion-grid class="p-2.5">
+    <ion-row>
+
+      <ion-col size="6">
+        <ion-card class="card" [routerLink]="['harvesting']"  [ngStyle]="{'background-color':'#129476'}">
+          <ion-card-content>
+            <div class="flex ">
+              <img src="../../../assets/images/tractor.png" alt="" class="w-12 h-12 object-contain">
+              <img src="../../../assets/images/trees.png" alt="" class="w-12 h-12 object-contain">
+            </div>
+            <ion-text class="font-Lato">Harvesting</ion-text>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+
+      <ion-col size="6">
+        <ion-card class="card" [routerLink]="['farming']" [ngStyle]="{'background-color':'#F5993F'}">
+          <ion-card-content>
+            <img src="../../../assets/images/tractor.png" alt="" class="w-12 h-12 object-contain">
+            <ion-text class="font-Lato">Farming</ion-text>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+
+    </ion-row>
+    <ion-row>
+      <ion-col size="6">
+        <ion-card class="card" [routerLink]="['trucking']" [ngStyle]="{'background-color':'#4256F9'}">
+          <ion-card-content>
+            <img src="../../../assets/images/trucking.png" alt="" class="w-12 h-12 object-contain">
+            <ion-text class="font-Lato">Trucking</ion-text>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col size="6" >
+        <ion-card class="card" [routerLink]="['maintenance-repair']" [ngStyle]="{'background-color':'#FF7272'}">
+          <ion-card-content>
+            <img src="../../../assets/images/maintenance repair.png" alt="" class="w-12 h-12 object-contain">
+            <ion-text class="font-Lato">Maintenance & Repair</ion-text>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="6">
+        <ion-card class="card" [routerLink]="['training']" [ngStyle]="{'background-color':'#0CA3C7'}">
+          <ion-card-content>
+            <img src="../../../assets/images/truck.png" alt="" class="w-12 h-12 object-contain">
+            <ion-text class="font-Lato">Training</ion-text>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col size="6" >
+        <ion-card class="card" [routerLink]="['others']" [ngStyle]="{'background-color':'#455769'}">
+          <ion-card-content>
+            <img src="../../../assets/images/other.png" alt="" class="w-12 h-12 object-contain">
+            <ion-text class="font-Lato">Other</ion-text>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="6">
+        <ion-card class="card" [ngStyle]="{'background-color':'#D33F3F'}">
+          <ion-card-content>
+            <img src="../../../assets/images/purchsing.png" alt="" class="w-12 h-12 object-contain">
+            <ion-text class="font-Lato">Purchasing</ion-text>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col size="6" >
+        <ion-card class="card" [ngStyle]="{'background-color':'#0070C0'}">
+          <ion-card-content>
+            <img src="../../../assets/images/inventory.svg" alt="" class="w-12 h-12 object-contain">
+            <ion-text class="font-Lato">Inventory</ion-text>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+
+    <!-- ===================== Bottom Card Check-in =========================== -->
+    <ion-row>
+      <ion-col size="12">
+        <ion-button expand="block" class="font-Lato text-white">Clock-in</ion-button>
+        <div class="ion-text-center">
+          <ion-text class="font-Lato">Log your work hours to begin tasks for the day!</ion-text>
+        </div>
+      </ion-col>
+    </ion-row>
+
+  </ion-grid>
+</ion-content>
+<!-- ===================== Dashboard Ends =========================== -->

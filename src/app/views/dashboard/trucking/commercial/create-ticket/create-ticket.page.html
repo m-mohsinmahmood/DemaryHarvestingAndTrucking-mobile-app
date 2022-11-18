@@ -1,0 +1,105 @@
+<!-- Ticket Generation of Commercial-->
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-icon name="chevron-back-outline" (click)="goBack()"></ion-icon>
+    <ion-title class="font-Lato">Create Delivery Ticket</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="p-4">
+    <ion-grid class="mt-2">
+      <ion-row>
+        <ion-col size="6">
+          <div class="flex justify-start items-center">
+            <ion-icon name="time-outline" class="w-6 h-6" [ngStyle]="{'color':'#888B8D'}"></ion-icon>
+            <span class="ml-2 text-lg font-Lato" [ngStyle]="{'color':'#888B8D'}">09:00 AM</span>
+          </div>
+        </ion-col>
+        <ion-col size="6">
+          <div class="flex justify-center items-center">
+            <ion-icon name="calendar-outline" class="w-6 h-6" [ngStyle]="{'color':'#888B8D'}"></ion-icon>
+            <span class="ml-2 text-lg font-Lato" [ngStyle]="{'color':'#888B8D'}">Oct 08, 2022</span>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <div>
+      <form>
+        <ion-list>
+          <ion-item>
+            <ion-label position="floating">Delivery Ticket #</ion-label>
+            <ion-input placeholder="Ticket #" readonly></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Dispatcher Name</ion-label>
+            <ion-input placeholder="Dispatcher Name"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Customer Name</ion-label>
+            <ion-input placeholder="Customer Name"></ion-input>
+          </ion-item>
+
+          <div class="custom-file-upload">
+            <label class="">
+              <input type="file" (change)="chooseImage($event)" multiple accept="image/png, image/jpeg" />
+              Upload Rate Sheet
+            </label>
+          </div>
+
+          <ion-card class="mb-1" *ngIf="imgRes.length > 0">
+            <ion-grid>
+              <ion-row class="flex justify-around">
+                <ion-col size="6" *ngFor="let item of imgRes">
+                  <ion-img class="border-2" [ngStyle]="{'border-color':'#5BBE62'}" src="{{item}}"></ion-img>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card>
+
+          <ion-item>
+            <ion-label position="floating">Load Date</ion-label>
+            <ion-input placeholder="Load Date"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Driver Name</ion-label>
+            <ion-input placeholder="Driver Name"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Load #</ion-label>
+            <ion-input placeholder="Load #"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Rate Type</ion-label>
+            <ion-input placeholder="Rate Type"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Cargo</ion-label>
+            <ion-input placeholder="Cargo"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Origin City</ion-label>
+            <ion-input placeholder="Origin City"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Destination City</ion-label>
+            <ion-input placeholder="Destination City"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Destination State</ion-label>
+            <ion-input placeholder="Destination State"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Dispatcher Notes</ion-label>
+            <ion-input placeholder="N/A"></ion-input>
+          </ion-item>
+          <ion-button expand="block" class="mt-5 font-Lato text-white" [routerLink]="['ticket-generated']">Generate Ticket 
+          </ion-button>
+        </ion-list>
+      </form>
+    </div>
+  </div>
+</ion-content>
+
+<!-- Generated Ticket details of Commercial-->
