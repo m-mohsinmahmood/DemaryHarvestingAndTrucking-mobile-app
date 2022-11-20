@@ -16,70 +16,26 @@
         </ion-list>
       </form>
     </div>
-
-    <p class="p-4 font-bold">To Begin Select One of the 5 Pre-Trip Check Categories Below</p>
-
-    <ion-grid class="p-2.5">
-      <ion-row>
-        <ion-col size="6">
-          <ion-card class="card" [routerLink]="['pre-trip-categories']" [queryParams]="{page:'engine'}">
-            <ion-card-content>
-              <ion-text class="font-Lato">Engine/<br>Compartment</ion-text>
-            </ion-card-content>
-          </ion-card>
-        </ion-col>
-        <ion-col size="6">
-          <ion-card class="card" [routerLink]="['pre-trip-categories']" [queryParams]="{page:'cab'}">
-            <ion-card-content>
-              <ion-text class="font-Lato">In Cab</ion-text>
-            </ion-card-content>
-          </ion-card>
-        </ion-col>
-      </ion-row>
-
-      <ion-row>
-        <ion-col size="6">
-          <ion-card class="card" [routerLink]="['pre-trip-categories']" [queryParams]="{page:'vehicle'}">
-            <ion-card-content>
-              <ion-text class="font-Lato">Vehicle/<br>External</ion-text>
-            </ion-card-content>
-          </ion-card>
-        </ion-col>
-        <ion-col size="6">
-          <ion-card class="card" [routerLink]="['pre-trip-categories']" [queryParams]="{page:'brakes'}">
-            <ion-card-content>
-              <ion-text class="font-Lato">Brakes, <br>Coupling <br> and <br>Suspension</ion-text>
-            </ion-card-content>
-          </ion-card>
-        </ion-col>
-      </ion-row>
-
-      <ion-row>
-        <ion-col size="6">
-          <ion-card class="card" [routerLink]="['pre-trip-categories']" [queryParams]="{page:'trailer'}">
-            <ion-card-content>
-              <ion-text class="font-Lato">Trailer</ion-text>
-            </ion-card-content>
-          </ion-card>
-        </ion-col>
-      </ion-row>
-
-      <ion-row class="mt-6">
-        <ion-col>
-          <ion-progress-bar class="mb-2" [buffer]="buffer" [value]="progress"></ion-progress-bar>
-          <ion-text class="text-base justify-center flex">{{progress * 5}} of 5 Categories Completed</ion-text>
-        </ion-col>
-      </ion-row>
-
-      <ion-row>
-        <ion-col size="12">
-          <ion-button expand="block" class="mt-4 font-Lato text-white"
-            (click)="navigateTo('/tabs/home/trucking/in-house/pre-check-form')">End Inspection and Submit
-          </ion-button>
-        </ion-col>
-      </ion-row>
-
-    </ion-grid>
+    <div class="mx-4 my-2">
+      <ion-progress-bar class="mb-2" [buffer]="buffer" [value]="progress" ></ion-progress-bar>
+      <ion-text class="text-lg font-semibold justify-start flex font-Lato text-black ml-2">{{progress * 5}} of 5 Completed</ion-text>
+    </div>
+    <ion-text class="px-4 font-Lato text-2xl font-semibold">Vehicle Inspection</ion-text>
+    <p class="px-4 py-2 font- font-Lato text-base text-46464E font-normal">To Begin Select One of the 5 Pre-Trip Check Categories Below</p>
+      <div class="timeline">
+        <div class="timeline-event" *ngFor="let item of items" >
+           <div class="timeline-point-track-container">
+            <div class="timeline-point {{item.status}}">
+                 <ion-icon name="checkmark-outline" [ngStyle]="{'color':'white'}" class="font-semibold"></ion-icon>
+                </div>
+            <div class="timeline-track {{item.status}}"></div>
+             </div>
+           <div class="timeline-content {{item.status}}">
+                    {{item.content}}
+           </div>
+        </div>
+    </div>
+    <ion-button expand="block" class="text-white font-Lato">Start</ion-button>
   </div>
 
 </ion-content>

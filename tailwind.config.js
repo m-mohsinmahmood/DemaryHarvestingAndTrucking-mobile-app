@@ -17,13 +17,18 @@ module.exports = {
         'e9e6e6':'#e9e6e6',
         'FFCD29':'#FFCD29',
         '9B9BA4':'#9B9BA4',
-        'd9d9d95c':'#d9d9d95c'
+        'd9d9d95c':'#d9d9d95c',
+        '46464E':'#46464E'
       },
       fontFamily:{
           'Lato':['"Lato"']
       }
     },
   },
+  // varients:{
+  //   height  : ['responsive','last'],
+
+  // },
   plugins: [
     require('@tailwindcss/aspect-ratio'),
     // require('@tailwindcss/forms'),
