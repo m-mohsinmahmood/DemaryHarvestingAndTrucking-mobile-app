@@ -30,7 +30,7 @@
 
       <div [ngSwitch]="segment">
         <div *ngSwitchCase="'sent'">
-          <ion-card class="sentTicket p-2" [routerLink]="['dummy']">
+          <ion-card class="sentTicket p-2" [routerLink]="['order-details']">
             <div class="flex flex-col">
               <div class="flex flex-row py-2">
                 <div class="w-8/12 flex flex-col">
@@ -60,7 +60,7 @@
         </div>
 
         <div *ngSwitchCase="'pending'">
-          <ion-card class="pendingTicket p-2" [routerLink]="['/tabs/home/farming/verify-orders/order-detail']">
+          <ion-card class="pendingTicket p-2" [routerLink]="['order-details']">
             <div class="flex flex-col">
               <div class="flex flex-row py-2">
                 <div class="w-8/12 flex flex-col">
@@ -89,7 +89,7 @@
         </div>
 
         <div *ngSwitchCase="'verified'">
-          <ion-card class="verifiedTicket p-2" [routerLink]="['order-detail']">
+          <ion-card class="verifiedTicket p-2" [routerLink]="['order-details']">
             <div class="flex flex-col">
               <div class="flex flex-row py-2">
                 <div class="w-8/12 flex flex-col">

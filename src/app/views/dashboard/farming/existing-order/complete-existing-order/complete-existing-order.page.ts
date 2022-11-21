@@ -16,4 +16,5 @@ export class CompleteExistingOrderPage implements OnInit {
   navigateTo() {
     this.activeRoute.navigateByUrl('/dashboard/farming');
   }
+
 }

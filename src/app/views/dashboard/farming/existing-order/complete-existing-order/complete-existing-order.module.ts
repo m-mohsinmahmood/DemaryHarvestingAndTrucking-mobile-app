@@ -1,22 +1,24 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+
 import { IonicModule } from '@ionic/angular';
-import { OrderDetailPageRoutingModule } from './order-detail-routing.module';
-import { OrderDetailPage } from './order-detail.page';
+
+import { CompleteExistingOrderPageRoutingModule } from './complete-existing-order-routing.module';
+
+import { CompleteExistingOrderPage } from './complete-existing-order.page';
 import { HeaderModule } from 'src/app/components/header/header.module';
 import { TimerModule } from 'src/app/components/timer/timer.module';
 
 @NgModule({
   imports: [
-    TimerModule,
-    HeaderModule,
     CommonModule,
     FormsModule,
     IonicModule,
-    OrderDetailPageRoutingModule
-    
+    CompleteExistingOrderPageRoutingModule,
+    HeaderModule,
+    TimerModule
   ],
-  declarations: [OrderDetailPage]
+  declarations: [CompleteExistingOrderPage]
 })
-export class OrderDetailPageModule {}
+export class CompleteExistingOrderPageModule { }

@@ -1,9 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+
 import { IonicModule } from '@ionic/angular';
-import { CompleteExistingOrderPageRoutingModule } from './complete-existing-order-routing.module';
-import { CompleteExistingOrderPage } from './complete-existing-order.page';
+
+import { OrderDetailsPageRoutingModule } from './order-details-routing.module';
+
+import { OrderDetailsPage } from './order-details.page';
 import { HeaderModule } from 'src/app/components/header/header.module';
 import { TimerModule } from 'src/app/components/timer/timer.module';
 
@@ -12,10 +15,10 @@ import { TimerModule } from 'src/app/components/timer/timer.module';
     CommonModule,
     FormsModule,
     IonicModule,
-    CompleteExistingOrderPageRoutingModule,
+    OrderDetailsPageRoutingModule,
     HeaderModule,
     TimerModule
   ],
-  declarations: [CompleteExistingOrderPage]
+  declarations: [OrderDetailsPage]
 })
-export class CompleteExistingOrderPageModule { }
+export class OrderDetailsPageModule { }
