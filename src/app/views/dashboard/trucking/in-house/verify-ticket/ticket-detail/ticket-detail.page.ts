@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 
 @Component({
@@ -9,13 +8,9 @@ import { Router } from '@angular/router';
 })
 export class TicketDetailPage implements OnInit {
 
-  constructor(private lcoation: Location, private router: Router) { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
-  }
-
-  goBack() {
-    this.lcoation.back();
   }
 
   navigateTo(nav: string) {

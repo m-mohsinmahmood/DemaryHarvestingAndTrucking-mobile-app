@@ -1,29 +1,45 @@
-<!-- Verify Delivery ticket Start -->
-<ion-header class="ion-no-border">
-  <ion-toolbar>
-    <ion-icon name="chevron-back-outline" (click)="goBack()"></ion-icon>
-    <ion-title class="font-Lato">Verify Work Orders</ion-title>
-  </ion-toolbar>
-</ion-header>
+<app-header [title]="'Verify Work Orders'" [color]="'farming'"></app-header>
+
 <ion-content>
+  <app-timer [value]="'12-10-2022'"> </app-timer>
   <div class="p-2">
     <div class="segment-style">
       <ion-segment [(ngModel)]="segment" scrollable>
-        <ion-segment-button value="sent"> Sent </ion-segment-button>
-        <ion-segment-button value="pending"> Pending </ion-segment-button>
-        <ion-segment-button value="verified"> Verified </ion-segment-button>
+        <ion-segment-button value="sent">
+          <div class="flex justify-center items-center">
+            <p class=" font-Lato">Sent</p>
+            <span class="text-white ml-4 w-8 h-4 rounded-full flex justify-center items-center">
+              8</span>
+          </div>
+        </ion-segment-button>
+        <ion-segment-button value="pending">
+          <div class="flex justify-center items-center">
+            <p class=" font-Lato">Pending</p>
+            <span class="text-white ml-4 w-8 h-4 rounded-full flex justify-center items-center">
+              1</span>
+          </div>
+        </ion-segment-button>
+        <ion-segment-button value="verified">
+          <div class="flex justify-center items-center">
+            <p class=" font-Lato">Verified</p>
+            <span class="text-white ml-4 w-8 h-4 rounded-full flex justify-center items-center">
+              4</span>
+          </div>
+        </ion-segment-button>
       </ion-segment>
 
       <div [ngSwitch]="segment">
         <div *ngSwitchCase="'sent'">
-          <ion-card class="sentTicket p-2" [routerLink]="['order-detail']">
+          <ion-card class="sentTicket p-2" [routerLink]="['dummy']">
             <div class="flex flex-col">
               <div class="flex flex-row py-2">
                 <div class="w-8/12 flex flex-col">
                   <span class="text-lg text-black font-Lato font-semibold	">Farming Task 1</span>
                   <span class="font-Lato">Coronodo Feed Center, Arizona</span>
                 </div>
-                <div class="w-4/12 flex justify-end">
+
+                <div class="w-4/12 flex justify-end rounded-3xl h-6 flex items-center justify-center"
+                  [ngStyle]="{'background-color':'#E6F0F9'}">
                   <span class="text-sm font-Lato">Ticket#: </span>
                   <span class="text-sm text-black font-Lato"> {{"334355"}}</span>
                 </div>
@@ -51,7 +67,8 @@
                   <span class="text-lg text-black font-Lato font-semibold	">Farming Task 2</span>
                   <span class="font-Lato">Coronodo Feed Center, Arizona</span>
                 </div>
-                <div class="w-4/12 flex justify-end">
+                <div class="w-4/12 flex justify-end rounded-3xl h-6 flex items-center justify-center"
+                  [ngStyle]="{'background-color':'#E6F0F9'}">
                   <span class="text-sm font-Lato">Ticket#: </span>
                   <span class="text-sm text-black font-Lato"> {{"334355"}}</span>
                 </div>
@@ -79,7 +96,8 @@
                   <span class="text-lg text-black font-Lato font-semibold	">Farming Task 3</span>
                   <span class="font-Lato">Coronodo Feed Center, Arizona</span>
                 </div>
-                <div class="w-4/12 flex justify-end">
+                <div class="w-4/12 flex justify-end rounded-3xl h-6 flex items-center justify-center"
+                  [ngStyle]="{'background-color':'#E6F0F9'}">
                   <span class="text-sm font-Lato">Ticket#: </span>
                   <span class="text-sm text-black font-Lato"> {{"334355"}}</span>
                 </div>

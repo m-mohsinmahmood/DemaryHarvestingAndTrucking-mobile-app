@@ -1,11 +1,7 @@
-<ion-header class="ion-no-border">
-  <ion-toolbar>
-    <ion-icon name="chevron-back-outline" (click)="goBack()"></ion-icon>
-    <ion-title class="font-Lato">Ticket Generated</ion-title>
-  </ion-toolbar>
-</ion-header>
+<app-header [title]="'Ticket Generated'" [color]="'trucking'"></app-header>
 
 <ion-content>
+  <app-timer [value]="'22-22-2022'"></app-timer>
   <!-- <ion-text class="flex justify-end">Edit</ion-text> -->
   <ion-card>
     <ion-card-header>
@@ -15,7 +11,7 @@
       <ion-grid>
 
         <!-- First Row -->
-        <ion-row class="mb-5 h-20">
+        <ion-row class="h-20 flex content-center pl-4">
           <ion-col size="6" class="flex flex-col">
             <p class="font-Lato text-black font-bold font-14">Ticket #</p>
             <span class="font-Lato font-14">33213</span>
@@ -26,7 +22,7 @@
           </ion-col>
         </ion-row>
 
-        <ion-row class="mb-5 h-20">
+        <ion-row class="h-20 flex content-center pl-4">
           <ion-col size="6" class="flex flex-col">
             <p class="font-Lato text-black font-bold font-14">Load Date</p>
             <span class="font-Lato font-14">22-11-2022</span>
@@ -37,7 +33,7 @@
           </ion-col>
         </ion-row>
 
-        <ion-row class="mb-5 h-20">
+        <ion-row class="h-20 flex content-center pl-4">
           <ion-col size="6" class="flex flex-col">
             <p class="font-Lato text-black font-bold font-14">Customer</p>
             <span class="font-Lato font-14">Mike</span>
@@ -48,7 +44,7 @@
           </ion-col>
         </ion-row>
 
-        <ion-row class="mb-5 h-20">
+        <ion-row class="h-20 flex content-center pl-4">
           <ion-col size="6" class="flex flex-col">
             <p class="font-Lato text-black font-bold font-14">Destination City</p>
             <span class="font-Lato font-14">Dakota</span>
@@ -59,7 +55,7 @@
           </ion-col>
         </ion-row>
 
-        <ion-row class="mb-5 h-20">
+        <ion-row class="h-20 flex content-center pl-4">
           <ion-col size="6" class="flex flex-col">
             <p class="font-Lato text-black font-bold font-14">Destination State</p>
             <span class="font-Lato font-14">California</span>
@@ -70,7 +66,7 @@
           </ion-col>
         </ion-row>
 
-        <ion-row class="mb-5 h-20">
+        <ion-row class="h-20 flex content-center pl-4">
           <ion-col size="6" class="flex flex-col">
             <p class="font-Lato text-black font-bold font-14">Rate Type</p>
             <span class="font-Lato font-14">Type</span>
@@ -81,13 +77,13 @@
           </ion-col>
         </ion-row>
 
-        <ion-row class="mb-5 h-20">
+        <ion-row class="h-20 flex content-center pl-4">
           <ion-col class="flex flex-col">
             <p class="font-Lato text-black font-bold font-14">Load Rate Sheet (Pictures)</p>
           </ion-col>
         </ion-row>
 
-        <ion-row>
+        <ion-row class="h-20 flex content-center pl-4">
           <ion-col size="4">
             <ion-img src="https://docs-demo.ionic.io/assets/madison.jpg"></ion-img>
           </ion-col>

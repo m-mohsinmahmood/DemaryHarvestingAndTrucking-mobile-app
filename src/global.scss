@@ -26,29 +26,8 @@
 @import "~@ionic/angular/css/flex-utils.css";
 
 button {
-    border-top-style: inherit !important;
-    border-right-style: inherit !important;
-    border-bottom-style: inherit !important;
-    border-left-style: inherit !important;
-}
-
-// .custom-segment {
-//     ion-segment-button {
-//         --color-checked: var(--ion-color-primary);
-//     }
-// }
-
-// ion-chip {
-//     font-size: x-small !important;
-//     ion-icon {
-//         font-size: small !important;
-//     }
-// }
-
-// ion-menu {
-//     max-width: 280px !important;
-// }
-@font-face {
-  font-family: 'Lato';
-  src: url('./assets/fonts/Lato/Lato-Regular.ttf');
+  border-top-style: inherit !important;
+  border-right-style: inherit !important;
+  border-bottom-style: inherit !important;
+  border-left-style: inherit !important;
 }

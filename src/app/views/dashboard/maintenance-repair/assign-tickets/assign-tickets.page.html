@@ -6,9 +6,30 @@
   <div class="p-4">
     <div class="segment-style mt-4">
       <ion-segment [(ngModel)]="segment" scrollable>
-        <ion-segment-button value="unassigned"> Unassigned </ion-segment-button>
-        <ion-segment-button value="repair"> Repair </ion-segment-button>
-        <ion-segment-button value="maintenance"> Maintenance </ion-segment-button>
+        <ion-segment-button value="unassigned">
+          <div class="flex justify-center items-center">
+            <p class=" font-Lato">Unassigned</p>
+            <span class="text-white w-8 h-4 rounded-full flex justify-center items-center">
+              8</span>
+          </div>
+        </ion-segment-button>
+
+        <ion-segment-button value="repair">
+          <div class="flex justify-center items-center">
+            <p class=" font-Lato">Repair</p>
+            <span class="text-white w-8 h-4 rounded-full flex justify-center items-center">
+              8</span>
+          </div>
+        </ion-segment-button>
+
+        <ion-segment-button value="maintenance">
+          <div class="flex justify-center items-center">
+            <p class=" font-Lato">Maintenance</p>
+            <span class="text-white w-8 h-4 rounded-full flex justify-center items-center">
+              8</span>
+          </div>
+        </ion-segment-button>
+
       </ion-segment>
 
       <div [ngSwitch]="segment" class="mt-8">

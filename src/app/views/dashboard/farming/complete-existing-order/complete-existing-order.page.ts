@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Location } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-complete-existing-order',
@@ -8,12 +8,12 @@ import { Location } from '@angular/common';
 })
 export class CompleteExistingOrderPage implements OnInit {
 
-  constructor(private location: Location) { }
+  constructor(private activeRoute: Router) { }
 
   ngOnInit() {
   }
 
-  goBack() {
-    this.location.back();
+  navigateTo() {
+    this.activeRoute.navigateByUrl('/dashboard/farming');
   }
 }

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-create-ticket',
@@ -12,14 +11,9 @@ export class CreateTicketPage implements OnInit {
   imgRes: string[] = [];
 
   constructor(
-    private location: Location
   ) { }
 
   ngOnInit() {
-  }
-
-  goBack() {
-    this.location.back();
   }
 
   chooseImage(event) {

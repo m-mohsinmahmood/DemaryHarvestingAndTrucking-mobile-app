@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { CommercialPageRoutingModule } from './commercial-routing.module';
 
 import { CommercialPage } from './commercial.page';
+import { HeaderModule } from 'src/app/components/header/header.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    CommercialPageRoutingModule
+    CommercialPageRoutingModule,
+    HeaderModule
   ],
   declarations: [CommercialPage]
 })

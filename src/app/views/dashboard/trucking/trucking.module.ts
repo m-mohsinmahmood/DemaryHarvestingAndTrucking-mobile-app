@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { TruckingPageRoutingModule } from './trucking-routing.module';
 
 import { TruckingPage } from './trucking.page';
+import { HeaderModule } from 'src/app/components/header/header.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    TruckingPageRoutingModule
+    TruckingPageRoutingModule,
+    HeaderModule
   ],
   declarations: [TruckingPage]
 })

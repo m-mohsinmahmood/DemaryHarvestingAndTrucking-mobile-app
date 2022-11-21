@@ -4,19 +4,21 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { InHousePageRoutingModule } from './in-house-routing.module';
+import { DummyPageRoutingModule } from './dummy-routing.module';
 
-import { InHousePage } from './in-house.page';
+import { DummyPage } from './dummy.page';
 import { HeaderModule } from 'src/app/components/header/header.module';
+import { TimerModule } from 'src/app/components/timer/timer.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    InHousePageRoutingModule,
-    HeaderModule
+    DummyPageRoutingModule,
+    HeaderModule,
+    TimerModule
   ],
-  declarations: [InHousePage]
+  declarations: [DummyPage]
 })
-export class InHousePageModule {}
+export class DummyPageModule {}

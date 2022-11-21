@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { TicketGeneratedPage } from './ticket-generated.page';
+
+import { DummyPage } from './dummy.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: TicketGeneratedPage
+    component: DummyPage
   }
 ];
 
@@ -13,4 +14,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class TicketGeneratedPageRoutingModule { }
+export class DummyPageRoutingModule {}

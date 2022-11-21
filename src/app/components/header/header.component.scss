@@ -19,6 +19,18 @@ ion-header {
       --background: #FF7272;
     }
 
+    &.farming {
+      --background: #F5993F;
+    }
+
+    &.trucking {
+      --background: #4256F9;
+    }
+
+    &.others {
+      --background: #455769;
+    }
+
     ion-icon {
       zoom: 1.8;
     }

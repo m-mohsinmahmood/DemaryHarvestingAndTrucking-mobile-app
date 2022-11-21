@@ -7,14 +7,18 @@ import { IonicModule } from '@ionic/angular';
 import { CloseOutOrderPageRoutingModule } from './close-out-order-routing.module';
 
 import { CloseOutOrderPage } from './close-out-order.page';
+import { HeaderModule } from 'src/app/components/header/header.module';
+import { TimerModule } from 'src/app/components/timer/timer.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    CloseOutOrderPageRoutingModule
+    CloseOutOrderPageRoutingModule,
+    HeaderModule,
+    TimerModule
   ],
   declarations: [CloseOutOrderPage]
 })
-export class CloseOutOrderPageModule {}
+export class CloseOutOrderPageModule { }

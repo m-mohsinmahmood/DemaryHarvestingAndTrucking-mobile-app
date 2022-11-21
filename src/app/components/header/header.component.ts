@@ -14,7 +14,15 @@ export class HeaderComponent implements OnInit {
     private location: Location
   ) { }
 
-  ngOnInit() { }
+  ngOnInit() { 
+    console.log("dsadsa");
+    
+  }
+
+  ionViewDidEnter (){
+    console.log("DId");
+    
+  }
   goBack() {
     this.location.back();
   }

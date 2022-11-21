@@ -7,20 +7,21 @@ module.exports = {
         'primary-background': '#F5F5F5',
         'navbar-background': '#0E172A',
         'project-green': '#59C64F',
-        'taskbar':'#888B8D',
-        'E64646':'#E64646',
-        'e64646':'#e64646',
-        '81809F':'#81809F',
-        'bec1be':'#bec1be',
-        '636366':'#636366',
-        'aaaaaa':'#aaaaaa',
-        'e9e6e6':'#e9e6e6',
-        'FFCD29':'#FFCD29',
-        '9B9BA4':'#9B9BA4',
-        'd9d9d95c':'#d9d9d95c'
+        'greenBtn': '#5BBE62',
+        'taskbar': '#888B8D',
+        'E64646': '#E64646',
+        'e64646': '#e64646',
+        '81809F': '#81809F',
+        'bec1be': '#bec1be',
+        '636366': '#636366',
+        'aaaaaa': '#aaaaaa',
+        'e9e6e6': '#e9e6e6',
+        'FFCD29': '#FFCD29',
+        '9B9BA4': '#9B9BA4',
+        'd9d9d95c': '#d9d9d95c'
       },
-      fontFamily:{
-          'Lato':['"Lato"']
+      fontFamily: {
+        'Lato': ['"Lato"']
       }
     },
   },

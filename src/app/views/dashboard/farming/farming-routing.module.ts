@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-
 import { FarmingPage } from './farming.page';
 
 const routes: Routes = [
@@ -26,11 +25,11 @@ const routes: Routes = [
   },
   {
     path: 'change-field',
-    loadChildren: () => import('./change-field/change-field.module').then( m => m.ChangeFieldPageModule)
+    loadChildren: () => import('./change-field/change-field.module').then(m => m.ChangeFieldPageModule)
   },
   {
     path: 'close-out-order',
-    loadChildren: () => import('./close-out-order/close-out-order.module').then( m => m.CloseOutOrderPageModule)
+    loadChildren: () => import('./close-out-order/close-out-order.module').then(m => m.CloseOutOrderPageModule)
   },
 
 ];

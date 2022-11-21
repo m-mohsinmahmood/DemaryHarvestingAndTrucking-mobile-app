@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-verify-orders',
@@ -10,14 +9,10 @@ export class VerifyOrdersPage implements OnInit {
   segment = 'sent'; // For Segment
 
   constructor(
-    private location: Location
 
   ) { }
 
   ngOnInit() {
-  }
-  goBack() {
-    this.location.back();
   }
 
 }

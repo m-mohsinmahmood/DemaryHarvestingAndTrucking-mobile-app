@@ -7,14 +7,18 @@ import { IonicModule } from '@ionic/angular';
 import { TicketGeneratedPageRoutingModule } from './ticket-generated-routing.module';
 
 import { TicketGeneratedPage } from './ticket-generated.page';
+import { HeaderModule } from 'src/app/components/header/header.module';
+import { TimerModule } from 'src/app/components/timer/timer.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    TicketGeneratedPageRoutingModule
+    TicketGeneratedPageRoutingModule,
+    HeaderModule,
+    TimerModule
   ],
   declarations: [TicketGeneratedPage]
 })
-export class TicketGeneratedPageModule {}
+export class TicketGeneratedPageModule { }

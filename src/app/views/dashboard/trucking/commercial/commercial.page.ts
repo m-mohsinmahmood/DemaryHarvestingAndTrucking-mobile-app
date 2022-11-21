@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-commercial',
@@ -9,15 +8,11 @@ import { Location } from '@angular/common';
 export class CommercialPage implements OnInit {
 
   roleOptions = ['crew-chief', 'truck-driver']
-  role = this.roleOptions[0];
+  role = this.roleOptions[1];
 
-  constructor(private location: Location) { }
+  constructor() { }
 
   ngOnInit() {
-  }
-
-  goBack() {
-    this.location.back();
   }
 
 }
