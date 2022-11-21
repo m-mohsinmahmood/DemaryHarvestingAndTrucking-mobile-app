@@ -13,14 +13,14 @@
     </ion-select>
   </ion-item>
   <ion-item class="mt-6">
-    <ion-select placeholder="Evaluation Form" interface="alert">
-      <ion-select-option value="1">Pre-Trip Check</ion-select-option>
-      <ion-select-option value="2">Basic Skills</ion-select-option>
-      <ion-select-option value="2">road Test Skills</ion-select-option>
-      <ion-select-option value="2">Summary</ion-select-option>
+    <ion-select placeholder="Evaluation Form" interface="alert" (ionChange)="onSelectEvaluation($event)">
+      <ion-select-option value="pre-check">Pre-Trip Check</ion-select-option>
+      <ion-select-option value="basic-skills">Basic Skills</ion-select-option>
+      <ion-select-option value="road-skills">Road Test Skills</ion-select-option>
+      <ion-select-option value="summary">Summary</ion-select-option>
     </ion-select>
   </ion-item>
-  <ion-item class="mt-6">
+  <ion-item class="mt-6" *ngIf="!(evaluationType === 'summary')">
     <ion-select placeholder="Type of Evaluation Form" interface="alert" (ionChange)="onSelect($event)">
       <ion-select-option value="paper-form">Paper Form</ion-select-option>
       <ion-select-option value="digital-form">Digital Form</ion-select-option>

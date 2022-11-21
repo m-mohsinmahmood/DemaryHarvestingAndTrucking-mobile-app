@@ -3,7 +3,7 @@
   [title]="role ==='crew-chief'? 'Enter Begining of Day Work Data' : '' ||
 role === 'combine-operator'? 'Enter Begining of Day Work Data': '' ||
 role ==='kart-operator'? 'Enter Begining of Day Work Data' : '' ||
-role ==='truck-driver'? 'Start Truck Driver Job' : ''"
+role ==='truck-driver'? 'Enter Begining of Day Work Data' : ''"
 [color]="'harvesting'"
 ></app-header>
 
@@ -127,23 +127,8 @@ role ==='truck-driver'? 'Start Truck Driver Job' : ''"
 
 <!-- Truck-Operator -->
 <ion-content *ngIf="role === 'truck-driver'">
+  <app-timer [value]="'23:00:12'"></app-timer>
   <div class="p-4">
-<ion-grid class="mt-2">
-  <ion-row>
-    <ion-col size="6" class="">
-    <div class="flex justify-start items-center ">
-      <ion-icon name="time-outline" class="w-6 h-6" [ngStyle]="{'color':'#888B8D'}"></ion-icon>
-      <span class="ml-2 text-lg font-Lato"  [ngStyle]="{'color':'#888B8D'}">09:00 AM</span>
-    </div>
-    </ion-col>
-    <ion-col size="6" class="">
-      <div class="flex justify-center items-center">
-        <ion-icon name="calendar-outline" class="w-6 h-6" [ngStyle]="{'color':'#888B8D'}"></ion-icon>
-        <span class="ml-2 text-lg font-Lato"  [ngStyle]="{'color':'#888B8D'}">Oct 08, 2022</span>
-      </div>
-      </ion-col>
-  </ion-row>
-</ion-grid>
 <ion-card class="m-0 mb-2">
   <ion-card-header>
     <ion-card-title class="font-Lato">Customer Profile</ion-card-title>
@@ -151,13 +136,13 @@ role ==='truck-driver'? 'Start Truck Driver Job' : ''"
   <ion-card-content>
     <ion-grid>
       <ion-row>
-        <ion-col size="6" class="text-sm text-black font-Lato">Customer Name</ion-col>
+        <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Customer Name</ion-col>
         <ion-col size="6" class="text-sm flex justify-end font-Lato">Mike Allen</ion-col>
-        <ion-col size="6" class="text-sm text-black font-Lato">State</ion-col>
+        <ion-col size="6" class="text-sm text-black font-Lato font-semibold">State</ion-col>
         <ion-col size="6" class="text-sm flex justify-end font-Lato">Arizona</ion-col>
-        <ion-col size="6" class="text-sm text-black font-Lato">Farm</ion-col>
+        <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Farm</ion-col>
         <ion-col size="6" class="text-sm flex justify-end font-Lato">Dakota </ion-col>
-        <ion-col size="6" class="text-sm text-black font-Lato">Crop</ion-col>
+        <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Crop</ion-col>
         <ion-col size="6" class="text-sm flex justify-end font-Lato">Corn</ion-col>
       </ion-row>
     </ion-grid>
@@ -167,20 +152,20 @@ role ==='truck-driver'? 'Start Truck Driver Job' : ''"
 <p class="text-xl font-bold font-Lato mt-8">Job Set-up</p>
 <div class="">
   <ion-item>
-    <ion-label position="floating">Truck ID</ion-label>
+    <ion-label position="floating" class="font">Truck ID</ion-label>
     <ion-input placeholder="Enter Truck ID"></ion-input>
   </ion-item>
 
   <ion-item>
-    <ion-label position="floating">Crew Chief</ion-label>
+    <ion-label position="floating" class="font">Crew Chief</ion-label>
     <ion-input placeholder="Enter Crew Chief"></ion-input>
   </ion-item>
   <ion-item>
-    <ion-label position="floating">Truck Company</ion-label>
+    <ion-label position="floating" class="font">Truck Company</ion-label>
     <ion-input placeholder="Enter Truck Company"></ion-input>
   </ion-item>
   <ion-item>
-    <ion-label position="floating">Confirm Begining Odometer Miles</ion-label>
+    <ion-label position="floating" class="font">Confirm Begining Odometer Miles</ion-label>
     <ion-input placeholder="Enter Confirm Begining Odometer Miles"></ion-input>
   </ion-item>
 </div>

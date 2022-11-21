@@ -18,7 +18,18 @@ module.exports = {
         'e9e6e6': '#e9e6e6',
         'FFCD29': '#FFCD29',
         '9B9BA4': '#9B9BA4',
-        'd9d9d95c': '#d9d9d95c'
+        'd9d9d95c': '#d9d9d95c',
+        'E64646':'#E64646',
+        'e64646':'#e64646',
+        '81809F':'#81809F',
+        'bec1be':'#bec1be',
+        '636366':'#636366',
+        'aaaaaa':'#aaaaaa',
+        'e9e6e6':'#e9e6e6',
+        'FFCD29':'#FFCD29',
+        '9B9BA4':'#9B9BA4',
+        'd9d9d95c':'#d9d9d95c',
+        '46464E':'#46464E'
       },
       fontFamily: {
         'Lato': ['"Lato"']

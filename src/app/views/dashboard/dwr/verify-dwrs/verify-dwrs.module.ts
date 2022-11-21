@@ -8,14 +8,16 @@ import { VerifyDwrsPageRoutingModule } from './verify-dwrs-routing.module';
 
 import { VerifyDwrsPage } from './verify-dwrs.page';
 import { HeaderModule } from 'src/app/components/header/header.module';
+import { TimerModule } from 'src/app/components/timer/timer.module';
 
 @NgModule({
   imports: [
-  CommonModule,
+CommonModule,
     FormsModule,
     IonicModule,
     VerifyDwrsPageRoutingModule,
-    HeaderModule
+    HeaderModule,
+    TimerModule
   ],
   declarations: [VerifyDwrsPage]
 })
