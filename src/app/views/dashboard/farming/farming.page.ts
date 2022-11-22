@@ -7,12 +7,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FarmingPage implements OnInit {
 
-  rolesOptions = ['dispatcher', 'tractor-driver']
+  rolesOptions = ['dispatcher', 'tractor-driver'];
   role = this.rolesOptions[1];
 
   constructor() { }
 
   ngOnInit() {
+    this.role = localStorage.getItem('role');
+
   }
 
 }

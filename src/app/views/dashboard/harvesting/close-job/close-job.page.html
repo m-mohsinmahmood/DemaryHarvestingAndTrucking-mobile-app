@@ -11,22 +11,30 @@ role ==='truck-driver'? 'Submit End of Day Work Data' : ''"
   <app-timer [value]="'22:32:43'"></app-timer>
   <div class="p-4">
     <div>
-      <form novalidate>
+      <form [formGroup]="closeJobForm">
         <ion-list>
           <div>
             <ion-item>
               <ion-label position="floating" class="font">Separator Hours(Ending)</ion-label>
-              <ion-input placeholder="State"></ion-input>
+              <ion-input placeholder="State" formControlName="separatorHours"></ion-input>
+              <ion-text *ngIf="this.closeJobForm.get('separatorHours').hasError('required')" class="text-xs font-semibold font-Lato text-red-500">Separator Hours(Ending) required</ion-text>
+
+              <ion-text></ion-text>
             </ion-item>
             <ion-item>
               <ion-label position="floating" class="font">Engine Hours(Ending)</ion-label>
-              <ion-input placeholder="Customer Name"></ion-input>
+              <ion-input placeholder="Customer Name" formControlName="engineHours"></ion-input>
+              <ion-text *ngIf="this.closeJobForm.get('engineHours').hasError('required')" class="text-xs font-semibold font-Lato text-red-500">Engine Hours(Ending) required</ion-text>
+
             </ion-item>
             <ion-item>
               <ion-label position="floating" class="font">GPS Acres Completed</ion-label>
-              <ion-input placeholder="Farm"></ion-input>
+              <ion-input placeholder="Farm" formControlName="acresGPSCompleted"></ion-input>
+              <ion-text *ngIf="this.closeJobForm.get('acresGPSCompleted').hasError('required')" class="text-xs font-semibold font-Lato text-red-500">GPS Acres Completed required</ion-text>
             </ion-item>
             <ion-button expand="block" class="mt-5 font-Lato text-white"
+            [disabled]="closeJobForm.invalid"
+            (click)="submit()"
               >Save</ion-button
             >
           </div>
@@ -75,23 +83,32 @@ role ==='truck-driver'? 'Submit End of Day Work Data' : ''"
         </ion-grid>
       </ion-card-content>
     </ion-card>
-    <div class="">
-      <ion-item>
-        <ion-label position="floating" class="font">Ending Separator Hours</ion-label>
-        <ion-input placeholder="Enter Separator Hours"></ion-input>
+    <form [formGroup]="closeJobForm">
+      <div>
+        <ion-item>
+          <ion-label position="floating" class="font">Separator Hours(Ending)</ion-label>
+          <ion-input placeholder="State" formControlName="separatorHours"></ion-input>
+          <ion-text *ngIf="this.closeJobForm.get('separatorHours').hasError('required')" class="text-xs font-semibold font-Lato text-red-500">Separator Hours(Ending) required</ion-text>
+
+        <ion-text></ion-text>
       </ion-item>
       <ion-item>
-        <ion-label position="floating" class="font">Ending Engine Hours</ion-label>
-        <ion-input placeholder="Enter Ending Engine Hours"></ion-input>
+        <ion-label position="floating" class="font">Engine Hours(Ending)</ion-label>
+        <ion-input placeholder="Customer Name" formControlName="engineHours"></ion-input>
+        <ion-text *ngIf="this.closeJobForm.get('engineHours').hasError('required')" class="text-xs font-semibold font-Lato text-red-500">Engine Hours(Ending) required</ion-text>
       </ion-item>
       <ion-item>
         <ion-label position="floating" class="font">GPS Acres Completed</ion-label>
-        <ion-input placeholder="Enter GPS Acres Completed"></ion-input>
+        <ion-input placeholder="Farm" formControlName="acresGPSCompleted"></ion-input>
+        <ion-text *ngIf="this.closeJobForm.get('acresGPSCompleted').hasError('required')" class="text-xs font-semibold font-Lato text-red-500">GPS Acres Completed required</ion-text>
       </ion-item>
-    </div>
-    <ion-button expand="block" class="mt-5 font-Lato text-white"
+      <ion-button expand="block" class="mt-5 font-Lato text-white"
+      [disabled]="closeJobForm.invalid"
+      (click)="submit()"
       >Save and Close-out Job</ion-button
-    >
+      >
+    </div>
+  </form>
   </div>
 </ion-content>
 
@@ -99,15 +116,18 @@ role ==='truck-driver'? 'Submit End of Day Work Data' : ''"
 <ion-content *ngIf="role === 'kart-operator'">
   <app-timer [value]="'23:22:01'"></app-timer>
   <div class="p-4">
-    <div class="">
-      <ion-item>
-        <ion-label position="floating" class="font">Enter Ending Engine Hours</ion-label>
-        <ion-input placeholder="Enter Ending Engine Hours"></ion-input>
-      </ion-item>
-    </div>
-    <ion-button expand="block" class="mt-5 font-Lato text-white"
-      >Save and Close-out Job</ion-button
-    >
+    <form [formGroup]="closeJobFormKart">
+      <div class="">
+        <ion-item>
+          <ion-label position="floating" class="font">Enter Ending Engine Hours</ion-label>
+          <ion-input placeholder="Enter Ending Engine Hours" formControlName="engineHours"></ion-input>
+          <ion-text *ngIf="this.closeJobFormKart.get('engineHours').hasError('required')" class="text-xs font-semibold font-Lato text-red-500">Ending Engine Hours required</ion-text>
+        </ion-item>
+      </div>
+      <ion-button expand="block" class="mt-5 font-Lato text-white"
+      [disabled]="closeJobFormKart.invalid"
+       (click)="submit()">Save and Close-out Job</ion-button>
+    </form>
   </div>
 </ion-content>
 

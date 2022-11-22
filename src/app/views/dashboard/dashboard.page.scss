@@ -32,3 +32,23 @@
     color: white;
   }
 }
+ion-select {
+  --placeholder-color: #5BBE62;
+  --placeholder-opacity: 1;
+  font-size: 18px;
+  // font-weight:bolder;
+  font-family: 'Lato';
+  width: fit-content;
+  height: 36px;
+  // border-radius: 20px;
+  // border-color: #5BBE62;
+
+}
+ion-select::part(placeholder) {
+  font-weight: 500;
+  color: #5BBE62;
+}
+ion-select::part(icon) {
+  color: #5BBE62;
+  opacity: 1;
+}
