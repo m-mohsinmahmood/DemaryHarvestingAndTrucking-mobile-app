@@ -12,9 +12,10 @@ const routes: Routes = [
     loadChildren: () => import('./views/tabs/tabs.module').then(m => m.TabsPageModule)
   },
   {
-    path: 'dashboard',
-    loadChildren: () => import('./views/dashboard/dashboard.module').then(m => m.DashboardPageModule)
+    path: 'complete-pre-check-form',
+    loadChildren: () => import('./pages/complete-pre-check-form/complete-pre-check-form.module').then( m => m.CompletePreCheckFormPageModule)
   },
+
 
 ];
 

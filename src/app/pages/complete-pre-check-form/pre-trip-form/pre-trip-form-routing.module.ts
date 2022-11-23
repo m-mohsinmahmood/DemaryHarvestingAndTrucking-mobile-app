@@ -9,8 +9,8 @@ const routes: Routes = [
     component: PreTripFormPage
   },
   {
-    path: 'pre-trip-categories',
-    loadChildren: () => import('./pre-trip-categories/pre-trip-categories.module').then( m => m.PreTripCategoriesPageModule)
+    path: 'engine-check',
+    loadChildren: () => import('./engine-check/engine-check.module').then( m => m.EngineCheckPageModule)
   }
 ];
 

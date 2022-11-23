@@ -1,0 +1,222 @@
+<app-header [title]="['Pre-Trip Check Form Truck']" [color]="'trucking'"></app-header>
+
+<ion-content>
+  <app-timer [value]="'12-12-2020'"></app-timer>
+  <div class="p-4 pb-0">
+
+    <div class="mx-4 my-2">
+      <ion-progress-bar class="mb-2" [buffer]="buffer" [value]="progress"></ion-progress-bar>
+      <ion-text class="text-lg justify-start flex font-Lato text-black ml-2">{{progress * 5}} of 5
+        Completed</ion-text>
+    </div>
+
+  </div>
+
+  <div class="p-4 pt-0">
+    <ion-text>
+      <h2 class="font-semibold ml-4">Engine / Compartment</h2>
+      <p class="ml-4">Please select items that needs M&R attention:</p>
+    </ion-text>
+
+    <form [formGroup]="engineCheckForm">
+      <fieldset id="air-compressor-engine">
+        <ion-item>
+          <div class="mt-4 mb-6">
+            <label class="font-bold">Air Compressor Engine</label>
+            <div class="flex">
+              <div class="h-full">
+                <label class="radio mt-4 flex">
+                  <input class="satisfactory" name="air-compressor-engine" type="radio" value="satisfactory"
+                    (change)="isChecked($event)">
+                  <span>Satisfactory</span>
+                </label>
+              </div>
+              <label class="radio mt-4 ml-8">
+                <input class="unsatisfactory" name="air-compressor-engine" type="radio" value="unsatisfactory"
+                  (change)="isChecked($event)">
+                <span>Unsatisfactory</span>
+              </label>
+            </div>
+            <div *ngFor="let box of checkItems">
+              <ion-textarea name="air-compressor-engine" *ngIf="box.itemName === 'air-compressor-engine'"
+                [ngClass]="box.itemStatus==='unsatisfactory' ? 'flex bg-slate-100 mt-4 px-4' : 'hidden'"
+                placeholder="Add Comments" value="{{box.notes}}" (ionChange)="addNotes($event)" [autocapitalize]="true">
+              </ion-textarea>
+            </div>
+          </div>
+        </ion-item>
+      </fieldset>
+
+      <fieldset id="belts-hoses">
+        <ion-item>
+          <div class="mt-4 mb-6">
+            <label class="font-bold">Belts & Hoses</label>
+            <div class="flex">
+              <div class="h-full">
+                <label class="radio mt-4 flex">
+                  <input class="satisfactory" name="beltsHoses" type="radio" value="satisfactory" checked
+                    (change)="isChecked($event)">
+                  <span>Satisfactory</span>
+                </label>
+              </div>
+              <label class="radio mt-4 ml-8">
+                <input class="unsatisfactory" name="beltsHoses" type="radio" value="unsatisfactory"
+                  (change)="isChecked($event)">
+                <span>Unsatisfactory</span>
+              </label>
+            </div>
+            <div *ngFor="let box of checkItems">
+              <ion-textarea name="beltsHoses" *ngIf="box.itemName === 'beltsHoses'"
+                [ngClass]="box.itemStatus==='unsatisfactory' ? 'flex bg-slate-100 mt-4 px-4' : 'hidden'"
+                placeholder="Add Comments" value="{{box.notes}}" (ionChange)="addNotes($event)" [autocapitalize]="true">
+              </ion-textarea>
+            </div>
+          </div>
+        </ion-item>
+      </fieldset>
+
+      <fieldset id="radiator">
+        <ion-item>
+          <div class="mt-4 mb-6">
+            <label class="font-bold">Radiator</label>
+            <div class="flex">
+              <div class="h-full">
+                <label class="radio mt-4 flex">
+                  <input class="satisfactory" name="radiator" type="radio" value="satisfactory" checked
+                    (change)="isChecked($event)">
+                  <span>Satisfactory</span>
+                </label>
+              </div>
+              <label class="radio mt-4 ml-8">
+                <input class="unsatisfactory" name="radiator" type="radio" value="unsatisfactory"
+                  (change)="isChecked($event)">
+                <span>Unsatisfactory</span>
+              </label>
+            </div>
+            <div *ngFor="let box of checkItems">
+              <ion-textarea name="radiator" *ngIf="box.itemName === 'radiator'"
+                [ngClass]="box.itemStatus==='unsatisfactory' ? 'flex bg-slate-100 mt-4 px-4' : 'hidden'"
+                placeholder="Add Comments" value="{{box.notes}}" (ionChange)="addNotes($event)" [autocapitalize]="true">
+              </ion-textarea>
+            </div>
+          </div>
+        </ion-item>
+      </fieldset>
+
+      <fieldset id="steering">
+        <ion-item>
+          <div class="mt-4 mb-6">
+            <label class="font-bold">Steering</label>
+            <div class="flex">
+              <div class="h-full">
+                <label class="radio mt-4 flex">
+                  <input class="satisfactory" name="steering" type="radio" value="satisfactory" checked
+                    (change)="isChecked($event)">
+                  <span>Satisfactory</span>
+                </label>
+              </div>
+              <label class="radio mt-4 ml-8">
+                <input class="unsatisfactory" name="steering" type="radio" value="unsatisfactory"
+                  (change)="isChecked($event)">
+                <span>Unsatisfactory</span>
+              </label>
+            </div>
+            <div *ngFor="let box of checkItems">
+              <ion-textarea name="steering" *ngIf="box.itemName === 'steering'"
+                [ngClass]="box.itemStatus==='unsatisfactory' ? 'flex bg-slate-100 mt-4 px-4' : 'hidden'"
+                placeholder="Add Comments" value="{{box.notes}}" (ionChange)="addNotes($event)" [autocapitalize]="true">
+              </ion-textarea>
+            </div>
+          </div>
+        </ion-item>
+      </fieldset>
+
+      <fieldset id="oil">
+        <ion-item>
+          <div class="mt-4 mb-6">
+            <label class="font-bold">Oil Level</label>
+            <div class="flex">
+              <div class="h-full">
+                <label class="radio mt-4 flex">
+                  <input class="satisfactory" name="oil" type="radio" value="satisfactory" checked
+                    (change)="isChecked($event)">
+                  <span>Satisfactory</span>
+                </label>
+              </div>
+              <label class="radio mt-4 ml-8">
+                <input class="unsatisfactory" name="oil" type="radio" value="unsatisfactory"
+                  (change)="isChecked($event)">
+                <span>Unsatisfactory</span>
+              </label>
+            </div>
+            <div *ngFor="let box of checkItems">
+              <ion-textarea name="oil" *ngIf="box.itemName === 'oil'"
+                [ngClass]="box.itemStatus==='unsatisfactory' ? 'flex bg-slate-100 mt-4 px-4' : 'hidden'"
+                placeholder="Add Comments" value="{{box.notes}}" (ionChange)="addNotes($event)" [autocapitalize]="true">
+              </ion-textarea>
+            </div>
+          </div>
+        </ion-item>
+      </fieldset>
+
+      <fieldset id="fluid">
+        <ion-item>
+          <div class="mt-4 mb-6">
+            <label class="font-bold">Fluid Levels</label>
+            <div class="flex">
+              <div class="h-full">
+                <label class="radio mt-4 flex">
+                  <input class="satisfactory" name="fluid" type="radio" value="satisfactory" checked
+                    (change)="isChecked($event)">
+                  <span>Satisfactory</span>
+                </label>
+              </div>
+              <label class="radio mt-4 ml-8">
+                <input class="unsatisfactory" name="fluid" type="radio" value="unsatisfactory"
+                  (change)="isChecked($event)">
+                <span>Unsatisfactory</span>
+              </label>
+            </div>
+            <div *ngFor="let box of checkItems">
+              <ion-textarea name="fluid" *ngIf="box.itemName === 'fluid'"
+                [ngClass]="box.itemStatus==='unsatisfactory' ? 'flex bg-slate-100 mt-4 px-4' : 'hidden'"
+                placeholder="Add Comments" value="{{box.notes}}" (ionChange)="addNotes($event)" [autocapitalize]="true">
+              </ion-textarea>
+            </div>
+          </div>
+        </ion-item>
+      </fieldset>
+
+      <fieldset id="clutch">
+        <ion-item>
+          <div class="mt-4 mb-6">
+            <label class="font-bold">Clutch Condition</label>
+            <div class="flex">
+              <div class="h-full">
+                <label class="radio mt-4 flex">
+                  <input class="satisfactory" name="clutch" type="radio" value="satisfactory" checked
+                    (change)="isChecked($event)">
+                  <span>Satisfactory</span>
+                </label>
+              </div>
+              <label class="radio mt-4 ml-8">
+                <input class="unsatisfactory" name="clutch" type="radio" value="unsatisfactory"
+                  (change)="isChecked($event)">
+                <span>Unsatisfactory</span>
+              </label>
+            </div>
+            <div *ngFor="let box of checkItems">
+              <ion-textarea name="clutch" *ngIf="box.itemName === 'clutch'"
+                [ngClass]="box.itemStatus==='unsatisfactory' ? 'flex bg-slate-100 mt-4 px-4' : 'hidden'"
+                placeholder="Add Comments" value="{{box.notes}}" (ionChange)="addNotes($event)" [autocapitalize]="true">
+              </ion-textarea>
+            </div>
+          </div>
+        </ion-item>
+      </fieldset>
+    </form>
+
+    <ion-button expand="block" class="mt-5 font-Lato  text-white" (click)="submitForm()">Next
+    </ion-button>
+  </div>
+</ion-content>

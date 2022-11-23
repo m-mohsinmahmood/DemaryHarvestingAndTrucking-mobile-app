@@ -10,6 +10,9 @@ export class CreateTicketPage implements OnInit {
 
   constructor(private router: Router) { }
 
+  roleOptions = ['crew-chief', 'truck-driver']
+  role = this.roleOptions[1];
+
   ngOnInit() {
   }
 

@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { InHousePageRoutingModule } from './in-house-routing.module';
+import { EngineCheckPageRoutingModule } from './engine-check-routing.module';
 
-import { InHousePage } from './in-house.page';
+import { EngineCheckPage } from './engine-check.page';
 import { HeaderModule } from 'src/app/components/header/header.module';
 import { TimerModule } from 'src/app/components/timer/timer.module';
 
@@ -15,10 +15,11 @@ import { TimerModule } from 'src/app/components/timer/timer.module';
     CommonModule,
     FormsModule,
     IonicModule,
-    InHousePageRoutingModule,
+    EngineCheckPageRoutingModule,
     HeaderModule,
-    TimerModule
+    TimerModule,
+    ReactiveFormsModule
   ],
-  declarations: [InHousePage]
+  declarations: [EngineCheckPage]
 })
-export class InHousePageModule { }
+export class EngineCheckPageModule { }
