@@ -2,6 +2,19 @@ ion-header {
   .toolbar {
     color: #fff;
     padding: 6px 0px;
+    text-overflow: unset;
+   white-space: unset;
+  //  text-overflow: ellipsis !important;
+  //  white-space: normal;
+  //  position: static;
+   ion-title{
+    // text-overflow: ellipsis !important;
+    // white-space: normal;
+    // position: static;
+    text-overflow: unset;
+    white-space: unset;
+   }
+
 
     &.harvesting {
       --background: #129476;

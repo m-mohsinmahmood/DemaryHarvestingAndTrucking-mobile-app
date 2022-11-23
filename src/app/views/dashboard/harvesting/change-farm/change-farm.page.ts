@@ -11,7 +11,7 @@ import { states } from 'src/JSON/state';
 export class ChangeFarmPage implements OnInit {
   changeFarmForm: FormGroup;
   states: string[];
-
+role;
 
   constructor(
     private location: Location,
@@ -20,6 +20,8 @@ export class ChangeFarmPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.role = localStorage.getItem('role');
+
     this.changeFarmForm = this.formBuilder.group({
       state: ['',[Validators.required]],
       customerName: ['',[Validators.required]],

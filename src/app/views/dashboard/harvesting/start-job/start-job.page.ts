@@ -9,8 +9,11 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class StartJobPage implements OnInit {
 role: any;
-startJobForm: FormGroup;
+startJobFormCombine: FormGroup;
+startJobFormCrew: FormGroup;
 startJobFormKart: FormGroup;
+startJobFormTruck: FormGroup;
+
   constructor(
     private location: Location,
     private formBuilder: FormBuilder,
@@ -20,7 +23,21 @@ startJobFormKart: FormGroup;
 
   ngOnInit() {
     this.role = localStorage.getItem('role');
-    this.startJobForm = this.formBuilder.group({
+   this.initForms();
+
+  }
+  goBack(){
+    this.location.back();
+  }
+
+  initForms(){
+    this.startJobFormCrew = this.formBuilder.group({
+      machineId: ['',[Validators.required]],
+      separatorHours: ['',[Validators.required]],
+      engineHours: ['',[Validators.required]],
+      confirmField: ['',[Validators.required]],
+    });
+    this.startJobFormCombine = this.formBuilder.group({
       machineId: ['',[Validators.required]],
       separatorHours: ['',[Validators.required]],
       engineHours: ['',[Validators.required]],
@@ -30,13 +47,17 @@ startJobFormKart: FormGroup;
       machineId: ['',[Validators.required]],
       engineHours: ['',[Validators.required]],
     });
-
-  }
-  goBack(){
-    this.location.back();
+    this.startJobFormTruck = this.formBuilder.group({
+      truckId: ['',[Validators.required]],
+      crewChief: ['',[Validators.required]],
+      truckCompany: ['',[Validators.required]],
+      beginingOdometerMiles: ['',[Validators.required]],
+    });
   }
   submit(){
-    console.log(this.startJobForm.value);
-    console.log(this.startJobFormKart.value);
+          console.log(this.startJobFormCrew.value);
+          console.log(this.startJobFormCombine.value);
+          console.log(this.startJobFormKart.value);
+          console.log(this.startJobFormTruck.value);
   }
 }

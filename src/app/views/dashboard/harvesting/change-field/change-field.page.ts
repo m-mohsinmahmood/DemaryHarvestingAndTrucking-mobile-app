@@ -9,7 +9,10 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 })
 export class ChangeFieldPage implements OnInit {
 role: any;
-changeFieldForm: FormGroup;
+changeFieldFormChief: FormGroup;
+changeFieldFormKart: FormGroup;
+changeFieldFormCombine: FormGroup;
+
 
 constructor(
   private formBuilder: FormBuilder,
@@ -19,7 +22,15 @@ constructor(
 
 ngOnInit() {
   this.role = localStorage.getItem('role');
-  this.changeFieldForm = this.formBuilder.group({
+  this.changeFieldFormChief = this.formBuilder.group({
+    fieldName: ['',[Validators.required]],
+    acresPriorField: ['',[Validators.required]],
+  });
+  this.changeFieldFormKart = this.formBuilder.group({
+    fieldName: ['',[Validators.required]],
+    acresPriorField: ['',[Validators.required]],
+  });
+  this.changeFieldFormCombine = this.formBuilder.group({
     fieldName: ['',[Validators.required]],
     acresPriorField: ['',[Validators.required]],
   });
@@ -28,7 +39,10 @@ ngOnInit() {
     this.location.back();
   }
   submit(){
-    console.log(this.changeFieldForm.value);
+    console.log(this.changeFieldFormChief.value);
+    console.log(this.changeFieldFormKart.value);
+    console.log(this.changeFieldFormCombine.value);
+
   }
 
 }

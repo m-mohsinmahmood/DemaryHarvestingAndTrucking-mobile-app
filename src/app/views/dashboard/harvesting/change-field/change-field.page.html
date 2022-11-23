@@ -24,22 +24,21 @@
     </ion-grid>
   </ion-card-content>
 </ion-card>
-<form [formGroup]="changeFieldForm">
-
+<form [formGroup]="changeFieldFormChief">
   <div class="">
     <ion-item>
       <ion-label position="floating" class="font">Field Name</ion-label>
       <ion-input placeholder="Field Name" formControlName="fieldName"></ion-input>
-      <ion-text *ngIf="this.changeFieldForm.get('fieldName').hasError('required')" class="text-xs font-semibold font-Lato text-red-500">Field Name required</ion-text>
+      <ion-text *ngIf="this.changeFieldFormChief.get('fieldName').hasError('required')" class="text-xs font-semibold font-Lato text-red-500">Field Name required</ion-text>
 
     </ion-item>
     <ion-item>
       <ion-label position="floating" class="font">GPS Acres Completed (for prior field)</ion-label>
       <ion-input placeholder="GPS Acres Completed (for prior field)" formControlName="acresPriorField"></ion-input>
-      <ion-text *ngIf="this.changeFieldForm.get('acresPriorField').hasError('required')" class="text-xs font-semibold font-Lato text-red-500">GPS Acres (for prior field) required</ion-text>
+      <ion-text *ngIf="this.changeFieldFormChief.get('acresPriorField').hasError('required')" class="text-xs font-semibold font-Lato text-red-500">GPS Acres (for prior field) required</ion-text>
     </ion-item>
   </div>
-  <ion-button expand="block" class="mt-5 font-Lato text-white" [disabled]="changeFieldForm.invalid" (click)="submit()">Save</ion-button>
+  <ion-button expand="block" class="mt-5 font-Lato text-white" [disabled]="changeFieldFormChief.invalid" (click)="submit()">Save</ion-button>
 </form>
 </div>
 </ion-content>
@@ -68,21 +67,21 @@
 </ion-card>
 
 <p class="text-xl font-bold font-Lato mt-8">Job Set-up</p>
-<form [formGroup]="changeFieldForm">
+<form [formGroup]="changeFieldFormCombine">
 
   <div class="">
   <ion-item>
     <ion-label position="floating" class="font">Enter Field Name</ion-label>
     <ion-input placeholder="Field Name" formControlName="fieldName"></ion-input>
-    <ion-text *ngIf="this.changeFieldForm.get('fieldName').hasError('required')" class="text-xs font-semibold font-Lato text-red-500">Field Name required</ion-text>
+    <ion-text *ngIf="this.changeFieldFormCombine.get('fieldName').hasError('required')" class="text-xs font-semibold font-Lato text-red-500">Field Name required</ion-text>
   </ion-item>
   <ion-item>
     <ion-label position="floating" class="font">GPS Acres Completed (for prior field)</ion-label>
     <ion-input placeholder="GPS Acres Completed (for prior field)" formControlName="acresPriorField"></ion-input>
-    <ion-text *ngIf="this.changeFieldForm.get('acresPriorField').hasError('required')" class="text-xs font-semibold font-Lato text-red-500">GPS Acres (for prior field) required</ion-text>
+    <ion-text *ngIf="this.changeFieldFormCombine.get('acresPriorField').hasError('required')" class="text-xs font-semibold font-Lato text-red-500">GPS Acres (for prior field) required</ion-text>
   </ion-item>
 </div>
-<ion-button expand="block" class="mt-5 font-Lato text-white" (click)="submit()">Save</ion-button>
+<ion-button expand="block" class="mt-5 font-Lato text-white" (click)="submit()" [disabled]="changeFieldFormCombine.invalid">Save</ion-button>
 </form>
 </div>
 </ion-content>
@@ -110,21 +109,21 @@
     </ion-grid>
   </ion-card-content>
 </ion-card>
-<form [formGroup]="changeFieldForm">
+<form [formGroup]="changeFieldFormKart">
   <div class="">
     <ion-item>
       <ion-label position="floating" class="font">Enter Field Name</ion-label>
       <ion-input placeholder="Field Name" formControlName="fieldName"></ion-input>
-      <ion-text *ngIf="this.changeFieldForm.get('fieldName').hasError('required')" class="text-xs font-semibold font-Lato text-red-500">Field Name required</ion-text>
+      <ion-text *ngIf="this.changeFieldFormKart.get('fieldName').hasError('required')" class="text-xs font-semibold font-Lato text-red-500">Field Name required</ion-text>
     </ion-item>
 
     <ion-item>
       <ion-label position="floating" class="font">GPS Acres Completed (for prior field)</ion-label>
       <ion-input placeholder="GPS Acres Completed (for prior field)" formControlName="acresPriorField"></ion-input>
-      <ion-text *ngIf="this.changeFieldForm.get('acresPriorField').hasError('required')" class="text-xs font-semibold font-Lato text-red-500">GPS Acres (for prior field) required</ion-text>
+      <ion-text *ngIf="this.changeFieldFormKart.get('acresPriorField').hasError('required')" class="text-xs font-semibold font-Lato text-red-500">GPS Acres (for prior field) required</ion-text>
     </ion-item>
   </div>
-  <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="submit()">Save</ion-button>
+  <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="submit()" [disabled]="changeFieldFormKart.invalid">Save</ion-button>
 </form>
 </div>
 </ion-content>

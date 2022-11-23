@@ -32,7 +32,7 @@
             <ion-label position="floating">Initial Field</ion-label>
             <ion-input formControlName="initailField" placeholder="Initial Field"></ion-input>
           </ion-item>
-            <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="submit()">Save</ion-button>
+            <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="submit()" [disabled]="changeFarmForm.invalid">Save</ion-button>
         </div>
       </ion-list>
     </form>
