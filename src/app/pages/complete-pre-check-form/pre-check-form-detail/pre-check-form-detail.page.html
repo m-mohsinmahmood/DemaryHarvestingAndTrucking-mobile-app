@@ -1,0 +1,130 @@
+<app-header [title]="['Pre-Trip Check Form Truck/Trailer']" [color]="'trucking'"></app-header>
+
+<ion-content>
+  <app-timer [value]="'12-12-2020'"></app-timer>
+
+  <div class="p-4">
+    <ion-text class="flex justify-between">
+      <ion-label class="text-9B9BA4">Date</ion-label>
+      <ion-label class="font-semibold">October 16th 2022</ion-label>
+    </ion-text>
+
+    <ion-text class="flex justify-between mt-4">
+      <ion-label class="text-9B9BA4">Truck Driver Inspector</ion-label>
+      <ion-label class="font-semibold">Mike Tyson</ion-label>
+    </ion-text>
+
+    <ion-card class="ml-0 mr-0 bg-slate-200">
+      <ion-card-content class="p-0">
+        <ion-grid>
+          <ion-row class="flex items-center">
+            <ion-col size="2">
+              <div class="bg-white rounded-full flex justify-center items-center w-12 h-12">
+                <ion-icon name="mail-outline" class="text-3xl text-blue-900"></ion-icon>
+              </div>
+            </ion-col>
+            <ion-col size="6">
+              <label class="font-semibold">Send inspected items list via email</label>
+            </ion-col>
+            <ion-col size="4">
+              <ion-button class="text-white emailBtn float-right	">Send Email</ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card class="ml-0 mr-0">
+      <ion-grid class="bg-slate-200">
+        <ion-row class="px-0">
+          <ion-col size="7">
+            <ion-card-title class="float-left flex justify-center text-xl font-Lato ">All Inspected Items
+            </ion-card-title>
+          </ion-col>
+          <ion-col size="5">
+            <ion-card-title class=" flex justify-center text-xl font-Lato ">Status</ion-card-title>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+      <ion-card-content class="p-0">
+        <ion-grid>
+          <ion-row class="px-0 py-1">
+            <ion-col size="7" class="flex items-center">
+              <label class="font-Lato float-left flex justify-center font-Lato ">Light and Reflectors
+              </label>
+            </ion-col>
+            <ion-col size="5" class="p-0 flex">
+              <div class="flex justify-center items-center">
+                <span
+                  class="font-Lato text-white w-32 h-6 bg-project-green rounded-full flex justify-center items-center">
+                  Satisfactory</span>
+              </div>
+            </ion-col>
+          </ion-row>
+
+          <ion-row class="px-0 py-1">
+            <ion-col size="7" class="flex items-center">
+              <label class="font-Lato float-left flex justify-center font-Lato ">Air Compressor Engine
+              </label>
+            </ion-col>
+            <ion-col size="5" class="p-0 flex">
+              <div class="flex justify-center items-center">
+                <span
+                  class="font-Lato text-white w-32 h-6 bg-project-green rounded-full flex justify-center items-center">
+                  Satisfactory</span>
+              </div>
+            </ion-col>
+          </ion-row>
+
+          <ion-row class="px-0 py-1">
+            <ion-col size="7" class="flex items-center">
+              <label class="font-Lato float-left flex justify-center font-Lato ">Radiator
+              </label>
+            </ion-col>
+            <ion-col size="5" class="p-0 flex">
+              <div class="flex justify-center items-center">
+                <span
+                  class="font-Lato text-white w-32 h-6 bg-project-green rounded-full flex justify-center items-center">
+                  Satisfactory</span>
+              </div>
+            </ion-col>
+          </ion-row>
+
+          <ion-accordion-group>
+            <ion-accordion value="first">
+              <ion-item class="font-Lato accordionItem" slot="header">
+                <ion-row class="px-0 py-1">
+                  <ion-col size="9" class="flex items-center">
+                    <label class="font-Lato float-left flex justify-center">Steering
+                    </label>
+                  </ion-col>
+                  <ion-col size="3" class="p-0 flex">
+                    <div class="flex justify-center items-center">
+                      <span
+                        class="font-Lato text-white w-32 h-6 bg-red-400 rounded-full flex justify-center items-center">
+                        Unsatisfactory</span>
+                    </div>
+                  </ion-col>
+                </ion-row>
+              </ion-item>
+              <ion-row class="bg-red-400 mx-2 px-4 py-2 text-white rounded-lg py-1" slot="content">
+                <ion-text>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean auctor risus in laoreet
+                  rutrum.
+                  Ut
+                  ac urna euismod, fringilla ex non, lacinia libero. Sed arcu tortor, consectetur ac felis nec, ornare
+                  malesuada sem. Sed consectetur elit in nibh porta interdum. Sed varius elit eu orci aliquet.
+                </ion-text>
+              </ion-row>
+            </ion-accordion>
+          </ion-accordion-group>
+
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-button expand="block" class="mt-5 font-Lato text-white" [routerLink]="'/complete-pre-check-form'">
+      Close
+    </ion-button>
+  </div>
+</ion-content>

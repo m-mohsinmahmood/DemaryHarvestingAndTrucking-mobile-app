@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class InHousePage implements OnInit {
 
   roleOptions = ['crew-chief', 'truck-driver']
-  role = this.roleOptions[0];
+  role = this.roleOptions[1];
 
   constructor() { }
 

@@ -3,7 +3,7 @@
 <ion-content>
   <app-timer [value]="'12-12-2022'"></app-timer>
   <div class="p-4">
-    <div>
+    <div *ngIf="role === 'crew-chief'">
       <form>
         <ion-list>
           <ion-item>
@@ -37,6 +37,80 @@
           <ion-item>
             <ion-label position="floating">Dispatcher Notes(optional)</ion-label>
             <ion-input placeholder="Dispatcher Notes"></ion-input>
+          </ion-item>
+          <ion-button expand="block" class="mt-5 font-Lato text-white"
+            (click)="navigateTo('/dashboard/trucking/in-house')">Generate Ticket
+          </ion-button>
+        </ion-list>
+      </form>
+    </div>
+
+    <div *ngIf="role === 'truck-driver'">
+      <form>
+        <ion-list>
+          <ion-item>
+            <ion-label position="floating">Delivery Ticket #</ion-label>
+            <ion-input placeholder="Delivery Ticket #"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Supervisor Name</ion-label>
+            <ion-input placeholder="Supervisor Name"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Driver Name</ion-label>
+            <ion-input placeholder="Driver Name"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Load Date</ion-label>
+            <ion-input placeholder="Load Date"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Cargo</ion-label>
+            <ion-input placeholder="Cargo"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Origin City</ion-label>
+            <ion-input placeholder="Origin City"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Destination City</ion-label>
+            <ion-input placeholder="Destination City"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Destination State</ion-label>
+            <ion-input placeholder="Destination State"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Truck #</ion-label>
+            <ion-input placeholder="Truck #"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Home Base (Beginning) Odometer Reading</ion-label>
+            <ion-input placeholder="Odometer Reading"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Destination (Ending) Odometer Reading</ion-label>
+            <ion-input placeholder="Odometer Reading"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Total Trip Miles</ion-label>
+            <ion-input placeholder="Trip Miles"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Dead-Head Miles</ion-label>
+            <ion-input placeholder="Dead-Head Miles"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Total Job Miles</ion-label>
+            <ion-input placeholder="Job Miles"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Driver Notes(optional)</ion-label>
+            <ion-input placeholder="Notes"></ion-input>
           </ion-item>
           <ion-button expand="block" class="mt-5 font-Lato text-white"
             (click)="navigateTo('/dashboard/trucking/in-house')">Generate Ticket

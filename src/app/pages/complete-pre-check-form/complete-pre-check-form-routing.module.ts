@@ -10,7 +10,11 @@ const routes: Routes = [
   },
   {
     path: 'pre-trip-form',
-    loadChildren: () => import('./pre-trip-form/pre-trip-form.module').then(m => m.PreTripFormPageModule)
+    loadChildren: () => import('./pre-trip-form/pre-trip-form.module').then( m => m.PreTripFormPageModule)
+  },
+  {
+    path: 'pre-check-form-detail',
+    loadChildren: () => import('./pre-check-form-detail/pre-check-form-detail.module').then( m => m.PreCheckFormDetailPageModule)
   }
 ];
 
@@ -18,4 +22,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class CompletePreCheckFormPageRoutingModule { }
+export class CompletePreCheckFormPageRoutingModule {}

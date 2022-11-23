@@ -4,9 +4,9 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { InHousePageRoutingModule } from './in-house-routing.module';
+import { PreCheckFormDetailPageRoutingModule } from './pre-check-form-detail-routing.module';
 
-import { InHousePage } from './in-house.page';
+import { PreCheckFormDetailPage } from './pre-check-form-detail.page';
 import { HeaderModule } from 'src/app/components/header/header.module';
 import { TimerModule } from 'src/app/components/timer/timer.module';
 
@@ -15,10 +15,10 @@ import { TimerModule } from 'src/app/components/timer/timer.module';
     CommonModule,
     FormsModule,
     IonicModule,
-    InHousePageRoutingModule,
+    PreCheckFormDetailPageRoutingModule,
     HeaderModule,
     TimerModule
   ],
-  declarations: [InHousePage]
+  declarations: [PreCheckFormDetailPage]
 })
-export class InHousePageModule { }
+export class PreCheckFormDetailPageModule { }
