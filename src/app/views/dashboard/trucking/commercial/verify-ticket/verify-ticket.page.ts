@@ -11,7 +11,7 @@ export class VerifyTicketPage implements OnInit {
   segment = 'sent'; // For Segment
   segmentTruckDriver = 'existing'; // For Segment
 
-  roleOptions = ['crew-chief', 'truck-driver']
+  roleOptions = ['dispatcher', 'truck-driver']
   role = this.roleOptions[1];
 
   constructor(private location: Location) { }

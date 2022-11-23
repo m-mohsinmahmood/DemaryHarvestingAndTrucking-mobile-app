@@ -8,7 +8,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 })
 export class DashboardPage implements OnInit {
   roleOptions = ['crew-chief','kart-operator','combine-operator','truck-driver','tractor-driver','dispatcher'];
-role = this.roleOptions[3];
+role = this.roleOptions[0];
 selectform: FormGroup;
 
   constructor(
@@ -20,7 +20,7 @@ selectform: FormGroup;
     this.selectform = this.formbuilder.group({
       select: ['']
     });
-    this.selectform.get('select').setValue(this.roleOptions[3]);
+    this.selectform.get('select').setValue(this.roleOptions[0]);
     // this.selectform.controls.select.setValue(this.roleOptions[1]);
 
   }

@@ -12,7 +12,7 @@ export class CreateTicketPage implements OnInit {
   originDocs: string[] = [];
   customDocs: string[] = [];
 
-  roleOptions = ['crew-chief', 'truck-driver']
+  roleOptions = ['dispatcher', 'truck-driver']
   role = this.roleOptions[1];
 
   constructor(

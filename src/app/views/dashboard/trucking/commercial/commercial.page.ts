@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CommercialPage implements OnInit {
 
-  roleOptions = ['crew-chief', 'truck-driver'];
+  roleOptions = ['dispatcher', 'truck-driver'];
   role = this.roleOptions[1];
 
   constructor() { }
