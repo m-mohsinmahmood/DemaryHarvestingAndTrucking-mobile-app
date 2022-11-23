@@ -2,7 +2,9 @@
 
 <ion-content>
   <app-timer [value]="'12-12-2022'"></app-timer>
-  <ion-card>
+
+  <!------ Role Crew Cheif-->
+  <ion-card *ngIf="role === 'dispatcher'">
     <ion-card-header>
       <ion-card-title class="flex justify-center text-xl font-Lato">In House Delivery Ticket</ion-card-title>
     </ion-card-header>
@@ -95,6 +97,76 @@
             <span class="font-Lato font-14">N/A</span>
           </ion-col>
         </ion-row>
+      </ion-grid>
+      <ion-button expand="block" class="mt-5 font-Lato  text-white"
+        (click)="navigateTo('/dashboard/trucking/in-house')">Verify
+      </ion-button>
+
+    </ion-card-content>
+  </ion-card>
+
+  <!-------- Role Truck Driver-->
+  <ion-card *ngIf="role === 'truck-driver'">
+    <ion-card-header>
+      <ion-card-title class="flex justify-center text-xl font-Lato">In House Delivery Ticket</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-grid>
+
+        <!-- First Row -->
+        <ion-row class="h-20 flex content-center pl-4">
+          <ion-col size="6" class="flex flex-col  ">
+            <p class="font-Lato text-black font-bold font-14">Ticket #</p>
+            <span class="font-Lato font-14">12345</span>
+          </ion-col>
+          <ion-col size="6" class="flex flex-col   ">
+            <p class="font-Lato text-black font-bold font-14">Truck #</p>
+            <span class="font-Lato font-14">567</span>
+          </ion-col>
+        </ion-row>
+
+        <!-- Second Row -->
+        <ion-row class="h-20 flex content-center pl-4">
+          <ion-col size="6" class="flex flex-col  ">
+            <p class="font-Lato text-black font-bold font-14">Home Base (Beginning) Odometer Reading</p>
+            <span class="font-Lato font-14">4545</span>
+          </ion-col>
+          <ion-col size="6" class="flex flex-col   ">
+            <p class="font-Lato text-black font-bold font-14">Origin (Beginning) Odometer Reading</p>
+            <span class="font-Lato font-14">73213</span>
+          </ion-col>
+        </ion-row>
+
+        <!-- Third Row -->
+        <ion-row class="h-20 flex content-center pl-4">
+          <ion-col size="6" class="flex flex-col   ">
+            <p class="font-Lato text-black font-bold font-14">Destination (Ending) Odometer Reading</p>
+            <span class="font-Lato font-14">73213</span>
+          </ion-col>
+          <ion-col size="6" class="flex flex-col   ">
+            <p class="font-Lato text-black font-bold font-14">Total Trip Miles</p>
+            <span class="font-Lato font-14">20</span>
+          </ion-col>
+        </ion-row>
+
+        <ion-row class="h-20 flex content-center pl-4">
+          <ion-col size="6" class="flex flex-col ">
+            <p class="font-Lato text-black font-bold font-14">Dead Head Miles</p>
+            <span class="font-Lato font-14">30</span>
+          </ion-col>
+          <ion-col size="6" class="flex flex-col  ">
+            <p class="font-Lato text-black font-bold font-14">Total Job Miles</p>
+            <span class="font-Lato font-14">20</span>
+          </ion-col>
+        </ion-row>
+
+        <ion-row class="h-20 flex content-center pl-4">
+          <ion-col size="6" class="flex flex-col  ">
+            <p class="font-Lato text-black font-bold font-14">Driver notes</p>
+            <span class="font-Lato font-14">N/A</span>
+          </ion-col>
+        </ion-row>
+
       </ion-grid>
       <ion-button expand="block" class="mt-5 font-Lato  text-white"
         (click)="navigateTo('/dashboard/trucking/in-house')">Verify

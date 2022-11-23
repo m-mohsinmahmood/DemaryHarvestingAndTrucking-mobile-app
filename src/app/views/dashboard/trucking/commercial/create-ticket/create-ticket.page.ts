@@ -8,7 +8,12 @@ import { Component, OnInit } from '@angular/core';
 export class CreateTicketPage implements OnInit {
 
   options: any;
-  imgRes: string[] = [];
+  rateSheetImg: string[] = [];
+  originDocs: string[] = [];
+  customDocs: string[] = [];
+
+  roleOptions = ['dispatcher', 'truck-driver']
+  role = this.roleOptions[1];
 
   constructor(
   ) { }
@@ -17,10 +22,20 @@ export class CreateTicketPage implements OnInit {
   }
 
   chooseImage(event) {
-
-    for (let i = 0; i < event.target.files.length; i++) {
-      this.imgRes.push(URL.createObjectURL(event.target.files[i]))
+    if (event.target.name === 'rateSheet') {
+      for (let i = 0; i < event.target.files.length; i++) {
+        this.rateSheetImg.push(URL.createObjectURL(event.target.files[i]))
+      }
     }
-
+    else if (event.target.name === 'originDocs') {
+      for (let i = 0; i < event.target.files.length; i++) {
+        this.originDocs.push(URL.createObjectURL(event.target.files[i]))
+      }
+    }
+    if (event.target.name === 'customDocs') {
+      for (let i = 0; i < event.target.files.length; i++) {
+        this.customDocs.push(URL.createObjectURL(event.target.files[i]))
+      }
+    }
   }
 }

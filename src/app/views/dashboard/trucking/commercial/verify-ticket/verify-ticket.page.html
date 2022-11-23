@@ -4,7 +4,8 @@
 <ion-content>
   <app-timer [value]="'22-22-2022'"></app-timer>
   <div class="p-2">
-    <div class="segment-style">
+    <!--------- Role Crew Chief-->
+    <div class="segment-style" *ngIf="role === 'dispatcher'">
       <ion-segment [(ngModel)]="segment" scrollable>
         <ion-segment-button value="sent">
           <div class="flex justify-center items-center">
@@ -99,6 +100,86 @@
                 <div class="w-4/12 flex justify-end rounded-3xl h-6 flex items-center justify-center"
                   [ngStyle]="{'background-color':'#E6F0F9'}">
                   <span class="text-sm text-black font-Lato"> Ticket# 04256</span>
+                </div>
+              </div>
+
+              <div class="mt-2.5 flex justify-between p-0">
+                <div>
+                  <span class="text-sm font-Lato">Truck Driver: </span>
+                  <span class="text-sm text-black font-Lato">{{"Mike Allen"}}</span>
+                </div>
+                <div>
+                  <span class="text-sm font-Lato">Destination: </span>
+                  <span class="text-sm text-black font-Lato">{{"Dakota"}}</span>
+                </div>
+              </div>
+            </div>
+          </ion-card>
+        </div>
+
+      </div>
+    </div>
+
+    <!---------- Role Truck Driver ----------->
+    <div class="segment-style" *ngIf="role === 'truck-driver'">
+      <ion-segment [(ngModel)]="segmentTruckDriver" scrollable>
+        <ion-segment-button value="existing">
+          <div class="flex justify-center items-center">
+            <p class=" font-Lato">Existing</p>
+            <span class="text-white ml-4 w-8 h-4 rounded-full flex justify-center items-center">
+              1</span>
+          </div>
+        </ion-segment-button>
+
+        <ion-segment-button value="completed">
+          <div class="flex justify-center items-center">
+            <p class=" font-Lato">Completed</p>
+            <span class="text-white ml-4 w-8 h-4 rounded-full flex justify-center items-center">
+              1</span>
+          </div>
+        </ion-segment-button>
+      </ion-segment>
+
+      <div [ngSwitch]="segmentTruckDriver">
+        <div *ngSwitchCase="'existing'">
+          <ion-card class="sentTicket p-2" [routerLink]="['ticket-detail']">
+            <div class="flex flex-col">
+              <div class="flex flex-row py-2">
+                <div class="w-8/12 flex flex-col">
+                  <span class="font-Lato"> Ticket # 12345</span>
+                  <span class="text-lg text-black font-Lato font-semibold">Coronado Freed Center, Arizona</span>
+                </div>
+                <div class="w-4/12 flex justify-end rounded-3xl h-6 flex items-center justify-center"
+                  [ngStyle]="{'background-color':'#E6F0F9'}">
+                  <span class="text-sm text-black font-Lato"> Pending</span>
+                </div>
+              </div>
+
+              <div class="mt-2.5 flex justify-between p-0">
+                <div>
+                  <span class="text-sm font-Lato">Truck Driver: </span>
+                  <span class="text-sm text-black font-Lato">{{"Mohsin"}}</span>
+                </div>
+                <div>
+                  <span class="text-sm font-Lato">Destination: </span>
+                  <span class="text-sm text-black font-Lato">{{"Dakota"}}</span>
+                </div>
+              </div>
+            </div>
+          </ion-card>
+        </div>
+
+        <div *ngSwitchCase="'completed'">
+          <ion-card class="verifiedTicket p-2" [routerLink]="['ticket-detail']">
+            <div class="flex flex-col">
+              <div class="flex flex-row py-2">
+                <div class="w-8/12 flex flex-col">
+                  <span class="font-Lato"> Ticket # 12345</span>
+                  <span class="text-lg text-black font-Lato font-semibold">Coronado Freed Center, Arizona</span>
+                </div>
+                <div class="w-4/12 flex justify-end rounded-3xl h-6 flex items-center justify-center"
+                  [ngStyle]="{'background-color':'#E6F0F9'}">
+                  <span class="text-sm text-black font-Lato"> Pending</span>
                 </div>
               </div>
 

@@ -10,6 +10,9 @@ export class TicketDetailPage implements OnInit {
 
   constructor( private router: Router) { }
 
+  roleOptions = ['dispatcher', 'truck-driver']
+  role = this.roleOptions[1];
+
   ngOnInit() {
   }
 

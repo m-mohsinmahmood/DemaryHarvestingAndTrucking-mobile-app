@@ -33,3 +33,23 @@ ion-progress-bar {
   height: 7px;
   border-radius: 10px;
 }
+
+ion-radio {
+  --border-radius: 4px;
+  --inner-border-radius: 4px;
+
+  --color: #ddd;
+  --color-checked: #5BBE62;
+}
+
+ion-radio.ios {
+  width: 25px;
+  height: 25px;
+
+  border: 2px solid #ddd;
+  border-radius: 13px;
+}
+
+.radio-checked.ios {
+  border-color: #5BBE62;
+}

@@ -8,6 +8,10 @@ import { Component, OnInit } from '@angular/core';
 export class VerifyTicketPage implements OnInit {
 
   segment = 'sent'; // For Segment
+  segmentTruckDriver = 'existing'; // For Segment
+
+  roleOptions = ['dispatcher', 'truck-driver']
+  role = this.roleOptions[1];
 
   constructor() { }
 

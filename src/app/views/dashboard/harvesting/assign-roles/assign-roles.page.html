@@ -5,15 +5,21 @@
   <app-timer [value]="'13:03:344'"></app-timer>
 
 <div class="p-2">
-<ion-item>
+  <form [formGroup]="assignForm">
+<ion-item >
   <ion-label position="floating" class="font-Lato">Combine Operator</ion-label>
-  <ion-input placeholder="Enter combine operator name" class="font-Lato"></ion-input>
+  <ion-input placeholder="Enter combine operator name" class="font-Lato" formControlName="combineOperator"></ion-input>
+  <ion-text *ngIf="this.assignForm.get('combineOperator').hasError('required')" class="text-xs font-semibold font-Lato text-red-500">Combine Operator is required</ion-text>
+
 </ion-item>
 <ion-item>
   <ion-label position="floating" class="font-Lato">Kart Operator</ion-label>
-  <ion-input placeholder="Enter kart operator name" class="font-Lato"></ion-input>
+  <ion-input placeholder="Enter kart operator name" class="font-Lato" formControlName="kartOperator"></ion-input>
+  <ion-text *ngIf="this.assignForm.get('kartOperator').hasError('required')" class="text-xs font-semibold font-Lato text-red-500">Kart Operator is required</ion-text>
+
 </ion-item>
-<ion-button expand="block" class="font-Lato font-white text-white">Add</ion-button>
+<ion-button expand="block" class="font-Lato font-white text-white" (click)="add()" [disabled]="assignForm.invalid">Add</ion-button>
+</form>
 <ion-card class="card">
   <ion-grid >
     <ion-row class="">

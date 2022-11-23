@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-close-out',
@@ -6,10 +7,20 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./close-out.page.scss'],
 })
 export class CloseOutPage implements OnInit {
+  closeJobForm: FormGroup;
 
-  constructor() { }
+  constructor(
+    private formBuilder: FormBuilder,
+
+  ) { }
 
   ngOnInit() {
+    this.closeJobForm = this.formBuilder.group({
+      totalAcres: ['',[Validators.required]],
+      totalGPSAcres: ['',[Validators.required]],
+    });
   }
-
+  submit(){
+    console.log(this.closeJobForm.value);
+  }
 }

@@ -21,16 +21,23 @@
     </ion-grid>
   </ion-card-content>
 </ion-card>
-<div class="">
-  <ion-item>
-    <ion-label position="floating" class="font">Total Acres</ion-label>
-    <ion-input placeholder="Enter acres"></ion-input>
+<form [formGroup]="closeJobForm">
+
+  <div class="">
+    <ion-item>
+      <ion-label position="floating" class="font">Total Acres</ion-label>
+    <ion-input placeholder="Enter acres" formControlName="totalAcres"></ion-input>
+    <ion-text *ngIf="this.closeJobForm.get('totalAcres').hasError('required')" class="text-xs font-semibold font-Lato text-red-500">Total Acres required</ion-text>
+
   </ion-item>
   <ion-item>
     <ion-label position="floating" class="font">Total GPS Acres</ion-label>
-    <ion-input placeholder="Enter total GPS tcres"></ion-input>
+    <ion-input placeholder="Enter total GPS tcres" formControlName="totalGPSAcres"></ion-input>
+    <ion-text *ngIf="this.closeJobForm.get('totalGPSAcres').hasError('required')" class="text-xs font-semibold font-Lato text-red-500">Total GPS Acres is required</ion-text>
+
   </ion-item>
 </div>
-<ion-button expand="block" class="mt-5 font-Lato text-white">Save</ion-button>
+<ion-button expand="block" class="mt-5 font-Lato text-white" [disabled]="closeJobForm.invalid" (click)="submit()">Save</ion-button>
+</form>
 </div>
 </ion-content>

@@ -1,0 +1,47 @@
+<app-header [title]="'Pre-Trip Check Form'" [color]="'trucking'"></app-header>
+
+<ion-content>
+  <app-timer [value]="'11-12-2022'"></app-timer>
+  <div class="p-4">
+    <div>
+      <form>
+        <ion-list>
+          <ion-item>
+            <ion-label position="floating">Truck ID</ion-label>
+            <ion-input placeholder="Enter Truck ID"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Trailer</ion-label>
+            <ion-input placeholder="Enter Trailer"></ion-input>
+          </ion-item>
+        </ion-list>
+      </form>
+    </div>
+
+    <div class="mx-4 my-2">
+      <ion-progress-bar class="mb-2" [buffer]="buffer" [value]="progress"></ion-progress-bar>
+      <ion-text class="text-lg justify-start flex font-Lato text-black ml-2">{{progress * 5}} of 5
+        Completed</ion-text>
+    </div>
+
+    <ion-text class="px-4 font-Lato text-2xl font-semibold">Vehicle Inspection</ion-text>
+    <p class="px-4 py-2 font- font-Lato text-base text-46464E font-normal">To Begin Select One of the 5 Pre-Trip Check
+      Categories Below</p>
+    <div class="timeline">
+
+      <div class="timeline-event" *ngFor="let item of items">
+        <div class="timeline-point-track-container">
+          <div class="timeline-point {{item.status}}">
+            <ion-icon name="checkmark-outline" [ngStyle]="{'color':'white'}" class="font-semibold"></ion-icon>
+          </div>
+          <div class="timeline-track {{item.status}}"></div>
+        </div>
+        <div class="timeline-content {{item.status}}">
+          {{item.content}}
+        </div>
+      </div>
+    </div>
+    <ion-button expand="block" class="text-white font-Lato" [routerLink]="'engine-check'">Start</ion-button>
+  </div>
+
+</ion-content>

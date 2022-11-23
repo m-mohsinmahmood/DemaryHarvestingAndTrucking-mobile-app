@@ -7,12 +7,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class InHousePage implements OnInit {
 
-  roleOptions = ['crew-chief', 'truck-driver']
+  roleOptions = ['dispatcher', 'truck-driver'];
   role = this.roleOptions[0];
 
   constructor() { }
 
   ngOnInit() {
+    this.role = localStorage.getItem('role');
+
   }
 
 }

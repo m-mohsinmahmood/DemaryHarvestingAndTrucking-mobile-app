@@ -8,21 +8,12 @@
 <div class="mx-4">
 <form class=" ">
   <div class="mt-5">
-    <!-- <ion-select placeholder="Select basic skills" interface="alert">
-      <ion-select-option value="straight-line">Straight Line Backing</ion-select-option>
-      <ion-select-option value="alley-docking">Alley Docking</ion-select-option>
-      <ion-select-option value="offset">Off Set Backing</ion-select-option>
-      <ion-select-option value="parking-blind">Parallel Parking - Blind</ion-select-option>
-      <ion-select-option value="parking-sight">Parallel Parking - Sight</ion-select-option>
-      <ion-select-option value="coup-uncoup">Coupling & Uncoupling</ion-select-option>
-    </ion-select> -->
       <ion-text *ngIf="value ==='straight-line'" class="font-semibold font-Lato text-9B9BA4 text-xl">Straight Line Backing</ion-text>
       <ion-text *ngIf="value ==='alley-docking'" class="font-semibold font-Lato text-9B9BA4 text-xl">Alley Docking</ion-text>
       <ion-text *ngIf="value ==='offset'" class="font-semibold font-Lato text-9B9BA4 text-xl">Off Set Backing</ion-text>
       <ion-text *ngIf="value ==='parking-blind'" class="font-semibold font-Lato text-9B9BA4 text-xl">Parallel Parking - Blind</ion-text>
       <ion-text *ngIf="value ==='parking-sight'" class="font-semibold font-Lato text-9B9BA4 text-xl">Parallel Parking - Sight</ion-text>
       <ion-text *ngIf="value ==='coup-uncoup'" class="font-semibold font-Lato text-9B9BA4 text-xl">Coupling & Uncoupling</ion-text>
-
   </div>
   <div class="w-full border-b-2 my-3 py-1">
     <ion-text class="text-base font-semibold font-Lato">Attempts</ion-text>
@@ -42,28 +33,30 @@
     <div class="flex justify-between items-center">
       <ion-text class="font-semibold">G.O.A.L</ion-text>
       <div class="flex justify-center items-center">
-        <div class="flex justify-center items-center mr-2">
-          <ion-checkbox slot="start"></ion-checkbox>
-          <ion-label class="font-Lato ml-1 text-sm">Satisfactory</ion-label>
-        </div>
-        <div class="flex justify-center items-center">
-          <ion-checkbox slot="start"></ion-checkbox>
-          <ion-label class="font-Lato ml-1 text-sm">Unsatisfactory</ion-label>
-        </div>
+        <ion-radio-group value="custom-checked" class="flex justify-center items-center">
+          <div class="flex justify-center items-center  mr-2">
+            <ion-radio value="custom-checked"></ion-radio>
+            <ion-label class="font-Lato ml-1 text-sm">Satisfactory</ion-label>
+          </div>
+          <div class="flex justify-center items-center">
+            <ion-radio value="custom"></ion-radio>
+            <ion-label class="font-Lato ml-1 text-sm">Satisfactory</ion-label>
+          </div>
+        </ion-radio-group>
       </div>
     </div>
     <div class="flex justify-between items-center mt-2">
       <ion-text class="font-semibold">Final Position</ion-text>
-      <div class="flex justify-center items-center">
-        <div class="flex justify-center items-center mr-2">
-          <ion-checkbox slot="start"></ion-checkbox>
+      <ion-radio-group value="custom-checked" class="flex justify-center items-center">
+        <div class="flex justify-center items-center  mr-2">
+          <ion-radio value="custom"></ion-radio>
           <ion-label class="font-Lato ml-1 text-sm">Satisfactory</ion-label>
         </div>
         <div class="flex justify-center items-center">
-          <ion-checkbox slot="start"></ion-checkbox>
-          <ion-label class="font-Lato ml-1 text-sm">Unsatisfactory</ion-label>
+          <ion-radio value="custom-checked"></ion-radio>
+          <ion-label class="font-Lato ml-1 text-sm">Satisfactory</ion-label>
         </div>
-      </div>
+      </ion-radio-group>
     </div>
     <ion-button class="upload-button">
         Add Feedback
@@ -71,25 +64,25 @@
   </div>
   <div class="w-full border-b-2 my-3 py-1 flex justify-between items-center">
     <ion-text class="text-base font-semibold font-Lato">All Basic Skills</ion-text>
-    <ion-text class="text-base font-Lato">Total Attempts</ion-text>
+    <ion-text class="text-base font-Lato text-9B9BA4">Total Attempts</ion-text>
   </div>
   <div class="border-b-4 py-4">
     <div class="flex flex-col justify-center">
       <ion-text class="font-Lato font-semibold">Straight Line Backing</ion-text>
       <div class="flex justify-between items-center mt-3">
-        <div class="flex justify-center items-center">
-          <div class="flex justify-center items-center mr-2">
-            <ion-checkbox slot="start"></ion-checkbox>
-            <ion-label class="font-Lato ml-1 text-sm text-9B9BA4">Satisfactory</ion-label>
+        <ion-radio-group value="custom-checked" class="flex justify-center items-center">
+          <div class="flex justify-center items-center  mr-2">
+            <ion-radio value="custom-checked"></ion-radio>
+            <ion-label class="font-Lato ml-1 text-sm">Satisfactory</ion-label>
           </div>
           <div class="flex justify-center items-center">
-            <ion-checkbox slot="start"></ion-checkbox>
-            <ion-label class="font-Lato ml-1 text-sm text-9B9BA4">Unsatisfactory</ion-label>
+            <ion-radio value="custom"></ion-radio>
+            <ion-label class="font-Lato ml-1 text-sm">Satisfactory</ion-label>
           </div>
-        </div>
-        <div>
-          <p>input</p>
-        </div>
+        </ion-radio-group>
+        <div class="flex justify-center items-center w-28 border-2  rounded-lg px-2">
+          <ion-input placeholder="Enter Value" type="number"></ion-input>
+      </div>
       </div>
     </div>
   </div>
@@ -97,19 +90,19 @@
     <div class="flex flex-col justify-center">
       <ion-text class="font-Lato font-semibold">Alley Docking (45/90)</ion-text>
       <div class="flex justify-between items-center mt-3">
-        <div class="flex justify-center items-center">
-          <div class="flex justify-center items-center mr-2">
-            <ion-checkbox slot="start"></ion-checkbox>
-            <ion-label class="font-Lato ml-1 text-sm text-9B9BA4">Satisfactory</ion-label>
+        <ion-radio-group value="custom-checked" class="flex justify-center items-center">
+          <div class="flex justify-center items-center  mr-2">
+            <ion-radio value="custom-checked"></ion-radio>
+            <ion-label class="font-Lato ml-1 text-sm">Satisfactory</ion-label>
           </div>
           <div class="flex justify-center items-center">
-            <ion-checkbox slot="start"></ion-checkbox>
-            <ion-label class="font-Lato ml-1 text-sm text-9B9BA4">Unsatisfactory</ion-label>
+            <ion-radio value="custom"></ion-radio>
+            <ion-label class="font-Lato ml-1 text-sm">Satisfactory</ion-label>
           </div>
-        </div>
-        <div>
-          <p>input</p>
-        </div>
+        </ion-radio-group>
+        <div class="flex justify-center items-center w-28 border-2  rounded-lg px-2">
+          <ion-input placeholder="Enter Value" type="number"></ion-input>
+      </div>
       </div>
     </div>
   </div>
@@ -117,19 +110,19 @@
     <div class="flex flex-col justify-center">
       <ion-text class="font-Lato font-semibold">Off Set Backing</ion-text>
       <div class="flex justify-between items-center mt-3">
-        <div class="flex justify-center items-center">
-          <div class="flex justify-center items-center mr-2">
-            <ion-checkbox slot="start"></ion-checkbox>
-            <ion-label class="font-Lato ml-1 text-sm text-9B9BA4">Satisfactory</ion-label>
+        <ion-radio-group value="custom-checked" class="flex justify-center items-center">
+          <div class="flex justify-center items-center  mr-2">
+            <ion-radio value="custom-checked"></ion-radio>
+            <ion-label class="font-Lato ml-1 text-sm">Satisfactory</ion-label>
           </div>
           <div class="flex justify-center items-center">
-            <ion-checkbox slot="start"></ion-checkbox>
-            <ion-label class="font-Lato ml-1 text-sm text-9B9BA4">Unsatisfactory</ion-label>
+            <ion-radio value="custom"></ion-radio>
+            <ion-label class="font-Lato ml-1 text-sm">Satisfactory</ion-label>
           </div>
-        </div>
-        <div>
-          <p>input</p>
-        </div>
+        </ion-radio-group>
+        <div class="flex justify-center items-center w-28 border-2  rounded-lg px-2">
+          <ion-input placeholder="Enter Value" type="number"></ion-input>
+      </div>
       </div>
     </div>
   </div>
@@ -137,19 +130,19 @@
     <div class="flex flex-col justify-center">
       <ion-text class="font-Lato font-semibold">Parallel Paking Blind</ion-text>
       <div class="flex justify-between items-center mt-3">
-        <div class="flex justify-center items-center">
-          <div class="flex justify-center items-center mr-2">
-            <ion-checkbox slot="start"></ion-checkbox>
-            <ion-label class="font-Lato ml-1 text-sm text-9B9BA4">Satisfactory</ion-label>
+        <ion-radio-group value="custom-checked" class="flex justify-center items-center">
+          <div class="flex justify-center items-center  mr-2">
+            <ion-radio value="custom-checked"></ion-radio>
+            <ion-label class="font-Lato ml-1 text-sm">Satisfactory</ion-label>
           </div>
           <div class="flex justify-center items-center">
-            <ion-checkbox slot="start"></ion-checkbox>
-            <ion-label class="font-Lato ml-1 text-sm text-9B9BA4">Unsatisfactory</ion-label>
+            <ion-radio value="custom"></ion-radio>
+            <ion-label class="font-Lato ml-1 text-sm">Satisfactory</ion-label>
           </div>
-        </div>
-        <div>
-          <p>input</p>
-        </div>
+        </ion-radio-group>
+        <div class="flex justify-center items-center w-28 border-2  rounded-lg px-2">
+          <ion-input placeholder="Enter Value" type="number"></ion-input>
+      </div>
       </div>
     </div>
   </div>
@@ -157,19 +150,19 @@
     <div class="flex flex-col justify-center">
       <ion-text class="font-Lato font-semibold">Coupling & Uncoupling</ion-text>
       <div class="flex justify-between items-center mt-3">
-        <div class="flex justify-center items-center">
-          <div class="flex justify-center items-center mr-2">
-            <ion-checkbox slot="start"></ion-checkbox>
-            <ion-label class="font-Lato ml-1 text-sm text-9B9BA4">Satisfactory</ion-label>
+        <ion-radio-group value="custom-checked" class="flex justify-center items-center">
+          <div class="flex justify-center items-center  mr-2">
+            <ion-radio value="custom-checked"></ion-radio>
+            <ion-label class="font-Lato ml-1 text-sm">Satisfactory</ion-label>
           </div>
           <div class="flex justify-center items-center">
-            <ion-checkbox slot="start"></ion-checkbox>
-            <ion-label class="font-Lato ml-1 text-sm text-9B9BA4">Unsatisfactory</ion-label>
+            <ion-radio value="custom"></ion-radio>
+            <ion-label class="font-Lato ml-1 text-sm">Satisfactory</ion-label>
           </div>
-        </div>
-        <div>
-          <p>input</p>
-        </div>
+        </ion-radio-group>
+        <div class="flex justify-center items-center w-28 border-2  rounded-lg px-2">
+          <ion-input placeholder="Enter Value" type="number"></ion-input>
+      </div>
       </div>
     </div>
   </div>

@@ -23,20 +23,33 @@
         </ion-col>
         <ion-col size="2" class="flex justify-center items-center">
           <ion-tab-button class="relative">
-          <img src="../../../assets/icon/bell_notification.png" alt="" class="w-8 h-8 object-contain">
+            <img src="../../../assets/icon/bell_notification.png" alt="" class="w-8 h-8 object-contain">
             <ion-badge class="text-white absolute left-6 top-1">6</ion-badge>
           </ion-tab-button>
         </ion-col>
       </ion-row>
     </ion-grid>
+    <div class="w-5/12 ml-4">
+      <form [formGroup]="selectform">
+        <ion-select formControlName="select" placeholder="Select Role" class="border-2 border-project-green rounded-lg"
+          (ionChange)="onSelect($event)">
+          <ion-select-option value="crew-chief" class="font-Lato">Crew Chief</ion-select-option>
+          <ion-select-option value="combine-operator" class="font-Lato">Combine Operator</ion-select-option>
+          <ion-select-option value="kart-operator" class="font-Lato">Kart Operator</ion-select-option>
+          <ion-select-option value="truck-driver" class="font-Lato">Truck Driver</ion-select-option>
+          <ion-select-option value="tractor-driver" class="font-Lato">Tractor Driver</ion-select-option>
+          <ion-select-option value="dispatcher" class="font-Lato">Dispatcher</ion-select-option>
+        </ion-select>
+      </form>
+    </div>
   </div>
 
   <!-- =============================== Top Cards =============================== -->
   <ion-grid class="p-2.5">
     <ion-row>
-
-      <ion-col size="6">
-        <ion-card class="card" [routerLink]="['harvesting']"  [ngStyle]="{'background-color':'#129476'}">
+      <ion-col size="6"
+        *ngIf="role === 'crew-chief' || role === 'kart-operator' || role === 'combine-operator' || role === 'truck-driver'">
+        <ion-card class="card" [routerLink]="['harvesting']" [ngStyle]="{'background-color':'#129476'}">
           <ion-card-content>
             <div class="flex ">
               <img src="../../../assets/images/tractor.png" alt="" class="w-12 h-12 object-contain">
@@ -47,7 +60,7 @@
         </ion-card>
       </ion-col>
 
-      <ion-col size="6">
+      <ion-col size="6" *ngIf="role === 'dispatcher' || role === 'tractor-driver' ">
         <ion-card class="card" [routerLink]="['farming']" [ngStyle]="{'background-color':'#F5993F'}">
           <ion-card-content>
             <img src="../../../assets/images/tractor.png" alt="" class="w-12 h-12 object-contain">
@@ -56,9 +69,9 @@
         </ion-card>
       </ion-col>
 
-    </ion-row>
-    <ion-row>
-      <ion-col size="6">
+      <!-- </ion-row>
+    <ion-row> -->
+      <ion-col size="6" *ngIf="role === 'dispatcher' || role === 'truck-driver'">
         <ion-card class="card" [routerLink]="['trucking']" [ngStyle]="{'background-color':'#4256F9'}">
           <ion-card-content>
             <img src="../../../assets/images/trucking.png" alt="" class="w-12 h-12 object-contain">
@@ -66,7 +79,7 @@
           </ion-card-content>
         </ion-card>
       </ion-col>
-      <ion-col size="6" >
+      <ion-col size="6">
         <ion-card class="card" [routerLink]="['maintenance-repair']" [ngStyle]="{'background-color':'#FF7272'}">
           <ion-card-content>
             <img src="../../../assets/images/maintenance repair.png" alt="" class="w-12 h-12 object-contain">
@@ -74,8 +87,8 @@
           </ion-card-content>
         </ion-card>
       </ion-col>
-    </ion-row>
-    <ion-row>
+      <!-- </ion-row>
+    <ion-row> -->
       <ion-col size="6">
         <ion-card class="card" [routerLink]="['training']" [ngStyle]="{'background-color':'#0CA3C7'}">
           <ion-card-content>
@@ -84,7 +97,7 @@
           </ion-card-content>
         </ion-card>
       </ion-col>
-      <ion-col size="6" >
+      <ion-col size="6">
         <ion-card class="card" [routerLink]="['others']" [ngStyle]="{'background-color':'#455769'}">
           <ion-card-content>
             <img src="../../../assets/images/other.png" alt="" class="w-12 h-12 object-contain">
@@ -92,8 +105,8 @@
           </ion-card-content>
         </ion-card>
       </ion-col>
-    </ion-row>
-    <ion-row>
+      <!-- </ion-row>
+    <ion-row> -->
       <ion-col size="6">
         <ion-card class="card" [ngStyle]="{'background-color':'#D33F3F'}">
           <ion-card-content>
@@ -102,7 +115,7 @@
           </ion-card-content>
         </ion-card>
       </ion-col>
-      <ion-col size="6" >
+      <ion-col size="6">
         <ion-card class="card" [ngStyle]="{'background-color':'#0070C0'}">
           <ion-card-content>
             <img src="../../../assets/images/inventory.svg" alt="" class="w-12 h-12 object-contain">
