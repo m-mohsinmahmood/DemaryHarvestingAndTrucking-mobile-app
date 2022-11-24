@@ -14,6 +14,7 @@ export class TicketDetailPage implements OnInit {
   role = this.roleOptions[1];
 
   ngOnInit() {
+    this.role = localStorage.getItem('role');
   }
 
   navigateTo(nav: string) {

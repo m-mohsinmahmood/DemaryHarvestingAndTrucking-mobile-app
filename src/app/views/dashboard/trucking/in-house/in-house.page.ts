@@ -14,7 +14,6 @@ export class InHousePage implements OnInit {
 
   ngOnInit() {
     this.role = localStorage.getItem('role');
-
   }
 
 }

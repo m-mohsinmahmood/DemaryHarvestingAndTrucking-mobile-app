@@ -27,7 +27,6 @@ export class TabsPage implements OnInit {
     if (route === 'web') {
       this.resetAll();
       this.activeWeb = !this.activeWeb;
-      // this.router.navigateByUrl('/tabs/dashboard/dwr');
     }
     if (route === 'dwr') {
       this.resetAll();
@@ -37,12 +36,10 @@ export class TabsPage implements OnInit {
     if (route === 'message') {
       this.resetAll();
       this.activeMessage = !this.activeMessage;
-      // this.router.navigateByUrl('/tabs/dashboard');
     }
     if (route === 'profile') {
       this.resetAll();
       this.activeProfile = !this.activeProfile;
-      // this.router.navigateByUrl('/tabs/dashboard');
     }
   }
   resetAll() {

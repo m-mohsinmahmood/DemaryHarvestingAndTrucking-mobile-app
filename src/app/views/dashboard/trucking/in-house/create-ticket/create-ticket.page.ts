@@ -14,6 +14,7 @@ export class CreateTicketPage implements OnInit {
   role = this.roleOptions[1];
 
   ngOnInit() {
+    this.role = localStorage.getItem('role');
   }
 
   navigateTo(navURL: string) {

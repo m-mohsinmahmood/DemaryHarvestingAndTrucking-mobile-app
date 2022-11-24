@@ -19,6 +19,7 @@ export class CreateTicketPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.role = localStorage.getItem('role');
   }
 
   chooseImage(event) {

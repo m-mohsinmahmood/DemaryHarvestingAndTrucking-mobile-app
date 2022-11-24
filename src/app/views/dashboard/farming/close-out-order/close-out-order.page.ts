@@ -14,7 +14,7 @@ export class CloseOutOrderPage implements OnInit {
   }
 
   navigateTo() {
-    this.router.navigateByUrl('/dashboard/farming')
+    this.router.navigateByUrl('/tabs/home/farming')
   }
 
 }
