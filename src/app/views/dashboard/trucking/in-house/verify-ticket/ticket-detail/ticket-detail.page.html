@@ -106,72 +106,56 @@
   </ion-card>
 
   <!-------- Role Truck Driver-->
-  <ion-card *ngIf="role === 'truck-driver'">
-    <ion-card-header>
-      <ion-card-title class="flex justify-center text-xl font-Lato">In House Delivery Ticket</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <ion-grid>
 
-        <!-- First Row -->
-        <ion-row class="h-20 flex content-center pl-4">
-          <ion-col size="6" class="flex flex-col  ">
-            <p class="font-Lato text-black font-bold font-14">Ticket #</p>
-            <span class="font-Lato font-14">12345</span>
-          </ion-col>
-          <ion-col size="6" class="flex flex-col   ">
-            <p class="font-Lato text-black font-bold font-14">Truck #</p>
-            <span class="font-Lato font-14">567</span>
-          </ion-col>
-        </ion-row>
+  <form [formGroup]="verifyFormInHouseTruck" *ngIf="role === 'truck-driver'">
+    <ion-list>
+      <ion-item>
+        <ion-label position="floating"> Ticket #</ion-label>
+        <ion-input formControlName="ticketNo" placeholder="State"></ion-input>
+      </ion-item>
+      <ion-text *ngIf="this.verifyFormInHouseTruck.get('ticketNo').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Ticket No. required</ion-text>
+      <ion-item>
+        <ion-label position="floating">Truck#</ion-label>
+        <ion-input formControlName="truckNo" placeholder="Truck#"></ion-input>
+      </ion-item>
+      <ion-text *ngIf="this.verifyFormInHouseTruck.get('truckNo').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Truck No. required</ion-text>
+      <ion-item>
+        <ion-label position="floating">Home Base (Beginning) Odometer Reading</ion-label>
+        <ion-input formControlName="homeBeginingOdometerReading" placeholder="Home Base (Beginning) Odometer Reading"></ion-input>
+      </ion-item>
+      <ion-text *ngIf="this.verifyFormInHouseTruck.get('homeBeginingOdometerReading').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Home base (begining) odometer reading required</ion-text>
+      <ion-item>
+        <ion-label position="floating">Origin (Begining) Odometer Reading</ion-label>
+        <ion-input formControlName="originBeginingOdometerReading" placeholder="Origin (Begining) Odometer Reading"></ion-input>
+      </ion-item>
+      <ion-text *ngIf="this.verifyFormInHouseTruck.get('originBeginingOdometerReading').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Origin (begining) odometer reading required</ion-text>
+      <ion-item>
+        <ion-label position="floating">Destination (Ending) Odometer Reading</ion-label>
+        <ion-input formControlName="destinationEndingOdometerReading" placeholder="Destination (Ending) Odometer Reading"></ion-input>
+      </ion-item>
+      <ion-text *ngIf="this.verifyFormInHouseTruck.get('destinationEndingOdometerReading').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Destination (ending) odometer reading required</ion-text>
+      <ion-item>
+        <ion-label position="floating">Total trip Miles</ion-label>
+        <ion-input formControlName="totalTripMiles" placeholder="Total trip Miles"></ion-input>
+      </ion-item>
+      <ion-text *ngIf="this.verifyFormInHouseTruck.get('totalTripMiles').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Total trip miles required</ion-text>
+      <ion-item>
+        <ion-label position="floating">Dead Head Miles</ion-label>
+        <ion-input formControlName="deadHeadMiles" placeholder="Dead Head Miles"></ion-input>
+      </ion-item>
+      <ion-text *ngIf="this.verifyFormInHouseTruck.get('deadHeadMiles').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Dead head miles required</ion-text>
+      <ion-item>
+        <ion-label position="floating">Total Job Miles</ion-label>
+        <ion-input formControlName="totalJobMiles" placeholder="total Job Miles"></ion-input>
+      </ion-item>
+      <ion-text *ngIf="this.verifyFormInHouseTruck.get('totalJobMiles').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">total job miles required</ion-text>
 
-        <!-- Second Row -->
-        <ion-row class="h-20 flex content-center pl-4">
-          <ion-col size="6" class="flex flex-col  ">
-            <p class="font-Lato text-black font-bold font-14">Home Base (Beginning) Odometer Reading</p>
-            <span class="font-Lato font-14">4545</span>
-          </ion-col>
-          <ion-col size="6" class="flex flex-col   ">
-            <p class="font-Lato text-black font-bold font-14">Origin (Beginning) Odometer Reading</p>
-            <span class="font-Lato font-14">73213</span>
-          </ion-col>
-        </ion-row>
-
-        <!-- Third Row -->
-        <ion-row class="h-20 flex content-center pl-4">
-          <ion-col size="6" class="flex flex-col   ">
-            <p class="font-Lato text-black font-bold font-14">Destination (Ending) Odometer Reading</p>
-            <span class="font-Lato font-14">73213</span>
-          </ion-col>
-          <ion-col size="6" class="flex flex-col   ">
-            <p class="font-Lato text-black font-bold font-14">Total Trip Miles</p>
-            <span class="font-Lato font-14">20</span>
-          </ion-col>
-        </ion-row>
-
-        <ion-row class="h-20 flex content-center pl-4">
-          <ion-col size="6" class="flex flex-col ">
-            <p class="font-Lato text-black font-bold font-14">Dead Head Miles</p>
-            <span class="font-Lato font-14">30</span>
-          </ion-col>
-          <ion-col size="6" class="flex flex-col  ">
-            <p class="font-Lato text-black font-bold font-14">Total Job Miles</p>
-            <span class="font-Lato font-14">20</span>
-          </ion-col>
-        </ion-row>
-
-        <ion-row class="h-20 flex content-center pl-4">
-          <ion-col size="6" class="flex flex-col  ">
-            <p class="font-Lato text-black font-bold font-14">Driver notes</p>
-            <span class="font-Lato font-14">N/A</span>
-          </ion-col>
-        </ion-row>
-
-      </ion-grid>
-      <ion-button expand="block" class="mt-5 font-Lato  text-white"
-        (click)="navigateTo('/tabs/home/trucking/in-house')">Verify
+      <ion-button expand="block" class="mt-5 font-Lato text-white"
+         (click)="navigateDispatcher()"
+         [disabled]="this.verifyFormInHouseTruck.invalid"
+         >Generate Ticket
       </ion-button>
+    </ion-list>
+  </form>
 
-    </ion-card-content>
-  </ion-card>
 </ion-content>

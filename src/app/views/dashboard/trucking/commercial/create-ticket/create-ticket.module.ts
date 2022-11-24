@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { CreateTicketPageRoutingModule } from './create-ticket-routing.module';
 import { CreateTicketPage } from './create-ticket.page';
@@ -14,7 +14,8 @@ import { TimerModule } from 'src/app/components/timer/timer.module';
     IonicModule,
     CreateTicketPageRoutingModule,
     HeaderModule,
-    TimerModule
+    TimerModule,
+    ReactiveFormsModule
   ],
   declarations: [CreateTicketPage]
 })

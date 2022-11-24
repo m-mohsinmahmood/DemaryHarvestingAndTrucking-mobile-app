@@ -5,27 +5,34 @@
   <app-timer [value]="'22-22-2022'"></app-timer>
   <div class="p-4">
 
-    <!-------- Role Crew Chief ------------>
+    <!-------- Role Dispatcher ------------>
     <div *ngIf="role === 'dispatcher'">
-      <form>
+      <form [formGroup]="createTicketFormDispatcher">
         <ion-list>
           <ion-item>
             <ion-label position="floating">Delivery Ticket #</ion-label>
-            <ion-input placeholder="Ticket #" readonly></ion-input>
+            <ion-input formControlName="ticketNo" placeholder="Ticket #"></ion-input>
           </ion-item>
+          <ion-text *ngIf="this.createTicketFormDispatcher.get('ticketNo').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Delivery ticket required</ion-text>
           <ion-item>
             <ion-label position="floating">Dispatcher Name</ion-label>
-            <ion-input placeholder="Dispatcher Name"></ion-input>
+            <ion-input formControlName="dispatcherName" placeholder="Dispatcher Name"></ion-input>
+
           </ion-item>
+          <ion-text *ngIf="this.createTicketFormDispatcher.get('dispatcherName').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Dispatcher name required</ion-text>
           <ion-item>
             <ion-label position="floating">Customer Name</ion-label>
-            <ion-input placeholder="Customer Name"></ion-input>
+            <ion-input formControlName="customerName" placeholder="Customer Name"></ion-input>
+
           </ion-item>
+          <ion-text *ngIf="this.createTicketFormDispatcher.get('customerName').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Customer name required</ion-text>
 
           <div class="custom-file-upload">
             <label>
-              <input name="rateSheet" type="file" (change)="chooseImage($event)" multiple
-                accept="image/png, image/jpeg" />
+              <input name="rateSheet" type="file"
+              (change)="chooseImage($event)" multiple
+              formControlName="uploadFile"
+              accept="image/png, image/jpeg" />
               Upload Rate Sheet
             </label>
           </div>
@@ -42,41 +49,55 @@
 
           <ion-item>
             <ion-label position="floating">Load Date</ion-label>
-            <ion-input placeholder="Load Date"></ion-input>
+            <ion-input formControlName="loadDate" placeholder="Load Date"></ion-input>
+
           </ion-item>
+          <ion-text *ngIf="this.createTicketFormDispatcher.get('loadDate').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Load date required</ion-text>
           <ion-item>
             <ion-label position="floating">Driver Name</ion-label>
-            <ion-input placeholder="Driver Name"></ion-input>
+            <ion-input formControlName="driverName" placeholder="Driver Name"></ion-input>
+
           </ion-item>
+          <ion-text *ngIf="this.createTicketFormDispatcher.get('driverName').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Driver name required</ion-text>
           <ion-item>
             <ion-label position="floating">Load #</ion-label>
-            <ion-input placeholder="Load #"></ion-input>
+            <ion-input formControlName="load" placeholder="Load #"></ion-input>
+
           </ion-item>
+          <ion-text *ngIf="this.createTicketFormDispatcher.get('load').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Load required</ion-text>
           <ion-item>
             <ion-label position="floating">Rate Type</ion-label>
-            <ion-input placeholder="Rate Type"></ion-input>
+            <ion-input formControlName="rateType" placeholder="Rate Type"></ion-input>
+
           </ion-item>
+          <ion-text *ngIf="this.createTicketFormDispatcher.get('rateType').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Rate Type required</ion-text>
           <ion-item>
             <ion-label position="floating">Cargo</ion-label>
-            <ion-input placeholder="Cargo"></ion-input>
+            <ion-input formControlName="cargo" placeholder="Cargo"></ion-input>
+
           </ion-item>
+          <ion-text *ngIf="this.createTicketFormDispatcher.get('cargo').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Cargo required</ion-text>
           <ion-item>
             <ion-label position="floating">Origin City</ion-label>
-            <ion-input placeholder="Origin City"></ion-input>
+            <ion-input formControlName="originCity" placeholder="Origin City"></ion-input>
           </ion-item>
+          <ion-text *ngIf="this.createTicketFormDispatcher.get('originCity').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Origin city required</ion-text>
           <ion-item>
             <ion-label position="floating">Destination City</ion-label>
-            <ion-input placeholder="Destination City"></ion-input>
+            <ion-input formControlName="destinationCity" placeholder="Destination City"></ion-input>
           </ion-item>
+          <ion-text *ngIf="this.createTicketFormDispatcher.get('destinationCity').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Destination city required</ion-text>
           <ion-item>
             <ion-label position="floating">Destination State</ion-label>
-            <ion-input placeholder="Destination State"></ion-input>
+            <ion-input formControlName="destinationState" placeholder="Destination State"></ion-input>
           </ion-item>
+          <ion-text *ngIf="this.createTicketFormDispatcher.get('destinationState').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Destination state required</ion-text>
           <ion-item>
             <ion-label position="floating">Dispatcher Notes</ion-label>
-            <ion-input placeholder="N/A"></ion-input>
+            <ion-input formControlName="dispatcherNotes" placeholder="N/A"></ion-input>
           </ion-item>
-          <ion-button expand="block" class="mt-5 font-Lato text-white" [routerLink]="['ticket-generated']">Generate
+          <ion-text *ngIf="this.createTicketFormDispatcher.get('dispatcherNotes').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Dispatcher notes required</ion-text>
+          <ion-button expand="block" class="mt-5 font-Lato text-white" [disabled]="this.createTicketFormDispatcher.invalid" (click)="navigateDispatcher()">Generate
             Ticket
           </ion-button>
         </ion-list>
@@ -85,28 +106,35 @@
 
     <!------- Role Truck Driver --------->
     <div *ngIf="role === 'truck-driver'">
-      <form>
+      <form [formGroup]="createTicketFormTruckDriver">
         <ion-list>
           <ion-item>
             <ion-label position="floating">Delivery Ticket #</ion-label>
-            <ion-input placeholder="Ticket #" readonly></ion-input>
+            <ion-input formControlName="deliveryTicket" placeholder="Ticket #" readonly></ion-input>
           </ion-item>
+          <ion-text *ngIf="this.createTicketFormTruckDriver.get('deliveryTicket').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Delivery ticket required</ion-text>
           <ion-item>
             <ion-label position="floating">Supervisor Name</ion-label>
-            <ion-input placeholder="Supervisor Name"></ion-input>
+            <ion-input formControlName="supervisorName" placeholder="Supervisor Name"></ion-input>
+
           </ion-item>
+          <ion-text *ngIf="this.createTicketFormTruckDriver.get('supervisorName').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Supervisor name required</ion-text>
           <ion-item>
             <ion-label position="floating">Truck Driver</ion-label>
-            <ion-input placeholder="Truck Driver"></ion-input>
+            <ion-input formControlName="truckDriver" placeholder="Truck Driver"></ion-input>
+
           </ion-item>
+          <ion-text *ngIf="this.createTicketFormTruckDriver.get('truckDriver').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Truck driver required</ion-text>
           <ion-item>
             <ion-label position="floating">Customer Name</ion-label>
-            <ion-input placeholder="Customer Name"></ion-input>
+            <ion-input formControlName="customerName" placeholder="Customer Name"></ion-input>
+
           </ion-item>
+          <ion-text *ngIf="this.createTicketFormTruckDriver.get('customerName').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Customer name required</ion-text>
 
           <div class="custom-file-upload">
             <label>
-              <input type="file" name="rateSheet" (change)="chooseImage($event)" multiple
+              <input formControlName="rateSheetUpload" type="file" name="rateSheet" (change)="chooseImage($event)" multiple
                 accept="image/png, image/jpeg" />
               Upload Rate Sheet
             </label>
@@ -124,65 +152,93 @@
 
           <ion-item>
             <ion-label position="floating">Load #</ion-label>
-            <ion-input placeholder="Load #"></ion-input>
+            <ion-input formControlName="load" placeholder="Load #"></ion-input>
+
           </ion-item>
+          <ion-text *ngIf="this.createTicketFormTruckDriver.get('load').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Load required</ion-text>
           <ion-item>
             <ion-label position="floating">Rate Type</ion-label>
-            <ion-input placeholder="Rate Type"></ion-input>
+            <ion-input formControlName="rateType" placeholder="Rate Type"></ion-input>
+
           </ion-item>
+          <ion-text *ngIf="this.createTicketFormTruckDriver.get('rateType').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Rate Type required</ion-text>
           <ion-item>
             <ion-label position="floating">Rate</ion-label>
-            <ion-input placeholder="Rate"></ion-input>
+            <ion-input formControlName="rate" placeholder="Rate"></ion-input>
+
           </ion-item>
+          <ion-text *ngIf="this.createTicketFormTruckDriver.get('rate').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Rate is required</ion-text>
           <ion-item>
             <ion-label position="floating">Cargo</ion-label>
-            <ion-input placeholder="Cargo"></ion-input>
+            <ion-input formControlName="cargo" placeholder="Cargo"></ion-input>
+
           </ion-item>
+          <ion-text *ngIf="this.createTicketFormTruckDriver.get('cargo').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Cargo required</ion-text>
           <ion-item>
             <ion-label position="floating">Origin City</ion-label>
-            <ion-input placeholder="Origin City"></ion-input>
+            <ion-input formControlName="originCity" placeholder="Origin City"></ion-input>
+
           </ion-item>
+          <ion-text *ngIf="this.createTicketFormTruckDriver.get('originCity').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Origin city required</ion-text>
           <ion-item>
             <ion-label position="floating">Destination City</ion-label>
-            <ion-input placeholder="Destination City"></ion-input>
+            <ion-input formControlName="destinationCity" placeholder="Destination City"></ion-input>
+
           </ion-item>
+          <ion-text *ngIf="this.createTicketFormTruckDriver.get('destinationCity').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Destination city required</ion-text>
           <ion-item>
             <ion-label position="floating">Destination State</ion-label>
-            <ion-input placeholder="Destination State"></ion-input>
+            <ion-input formControlName="destinationState" placeholder="Destination State"></ion-input>
+
           </ion-item>
+          <ion-text *ngIf="this.createTicketFormTruckDriver.get('destinationState').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Destination state required</ion-text>
           <ion-item>
             <ion-label position="floating">Truck #</ion-label>
-            <ion-input placeholder="Truck #"></ion-input>
+            <ion-input formControlName="truck" placeholder="Truck #"></ion-input>
+
           </ion-item>
+          <ion-text *ngIf="this.createTicketFormTruckDriver.get('truck').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Truck required</ion-text>
           <ion-item>
             <ion-label position="floating">Ticket #</ion-label>
-            <ion-input placeholder="Ticket #"></ion-input>
+            <ion-input formControlName="ticket" placeholder="Ticket #"></ion-input>
+
           </ion-item>
+          <ion-text *ngIf="this.createTicketFormTruckDriver.get('ticket').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Ticket required</ion-text>
           <ion-item>
             <ion-label position="floating">Home Base (Beginning) Odometer Reading</ion-label>
-            <ion-input placeholder="Odometer Reading"></ion-input>
+            <ion-input formControlName="homeBeginingOdometerReading" placeholder="Odometer Reading"></ion-input>
+
           </ion-item>
+          <ion-text *ngIf="this.createTicketFormTruckDriver.get('homeBeginingOdometerReading').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Home base (begining) odometer reading required</ion-text>
           <ion-item>
             <ion-label position="floating">Origin (Beginning) Odometer Reading</ion-label>
-            <ion-input placeholder="Origin (Beginning) Odometer Reading"></ion-input>
+            <ion-input formControlName="originBeginingOdometerReading" placeholder="Origin (Beginning) Odometer Reading"></ion-input>
+
           </ion-item>
+          <ion-text *ngIf="this.createTicketFormTruckDriver.get('originBeginingOdometerReading').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Origin (begining) odometer required</ion-text>
           <ion-item>
             <ion-label position="floating">Origin Empty Weight</ion-label>
-            <ion-input placeholder="Origin Empty Weight"></ion-input>
+            <ion-input formControlName="originEmptyWeight" placeholder="Origin Empty Weight"></ion-input>
+
           </ion-item>
+          <ion-text *ngIf="this.createTicketFormTruckDriver.get('originEmptyWeight').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Origin empty weight required</ion-text>
           <ion-item>
             <ion-label position="floating">Origin Loaded Weight</ion-label>
-            <ion-input placeholder="Origin Loaded Weight"></ion-input>
+            <ion-input formControlName="originLoadedWeight" placeholder="Origin Loaded Weight"></ion-input>
+
           </ion-item>
+          <ion-text *ngIf="this.createTicketFormTruckDriver.get('originLoadedWeight').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Origin loaded weight required</ion-text>
           <ion-item>
-            <ion-label position="floating">Origin Weight of Load</ion-label>
-            <ion-input placeholder="Origin Weight of Load"></ion-input>
+            <ion-label position="floating">Origin Weight of Load 1</ion-label>
+            <ion-input formControlName="originWeightLoad1" placeholder="Origin Weight of Load"></ion-input>
+            <ion-text *ngIf="this.createTicketFormTruckDriver.get('originWeightLoad1').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Origin weight of load 1 required</ion-text>
+
           </ion-item>
           <!-- Origin DOcs-->
 
           <div class="custom-file-upload">
             <label>
-              <input type="file" name="originDocs" (change)="chooseImage($event)" multiple
+              <input  formControlName="originalDocsUpload" type="file" name="originDocs" (change)="chooseImage($event)" multiple
                 accept="image/png, image/jpeg" />
               Origin Documents
             </label>
@@ -200,36 +256,50 @@
 
           <ion-item>
             <ion-label position="floating">Destination Ending Odometer Reading</ion-label>
-            <ion-input placeholder="Destination Ending Odometer Reading"></ion-input>
+            <ion-input formControlName="destinationEndingnOdometerReading" placeholder="Destination Ending Odometer Reading"></ion-input>
+
+            <ion-text *ngIf="this.createTicketFormTruckDriver.get('destinationEndingnOdometerReading').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Destination ending odometer required</ion-text>
           </ion-item>
           <ion-item>
             <ion-label position="floating">Destination Loaded Weight</ion-label>
-            <ion-input placeholder="Destination Loaded Weight"></ion-input>
+            <ion-input formControlName="destinationLoadedWeight" placeholder="Destination Loaded Weight"></ion-input>
+
           </ion-item>
+          <ion-text *ngIf="this.createTicketFormTruckDriver.get('destinationLoadedWeight').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Destination loaded weight required</ion-text>
           <ion-item>
             <ion-label position="floating">Destination Empty Weight</ion-label>
-            <ion-input placeholder="Destination Empty Weight"></ion-input>
+            <ion-input formControlName="destinationEmptyWeight" placeholder="Destination Empty Weight"></ion-input>
+
           </ion-item>
+          <ion-text *ngIf="this.createTicketFormTruckDriver.get('destinationEmptyWeight').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Destination empty weight required</ion-text>
           <ion-item>
             <ion-label position="floating">Origin Weight of Load</ion-label>
-            <ion-input placeholder="Origin Weight of Load"></ion-input>
+            <ion-input formControlName="originWeightLoad2" placeholder="Origin Weight of Load"></ion-input>
+
           </ion-item>
+          <ion-text *ngIf="this.createTicketFormTruckDriver.get('originWeightLoad2').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Origin weight of load required</ion-text>
           <ion-item>
             <ion-label position="floating">Weight of Load</ion-label>
-            <ion-input placeholder="Weight of Load"></ion-input>
+            <ion-input formControlName="weightLoad" placeholder="Weight of Load"></ion-input>
+
           </ion-item>
+          <ion-text *ngIf="this.createTicketFormTruckDriver.get('weightLoad').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Weight of load required</ion-text>
           <ion-item>
             <ion-label position="floating">Scale Ticket #/BOL #</ion-label>
-            <ion-input placeholder="Scale Ticket #/BOL #"></ion-input>
+            <ion-input formControlName="scaleTicket" placeholder="Scale Ticket #/BOL #"></ion-input>
+
           </ion-item>
+          <ion-text *ngIf="this.createTicketFormTruckDriver.get('scaleTicket').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Scale ticket #/BOL required</ion-text>
           <ion-item>
             <ion-label position="floating">Destination (Delivery Load)</ion-label>
-            <ion-input placeholder="Destination (Delivery Load)"></ion-input>
+            <ion-input formControlName="destinationDeliveryLoad" placeholder="Destination (Delivery Load)"></ion-input>
+
           </ion-item>
+          <ion-text *ngIf="this.createTicketFormTruckDriver.get('destinationDeliveryLoad').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Destination (delivey load) required</ion-text>
           <!--pics-->
           <div class="custom-file-upload">
             <label>
-              <input type="file" name="customDocs" (change)="chooseImage($event)" multiple
+              <input formControlName="documentsUpload" type="file" name="customDocs" (change)="chooseImage($event)" multiple
                 accept="image/png, image/jpeg" />
               Upload Documents
             </label>
@@ -247,21 +317,29 @@
 
           <ion-item>
             <ion-label position="floating">Total Trip Miles</ion-label>
-            <ion-input placeholder="Total Trip Miles"></ion-input>
+            <ion-input formControlName="totalTripMiles" placeholder="Total Trip Miles"></ion-input>
+
           </ion-item>
+          <ion-text *ngIf="this.createTicketFormTruckDriver.get('totalTripMiles').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Total trip miles required</ion-text>
           <ion-item>
             <ion-label position="floating">Dead-Head Miles</ion-label>
-            <ion-input placeholder="Dead-Head Miles"></ion-input>
+            <ion-input formControlName="deadHeadMiles" placeholder="Dead-Head Miles"></ion-input>
+
           </ion-item>
+          <ion-text *ngIf="this.createTicketFormTruckDriver.get('deadHeadMiles').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Dead head miles required</ion-text>
           <ion-item>
             <ion-label position="floating">Total Job Miles</ion-label>
-            <ion-input placeholder="Total Job Miles"></ion-input>
+            <ion-input formControlName="totalJobMiles" placeholder="Total Job Miles"></ion-input>
+
           </ion-item>
+          <ion-text *ngIf="this.createTicketFormTruckDriver.get('totalJobMiles').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Total job miles required</ion-text>
           <ion-item>
             <ion-label position="floating">Driver Notes</ion-label>
-            <ion-input placeholder="Driver Notes"></ion-input>
+            <ion-input formControlName="driverNotes" placeholder="Driver Notes"></ion-input>
+
           </ion-item>
-          <ion-button expand="block" class="mt-5 font-Lato text-white" [routerLink]="['/tabs/home/trucking/commercial']">Save and
+          <ion-text *ngIf="this.createTicketFormTruckDriver.get('driverNotes').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Driver notes required</ion-text>
+          <ion-button expand="block" class="mt-5 font-Lato text-white" [disabled]="this.createTicketFormTruckDriver.invalid" (click)="navigateTruckDriver()">Save and
             Submit
           </ion-button>
         </ion-list>
