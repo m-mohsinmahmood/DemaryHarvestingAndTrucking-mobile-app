@@ -1,49 +1,166 @@
 <app-header [title]="'Create New Work Order'" [color]="'farming'"></app-header>
 <app-timer [value]="'12-10-2022'"> </app-timer>
 <ion-content>
-  
-  <div class="p-4">
-    <div>
-      <ion-item>
-        <ion-label position="floating">Work Order #</ion-label>
-        <ion-input placeholder="Enter Work Order #"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating">Dispatcher</ion-label>
-        <ion-input placeholder="Enter Dispatcher"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating">Customer</ion-label>
-        <ion-input placeholder="Enter Customer Name"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating">Farm</ion-label>
-        <ion-input placeholder="Enter Farm Name"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating">Field</ion-label>
-        <ion-input placeholder="Enter Field Name"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating">Service</ion-label>
-        <ion-input placeholder="Enter Service"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating">Tractor Driver</ion-label>
-        <ion-input placeholder="Enter Tractor Driver"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating">Field Address (if known)</ion-label>
-        <ion-input placeholder="Enter Field Address"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating">Customer Phone</ion-label>
-        <ion-input placeholder="Enter Customer Phone"></ion-input>
-      </ion-item>
+  <!--------- Role Dispatcher --------------->
+  <div class="p-4" *ngIf="role === 'dispatcher'">
+    <form [formGroup]="createOrderDispatcher">
+      <div>
+        <ion-item>
+          <div class="flex flex-col">
+            <span>Work Order #</span>
+            <span class="mt-2 mb-2">12345</span>
+          </div>
+        </ion-item>
 
-    </div>
-    <ion-button expand="block" class="mt-5 font-Lato text-white" [routerLink]="['ticket-generated']">Generate
-      Ticket
-    </ion-button>
+        <ion-item>
+          <ion-label position="floating">Dispatcher</ion-label>
+          <ion-input formControlName="dispatcher" placeholder="Enter Dispatcher"></ion-input>
+        </ion-item>
+        <ion-text *ngIf="this.createOrderDispatcher.get('dispatcher').hasError('required')"
+          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Dispatcher required</ion-text>
+
+        <ion-item>
+          <ion-label position="floating">Customer</ion-label>
+          <ion-input formControlName="customer" placeholder="Enter Customer Name"></ion-input>
+        </ion-item>
+        <ion-text *ngIf="this.createOrderDispatcher.get('customer').hasError('required')"
+          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Customer required</ion-text>
+
+        <ion-item>
+          <ion-label position="floating">Farm</ion-label>
+          <ion-input formControlName="farm" placeholder="Enter Farm Name"></ion-input>
+        </ion-item>
+        <ion-text *ngIf="this.createOrderDispatcher.get('farm').hasError('required')"
+          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Farm required</ion-text>
+
+        <ion-item>
+          <ion-label position="floating">Field</ion-label>
+          <ion-input formControlName="field" placeholder="Enter Field Name"></ion-input>
+        </ion-item>
+        <ion-text *ngIf="this.createOrderDispatcher.get('field').hasError('required')"
+          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Field required</ion-text>
+
+        <ion-item>
+          <ion-label position="floating">Service</ion-label>
+          <ion-input formControlName="service" placeholder="Enter Service"></ion-input>
+        </ion-item>
+        <ion-text *ngIf="this.createOrderDispatcher.get('service').hasError('required')"
+          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Service required</ion-text>
+
+        <ion-item>
+          <ion-label position="floating">Tractor Driver</ion-label>
+          <ion-input formControlName="tractorDriver" placeholder="Enter Tractor Driver"></ion-input>
+        </ion-item>
+        <ion-text *ngIf="this.createOrderDispatcher.get('tractorDriver').hasError('required')"
+          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Tractor Driver required</ion-text>
+
+        <ion-item>
+          <ion-label position="floating">Field Address (if known)</ion-label>
+          <ion-input formControlName="fieldAddress" placeholder="Enter Field Address"></ion-input>
+        </ion-item>
+        <ion-text *ngIf="this.createOrderDispatcher.get('fieldAddress').hasError('required')"
+          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Field Address required</ion-text>
+
+        <ion-item>
+          <ion-label position="floating">Customer Phone</ion-label>
+          <ion-input formControlName="phone" placeholder="Enter Customer Phone"></ion-input>
+        </ion-item>
+        <ion-text *ngIf="this.createOrderDispatcher.get('phone').hasError('required')"
+          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Phone required</ion-text>
+
+      </div>
+      <ion-button [disabled]="this.createOrderDispatcher.invalid" expand="block" class="mt-5 font-Lato text-white"
+        (click)="navigateTo('/tabs/home/farming/create-order/ticket-generated')">Generate Ticket
+      </ion-button>
+    </form>
+  </div>
+
+  <!-------------- Role Tractor Driver-->
+  <div class="p-4" *ngIf="role === 'tractor-driver'">
+    <form [formGroup]="createOrderTDriver">
+      <div>
+        <ion-item>
+          <ion-label position="floating">Machinery ID</ion-label>
+          <ion-input formControlName="machineryID" placeholder="Machinery ID"></ion-input>
+        </ion-item>
+        <ion-text *ngIf="this.createOrderTDriver.get('machineryID').hasError('required')"
+          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Machinery ID required</ion-text>
+
+        <ion-item>
+          <ion-label position="floating">Confirm Beginning Engine Hours</ion-label>
+          <ion-input formControlName="cBeginningEngineHours" placeholder="Confirm Beginning Engine Hours"></ion-input>
+        </ion-item>
+        <ion-text *ngIf="this.createOrderTDriver.get('cBeginningEngineHours').hasError('required')"
+          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Confirm Beginning Engine Hours required
+        </ion-text>
+
+        <ion-item>
+          <ion-label position="floating">Work Order #</ion-label>
+          <ion-input formControlName="workOrderNum" placeholder="Work Order #"></ion-input>
+        </ion-item>
+        <ion-text *ngIf="this.createOrderTDriver.get('workOrderNum').hasError('required')"
+          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Worder Order # required</ion-text>
+
+        <ion-item>
+          <ion-label position="floating">Dispatcher</ion-label>
+          <ion-input formControlName="dispatcher" placeholder="Enter Dispatcher Name"></ion-input>
+        </ion-item>
+        <ion-text *ngIf="this.createOrderTDriver.get('dispatcher').hasError('required')"
+          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Dispatcher required</ion-text>
+
+        <ion-item>
+          <ion-label position="floating">Customer</ion-label>
+          <ion-input formControlName="customer" placeholder="Enter Customer Name"></ion-input>
+        </ion-item>
+        <ion-text *ngIf="this.createOrderTDriver.get('customer').hasError('required')"
+          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Customer required</ion-text>
+
+        <ion-item>
+          <ion-label position="floating">Farm</ion-label>
+          <ion-input formControlName="farm" placeholder="Enter Farm"></ion-input>
+        </ion-item>
+        <ion-text *ngIf="this.createOrderTDriver.get('farm').hasError('required')"
+          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Farm required</ion-text>
+
+        <ion-item>
+          <ion-label position="floating">Field</ion-label>
+          <ion-input formControlName="field" placeholder="Enter Field"></ion-input>
+        </ion-item>
+        <ion-text *ngIf="this.createOrderTDriver.get('field').hasError('required')"
+          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Field required</ion-text>
+
+        <ion-item>
+          <ion-label position="floating">Service</ion-label>
+          <ion-input formControlName="service" placeholder="Enter Service"></ion-input>
+        </ion-item>
+        <ion-text *ngIf="this.createOrderTDriver.get('service').hasError('required')"
+          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Service required</ion-text>
+
+        <ion-item>
+          <ion-label position="floating">Tractor Driver</ion-label>
+          <ion-input formControlName="tractorDriver" placeholder="Enter Tractor Driver"></ion-input>
+        </ion-item>
+        <ion-text *ngIf="this.createOrderTDriver.get('tractorDriver').hasError('required')"
+          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Tractor Driver required</ion-text>
+
+        <ion-item>
+          <ion-label position="floating">Field Address (if known)</ion-label>
+          <ion-input formControlName="fieldAddress" placeholder="Enter Field Address"></ion-input>
+        </ion-item>
+        <ion-text *ngIf="this.createOrderTDriver.get('fieldAddress').hasError('required')"
+          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Field Address required</ion-text>
+
+        <ion-item>
+          <ion-label position="floating">Customer Phone</ion-label>
+          <ion-input formControlName="phone" placeholder="Enter Customer Phone"></ion-input>
+        </ion-item>
+        <ion-text *ngIf="this.createOrderTDriver.get('phone').hasError('required')"
+          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Phone required</ion-text>
+
+      </div>
+      <ion-button [disabled]="this.createOrderTDriver.invalid" expand="block" class="mt-5 font-Lato text-white"
+        (click)="navigateTo('/tabs/home/farming')">Generate Ticket
+      </ion-button>
+    </form>
   </div>
 </ion-content>

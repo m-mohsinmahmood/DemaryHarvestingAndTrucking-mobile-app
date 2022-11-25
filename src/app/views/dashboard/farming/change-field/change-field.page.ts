@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-change-field',
@@ -8,12 +9,18 @@ import { Router } from '@angular/router';
 })
 export class ChangeFieldPage implements OnInit {
 
-  constructor(private router: Router) { }
+  changeField: FormGroup;
+  constructor(private router: Router, private formBuilder: FormBuilder) { }
 
   ngOnInit() {
+    this.changeField = this.formBuilder.group({
+      fieldName: ['', [Validators.required]],
+      gpsAcresCompleted: ['', [Validators.required]],
+    });
   }
 
   navigateTo() {
+    console.log(this.changeField.value);
     this.router.navigateByUrl('/tabs/home/farming');
   }
 

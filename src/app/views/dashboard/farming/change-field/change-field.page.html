@@ -3,7 +3,6 @@
 <ion-content>
   <app-timer [value]="'12-10-2022'"> </app-timer>
   <div class="p-4">
-    
     <ion-card class="m-0 mb-2">
       <ion-card-header>
         <ion-card-title class="font-Lato">Customer Profile</ion-card-title>
@@ -25,16 +24,26 @@
         </ion-grid>
       </ion-card-content>
     </ion-card>
-    <div class="">
-      <ion-item>
-        <ion-label position="floating">Field Name</ion-label>
-        <ion-input placeholder="Enter Field Name"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating">GPS Acres Completed (for prior field)</ion-label>
-        <ion-input placeholder="Enter GPS Acres Completed"></ion-input>
-      </ion-item>
-    </div>
-    <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="navigateTo()">Save</ion-button>
+
+    <form [formGroup]="changeField">
+      <div>
+        <ion-item>
+          <ion-label position="floating">Field Name</ion-label>
+          <ion-input formControlName="fieldName" placeholder="Enter Field Name"></ion-input>
+        </ion-item>
+        <ion-text *ngIf="this.changeField.get('fieldName').hasError('required')"
+          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Customer Name is required</ion-text>
+
+        <ion-item>
+          <ion-label position="floating">GPS Acres Completed (for prior field)</ion-label>
+          <ion-input formControlName="gpsAcresCompleted" placeholder="Enter GPS Acres Completed"></ion-input>
+        </ion-item>
+        <ion-text *ngIf="this.changeField.get('gpsAcresCompleted').hasError('required')"
+          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Customer Name is required</ion-text>
+
+      </div>
+      <ion-button [disabled]="this.changeField.invalid" expand="block" class="mt-5 font-Lato text-white"
+        (click)="navigateTo()">Save</ion-button>
+    </form>
   </div>
 </ion-content>
