@@ -8,48 +8,32 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
   styleUrls: ['./ticket-detail.page.scss'],
 })
 export class TicketDetailPage implements OnInit {
-  verifyFormInHouseDispatcher: FormGroup;
   verifyFormInHouseTruck: FormGroup;
+  role = '';
 
   constructor(private router: Router, private formBuilder: FormBuilder) { }
-
-  roleOptions = ['dispatcher', 'truck-driver']
-  role = this.roleOptions[1];
 
   ngOnInit() {
     this.role = localStorage.getItem('role');
 
-    this.verifyFormInHouseDispatcher = this.formBuilder.group({
-      ticketNo: ['',[Validators.required]],
-      truckNo: ['',[Validators.required]],
-      homeBeginingOdometerReading: ['',[Validators.required]],
-      originBeginingOdometerReading: ['',[Validators.required]],
-      destinationEndingOdometerReading: ['',[Validators.required]],
-      totalTripMiles: ['',[Validators.required]],
-      deadHeadMiles: ['',[Validators.required]],
-      totalJobMiles: ['',[Validators.required]],
-    });
-
     this.verifyFormInHouseTruck = this.formBuilder.group({
-      ticketNo: ['',[Validators.required]],
-      truckNo: ['',[Validators.required]],
-      homeBeginingOdometerReading: ['',[Validators.required]],
-      originBeginingOdometerReading: ['',[Validators.required]],
-      destinationEndingOdometerReading: ['',[Validators.required]],
-      totalTripMiles: ['',[Validators.required]],
-      deadHeadMiles: ['',[Validators.required]],
-      totalJobMiles: ['',[Validators.required]],
+      ticketNo: ['', [Validators.required]],
+      truckNo: ['', [Validators.required]],
+      homeBeginingOdometerReading: ['', [Validators.required]],
+      originBeginingOdometerReading: ['', [Validators.required]],
+      destinationEndingOdometerReading: ['', [Validators.required]],
+      totalTripMiles: ['', [Validators.required]],
+      deadHeadMiles: ['', [Validators.required]],
+      totalJobMiles: ['', [Validators.required]],
+      notes: ['', [Validators.required]],
     });
   }
 
   navigateTo(nav: string) {
     this.router.navigateByUrl(nav);
   }
-  navigateDispatcher(){
-    console.log(this.verifyFormInHouseDispatcher.value);
-    this.router.navigateByUrl('/tabs/home/trucking/in-house');
-  }
-  navigateTruck(){
+
+  navigateTruck() {
     console.log(this.verifyFormInHouseTruck.value);
     this.router.navigateByUrl('/tabs/home/trucking/in-house');
   }
