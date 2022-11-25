@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 @Component({
@@ -8,13 +9,29 @@ import { Router } from '@angular/router';
 })
 export class CompleteExistingOrderPage implements OnInit {
 
-  constructor(private activeRoute: Router) { }
+  completeExistingWorkOrder: FormGroup;
+
+  constructor(private activeRoute: Router, private formBuilder: FormBuilder) { }
 
   ngOnInit() {
+    this.completeExistingWorkOrder = this.formBuilder.group({
+      machineryID: ['', [Validators.required]],
+      cBeginningEngineHours: ['', [Validators.required]],
+      workOrderNum: ['', [Validators.required]],
+      dispatcher: ['', [Validators.required]],
+      customer: ['', [Validators.required]],
+      farm: ['', [Validators.required]],
+      field: ['', [Validators.required]],
+      service: ['', [Validators.required]],
+      tractorDriver: ['', [Validators.required]],
+      fieldAddress: ['', [Validators.required]],
+      phone: ['', [Validators.required]],
+    });
   }
 
-  navigateTo() {
-    this.activeRoute.navigateByUrl('/tabs/home/farming');
+  navigateTo(nav: string) {
+    console.log(this.completeExistingWorkOrder.value);
+    this.activeRoute.navigateByUrl(nav);
   }
 
 }

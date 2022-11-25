@@ -7,8 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FarmingPage implements OnInit {
 
-  rolesOptions = ['dispatcher', 'tractor-driver'];
-  role = this.rolesOptions[1];
+  role = ""
 
   constructor() { }
 

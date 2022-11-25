@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { ReportEquipIssuePageRoutingModule } from './report-equip-issue-routing.module';
 import { ReportEquipIssuePage } from './report-equip-issue.page';
@@ -14,7 +14,8 @@ import { TimerModule } from 'src/app/components/timer/timer.module';
     IonicModule,
     ReportEquipIssuePageRoutingModule,
     HeaderModule,
-    TimerModule
+    TimerModule,
+    ReactiveFormsModule
   ],
   declarations: [ReportEquipIssuePage]
 })

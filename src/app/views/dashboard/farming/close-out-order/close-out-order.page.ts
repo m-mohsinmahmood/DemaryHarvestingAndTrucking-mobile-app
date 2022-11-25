@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-close-out-order',
@@ -8,13 +9,23 @@ import { Router } from '@angular/router';
 })
 export class CloseOutOrderPage implements OnInit {
 
-  constructor(private router: Router) { }
+  closeOutWorkOrder: FormGroup;
+  constructor(private router: Router, private formBuilder: FormBuilder) {
+  }
 
   ngOnInit() {
+    this.closeOutWorkOrder = this.formBuilder.group({
+      acresCompleted: ['', [Validators.required]],
+      gpsAcres: ['', [Validators.required]],
+      endingEngineHours: ['', [Validators.required]],
+      hoursWorked: ['', [Validators.required]],
+      notes: ['', [Validators.required]]
+    });
   }
 
   navigateTo() {
-    this.router.navigateByUrl('/tabs/home/farming')
+    console.log(this.closeOutWorkOrder.value);
+    this.router.navigateByUrl('/tabs/home/farming');
   }
 
 }

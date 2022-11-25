@@ -2,30 +2,50 @@
 
 <ion-content>
   <app-timer [value]="'12-10-2022'"> </app-timer>
-  <div class="p-4">
 
-    <div>
-      <ion-item>
-        <ion-label position="floating">Acres Completed</ion-label>
-        <ion-input placeholder="Enter Completed Acres"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating">GPS Acres</ion-label>
-        <ion-input placeholder="Enter GPS Acres"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating">Ending Engine Hours</ion-label>
-        <ion-input placeholder="Enter Engine Hours"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating">Hours Worked</ion-label>
-        <ion-input placeholder="Enter Hours Worked"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating">Notes</ion-label>
-        <ion-input placeholder="Enter Notes"></ion-input>
-      </ion-item>
+  <form [formGroup]="closeOutWorkOrder">
+    <div class="p-4">
+      <div>
+        <ion-item>
+          <ion-label position="floating">Acres Completed</ion-label>
+          <ion-input formControlName="acresCompleted" placeholder="Enter Completed Acres"></ion-input>
+        </ion-item>
+        <ion-text *ngIf="this.closeOutWorkOrder.get('acresCompleted').hasError('required')"
+          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Acres Completed required</ion-text>
+
+        <ion-item>
+          <ion-label position="floating">GPS Acres</ion-label>
+          <ion-input formControlName="gpsAcres" placeholder="Enter GPS Acres"></ion-input>
+        </ion-item>
+        <ion-text *ngIf="this.closeOutWorkOrder.get('gpsAcres').hasError('required')"
+          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">GPS Acres required</ion-text>
+
+        <ion-item>
+          <ion-label position="floating">Ending Engine Hours</ion-label>
+          <ion-input formControlName="endingEngineHours" placeholder="Enter Engine Hours"></ion-input>
+        </ion-item>
+        <ion-text *ngIf="this.closeOutWorkOrder.get('endingEngineHours').hasError('required')"
+          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Ending Engine Hours required</ion-text>
+
+        <ion-item>
+          <ion-label position="floating">Hours Worked</ion-label>
+          <ion-input formControlName="hoursWorked" placeholder="Enter Hours Worked"></ion-input>
+        </ion-item>
+        <ion-text *ngIf="this.closeOutWorkOrder.get('hoursWorked').hasError('required')"
+          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Hours Worked required</ion-text>
+
+        <ion-item>
+          <ion-label position="floating">Notes</ion-label>
+          <ion-textarea formControlName="notes" placeholder="Enter Notes">
+          </ion-textarea>
+        </ion-item>
+        <ion-text *ngIf="this.closeOutWorkOrder.get('notes').hasError('required')"
+          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Notes required</ion-text>
+
+      </div>
+      <ion-button [disabled]="this.closeOutWorkOrder.invalid" expand="block" class="mt-5 font-Lato text-white"
+        (click)="navigateTo()">Save and Submit Ticket
+      </ion-button>
     </div>
-    <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="navigateTo()">Save and Submit Ticket</ion-button>
-  </div>
+  </form>
 </ion-content>

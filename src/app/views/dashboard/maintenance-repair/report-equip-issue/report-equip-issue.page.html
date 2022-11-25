@@ -4,68 +4,94 @@
   <app-timer [value]="'01:12:45'"></app-timer>
 
   <div class="p-4">
-    <form>
+    <form [formGroup]="reportNewEquipIssue">
       <ion-list>
 
         <ion-item>
           <ion-label position="floating">Employee Name</ion-label>
-          <ion-input placeholder="Employee Name"></ion-input>
+          <ion-input formControlName="empName" placeholder="Employee Name"></ion-input>
         </ion-item>
+        <ion-text *ngIf="this.reportNewEquipIssue.get('empName').hasError('required')"
+          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Employee Name required</ion-text>
 
         <ion-item>
           <ion-label position="floating">City</ion-label>
-          <ion-input placeholder="City"></ion-input>
+          <ion-input formControlName="city" placeholder="City"></ion-input>
         </ion-item>
+        <ion-text *ngIf="this.reportNewEquipIssue.get('city').hasError('required')"
+          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">City required</ion-text>
 
-        <ion-item class="mb-8">
+        <ion-item>
           <ion-label position="floating">State</ion-label>
-          <ion-input placeholder="State"></ion-input>
+          <ion-input formControlName="state" placeholder="State"></ion-input>
         </ion-item>
+        <ion-text *ngIf="this.reportNewEquipIssue.get('state').hasError('required')"
+          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">State required</ion-text>
 
-        <ion-label class="ml-5" position="floating">Maintenance or Repair</ion-label>
-        <ion-item class="mb-8">
-          <ion-select interface="popover" placeholder="Select category">
+        <ion-text class="block mt-8">
+          <ion-label class="ml-5" position="floating">Maintenance or Repair</ion-label>
+        </ion-text>
+        <ion-item>
+          <ion-select formControlName="categoryTask" placeholder="Select category">
             <ion-select-option value="maintenance">Maintenance</ion-select-option>
             <ion-select-option value="repair">Repair</ion-select-option>
           </ion-select>
         </ion-item>
+        <ion-text *ngIf="this.reportNewEquipIssue.get('categoryTask').hasError('required')"
+          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Category required</ion-text>
 
-        <ion-label class="ml-5" position="floating">Ticket Number</ion-label>
+        <ion-text class="block mt-8">
+          <ion-label class="ml-5" position="floating">Ticket Number</ion-label>
+        </ion-text>
         <ion-item class="mb-8">
           <ion-text>12345</ion-text>
         </ion-item>
 
-        <ion-label class="ml-5" position="floating">Category</ion-label>
-        <ion-item class="mb-8">
-          <ion-select interface="popover" placeholder="Select Category">
+        <ion-text class="block mt-8">
+          <ion-label class="ml-5" position="floating">Category</ion-label>
+        </ion-text>
+        <ion-item>
+          <ion-select formControlName="categoryDepartment" placeholder="Select Category">
             <ion-select-option value="electrical">Electrical</ion-select-option>
             <ion-select-option value="mechanical">Mechanical</ion-select-option>
           </ion-select>
         </ion-item>
+        <ion-text *ngIf="this.reportNewEquipIssue.get('categoryDepartment').hasError('required')"
+          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Category required</ion-text>
 
-        <ion-label class="ml-5" position="floating">Severity</ion-label>
-        <ion-item class="mb-8">
-          <ion-select interface="popover" placeholder="Select Category">
+        <ion-text class="block mt-8">
+          <ion-label class="ml-5" position="floating">Severity</ion-label>
+        </ion-text>
+        <ion-item>
+          <ion-select formControlName="severity" placeholder="Select Category">
             <ion-select-option value="critical">Critical</ion-select-option>
           </ion-select>
         </ion-item>
+        <ion-text *ngIf="this.reportNewEquipIssue.get('severity').hasError('required')"
+          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Severity required</ion-text>
 
-        <ion-label class="ml-5" position="floating">Status</ion-label>
+        <ion-text class="block mt-8">
+          <ion-label class="ml-5" position="floating">Status</ion-label>
+        </ion-text>
         <ion-item>
-          <ion-select interface="popover" placeholder="Select Category">
+          <ion-select formControlName="repairCategory" placeholder="Select Category">
             <ion-select-option value="repaired">Repair Reported</ion-select-option>
           </ion-select>
         </ion-item>
+        <ion-text *ngIf="this.reportNewEquipIssue.get('repairCategory').hasError('required')"
+          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Category required</ion-text>
 
         <ion-item>
           <ion-label position="floating">Detail Description of Issue</ion-label>
-          <ion-textarea placeholder="Type something here"></ion-textarea>
+          <ion-textarea formControlName="detailedDescription" placeholder="Type something here"></ion-textarea>
         </ion-item>
       </ion-list>
+      <ion-text *ngIf="this.reportNewEquipIssue.get('detailedDescription').hasError('required')"
+        class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Description required</ion-text>
 
-      <ion-button class="font-Lato text-white mt-8" expand="block" [routerLink]="['/tabs/home/maintenance-repair']">
-        Save and Submit
-      </ion-button>
+      <ion-button [disabled]="this.reportNewEquipIssue.invalid" class="font-Lato text-white mt-8" expand="block"
+        (click)="submit()"> Save
+        and Submit </ion-button>
     </form>
 
   </div>
