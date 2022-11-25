@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-road-skills',
@@ -12,12 +14,31 @@ export class RoadSkillsPage implements OnInit {
   upload_3 = false;
  upload = false;
  value: any;
+ roadTestForm: FormGroup;
 
-  constructor() { }
+  constructor(private formBuilder: FormBuilder, private router: Router) { }
 
   ngOnInit() {
      // passing the select value for Paper Form to render when page loads
      this.value = '1';
+
+    // console.log('file:',file);
+    this.roadTestForm = this.formBuilder.group({
+      formSelect: ['',[Validators.required]],
+      trainerName: ['',[Validators.required]],
+      traineeName: ['',[Validators.required]],
+      supervisorName: ['',[Validators.required]],
+      truckId: ['',[Validators.required]],
+      odometerStartingMiles: ['',[Validators.required]],
+      odometerEndingMiles: ['',[Validators.required]],
+      classroomSelect: ['',[Validators.required]],
+      groupPracticalSelect: ['',[Validators.required]],
+      city: ['',[Validators.required]],
+      state: ['',[Validators.required]],
+      uploadDocs1: ['',[Validators.required]],
+      uploadDocs2: ['',[Validators.required]],
+      uploadDocs3: ['',[Validators.required]],
+    });
 
   }
   onSelectedFiles(file,name){
@@ -43,6 +64,10 @@ export class RoadSkillsPage implements OnInit {
       this.upload = false;
       this.value = e.target.value;
     }
+  }
+  continue(){
+    console.log(this.roadTestForm.value);
+    this.router.navigateByUrl('/tabs/home/training/trainer/road-skills/evaluation-form');
   }
 
 }

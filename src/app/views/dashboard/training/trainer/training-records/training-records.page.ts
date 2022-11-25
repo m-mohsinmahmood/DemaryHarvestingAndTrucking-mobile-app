@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-training-records',
@@ -9,11 +10,18 @@ import { Router } from '@angular/router';
 export class TrainingRecordsPage implements OnInit {
 formtype;
 evaluationType;
+recordsFrom: FormGroup;
   constructor(
     private router: Router,
+    private fromBuilder: FormBuilder,
   ) { }
 
   ngOnInit() {
+    this.recordsFrom = this.fromBuilder.group({
+      traineeSelect: ['', [Validators.required]],
+      evaluationSelect: ['', [Validators.required]],
+      evaluationTypeSelect: ['', [Validators.required]],
+    });
   }
   onSelect(e){
 this.formtype = e.target.value;
@@ -24,6 +32,7 @@ onSelectEvaluation(e){
 
 navigate(){
   console.log('first',this.evaluationType);
+  console.log(this.recordsFrom.value);
   if(this.evaluationType === 'summary'){
     console.log('first');
     this.router.navigateByUrl('/tabs/home/training/trainer/training-records/search-records/view-records',{
