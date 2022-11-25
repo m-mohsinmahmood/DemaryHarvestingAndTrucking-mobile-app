@@ -8,76 +8,106 @@
   <app-timer [value]="'12-11-2023'"></app-timer>
 
   <div class="p-4">
-    <form>
+    <form [formGroup]="createTicket">
       <ion-list>
 
-        <ion-item class="mb-8">
+        <ion-item>
           <ion-label position="floating" *ngIf="category === 'repair'">Repair Ticket Number</ion-label>
           <ion-label position="floating" *ngIf="category === 'maintenance'">Maintenance Ticket Number</ion-label>
-          <ion-input placeholder="Repair Ticket Number"></ion-input>
+          <ion-input formControlName="repairTicketNum" placeholder="Ticket Number">
+          </ion-input>
         </ion-item>
+        <ion-text *ngIf="this.createTicket.get('repairTicketNum').hasError('required')"
+          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Ticket No. required</ion-text>
 
-        <ion-label class="ml-5" position="floating">Assigned by Mechanic/Supervisor</ion-label>
+        <ion-text class="block mt-4">
+          <ion-label class="ml-5" position="floating">Assigned by Mechanic/Supervisor</ion-label>
+        </ion-text>
         <ion-item>
-          <ion-select interface="popover" placeholder="Assigned by">
+          <ion-select formControlName="assignedBy" interface="popover" placeholder="Assigned by">
             <ion-select-option value="mike-kennedy">Mike Kennedy</ion-select-option>
             <ion-select-option value="bile-handy">Bile Handy</ion-select-option>
           </ion-select>
         </ion-item>
+        <ion-text *ngIf="this.createTicket.get('assignedBy').hasError('required')"
+          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Assigned By required</ion-text>
 
         <ion-item>
           <ion-label position="floating">Assigned to Mechanic/Employee</ion-label>
-          <ion-input placeholder="Enter Employee Name"></ion-input>
+          <ion-input formControlName="assignedTo" placeholder="Enter Employee Name"></ion-input>
         </ion-item>
+        <ion-text *ngIf="this.createTicket.get('assignedTo').hasError('required')"
+          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Assigned To required</ion-text>
 
         <ion-item>
           <ion-label position="floating">Equipment ID</ion-label>
-          <ion-input placeholder="Equipment ID"></ion-input>
+          <ion-input formControlName="equipID" placeholder="Equipment ID"></ion-input>
         </ion-item>
+        <ion-text *ngIf="this.createTicket.get('equipID').hasError('required')"
+          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Equipment ID required</ion-text>
 
         <ion-item>
           <ion-label position="floating">Equipment Location (City)</ion-label>
-          <ion-input placeholder="City"></ion-input>
+          <ion-input formControlName="city" placeholder="City"></ion-input>
         </ion-item>
+        <ion-text *ngIf="this.createTicket.get('city').hasError('required')"
+          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">City required</ion-text>
 
         <ion-item>
           <ion-label position="floating">Equipment Location (State)</ion-label>
-          <ion-input placeholder="State"></ion-input>
+          <ion-input formControlName="state" placeholder="State"></ion-input>
         </ion-item>
+        <ion-text *ngIf="this.createTicket.get('state').hasError('required')"
+          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">State required</ion-text>
 
         <ion-item>
           <ion-label position="floating">Category</ion-label>
-          <ion-input placeholder="Enter Category"></ion-input>
+          <ion-input formControlName="category" placeholder="Enter Category"></ion-input>
         </ion-item>
+        <ion-text *ngIf="this.createTicket.get('category').hasError('required')"
+          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Category required</ion-text>
 
-        <ion-item class="mb-8">
-          <ion-label position="floating">Severity</ion-label>
-          <ion-input placeholder="Severity"></ion-input>
-        </ion-item>
-
-        <ion-label class="ml-5" position="floating">Status</ion-label>
         <ion-item>
-          <ion-select interface="popover" placeholder="Status">
-            <ion-select-option value="mike-kennedy" *ngIf="category === 'repair'">Repair In Process</ion-select-option>
-            <ion-select-option value="mike-kennedy" *ngIf="category === 'maintenance'">Maintenance In Process
+          <ion-label position="floating">Severity</ion-label>
+          <ion-input formControlName="severity" placeholder="Severity"></ion-input>
+        </ion-item>
+        <ion-text *ngIf="this.createTicket.get('severity').hasError('required')"
+          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Severity required</ion-text>
+
+        <ion-text class="block mt-4">
+          <ion-label class="ml-5" position="floating">Status</ion-label>
+        </ion-text>
+        <ion-item>
+          <ion-select formControlName="status" interface="popover" placeholder="Status">
+            <ion-select-option value="repairInProcess" *ngIf="category === 'repair'">Repair In Process
+            </ion-select-option>
+            <ion-select-option value="maintenanceInProcess" *ngIf="category === 'maintenance'">Maintenance In Process
             </ion-select-option>
           </ion-select>
         </ion-item>
+        <ion-text *ngIf="this.createTicket.get('status').hasError('required')"
+          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Status required</ion-text>
 
         <ion-item>
           <ion-label position="floating">Detailed Description of Issue</ion-label>
-          <ion-textarea placeholder="Type something here"></ion-textarea>
+          <ion-textarea formControlName="description" placeholder="Type something here"></ion-textarea>
         </ion-item>
+        <ion-text *ngIf="this.createTicket.get('description').hasError('required')"
+          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Description required</ion-text>
 
         <ion-item>
           <ion-label position="floating" *ngIf="category === 'repair'">Repair Summary</ion-label>
           <ion-label position="floating" *ngIf="category === 'maintenance'">Maintenance Summary</ion-label>
-
-          <ion-textarea placeholder="Enter Summary"></ion-textarea>
+          <ion-textarea formControlName="summary" placeholder="Enter Summary">
+          </ion-textarea>
         </ion-item>
+        <ion-text *ngIf="this.createTicket.get('summary').hasError('required')"
+          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Summary required</ion-text>
+
       </ion-list>
 
-      <ion-button class="font-Lato text-white mt-8" expand="block" [routerLink]="['/tabs/home/maintenance-repair']">
+      <ion-button [disabled]="this.createTicket.invalid" class="font-Lato text-white mt-8" expand="block"
+        (click)="submit()">
         Save and Submit
       </ion-button>
     </form>
