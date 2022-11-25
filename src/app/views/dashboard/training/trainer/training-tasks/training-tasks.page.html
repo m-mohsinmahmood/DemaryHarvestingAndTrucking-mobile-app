@@ -1,42 +1,42 @@
-<app-header [title]="'Training Tasks'" [color]="'training'"></app-header>
+<app-header [title]="route" [color]="'training'"></app-header>
 <ion-content>
   <!-- Timer -->
   <app-timer [value]="'04:22:12'"></app-timer>
-  <form class="mx-4">
-    <ion-list>
-       <div>
+  <form class="mx-4" [formGroup]="trainingTasksForm">
+      <div>
          <ion-item>
            <ion-label position="floating" class="font">Trainer</ion-label>
-           <ion-input placeholder="Enter Trainer Name"></ion-input>
+           <ion-input placeholder="Enter Trainer Name" formControlName="trainerName"></ion-input>
          </ion-item>
+
          <ion-item>
           <ion-label position="floating" class="font">Supervisor</ion-label>
-          <ion-input placeholder="Enter Supervisor Name"></ion-input>
+          <ion-input placeholder="Enter Supervisor Name" formControlName="supervisorName"></ion-input>
         </ion-item>
          <ion-item>
            <ion-label position="floating" class="font">City</ion-label>
-           <ion-input placeholder="Enter City"></ion-input>
+           <ion-input placeholder="Enter City" formControlName="city"></ion-input>
          </ion-item>
          <ion-item>
            <ion-label position="floating" class="font">State</ion-label>
-           <ion-input  placeholder="Enter State"></ion-input>
+           <ion-input  placeholder="Enter State" formControlName="state"></ion-input>
          </ion-item>
           <ion-item>
-            <ion-select placeholder="Type of Training" interface="alert">
-              <ion-select-option value="ct">Company Training</ion-select-option>
-              <ion-select-option value="st" >Safety Training</ion-select-option>
-              <ion-select-option value="cdlt" >CDL Training</ion-select-option>
+            <ion-select placeholder="Type of Training" interface="alert" formControlName="training">
+              <ion-select-option value="company-training">Company Training</ion-select-option>
+              <ion-select-option value="safety-training" >Safety Training</ion-select-option>
+              <ion-select-option value="cdl-training" >CDL Training</ion-select-option>
             </ion-select>
           </ion-item>
           <ion-item>
             <ion-label position="floating" class="font">Topic</ion-label>
-            <ion-input placeholder="Enter Topic" value=""></ion-input>
+            <ion-input placeholder="Enter Topic" value="" formControlName="topic"></ion-input>
           </ion-item>
           <div class="ml-5 mt-4">
             <ion-label class="font font-medium text-aaaaaa">Training/Attendence Docs (Upload Pic)</ion-label>
           </div>
-          <div class="flex px-4 py-2">
-        <div class="w-16 h-16 mr-2">
+        <div class="flex px-4 py-2">
+          <div class="w-16 h-16 mr-2">
           <ion-card
             [ngClass]="!upload_1 ? ' shadow-none m-0 border-2 border-aaaaaa bg-e9e6e6' : 'shadow-none m-0 border-2 border-project-green bg-white'"
             (click)="upload__1.click()"
@@ -62,6 +62,7 @@
                     #upload__1
                     type="file"
                     class=" invisible hidden"
+                    formControlName="uploadDocs1"
                     (change)="onSelectedFiles($event, 'upload_1')"
                   />
                 </ion-segment>
@@ -94,13 +95,14 @@
                     #upload__2
                     type="file"
                     class=" invisible hidden"
+                    formControlName="uploadDocs2"
                     (change)="onSelectedFiles($event, 'upload_2')"
                   />
                 </ion-segment>
             </ion-card-content>
           </ion-card>
         </div>
-        <div class="w-16 h-16 mr-2">
+        <div class="w-16 h-16 mr-2 mb-3">
           <ion-card
             [ngClass]="!upload_3 ? ' shadow-none m-0 border-2 border-aaaaaa bg-e9e6e6' : 'shadow-none m-0 border-2 border-project-green bg-white'"
             (click)="upload__3.click()"
@@ -126,6 +128,7 @@
                     #upload__3
                     type="file"
                     class=" invisible hidden"
+                    formControlName="uploadDocs2"
                     (change)="onSelectedFiles($event, 'upload_3')"
 
                   />
@@ -134,8 +137,14 @@
           </ion-card>
         </div>
       </div>
-           <ion-button expand="block" class="mt-5 font-Lato text-white">Save</ion-button>
+      <ion-text class="text-sm font-semibold font-Lato text-black ml-5">Add Comments</ion-text>
+        <ion-item>
+          <ion-textarea [autoGrow]="true"
+          formControlName="comments"
+          placeholder="Add your comments here :)">
+          </ion-textarea>
+        </ion-item>
+           <ion-button expand="block" class="mt-5 font-Lato   text-white" (click)="submit()">Save</ion-button>
        </div>
-     </ion-list>
    </form>
 </ion-content>

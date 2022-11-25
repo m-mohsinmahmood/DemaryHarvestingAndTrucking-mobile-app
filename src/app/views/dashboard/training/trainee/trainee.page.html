@@ -4,45 +4,50 @@
 <ion-content>
   <!-- Timer -->
   <app-timer [value]="'04:22:12'"></app-timer>
-  <form>
+  <form [formGroup]="traineeForm">
     <ion-list>
        <div>
          <ion-item>
            <ion-label position="floating" class="font">Trainee</ion-label>
-           <ion-input placeholder="Enter Trainee Name"></ion-input>
-         </ion-item>
+           <ion-input formControlName="traineeName" placeholder="Enter Trainee Name"></ion-input>
+          </ion-item>
+          <ion-text *ngIf="this.traineeForm.get('traineeName').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Trainee required</ion-text>
          <ion-item>
            <ion-label position="floating" class="font">Trainer</ion-label>
-           <ion-input placeholder="Enter Trainer Name"></ion-input>
+           <ion-input formControlName="trainerName" placeholder="Enter Trainer Name"></ion-input>
          </ion-item>
+         <ion-text *ngIf="this.traineeForm.get('trainerName').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Trainer required</ion-text>
          <ion-item>
            <ion-label position="floating" class="font">City</ion-label>
-           <ion-input placeholder="Enter City"></ion-input>
+           <ion-input formControlName="city" placeholder="Enter City"></ion-input>
          </ion-item>
+         <ion-text *ngIf="this.traineeForm.get('city').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">City required</ion-text>
          <ion-item>
            <ion-label position="floating" class="font">State</ion-label>
-           <ion-input  placeholder="Enter State"></ion-input>
+           <ion-input formControlName="state"  placeholder="Enter State"></ion-input>
          </ion-item>
+         <ion-text *ngIf="this.traineeForm.get('state').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">State required</ion-text>
           <ion-item>
-            <ion-select placeholder="Type of Training" interface="alert">
-              <ion-select-option value="ct">Company Training</ion-select-option>
-              <ion-select-option value="st" >Safety Training</ion-select-option>
-              <ion-select-option value="cdlt" >CDL Training</ion-select-option>
+            <ion-select formControlName="training" placeholder="Type of Training" interface="alert">
+              <ion-select-option value="company-training">Company Training</ion-select-option>
+              <ion-select-option value="safety-training" >Safety Training</ion-select-option>
+              <ion-select-option value="cdl-training" >CDL Training</ion-select-option>
             </ion-select>
           </ion-item>
-          <ion-item>
-            <ion-select placeholder="Topic" interface="alert">
-              <ion-select-option value="ct">Behind-the-Wheel Range</ion-select-option>
-              <ion-select-option value="st">Behind-the-Wheel Public</ion-select-option>
-              <ion-select-option value="cdlt">CDL Classroom</ion-select-option>
-              <ion-select-option value="cdlt">CDL Group Practical</ion-select-option>
-              <ion-select-option value="cdlt">Other</ion-select-option>
+          <ion-item *ngIf="this.traineeForm.get('training').value === 'cdl-training'">
+            <ion-select formControlName="topic" placeholder="Topic" interface="alert">
+              <ion-select-option value="btw-range">Behind-the-Wheel Range</ion-select-option>
+              <ion-select-option value="btw-range">Behind-the-Wheel Public</ion-select-option>
+              <ion-select-option value="cdl-classroom">CDL Classroom</ion-select-option>
+              <ion-select-option value="cdl-group">CDL Group Practical</ion-select-option>
+              <ion-select-option value="other">Other</ion-select-option>
             </ion-select>
           </ion-item>
-          <ion-item>
+          <ion-item *ngIf="this.traineeForm.get('topic').value === 'other'">
             <ion-label position="floating" class="font">Details</ion-label>
-            <ion-input placeholder="Enter details" value=""></ion-input>
+            <ion-input formControlName="details" placeholder="Enter details" value=""></ion-input>
           </ion-item>
+          <ion-text *ngIf="this.traineeForm.get('details').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Detail required</ion-text>
           <div class="ml-5 mt-4">
             <ion-label class="font font-medium text-aaaaaa">Training docs (upload here)</ion-label>
           </div>
@@ -73,6 +78,7 @@
                     #upload__1
                     type="file"
                     class=" invisible hidden"
+                    formControlName="uploadDocs1"
                     (change)="onSelectedFiles($event, 'upload_1')"
                   />
                 </ion-segment>
@@ -105,6 +111,7 @@
                     #upload__2
                     type="file"
                     class=" invisible hidden"
+                    formControlName="uploadDocs2"
                     (change)="onSelectedFiles($event, 'upload_2')"
                   />
                 </ion-segment>
@@ -137,6 +144,7 @@
                     #upload__3
                     type="file"
                     class=" invisible hidden"
+                    formControlName="uploadDocs3"
                     (change)="onSelectedFiles($event, 'upload_3')"
 
                   />
@@ -145,7 +153,7 @@
           </ion-card>
         </div>
       </div>
-           <ion-button expand="block" class="mt-5 font-Lato text-white">Save</ion-button>
+           <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="submit()">Save</ion-button>
        </div>
      </ion-list>
    </form>

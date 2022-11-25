@@ -17,6 +17,7 @@ export class VerifyTicketPage implements OnInit {
   constructor(private location: Location) { }
 
   ngOnInit() {
+    this.role = localStorage.getItem('role');
   }
 
   goBack() {

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-order',
@@ -7,9 +9,49 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CreateOrderPage implements OnInit {
 
-  constructor() { }
+  role = '';
+  createOrderDispatcher: FormGroup;
+  createOrderTDriver: FormGroup;
+
+  constructor(private formBuilder: FormBuilder, private router: Router) { }
 
   ngOnInit() {
+    this.role = localStorage.getItem('role');
+    this.createOrderDispatcher = this.formBuilder.group({
+      dispatcher: ['', [Validators.required]],
+      customer: ['', [Validators.required]],
+      farm: ['', [Validators.required]],
+      field: ['', [Validators.required]],
+      service: ['', [Validators.required]],
+      tractorDriver: ['', [Validators.required]],
+      fieldAddress: ['', [Validators.required]],
+      phone: ['', [Validators.required]],
+    });
+
+    this.createOrderTDriver = this.formBuilder.group({
+      machineryID: ['', [Validators.required]],
+      cBeginningEngineHours: ['', [Validators.required]],
+      workOrderNum: ['', [Validators.required]],
+      dispatcher: ['', [Validators.required]],
+      customer: ['', [Validators.required]],
+      farm: ['', [Validators.required]],
+      field: ['', [Validators.required]],
+      service: ['', [Validators.required]],
+      tractorDriver: ['', [Validators.required]],
+      fieldAddress: ['', [Validators.required]],
+      phone: ['', [Validators.required]],
+    });
+  }
+
+  navigateTo(nav: string) {
+    if (this.role === 'dispatcher') {
+      console.log(this.createOrderDispatcher.value);
+    }
+    else {
+      console.log(this.createOrderTDriver.value);
+    }
+
+    this.router.navigateByUrl(nav);
   }
 
 }

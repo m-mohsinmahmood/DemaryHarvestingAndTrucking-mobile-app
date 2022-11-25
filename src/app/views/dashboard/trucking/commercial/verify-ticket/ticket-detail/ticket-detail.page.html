@@ -3,15 +3,193 @@
 
 <ion-content>
   <app-timer [value]="'22-22-2022'"></app-timer>
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title class="flex justify-center text-xl font-Lato">Commercial Delivery Ticket</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
+  <!----------- Role Truck Driver ------------>
+  <form [formGroup]="createFormTruckCommercial" *ngIf="role === 'truck-driver'">
+    <ion-list>
 
-      <!--------Role Crew Chief ------------->
-      <ion-grid *ngIf="role === 'dispatcher'">
+      <ion-item>
+        <ion-label position="floating">Truck #</ion-label>
+        <ion-input formControlName="truck" placeholder="Truck #"></ion-input>
+      </ion-item>
+      <ion-text *ngIf="this.createFormTruckCommercial.get('truck').hasError('required')"
+        class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Truck required</ion-text>
 
+      <ion-item>
+        <ion-label position="floating">Ticket #</ion-label>
+        <ion-input formControlName="ticket" placeholder="Ticket #"></ion-input>
+      </ion-item>
+      <ion-text *ngIf="this.createFormTruckCommercial.get('ticket').hasError('required')"
+        class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Ticket required</ion-text>
+
+      <ion-item>
+        <ion-label position="floating">Home Base (Beginning) Odometer Reading</ion-label>
+        <ion-input formControlName="homeBeginingOdometerReading" placeholder="Odometer Reading"></ion-input>
+      </ion-item>
+      <ion-text *ngIf="this.createFormTruckCommercial.get('homeBeginingOdometerReading').hasError('required')"
+        class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Home base (begining) odometer reading required
+      </ion-text>
+
+      <ion-item>
+        <ion-label position="floating">Origin (Beginning) Odometer Reading</ion-label>
+        <ion-input formControlName="originBeginingOdometerReading" placeholder="Origin (Beginning) Odometer Reading">
+        </ion-input>
+      </ion-item>
+      <ion-text *ngIf="this.createFormTruckCommercial.get('originBeginingOdometerReading').hasError('required')"
+        class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Origin (begining) odometer required</ion-text>
+
+      <ion-item>
+        <ion-label position="floating">Origin Empty Weight</ion-label>
+        <ion-input formControlName="originEmptyWeight" placeholder="Origin Empty Weight"></ion-input>
+      </ion-item>
+      <ion-text *ngIf="this.createFormTruckCommercial.get('originEmptyWeight').hasError('required')"
+        class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Origin empty weight required</ion-text>
+
+      <ion-item>
+        <ion-label position="floating">Origin Loaded Weight</ion-label>
+        <ion-input formControlName="originLoadedWeight" placeholder="Origin Loaded Weight"></ion-input>
+      </ion-item>
+      <ion-text *ngIf="this.createFormTruckCommercial.get('originLoadedWeight').hasError('required')"
+        class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Origin loaded weight required</ion-text>
+
+      <ion-item>
+        <ion-label position="floating">Origin Weight of Load</ion-label>
+        <ion-input formControlName="originWeightLoad1" placeholder="Origin Weight of Load"></ion-input>
+      </ion-item>
+      <ion-text *ngIf="this.createFormTruckCommercial.get('originWeightLoad1').hasError('required')"
+        class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Origin weight of load required</ion-text>
+
+      <!-- Origin Docs Start-->
+      <ion-row class="h-20 flex content-center p-4">
+        <ion-col size="12" class="flex flex-col ">
+          <span class="font-Lato font-14">Origin Documents</span>
+        </ion-col>
+      </ion-row>
+
+      <ion-row class="h-20 flex content-center p-4">
+        <ion-col size="4">
+          <ion-img src="https://docs-demo.ionic.io/assets/madison.jpg"></ion-img>
+        </ion-col>
+        <ion-col size="4">
+          <ion-img src="https://docs-demo.ionic.io/assets/madison.jpg"></ion-img>
+        </ion-col>
+        <ion-col size="4">
+          <ion-img src="https://docs-demo.ionic.io/assets/madison.jpg"></ion-img>
+        </ion-col>
+      </ion-row>
+      <!-- Origin Docs End-->
+
+      <ion-item>
+        <ion-label position="floating">Destination Ending Odometer Reading</ion-label>
+        <ion-input formControlName="destinationEndingnOdometerReading"
+          placeholder="Destination Ending Odometer Reading"></ion-input>
+      </ion-item>
+      <ion-text *ngIf="this.createFormTruckCommercial.get('destinationEndingnOdometerReading').hasError('required')"
+        class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Destination ending odometer required</ion-text>
+
+      <ion-item>
+        <ion-label position="floating">Destination Loaded Weight</ion-label>
+        <ion-input formControlName="destinationLoadedWeight" placeholder="Destination Loaded Weight"></ion-input>
+      </ion-item>
+      <ion-text *ngIf="this.createFormTruckCommercial.get('destinationLoadedWeight').hasError('required')"
+        class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Destination loaded weight required</ion-text>
+
+      <ion-item>
+        <ion-label position="floating">Destination Empty Weight</ion-label>
+        <ion-input formControlName="destinationEmptyWeight" placeholder="Destination Empty Weight"></ion-input>
+      </ion-item>
+      <ion-text *ngIf="this.createFormTruckCommercial.get('destinationEmptyWeight').hasError('required')"
+        class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Destination empty weight required</ion-text>
+
+      <ion-item>
+        <ion-label position="floating">Origin Weight of Load</ion-label>
+        <ion-input formControlName="originWeightLoad2" placeholder="Origin Weight of Load"></ion-input>
+      </ion-item>
+      <ion-text *ngIf="this.createFormTruckCommercial.get('originWeightLoad2').hasError('required')"
+        class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Origin weight of load required</ion-text>
+
+      <ion-item>
+        <ion-label position="floating">Weight of Load</ion-label>
+        <ion-input formControlName="weightLoad" placeholder="Weight of Load"></ion-input>
+      </ion-item>
+      <ion-text *ngIf="this.createFormTruckCommercial.get('weightLoad').hasError('required')"
+        class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Weight of load required</ion-text>
+
+      <ion-item>
+        <ion-label position="floating">Scale Ticket #/BOL #</ion-label>
+        <ion-input formControlName="scaleTicket" placeholder="Scale Ticket #/BOL #"></ion-input>
+      </ion-item>
+      <ion-text *ngIf="this.createFormTruckCommercial.get('scaleTicket').hasError('required')"
+        class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Scale ticket #/BOL required</ion-text>
+
+      <ion-item>
+        <ion-label position="floating">Destination (Delivery Load)</ion-label>
+        <ion-input formControlName="destinationDeliveryLoad" placeholder="Destination (Delivery Load)"></ion-input>
+      </ion-item>
+      <ion-text *ngIf="this.createFormTruckCommercial.get('destinationDeliveryLoad').hasError('required')"
+        class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Destination (delivey load) required</ion-text>
+
+      <!-- Origin Docs Start-->
+      <ion-row class="h-20 flex content-center p-4">
+        <ion-col size="12" class="flex flex-col ">
+          <span class="font-Lato font-14">Origin Documents</span>
+        </ion-col>
+      </ion-row>
+
+      <ion-row class="h-20 flex content-center p-4">
+        <ion-col size="4">
+          <ion-img src="https://docs-demo.ionic.io/assets/madison.jpg"></ion-img>
+        </ion-col>
+        <ion-col size="4">
+          <ion-img src="https://docs-demo.ionic.io/assets/madison.jpg"></ion-img>
+        </ion-col>
+        <ion-col size="4">
+          <ion-img src="https://docs-demo.ionic.io/assets/madison.jpg"></ion-img>
+        </ion-col>
+      </ion-row>
+      <!-- Origin Docs End-->
+
+      <ion-item>
+        <ion-text class="mt-4 ">
+          <p>Total Trip Miles</p>
+          <span>12345</span>
+        </ion-text>
+      </ion-item>
+
+      <ion-item>
+        <ion-text class="mt-4 ">
+          <p>Dead Head Miles</p>
+          <span>12345</span>
+        </ion-text>
+      </ion-item>
+
+      <ion-item>
+        <ion-text class="mt-4 ">
+          <p>Total Job Miles</p>
+          <span>12345</span>
+        </ion-text>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Driver Notes</ion-label>
+        <ion-input formControlName="driverNotes" placeholder="Driver Notes"></ion-input>
+      </ion-item>
+      <ion-text *ngIf="this.createFormTruckCommercial.get('driverNotes').hasError('required')"
+        class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Driver notes required</ion-text>
+
+      <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="submit()"
+        [disabled]="this.createFormTruckCommercial.invalid">Save and
+        Submit
+      </ion-button>
+    </ion-list>
+  </form>
+
+  <!--------Role Dispatcher ------------->
+  <ion-grid *ngIf="role === 'dispatcher'">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title class="flex justify-center text-xl font-Lato">Commercial Delivery Ticket</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
         <!-- First Row -->
         <ion-row class="h-20 flex content-center pl-4">
           <ion-col size="6" class="flex flex-col ">
@@ -171,149 +349,13 @@
             <ion-img src="https://docs-demo.ionic.io/assets/madison.jpg"></ion-img>
           </ion-col>
         </ion-row>
-      </ion-grid>
 
-      <!----------- Role Truck Driver ------------>
-      <ion-grid *ngIf="role === 'truck-driver'">
+        <ion-button expand="block" class="mt-5 font-Lato  text-white"
+          (click)="navigateTo('/tabs/home/trucking/commercial')">
+          Verify
+        </ion-button>
 
-        <!-- First Row -->
-        <ion-row class="h-20 flex content-center pl-4">
-          <ion-col size="6" class="flex flex-col ">
-            <p class="font-Lato text-black font-bold font-14">Ticket #</p>
-            <span class="font-Lato font-14">12345</span>
-          </ion-col>
-          <ion-col size="6" class="flex flex-col ">
-            <p class="font-Lato text-black font-bold font-14">Truck #</p>
-            <span class="font-Lato font-14">12345</span>
-          </ion-col>
-        </ion-row>
-
-        <ion-row class="h-20 flex content-center pl-4">
-          <ion-col size="6" class="flex flex-col ">
-            <p class="font-Lato text-black font-bold font-14">Home Base (Beginning) Odometer Reading</p>
-            <span class="font-Lato font-14">Mike</span>
-          </ion-col>
-          <ion-col size="6" class="flex flex-col  ">
-            <p class="font-Lato text-black font-bold font-14">Origin (Beginning) Odometer Reading</p>
-            <span class="font-Lato font-14">Mike Allen</span>
-          </ion-col>
-        </ion-row>
-
-        <ion-row class="h-20 flex content-center pl-4">
-          <ion-col size="6" class="flex flex-col ">
-            <p class="font-Lato text-black font-bold font-14">Origin Empty Weight</p>
-            <span class="font-Lato font-14">11-12-2022</span>
-          </ion-col>
-          <ion-col size="6" class="flex flex-col  ">
-            <p class="font-Lato text-black font-bold font-14">Origin Loaded Weight</p>
-            <span class="font-Lato font-14">12345</span>
-          </ion-col>
-        </ion-row>
-
-        <ion-row class="h-20 flex content-center pl-4">
-          <ion-col size="6" class="flex flex-col ">
-            <p class="font-Lato text-black font-bold font-14">Origin Weight of Load</p>
-            <span class="font-Lato font-14">Mike</span>
-          </ion-col>
-        </ion-row>
-
-        <ion-row class="h-20 flex content-center pl-4">
-          <ion-col size="12" class="flex flex-col ">
-            <span class="font-Lato font-14">Origin Documents</span>
-          </ion-col>
-        </ion-row>
-
-        <ion-row class="h-20 flex content-center pl-4">
-          <ion-col size="4">
-            <ion-img src="https://docs-demo.ionic.io/assets/madison.jpg"></ion-img>
-          </ion-col>
-          <ion-col size="4">
-            <ion-img src="https://docs-demo.ionic.io/assets/madison.jpg"></ion-img>
-          </ion-col>
-          <ion-col size="4">
-            <ion-img src="https://docs-demo.ionic.io/assets/madison.jpg"></ion-img>
-          </ion-col>
-        </ion-row>
-
-        <ion-row class="h-20 flex content-center pl-4">
-          <ion-col size="6" class="flex flex-col ">
-            <p class="font-Lato text-black font-bold font-14">Destination (Ending) Odometer Reading</p>
-            <span class="font-Lato font-14">Mike</span>
-          </ion-col>
-          <ion-col size="6" class="flex flex-col  ">
-            <p class="font-Lato text-black font-bold font-14">Destination Loaded Weight</p>
-            <span class="font-Lato font-14">Mike Allen</span>
-          </ion-col>
-        </ion-row>
-
-        <ion-row class="h-20 flex content-center pl-4">
-          <ion-col size="6" class="flex flex-col ">
-            <p class="font-Lato text-black font-bold font-14">Destination Empty Weight</p>
-            <span class="font-Lato font-14">1234</span>
-          </ion-col>
-          <ion-col size="6" class="flex flex-col  ">
-            <p class="font-Lato text-black font-bold font-14">Weight of Load</p>
-            <span class="font-Lato font-14">Mike Allen</span>
-          </ion-col>
-        </ion-row>
-
-        <ion-row class="h-20 flex content-center pl-4">
-          <ion-col size="6" class="flex flex-col ">
-            <p class="font-Lato text-black font-bold font-14">Scale Ticket # / BOL #</p>
-            <span class="font-Lato font-14">12321</span>
-          </ion-col>
-          <ion-col size="6" class="flex flex-col  ">
-            <p class="font-Lato text-black font-bold font-14">Destination (Delivery Load)</p>
-            <span class="font-Lato font-14">Type</span>
-          </ion-col>
-        </ion-row>
-
-        <ion-row class="h-20 flex content-center pl-4">
-          <ion-col size="12" class="flex flex-col ">
-            <span class="font-Lato font-14">Documents</span>
-          </ion-col>
-        </ion-row>
-
-        <ion-row class="h-20 flex content-center pl-4">
-          <ion-col size="4">
-            <ion-img src="https://docs-demo.ionic.io/assets/madison.jpg"></ion-img>
-          </ion-col>
-          <ion-col size="4">
-            <ion-img src="https://docs-demo.ionic.io/assets/madison.jpg"></ion-img>
-          </ion-col>
-          <ion-col size="4">
-            <ion-img src="https://docs-demo.ionic.io/assets/madison.jpg"></ion-img>
-          </ion-col>
-        </ion-row>
-
-        <ion-row class="h-20 flex content-center pl-4">
-          <ion-col size="6" class="flex flex-col ">
-            <p class="font-Lato text-black font-bold font-14">Total Trip Miles</p>
-            <span class="font-Lato font-14">Mike</span>
-          </ion-col>
-          <ion-col size="6" class="flex flex-col  ">
-            <p class="font-Lato text-black font-bold font-14">Dead Head Miles</p>
-            <span class="font-Lato font-14">123</span>
-          </ion-col>
-        </ion-row>
-
-        <ion-row class="h-20 flex content-center pl-4">
-          <ion-col size="6" class="flex flex-col ">
-            <p class="font-Lato text-black font-bold font-14">Total Job Miles</p>
-            <span class="font-Lato font-14">12345</span>
-          </ion-col>
-          <ion-col size="6" class="flex flex-col  ">
-            <p class="font-Lato text-black font-bold font-14">Delivery Notes</p>
-            <span class="font-Lato font-14">Mike Allen</span>
-          </ion-col>
-        </ion-row>
-
-      </ion-grid>
-
-      <ion-button expand="block" class="mt-5 font-Lato  text-white"
-        (click)="navigateTo('/dashboard/trucking/commercial')">Verify
-      </ion-button>
-
-    </ion-card-content>
-  </ion-card>
+      </ion-card-content>
+    </ion-card>
+  </ion-grid>
 </ion-content>

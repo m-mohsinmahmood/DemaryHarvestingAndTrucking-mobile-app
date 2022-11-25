@@ -2,9 +2,9 @@
 <app-header [title]="'CDL Training Road Test Skills'" [color]="'training'"></app-header>
 <ion-content>
 <app-timer [value]="'11:22:00'"></app-timer>
-<form class="mx-2">
+<form class="mx-2" [formGroup]="roadTestForm">
   <ion-item class="mt-9">
-    <ion-select placeholder="Select Evaluation Form" interface="alert" (ionChange)="onSelect($event)">
+    <ion-select formControlName="formSelect" placeholder="Select Evaluation Form" interface="alert" (ionChange)="onSelect($event)">
       <ion-select-option value="1">Paper Form</ion-select-option>
       <ion-select-option value="2">Digital Form</ion-select-option>
     </ion-select>
@@ -12,36 +12,68 @@
   <div>
   <ion-item>
     <ion-label position="floating" class="font">Trainer</ion-label>
-    <ion-input placeholder="Enter Trainer Name"></ion-input>
+    <ion-input formControlName="trainerName" placeholder="Enter Trainer Name"></ion-input>
   </ion-item>
+  <ion-text *ngIf="this.roadTestForm.get('trainerName').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Trainer required</ion-text>
+
   <ion-item>
     <ion-label position="floating" class="font">Trainee</ion-label>
-    <ion-input placeholder="Enter Trainee Name"></ion-input>
+    <ion-input formControlName="traineeName" placeholder="Enter Trainee Name"></ion-input>
   </ion-item>
+  <ion-text *ngIf="this.roadTestForm.get('traineeName').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Trainee required</ion-text>
+
   <ion-item>
     <ion-label position="floating" class="font">Supervisor</ion-label>
-    <ion-input placeholder="Enter Supervisor Name"></ion-input>
+    <ion-input formControlName="supervisorName" placeholder="Enter Supervisor Name"></ion-input>
   </ion-item>
+  <ion-text *ngIf="this.roadTestForm.get('supervisorName').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Supervisor required</ion-text>
+
   <ion-item>
     <ion-label position="floating" class="font">Truck ID</ion-label>
-    <ion-input placeholder="Enter Truck ID"></ion-input>
+    <ion-input formControlName="truckId" placeholder="Enter Truck ID"></ion-input>
   </ion-item>
+  <ion-text *ngIf="this.roadTestForm.get('truckId').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Truck Id required</ion-text>
+
+  <ion-item>
+    <ion-label position="floating" class="font">Odometer Starting Miles</ion-label>
+    <ion-input formControlName="odometerStartingMiles" placeholder="Enter Odometer Starting Miles"></ion-input>
+  </ion-item>
+  <ion-text *ngIf="this.roadTestForm.get('odometerStartingMiles').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Starting Miles required</ion-text>
+
+
   <ion-item>
     <ion-label position="floating" class="font">Odometer Ending Miles</ion-label>
-    <ion-input placeholder="Enter Odometer Ending Miles"></ion-input>
+    <ion-input formControlName="odometerEndingMiles" placeholder="Enter Odometer Ending Miles"></ion-input>
+  </ion-item>
+  <ion-text *ngIf="this.roadTestForm.get('odometerEndingMiles').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Ending Miles required</ion-text>
+
+  <ion-item>
+    <ion-select placeholder="Trainee Completed CDL Classroom" interface="alert" formControlName="classroomSelect">
+      <ion-select-option value="yes">Yes</ion-select-option>
+      <ion-select-option value="no">No</ion-select-option>
+    </ion-select>
   </ion-item>
   <ion-item>
-    <ion-label position="floating" class="font">Trainee Completed Group Practical</ion-label>
-    <ion-input placeholder="Enter Trainee Completed Group Practical"></ion-input>
+    <ion-select placeholder="Trainee Completed Group Practical" interface="alert" formControlName="groupPracticalSelect">
+      <ion-select-option value="yes">Yes</ion-select-option>
+      <ion-select-option value="no">No</ion-select-option>
+    </ion-select>
   </ion-item>
+
   <ion-item>
     <ion-label position="floating" class="font">City</ion-label>
-    <ion-input placeholder="Enter City"></ion-input>
+    <ion-input formControlName="city" placeholder="Enter City"></ion-input>
   </ion-item>
+  <ion-text *ngIf="this.roadTestForm.get('city').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">City required</ion-text>
+
   <ion-item>
     <ion-label position="floating" class="font">State</ion-label>
-    <ion-input placeholder="Enter State"></ion-input>
+    <ion-input formControlName="state" placeholder="Enter State"></ion-input>
   </ion-item>
+  <div>
+    <ion-text *ngIf="this.roadTestForm.get('state').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">State required</ion-text>
+  </div>
+
   <ion-button class="upload-button" (click)="uploadClick()" *ngIf=" value === '1'">
     <ion-icon name="add-outline"></ion-icon>
       Upload Form
@@ -78,6 +110,7 @@
                   #upload__1
                   type="file"
                   class=" invisible hidden"
+                  formControlName="uploadDocs1"
                   (change)="onSelectedFiles($event, 'upload_1')"
                 />
               </ion-segment>
@@ -110,6 +143,7 @@
                   #upload__2
                   type="file"
                   class=" invisible hidden"
+                  formControlName="uploadDocs2"
                   (change)="onSelectedFiles($event, 'upload_2')"
                 />
               </ion-segment>
@@ -142,6 +176,7 @@
                   #upload__3
                   type="file"
                   class=" invisible hidden"
+                  formControlName="uploadDocs3"
                   (change)="onSelectedFiles($event, 'upload_3')"
 
                 />
@@ -150,12 +185,12 @@
         </ion-card>
       </div>
   </div>
-  <ion-button expand="block" class="font-Lato text-white mb-4 mt-6 mx-8" [routerLink]="['evaluation-form']" >Continue</ion-button>
+  <ion-button expand="block" class="font-Lato text-white mb-4 mt-6 mx-8" (click)="continue()">Continue</ion-button>
   <ion-button expand="block" class="close-out-button font-Lato mb-4 mt-0 mx-8 bg-opacity-10">Close-out</ion-button>
 </div>
 <!-- For Digital Form -->
 <div *ngIf="value === '2'">
-<ion-button expand="block" class="font-Lato text-white mb-4 mt-6 mx-8" [routerLink]="['evaluation-form']" >Continue</ion-button>
+<ion-button expand="block" class="font-Lato text-white mb-4 mt-6 mx-8" (click)="continue()">Continue</ion-button>
 <ion-button expand="block" class="close-out-button font-Lato mb-4 mt-0 mx-8 bg-opacity-10">Close-out</ion-button>
 </div>
 </div>

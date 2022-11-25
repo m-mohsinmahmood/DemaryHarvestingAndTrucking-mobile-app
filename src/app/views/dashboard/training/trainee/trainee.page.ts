@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-trainee',
@@ -10,10 +11,24 @@ export class TraineePage implements OnInit {
   upload_1 = false;
   upload_2 = false;
   upload_3 = false;
+  traineeForm: FormGroup;
 
-  constructor() { }
+  constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit() {
+    this.traineeForm = this.formBuilder.group({
+      traineeName: ['', [Validators.required]],
+      trainerName: ['', [Validators.required]],
+      city: ['', [Validators.required]],
+      state: ['', [Validators.required]],
+      training: ['', [Validators.required]],
+      topic: ['', [Validators.required]],
+      details: ['', [Validators.required]],
+      uploadDocs1: ['', [Validators.required]],
+      uploadDocs2: ['', [Validators.required]],
+      uploadDocs3: ['', [Validators.required]],
+    });
+    console.log(this.traineeForm.value);
   }
   onSelectedFiles(file,name){
     console.log('file:',file);
@@ -26,7 +41,10 @@ export class TraineePage implements OnInit {
     }if(name === 'upload_3'){
       this.upload_3 = !this.upload_3;
     }
+}
+submit(){
+  console.log(this.traineeForm.value);
 
-  }
+}
 
 }

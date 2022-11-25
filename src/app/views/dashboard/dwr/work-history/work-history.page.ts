@@ -16,7 +16,7 @@ export class WorkHistoryPage implements OnInit {
   ngOnInit() {
   }
   navigate(name: string){
-    this.router.navigateByUrl('/dashboard/dwr/detail',{
+    this.router.navigateByUrl('/tabs/home/dwr/detail',{
       state:{
         type: name
       }

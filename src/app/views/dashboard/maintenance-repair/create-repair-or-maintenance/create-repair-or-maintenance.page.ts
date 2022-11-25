@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-create-repair-or-maintenance',
@@ -9,12 +10,32 @@ import { ActivatedRoute } from '@angular/router';
 export class CreateRepairORMaintenancePage implements OnInit {
 
   category = '';
+  createTicket: FormGroup;
 
-  constructor(private activeRoute: ActivatedRoute) { }
+  constructor(private activeRoute: ActivatedRoute, private router: Router, private formBuilder: FormBuilder) { }
 
   ngOnInit() {
     this.activeRoute.queryParams.subscribe(param => {
-      this.category = param.category
-    })
+      this.category = param.category;
+    });
+
+    this.createTicket = this.formBuilder.group({
+      repairTicketNum: ['', Validators.required],
+      assignedBy: ['', Validators.required],
+      assignedTo: ['', Validators.required],
+      equipID: ['', Validators.required],
+      city: ['', Validators.required],
+      state: ['', Validators.required],
+      category: ['', Validators.required],
+      severity: ['', Validators.required],
+      status: ['', Validators.required],
+      summary: ['', Validators.required],
+      description: ['', Validators.required]
+    });
+  }
+
+  submit() {
+    console.log(this.createTicket.value);
+    this.router.navigateByUrl('/tabs/home/maintenance-repair');
   }
 }

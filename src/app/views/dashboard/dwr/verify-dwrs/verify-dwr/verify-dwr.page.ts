@@ -21,7 +21,7 @@ export class VerifyDwrPage implements OnInit {
     this.location.back();
   }
   navigate(name: string){
-    this.router.navigateByUrl('/dashboard/dwr/detail',{
+    this.router.navigateByUrl('/tabs/home/dwr/detail',{
       state:{
         type: name
       }

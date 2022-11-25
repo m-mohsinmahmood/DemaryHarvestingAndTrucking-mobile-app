@@ -24,13 +24,13 @@ role: any;
   }
   navigate(route){
     if (route === 'ticket') {
-      this.router.navigateByUrl('dashboard/harvesting/ticket',{
+      this.router.navigateByUrl('tabs/home/harvesting/ticket',{
         state:{
           reassign: false
         }
       });
     } else {
-      this.router.navigateByUrl('dashboard/harvesting/ticket',{
+      this.router.navigateByUrl('tabs/home/harvesting/ticket',{
         state:{
           reassign: true
         }
