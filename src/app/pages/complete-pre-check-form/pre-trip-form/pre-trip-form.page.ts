@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 @Component({
   selector: 'app-pre-trip-form',
   templateUrl: './pre-trip-form.page.html',
@@ -17,8 +18,12 @@ export class PreTripFormPage implements OnInit {
     'Brakes, Coupling',
     'Trailer',
   ];
+
   indexArray: any[] = [0.2, 0.4, 0.6, 0.8, 1];
-  constructor(private router: Router) { }
+
+  preCheckForm: FormGroup;
+
+  constructor(private router: Router, private formBuilder: FormBuilder) { }
 
   ngOnInit() {
     this.items = [
@@ -29,10 +34,30 @@ export class PreTripFormPage implements OnInit {
       { content: 'Trailer', name: 'Katherine synder', date: '15/02/2022', status: 'in-complete', active: true },
     ];
 
+    this.preCheckForm = this.formBuilder.group({
+      truckID: ['', Validators.required],
+      trailerID: ['', Validators.required]
+    });
   }
 
   navigateTo(navTo: string) {
-    this.router.navigateByUrl(navTo);
+    switch (navTo) {
+      case 'Engine/Compartment':
+        this.router.navigateByUrl('/complete-pre-check-form/pre-trip-form/engine-check');
+        break;
+      case 'In Cab':
+        this.router.navigateByUrl('/complete-pre-check-form/pre-trip-form/in-cab');
+        break;
+      case 'Vehicle/External':
+        this.router.navigateByUrl('/complete-pre-check-form/pre-trip-form/vehicle-external');
+        break;
+      case 'Brakes, Coupling & Suspension':
+        this.router.navigateByUrl('/complete-pre-check-form/pre-trip-form/coupling');
+        break;
+      case 'Trailer':
+        this.router.navigateByUrl('/complete-pre-check-form/pre-trip-form/trailer');
+        break;
+    }
   }
 
 }

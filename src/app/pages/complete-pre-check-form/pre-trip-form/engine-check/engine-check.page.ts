@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-engine-check',
@@ -14,77 +15,30 @@ export class EngineCheckPage implements OnInit {
   indexArray: any[] = [0.2, 0.4, 0.6, 0.8, 1];
   engineCheckForm: FormGroup;
 
-  checkItems = [
-    {
-      itemName: "air-compressor-engine",
-      itemStatus: "",
-      itemNotes: ""
-    },
-    {
-      itemName: "beltsHoses",
-      itemStatus: "",
-      itemNotes: ""
-    },
-    {
-      itemName: "radiator",
-      itemStatus: "",
-      itemNotes: ""
-    }, {
-      itemName: "steering",
-      itemStatus: "",
-      itemNotes: ""
-    },
-    {
-      itemName: "oil",
-      itemStatus: "",
-      itemNotes: ""
-    },
-    {
-      itemName: "fluid",
-      itemStatus: "",
-      itemNotes: ""
-    },
-    {
-      itemName: "clutch",
-      itemStatus: "",
-      itemNotes: ""
-    }
-  ]
-
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder, private router: Router) { }
 
   ngOnInit() {
     this.engineCheckForm = this.formBuilder.group({
-      airCompressorSatisfactory: ['', [Validators.required]],
-      airCompressorUnSatisfactory: ['', [Validators.required]],
-      airCompressorNotes: ['', [Validators.required]],
-      beltsHosesSatisfactory: ['', [Validators.required]],
-      beltsHosesUnSatisfactory: ['', [Validators.required]],
-      beltsHosesNotes: ['', [Validators.required]],
+      airCompressorEngine: ['true', [Validators.required]],
+      airCompressorEngineNotes: [''],
+      beltsHoses: ['true', [Validators.required]],
+      beltsHosesNotes: [''],
+      radiator: ['true', [Validators.required]],
+      radiatorNotes: [''],
+      steering: ['true', [Validators.required]],
+      steeringNotes: [''],
+      oilLvl: ['true', [Validators.required]],
+      oilLvlNotes: [''],
+      fluidLvl: ['true', [Validators.required]],
+      fluidLvlNotes: [''],
+      clutchCondition: ['true', [Validators.required]],
+      clutchConditionNotes: ['']
     });
   }
 
-  isChecked(event) {
-    for (let i = 0; i < this.checkItems.length; i++) {
-      if (this.checkItems[i].itemName === event.target.name) {
-        if (event.target.value === "unsatisfactory")
-          this.checkItems[i].itemStatus = "unsatisfactory"
-        else
-          this.checkItems[i].itemStatus = "satisfactory"
-      }
-    }
-  }
-
-  addNotes(event) {
-    for (let i = 0; i < this.checkItems.length; i++) {
-      if (this.checkItems[i].itemName === event.target.name && this.checkItems[i].itemStatus === 'unsatisfactory') {
-        this.checkItems[i].itemNotes = event.target.value
-      }
-    }
-  }
-
   submitForm() {
-    console.log(this.checkItems);
+    console.log(this.engineCheckForm.value);
+    this.router.navigateByUrl('/complete-pre-check-form/pre-trip-form/in-cab');
   }
 
 }

@@ -1,25 +1,23 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
 import { IonicModule } from '@ionic/angular';
-
-import { PreTripFormPageRoutingModule } from './pre-trip-form-routing.module';
-
-import { PreTripFormPage } from './pre-trip-form.page';
+import { CouplingPageRoutingModule } from './coupling-routing.module';
+import { CouplingPage } from './coupling.page';
 import { HeaderModule } from 'src/app/components/header/header.module';
 import { TimerModule } from 'src/app/components/timer/timer.module';
 
 @NgModule({
   imports: [
+
     CommonModule,
     FormsModule,
     IonicModule,
-    PreTripFormPageRoutingModule,
+    CouplingPageRoutingModule,
     HeaderModule,
     TimerModule,
     ReactiveFormsModule
   ],
-  declarations: [PreTripFormPage]
+  declarations: [CouplingPage]
 })
-export class PreTripFormPageModule { }
+export class CouplingPageModule { }

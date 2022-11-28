@@ -172,11 +172,9 @@
         class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">total job miles required</ion-text>
 
       <ion-item>
-        <ion-label position="floating">Driver Notes</ion-label>
+        <ion-label position="floating">Driver Notes (Optional)</ion-label>
         <ion-input formControlName="notes" placeholder="Notes"></ion-input>
       </ion-item>
-      <ion-text *ngIf="this.verifyFormInHouseTruck.get('notes').hasError('required')"
-        class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Driver Notes required</ion-text>
 
       <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="navigateTruck()"
         [disabled]="this.verifyFormInHouseTruck.invalid">Generate Ticket

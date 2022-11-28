@@ -1,25 +1,21 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
 import { IonicModule } from '@ionic/angular';
-
-import { PreTripFormPageRoutingModule } from './pre-trip-form-routing.module';
-
-import { PreTripFormPage } from './pre-trip-form.page';
+import { VehicleExternalPageRoutingModule } from './vehicle-external-routing.module';
+import { VehicleExternalPage } from './vehicle-external.page';
 import { HeaderModule } from 'src/app/components/header/header.module';
-import { TimerModule } from 'src/app/components/timer/timer.module';
-
+import { TimerModule } from './../../../../components/timer/timer.module';
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    PreTripFormPageRoutingModule,
+    VehicleExternalPageRoutingModule,
     HeaderModule,
     TimerModule,
     ReactiveFormsModule
   ],
-  declarations: [PreTripFormPage]
+  declarations: [VehicleExternalPage]
 })
-export class PreTripFormPageModule { }
+export class VehicleExternalPageModule { }
