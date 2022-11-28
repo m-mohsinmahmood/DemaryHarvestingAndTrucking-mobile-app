@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-others',
@@ -8,13 +9,23 @@ import { Router } from '@angular/router';
 })
 export class OthersPage implements OnInit {
 
-  constructor(private router: Router) { }
+  otherForm: FormGroup;
+
+  constructor(private router: Router, private formBuilder: FormBuilder) { }
 
   ngOnInit() {
+    this.otherForm = this.formBuilder.group({
+      empName: ['', Validators.required],
+      supervisor: ['', Validators.required],
+      city: ['', Validators.required],
+      state: ['', Validators.required],
+      apprTask: ['driveCVehicle', Validators.required],
+      notes: ['', Validators.required],
+    });
   }
 
   navigateTo() {
-    this.router.navigateByUrl('/tabs/home')
+    console.log(this.otherForm.value);
+    this.router.navigateByUrl('/tabs/home');
   }
-
 }
