@@ -2,58 +2,73 @@
 
 <ion-content>
   <app-timer [value]="'10-5-2022'"></app-timer>
-  <div class="p-4">
-    <div>
-      <ion-item>
-        <ion-label position="floating">Employee Name</ion-label>
-        <ion-input placeholder="Enter Employee Name"></ion-input>
-      </ion-item>
-
-      <ion-item>
-        <ion-label position="floating">Supervisor</ion-label>
-        <ion-input placeholder="Enter Supervisor Name"></ion-input>
-      </ion-item>
-
-      <ion-item>
-        <ion-label position="floating">Location (City)</ion-label>
-        <ion-input placeholder="Enter City Name"></ion-input>
-      </ion-item>
-
-      <ion-item>
-        <ion-label position="floating">Location (State)</ion-label>
-        <ion-input placeholder="Enter State Name"></ion-input>
-      </ion-item>
-    </div>
-
-    <div class="mt-6 p-4">
-      <label class="font-15px font-bold">Select Appropriate Task</label>
-      <label class="radio mt-4 block mb-4">
-        <input class="satisfactory" name="radio" type="radio" checked>
-        <span>Drive Company Vehicle</span>
-      </label>
-      <label class="radio  block  mb-4">
-        <input class="satisfactory"name="radio" type="radio">
-        <span>Customer Activities</span>
-      </label>
-      <label class="radio block mb-4">
-        <input class="satisfactory"name="radio" type="radio">
-        <span>Company Activities</span>
-      </label>
-      <label class="radio block mb-4">
-        <input class="satisfactory"name="radio" type="radio">
-        <span>Other</span>
-      </label>
-    </div>
-
-    <ion-row>
-      <ion-col size="12">
-        <ion-item class="mt-2">
-          <ion-label position="floating">Write Here</ion-label>
-          <ion-input placeholder="Write Here..."></ion-input>
+  <form [formGroup]="otherForm">
+    <div class="p-4">
+      <div>
+        <ion-item>
+          <ion-label position="floating">Employee Name</ion-label>
+          <ion-input formControlName="empName" placeholder="Enter Employee Name"></ion-input>
         </ion-item>
-      </ion-col>
-    </ion-row>
+        <ion-text *ngIf="this.otherForm.get('empName').hasError('required')"
+          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Employee Name required</ion-text>
 
-    <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="navigateTo()">Save</ion-button>
-  </div>
+        <ion-item>
+          <ion-label position="floating">Supervisor</ion-label>
+          <ion-input formControlName="supervisor" placeholder="Enter Supervisor Name"></ion-input>
+        </ion-item>
+        <ion-text *ngIf="this.otherForm.get('supervisor').hasError('required')"
+          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Supervisor Name required</ion-text>
+
+        <ion-item>
+          <ion-label position="floating">Location (City)</ion-label>
+          <ion-input formControlName="city" placeholder="Enter City Name"></ion-input>
+        </ion-item>
+        <ion-text *ngIf="this.otherForm.get('city').hasError('required')"
+          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">City Name required</ion-text>
+
+        <ion-item>
+          <ion-label position="floating">Location (State)</ion-label>
+          <ion-input formControlName="state" placeholder="Enter State Name"></ion-input>
+        </ion-item>
+      </div>
+      <ion-text *ngIf="this.otherForm.get('state').hasError('required')"
+        class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">State Name required</ion-text>
+
+      <div class="p-4 mt-4">
+        <ion-text class="font-semibold">Select Appropriate Task</ion-text>
+        <ion-radio-group formControlName="apprTask">
+          <ion-item class="h-10" lines="none">
+            <ion-radio mode="md" value="driveCVehicle"></ion-radio>
+            <ion-label class="font-Lato ml-2 text-sm">Drive Company Vehicle</ion-label>
+          </ion-item>
+          <ion-item class="h-10" lines="none">
+            <ion-radio mode="md" value="customerActivities"></ion-radio>
+            <ion-label class="font-Lato ml-2 text-sm">Customer Activities</ion-label>
+          </ion-item>
+          <ion-item class="h-10" lines="none">
+            <ion-radio mode="md" value="CompanyActivities"></ion-radio>
+            <ion-label class="font-Lato ml-2 text-sm">Company Activities</ion-label>
+          </ion-item>
+          <ion-item class="h-10" lines="none">
+            <ion-radio mode="md" value="other"></ion-radio>
+            <ion-label class="font-Lato ml-2 text-sm">Other</ion-label>
+          </ion-item>
+        </ion-radio-group>
+      </div>
+
+      <ion-row>
+        <ion-col size="12">
+          <ion-item>
+            <ion-label position="floating">Write Here</ion-label>
+            <ion-textarea formControlName="notes" placeholder="Write Here..."></ion-textarea>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-text *ngIf="this.otherForm.get('notes').hasError('required')"
+        class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Notes required</ion-text>
+
+      <ion-button [disabled]="this.otherForm.invalid" expand="block" class="mt-5 font-Lato text-white"
+        (click)="navigateTo()">Save</ion-button>
+    </div>
+  </form>
 </ion-content>

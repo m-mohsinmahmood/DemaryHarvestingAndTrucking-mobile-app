@@ -4,21 +4,26 @@
   <app-timer [value]="'11-12-2022'"></app-timer>
   <div class="p-4">
     <div>
-      <form>
+      <form [formGroup]="preCheckForm">
         <ion-list>
           <ion-item>
             <ion-label position="floating">Truck ID</ion-label>
-            <ion-input placeholder="Enter Truck ID"></ion-input>
+            <ion-input formControlName="truckID" placeholder="Enter Truck ID"></ion-input>
           </ion-item>
+          <ion-text *ngIf="this.preCheckForm.get('truckID').hasError('required')"
+            class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Truck No. required</ion-text>
+
           <ion-item>
             <ion-label position="floating">Trailer</ion-label>
-            <ion-input placeholder="Enter Trailer"></ion-input>
+            <ion-input formControlName="trailerID" placeholder="Enter Trailer"></ion-input>
           </ion-item>
+          <ion-text *ngIf="this.preCheckForm.get('trailerID').hasError('required')"
+            class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Trailer No. required</ion-text>
         </ion-list>
       </form>
     </div>
 
-    <div class="mx-4 my-2">
+    <div class="mx-4 mt-8 mb-4">
       <ion-progress-bar class="mb-2" [buffer]="buffer" [value]="progress"></ion-progress-bar>
       <ion-text class="text-lg justify-start flex font-Lato text-black ml-2">{{progress * 5}} of 5
         Completed</ion-text>
@@ -38,10 +43,14 @@
         </div>
         <div class="timeline-content {{item.status}}">
           {{item.content}}
+          <ion-button expand="block w-1/2" class="text-white font-Lato my-4" (click)="navigateTo(item.content)">Start
+          </ion-button>
         </div>
       </div>
+
     </div>
-    <ion-button expand="block" class="text-white font-Lato" [routerLink]="'engine-check'">Start</ion-button>
+    <ion-button expand="block" class="text-white font-Lato my-4" [routerLink]="'engine-check'">Submit</ion-button>
+
   </div>
 
 </ion-content>

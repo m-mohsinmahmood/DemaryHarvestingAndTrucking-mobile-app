@@ -25,7 +25,7 @@ export class TicketDetailPage implements OnInit {
       totalTripMiles: ['', [Validators.required]],
       deadHeadMiles: ['', [Validators.required]],
       totalJobMiles: ['', [Validators.required]],
-      notes: ['', [Validators.required]],
+      notes: [''],
     });
   }
 

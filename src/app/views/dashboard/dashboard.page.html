@@ -51,11 +51,11 @@
         *ngIf="role === 'crew-chief' || role === 'kart-operator' || role === 'combine-operator' || role === 'truck-driver'">
         <ion-card class="card" [routerLink]="['harvesting']" [ngStyle]="{'background-color':'#129476'}">
           <ion-card-content>
-            <div class="flex ">
-              <img src="../../../assets/images/tractor.png" alt="" class="w-12 h-12 object-contain">
-              <img src="../../../assets/images/trees.png" alt="" class="w-12 h-12 object-contain">
-            </div>
-            <ion-text class="font-Lato">Harvesting</ion-text>
+            <!-- <div class="flex"> -->
+              <img src="../../../assets/images/harvest.svg" alt="" class="">
+              <!-- <img src="../../../assets/images/trees.png" alt="" class="w-12 h-12 object-contain"> -->
+            <!-- </div> -->
+            <ion-text class="font-Lato mb-2">Harvesting</ion-text>
           </ion-card-content>
         </ion-card>
       </ion-col>
@@ -63,7 +63,7 @@
       <ion-col size="6" *ngIf="role === 'dispatcher' || role === 'tractor-driver' ">
         <ion-card class="card" [routerLink]="['farming']" [ngStyle]="{'background-color':'#F5993F'}">
           <ion-card-content>
-            <img src="../../../assets/images/tractor.png" alt="" class="w-12 h-12 object-contain">
+            <img src="../../../assets/images/farming.svg" alt="" class="w-12 h-12 object-contain">
             <ion-text class="font-Lato">Farming</ion-text>
           </ion-card-content>
         </ion-card>
@@ -74,7 +74,7 @@
       <ion-col size="6" *ngIf="role === 'dispatcher' || role === 'truck-driver'">
         <ion-card class="card" [routerLink]="['trucking']" [ngStyle]="{'background-color':'#4256F9'}">
           <ion-card-content>
-            <img src="../../../assets/images/trucking.png" alt="" class="w-12 h-12 object-contain">
+            <img src="../../../assets/images/truck.png" alt="" class="w-12 h-12 object-contain">
             <ion-text class="font-Lato">Trucking</ion-text>
           </ion-card-content>
         </ion-card>
@@ -82,7 +82,7 @@
       <ion-col size="6">
         <ion-card class="card" [routerLink]="['maintenance-repair']" [ngStyle]="{'background-color':'#FF7272'}">
           <ion-card-content>
-            <img src="../../../assets/images/maintenance repair.png" alt="" class="w-12 h-12 object-contain">
+            <img src="../../../assets/images/m and r.svg" alt="" class="w-12 h-12 object-contain">
             <ion-text class="font-Lato">Maintenance & Repair</ion-text>
           </ion-card-content>
         </ion-card>
@@ -92,7 +92,7 @@
       <ion-col size="6">
         <ion-card class="card" [routerLink]="['training']" [ngStyle]="{'background-color':'#0CA3C7'}">
           <ion-card-content>
-            <img src="../../../assets/images/truck.png" alt="" class="w-12 h-12 object-contain">
+            <img src="../../../assets/images/training.svg" alt="" class="w-12 h-12 object-contain">
             <ion-text class="font-Lato">Training</ion-text>
           </ion-card-content>
         </ion-card>
@@ -100,7 +100,7 @@
       <ion-col size="6">
         <ion-card class="card" [routerLink]="['others']" [ngStyle]="{'background-color':'#455769'}">
           <ion-card-content>
-            <img src="../../../assets/images/other.png" alt="" class="w-12 h-12 object-contain">
+            <img src="../../../assets/images/other.svg" alt="" class="w-12 h-12 object-contain">
             <ion-text class="font-Lato">Other</ion-text>
           </ion-card-content>
         </ion-card>
@@ -110,7 +110,7 @@
       <ion-col size="6">
         <ion-card class="card" [ngStyle]="{'background-color':'#D33F3F'}">
           <ion-card-content>
-            <img src="../../../assets/images/purchsing.png" alt="" class="w-12 h-12 object-contain">
+            <img src="../../../assets/images/purchasing.svg" alt="" class="w-12 h-12 object-contain">
             <ion-text class="font-Lato">Purchasing</ion-text>
           </ion-card-content>
         </ion-card>
