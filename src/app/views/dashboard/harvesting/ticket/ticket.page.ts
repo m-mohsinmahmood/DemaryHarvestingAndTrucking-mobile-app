@@ -53,5 +53,6 @@ deliveryTicketForm: FormGroup;
   }
   submit(){
     console.log(this.deliveryTicketForm.value);
+    this.router.navigateByUrl('/tabs/home/harvesting');
   }
 }
