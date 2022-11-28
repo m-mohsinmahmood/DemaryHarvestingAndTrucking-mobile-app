@@ -1,8 +1,7 @@
-
 .segment-style {
   // padding-left: 5px;
   ion-segment {
-    --background: #5BBE62;
+    --background: #5bbe62;
     ion-segment-button {
       min-width: unset;
       color: #ffffff;
@@ -10,7 +9,7 @@
       --indicator-color: none;
       --indicator-box-shadow: 0px 0px 0px 2px #ffffff !important;
       --border-radius: 5px !important;
-      font-family: 'Lato';
+      font-family: "Lato";
       ion-label {
         font-size: 12px;
       }
@@ -22,4 +21,14 @@
   }
 }
 
+.pendingTicket {
+  border-left: 10px solid red;
+}
 
+.sentTicket {
+  border-left: 10px solid yellow;
+}
+
+.verifiedTicket {
+  border-left: 10px solid green;
+}

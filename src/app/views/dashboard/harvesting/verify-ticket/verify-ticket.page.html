@@ -12,7 +12,7 @@
     </ion-segment>
     <div [ngSwitch]="segment" [routerLink]="['generated-ticket']">
       <div *ngSwitchCase="'sent'">
-        <ion-card class="p-2" >
+        <ion-card class="p-2 sentTicket" >
           <div class="flex flex-col">
             <div class="flex flex-row py-2">
                 <div class="w-8/12 flex flex-col">
@@ -36,7 +36,7 @@
             </div>
           </div>
         </ion-card>
-        <ion-card class="p-2">
+        <ion-card class="p-2 sentTicket">
           <div class="flex flex-col">
             <div class="flex flex-row py-2">
                 <div class="w-8/12 flex flex-col">
@@ -62,7 +62,7 @@
         </ion-card>
       </div>
       <div *ngSwitchCase="'pending'">
-        <ion-card class="p-2">
+        <ion-card class="p-2 pendingTicket">
           <div class="flex flex-col">
             <div class="flex flex-row py-2">
                 <div class="w-8/12 flex flex-col">
@@ -86,7 +86,7 @@
             </div>
           </div>
         </ion-card>
-        <ion-card class="p-2">
+        <ion-card class="p-2 pendingTicket">
           <div class="flex flex-col">
             <div class="flex flex-row py-2">
                 <div class="w-8/12 flex flex-col">
@@ -112,7 +112,7 @@
         </ion-card>
       </div>
       <div *ngSwitchCase="'verified'">
-        <ion-card class="p-2">
+        <ion-card class="p-2 verifiedTicket">
           <div class="flex flex-col">
             <div class="flex flex-row py-2">
                 <div class="w-8/12 flex flex-col">
@@ -136,7 +136,7 @@
             </div>
           </div>
         </ion-card>
-        <ion-card class="p-2">
+        <ion-card class="p-2 verifiedTicket">
           <div class="flex flex-col">
             <div class="flex flex-row py-2">
                 <div class="w-8/12 flex flex-col">
@@ -180,7 +180,7 @@
           <p class="font-bold font-Lato text-white">2 New Tasks<span class="font-normal textt-white"> added to the Queue</span></p>
           <ion-icon name="close-outline" class="scale-150" [ngStyle]="{'color':'white'}" ></ion-icon>
         </div>
-        <ion-card class="px-4 py-2 bg-project-green" [routerLink]="['generated-ticket']">
+        <ion-card class="px-4 py-2 bg-project-green sentTicket" [routerLink]="['generated-ticket']">
           <div class="flex flex-col">
             <div class="flex flex-row py-2 ">
                 <div class="w-8/12 flex flex-col">
@@ -205,7 +205,7 @@
             </div>
           </div>
         </ion-card>
-        <ion-card class="px-4 py-2" [routerLink]="['generated-ticket']">
+        <ion-card class="px-4 py-2 sentTicket" [routerLink]="['generated-ticket']">
           <div class="flex flex-col">
             <div class="flex flex-row py-2">
                 <div class="w-8/12 flex flex-col">
@@ -232,7 +232,7 @@
         </ion-card>
       </div>
       <div *ngSwitchCase="'completed'">
-        <ion-card class="px-4 py-2" [routerLink]="['generated-ticket']">
+        <ion-card class="px-4 py-2 verifiedTicket" [routerLink]="['generated-ticket']">
           <div class="flex flex-col">
             <div class="flex flex-row py-2">
                 <div class="w-8/12 flex flex-col">
@@ -257,7 +257,7 @@
             </div>
           </div>
         </ion-card>
-        <ion-card class="px-4 py-2" [routerLink]="['generated-ticket']">
+        <ion-card class="px-4 py-2 verifiedTicket" [routerLink]="['generated-ticket']">
           <div class="flex flex-col">
             <div class="flex flex-row py-2">
                 <div class="w-8/12 flex flex-col">
