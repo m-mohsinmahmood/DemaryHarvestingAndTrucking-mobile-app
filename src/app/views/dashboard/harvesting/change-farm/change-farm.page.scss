@@ -1,0 +1,48 @@
+// ion-item::part(native) {
+//   --padding-start: 0px;
+//   --min-height: 40px
+// }
+// ion-item {
+//   --padding-start: 0px;
+//   --min-height: 40px
+// }
+ion-item{
+  // --padding-start: 0px;
+    // --min-height: 10px
+    // height: 1rem !important
+    margin-bottom: 15px !important;
+
+}
+ion-item::part(native){
+  // --padding-start: 0px;
+  // --padding-top: 0px;
+  // --padding-bottom: 10px;
+    // --min-height: 10px
+    // height: 1rem !important;
+    // margin-bottom: 15px !important;
+}
+ion-label{
+  font-weight: 600 !important;
+}
+ion-input{
+  // margin-bottom: -3px !important;
+  }
+// ion-input::part(native){
+// margin-bottom: -3px !important;
+// }
+::ng-deep ion-input  input {
+    // padding-bottom: 5px !important;
+
+  }
+  // height: 10px !important;
+  // --background: #373737;
+  // --color: #fff;
+  // --placeholder-color: #ddd;
+  // --placeholder-opacity: .8;
+
+  // --padding-bottom: 10px;
+  // --padding-end: 10px;
+  // --padding-start: 10px;
+  // --padding-top: 10px;
+  // padding: 0px !important;
+// }

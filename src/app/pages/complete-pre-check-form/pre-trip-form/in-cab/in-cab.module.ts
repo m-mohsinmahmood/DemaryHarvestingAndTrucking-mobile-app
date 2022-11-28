@@ -4,9 +4,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { PreTripFormPageRoutingModule } from './pre-trip-form-routing.module';
+import { InCabPageRoutingModule } from './in-cab-routing.module';
 
-import { PreTripFormPage } from './pre-trip-form.page';
+import { InCabPage } from './in-cab.page';
 import { HeaderModule } from 'src/app/components/header/header.module';
 import { TimerModule } from 'src/app/components/timer/timer.module';
 
@@ -15,11 +15,11 @@ import { TimerModule } from 'src/app/components/timer/timer.module';
     CommonModule,
     FormsModule,
     IonicModule,
-    PreTripFormPageRoutingModule,
+    InCabPageRoutingModule,
     HeaderModule,
     TimerModule,
     ReactiveFormsModule
   ],
-  declarations: [PreTripFormPage]
+  declarations: [InCabPage]
 })
-export class PreTripFormPageModule { }
+export class InCabPageModule { }

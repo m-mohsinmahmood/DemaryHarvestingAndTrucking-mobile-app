@@ -14,15 +14,15 @@
 
   <div class="p-4 pt-0">
     <ion-text>
-      <h2 class="font-semibold ml-4">Engine / Compartment</h2>
+      <h2 class="font-semibold ml-4">Coupling, Suspension and Miscellaneous</h2>
       <p class="ml-4">Please select items that needs M&R attention:</p>
     </ion-text>
 
-    <form [formGroup]="engineCheckForm">
+    <form [formGroup]="couplingCheckForm">
       <ion-item>
         <div class="mt-4 mb-6">
-          <label class="font-bold">Air Compressor Engine</label>
-          <ion-radio-group formControlName="airCompressorEngine" value="true" class="radio">
+          <label class="font-bold">Air Line</label>
+          <ion-radio-group formControlName="airLine" value="true" class="radio">
             <div class="flex">
               <ion-item class="h-10" lines="none">
                 <ion-radio mode="md" value="true"></ion-radio>
@@ -35,9 +35,8 @@
             </div>
           </ion-radio-group>
           <div
-            [ngClass]="this.engineCheckForm.get('airCompressorEngine').value ==='true' ? 'hidden':'flex bg-slate-200 px-4 mt-4'">
-            <ion-textarea formControlName="airCompressorEngineNotes" placeholder=" Add Comments"
-              [autocapitalize]="true">
+            [ngClass]="this.couplingCheckForm.get('airLine').value ==='true' ? 'hidden':'flex bg-slate-200 px-4 mt-4'">
+            <ion-textarea formControlName="airLineNotes" placeholder=" Add Comments" [autocapitalize]="true">
             </ion-textarea>
           </div>
         </div>
@@ -45,8 +44,8 @@
 
       <ion-item>
         <div class="mt-4 mb-6">
-          <label class="font-bold">Belts & Hoses</label>
-          <ion-radio-group formControlName="beltsHoses" value="true" class="radio">
+          <label class="font-bold">Brake Accessories</label>
+          <ion-radio-group formControlName="brakeAccessories" value="true" class="radio">
             <div class="flex">
               <ion-item class="h-10" lines="none">
                 <ion-radio mode="md" value="true"></ion-radio>
@@ -59,8 +58,8 @@
             </div>
           </ion-radio-group>
           <div
-            [ngClass]="this.engineCheckForm.get('beltsHoses').value ==='true' ? 'hidden':'flex bg-slate-200 px-4 mt-4'">
-            <ion-textarea formControlName="beltsHosesNotes" placeholder=" Add Comments" [autocapitalize]="true">
+            [ngClass]="this.couplingCheckForm.get('brakeAccessories').value ==='true' ? 'hidden':'flex bg-slate-200 px-4 mt-4'">
+            <ion-textarea formControlName="brakeAccessoriesNotes" placeholder=" Add Comments" [autocapitalize]="true">
             </ion-textarea>
           </div>
         </div>
@@ -68,8 +67,8 @@
 
       <ion-item>
         <div class="mt-4 mb-6">
-          <label class="font-bold">Radiator</label>
-          <ion-radio-group formControlName="radiator" value="true" class="radio">
+          <label class="font-bold">Coupling Devices</label>
+          <ion-radio-group formControlName="couplingDevices" value="true" class="radio">
             <div class="flex">
               <ion-item class="h-10" lines="none">
                 <ion-radio mode="md" value="true"></ion-radio>
@@ -82,8 +81,8 @@
             </div>
           </ion-radio-group>
           <div
-            [ngClass]="this.engineCheckForm.get('radiator').value ==='true' ? 'hidden':'flex bg-slate-200 px-4 mt-4'">
-            <ion-textarea formControlName="radiatorNotes" placeholder=" Add Comments" [autocapitalize]="true">
+            [ngClass]="this.couplingCheckForm.get('couplingDevices').value ==='true' ? 'hidden':'flex bg-slate-200 px-4 mt-4'">
+            <ion-textarea formControlName="couplingDevicesNotes" placeholder=" Add Comments" [autocapitalize]="true">
             </ion-textarea>
           </div>
         </div>
@@ -91,8 +90,8 @@
 
       <ion-item>
         <div class="mt-4 mb-6">
-          <label class="font-bold">Steering</label>
-          <ion-radio-group formControlName="steering" value="true" class="radio">
+          <label class="font-bold">Fifth Wheel</label>
+          <ion-radio-group formControlName="fifthWheel" value="true" class="radio">
             <div class="flex">
               <ion-item class="h-10" lines="none">
                 <ion-radio mode="md" value="true"></ion-radio>
@@ -105,8 +104,8 @@
             </div>
           </ion-radio-group>
           <div
-            [ngClass]="this.engineCheckForm.get('steering').value ==='true' ? 'hidden':'flex bg-slate-200 px-4 mt-4'">
-            <ion-textarea formControlName="steeringNotes" placeholder=" Add Comments" [autocapitalize]="true">
+            [ngClass]="this.couplingCheckForm.get('fifthWheel').value ==='true' ? 'hidden':'flex bg-slate-200 px-4 mt-4'">
+            <ion-textarea formControlName="fifthWheelNotes" placeholder=" Add Comments" [autocapitalize]="true">
             </ion-textarea>
           </div>
         </div>
@@ -114,30 +113,8 @@
 
       <ion-item>
         <div class="mt-4 mb-6">
-          <label class="font-bold">Oil Level</label>
-          <ion-radio-group formControlName="oilLvl" value="true" class="radio">
-            <div class="flex">
-              <ion-item class="h-10" lines="none">
-                <ion-radio mode="md" value="true"></ion-radio>
-                <ion-label class="font-Lato ml-2 text-sm">Satisfactory</ion-label>
-              </ion-item>
-              <ion-item class="h-10 " lines="none">
-                <ion-radio mode="md" class="unsatisfactory" value="false"></ion-radio>
-                <ion-label class="font-Lato ml-2 text-sm">UnSatisfactory</ion-label>
-              </ion-item>
-            </div>
-          </ion-radio-group>
-          <div [ngClass]="this.engineCheckForm.get('oilLvl').value ==='true' ? 'hidden':'flex bg-slate-200 px-4 mt-4'">
-            <ion-textarea formControlName="oilLvlNotes" placeholder=" Add Comments" [autocapitalize]="true">
-            </ion-textarea>
-          </div>
-        </div>
-      </ion-item>
-
-      <ion-item>
-        <div class="mt-4 mb-6">
-          <label class="font-bold">Fluid Levels</label>
-          <ion-radio-group formControlName="fluidLvl" value="true" class="radio">
+          <label class="font-bold">Rear End</label>
+          <ion-radio-group formControlName="rearEnd" value="true" class="radio">
             <div class="flex">
               <ion-item class="h-10" lines="none">
                 <ion-radio mode="md" value="true"></ion-radio>
@@ -150,8 +127,8 @@
             </div>
           </ion-radio-group>
           <div
-            [ngClass]="this.engineCheckForm.get('fluidLvl').value ==='true' ? 'hidden':'flex bg-slate-200 px-4 mt-4'">
-            <ion-textarea formControlName="fluidLvlNotes" placeholder=" Add Comments" [autocapitalize]="true">
+            [ngClass]="this.couplingCheckForm.get('rearEnd').value ==='true' ? 'hidden':'flex bg-slate-200 px-4 mt-4'">
+            <ion-textarea formControlName="rearEndNotes" placeholder=" Add Comments" [autocapitalize]="true">
             </ion-textarea>
           </div>
         </div>
@@ -159,8 +136,8 @@
 
       <ion-item>
         <div class="mt-4 mb-6">
-          <label class="font-bold">Clutch Condition</label>
-          <ion-radio-group formControlName="clutchCondition" value="true" class="radio">
+          <label class="font-bold">Muffler</label>
+          <ion-radio-group formControlName="muffler" value="true" class="radio">
             <div class="flex">
               <ion-item class="h-10" lines="none">
                 <ion-radio mode="md" value="true"></ion-radio>
@@ -173,12 +150,82 @@
             </div>
           </ion-radio-group>
           <div
-            [ngClass]="this.engineCheckForm.get('clutchCondition').value ==='true' ? 'hidden':'flex bg-slate-200 px-4 mt-4'">
-            <ion-textarea formControlName="clutchConditionNotes" placeholder=" Add Comments" [autocapitalize]="true">
+            [ngClass]="this.couplingCheckForm.get('muffler').value ==='true' ? 'hidden':'flex bg-slate-200 px-4 mt-4'">
+            <ion-textarea formControlName="mufflerNotes" placeholder=" Add Comments" [autocapitalize]="true">
             </ion-textarea>
           </div>
         </div>
       </ion-item>
+
+      <ion-item>
+        <div class="mt-4 mb-6">
+          <label class="font-bold">Front Axle</label>
+          <ion-radio-group formControlName="frontAxle" value="true" class="radio">
+            <div class="flex">
+              <ion-item class="h-10" lines="none">
+                <ion-radio mode="md" value="true"></ion-radio>
+                <ion-label class="font-Lato ml-2 text-sm">Satisfactory</ion-label>
+              </ion-item>
+              <ion-item class="h-10 " lines="none">
+                <ion-radio mode="md" class="unsatisfactory" value="false"></ion-radio>
+                <ion-label class="font-Lato ml-2 text-sm">UnSatisfactory</ion-label>
+              </ion-item>
+            </div>
+          </ion-radio-group>
+          <div
+            [ngClass]="this.couplingCheckForm.get('frontAxle').value ==='true' ? 'hidden':'flex bg-slate-200 px-4 mt-4'">
+            <ion-textarea formControlName="frontAxleNotes" placeholder=" Add Comments" [autocapitalize]="true">
+            </ion-textarea>
+          </div>
+        </div>
+      </ion-item>
+
+      <ion-item>
+        <div class="mt-4 mb-6">
+          <label class="font-bold">Suspension System</label>
+          <ion-radio-group formControlName="suspensionSystem" value="true" class="radio">
+            <div class="flex">
+              <ion-item class="h-10" lines="none">
+                <ion-radio mode="md" value="true"></ion-radio>
+                <ion-label class="font-Lato ml-2 text-sm">Satisfactory</ion-label>
+              </ion-item>
+              <ion-item class="h-10 " lines="none">
+                <ion-radio mode="md" class="unsatisfactory" value="false"></ion-radio>
+                <ion-label class="font-Lato ml-2 text-sm">UnSatisfactory</ion-label>
+              </ion-item>
+            </div>
+          </ion-radio-group>
+          <div
+            [ngClass]="this.couplingCheckForm.get('suspensionSystem').value ==='true' ? 'hidden':'flex bg-slate-200 px-4 mt-4'">
+            <ion-textarea formControlName="suspensionSystemNotes" placeholder=" Add Comments" [autocapitalize]="true">
+            </ion-textarea>
+          </div>
+        </div>
+      </ion-item>
+
+      <ion-item>
+        <div class="mt-4 mb-6">
+          <label class="font-bold">Transmission</label>
+          <ion-radio-group formControlName="transmission" value="true" class="radio">
+            <div class="flex">
+              <ion-item class="h-10" lines="none">
+                <ion-radio mode="md" value="true"></ion-radio>
+                <ion-label class="font-Lato ml-2 text-sm">Satisfactory</ion-label>
+              </ion-item>
+              <ion-item class="h-10 " lines="none">
+                <ion-radio mode="md" class="unsatisfactory" value="false"></ion-radio>
+                <ion-label class="font-Lato ml-2 text-sm">UnSatisfactory</ion-label>
+              </ion-item>
+            </div>
+          </ion-radio-group>
+          <div
+            [ngClass]="this.couplingCheckForm.get('transmission').value ==='true' ? 'hidden':'flex bg-slate-200 px-4 mt-4'">
+            <ion-textarea formControlName="transmissionNotes" placeholder=" Add Comments" [autocapitalize]="true">
+            </ion-textarea>
+          </div>
+        </div>
+      </ion-item>
+
     </form>
 
     <ion-button expand="block" class="mt-5 font-Lato  text-white" (click)="submitForm()">Next
