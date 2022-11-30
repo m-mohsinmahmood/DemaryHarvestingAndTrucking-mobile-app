@@ -14,3 +14,7 @@ ion-segment {
     }
   }
 }
+ion-item::part(native){
+  --padding-start: 0px;
+
+}

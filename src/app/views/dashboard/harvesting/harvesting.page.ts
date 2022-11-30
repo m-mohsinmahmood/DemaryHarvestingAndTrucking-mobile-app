@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
+import { HarvestingService } from './harvesting.service';
+import { takeLast } from 'rxjs/operators';
+import { range } from 'rxjs';
 
 @Component({
   selector: 'app-harvesting',
@@ -13,11 +16,24 @@ role: any;
   constructor(
     private location: Location,
    private router: Router,
+   private harvestingService: HarvestingService
   ) { }
 
   ngOnInit() {
     // console.log('AAA',localStorage.getItem('role'));
     this.role = localStorage.getItem('role');
+    console.log(this.harvestingService.getApplicants());
+
+//     const many = range(1, 100);
+//     console.log('first',range);
+// const lastThree = many.pipe(takeLast(1));
+// console.log(lastThree);
+// lastThree.subscribe(x => console.log('ss',x));
+
+// const source = interval(1000);
+// const clicks = fromEvent(document, 'click');
+// const result = source.pipe(takeUntil(clicks));
+// result.subscribe(x => console.log(x));
   }
   goBack(){
     this.location.back();
@@ -39,3 +55,15 @@ role: any;
 
   }
 }
+function interval(arg0: number) {
+  throw new Error('Function not implemented.');
+}
+
+function fromEvent(document: Document, arg1: string) {
+  throw new Error('Function not implemented.');
+}
+
+function takeUntil(clicks: any): any {
+  throw new Error('Function not implemented.');
+}
+

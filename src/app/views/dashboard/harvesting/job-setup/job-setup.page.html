@@ -7,36 +7,36 @@
     <div>
       <form [formGroup]="jobSetupForm">
      <ion-list>
-        <div>
+        <div class="px-2">
           <ion-item class="mt-9">
             <ion-select placeholder="Select State" interface="alert" formControlName="state" >
               <ion-select-option *ngFor="let state of states" [value]="state">{{state}}</ion-select-option>
             </ion-select>
           </ion-item>
-          <ion-text *ngIf="this.jobSetupForm.get('state').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">State required</ion-text>
+          <ion-text *ngIf="this.jobSetupForm.get('state').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-0 mt-1">State required</ion-text>
           <ion-item>
             <ion-label position="floating">Customer Name</ion-label>
-            <ion-input placeholder="Customer Name" formControlName="customerName"></ion-input>
+            <ion-input  (click)="inputChange($event)" (ionInput)="onChange($event)" placeholder="Customer Name" formControlName="customerName"></ion-input>
           </ion-item>
-          <ion-text *ngIf="this.jobSetupForm.get('customerName').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Customer name required</ion-text>
+          <ion-text *ngIf="this.jobSetupForm.get('customerName').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-0 mt-1">Customer name required</ion-text>
 
           <ion-item>
             <ion-label position="floating">Farm</ion-label>
             <ion-input placeholder="Farm" formControlName="farm"></ion-input>
 
           </ion-item>
-          <ion-text *ngIf="this.jobSetupForm.get('farm').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Farm name required</ion-text>
+          <ion-text *ngIf="this.jobSetupForm.get('farm').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-0 mt-1">Farm name required</ion-text>
           <ion-item>
             <ion-label position="floating">Crop</ion-label>
             <ion-input  placeholder="Crop" formControlName="crop"></ion-input>
 
           </ion-item>
-          <ion-text *ngIf="this.jobSetupForm.get('crop').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Crop name required</ion-text>
+          <ion-text *ngIf="this.jobSetupForm.get('crop').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-0 mt-1">Crop name required</ion-text>
           <ion-item>
             <ion-label position="floating">Initial Field</ion-label>
             <ion-input placeholder="Initial Field" formControlName="initailField"></ion-input>
           </ion-item>
-          <ion-text *ngIf="this.jobSetupForm.get('initailField').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Initail field required</ion-text>
+          <ion-text *ngIf="this.jobSetupForm.get('initailField').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-0 mt-1">Initail field required</ion-text>
 
             <ion-button expand="block"
             class="mt-5 font-Lato text-white"

@@ -9,3 +9,8 @@ margin-top: 25px !important;
 }
 
 
+
+ion-item::part(native){
+  --padding-start: 0px;
+
+}

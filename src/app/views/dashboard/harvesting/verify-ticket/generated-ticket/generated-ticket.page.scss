@@ -9,3 +9,7 @@
 .font{
   font-family: 'Lato';
 }
+ion-item::part(native){
+  --padding-start: 0px;
+
+}
