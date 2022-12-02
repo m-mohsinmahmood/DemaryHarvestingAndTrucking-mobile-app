@@ -15,11 +15,11 @@ export class OthersPage implements OnInit {
 
   ngOnInit() {
     this.otherForm = this.formBuilder.group({
-      empName: ['', Validators.required],
-      supervisor: ['', Validators.required],
+      empId: ['', Validators.required],
+      supervisorId: ['', Validators.required],
       city: ['', Validators.required],
       state: ['', Validators.required],
-      apprTask: ['driveCVehicle', Validators.required],
+      apprTaskId: ['driveCVehicle', Validators.required],
       notes: ['', Validators.required],
     });
   }

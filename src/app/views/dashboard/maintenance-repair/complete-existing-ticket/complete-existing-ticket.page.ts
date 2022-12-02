@@ -21,16 +21,16 @@ export class CompleteExistingTicketPage implements OnInit {
     });
 
     this.completeExistingTicketForm = this.formBuilder.group({
-      ticketNum: ['', [Validators.required]],
-      empIssueReported: ['', [Validators.required]],
-      assignedBy: ['', [Validators.required]],
-      assignedTo: ['', [Validators.required]],
+      ticketId: [''],
+      empIssueReportedId: ['', [Validators.required]],
+      assignedById: ['', [Validators.required]],
+      assignedToId: ['', [Validators.required]],
       equipID: ['', [Validators.required]],
       city: ['', [Validators.required]],
       state: ['', [Validators.required]],
-      categories: ['', [Validators.required]],
-      severity: ['', [Validators.required]],
-      status: ['', [Validators.required]],
+      categoriesId: ['', [Validators.required]],
+      severityId: ['', [Validators.required]],
+      statusId: ['', [Validators.required]],
       description: ['', [Validators.required]],
       summary: ['', [Validators.required]],
     });

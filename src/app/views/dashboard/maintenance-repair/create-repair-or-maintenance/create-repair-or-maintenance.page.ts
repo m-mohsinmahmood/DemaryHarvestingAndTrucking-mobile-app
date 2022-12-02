@@ -20,14 +20,14 @@ export class CreateRepairORMaintenancePage implements OnInit {
     });
 
     this.createTicket = this.formBuilder.group({
-      repairTicketNum: ['', Validators.required],
-      assignedBy: ['', Validators.required],
-      assignedTo: ['', Validators.required],
+      repairTicketId: ['', Validators.required],
+      assignedById: ['', Validators.required],
+      assignedToId: ['', Validators.required],
       equipID: ['', Validators.required],
       city: ['', Validators.required],
       state: ['', Validators.required],
-      category: ['', Validators.required],
-      severity: ['', Validators.required],
+      categoryId: ['', Validators.required],
+      severityId: ['', Validators.required],
       status: ['', Validators.required],
       summary: ['', Validators.required],
       description: ['', Validators.required]

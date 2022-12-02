@@ -3,17 +3,18 @@ ion-header {
     color: #fff;
     padding: 6px 0px;
     text-overflow: unset;
-   white-space: unset;
-  //  text-overflow: ellipsis !important;
-  //  white-space: normal;
-  //  position: static;
-   ion-title{
-    // text-overflow: ellipsis !important;
-    // white-space: normal;
-    // position: static;
-    text-overflow: unset;
     white-space: unset;
-   }
+
+    //  text-overflow: ellipsis !important;
+    //  white-space: normal;
+    //  position: static;
+    ion-title {
+      // text-overflow: ellipsis !important;
+      // white-space: normal;
+      // position: static;
+      text-overflow: unset;
+      white-space: unset;
+    }
 
 
     &.harvesting {
@@ -33,7 +34,7 @@ ion-header {
     }
 
     &.farming {
-      --background: #F5993F;
+      --background: #8BC741;
     }
 
     &.trucking {

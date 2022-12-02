@@ -7,98 +7,114 @@
     <form [formGroup]="assignTicket">
       <ion-list>
 
-        <ion-item>
-          <ion-label position="floating">Repair Ticket Number</ion-label>
-          <ion-input formControlName="repairTicketNum" placeholder="Repair Ticket Number"></ion-input>
-        </ion-item>
-        <ion-text *ngIf="this.assignTicket.get('repairTicketNum').hasError('required')"
-          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Ticket No. required</ion-text>
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Repair Ticket Number</label>
+          <input
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            readonly placeholder="12345">
+        </div>
 
-        <ion-item>
-          <ion-label position="floating">Employee (Issue Reported)</ion-label>
-          <ion-input formControlName="emp" placeholder="Employee Name"></ion-input>
-        </ion-item>
-        <ion-text *ngIf="this.assignTicket.get('emp').hasError('required')"
-          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Employee required</ion-text>
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Employee (Issue Reported)</label>
+          <input class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500
+            focus:outline-none focus:ring-indigo-500 sm:text-sm" formControlName="empId" placeholder="Employee Name">
+          <ion-text *ngIf="this.assignTicket.get('empId').hasError('required')" class="mt-2 text-sm text-red-600">
+            Employee is required</ion-text>
+        </div>
 
-        <ion-text class="block mt-8">
-          <ion-label class="ml-5" position="floating">Assigned by Mechanic/Supervisor</ion-label>
-        </ion-text>
-        <ion-item>
-          <ion-select formControlName="assignedBy" placeholder="Assigned by">
-            <ion-select-option value="mike-kennedy">Mike Kennedy</ion-select-option>
-            <ion-select-option value="bile-handy">Bile Handy</ion-select-option>
+        <div class="col-span-12 mb-4">
+          <label class="ml-5" class="block text-sm font-medium text-gray-700">Assigned by Mechanic/Supervisor</label>
+          <ion-select class="mt-1 w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm
+            focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" formControlName="assignedById"
+            placeholder="Assigned by">
+            <ion-select-option value="1">Mike Kennedy</ion-select-option>
+            <ion-select-option value="2">Bile Handy</ion-select-option>
           </ion-select>
-        </ion-item>
-        <ion-text *ngIf="this.assignTicket.get('assignedBy').hasError('required')"
-          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Assigned By required</ion-text>
+          <ion-text *ngIf="this.assignTicket.get('assignedById').hasError('required')"
+            class="mt-2 text-sm text-red-600">Assigned By is required</ion-text>
+        </div>
 
-        <ion-item>
-          <ion-label position="floating">Assigned to Mechanic/Employee</ion-label>
-          <ion-input formControlName="assignedTo" placeholder="Enter Employee Name"></ion-input>
-        </ion-item>
-        <ion-text *ngIf="this.assignTicket.get('assignedTo').hasError('required')"
-          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Assigned To required</ion-text>
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Assigned to Mechanic/Employee</label>
+          <input class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500
+            focus:outline-none focus:ring-indigo-500 sm:text-sm" formControlName="assignedToId"
+            placeholder="Enter Employee Name">
+          <ion-text *ngIf="this.assignTicket.get('assignedToId').hasError('required')"
+            class="mt-2 text-sm text-red-600">Assigned To is required</ion-text>
+        </div>
 
-        <ion-item>
-          <ion-label position="floating">Equipment ID</ion-label>
-          <ion-input formControlName="equipID" placeholder="Equipment ID"></ion-input>
-        </ion-item>
-        <ion-text *ngIf="this.assignTicket.get('equipID').hasError('required')"
-          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Equipment ID required</ion-text>
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Equipment ID</label>
+          <input class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500
+            focus:outline-none focus:ring-indigo-500 sm:text-sm" formControlName="equipID" placeholder="Equipment ID">
+          <ion-text *ngIf="this.assignTicket.get('equipID').hasError('required')" class="mt-2 text-sm text-red-600">
+            Equipment ID is required</ion-text>
+        </div>
 
-        <ion-item>
-          <ion-label position="floating">City</ion-label>
-          <ion-input formControlName="city" placeholder="City"></ion-input>
-        </ion-item>
-        <ion-text *ngIf="this.assignTicket.get('city').hasError('required')"
-          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">City required</ion-text>
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">City</label>
+          <input class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500
+            focus:outline-none focus:ring-indigo-500 sm:text-sm" formControlName="city" placeholder="City">
+          <ion-text *ngIf="this.assignTicket.get('city').hasError('required')" class="mt-2 text-sm text-red-600">City is
+            required</ion-text>
+        </div>
 
-        <ion-item>
-          <ion-label position="floating">State</ion-label>
-          <ion-input formControlName="state" placeholder="State"></ion-input>
-        </ion-item>
-        <ion-text *ngIf="this.assignTicket.get('state').hasError('required')"
-          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">State required</ion-text>
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">State</label>
+          <input class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500
+            focus:outline-none focus:ring-indigo-500 sm:text-sm" formControlName="state" placeholder="State">
+          <ion-text *ngIf="this.assignTicket.get('state').hasError('required')" class="mt-2 text-sm text-red-600">State is
+            required</ion-text>
+        </div>
 
-        <ion-item>
-          <ion-label position="floating">Category</ion-label>
-          <ion-input formControlName="category" placeholder="Enter Category"></ion-input>
-        </ion-item>
-        <ion-text *ngIf="this.assignTicket.get('category').hasError('required')"
-          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Category required</ion-text>
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Category</label>
+          <input class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500
+            focus:outline-none focus:ring-indigo-500 sm:text-sm" formControlName="categoryId"
+            placeholder="Enter Category">
+          <ion-text *ngIf="this.assignTicket.get('categoryId').hasError('required')" class="mt-2 text-sm text-red-600">
+            Category is required</ion-text>
+        </div>
 
-        <ion-item>
-          <ion-label position="floating">Severity</ion-label>
-          <ion-input formControlName="severity" placeholder="Severity"></ion-input>
-        </ion-item>
-        <ion-text *ngIf="this.assignTicket.get('severity').hasError('required')"
-          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Severity required</ion-text>
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Severity</label>
+          <input class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500
+            focus:outline-none focus:ring-indigo-500 sm:text-sm" formControlName="severityId" placeholder="Severity">
+          <ion-text *ngIf="this.assignTicket.get('severityId').hasError('required')" class="mt-2 text-sm text-red-600">
+            Severity is required</ion-text>
+        </div>
 
-        <ion-item>
-          <ion-label position="floating">Status</ion-label>
-          <ion-input formControlName="status" placeholder="Severity"></ion-input>
-        </ion-item>
-        <ion-text *ngIf="this.assignTicket.get('status').hasError('required')"
-          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Status required</ion-text>
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Status</label>
+          <input class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500
+            focus:outline-none focus:ring-indigo-500 sm:text-sm" formControlName="status" placeholder="Severity">
+          <ion-text *ngIf="this.assignTicket.get('status').hasError('required')" class="mt-2 text-sm text-red-600">
+            Status is required</ion-text>
+        </div>
 
-        <ion-item>
-          <ion-label position="floating">Detailed Description of Issue</ion-label>
-          <ion-textarea formControlName="description" placeholder="Type something here"></ion-textarea>
-        </ion-item>
-        <ion-text *ngIf="this.assignTicket.get('description').hasError('required')"
-          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Description required</ion-text>
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Detailed Description of Issue</label>
+          <textarea
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="description" placeholder="Type something here">
+          </textarea>
+          <ion-text *ngIf="this.assignTicket.get('description').hasError('required')" class="mt-2 text-sm text-red-600">
+            Description is required
+          </ion-text>
+        </div>
 
-        <ion-item>
-          <ion-label position="floating">Repair Summary</ion-label>
-          <ion-textarea formControlName="summary" placeholder="Enter Repair Summary"></ion-textarea>
-        </ion-item>
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Repair Summary</label>
+          <textarea
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="summary" placeholder="Enter Repair Summary"></textarea>
+          <ion-text *ngIf="this.assignTicket.get('summary').hasError('required')" class="mt-2 text-sm text-red-600">
+            Summary is required</ion-text>
+        </div>
       </ion-list>
-      <ion-text *ngIf="this.assignTicket.get('summary').hasError('required')"
-        class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Summary required</ion-text>
 
       <ion-button [disabled]="this.assignTicket.invalid" class="font-Lato text-white mt-8" expand="block"
-       (click)="submit()">
+        (click)="submit()">
         Save and Submit
       </ion-button>
     </form>

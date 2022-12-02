@@ -7,7 +7,13 @@
   font-family: 'Lato' !important;
 }
 
-::ng-deep ion-label {
+::ng-deep label {
+  font-family: 'Lato' !important;
+  font-weight: bold !important;
+}
+
+::ng-deep input::placeholder,
+::ng-deep ion-text {
   font-family: 'Lato' !important;
 }
 
@@ -68,4 +74,9 @@
       color: #5BBE62;
     }
   }
+}
+
+//----- Home Screen BG Color -------
+::ng-deep .homeScreen {
+  --background: #F6FBF7;
 }

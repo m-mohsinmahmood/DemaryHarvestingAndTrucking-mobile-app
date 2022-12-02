@@ -27,19 +27,23 @@
 
     <form [formGroup]="changeField">
       <div>
-        <ion-item>
-          <ion-label position="floating">Field Name</ion-label>
-          <ion-input formControlName="fieldName" placeholder="Enter Field Name"></ion-input>
-        </ion-item>
-        <ion-text *ngIf="this.changeField.get('fieldName').hasError('required')"
-          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Customer Name is required</ion-text>
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Field Name</label>
+          <input
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="fieldId" placeholder="Enter Field Name">
+          <ion-text *ngIf="this.changeField.get('fieldId').hasError('required')"
+            class="mt-2 text-sm text-red-600">Field Name is required</ion-text>
+        </div>
 
-        <ion-item>
-          <ion-label position="floating">GPS Acres Completed (for prior field)</ion-label>
-          <ion-input formControlName="gpsAcresCompleted" placeholder="Enter GPS Acres Completed"></ion-input>
-        </ion-item>
-        <ion-text *ngIf="this.changeField.get('gpsAcresCompleted').hasError('required')"
-          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Customer Name is required</ion-text>
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">GPS Acres Completed (for prior field)</label>
+          <input
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="gpsAcresCompleted" placeholder="Enter GPS Acres Completed">
+          <ion-text *ngIf="this.changeField.get('gpsAcresCompleted').hasError('required')"
+            class="mt-2 text-sm text-red-600">GPS Acres are required</ion-text>
+        </div>
 
       </div>
       <ion-button [disabled]="this.changeField.invalid" expand="block" class="mt-5 font-Lato text-white"

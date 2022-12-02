@@ -14,7 +14,7 @@ export class ChangeFieldPage implements OnInit {
 
   ngOnInit() {
     this.changeField = this.formBuilder.group({
-      fieldName: ['', [Validators.required]],
+      fieldId: ['', [Validators.required]],
       gpsAcresCompleted: ['', [Validators.required]],
     });
   }

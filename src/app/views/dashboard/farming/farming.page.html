@@ -2,7 +2,7 @@
 || role === 'tractor-driver'? 'Tractor Driver Tasks': ''" [color]="'farming'"></app-header>
 
 <!-- Role: Dispatcher-->
-<ion-content *ngIf="role === 'dispatcher'">
+<ion-content class="homeScreen"  *ngIf="role === 'dispatcher'">
   <ion-grid>
     <ion-row>
       <ion-col size="12">
@@ -36,7 +36,7 @@
 </ion-content>
 
 <!-- Role: Tractor Driver-->
-<ion-content *ngIf="role === 'tractor-driver'">
+<ion-content class="homeScreen" *ngIf="role === 'tractor-driver'">
   <ion-grid>
     <ion-row>
       <ion-col size="12">

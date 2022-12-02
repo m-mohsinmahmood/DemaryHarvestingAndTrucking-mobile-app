@@ -18,10 +18,10 @@ export class CreateOrderPage implements OnInit {
   ngOnInit() {
     this.role = localStorage.getItem('role');
     this.createOrderDispatcher = this.formBuilder.group({
-      dispatcher: ['', [Validators.required]],
-      customer: ['', [Validators.required]],
-      farm: ['', [Validators.required]],
-      field: ['', [Validators.required]],
+      dispatcherId: ['', [Validators.required]],
+      customerId: ['', [Validators.required]],
+      farmId: ['', [Validators.required]],
+      fieldId: ['', [Validators.required]],
       service: ['', [Validators.required]],
       tractorDriver: ['', [Validators.required]],
       fieldAddress: ['', [Validators.required]],
@@ -31,13 +31,13 @@ export class CreateOrderPage implements OnInit {
     this.createOrderTDriver = this.formBuilder.group({
       machineryID: ['', [Validators.required]],
       cBeginningEngineHours: ['', [Validators.required]],
-      workOrderNum: ['', [Validators.required]],
-      dispatcher: ['', [Validators.required]],
-      customer: ['', [Validators.required]],
-      farm: ['', [Validators.required]],
-      field: ['', [Validators.required]],
+      workOrderId: ['', [Validators.required]],
+      dispatcherId: ['', [Validators.required]],
+      customerId: ['', [Validators.required]],
+      farmId: ['', [Validators.required]],
+      fieldId: ['', [Validators.required]],
       service: ['', [Validators.required]],
-      tractorDriver: ['', [Validators.required]],
+      tractorDriverId: ['', [Validators.required]],
       fieldAddress: ['', [Validators.required]],
       phone: ['', [Validators.required]],
     });

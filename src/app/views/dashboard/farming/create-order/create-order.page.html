@@ -5,68 +5,84 @@
   <div class="p-4" *ngIf="role === 'dispatcher'">
     <form [formGroup]="createOrderDispatcher">
       <div>
-        <ion-item>
-          <div class="flex flex-col">
-            <span>Work Order #</span>
-            <span class="mt-2 mb-2">12345</span>
-          </div>
-        </ion-item>
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Work Order #</label>
+          <input
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            readonly placeholder="12345">
+        </div>
 
-        <ion-item>
-          <ion-label position="floating">Dispatcher</ion-label>
-          <ion-input formControlName="dispatcher" placeholder="Enter Dispatcher"></ion-input>
-        </ion-item>
-        <ion-text *ngIf="this.createOrderDispatcher.get('dispatcher').hasError('required')"
-          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Dispatcher required</ion-text>
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Dispatcher</label>
+          <input
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="dispatcherId" placeholder="Enter Dispatcher">
+          <ion-text *ngIf="this.createOrderDispatcher.get('dispatcherId').hasError('required')"
+            class="mt-2 text-sm text-red-600">Dispatcher is required</ion-text>
+        </div>
 
-        <ion-item>
-          <ion-label position="floating">Customer</ion-label>
-          <ion-input formControlName="customer" placeholder="Enter Customer Name"></ion-input>
-        </ion-item>
-        <ion-text *ngIf="this.createOrderDispatcher.get('customer').hasError('required')"
-          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Customer required</ion-text>
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Customer</label>
+          <input
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="customerId" placeholder="Enter Customer Name">
+          <ion-text *ngIf="this.createOrderDispatcher.get('customerId').hasError('required')"
+            class="mt-2 text-sm text-red-600">Customer is required</ion-text>
+        </div>
 
-        <ion-item>
-          <ion-label position="floating">Farm</ion-label>
-          <ion-input formControlName="farm" placeholder="Enter Farm Name"></ion-input>
-        </ion-item>
-        <ion-text *ngIf="this.createOrderDispatcher.get('farm').hasError('required')"
-          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Farm required</ion-text>
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Farm</label>
+          <input
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="farmId" placeholder="Enter Farm Name">
+          <ion-text *ngIf="this.createOrderDispatcher.get('farmId').hasError('required')"
+            class="mt-2 text-sm text-red-600">Farm is required</ion-text>
+        </div>
 
-        <ion-item>
-          <ion-label position="floating">Field</ion-label>
-          <ion-input formControlName="field" placeholder="Enter Field Name"></ion-input>
-        </ion-item>
-        <ion-text *ngIf="this.createOrderDispatcher.get('field').hasError('required')"
-          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Field required</ion-text>
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Field</label>
+          <input
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="fieldId" placeholder="Enter Field Name">
+          <ion-text *ngIf="this.createOrderDispatcher.get('fieldId').hasError('required')"
+            class="mt-2 text-sm text-red-600">Field is required</ion-text>
+        </div>
 
-        <ion-item>
-          <ion-label position="floating">Service</ion-label>
-          <ion-input formControlName="service" placeholder="Enter Service"></ion-input>
-        </ion-item>
-        <ion-text *ngIf="this.createOrderDispatcher.get('service').hasError('required')"
-          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Service required</ion-text>
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Service</label>
+          <input
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="service" placeholder="Enter Service">
+          <ion-text *ngIf="this.createOrderDispatcher.get('service').hasError('required')"
+            class="mt-2 text-sm text-red-600">Service is required</ion-text>
+        </div>
 
-        <ion-item>
-          <ion-label position="floating">Tractor Driver</ion-label>
-          <ion-input formControlName="tractorDriver" placeholder="Enter Tractor Driver"></ion-input>
-        </ion-item>
-        <ion-text *ngIf="this.createOrderDispatcher.get('tractorDriver').hasError('required')"
-          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Tractor Driver required</ion-text>
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Tractor Driver</label>
+          <input
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="tractorDriver" placeholder="Enter Tractor Driver">
+          <ion-text *ngIf="this.createOrderDispatcher.get('tractorDriver').hasError('required')"
+            class="mt-2 text-sm text-red-600">Tractor Driver is required</ion-text>
+        </div>
 
-        <ion-item>
-          <ion-label position="floating">Field Address (if known)</ion-label>
-          <ion-input formControlName="fieldAddress" placeholder="Enter Field Address"></ion-input>
-        </ion-item>
-        <ion-text *ngIf="this.createOrderDispatcher.get('fieldAddress').hasError('required')"
-          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Field Address required</ion-text>
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Field Address (if known)</label>
+          <input
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="fieldAddress" placeholder="Enter Field Address">
+          <ion-text *ngIf="this.createOrderDispatcher.get('fieldAddress').hasError('required')"
+            class="mt-2 text-sm text-red-600">Field Address is required</ion-text>
+        </div>
 
-        <ion-item>
-          <ion-label position="floating">Customer Phone</ion-label>
-          <ion-input formControlName="phone" placeholder="Enter Customer Phone"></ion-input>
-        </ion-item>
-        <ion-text *ngIf="this.createOrderDispatcher.get('phone').hasError('required')"
-          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Phone required</ion-text>
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Customer Phone</label>
+          <input
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="phone" placeholder="Enter Customer Phone">
+          <ion-text *ngIf="this.createOrderDispatcher.get('phone').hasError('required')"
+            class="mt-2 text-sm text-red-600">Phone is required</ion-text>
+        </div>
 
       </div>
       <ion-button [disabled]="this.createOrderDispatcher.invalid" expand="block" class="mt-5 font-Lato text-white"
@@ -79,87 +95,116 @@
   <div class="p-4" *ngIf="role === 'tractor-driver'">
     <form [formGroup]="createOrderTDriver">
       <div>
-        <ion-item>
-          <ion-label position="floating">Machinery ID</ion-label>
-          <ion-input formControlName="machineryID" placeholder="Machinery ID"></ion-input>
-        </ion-item>
-        <ion-text *ngIf="this.createOrderTDriver.get('machineryID').hasError('required')"
-          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Machinery ID required</ion-text>
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Machinery ID</label>
+          <input
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="machineryID" placeholder="Machinery ID">
+          <ion-text *ngIf="this.createOrderTDriver.get('machineryID').hasError('required')"
+            class="mt-2 text-sm text-red-600">Machinery ID is required</ion-text>
+        </div>
 
-        <ion-item>
-          <ion-label position="floating">Confirm Beginning Engine Hours</ion-label>
-          <ion-input formControlName="cBeginningEngineHours" placeholder="Confirm Beginning Engine Hours"></ion-input>
-        </ion-item>
-        <ion-text *ngIf="this.createOrderTDriver.get('cBeginningEngineHours').hasError('required')"
-          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Confirm Beginning Engine Hours required
-        </ion-text>
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Confirm Beginning Engine
+            Hours</label>
+          <input
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="cBeginningEngineHours" placeholder="Confirm Beginning Engine Hours">
+          <ion-text *ngIf="this.createOrderTDriver.get('cBeginningEngineHours').hasError('required')"
+            class="mt-2 text-sm text-red-600">Confirm Beginning Engine Hours is required
+          </ion-text>
+        </div>
 
-        <ion-item>
-          <ion-label position="floating">Work Order #</ion-label>
-          <ion-input formControlName="workOrderNum" placeholder="Work Order #"></ion-input>
-        </ion-item>
-        <ion-text *ngIf="this.createOrderTDriver.get('workOrderNum').hasError('required')"
-          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Worder Order # required</ion-text>
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Work Order #</label>
+          <input
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="workOrderId" placeholder="Work Order #">
+          <ion-text *ngIf="this.createOrderTDriver.get('workOrderId').hasError('required')"
+            class="mt-2 text-sm text-red-600">Worder Order # is required</ion-text>
+        </div>
 
-        <ion-item>
-          <ion-label position="floating">Dispatcher</ion-label>
-          <ion-input formControlName="dispatcher" placeholder="Enter Dispatcher Name"></ion-input>
-        </ion-item>
-        <ion-text *ngIf="this.createOrderTDriver.get('dispatcher').hasError('required')"
-          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Dispatcher required</ion-text>
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Dispatcher</label>
+          <input
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="dispatcherId" placeholder="Enter Dispatcher Name">
+          <ion-text *ngIf="this.createOrderTDriver.get('dispatcherId').hasError('required')"
+            class="mt-2 text-sm text-red-600">Dispatcher is required</ion-text>
+        </div>
 
-        <ion-item>
-          <ion-label position="floating">Customer</ion-label>
-          <ion-input formControlName="customer" placeholder="Enter Customer Name"></ion-input>
-        </ion-item>
-        <ion-text *ngIf="this.createOrderTDriver.get('customer').hasError('required')"
-          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Customer required</ion-text>
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Customer</label>
+          <input
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="customerId" placeholder="Enter Customer Name">
+          <ion-text *ngIf="this.createOrderTDriver.get('customerId').hasError('required')"
+            class="mt-2 text-sm text-red-600">Customer is required</ion-text>
+        </div>
 
-        <ion-item>
-          <ion-label position="floating">Farm</ion-label>
-          <ion-input formControlName="farm" placeholder="Enter Farm"></ion-input>
-        </ion-item>
-        <ion-text *ngIf="this.createOrderTDriver.get('farm').hasError('required')"
-          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Farm required</ion-text>
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Farm</label>
+          <input
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="farmId" placeholder="Enter Farm">
+          <ion-text *ngIf="this.createOrderTDriver.get('farmId').hasError('required')"
+            class="mt-2 text-sm text-red-600">
+            Farm is required</ion-text>
+        </div>
 
-        <ion-item>
-          <ion-label position="floating">Field</ion-label>
-          <ion-input formControlName="field" placeholder="Enter Field"></ion-input>
-        </ion-item>
-        <ion-text *ngIf="this.createOrderTDriver.get('field').hasError('required')"
-          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Field required</ion-text>
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Field</label>
+          <input
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="fieldId" placeholder="Enter Field">
+          <ion-text *ngIf="this.createOrderTDriver.get('fieldId').hasError('required')"
+            class="mt-2 text-sm text-red-600">
+            Field is required</ion-text>
+        </div>
 
-        <ion-item>
-          <ion-label position="floating">Service</ion-label>
-          <ion-input formControlName="service" placeholder="Enter Service"></ion-input>
-        </ion-item>
-        <ion-text *ngIf="this.createOrderTDriver.get('service').hasError('required')"
-          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Service required</ion-text>
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Service</label>
+          <input
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="service" placeholder="Enter Service">
+          <ion-text *ngIf="this.createOrderTDriver.get('service').hasError('required')"
+            class="mt-2 text-sm text-red-600">
+            Service is required</ion-text>
+        </div>
 
-        <ion-item>
-          <ion-label position="floating">Tractor Driver</ion-label>
-          <ion-input formControlName="tractorDriver" placeholder="Enter Tractor Driver"></ion-input>
-        </ion-item>
-        <ion-text *ngIf="this.createOrderTDriver.get('tractorDriver').hasError('required')"
-          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Tractor Driver required</ion-text>
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Tractor
+            Driver</label>
+          <input
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="tractorDriverId" placeholder="Enter Tractor Driver">
+          <ion-text *ngIf="this.createOrderTDriver.get('tractorDriverId').hasError('required')"
+            class="mt-2 text-sm text-red-600">Tractor Driver is required</ion-text>
+        </div>
 
-        <ion-item>
-          <ion-label position="floating">Field Address (if known)</ion-label>
-          <ion-input formControlName="fieldAddress" placeholder="Enter Field Address"></ion-input>
-        </ion-item>
-        <ion-text *ngIf="this.createOrderTDriver.get('fieldAddress').hasError('required')"
-          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Field Address required</ion-text>
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Field
+            Address (if known)</label>
+          <input
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="fieldAddress" placeholder="Enter Field Address">
+          <ion-text *ngIf="this.createOrderTDriver.get('fieldAddress').hasError('required')"
+            class="mt-2 text-sm text-red-600">Field Address is required</ion-text>
+        </div>
 
-        <ion-item>
-          <ion-label position="floating">Customer Phone</ion-label>
-          <ion-input formControlName="phone" placeholder="Enter Customer Phone"></ion-input>
-        </ion-item>
-        <ion-text *ngIf="this.createOrderTDriver.get('phone').hasError('required')"
-          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Phone required</ion-text>
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Customer Phone</label>
+          <input
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="phone" placeholder="Enter Customer Phone">
+          <ion-text *ngIf="this.createOrderTDriver.get('phone').hasError('required')" class="mt-2 text-sm text-red-600">
+            Phone is required</ion-text>
+        </div>
 
       </div>
       <ion-button [disabled]="this.createOrderTDriver.invalid" expand="block" class="mt-5 font-Lato text-white"
-        (click)="navigateTo('/tabs/home/farming')">Generate Ticket
+        (click)="navigateTo('/tabs/home/farming')">Generate
+        Ticket
       </ion-button>
     </form>
   </div>

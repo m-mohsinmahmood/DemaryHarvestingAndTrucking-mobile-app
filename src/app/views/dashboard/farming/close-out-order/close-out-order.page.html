@@ -6,41 +6,52 @@
   <form [formGroup]="closeOutWorkOrder">
     <div class="p-4">
       <div>
-        <ion-item>
-          <ion-label position="floating">Acres Completed</ion-label>
-          <ion-input formControlName="acresCompleted" placeholder="Enter Completed Acres"></ion-input>
-        </ion-item>
-        <ion-text *ngIf="this.closeOutWorkOrder.get('acresCompleted').hasError('required')"
-          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Acres Completed required</ion-text>
 
-        <ion-item>
-          <ion-label position="floating">GPS Acres</ion-label>
-          <ion-input formControlName="gpsAcres" placeholder="Enter GPS Acres"></ion-input>
-        </ion-item>
-        <ion-text *ngIf="this.closeOutWorkOrder.get('gpsAcres').hasError('required')"
-          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">GPS Acres required</ion-text>
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Acres Completed</label>
+          <input
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="acresCompleted" placeholder="Enter Completed Acres">
+          <ion-text *ngIf="this.closeOutWorkOrder.get('acresCompleted').hasError('required')"
+            class="mt-2 text-sm text-red-600">Acres Completed are required</ion-text>
+        </div>
 
-        <ion-item>
-          <ion-label position="floating">Ending Engine Hours</ion-label>
-          <ion-input formControlName="endingEngineHours" placeholder="Enter Engine Hours"></ion-input>
-        </ion-item>
-        <ion-text *ngIf="this.closeOutWorkOrder.get('endingEngineHours').hasError('required')"
-          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Ending Engine Hours required</ion-text>
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">GPS Acres</label>
+          <input
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="gpsAcres" placeholder="Enter GPS Acres">
+          <ion-text *ngIf="this.closeOutWorkOrder.get('gpsAcres').hasError('required')"
+            class="mt-2 text-sm text-red-600">GPS Acres are required</ion-text>
+        </div>
 
-        <ion-item>
-          <ion-label position="floating">Hours Worked</ion-label>
-          <ion-input formControlName="hoursWorked" placeholder="Enter Hours Worked"></ion-input>
-        </ion-item>
-        <ion-text *ngIf="this.closeOutWorkOrder.get('hoursWorked').hasError('required')"
-          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Hours Worked required</ion-text>
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Ending Engine Hours</label>
+          <input
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="endingEngineHours" placeholder="Enter Engine Hours">
+          <ion-text *ngIf="this.closeOutWorkOrder.get('endingEngineHours').hasError('required')"
+            class="mt-2 text-sm text-red-600">Ending Engine Hours are required</ion-text>
+        </div>
 
-        <ion-item>
-          <ion-label position="floating">Notes</ion-label>
-          <ion-textarea formControlName="notes" placeholder="Enter Notes">
-          </ion-textarea>
-        </ion-item>
-        <ion-text *ngIf="this.closeOutWorkOrder.get('notes').hasError('required')"
-          class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Notes required</ion-text>
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Hours Worked</label>
+          <input
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="hoursWorked" placeholder="Enter Hours Worked">
+          <ion-text *ngIf="this.closeOutWorkOrder.get('hoursWorked').hasError('required')"
+            class="mt-2 text-sm text-red-600">Hours Worked are required</ion-text>
+        </div>
+
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Notes</label>
+          <textarea
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="notes" placeholder="Enter Notes">
+          </textarea>
+          <ion-text *ngIf="this.closeOutWorkOrder.get('notes').hasError('required')" class="mt-2 text-sm text-red-600">
+            Notes are required</ion-text>
+        </div>
 
       </div>
       <ion-button [disabled]="this.closeOutWorkOrder.invalid" expand="block" class="mt-5 font-Lato text-white"

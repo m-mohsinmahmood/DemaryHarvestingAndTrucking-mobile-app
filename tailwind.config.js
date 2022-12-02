@@ -32,7 +32,7 @@ module.exports = {
       },
       fontFamily: {
         'Lato': ['"Lato"']
-      }
+      },
     },
   },
   plugins: [
