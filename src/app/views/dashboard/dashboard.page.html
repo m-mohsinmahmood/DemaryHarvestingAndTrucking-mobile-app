@@ -51,20 +51,17 @@
         *ngIf="role === 'crew-chief' || role === 'kart-operator' || role === 'combine-operator' || role === 'truck-driver'">
         <ion-card class="card" [routerLink]="['harvesting']" [ngStyle]="{'background-color':'#129476'}">
           <ion-card-content>
-            <!-- <div class="flex"> -->
-              <img src="../../../assets/images/harvest.svg" alt="" class="">
-              <!-- <img src="../../../assets/images/trees.png" alt="" class="w-12 h-12 object-contain"> -->
-            <!-- </div> -->
-            <ion-text class="font-Lato mb-2">Harvesting</ion-text>
+              <img src="../../../assets/images/harvesttt.svg" alt="" class="">
+            <ion-text class="font-Lato mb-2 pt-1">Harvesting</ion-text>
           </ion-card-content>
         </ion-card>
       </ion-col>
 
       <ion-col size="6" *ngIf="role === 'dispatcher' || role === 'tractor-driver' ">
-        <ion-card class="card" [routerLink]="['farming']" [ngStyle]="{'background-color':'#F5993F'}">
+        <ion-card class="card" [routerLink]="['farming']" [ngStyle]="{'background-color':'#8BC741'}">
           <ion-card-content>
             <img src="../../../assets/images/farming.svg" alt="" class="w-12 h-12 object-contain">
-            <ion-text class="font-Lato">Farming</ion-text>
+            <ion-text class="font-Lato pt-1">Farming</ion-text>
           </ion-card-content>
         </ion-card>
       </ion-col>
@@ -75,7 +72,7 @@
         <ion-card class="card" [routerLink]="['trucking']" [ngStyle]="{'background-color':'#4256F9'}">
           <ion-card-content>
             <img src="../../../assets/images/truck.png" alt="" class="w-12 h-12 object-contain">
-            <ion-text class="font-Lato">Trucking</ion-text>
+            <ion-text class="font-Lato pt-1">Trucking</ion-text>
           </ion-card-content>
         </ion-card>
       </ion-col>
@@ -83,7 +80,7 @@
         <ion-card class="card" [routerLink]="['maintenance-repair']" [ngStyle]="{'background-color':'#FF7272'}">
           <ion-card-content>
             <img src="../../../assets/images/m and r.svg" alt="" class="w-12 h-12 object-contain">
-            <ion-text class="font-Lato">Maintenance & Repair</ion-text>
+            <ion-text class="font-Lato pt-1">Maintenance & Repair</ion-text>
           </ion-card-content>
         </ion-card>
       </ion-col>
@@ -93,7 +90,7 @@
         <ion-card class="card" [routerLink]="['training']" [ngStyle]="{'background-color':'#0CA3C7'}">
           <ion-card-content>
             <img src="../../../assets/images/training.svg" alt="" class="w-12 h-12 object-contain">
-            <ion-text class="font-Lato">Training</ion-text>
+            <ion-text class="font-Lato pt-1">Training</ion-text>
           </ion-card-content>
         </ion-card>
       </ion-col>
@@ -101,7 +98,7 @@
         <ion-card class="card" [routerLink]="['others']" [ngStyle]="{'background-color':'#455769'}">
           <ion-card-content>
             <img src="../../../assets/images/other.svg" alt="" class="w-12 h-12 object-contain">
-            <ion-text class="font-Lato">Other</ion-text>
+            <ion-text class="font-Lato pt-1">Other Paid</ion-text>
           </ion-card-content>
         </ion-card>
       </ion-col>
@@ -111,18 +108,35 @@
         <ion-card class="card" [ngStyle]="{'background-color':'#D33F3F'}">
           <ion-card-content>
             <img src="../../../assets/images/purchasing.svg" alt="" class="w-12 h-12 object-contain">
-            <ion-text class="font-Lato">Purchasing</ion-text>
+            <ion-text class="font-Lato pt-1">Purchasing</ion-text>
+            <span class="text-white font-Lato">(Coming 2024)</span>
+
           </ion-card-content>
         </ion-card>
       </ion-col>
       <ion-col size="6">
-        <ion-card class="card" [ngStyle]="{'background-color':'#0070C0'}">
+        <ion-card class="card" [ngStyle]="{'background-color':'#9F58E7'}">
           <ion-card-content>
             <img src="../../../assets/images/inventory.svg" alt="" class="w-12 h-12 object-contain">
-            <ion-text class="font-Lato">Inventory</ion-text>
+            <ion-text class="font-Lato pt-1">Inventory</ion-text>
+            <span class="text-white font-Lato">(Coming 2024)</span>
           </ion-card-content>
         </ion-card>
       </ion-col>
+      <ion-col size="6">
+        <ion-card class="card" [ngStyle]="{'background-color':'#9393F4'}">
+          <ion-card-content>
+            <img src="../../../assets/images/leasing.svg" alt="" class="w-12 h-12 object-contain">
+            <ion-text class="font-Lato pt-1">Leasing</ion-text>
+            <span class="text-white font-Lato">(Coming 2024)</span>
+          </ion-card-content>
+        </ion-card>
+        <!-- <div class="flex flex-col items-center">
+          <ion-text class="font-Lato">Leasing</ion-text>
+        <ion-text class=" font-Lato text-black">(Coming 2024)</ion-text>
+        </div> -->
+      </ion-col>
+
     </ion-row>
 
 

@@ -13,15 +13,12 @@ import { environment } from '../../environments/environment';
 
 @Injectable()
 export class Interceptor implements HttpInterceptor {
-    constructor() {
-      console.log('Interceptors');
-    }
+    constructor() {    }
     intercept(
         request: HttpRequest<any>,
         next: HttpHandler
     ): Observable<HttpEvent<any>> {
         let requestUrl = request.url;
-        console.log('Intercepter called')
         if (requestUrl.indexOf('api-1') !== -1) {
             requestUrl = requestUrl.replace('api-1', 'https://dht-dev.azurewebsites.net/api');
         }

@@ -11,6 +11,7 @@ import { HeaderComponent } from 'src/app/components/header/header.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Interceptor } from './Intercepters/interceptor';
 
+
 @NgModule({
   declarations: [AppComponent, DomSanitizerPipe],
   imports: [
