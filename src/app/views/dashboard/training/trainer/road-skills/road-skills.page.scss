@@ -9,7 +9,7 @@
     --border-style: solid;
     --border-width: 1px;
     margin-top: 20px;
-    margin-left: 19px;
+    // margin-left: 9px;
     ion-icon{
       color: #5BBE62;
     }
@@ -36,4 +36,8 @@ ion-segment {
       zoom: 1;
     }
   }
+}
+ion-item::part(native){
+  --padding-start: 0px;
+
 }

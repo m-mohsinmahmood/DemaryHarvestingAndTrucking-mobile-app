@@ -136,33 +136,33 @@
         <ion-item>
           <ion-label position="floating" class="font">Scale Ticket</ion-label>
           <ion-input placeholder="Enter Scale Ticket" formControlName="scaleTicket"></ion-input>
-          <ion-text *ngIf="this.generateTicketFormTruck.get('scaleTicket').hasError('required')" class="text-xs font-semibold font-Lato text-red-500">Scale Ticket required</ion-text>
 
         </ion-item>
+        <ion-text *ngIf="this.generateTicketFormTruck.get('scaleTicket').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 mt-1">Scale Ticket required</ion-text>
         <ion-item>
         <ion-label position="floating" class="font">Scale Ticket Weight</ion-label>
         <ion-input placeholder="Enter Scale Ticket Weight" formControlName="scaleTicketWeight"></ion-input>
-        <ion-text *ngIf="this.generateTicketFormTruck.get('scaleTicketWeight').hasError('required')" class="text-xs font-semibold font-Lato text-red-500">Scale Ticket Weight required</ion-text>
 
       </ion-item>
+      <ion-text *ngIf="this.generateTicketFormTruck.get('scaleTicketWeight').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 mt-1">Scale Ticket Weight required</ion-text>
       <ion-item>
         <ion-label position="floating" class="font">Test Weight</ion-label>
         <ion-input placeholder="Enter Test Weight" formControlName="testWeight"></ion-input>
-        <ion-text *ngIf="this.generateTicketFormTruck.get('testWeight').hasError('required')" class="text-xs font-semibold font-Lato text-red-500">Test Weight required</ion-text>
 
       </ion-item>
+      <ion-text *ngIf="this.generateTicketFormTruck.get('testWeight').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 mt-1">Test Weight required</ion-text>
       <ion-item>
         <ion-label position="floating" class="font">Protein Content</ion-label>
         <ion-input placeholder="Enter Protein Content" formControlName="proteinContent"></ion-input>
-        <ion-text *ngIf="this.generateTicketFormTruck.get('proteinContent').hasError('required')" class="text-xs font-semibold font-Lato text-red-500">Protein Content required</ion-text>
 
       </ion-item>
+      <ion-text *ngIf="this.generateTicketFormTruck.get('proteinContent').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 mt-1">Protein Content required</ion-text>
       <ion-item>
         <ion-label position="floating" class="font">Moisture Content</ion-label>
         <ion-input placeholder="Enter Moisture Content" formControlName="moistureContent"></ion-input>
-        <ion-text *ngIf="this.generateTicketFormTruck.get('moistureContent').hasError('required')" class="text-xs font-semibold font-Lato text-red-500">Moisture Content required</ion-text>
 
       </ion-item>
+      <ion-text *ngIf="this.generateTicketFormTruck.get('moistureContent').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 mt-1">Moisture Content required</ion-text>
       <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="submit()" [disabled]="generateTicketFormTruck.invalid">Save and Close-out job</ion-button>
     </form>
     </ion-card-content>

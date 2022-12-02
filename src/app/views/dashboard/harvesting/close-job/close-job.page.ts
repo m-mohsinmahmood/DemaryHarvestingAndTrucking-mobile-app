@@ -46,6 +46,7 @@ closeJobFormTruck: FormGroup;
     console.log(this.closeJobFormCrew.value);
     console.log(this.closeJobFormKart.value);
     console.log(this.closeJobFormTruck.value);
+    console.log(this.closeJobFormCombine.value);
 
   }
 }

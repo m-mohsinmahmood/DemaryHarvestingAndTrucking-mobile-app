@@ -6,28 +6,29 @@
   <app-timer [value]="'04:22:12'"></app-timer>
   <form [formGroup]="traineeForm">
     <ion-list>
-       <div>
+       <div class="px-4">
          <ion-item>
            <ion-label position="floating" class="font">Trainee</ion-label>
            <ion-input formControlName="traineeName" placeholder="Enter Trainee Name"></ion-input>
           </ion-item>
-          <ion-text *ngIf="this.traineeForm.get('traineeName').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Trainee required</ion-text>
+          <ion-text *ngIf="this.traineeForm.get('traineeName').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-0 mt-1">Trainee required</ion-text>
          <ion-item>
            <ion-label position="floating" class="font">Trainer</ion-label>
            <ion-input formControlName="trainerName" placeholder="Enter Trainer Name"></ion-input>
          </ion-item>
-         <ion-text *ngIf="this.traineeForm.get('trainerName').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Trainer required</ion-text>
+         <ion-text *ngIf="this.traineeForm.get('trainerName').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-0 mt-1">Trainer required</ion-text>
          <ion-item>
            <ion-label position="floating" class="font">City</ion-label>
            <ion-input formControlName="city" placeholder="Enter City"></ion-input>
          </ion-item>
-         <ion-text *ngIf="this.traineeForm.get('city').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">City required</ion-text>
-         <ion-item>
-           <ion-label position="floating" class="font">State</ion-label>
-           <ion-input formControlName="state"  placeholder="Enter State"></ion-input>
-         </ion-item>
-         <ion-text *ngIf="this.traineeForm.get('state').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">State required</ion-text>
-          <ion-item>
+         <ion-text *ngIf="this.traineeForm.get('city').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-0 mt-1">City required</ion-text>
+         <ion-item class="mt-4">
+          <ion-select placeholder="Select State" interface="alert" formControlName="state" >
+            <ion-select-option *ngFor="let state of states" [value]="state">{{state}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+         <ion-text *ngIf="this.traineeForm.get('state').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-0 mt-1">State required</ion-text>
+          <ion-item class="mt-4">
             <ion-select formControlName="training" placeholder="Type of Training" interface="alert">
               <ion-select-option value="company-training">Company Training</ion-select-option>
               <ion-select-option value="safety-training" >Safety Training</ion-select-option>
@@ -47,11 +48,11 @@
             <ion-label position="floating" class="font">Details</ion-label>
             <ion-input formControlName="details" placeholder="Enter details" value=""></ion-input>
           </ion-item>
-          <ion-text *ngIf="this.traineeForm.get('details').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Detail required</ion-text>
-          <div class="ml-5 mt-4">
+          <ion-text *ngIf="this.traineeForm.get('details').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-0 mt-1">Detail required</ion-text>
+          <div class="ml-2 mt-4">
             <ion-label class="font font-medium text-aaaaaa">Training docs (upload here)</ion-label>
           </div>
-          <div class="flex px-4 py-2">
+          <div class="flex px-2 py-2">
         <div class="w-16 h-16 mr-2">
           <ion-card
             [ngClass]="!upload_1 ? ' shadow-none m-0 border-2 border-aaaaaa bg-e9e6e6' : 'shadow-none m-0 border-2 border-project-green bg-white'"

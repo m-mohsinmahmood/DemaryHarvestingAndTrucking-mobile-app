@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { states } from 'src/JSON/state';
 
 @Component({
   selector: 'app-trainee',
@@ -12,6 +13,8 @@ export class TraineePage implements OnInit {
   upload_2 = false;
   upload_3 = false;
   traineeForm: FormGroup;
+  states: string[];
+
 
   constructor(private formBuilder: FormBuilder) { }
 
@@ -29,6 +32,9 @@ export class TraineePage implements OnInit {
       uploadDocs3: ['', [Validators.required]],
     });
     console.log(this.traineeForm.value);
+
+     // pasing states
+     this.states = states;
   }
   onSelectedFiles(file,name){
     console.log('file:',file);

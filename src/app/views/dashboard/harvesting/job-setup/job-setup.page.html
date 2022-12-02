@@ -1,4 +1,3 @@
-
 <app-header [title]="'Customer Job Set-up'" [color]="'harvesting'"></app-header>
 
 <ion-content>
@@ -6,46 +5,160 @@
   <div class="p-4">
     <div>
       <form [formGroup]="jobSetupForm">
-     <ion-list>
-        <div>
-          <ion-item class="mt-9">
-            <ion-select placeholder="Select State" interface="alert" formControlName="state" >
-              <ion-select-option *ngFor="let state of states" [value]="state">{{state}}</ion-select-option>
-            </ion-select>
-          </ion-item>
-          <ion-text *ngIf="this.jobSetupForm.get('state').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">State required</ion-text>
-          <ion-item>
-            <ion-label position="floating">Customer Name</ion-label>
-            <ion-input placeholder="Customer Name" formControlName="customerName"></ion-input>
-          </ion-item>
-          <ion-text *ngIf="this.jobSetupForm.get('customerName').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Customer name required</ion-text>
+        <ion-list>
+          <div class="px-2">
+            <ion-item class="mt-9">
+              <ion-select placeholder="Select State" interface="alert" formControlName="state">
+                <ion-select-option *ngFor="let state of states" [value]="state">{{state}}</ion-select-option>
+              </ion-select>
+            </ion-item>
+            <ion-text *ngIf="this.jobSetupForm.get('state').hasError('required')"
+              class="text-xs font-semibold font-Lato text-red-500 ml-0 mt-1">State required</ion-text>
+                  <ng-select
+                  class=""
+                  bindLabel="name"
+                  [placeholder]="placeholderText"
+                  loadingText="Loading ...."
+                  (click)="ngClicked()"
+                  formControlName="customerName2"
+                  (search)="search($event)"
+                  >
+                  <div *ngIf="allFarms | withLoading | async as allFarms">
+                    <ng-template [ngIf]="allFarms?.value">
+                      <div class="select overflow-scroll w-full bg-red-500">
+                        <ng-option *ngFor="let farm of allFarms?.value.customer_farms">
+                          {{ farm.name }}
+                        </ng-option>
+                      </div>
+                    </ng-template>
 
-          <ion-item>
-            <ion-label position="floating">Farm</ion-label>
-            <ion-input placeholder="Farm" formControlName="farm"></ion-input>
+                    <ng-template [ngIf]="allFarms?.loading">
+                      <ion-item>
+                        <div style="display: flex;justify-content: center;text-align: center;">
+                          <ng-option>
+                            <ion-spinner name="circular"></ion-spinner>
+                          </ng-option>
+                        </div>
+                      </ion-item>
+                    </ng-template>
 
-          </ion-item>
-          <ion-text *ngIf="this.jobSetupForm.get('farm').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Farm name required</ion-text>
-          <ion-item>
-            <ion-label position="floating">Crop</ion-label>
-            <ion-input  placeholder="Crop" formControlName="crop"></ion-input>
+                    <ng-template [ngIf]="allFarms?.value?.customer_farms?.length === 0">
+                      <ng-option disabled="true" class="font-Lato">No Farm(s) found</ng-option>
+                    </ng-template>
+                  </div>
+                 </ng-select>
+                 <ion-text *ngIf="this.jobSetupForm.get('customerName2').hasError('required')"
+              class="text-xs font-semibold font-Lato text-red-500 ml-0 mt-1">Customer Name</ion-text>
 
-          </ion-item>
-          <ion-text *ngIf="this.jobSetupForm.get('crop').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Crop name required</ion-text>
-          <ion-item>
-            <ion-label position="floating">Initial Field</ion-label>
-            <ion-input placeholder="Initial Field" formControlName="initailField"></ion-input>
-          </ion-item>
-          <ion-text *ngIf="this.jobSetupForm.get('initailField').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Initail field required</ion-text>
 
-            <ion-button expand="block"
-            class="mt-5 font-Lato text-white"
-             (click)="submit()"
-             [disabled]="jobSetupForm.invalid"
-             >Save</ion-button>
-        </div>
-      </ion-list>
-    </form>
+               <!-- EVENT DETAIL SLIDE OVER -->
+
+
+            <!-- <ion-item>
+              <ion-label position="floating">Customer Name</ion-label>
+              <ion-input (click)="getDropdownFarms()" (ionInput)="onChange($event)" placeholder="Customer Name"
+                formControlName="customerName"></ion-input>
+            </ion-item>
+            <ion-text *ngIf="this.jobSetupForm.get('customerName').hasError('required')"
+              class="text-xs font-semibold font-Lato text-red-500 ml-0 mt-1">Customer name required</ion-text>
+            <div *ngIf="allFarms | withLoading | async as allFarms">
+              <ng-template [ngIf]="allFarms?.value">
+                <div class="select overflow-scroll w-full bg-red-500">
+                  <ion-item
+                  *ngFor="let farm of allFarms?.value.customer_farms"
+                  (click)="itemClicked(farm)"
+                  > {{farm.name}}</ion-item>
+                </div>
+              </ng-template>
+
+              <ng-template [ngIf]="allFarms?.loading">
+                <ion-item>
+                  <div style="display: flex;justify-content: center;text-align: center;">
+                    <ion-spinner name="circular"></ion-spinner>
+                  </div>
+                </ion-item>
+              </ng-template>
+
+              <ng-template [ngIf]="allFarms?.value?.customer_farms?.length === 0">
+                <ion-item disabled> No Farm(s) found </ion-item>
+              </ng-template>
+            </div> -->
+
+            <ion-item>
+              <ion-label position="floating">Farm</ion-label>
+              <ion-input placeholder="Farm" formControlName="farm"></ion-input>
+            </ion-item>
+            <ion-text *ngIf="this.jobSetupForm.get('farm').hasError('required')"
+              class="text-xs font-semibold font-Lato text-red-500 ml-0 mt-1">Farm name required</ion-text>
+            <ion-item>
+              <ion-label position="floating">Crop</ion-label>
+              <ion-input placeholder="Crop" formControlName="crop"></ion-input>
+
+            </ion-item>
+            <ion-text *ngIf="this.jobSetupForm.get('crop').hasError('required')"
+              class="text-xs font-semibold font-Lato text-red-500 ml-0 mt-1">Crop name required</ion-text>
+            <!-- <ion-item>
+              <ion-label position="floating">Initial Field</ion-label>
+              <ion-input placeholder="Initial Field" formControlName="initailField"></ion-input>
+            </ion-item>
+            <ion-text *ngIf="this.jobSetupForm.get('initailField').hasError('required')"
+              class="text-xs font-semibold font-Lato text-red-500 ml-0 mt-1">Initail field required</ion-text> -->
+              <div class="col-span-12 mb-4">
+                <ion-label class="block text-sm font-medium text-gray-700">Dispatcher</ion-label>
+                <input
+                  class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                  formControlName="initailField" placeholder="Enter Dispatcher">
+                <ion-text *ngIf="this.jobSetupForm.get('initailField').hasError('required')"
+                  class="mt-2 text-sm text-red-600">Dispatcher required</ion-text>
+              </div>
+
+              <!-- SEARCH LOCATIONS -->
+            <div
+            [ngClass]="add_location_overlay ? 'opacity-100 visible ease-in duration-200' : 'opacity-0 invisible ease-out duration-300'"
+            class="" role="dialog" aria-modal="true">
+            <!-- <div (click)="select_location(null)" class="fixed inset-0 bg-gray-500 bg-opacity-25 transition-opacity">
+            </div> -->
+            <div
+              [ngClass]="add_location_overlay ? 'opacity-100 visible scale-100 ease-in duration-200' : 'opacity-0 invisible scale-95 ease-out duration-300'"
+              class="">
+              <div
+                class="mx-auto max-w-full transform rounded-xl px-0 ring-1 ring-black ring-opacity-5 transition-all">
+                <div class="flex items-center justify-between gap-x-2 rounded-md">
+                  <input (keyup)="farm_search$.next($event.target.value)"
+                    [value]="customerName"
+                    (click)="inputClicked()"
+                    formControlName="customerName3"
+                    class="w-full px-4 py-2.5 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
+                    placeholder="Select Customer" role="" aria-expanded="false"
+                    aria-controls="options">
+                </div>
+                <div *ngIf="allFarms | withLoading | async as allFarms">
+                <ion-spinner *ngIf="allFarms?.loading" name="crescent" mode="indeterminate" color="primary"></ion-spinner>
+                <ul *ngIf="allFarms?.value"
+
+                  class="-mb-2 max-h-72 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800" id="options"
+                  role="listbox">
+                  <!-- (click)="select_location(t)" -->
+                  <li  *ngFor="let farm of (allFarms?.value.customer_farms)"
+                  (click)="listClicked(farm)"
+                    class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200 text-gray-500 hover:text-gray-700 hover:font-semibold"
+                    role="option" tabindex="-1">
+                    <div class="flex items-center gap-x-4">
+                      {{farm.name}}
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              </div>
+            </div>
+          </div>
+          <!-- SEARCH LOCATIONS -->
+
+            <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="submit()"
+              [disabled]="">Save</ion-button>
+          </div>
+        </ion-list>
+      </form>
     </div>
   </div>
 </ion-content>

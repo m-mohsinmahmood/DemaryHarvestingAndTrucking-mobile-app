@@ -2,7 +2,7 @@
 <app-header [title]="'CDL Training Road Test Skills'" [color]="'training'"></app-header>
 <ion-content>
 <app-timer [value]="'11:22:00'"></app-timer>
-<form class="mx-2" [formGroup]="roadTestForm">
+<form class="mx-4" [formGroup]="roadTestForm">
   <ion-item class="mt-9">
     <ion-select formControlName="formSelect" placeholder="Select Evaluation Form" interface="alert" (ionChange)="onSelect($event)">
       <ion-select-option value="1">Paper Form</ion-select-option>
@@ -14,38 +14,38 @@
     <ion-label position="floating" class="font">Trainer</ion-label>
     <ion-input formControlName="trainerName" placeholder="Enter Trainer Name"></ion-input>
   </ion-item>
-  <ion-text *ngIf="this.roadTestForm.get('trainerName').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Trainer required</ion-text>
+  <ion-text *ngIf="this.roadTestForm.get('trainerName').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-0 mt-1">Trainer required</ion-text>
 
   <ion-item>
     <ion-label position="floating" class="font">Trainee</ion-label>
     <ion-input formControlName="traineeName" placeholder="Enter Trainee Name"></ion-input>
   </ion-item>
-  <ion-text *ngIf="this.roadTestForm.get('traineeName').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Trainee required</ion-text>
+  <ion-text *ngIf="this.roadTestForm.get('traineeName').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-0 mt-1">Trainee required</ion-text>
 
   <ion-item>
     <ion-label position="floating" class="font">Supervisor</ion-label>
     <ion-input formControlName="supervisorName" placeholder="Enter Supervisor Name"></ion-input>
   </ion-item>
-  <ion-text *ngIf="this.roadTestForm.get('supervisorName').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Supervisor required</ion-text>
+  <ion-text *ngIf="this.roadTestForm.get('supervisorName').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-0 mt-1">Supervisor required</ion-text>
 
   <ion-item>
     <ion-label position="floating" class="font">Truck ID</ion-label>
     <ion-input formControlName="truckId" placeholder="Enter Truck ID"></ion-input>
   </ion-item>
-  <ion-text *ngIf="this.roadTestForm.get('truckId').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Truck Id required</ion-text>
+  <ion-text *ngIf="this.roadTestForm.get('truckId').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-0 mt-1">Truck Id required</ion-text>
 
   <ion-item>
     <ion-label position="floating" class="font">Odometer Starting Miles</ion-label>
     <ion-input formControlName="odometerStartingMiles" placeholder="Enter Odometer Starting Miles"></ion-input>
   </ion-item>
-  <ion-text *ngIf="this.roadTestForm.get('odometerStartingMiles').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Starting Miles required</ion-text>
+  <ion-text *ngIf="this.roadTestForm.get('odometerStartingMiles').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-0 mt-1">Starting Miles required</ion-text>
 
 
   <ion-item>
     <ion-label position="floating" class="font">Odometer Ending Miles</ion-label>
     <ion-input formControlName="odometerEndingMiles" placeholder="Enter Odometer Ending Miles"></ion-input>
   </ion-item>
-  <ion-text *ngIf="this.roadTestForm.get('odometerEndingMiles').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Ending Miles required</ion-text>
+  <ion-text *ngIf="this.roadTestForm.get('odometerEndingMiles').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-0 mt-1">Ending Miles required</ion-text>
 
   <ion-item>
     <ion-select placeholder="Trainee Completed CDL Classroom" interface="alert" formControlName="classroomSelect">
@@ -64,14 +64,14 @@
     <ion-label position="floating" class="font">City</ion-label>
     <ion-input formControlName="city" placeholder="Enter City"></ion-input>
   </ion-item>
-  <ion-text *ngIf="this.roadTestForm.get('city').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">City required</ion-text>
+  <ion-text *ngIf="this.roadTestForm.get('city').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-0 mt-1">City required</ion-text>
 
   <ion-item>
     <ion-label position="floating" class="font">State</ion-label>
     <ion-input formControlName="state" placeholder="Enter State"></ion-input>
   </ion-item>
   <div>
-    <ion-text *ngIf="this.roadTestForm.get('state').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">State required</ion-text>
+    <ion-text *ngIf="this.roadTestForm.get('state').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-0 mt-1">State required</ion-text>
   </div>
 
   <ion-button class="upload-button" (click)="uploadClick()" *ngIf=" value === '1'">
@@ -80,10 +80,10 @@
   </ion-button>
   <!-- For Paper Form -->
 <div *ngIf="value === '1' && upload">
-    <div class="ml-5 mt-4">
+    <div class="ml-1 mt-4">
       <ion-label class="font font-medium text-aaaaaa">Training docs (upload here)</ion-label>
     </div>
-    <div class="flex px-4 py-2">
+    <div class="flex px-2 py-2">
       <div class="w-16 h-16 mr-2">
         <ion-card
           [ngClass]="!upload_1 ? ' shadow-none m-0 border-2 border-aaaaaa bg-e9e6e6' : 'shadow-none m-0 border-2 border-project-green bg-white'"

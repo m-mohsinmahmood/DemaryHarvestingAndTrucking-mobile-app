@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { states } from 'src/JSON/state';
 
 @Component({
   selector: 'app-training-tasks',
@@ -13,10 +14,15 @@ export class TrainingTasksPage implements OnInit {
   upload_3 = false;
   route;
   trainingTasksForm: FormGroup;
-  constructor(private router: Router, private formBuilder: FormBuilder) { }
+  states: string[];
+
+  constructor(
+    private router: Router,
+    private formBuilder: FormBuilder
+    ) { }
 
   ngOnInit() {
- console.log(this.router.getCurrentNavigation().extras.state.routeName);
+ console.log('route-name:',this.router.getCurrentNavigation().extras.state.routeName);
  this.route = this.router.getCurrentNavigation().extras.state.routeName;
 
  this.trainingTasksForm = this.formBuilder.group({
@@ -31,6 +37,9 @@ export class TrainingTasksPage implements OnInit {
   uploadDocs3: ['',[Validators.required]],
   comments: ['',[Validators.required]],
  });
+
+ // pasing states
+ this.states = states;
   }
   onSelectedFiles(file,name){
     console.log('file:',file);

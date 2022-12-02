@@ -15,29 +15,29 @@
             </ion-select>
           </ion-item>
           <!-- <ion-text *ngIf="this.changeFarmForm.get('state').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">State is required</ion-text> -->
-          <ion-note slot="error" *ngIf="this.changeFarmForm.get('customerName').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 mt-1">Customer name required</ion-note>
-          <ion-item mode="md" fill="outline" >
+          <ion-item >
             <ion-label position="floating" >Customer Name</ion-label>
             <ion-input formControlName="customerName"  placeholder=""></ion-input>
           </ion-item>
+          <ion-note slot="error" *ngIf="this.changeFarmForm.get('customerName').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-0 mt-1">Customer name required</ion-note>
 
-          <ion-text *ngIf="this.changeFarmForm.get('farm').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 mt-1">Farm required</ion-text>
-          <ion-item mode="md" fill="outline">
+          <ion-item>
             <ion-label position="floating">Farm</ion-label>
             <ion-input formControlName="farm" placeholder="Farm"></ion-input>
           </ion-item>
+          <ion-text *ngIf="this.changeFarmForm.get('farm').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-0 mt-1">Farm required</ion-text>
 
-          <ion-text *ngIf="this.changeFarmForm.get('crop').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 mt-1">Crop required</ion-text>
-          <ion-item mode="md" fill="outline">
+          <ion-item>
             <ion-label position="floating">Crop</ion-label>
             <ion-input formControlName="crop" placeholder="Crop"></ion-input>
           </ion-item>
+          <ion-text *ngIf="this.changeFarmForm.get('crop').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-0 mt-1">Crop required</ion-text>
 
-          <ion-text *ngIf="this.changeFarmForm.get('initailField').hasError('required')" class="text-xs font-semibold font-Lato text-red-500  mt-1">Initail field required</ion-text>
-          <ion-item mode="md" fill="outline">
+          <ion-item>
             <ion-label position="floating">Initial Field</ion-label>
             <ion-input formControlName="initailField" placeholder="Initial Field"></ion-input>
           </ion-item>
+          <ion-text *ngIf="this.changeFarmForm.get('initailField').hasError('required')" class="text-xs font-semibold font-Lato text-red-500  ml-0 mt-1">Initail field required</ion-text>
             <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="submit()" [disabled]="changeFarmForm.invalid">Save</ion-button>
         </div>
       </ion-list>
