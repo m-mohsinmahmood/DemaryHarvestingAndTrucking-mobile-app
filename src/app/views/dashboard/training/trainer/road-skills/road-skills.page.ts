@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { states } from 'src/JSON/state';
 
 @Component({
   selector: 'app-road-skills',
@@ -15,6 +16,8 @@ export class RoadSkillsPage implements OnInit {
  upload = false;
  value: any;
  roadTestForm: FormGroup;
+ states: string[];
+
 
   constructor(private formBuilder: FormBuilder, private router: Router) { }
 
@@ -39,6 +42,9 @@ export class RoadSkillsPage implements OnInit {
       uploadDocs2: ['',[Validators.required]],
       uploadDocs3: ['',[Validators.required]],
     });
+
+    // pasing states
+    this.states = states;
 
   }
   onSelectedFiles(file,name){

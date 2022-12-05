@@ -16,29 +16,36 @@ role ==='truck-driver'? 'Enter Begining of Day Work Data' : ''"
     <form  [formGroup]="startJobFormCrew">
    <ion-list>
       <div class="px-2">
-        <ion-item>
-          <ion-label position="floating" class="font">Enter Machine ID</ion-label>
-          <ion-input  placeholder="Enter Machine ID" formControlName="machineId"></ion-input>
-        </ion-item>
-        <ion-text *ngIf="this.startJobFormCrew.get('machineId').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-0 mt-1">Machine ID required</ion-text>
-        <ion-item>
-          <ion-label position="floating" class="font">Confirm Begining Separator Hours</ion-label>
-          <ion-input  placeholder="Enter begining separator hours" formControlName="separatorHours"></ion-input>
 
-        </ion-item>
-        <ion-text *ngIf="this.startJobFormCrew.get('separatorHours').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-0 mt-1">Begining Separator Hours required</ion-text>
-        <ion-item>
-          <ion-label position="floating" class="font">Confirm Begining Engine Hours</ion-label>
-          <ion-input  placeholder="Enter begining engine hours" formControlName="engineHours"></ion-input>
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Enter Machine ID <span *ngIf="this.startJobFormCrew.get('machineId').hasError('required')" class="text-red-400">*</span></label>
+          <input
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="machineId" placeholder="Enter Machine ID">
+        </div>
 
-        </ion-item>
-        <ion-text *ngIf="this.startJobFormCrew.get('engineHours').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-0 mt-1">Begining Engine Hours required</ion-text>
-        <ion-item>
-          <ion-label position="floating" class="font">Confirm Field</ion-label>
-          <ion-input  placeholder="Enter Confirm field" formControlName="confirmField"></ion-input>
-        </ion-item>
-        <ion-text *ngIf="this.startJobFormCrew.get('confirmField').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-0 mt-1">Confirm Field required</ion-text>
-          <ion-button expand="block" class="mt-5 font-Lato text-white" [disabled]="startJobFormCrew.invalid" (click)="submit()">Save </ion-button>
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Confirm Begining Separator Hours <span *ngIf="this.startJobFormCrew.get('separatorHours').hasError('required')" class="text-red-400">*</span></label>
+          <input
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="separatorHours" placeholder="Confirm Begining Separator Hours">
+        </div>
+
+
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Confirm Begining Engine Hours <span *ngIf="this.startJobFormCrew.get('engineHours').hasError('required')" class="text-red-400">*</span></label>
+          <input
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="engineHours" placeholder="Confirm Begining Engine Hours">
+        </div>
+
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Confirm Field <span *ngIf="this.startJobFormCrew.get('confirmField').hasError('required')" class="text-red-400">*</span></label>
+          <input
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="confirmField" placeholder="Confirm Field">
+        </div>
+                  <ion-button expand="block" class="mt-5 font-Lato text-white" [disabled]="startJobFormCrew.invalid" (click)="submit()">Save </ion-button>
       </div>
     </ion-list>
   </form>
@@ -71,28 +78,35 @@ role ==='truck-driver'? 'Enter Begining of Day Work Data' : ''"
 </ion-card>
 <form [formGroup]="startJobFormCombine">
   <div class="px-2">
-    <ion-item>
-      <ion-label position="floating" class="font">Enter Machine ID</ion-label>
-      <ion-input  placeholder="Enter Machine ID" formControlName="machineId"></ion-input>
-    </ion-item>
-    <ion-text *ngIf="this.startJobFormCombine.get('machineId').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-0 mt-1">Machine ID required</ion-text>
-    <ion-item>
-      <ion-label position="floating" class="font">Confirm Begining Separator Hours</ion-label>
-      <ion-input  placeholder="Enter begining separator hours" formControlName="separatorHours"></ion-input>
 
-    </ion-item>
-    <ion-text *ngIf="this.startJobFormCombine.get('separatorHours').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-0 mt-1">Begining Separator Hours required</ion-text>
-    <ion-item>
-      <ion-label position="floating" class="font">Confirm Begining Engine Hours</ion-label>
-      <ion-input  placeholder="Enter begining engine hours" formControlName="engineHours"></ion-input>
-    </ion-item>
-    <ion-text *ngIf="this.startJobFormCombine.get('engineHours').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-0 mt-1">Begining Engine Hours required</ion-text>
-    <ion-item>
-      <ion-label position="floating" class="font">Confirm Field</ion-label>
-      <ion-input  placeholder="Enter Confirm field" formControlName="confirmField"></ion-input>
-    </ion-item>
-    <ion-text *ngIf="this.startJobFormCombine.get('confirmField').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-0 mt-1">Confirm Field required</ion-text>
-      <ion-button expand="block" class="mt-5 font-Lato text-white" [disabled]="startJobFormCombine.invalid" (click)="submit()">Save </ion-button>
+    <div class="col-span-12 mb-4">
+      <label class="block text-sm font-medium text-gray-700">Enter Machine ID <span class="text-red-400">*</span></label>
+      <input
+        class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+        formControlName="machineId" placeholder="Enter Machine ID">
+    </div>
+
+    <div class="col-span-12 mb-4">
+      <label class="block text-sm font-medium text-gray-700">Confirm Begining Separator Hours <span class="text-red-400">*</span></label>
+      <input
+        class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+        formControlName="separatorHours" placeholder="Confirm Begining Separator Hours">
+    </div>
+
+    <div class="col-span-12 mb-4">
+      <label class="block text-sm font-medium text-gray-700">Confirm Begining Engine Hours <span class="text-red-400">*</span></label>
+      <input
+        class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+        formControlName="engineHours" placeholder="Confirm Begining Engine Hours">
+    </div>
+
+    <div class="col-span-12 mb-4">
+      <label class="block text-sm font-medium text-gray-700">Confirm Field <span class="text-red-400">*</span></label>
+      <input
+        class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+        formControlName="confirmField" placeholder="Confirm Field">
+    </div>
+    <ion-button expand="block" class="mt-5 font-Lato text-white" [disabled]="startJobFormCombine.invalid" (click)="submit()">Save </ion-button>
   </div>
 </form>
 </div>
@@ -125,17 +139,19 @@ role ==='truck-driver'? 'Enter Begining of Day Work Data' : ''"
 <p class="text-xl font-bold font-Lato mt-8">Job Set-up</p>
 <form [formGroup]="startJobFormKart">
   <div class="px-2">
-    <ion-item>
-      <ion-label position="floating" class="font">Enter Machine ID</ion-label>
-      <ion-input  placeholder="Enter Machine ID" formControlName="machineId"></ion-input>
-    </ion-item>
-    <ion-text *ngIf="this.startJobFormKart.get('machineId').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-0 mt-1">Machine ID required</ion-text>
-    <ion-item>
-      <ion-label position="floating" class="font">Confirm Begining Engine Hours</ion-label>
-      <ion-input  placeholder="Enter begining engine hours" formControlName="engineHours"></ion-input>
-    </ion-item>
-    <ion-text *ngIf="this.startJobFormKart.get('engineHours').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-0 mt-1">Begining Engine Hours required</ion-text>
-    <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="submit()" [disabled]="startJobFormKart.invalid">Save</ion-button>
+    <div class="col-span-12 mb-4">
+      <label class="block text-sm font-medium text-gray-700">Enter Machine ID <span class="text-red-400">*</span></label>
+      <input
+        class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+        formControlName="machineId" placeholder="Enter Machine ID">
+    </div>
+    <div class="col-span-12 mb-4">
+      <label class="block text-sm font-medium text-gray-700">Confirm Begining Engine Hours <span class="text-red-400">*</span></label>
+      <input
+        class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+        formControlName="engineHours" placeholder="Confirm Begining Engine Hours">
+    </div>
+        <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="submit()" [disabled]="startJobFormKart.invalid">Save</ion-button>
   </div>
 </form>
 </div>
@@ -168,32 +184,34 @@ role ==='truck-driver'? 'Enter Begining of Day Work Data' : ''"
 <p class="text-xl font-bold font-Lato mt-8">Job Set-up</p>
 <form [formGroup]="startJobFormTruck">
   <div class="px-2">
-    <ion-item>
-      <ion-label position="floating" class="font">Truck ID</ion-label>
-      <ion-input placeholder="Enter Truck ID" formControlName="truckId"></ion-input>
+    <div class="col-span-12 mb-4">
+      <label class="block text-sm font-medium text-gray-700">Truck ID <span class="text-red-400">*</span></label>
+      <input
+        class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+        formControlName="truckId" placeholder="Truck ID">
+    </div>
 
-    </ion-item>
-    <ion-text *ngIf="this.startJobFormTruck.get('truckId').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-0 mt-1">Begining Engine Hours required</ion-text>
+  <div class="col-span-12 mb-4">
+    <label class="block text-sm font-medium text-gray-700">Crew Chief <span class="text-red-400">*</span></label>
+    <input
+      class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+      formControlName="crewChief" placeholder="Crew Chief">
+  </div>
 
-  <ion-item>
-    <ion-label position="floating" class="font">Crew Chief</ion-label>
-    <ion-input placeholder="Enter Crew Chief" formControlName="crewChief"></ion-input>
+  <div class="col-span-12 mb-4">
+    <label class="block text-sm font-medium text-gray-700">Truck Company <span class="text-red-400">*</span></label>
+    <input
+      class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+      formControlName="truckCompany" placeholder="Truck Company">
+  </div>
 
-  </ion-item>
-  <ion-text *ngIf="this.startJobFormTruck.get('crewChief').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-0 mt-1">Begining Engine Hours required</ion-text>
-  <ion-item>
-    <ion-label position="floating" class="font">Truck Company</ion-label>
-    <ion-input placeholder="Enter Truck Company" formControlName="truckCompany"></ion-input>
-
-  </ion-item>
-  <ion-text *ngIf="this.startJobFormTruck.get('truckCompany').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-0 mt-1">Begining Engine Hours required</ion-text>
-  <ion-item>
-    <ion-label position="floating" class="font">Confirm Begining Odometer Miles</ion-label>
-    <ion-input placeholder="Enter Confirm Begining Odometer Miles" formControlName="beginingOdometerMiles"></ion-input>
-
-  </ion-item>
-  <ion-text *ngIf="this.startJobFormTruck.get('beginingOdometerMiles').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-0 mt-1">Begining Engine Hours required</ion-text>
-  <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="submit()" [disabled]="startJobFormTruck.invalid">Save</ion-button>
+  <div class="col-span-12 mb-4">
+    <label class="block text-sm font-medium text-gray-700">Confirm Begining Odometer Miles <span class="text-red-400">*</span></label>
+    <input
+      class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+      formControlName="beginingOdometerMiles" placeholder="Confirm Begining Odometer Miles">
+  </div>
+    <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="submit()" [disabled]="startJobFormTruck.invalid">Save</ion-button>
 </div>
 </form>
 </div>

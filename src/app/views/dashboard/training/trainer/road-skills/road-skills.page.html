@@ -3,75 +3,150 @@
 <ion-content>
 <app-timer [value]="'11:22:00'"></app-timer>
 <form class="mx-4" [formGroup]="roadTestForm">
-  <ion-item class="mt-9">
+  <!-- <ion-item class="mt-9">
     <ion-select formControlName="formSelect" placeholder="Select Evaluation Form" interface="alert" (ionChange)="onSelect($event)">
       <ion-select-option value="1">Paper Form</ion-select-option>
       <ion-select-option value="2">Digital Form</ion-select-option>
     </ion-select>
-  </ion-item>
+  </ion-item> -->
+  <div class="col-span-12 mb-4 mt-2">
+    <label class="block text-sm font-medium text-gray-700">Select Evaluation Form</label>
+    <ion-select
+      class="mt-1 w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+      formControlName="formSelect" placeholder="Select Evaluation Form">
+      <ion-select-option value="1">Paper Form</ion-select-option>
+      <ion-select-option value="2">Digital Form</ion-select-option>
+      </ion-select>
+  </div>
   <div>
-  <ion-item>
+  <!-- <ion-item>
     <ion-label position="floating" class="font">Trainer</ion-label>
     <ion-input formControlName="trainerName" placeholder="Enter Trainer Name"></ion-input>
-  </ion-item>
-  <ion-text *ngIf="this.roadTestForm.get('trainerName').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-0 mt-1">Trainer required</ion-text>
+  </ion-item> -->
+  <div class="col-span-12 mb-4">
+    <label class="block text-sm font-medium text-gray-700">Trainer <span *ngIf="this.roadTestForm.get('trainerName').hasError('required')" class="text-red-400">*</span></label>
+    <input
+      class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+      formControlName="trainerName" placeholder="Enter Trainer Name">
+  </div>
 
-  <ion-item>
+  <!-- <ion-item>
     <ion-label position="floating" class="font">Trainee</ion-label>
     <ion-input formControlName="traineeName" placeholder="Enter Trainee Name"></ion-input>
-  </ion-item>
-  <ion-text *ngIf="this.roadTestForm.get('traineeName').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-0 mt-1">Trainee required</ion-text>
+  </ion-item> -->
+  <div class="col-span-12 mb-4">
+    <label class="block text-sm font-medium text-gray-700">Trainee <span *ngIf="this.roadTestForm.get('traineeName').hasError('required')" class="text-red-400">*</span></label>
+    <input
+      class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+      formControlName="traineeName" placeholder="Enter Trainee Name">
+  </div>
 
-  <ion-item>
+  <!-- <ion-item>
     <ion-label position="floating" class="font">Supervisor</ion-label>
     <ion-input formControlName="supervisorName" placeholder="Enter Supervisor Name"></ion-input>
-  </ion-item>
-  <ion-text *ngIf="this.roadTestForm.get('supervisorName').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-0 mt-1">Supervisor required</ion-text>
+  </ion-item> -->
+  <div class="col-span-12 mb-4">
+    <label class="block text-sm font-medium text-gray-700">Supervisor <span *ngIf="this.roadTestForm.get('supervisorName').hasError('required')" class="text-red-400">*</span></label>
+    <input
+      class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+      formControlName="supervisorName" placeholder="Enter Supervisor Name">
+  </div>
 
-  <ion-item>
+  <!-- <ion-item>
     <ion-label position="floating" class="font">Truck ID</ion-label>
     <ion-input formControlName="truckId" placeholder="Enter Truck ID"></ion-input>
-  </ion-item>
-  <ion-text *ngIf="this.roadTestForm.get('truckId').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-0 mt-1">Truck Id required</ion-text>
+  </ion-item> -->
+  <div class="col-span-12 mb-4">
+    <label class="block text-sm font-medium text-gray-700">Truck ID <span *ngIf="this.roadTestForm.get('truckId').hasError('required')" class="text-red-400">*</span></label>
+    <input
+      class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+      formControlName="truckId" placeholder="Enter Truck ID">
+  </div>
 
-  <ion-item>
+  <!-- <ion-item>
     <ion-label position="floating" class="font">Odometer Starting Miles</ion-label>
     <ion-input formControlName="odometerStartingMiles" placeholder="Enter Odometer Starting Miles"></ion-input>
-  </ion-item>
-  <ion-text *ngIf="this.roadTestForm.get('odometerStartingMiles').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-0 mt-1">Starting Miles required</ion-text>
+  </ion-item> -->
+  <div class="col-span-12 mb-4">
+    <label class="block text-sm font-medium text-gray-700">Odometer Starting Miles <span  *ngIf="this.roadTestForm.get('odometerStartingMiles').hasError('required')" class="text-red-400">*</span></label>
+    <input
+      class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+      formControlName="odometerStartingMiles" placeholder="Enter Odometer Starting Miles">
+  </div>
 
 
-  <ion-item>
+  <!-- <ion-item>
     <ion-label position="floating" class="font">Odometer Ending Miles</ion-label>
     <ion-input formControlName="odometerEndingMiles" placeholder="Enter Odometer Ending Miles"></ion-input>
-  </ion-item>
-  <ion-text *ngIf="this.roadTestForm.get('odometerEndingMiles').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-0 mt-1">Ending Miles required</ion-text>
-
-  <ion-item>
+  </ion-item> -->
+  <div class="col-span-12 mb-4">
+    <label class="block text-sm font-medium text-gray-700">Odometer Ending Miles <span *ngIf="this.roadTestForm.get('odometerEndingMiles').hasError('required')" class="text-red-400">*</span></label>
+    <input
+      class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+      formControlName="odometerEndingMiles" placeholder="Enter Odometer Ending Miles">
+  </div>
+  <!-- <ion-item>
     <ion-select placeholder="Trainee Completed CDL Classroom" interface="alert" formControlName="classroomSelect">
       <ion-select-option value="yes">Yes</ion-select-option>
       <ion-select-option value="no">No</ion-select-option>
     </ion-select>
-  </ion-item>
-  <ion-item>
+  </ion-item> -->
+  <div class="col-span-12 mb-4">
+    <label class="block text-sm font-medium text-gray-700">Trainee Completed CDL Classroom</label>
+    <ion-select
+      class="mt-1 w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+      formControlName="classroomSelect" placeholder="Trainee Completed CDL Classroom">
+      <ion-select-option value="yes">Yes</ion-select-option>
+      <ion-select-option value="no">No</ion-select-option>
+    </ion-select>
+  </div>
+  <!-- <ion-item>
     <ion-select placeholder="Trainee Completed Group Practical" interface="alert" formControlName="groupPracticalSelect">
       <ion-select-option value="yes">Yes</ion-select-option>
       <ion-select-option value="no">No</ion-select-option>
     </ion-select>
-  </ion-item>
+  </ion-item> -->
+  <div class="col-span-12 mb-4">
+    <label class="block text-sm font-medium text-gray-700">Trainee Completed Group Practical</label>
+    <ion-select
+      class="mt-1 w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+      formControlName="groupPracticalSelect" placeholder="Trainee Completed Group Practical">
+      <ion-select-option value="yes">Yes</ion-select-option>
+      <ion-select-option value="no">No</ion-select-option>
+    </ion-select>
+  </div>
 
-  <ion-item>
+  <!-- <ion-item>
     <ion-label position="floating" class="font">City</ion-label>
     <ion-input formControlName="city" placeholder="Enter City"></ion-input>
-  </ion-item>
-  <ion-text *ngIf="this.roadTestForm.get('city').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-0 mt-1">City required</ion-text>
+  </ion-item> -->
+  <div class="col-span-12 mb-4">
+    <label class="block text-sm font-medium text-gray-700">City <span *ngIf="this.roadTestForm.get('city').hasError('required')" class="text-red-400">*</span></label>
+    <input
+      class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+      formControlName="city" placeholder="Enter City">
+  </div>
 
-  <ion-item>
+  <!-- <ion-item>
     <ion-label position="floating" class="font">State</ion-label>
     <ion-input formControlName="state" placeholder="Enter State"></ion-input>
   </ion-item>
   <div>
     <ion-text *ngIf="this.roadTestForm.get('state').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-0 mt-1">State required</ion-text>
+  </div> -->
+  <!-- <div class="col-span-12 mb-4">
+    <label class="block text-sm font-medium text-gray-700">City <span class="text-red-400">*</span></label>
+    <input
+      class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+      formControlName="city" placeholder="Enter City">
+  </div> -->
+  <div class="col-span-12 mb-4">
+    <label class="block text-sm font-medium text-gray-700">State</label>
+    <ion-select
+      class="mt-1 w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+      formControlName="state" placeholder="Select State">
+      <ion-select-option *ngFor="let state of states" [value]="state">{{state}}</ion-select-option>
+    </ion-select>
   </div>
 
   <ion-button class="upload-button" (click)="uploadClick()" *ngIf=" value === '1'">

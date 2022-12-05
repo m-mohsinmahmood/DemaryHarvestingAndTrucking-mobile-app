@@ -26,18 +26,19 @@
 </ion-card>
 <form [formGroup]="changeFieldFormChief">
   <div class="px-2">
-    <ion-item>
-      <ion-label position="floating" class="font">Field Name</ion-label>
-      <ion-input placeholder="Field Name" formControlName="fieldName"></ion-input>
-
-    </ion-item>
-    <ion-text *ngIf="this.changeFieldFormChief.get('fieldName').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-0 mt-1">Field Name required</ion-text>
-    <ion-item>
-      <ion-label position="floating" class="font">GPS Acres Completed (for prior field)</ion-label>
-      <ion-input placeholder="GPS Acres Completed (for prior field)" formControlName="acresPriorField"></ion-input>
-    </ion-item>
-    <ion-text *ngIf="this.changeFieldFormChief.get('acresPriorField').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-0 mt-1">GPS Acres (for prior field) required</ion-text>
-    <ion-button expand="block" class="mt-5 font-Lato text-white" [disabled]="changeFieldFormChief.invalid" (click)="submit()">Save</ion-button>
+    <div class="col-span-12 mb-4">
+      <label class="block text-sm font-medium text-gray-700">Field Name <span *ngIf="this.changeFieldFormChief.get('fieldName').hasError('required')" class="text-red-400">*</span></label>
+      <input
+        class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+        formControlName="fieldName" placeholder="Field Name">
+    </div>
+    <div class="col-span-12 mb-4">
+      <label class="block text-sm font-medium text-gray-700">GPS Acres Completed (for prior field) <span *ngIf="this.changeFieldFormChief.get('acresPriorField').hasError('required')" class="text-red-400">*</span></label>
+      <input
+        class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+        formControlName="acresPriorField" placeholder="GPS Acres Completed (for prior field)">
+    </div>
+        <ion-button expand="block" class="mt-5 font-Lato text-white" [disabled]="changeFieldFormChief.invalid" (click)="submit()">Save</ion-button>
   </div>
 </form>
 </div>
@@ -70,17 +71,19 @@
 <form [formGroup]="changeFieldFormCombine">
 
   <div class="px-2">
-  <ion-item>
-    <ion-label position="floating" class="font">Enter Field Name</ion-label>
-    <ion-input placeholder="Field Name" formControlName="fieldName"></ion-input>
-  </ion-item>
-  <ion-text *ngIf="this.changeFieldFormCombine.get('fieldName').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-0 mt-1">Field Name required</ion-text>
-  <ion-item>
-    <ion-label position="floating" class="font">GPS Acres Completed (for prior field)</ion-label>
-    <ion-input placeholder="GPS Acres Completed (for prior field)" formControlName="acresPriorField"></ion-input>
-  </ion-item>
-  <ion-text *ngIf="this.changeFieldFormCombine.get('acresPriorField').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-0 mt-1">GPS Acres (for prior field) required</ion-text>
-  <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="submit()" [disabled]="changeFieldFormCombine.invalid">Save</ion-button>
+  <div class="col-span-12 mb-4">
+    <label class="block text-sm font-medium text-gray-700">Enter Field Name <span *ngIf="this.changeFieldFormCombine.get('fieldName').hasError('required')" class="text-red-400">*</span></label>
+    <input
+      class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+      formControlName="fieldName" placeholder="Enter Field Name">
+  </div>
+  <div class="col-span-12 mb-4">
+    <label class="block text-sm font-medium text-gray-700">GPS Acres Completed (for prior field) <span *ngIf="this.changeFieldFormCombine.get('acresPriorField').hasError('required')" class="text-red-400">*</span></label>
+    <input
+      class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+      formControlName="acresPriorField" placeholder="GPS Acres Completed (for prior field)">
+  </div>
+    <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="submit()" [disabled]="changeFieldFormCombine.invalid">Save</ion-button>
 </div>
 </form>
 </div>
@@ -111,17 +114,18 @@
 </ion-card>
 <form [formGroup]="changeFieldFormKart">
   <div class="px-2">
-    <ion-item>
-      <ion-label position="floating" class="font">Enter Field Name</ion-label>
-      <ion-input placeholder="Field Name" formControlName="fieldName"></ion-input>
-    </ion-item>
-    <ion-text *ngIf="this.changeFieldFormKart.get('fieldName').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-0 mt-1">Field Name required</ion-text>
-
-    <ion-item>
-      <ion-label position="floating" class="font">GPS Acres Completed (for prior field)</ion-label>
-      <ion-input placeholder="GPS Acres Completed (for prior field)" formControlName="acresPriorField"></ion-input>
-    </ion-item>
-    <ion-text *ngIf="this.changeFieldFormKart.get('acresPriorField').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-0 mt-1">GPS Acres (for prior field) required</ion-text>
+    <div class="col-span-12 mb-4">
+      <label class="block text-sm font-medium text-gray-700">Enter Field Name <span *ngIf="this.changeFieldFormKart.get('fieldName').hasError('required')" class="text-red-400">*</span></label>
+      <input
+        class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+        formControlName="fieldName" placeholder="Enter Field Name">
+    </div>
+    <div class="col-span-12 mb-4">
+      <label class="block text-sm font-medium text-gray-700">GPS Acres Completed (for prior field) <span *ngIf="this.changeFieldFormKart.get('acresPriorField').hasError('required')" class="text-red-400">*</span></label>
+      <input
+        class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+        formControlName="acresPriorField" placeholder="GPS Acres Completed (for prior field)">
+    </div>
     <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="submit()" [disabled]="changeFieldFormKart.invalid">Save</ion-button>
   </div>
 </form>

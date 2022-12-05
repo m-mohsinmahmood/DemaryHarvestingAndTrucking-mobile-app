@@ -14,22 +14,28 @@ role ==='truck-driver'? 'Submit End of Day Work Data' : ''"
       <form [formGroup]="closeJobFormCrew">
         <ion-list>
           <div class="px-2">
-            <ion-item>
-              <ion-label position="floating" class="font">Separator Hours(Ending)</ion-label>
-              <ion-input placeholder="State" formControlName="separatorHours"></ion-input>
-            </ion-item>
-            <ion-text *ngIf="this.closeJobFormCrew.get('separatorHours').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-0 mt-1">Separator Hours(Ending) required</ion-text>
-            <ion-item>
-              <ion-label position="floating" class="font">Engine Hours(Ending)</ion-label>
-              <ion-input placeholder="Customer Name" formControlName="engineHours"></ion-input>
+            <div class="col-span-12 mb-4">
+              <label class="block text-sm font-medium text-gray-700">Separator Hours(Ending) <span *ngIf="this.closeJobFormCrew.get('separatorHours').hasError('required')" class="text-red-400">*</span></label>
+              <input
+                class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                formControlName="separatorHours" placeholder="Separator Hours(Ending)">
+            </div>
 
-            </ion-item>
-            <ion-text *ngIf="this.closeJobFormCrew.get('engineHours').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-0 mt-1">Engine Hours(Ending) required</ion-text>
-            <ion-item>
-              <ion-label position="floating" class="font">GPS Acres Completed</ion-label>
-              <ion-input placeholder="Farm" formControlName="acresGPSCompleted"></ion-input>
-            </ion-item>
-            <ion-text *ngIf="this.closeJobFormCrew.get('acresGPSCompleted').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-0 mt-1">GPS Acres Completed required</ion-text>
+
+            <div class="col-span-12 mb-4">
+              <label class="block text-sm font-medium text-gray-700">Engine Hours(Ending) <span *ngIf="this.closeJobFormCrew.get('engineHours').hasError('required')" class="text-red-400">*</span></label>
+              <input
+                class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                formControlName="engineHours" placeholder="Engine Hours(Ending)">
+            </div>
+
+            <div class="col-span-12 mb-4">
+              <label class="block text-sm font-medium text-gray-700">GPS Acres Completed <span *ngIf="this.closeJobFormCrew.get('acresGPSCompleted').hasError('required')" class="text-red-400">*</span></label>
+              <input
+                class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                formControlName="acresGPSCompleted" placeholder="GPS Acres Completed">
+            </div>
+
             <ion-button expand="block" class="mt-5 font-Lato text-white"
             [disabled]="closeJobFormCrew.invalid"
             (click)="submit()"
@@ -83,16 +89,19 @@ role ==='truck-driver'? 'Submit End of Day Work Data' : ''"
     </ion-card>
     <form [formGroup]="closeJobFormCombine">
       <div class="px-2">
-        <ion-item>
-          <ion-label position="floating" class="font">Ending Separator Hours</ion-label>
-          <ion-input placeholder="State" formControlName="endingSeparatorHours"></ion-input>
-          </ion-item>
-        <ion-text *ngIf="this.closeJobFormCombine.get('endingSeparatorHours').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-0 mt-1">Ending Separator Hours required</ion-text>
-      <ion-item>
-        <ion-label position="floating" class="font">Ending Engine Hours</ion-label>
-        <ion-input placeholder="Customer Name" formControlName="endingEngineHours"></ion-input>
-      </ion-item>
-      <ion-text *ngIf="this.closeJobFormCombine.get('endingEngineHours').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-0 mt-1">Ending Engine Hours required</ion-text>
+          <div class="col-span-12 mb-4">
+            <label class="block text-sm font-medium text-gray-700">Ending Separator Hours <span *ngIf="this.closeJobFormCombine.get('endingSeparatorHours').hasError('required')" class="text-red-400">*</span></label>
+            <input
+              class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+              formControlName="endingSeparatorHours" placeholder="Ending Separator Hours">
+          </div>
+
+      <div class="col-span-12 mb-4">
+        <label class="block text-sm font-medium text-gray-700">Ending Engine Hours <span *ngIf="this.closeJobFormCombine.get('endingEngineHours').hasError('required')" class="text-red-400">*</span></label>
+        <input
+          class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+          formControlName="endingEngineHours" placeholder="Ending Engine Hours">
+      </div>
       <ion-button expand="block" class="mt-5 font-Lato text-white"
       [disabled]="closeJobFormCombine.invalid"
       (click)="submit()"
@@ -109,11 +118,14 @@ role ==='truck-driver'? 'Submit End of Day Work Data' : ''"
   <div class="p-4">
     <form [formGroup]="closeJobFormKart">
       <div class="px-2">
-        <ion-item>
-          <ion-label position="floating" class="font">Enter Ending Engine Hours</ion-label>
-          <ion-input placeholder="Enter Ending Engine Hours" formControlName="engineHours"></ion-input>
-        </ion-item>
-        <ion-text *ngIf="this.closeJobFormKart.get('engineHours').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-0 mt-1">Ending Engine Hours required</ion-text>
+
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Enter Ending Engine Hours <span *ngIf="this.closeJobFormKart.get('engineHours').hasError('required')" class="text-red-400">*</span></label>
+          <input
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="engineHours" placeholder="Enter Ending Engine Hours">
+        </div>
+
         <ion-button expand="block" class="mt-5 font-Lato text-white"
         [disabled]="closeJobFormKart.invalid"
          (click)="submit()">Save and Close-out Job</ion-button>
@@ -128,11 +140,14 @@ role ==='truck-driver'? 'Submit End of Day Work Data' : ''"
   <div class="p-4">
     <form [formGroup]="closeJobFormTruck">
       <div class="px-2">
-        <ion-item>
-          <ion-label position="floating" class="font">Enter Ending Odometer Miles</ion-label>
-          <ion-input placeholder="Enter Ending Ending Odometer Miles" class="placeholder:font-Lato" formControlName="endingOdometerMiles"></ion-input>
-        </ion-item>
-        <ion-text *ngIf="this.closeJobFormTruck.get('endingOdometerMiles').hasError('required')" class="text-xs font-semibold font-Lato text-red-500 ml-0 mt-1">Enter Ending Odometer Miles required</ion-text>
+
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Enter Ending Odometer Miles <span *ngIf="this.closeJobFormTruck.get('endingOdometerMiles').hasError('required')" class="text-red-400">*</span></label>
+          <input
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="endingOdometerMiles" placeholder="Enter Ending Odometer Miles">
+        </div>
+
         <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="submit()" [disabled]="closeJobFormTruck.invalid">Save and Close-out Job</ion-button
         >
       </div>
