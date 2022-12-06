@@ -22,7 +22,6 @@ role: any;
   ngOnInit() {
     // console.log('AAA',localStorage.getItem('role'));
     this.role = localStorage.getItem('role');
-    console.log(this.harvestingService.getApplicants());
 
 //     const many = range(1, 100);
 //     console.log('first',range);

@@ -14,184 +14,227 @@ import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
   styleUrls: ['./job-setup.page.scss'],
 })
 export class JobSetupPage implements OnInit {
-jobSetupForm: FormGroup;
-states: string[];
-allFarms: Observable<any>;
-farm_search$ = new Subject();
-search_location_text: string =  "";
-selectedCity: any;
-placeholderText = 'Select Customer';
-add_location_overlay: boolean = true;
-customerName: any;
+  jobSetupForm: FormGroup;
+  customerFiltersForm: FormGroup;
+  cropFiltersForm: FormGroup;
+  states: string[];
+  allCustomers: Observable<any>;
+  allFarms: Observable<any>;
+  allFarmsClicked: Observable<any>;
+  allCrops: Observable<any>;
+  allCropsClicked: Observable<any>;
+  customer_search$ = new Subject();
+  farm_search$ = new Subject();
+  crop_search$ = new Subject();
+  search_location_text = '';
+  selectedCity: any;
+  placeholderText = 'Select Customer';
+  add_location_overlay = true;
+  customer_name: any;
+  farm_name: any;
+  crop_name: any;
 
-cities = [
-  {id: 1, name: 'Vilnius'},
-  {id: 2, name: 'Kaunas'},
-  {id: 3, name: 'Pavilnys'},
-  {id: 4, name: 'Pabradė'},
-  {id: 5, name: 'Klaipėda1'},
-  {id: 6, name: 'Klaipėda2'},
-  {id: 7, name: 'Klaipėda3'},
-  {id: 8, name: 'Klaipėda4'},
-  {id: 9, name: 'Klaipėda5'},
-  {id: 10, name: 'Klaipėda6'},
-  {id: 11, name: 'Klaipėda7'},
-  {id: 12, name: 'Klaipėda8'},
-  {id: 13, name: 'Klaipėda9'},
-];
+  farmID: any;
+  customerID: any;
 
-private _unsubscribeAll: Subject<any> = new Subject<any>();
+  private _unsubscribeAll: Subject<any> = new Subject<any>();
 
   constructor(
     private location: Location,
     private formBuilder: FormBuilder,
     private harvestingService: HarvestingService
-
-  ) { }
+  ) {}
 
   ngOnInit() {
-
-    this.jobSetupForm = this.formBuilder.group({
-       state: ['',[Validators.required]],
-       customerName:['',[Validators.required]],
-       customerName2:['',[Validators.required]],
-       customerName3:[''],
-       farm: ['',[Validators.required]],
-       crop:['',[Validators.required]],
-       initailField: ['',[Validators.required]]
-    });
+    this.initForms();
 
     // pasing states
     this.states = states;
 
-    // this.allFarms =  this.harvestingService.getDropdownCustomerCrops('0995eb02-1972-44ca-9c58-0e2623960731','');
-
+    this.customerSearchSubscription();
     this.farmSearchSubscription();
-
+    this.cropSearchSubscription();
   }
 
   ngOnDestroy(): void {
     this._unsubscribeAll.next(null);
     this._unsubscribeAll.complete();
-}
+  }
 
-  goBack(){
+  initForms() {
+    this.jobSetupForm = this.formBuilder.group({
+      state: ['', [Validators.required]],
+      customerName: [''],
+      farmName: ['', []],
+      // farm: ['',[Validators.required]],
+      crop: ['', [Validators.required]],
+      initailField: ['', [Validators.required]],
+    });
+
+    this.customerFiltersForm = this.formBuilder.group({
+      type: [''],
+      status: [''],
+    });
+
+    this.cropFiltersForm = this.formBuilder.group({
+      status: [''],
+      calendar_year: [''],
+    });
+  }
+  goBack() {
     this.location.back();
   }
-  submit(){
+  submit() {
     console.log(this.jobSetupForm.value);
   }
-  onChange(e){
- console.log(e.target.value);
- this.allFarms =  this.harvestingService.getDropdownCustomerFarms('0995eb02-1972-44ca-9c58-0e2623960731','');
-
-//  this.farm_search$
-//             .pipe(
-//                 debounceTime(500),
-//                 distinctUntilChanged(),
-//                 takeUntil(this._unsubscribeAll)
-//             )
-//             .subscribe((value: string) => {
-//                 this.allFarms = this.harvestingService.getDropdownCustomerCrops(
-//                     '0995eb02-1972-44ca-9c58-0e2623960731',
-//                     e.target.value
-//                 );
-//             });
-            console.log('All Farms',this.farm_search$);
+  //  #region Customer
+  customerSearchSubscription() {
+    console.log('customerSearchSubscription :)');
+    this.customer_search$
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        takeUntil(this._unsubscribeAll)
+      )
+      .subscribe((value: string) => {
+        this.allCustomers = this.harvestingService.getCustomers(
+          1,
+          10,
+          '',
+          '',
+          value,
+          this.customerFiltersForm.value
+        );
+      });
   }
 
-//   keyUp(e){
-//     console.log(e.target.value);
-//   }
-
-inputChange(e){
-    console.log(e.target.value);
-     this.allFarms = this.harvestingService.getDropdownCustomerFarms('0995eb02-1972-44ca-9c58-0e2623960731','');
-     console.log("this.allFarms",this.allFarms);
-    // .subscribe((j)=>{
-    //     console.log('ALL FARMS:',j);
-    //     this.allFarms = j;
-    // });
-    // console.log('Farms:',this.farms);
-    // this.farm_search$
-    //         .pipe(
-    //             debounceTime(500),
-    //             distinctUntilChanged(),
-    //             takeUntil(this._unsubscribeAll)
-    //         )
-    //         .subscribe((value: string) => {
-    //             this.allFarms = this.harvestingService.getDropdownCustomerFarms(
-    //                 '0995eb02-1972-44ca-9c58-0e2623960731',
-    //                 'Ammad'
-    //             );
-    //         });
-            // console.log('All Farms',this.farm_search$);
+  inputClickedCustomer() {
+    this.allCustomers = this.harvestingService.getCustomers();
+    // clearing farm array
+    this.allFarms = of([]);
   }
+  listClickedCustomer(customer) {
+    // clearing array
+    this.allCustomers = of([]);
 
-getDropdownFarms() {
-    // typeof this.form.controls['farm_id'].value === 'object' ? (value = this.form.controls['farm_id'].value.name) : value = this.form.controls['farm_id'].value;
-     this.allFarms =  this.harvestingService.getDropdownCustomerFarms('0995eb02-1972-44ca-9c58-0e2623960731','');
-    // .subscribe((farms)=>{
-    //     console.log('ALL FARMS:',farms);
-    //     this.allFarms = farms;
-    // });
-    console.log('===',this.allFarms);
-    // this.allFarms.subscribe((m)=>{
-    //    console.log(m);
-    // });
-}
-itemClicked(farm){
-  this.allFarms = of([]);
-  console.log('selected Farm:',farm);
-  // this.allFarms =  this.harvestingService.getDropdownCustomerFarms('0995eb02-1972-44ca-9c58-0e2623960731','');
-}
+    // assigning values in form
+    this.jobSetupForm.setValue({
+      state: this.jobSetupForm.get('state').value,
+      customerName: customer.customer_name,
+      farmName: this.jobSetupForm.get('farmName').value,
+      crop: this.jobSetupForm.get('crop').value,
+      initailField: this.jobSetupForm.get('initailField').value,
+    });
+    // passing name in select's input
+    this.customer_name = customer.customer_name;
 
+    // calling the selected farm
+    this.allFarms = this.harvestingService.getCustomerFarm(customer.id);
+    this.farmID = customer.id;
+
+    // calling selected crop
+    this.allCrops = this.harvestingService.getCustomerCrops(
+      customer.id,
+      1,
+      10,
+      '',
+      '',
+      '',
+      this.cropFiltersForm.value
+    );
+    this.customerID = customer.id;
+  }
+  //#endregion
+
+  //  #region Farm
   farmSearchSubscription() {
-    console.log('---');
-        this.farm_search$
-            .pipe(
-                debounceTime(500),
-                distinctUntilChanged(),
-                takeUntil(this._unsubscribeAll)
-            )
-            .subscribe((value: string) => {
-                this.allFarms = this.harvestingService.getDropdownCustomerFarms(
-                    '0995eb02-1972-44ca-9c58-0e2623960731',
-                    value
-                );
-            });
-    }
-
-  inputClicked(){
-    console.log('first');
-    this.allFarms =  this.harvestingService.getDropdownCustomerFarms('0995eb02-1972-44ca-9c58-0e2623960731','');
-    // this.allFarms = of([]);
-
-    // clearing placeholder text
-    this.placeholderText = '';
-
-    console.log('---',this.jobSetupForm.value);
-  }
-  listClicked(farm){
-  this.allFarms = of([]);
-  this.jobSetupForm.setValue({
-    state: this.jobSetupForm.get('state').value,
-    customerName: this.jobSetupForm.get('customerName').value,
-    customerName2: this.jobSetupForm.get('customerName2').value,
-    customerName3:farm.name,
-    farm: this.jobSetupForm.get('farm').value,
-    crop:this.jobSetupForm.get('crop').value,
-    initailField: this.jobSetupForm.get('initailField').value
-  });
-  this.customerName = farm.name;
-  console.log(this.jobSetupForm.value);
-  console.log(farm);
-
-  }
-  search(search){
-    console.log('-',search);
-    this.allFarms =  this.harvestingService.getDropdownCustomerFarms('0995eb02-1972-44ca-9c58-0e2623960731',search.term);
-
+    console.log('FarmSearchSubscription :)');
+    this.farm_search$
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        takeUntil(this._unsubscribeAll)
+      )
+      .subscribe((value: string) => {
+        this.allFarmsClicked = this.harvestingService.getCustomerFarm(
+          this.farmID,
+          1,
+          10,
+          '',
+          '',
+          value
+        );
+      });
   }
 
+  inputClickedFarm() {
+    this.allFarmsClicked = this.allFarms;
+  }
+  listClickedFarm(farm) {
+    console.log('Farm Object:', farm);
+
+    // passing name in select's input
+    this.farm_name = farm.name;
+
+    // assigning values in form
+    this.jobSetupForm.setValue({
+      state: this.jobSetupForm.get('state').value,
+      customerName: this.jobSetupForm.get('customerName').value,
+      farmName: farm.name,
+      crop: this.jobSetupForm.get('crop').value,
+      initailField: this.jobSetupForm.get('initailField').value,
+    });
+    // clearing array
+    this.allFarms = of([]);
+    this.allFarmsClicked = of([]);
+
+  }
+  //#endregion
+
+  //#region Crops
+
+  cropSearchSubscription() {
+    console.log('CropSearchSubscription :)');
+    this.crop_search$
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        takeUntil(this._unsubscribeAll)
+      )
+      .subscribe((value: string) => {
+        console.log('first',value);
+        this.allCropsClicked = this.harvestingService.getCustomerCrops(
+          this.customerID,
+          1,
+          10,
+          '',
+          '',
+          value
+        );
+      });
+  }
+  inputClickedCrop() {
+    this.allCropsClicked = this.allCrops;
+
+  }
+  listClickedCrop(crop) {
+    console.log('Crop Object:', crop);
+
+    // passing name in select's input
+    this.crop_name = crop.crop_name;
+
+    // assigning values in form
+    this.jobSetupForm.setValue({
+      state: this.jobSetupForm.get('state').value,
+      customerName: this.jobSetupForm.get('customerName').value,
+      farmName: this.jobSetupForm.get('farmName').value,
+      crop: crop.crop_name,
+      initailField: this.jobSetupForm.get('initailField').value,
+    });
+console.log(this.jobSetupForm.value)
+    // clearing array
+    this.allCrops = of([]);
+    this.allCropsClicked = of([]);
+  }
+  //#endregion
 }

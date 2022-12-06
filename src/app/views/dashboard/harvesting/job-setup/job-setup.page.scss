@@ -95,3 +95,7 @@ ion-item::part(native){
 // .ng-select.opened>.ng-control .ng-arrow:hover{
 //   border-color:transparent transparent #666
 // }
+.position-relative{
+  position: relative !important;
+  z-index: -1 !important;
+}
