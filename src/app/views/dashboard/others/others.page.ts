@@ -19,7 +19,7 @@ export class OthersPage implements OnInit {
       supervisorId: ['', Validators.required],
       city: ['', Validators.required],
       state: ['', Validators.required],
-      apprTaskId: ['driveCVehicle', Validators.required],
+      apprTaskId: ['', Validators.required],
       notes: ['', Validators.required],
     });
   }

@@ -33,7 +33,7 @@ export class CreateTicketPage implements OnInit {
       originCity: ['', [Validators.required]],
       destinationCity: ['', [Validators.required]],
       destinationState: ['', [Validators.required]],
-      dispatcherNotes: ['', [Validators.required]],
+      dispatcherNotes: [''],
     });
     this.createTicketFormTruckDriverInHouse = this.formBuilder.group({
       ticketNo: ['', [Validators.required]],

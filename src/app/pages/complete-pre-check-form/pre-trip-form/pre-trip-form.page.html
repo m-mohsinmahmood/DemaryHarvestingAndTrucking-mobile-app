@@ -6,19 +6,22 @@
     <div>
       <form [formGroup]="preCheckForm">
         <ion-list>
-          <ion-item>
-            <ion-label position="floating">Truck ID</ion-label>
-            <ion-input formControlName="truckID" placeholder="Enter Truck ID"></ion-input>
-          </ion-item>
-          <ion-text *ngIf="this.preCheckForm.get('truckID').hasError('required')"
-            class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Truck No. required</ion-text>
+          <div class="col-span-12 mb-4">
+            <label class="block text-sm font-medium text-gray-700">Truck ID<span class="text-red-600"
+                *ngIf="this.preCheckForm.get('truckID').hasError('required')">*</span></label>
+            <input
+              class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+              formControlName="truckID" placeholder="Enter Truck ID">
+          </div>
 
-          <ion-item>
-            <ion-label position="floating">Trailer</ion-label>
-            <ion-input formControlName="trailerID" placeholder="Enter Trailer"></ion-input>
-          </ion-item>
-          <ion-text *ngIf="this.preCheckForm.get('trailerID').hasError('required')"
-            class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Trailer No. required</ion-text>
+          <div class="col-span-12 mb-4">
+            <label class="block text-sm font-medium text-gray-700">Trailer<span class="text-red-600"
+                *ngIf="this.preCheckForm.get('trailerID').hasError('required')">*</span></label>
+            <input
+              class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+              formControlName="trailerID" placeholder="Enter Trailer">
+          </div>
+
         </ion-list>
       </form>
     </div>
@@ -43,7 +46,7 @@
         </div>
         <div class="timeline-content {{item.status}}">
           {{item.content}}
-          <ion-button expand="block w-1/2" class="text-white font-Lato my-4" (click)="navigateTo(item.content)">Start
+          <ion-button [disabled]="this.preCheckForm.invalid" expand="block w-1/2" class="text-white font-Lato my-4" (click)="navigateTo(item.content)">Start
           </ion-button>
         </div>
       </div>

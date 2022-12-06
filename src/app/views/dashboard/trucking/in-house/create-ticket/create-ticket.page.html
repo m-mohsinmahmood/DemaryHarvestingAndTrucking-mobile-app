@@ -7,52 +7,76 @@
     <div *ngIf="role === 'dispatcher'">
       <form [formGroup]="createTicketFormDispatcherInHouse">
         <ion-list>
-          <ion-item>
-            <ion-label position="floating">Delivery Ticket #</ion-label>
-            <ion-input formControlName="ticketNo" placeholder="State"></ion-input>
-          </ion-item>
-          <ion-text *ngIf="this.createTicketFormDispatcherInHouse.get('ticketNo').hasError('required')"
-            class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Delivery ticket required</ion-text>
-          <ion-item>
-            <ion-label position="floating">Dispatcher Name</ion-label>
-            <ion-input formControlName="dispatcherName" placeholder="Dispatcher Name"></ion-input>
-          </ion-item>
-          <ion-text *ngIf="this.createTicketFormDispatcherInHouse.get('dispatcherName').hasError('required')"
-            class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Dispatcher name required</ion-text>
-          <ion-item>
-            <ion-label position="floating">Driver Name</ion-label>
-            <ion-input formControlName="driverName" placeholder="Driver Name"></ion-input>
-          </ion-item>
-          <ion-text *ngIf="this.createTicketFormDispatcherInHouse.get('driverName').hasError('required')"
-            class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Driver name required</ion-text>
-          <ion-item>
-            <ion-label position="floating">Cargo</ion-label>
-            <ion-input formControlName="cargo" placeholder="Cargo"></ion-input>
-          </ion-item>
-          <ion-text *ngIf="this.createTicketFormDispatcherInHouse.get('cargo').hasError('required')"
-            class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Cargo required</ion-text>
-          <ion-item>
-            <ion-label position="floating">Origin City</ion-label>
-            <ion-input formControlName="originCity" placeholder="Origin City"></ion-input>
-          </ion-item>
-          <ion-text *ngIf="this.createTicketFormDispatcherInHouse.get('originCity').hasError('required')"
-            class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Origin city required</ion-text>
-          <ion-item>
-            <ion-label position="floating">Destination City</ion-label>
-            <ion-input formControlName="destinationCity" placeholder="Destination City"></ion-input>
-          </ion-item>
-          <ion-text *ngIf="this.createTicketFormDispatcherInHouse.get('destinationCity').hasError('required')"
-            class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Destination city required</ion-text>
-          <ion-item>
-            <ion-label position="floating">Destination State</ion-label>
-            <ion-input formControlName="destinationState" placeholder="Destination State"></ion-input>
-          </ion-item>
-          <ion-text *ngIf="this.createTicketFormDispatcherInHouse.get('destinationState').hasError('required')"
-            class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Destination state required</ion-text>
-          <ion-item>
-            <ion-label position="floating">Dispatcher Notes(optional)</ion-label>
-            <ion-input formControlName="dispatcherNotes" placeholder="Dispatcher Notes"></ion-input>
-          </ion-item>
+          <div class="col-span-12 mb-4">
+            <label class="block text-sm font-medium text-gray-700">Delivery Ticket #<span class="text-red-600"
+                *ngIf="this.createTicketFormDispatcherInHouse.get('ticketNo').hasError('required')">*</span>
+            </label>
+            <input
+              class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+              formControlName="ticketNo" placeholder="State">
+          </div>
+
+          <div class="col-span-12 mb-4">
+            <label class="block text-sm font-medium text-gray-700">Dispatcher Name<span class="text-red-600"
+                *ngIf="this.createTicketFormDispatcherInHouse.get('dispatcherName').hasError('required')">*</span>
+            </label>
+            <input
+              class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+              formControlName="dispatcherName" placeholder="Dispatcher Name">
+          </div>
+
+          <div class="col-span-12 mb-4">
+            <label class="block text-sm font-medium text-gray-700">Driver Name<span class="text-red-600"
+                *ngIf="this.createTicketFormDispatcherInHouse.get('driverName').hasError('required')">*</span>
+            </label>
+            <input
+              class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+              formControlName="driverName" placeholder="Driver Name">
+          </div>
+
+          <div class="col-span-12 mb-4">
+            <label class="block text-sm font-medium text-gray-700">Cargo<span class="text-red-600"
+                *ngIf="this.createTicketFormDispatcherInHouse.get('cargo').hasError('required')">*</span>
+            </label>
+            <input
+              class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+              formControlName="cargo" placeholder="Cargo">
+          </div>
+
+          <div class="col-span-12 mb-4">
+            <label class="block text-sm font-medium text-gray-700">Origin City<span class="text-red-600"
+                *ngIf="this.createTicketFormDispatcherInHouse.get('originCity').hasError('required')">*</span>
+            </label>
+            <input
+              class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+              formControlName="originCity" placeholder="Origin City">
+          </div>
+
+          <div class="col-span-12 mb-4">
+            <label class="block text-sm font-medium text-gray-700">Destination City<span class="text-red-600"
+                *ngIf="this.createTicketFormDispatcherInHouse.get('destinationCity').hasError('required')">*</span>
+            </label>
+            <input
+              class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+              formControlName="destinationCity" placeholder="Destination City">
+          </div>
+
+          <div class="col-span-12 mb-4">
+            <label class="block text-sm font-medium text-gray-700">Destination State<span class="text-red-600"
+                *ngIf="this.createTicketFormDispatcherInHouse.get('destinationState').hasError('required')">*</span>
+            </label>
+            <input
+              class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+              formControlName="destinationState" placeholder="Destination State">
+          </div>
+
+          <div class="col-span-12 mb-4">
+            <label class="block text-sm font-medium text-gray-700">Dispatcher Notes(optional)</label>
+            <input
+              class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+              formControlName="dispatcherNotes" placeholder="Dispatcher Notes">
+          </div>
+
           <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="navigatedispatcher()"
             [disabled]="this.createTicketFormDispatcherInHouse.invalid">Generate Ticket
           </ion-button>
@@ -65,103 +89,131 @@
     <div *ngIf="role === 'truck-driver'">
       <form [formGroup]="createTicketFormTruckDriverInHouse">
         <ion-list>
-          <ion-item>
-            <ion-label position="floating">Delivery Ticket #</ion-label>
-            <ion-input placeholder="Delivery Ticket #" formControlName="ticketNo"></ion-input>
-          </ion-item>
-          <ion-text *ngIf="this.createTicketFormTruckDriverInHouse.get('ticketNo').hasError('required')"
-            class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Delivery ticket required</ion-text>
-          <ion-item>
-            <ion-label position="floating">Supervisor Name</ion-label>
-            <ion-input placeholder="Supervisor Name" formControlName="supervisorName"></ion-input>
-          </ion-item>
-          <ion-text *ngIf="this.createTicketFormTruckDriverInHouse.get('supervisorName').hasError('required')"
-            class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Supervisor name required</ion-text>
-          <ion-item>
-            <ion-label position="floating">Driver Name</ion-label>
-            <ion-input placeholder="Driver Name" formControlName="driverName"></ion-input>
-          </ion-item>
-          <ion-text *ngIf="this.createTicketFormTruckDriverInHouse.get('driverName').hasError('required')"
-            class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Driver name required</ion-text>
+          <div class="col-span-12 mb-4">
+            <label class="block text-sm font-medium text-gray-700">Delivery Ticket #<span class="text-red-600"
+                *ngIf="this.createTicketFormTruckDriverInHouse.get('ticketNo').hasError('required')">*</span></label>
+            <input
+              class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+              placeholder="Delivery Ticket #" formControlName="ticketNo">
+          </div>
 
-          <ion-item>
-            <ion-label position="floating">Load Date</ion-label>
-            <ion-input placeholder="Load Date" formControlName="loadDate"></ion-input>
-          </ion-item>
-          <ion-text *ngIf="this.createTicketFormTruckDriverInHouse.get('loadDate').hasError('required')"
-            class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Load date required</ion-text>
+          <div class="col-span-12 mb-4">
+            <label class="block text-sm font-medium text-gray-700">Supervisor Name<span class="text-red-600"
+                *ngIf="this.createTicketFormTruckDriverInHouse.get('supervisorName').hasError('required')">*</span></label>
+            <input
+              class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+              placeholder="Supervisor Name" formControlName="supervisorName">
+          </div>
 
-          <ion-item>
-            <ion-label position="floating">Cargo</ion-label>
-            <ion-input placeholder="Cargo" formControlName="cargo"></ion-input>
-          </ion-item>
-          <ion-text *ngIf="this.createTicketFormTruckDriverInHouse.get('cargo').hasError('required')"
-            class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Cargo required</ion-text>
-          <ion-item>
-            <ion-label position="floating">Origin City</ion-label>
-            <ion-input placeholder="Origin City" formControlName="originCity"></ion-input>
-          </ion-item>
-          <ion-text *ngIf="this.createTicketFormTruckDriverInHouse.get('originCity').hasError('required')"
-            class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Origin cityrequired</ion-text>
-          <ion-item>
-            <ion-label position="floating">Destination City</ion-label>
-            <ion-input placeholder="Destination City" formControlName="destinationCity"></ion-input>
-          </ion-item>
-          <ion-text *ngIf="this.createTicketFormTruckDriverInHouse.get('destinationCity').hasError('required')"
-            class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Destination city required</ion-text>
-          <ion-item>
-            <ion-label position="floating">Destination State</ion-label>
-            <ion-input placeholder="Destination State" formControlName="destinationState"></ion-input>
-          </ion-item>
-          <ion-text *ngIf="this.createTicketFormTruckDriverInHouse.get('destinationState').hasError('required')"
-            class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Destination state required</ion-text>
-          <ion-item>
-            <ion-label position="floating">Truck #</ion-label>
-            <ion-input placeholder="Truck #" formControlName="truckNo"></ion-input>
-          </ion-item>
-          <ion-text *ngIf="this.createTicketFormTruckDriverInHouse.get('truckNo').hasError('required')"
-            class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Truck required</ion-text>
-          <ion-item>
-            <ion-label position="floating">Home Base (Beginning) Odometer Reading</ion-label>
-            <ion-input placeholder="Odometer Reading" formControlName="homeBeginingOdometerReading"></ion-input>
-          </ion-item>
-          <ion-text
-            *ngIf="this.createTicketFormTruckDriverInHouse.get('homeBeginingOdometerReading').hasError('required')"
-            class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Home base (begining) odometer reading
-            required</ion-text>
-          <ion-item>
-            <ion-label position="floating">Destination (Ending) Odometer Reading</ion-label>
-            <ion-input placeholder="Odometer Reading" formControlName="destinationEndingnOdometerReading"></ion-input>
-          </ion-item>
-          <ion-text
-            *ngIf="this.createTicketFormTruckDriverInHouse.get('destinationEndingnOdometerReading').hasError('required')"
-            class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Destination (ending) odometer reading
-            required</ion-text>
-          <ion-item>
-            <ion-label position="floating">Total Trip Miles</ion-label>
-            <ion-input placeholder="Trip Miles" formControlName="tripMiles"></ion-input>
-          </ion-item>
-          <ion-text *ngIf="this.createTicketFormTruckDriverInHouse.get('tripMiles').hasError('required')"
-            class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Total trip miles required</ion-text>
-          <ion-item>
-            <ion-label position="floating">Dead-Head Miles</ion-label>
-            <ion-input placeholder="Dead-Head Miles" formControlName="deadHeadMiles"></ion-input>
-          </ion-item>
-          <ion-text *ngIf="this.createTicketFormTruckDriverInHouse.get('deadHeadMiles').hasError('required')"
-            class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Dead head miles required</ion-text>
-          <ion-item>
-            <ion-label position="floating">Total Job Miles</ion-label>
-            <ion-input placeholder="Job Miles" formControlName="totalJobMiles"></ion-input>
+          <div class="col-span-12 mb-4">
+            <label class="block text-sm font-medium text-gray-700">Driver Name<span class="text-red-600"
+                *ngIf="this.createTicketFormTruckDriverInHouse.get('driverName').hasError('required')">*</span></label>
+            <input
+              class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+              placeholder="Driver Name" formControlName="driverName">
+          </div>
 
-          </ion-item>
-          <ion-text *ngIf="this.createTicketFormTruckDriverInHouse.get('totalJobMiles').hasError('required')"
-            class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Total job miles required</ion-text>
-          <ion-item>
-            <ion-label position="floating">Driver Notes(optional)</ion-label>
-            <ion-input placeholder="Notes" formControlName="driverNotes"></ion-input>
-          </ion-item>
+          <div class="col-span-12 mb-4">
+            <label class="block text-sm font-medium text-gray-700">Load Date<span class="text-red-600"
+                *ngIf="this.createTicketFormTruckDriverInHouse.get('loadDate').hasError('required')">*</span></label>
+            <input
+              class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+              placeholder="Load Date" formControlName="loadDate">
+          </div>
 
-          <ion-button [disabled]="this.createTicketFormTruckDriverInHouse.invalid" expand="block" class="mt-5 font-Lato text-white" (click)="navigateTruckDriver()">Generate Ticket
+          <div class="col-span-12 mb-4">
+            <label class="block text-sm font-medium text-gray-700">Cargo<span class="text-red-600"
+                *ngIf="this.createTicketFormTruckDriverInHouse.get('cargo').hasError('required')">*</span></label>
+            <input
+              class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+              placeholder="Cargo" formControlName="cargo">
+          </div>
+
+          <div class="col-span-12 mb-4">
+            <label class="block text-sm font-medium text-gray-700">Origin City<span class="text-red-600"
+                *ngIf="this.createTicketFormTruckDriverInHouse.get('originCity').hasError('required')">*</span></label>
+            <input
+              class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+              placeholder="Origin City" formControlName="originCity">
+          </div>
+
+          <div class="col-span-12 mb-4">
+            <label class="block text-sm font-medium text-gray-700">Destination City<span class="text-red-600"
+                *ngIf="this.createTicketFormTruckDriverInHouse.get('destinationCity').hasError('required')">*</span></label>
+            <input
+              class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+              placeholder="Destination City" formControlName="destinationCity">
+          </div>
+
+          <div class="col-span-12 mb-4">
+            <label class="block text-sm font-medium text-gray-700">Destination State<span class="text-red-600"
+                *ngIf="this.createTicketFormTruckDriverInHouse.get('destinationState').hasError('required')">*</span></label>
+            <input
+              class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+              placeholder="Destination State" formControlName="destinationState">
+          </div>
+
+          <div class="col-span-12 mb-4">
+            <label class="block text-sm font-medium text-gray-700">Truck #<span class="text-red-600"
+                *ngIf="this.createTicketFormTruckDriverInHouse.get('truckNo').hasError('required')">*</span></label>
+            <input
+              class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+              placeholder="Truck #" formControlName="truckNo">
+          </div>
+
+          <div class="col-span-12 mb-4">
+            <label class="block text-sm font-medium text-gray-700">Home Base (Beginning) Odometer
+              Reading<span class="text-red-600"
+                *ngIf="this.createTicketFormTruckDriverInHouse.get('homeBeginingOdometerReading').hasError('required')">*</span></label>
+            <input
+              class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+              placeholder="Odometer Reading" formControlName="homeBeginingOdometerReading">
+          </div>
+
+          <div class="col-span-12 mb-4">
+            <label class="block text-sm font-medium text-gray-700">Destination (Ending) Odometer
+              Reading<span class="text-red-600"
+                *ngIf="this.createTicketFormTruckDriverInHouse.get('destinationEndingnOdometerReading').hasError('required')">*</span></label>
+            <input
+              class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+              placeholder="Odometer Reading" formControlName="destinationEndingnOdometerReading">
+          </div>
+
+          <div class="col-span-12 mb-4">
+            <label class="block text-sm font-medium text-gray-700">Total Trip Miles<span class="text-red-600"
+                *ngIf="this.createTicketFormTruckDriverInHouse.get('tripMiles').hasError('required')">*</span></label>
+            <input
+              class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+              placeholder="Trip Miles" formControlName="tripMiles">
+          </div>
+
+          <div class="col-span-12 mb-4">
+            <label class="block text-sm font-medium text-gray-700">Dead-Head Miles<span class="text-red-600"
+                *ngIf="this.createTicketFormTruckDriverInHouse.get('deadHeadMiles').hasError('required')">*</span></label>
+            <input
+              class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+              placeholder="Dead-Head Miles" formControlName="deadHeadMiles">
+          </div>
+
+          <div class="col-span-12 mb-4">
+            <label class="block text-sm font-medium text-gray-700">Total Job Miles<span class="text-red-600"
+                *ngIf="this.createTicketFormTruckDriverInHouse.get('totalJobMiles').hasError('required')">*</span></label>
+            <input
+              class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+              placeholder="Job Miles" formControlName="totalJobMiles">
+
+          </div>
+
+          <div class="col-span-12 mb-4">
+            <label class="block text-sm font-medium text-gray-700">Driver Notes(optional)</label>
+            <input
+              class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+              placeholder="Notes" formControlName="driverNotes">
+          </div>
+
+          <ion-button [disabled]="this.createTicketFormTruckDriverInHouse.invalid" expand="block"
+            class="mt-5 font-Lato text-white" (click)="navigateTruckDriver()">
+            Generate Ticket
           </ion-button>
         </ion-list>
       </form>

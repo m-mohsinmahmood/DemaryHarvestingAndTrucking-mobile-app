@@ -13,75 +13,70 @@
         </div>
 
         <div class="col-span-12 mb-4">
-          <label class="block text-sm font-medium text-gray-700">Dispatcher</label>
+          <label class="block text-sm font-medium text-gray-700">Dispatcher
+            <span class="text-red-600"
+              *ngIf="this.createOrderDispatcher.get('dispatcherId').hasError('required')">*</span></label>
           <input
             class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
             formControlName="dispatcherId" placeholder="Enter Dispatcher">
-          <ion-text *ngIf="this.createOrderDispatcher.get('dispatcherId').hasError('required')"
-            class="mt-2 text-sm text-red-600">Dispatcher is required</ion-text>
         </div>
 
         <div class="col-span-12 mb-4">
-          <label class="block text-sm font-medium text-gray-700">Customer</label>
+          <label class="block text-sm font-medium text-gray-700">Customer
+            <span class="text-red-600"
+              *ngIf="this.createOrderDispatcher.get('customerId').hasError('required')">*</span>
+          </label>
           <input
             class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
             formControlName="customerId" placeholder="Enter Customer Name">
-          <ion-text *ngIf="this.createOrderDispatcher.get('customerId').hasError('required')"
-            class="mt-2 text-sm text-red-600">Customer is required</ion-text>
         </div>
 
         <div class="col-span-12 mb-4">
-          <label class="block text-sm font-medium text-gray-700">Farm</label>
+          <label class="block text-sm font-medium text-gray-700">Farm <span class="text-red-600"
+              *ngIf="this.createOrderDispatcher.get('farmId').hasError('required')">*</span></label>
           <input
             class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
             formControlName="farmId" placeholder="Enter Farm Name">
-          <ion-text *ngIf="this.createOrderDispatcher.get('farmId').hasError('required')"
-            class="mt-2 text-sm text-red-600">Farm is required</ion-text>
         </div>
 
         <div class="col-span-12 mb-4">
-          <label class="block text-sm font-medium text-gray-700">Field</label>
+          <label class="block text-sm font-medium text-gray-700">Field <span class="text-red-600"
+              *ngIf="this.createOrderDispatcher.get('fieldId').hasError('required')">*</span></label>
           <input
             class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
             formControlName="fieldId" placeholder="Enter Field Name">
-          <ion-text *ngIf="this.createOrderDispatcher.get('fieldId').hasError('required')"
-            class="mt-2 text-sm text-red-600">Field is required</ion-text>
         </div>
 
         <div class="col-span-12 mb-4">
-          <label class="block text-sm font-medium text-gray-700">Service</label>
+          <label class="block text-sm font-medium text-gray-700">Service <span class="text-red-600"
+              *ngIf="this.createOrderDispatcher.get('service').hasError('required')">*</span></label>
           <input
             class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
             formControlName="service" placeholder="Enter Service">
-          <ion-text *ngIf="this.createOrderDispatcher.get('service').hasError('required')"
-            class="mt-2 text-sm text-red-600">Service is required</ion-text>
         </div>
 
         <div class="col-span-12 mb-4">
-          <label class="block text-sm font-medium text-gray-700">Tractor Driver</label>
+          <label class="block text-sm font-medium text-gray-700">Tractor Driver <span class="text-red-600"
+              *ngIf="this.createOrderDispatcher.get('tractorDriver').hasError('required')">*</span></label>
           <input
             class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
             formControlName="tractorDriver" placeholder="Enter Tractor Driver">
-          <ion-text *ngIf="this.createOrderDispatcher.get('tractorDriver').hasError('required')"
-            class="mt-2 text-sm text-red-600">Tractor Driver is required</ion-text>
         </div>
 
         <div class="col-span-12 mb-4">
-          <label class="block text-sm font-medium text-gray-700">Field Address (if known)</label>
+          <label class="block text-sm font-medium text-gray-700">Field Address (if known) <span class="text-red-600"
+              *ngIf="this.createOrderDispatcher.get('fieldAddress').hasError('required')">*</span></label>
           <input
             class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
             formControlName="fieldAddress" placeholder="Enter Field Address">
-          <ion-text *ngIf="this.createOrderDispatcher.get('fieldAddress').hasError('required')"
-            class="mt-2 text-sm text-red-600">Field Address is required</ion-text>
         </div>
 
         <div class="col-span-12 mb-4">
-          <label class="block text-sm font-medium text-gray-700">Customer Phone</label>
+          <label class="block text-sm font-medium text-gray-700">Customer Phone <span class="text-red-600"
+              *ngIf="this.createOrderDispatcher.get('phone').hasError('required')">*</span></label>
           <input
             class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
             formControlName="phone" placeholder="Enter Customer Phone">
-          <ion-text *ngIf="this.createOrderDispatcher.get('phone').hasError('required')"
-            class="mt-2 text-sm text-red-600">Phone is required</ion-text>
         </div>
 
       </div>
@@ -96,109 +91,94 @@
     <form [formGroup]="createOrderTDriver">
       <div>
         <div class="col-span-12 mb-4">
-          <label class="block text-sm font-medium text-gray-700">Machinery ID</label>
+          <label class="block text-sm font-medium text-gray-700">Machinery ID<span class="text-red-600"
+              *ngIf="this.createOrderTDriver.get('machineryID').hasError('required')">*</span></label>
           <input
             class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
             formControlName="machineryID" placeholder="Machinery ID">
-          <ion-text *ngIf="this.createOrderTDriver.get('machineryID').hasError('required')"
-            class="mt-2 text-sm text-red-600">Machinery ID is required</ion-text>
         </div>
 
         <div class="col-span-12 mb-4">
           <label class="block text-sm font-medium text-gray-700">Confirm Beginning Engine
-            Hours</label>
+            Hours<span class="text-red-600"
+              *ngIf="this.createOrderTDriver.get('cBeginningEngineHours').hasError('required')">*</span></label>
           <input
             class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
             formControlName="cBeginningEngineHours" placeholder="Confirm Beginning Engine Hours">
-          <ion-text *ngIf="this.createOrderTDriver.get('cBeginningEngineHours').hasError('required')"
-            class="mt-2 text-sm text-red-600">Confirm Beginning Engine Hours is required
-          </ion-text>
         </div>
 
         <div class="col-span-12 mb-4">
-          <label class="block text-sm font-medium text-gray-700">Work Order #</label>
+          <label class="block text-sm font-medium text-gray-700">Work Order #<span class="text-red-600"
+              *ngIf="this.createOrderTDriver.get('workOrderId').hasError('required')">*</span></label>
           <input
             class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
             formControlName="workOrderId" placeholder="Work Order #">
-          <ion-text *ngIf="this.createOrderTDriver.get('workOrderId').hasError('required')"
-            class="mt-2 text-sm text-red-600">Worder Order # is required</ion-text>
         </div>
 
         <div class="col-span-12 mb-4">
-          <label class="block text-sm font-medium text-gray-700">Dispatcher</label>
+          <label class="block text-sm font-medium text-gray-700">Dispatcher<span class="text-red-600"
+              *ngIf="this.createOrderTDriver.get('dispatcherId').hasError('required')">*</span></label>
           <input
             class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
             formControlName="dispatcherId" placeholder="Enter Dispatcher Name">
-          <ion-text *ngIf="this.createOrderTDriver.get('dispatcherId').hasError('required')"
-            class="mt-2 text-sm text-red-600">Dispatcher is required</ion-text>
         </div>
 
         <div class="col-span-12 mb-4">
-          <label class="block text-sm font-medium text-gray-700">Customer</label>
+          <label class="block text-sm font-medium text-gray-700">Customer<span class="text-red-600"
+              *ngIf="this.createOrderTDriver.get('customerId').hasError('required')">*</span></label>
           <input
             class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
             formControlName="customerId" placeholder="Enter Customer Name">
-          <ion-text *ngIf="this.createOrderTDriver.get('customerId').hasError('required')"
-            class="mt-2 text-sm text-red-600">Customer is required</ion-text>
         </div>
 
         <div class="col-span-12 mb-4">
-          <label class="block text-sm font-medium text-gray-700">Farm</label>
+          <label class="block text-sm font-medium text-gray-700">Farm<span class="text-red-600"
+              *ngIf="this.createOrderTDriver.get('farmId').hasError('required')">*</span></label>
           <input
             class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
             formControlName="farmId" placeholder="Enter Farm">
-          <ion-text *ngIf="this.createOrderTDriver.get('farmId').hasError('required')"
-            class="mt-2 text-sm text-red-600">
-            Farm is required</ion-text>
         </div>
 
         <div class="col-span-12 mb-4">
-          <label class="block text-sm font-medium text-gray-700">Field</label>
+          <label class="block text-sm font-medium text-gray-700">Field<span class="text-red-600"
+              *ngIf="this.createOrderTDriver.get('fieldId').hasError('required')">*</span></label>
           <input
             class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
             formControlName="fieldId" placeholder="Enter Field">
-          <ion-text *ngIf="this.createOrderTDriver.get('fieldId').hasError('required')"
-            class="mt-2 text-sm text-red-600">
-            Field is required</ion-text>
         </div>
 
         <div class="col-span-12 mb-4">
-          <label class="block text-sm font-medium text-gray-700">Service</label>
+          <label class="block text-sm font-medium text-gray-700">Service<span class="text-red-600"
+              *ngIf="this.createOrderTDriver.get('service').hasError('required')">*</span></label>
           <input
             class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
             formControlName="service" placeholder="Enter Service">
-          <ion-text *ngIf="this.createOrderTDriver.get('service').hasError('required')"
-            class="mt-2 text-sm text-red-600">
-            Service is required</ion-text>
         </div>
 
         <div class="col-span-12 mb-4">
           <label class="block text-sm font-medium text-gray-700">Tractor
-            Driver</label>
+            Driver<span class="text-red-600"
+              *ngIf="this.createOrderTDriver.get('tractorDriverId').hasError('required')">*</span></label>
           <input
             class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
             formControlName="tractorDriverId" placeholder="Enter Tractor Driver">
-          <ion-text *ngIf="this.createOrderTDriver.get('tractorDriverId').hasError('required')"
-            class="mt-2 text-sm text-red-600">Tractor Driver is required</ion-text>
         </div>
 
         <div class="col-span-12 mb-4">
           <label class="block text-sm font-medium text-gray-700">Field
-            Address (if known)</label>
+            Address (if known)<span class="text-red-600"
+              *ngIf="this.createOrderTDriver.get('fieldAddress').hasError('required')">*</span></label>
           <input
             class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
             formControlName="fieldAddress" placeholder="Enter Field Address">
-          <ion-text *ngIf="this.createOrderTDriver.get('fieldAddress').hasError('required')"
-            class="mt-2 text-sm text-red-600">Field Address is required</ion-text>
         </div>
 
         <div class="col-span-12 mb-4">
-          <label class="block text-sm font-medium text-gray-700">Customer Phone</label>
+          <label class="block text-sm font-medium text-gray-700">Customer Phone<span class="text-red-600"
+              *ngIf="this.createOrderTDriver.get('phone').hasError('required')">*</span></label>
           <input
             class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
             formControlName="phone" placeholder="Enter Customer Phone">
-          <ion-text *ngIf="this.createOrderTDriver.get('phone').hasError('required')" class="mt-2 text-sm text-red-600">
-            Phone is required</ion-text>
         </div>
 
       </div>
