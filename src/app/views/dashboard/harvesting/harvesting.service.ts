@@ -95,7 +95,6 @@ getCustomerCrops(
   search: string = '',
   filters: any = { status: '', calendar_year: '' },
 ) {
-  console.log(filters);
   let params = new HttpParams();
   params = params.set('page', page);
   params = params.set('limit', limit);

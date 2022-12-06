@@ -114,6 +114,7 @@ export class JobSetupPage implements OnInit {
     this.allFarms = of([]);
   }
   listClickedCustomer(customer) {
+    console.log('first')
     // clearing array
     this.allCustomers = of([]);
 
@@ -127,6 +128,9 @@ export class JobSetupPage implements OnInit {
     });
     // passing name in select's input
     this.customer_name = customer.customer_name;
+
+    this.farm_name= '';
+    this.crop_name='';
 
     // calling the selected farm
     this.allFarms = this.harvestingService.getCustomerFarm(customer.id);
