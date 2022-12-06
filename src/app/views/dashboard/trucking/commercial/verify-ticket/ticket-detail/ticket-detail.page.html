@@ -3,185 +3,6 @@
 
 <ion-content>
   <app-timer [value]="'22-22-2022'"></app-timer>
-  <!----------- Role Truck Driver ------------>
-  <form [formGroup]="createFormTruckCommercial" *ngIf="role === 'truck-driver'">
-    <ion-list>
-
-      <ion-item>
-        <ion-label position="floating">Truck #</ion-label>
-        <ion-input formControlName="truck" placeholder="Truck #"></ion-input>
-      </ion-item>
-      <ion-text *ngIf="this.createFormTruckCommercial.get('truck').hasError('required')"
-        class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Truck required</ion-text>
-
-      <ion-item>
-        <ion-label position="floating">Ticket #</ion-label>
-        <ion-input formControlName="ticket" placeholder="Ticket #"></ion-input>
-      </ion-item>
-      <ion-text *ngIf="this.createFormTruckCommercial.get('ticket').hasError('required')"
-        class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Ticket required</ion-text>
-
-      <ion-item>
-        <ion-label position="floating">Home Base (Beginning) Odometer Reading</ion-label>
-        <ion-input formControlName="homeBeginingOdometerReading" placeholder="Odometer Reading"></ion-input>
-      </ion-item>
-      <ion-text *ngIf="this.createFormTruckCommercial.get('homeBeginingOdometerReading').hasError('required')"
-        class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Home base (begining) odometer reading required
-      </ion-text>
-
-      <ion-item>
-        <ion-label position="floating">Origin (Beginning) Odometer Reading</ion-label>
-        <ion-input formControlName="originBeginingOdometerReading" placeholder="Origin (Beginning) Odometer Reading">
-        </ion-input>
-      </ion-item>
-      <ion-text *ngIf="this.createFormTruckCommercial.get('originBeginingOdometerReading').hasError('required')"
-        class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Origin (begining) odometer required</ion-text>
-
-      <ion-item>
-        <ion-label position="floating">Origin Empty Weight</ion-label>
-        <ion-input formControlName="originEmptyWeight" placeholder="Origin Empty Weight"></ion-input>
-      </ion-item>
-      <ion-text *ngIf="this.createFormTruckCommercial.get('originEmptyWeight').hasError('required')"
-        class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Origin empty weight required</ion-text>
-
-      <ion-item>
-        <ion-label position="floating">Origin Loaded Weight</ion-label>
-        <ion-input formControlName="originLoadedWeight" placeholder="Origin Loaded Weight"></ion-input>
-      </ion-item>
-      <ion-text *ngIf="this.createFormTruckCommercial.get('originLoadedWeight').hasError('required')"
-        class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Origin loaded weight required</ion-text>
-
-      <ion-item>
-        <ion-label position="floating">Origin Weight of Load</ion-label>
-        <ion-input formControlName="originWeightLoad1" placeholder="Origin Weight of Load"></ion-input>
-      </ion-item>
-      <ion-text *ngIf="this.createFormTruckCommercial.get('originWeightLoad1').hasError('required')"
-        class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Origin weight of load required</ion-text>
-
-      <!-- Origin Docs Start-->
-      <ion-row class="h-20 flex content-center p-4">
-        <ion-col size="12" class="flex flex-col ">
-          <span class="font-Lato font-14">Origin Documents</span>
-        </ion-col>
-      </ion-row>
-
-      <ion-row class="h-20 flex content-center p-4">
-        <ion-col size="4">
-          <ion-img src="https://docs-demo.ionic.io/assets/madison.jpg"></ion-img>
-        </ion-col>
-        <ion-col size="4">
-          <ion-img src="https://docs-demo.ionic.io/assets/madison.jpg"></ion-img>
-        </ion-col>
-        <ion-col size="4">
-          <ion-img src="https://docs-demo.ionic.io/assets/madison.jpg"></ion-img>
-        </ion-col>
-      </ion-row>
-      <!-- Origin Docs End-->
-
-      <ion-item>
-        <ion-label position="floating">Destination Ending Odometer Reading</ion-label>
-        <ion-input formControlName="destinationEndingnOdometerReading"
-          placeholder="Destination Ending Odometer Reading"></ion-input>
-      </ion-item>
-      <ion-text *ngIf="this.createFormTruckCommercial.get('destinationEndingnOdometerReading').hasError('required')"
-        class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Destination ending odometer required</ion-text>
-
-      <ion-item>
-        <ion-label position="floating">Destination Loaded Weight</ion-label>
-        <ion-input formControlName="destinationLoadedWeight" placeholder="Destination Loaded Weight"></ion-input>
-      </ion-item>
-      <ion-text *ngIf="this.createFormTruckCommercial.get('destinationLoadedWeight').hasError('required')"
-        class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Destination loaded weight required</ion-text>
-
-      <ion-item>
-        <ion-label position="floating">Destination Empty Weight</ion-label>
-        <ion-input formControlName="destinationEmptyWeight" placeholder="Destination Empty Weight"></ion-input>
-      </ion-item>
-      <ion-text *ngIf="this.createFormTruckCommercial.get('destinationEmptyWeight').hasError('required')"
-        class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Destination empty weight required</ion-text>
-
-      <ion-item>
-        <ion-label position="floating">Origin Weight of Load</ion-label>
-        <ion-input formControlName="originWeightLoad2" placeholder="Origin Weight of Load"></ion-input>
-      </ion-item>
-      <ion-text *ngIf="this.createFormTruckCommercial.get('originWeightLoad2').hasError('required')"
-        class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Origin weight of load required</ion-text>
-
-      <ion-item>
-        <ion-label position="floating">Weight of Load</ion-label>
-        <ion-input formControlName="weightLoad" placeholder="Weight of Load"></ion-input>
-      </ion-item>
-      <ion-text *ngIf="this.createFormTruckCommercial.get('weightLoad').hasError('required')"
-        class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Weight of load required</ion-text>
-
-      <ion-item>
-        <ion-label position="floating">Scale Ticket #/BOL #</ion-label>
-        <ion-input formControlName="scaleTicket" placeholder="Scale Ticket #/BOL #"></ion-input>
-      </ion-item>
-      <ion-text *ngIf="this.createFormTruckCommercial.get('scaleTicket').hasError('required')"
-        class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Scale ticket #/BOL required</ion-text>
-
-      <ion-item>
-        <ion-label position="floating">Destination (Delivery Load)</ion-label>
-        <ion-input formControlName="destinationDeliveryLoad" placeholder="Destination (Delivery Load)"></ion-input>
-      </ion-item>
-      <ion-text *ngIf="this.createFormTruckCommercial.get('destinationDeliveryLoad').hasError('required')"
-        class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Destination (delivey load) required</ion-text>
-
-      <!-- Origin Docs Start-->
-      <ion-row class="h-20 flex content-center p-4">
-        <ion-col size="12" class="flex flex-col ">
-          <span class="font-Lato font-14">Origin Documents</span>
-        </ion-col>
-      </ion-row>
-
-      <ion-row class="h-20 flex content-center p-4">
-        <ion-col size="4">
-          <ion-img src="https://docs-demo.ionic.io/assets/madison.jpg"></ion-img>
-        </ion-col>
-        <ion-col size="4">
-          <ion-img src="https://docs-demo.ionic.io/assets/madison.jpg"></ion-img>
-        </ion-col>
-        <ion-col size="4">
-          <ion-img src="https://docs-demo.ionic.io/assets/madison.jpg"></ion-img>
-        </ion-col>
-      </ion-row>
-      <!-- Origin Docs End-->
-
-      <ion-item>
-        <ion-text class="mt-4 ">
-          <p>Total Trip Miles</p>
-          <span>12345</span>
-        </ion-text>
-      </ion-item>
-
-      <ion-item>
-        <ion-text class="mt-4 ">
-          <p>Dead Head Miles</p>
-          <span>12345</span>
-        </ion-text>
-      </ion-item>
-
-      <ion-item>
-        <ion-text class="mt-4 ">
-          <p>Total Job Miles</p>
-          <span>12345</span>
-        </ion-text>
-      </ion-item>
-
-      <ion-item>
-        <ion-label position="floating">Driver Notes</ion-label>
-        <ion-input formControlName="driverNotes" placeholder="Driver Notes"></ion-input>
-      </ion-item>
-      <ion-text *ngIf="this.createFormTruckCommercial.get('driverNotes').hasError('required')"
-        class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Driver notes required</ion-text>
-
-      <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="submit()"
-        [disabled]="this.createFormTruckCommercial.invalid">Save and
-        Submit
-      </ion-button>
-    </ion-list>
-  </form>
 
   <!--------Role Dispatcher ------------->
   <ion-grid *ngIf="role === 'dispatcher'">
@@ -358,4 +179,202 @@
       </ion-card-content>
     </ion-card>
   </ion-grid>
+
+  <!----------- Role Truck Driver ------------>
+  <form class="p-4" [formGroup]="createFormTruckCommercial" *ngIf="role === 'truck-driver'">
+    <ion-list>
+
+      <div class="col-span-12 mb-4">
+        <label class="block text-sm font-medium text-gray-700">Truck #<span class="text-red-600"
+            *ngIf="this.createFormTruckCommercial.get('truck').hasError('required')">*</span></label>
+        <input
+          class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+          formControlName="truck" placeholder="Truck #">
+      </div>
+
+      <div class="col-span-12 mb-4">
+        <label class="block text-sm font-medium text-gray-700">Ticket #<span class="text-red-600"
+            *ngIf="this.createFormTruckCommercial.get('ticket').hasError('required')">*</span></label>
+        <input
+          class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+          formControlName="ticket" placeholder="Ticket #">
+      </div>
+
+      <div class="col-span-12 mb-4">
+        <label class="block text-sm font-medium text-gray-700">Home Base (Beginning) Odometer Reading<span
+            class="text-red-600"
+            *ngIf="this.createFormTruckCommercial.get('homeBeginingOdometerReading').hasError('required')">*</span></label>
+        <input
+          class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+          formControlName="homeBeginingOdometerReading" placeholder="Odometer Reading">
+      </div>
+
+      <div class="col-span-12 mb-4">
+        <label class="block text-sm font-medium text-gray-700">Origin (Beginning) Odometer Reading<span
+            class="text-red-600"
+            *ngIf="this.createFormTruckCommercial.get('originBeginingOdometerReading').hasError('required')">*</span></label>
+        <input
+          class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+          formControlName="originBeginingOdometerReading" placeholder="Origin (Beginning) Odometer Reading">
+
+      </div>
+
+      <div class="col-span-12 mb-4">
+        <label class="block text-sm font-medium text-gray-700">Origin Empty Weight<span class="text-red-600"
+            *ngIf="this.createFormTruckCommercial.get('originEmptyWeight').hasError('required')">*</span></label>
+        <input
+          class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+          formControlName="originEmptyWeight" placeholder="Origin Empty Weight">
+      </div>
+
+      <div class="col-span-12 mb-4">
+        <label class="block text-sm font-medium text-gray-700">Origin Loaded Weight<span class="text-red-600"
+            *ngIf="this.createFormTruckCommercial.get('originLoadedWeight').hasError('required')">*</span></label>
+        <input
+          class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+          formControlName="originLoadedWeight" placeholder="Origin Loaded Weight">
+      </div>
+
+      <div class="col-span-12 mb-4">
+        <label class="block text-sm font-medium text-gray-700">Origin Weight of Load<span class="text-red-600"
+            *ngIf="this.createFormTruckCommercial.get('originWeightLoad1').hasError('required')">*</span></label>
+        <input
+          class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+          formControlName="originWeightLoad1" placeholder="Origin Weight of Load">
+      </div>
+
+      <!-- Origin Docs Start-->
+      <label class="block text-sm font-medium text-gray-700">Origin Documents</label>
+
+      <div class="mt-4 mb-4">
+        <ion-row class="h-20 flex content-center p-4">
+          <ion-col size="4">
+            <ion-img src="https://docs-demo.ionic.io/assets/madison.jpg"></ion-img>
+          </ion-col>
+          <ion-col size="4">
+            <ion-img src="https://docs-demo.ionic.io/assets/madison.jpg"></ion-img>
+          </ion-col>
+          <ion-col size="4">
+            <ion-img src="https://docs-demo.ionic.io/assets/madison.jpg"></ion-img>
+          </ion-col>
+        </ion-row>
+      </div>
+      <!-- Origin Docs End-->
+
+      <div class="col-span-12 mb-4">
+        <label class="block text-sm font-medium text-gray-700">Destination Ending Odometer Reading<span
+            class="text-red-600"
+            *ngIf="this.createFormTruckCommercial.get('destinationEndingnOdometerReading').hasError('required')">*</span></label>
+        <input
+          class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+          formControlName="destinationEndingnOdometerReading" placeholder="Destination Ending Odometer Reading">
+      </div>
+
+      <div class="col-span-12 mb-4">
+        <label class="block text-sm font-medium text-gray-700">Destination Loaded Weight<span class="text-red-600"
+            *ngIf="this.createFormTruckCommercial.get('destinationLoadedWeight').hasError('required')">*</span></label>
+        <input
+          class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+          formControlName="destinationLoadedWeight" placeholder="Destination Loaded Weight">
+
+      </div>
+
+      <div class="col-span-12 mb-4">
+        <label class="block text-sm font-medium text-gray-700">Destination Empty Weight<span class="text-red-600"
+            *ngIf="this.createFormTruckCommercial.get('destinationEmptyWeight').hasError('required')">*</span></label>
+        <input
+          class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+          formControlName="destinationEmptyWeight" placeholder="Destination Empty Weight">
+
+      </div>
+
+      <div class="col-span-12 mb-4">
+        <label class="block text-sm font-medium text-gray-700">Origin Weight of Load<span class="text-red-600"
+            *ngIf="this.createFormTruckCommercial.get('originWeightLoad2').hasError('required')">*</span></label>
+        <input
+          class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+          formControlName="originWeightLoad2" placeholder="Origin Weight of Load">
+
+      </div>
+
+      <div class="col-span-12 mb-4">
+        <label class="block text-sm font-medium text-gray-700">Weight of Load<span class="text-red-600"
+            *ngIf="this.createFormTruckCommercial.get('weightLoad').hasError('required')">*</span></label>
+        <input
+          class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+          formControlName="weightLoad" placeholder="Weight of Load">
+      </div>
+
+      <div class="col-span-12 mb-4">
+        <label class="block text-sm font-medium text-gray-700">Scale Ticket #/BOL #<span class="text-red-600"
+            *ngIf="this.createFormTruckCommercial.get('scaleTicket').hasError('required')">*</span></label>
+        <input
+          class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+          formControlName="scaleTicket" placeholder="Scale Ticket #/BOL #">
+      </div>
+
+      <div class="col-span-12 mb-4">
+        <label class="block text-sm font-medium text-gray-700">Destination (Delivery Load)<span class="text-red-600"
+            *ngIf="this.createFormTruckCommercial.get('destinationDeliveryLoad').hasError('required')">*</span></label>
+        <input
+          class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+          formControlName="destinationDeliveryLoad" placeholder="Destination (Delivery Load)">
+
+      </div>
+
+      <!-- Origin Docs Start-->
+      <label class="block text-sm font-medium text-gray-700">Origin Documents</label>
+
+      <div class="mt-4 mb-4">
+        <ion-row class="h-20 flex content-center p-4">
+          <ion-col size="4">
+            <ion-img src="https://docs-demo.ionic.io/assets/madison.jpg"></ion-img>
+          </ion-col>
+          <ion-col size="4">
+            <ion-img src="https://docs-demo.ionic.io/assets/madison.jpg"></ion-img>
+          </ion-col>
+          <ion-col size="4">
+            <ion-img src="https://docs-demo.ionic.io/assets/madison.jpg"></ion-img>
+          </ion-col>
+        </ion-row>
+      </div>
+      <!-- Origin Docs End-->
+
+      <div class="col-span-12 mb-4">
+        <label class="block text-sm font-medium text-gray-700">Total Trip Miles</label>
+        <input
+          class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+          readonly placeholder="12345">
+      </div>
+
+      <div class="col-span-12 mb-4">
+        <label class="block text-sm font-medium text-gray-700">Dead Head Miles</label>
+        <input
+          class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+          readonly placeholder="12345">
+      </div>
+
+      <div class="col-span-12 mb-4">
+        <label class="block text-sm font-medium text-gray-700">Total Job Miles</label>
+        <input
+          class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+          readonly placeholder="12345">
+      </div>
+
+      <div class="col-span-12 mb-4">
+        <label class="block text-sm font-medium text-gray-700">Driver Notes<span class="text-red-600"
+            *ngIf="this.createFormTruckCommercial.get('driverNotes').hasError('required')">*</span></label>
+        <input
+          class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+          formControlName="driverNotes" placeholder="Driver Notes">
+      </div>
+
+      <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="submit()"
+        [disabled]="this.createFormTruckCommercial.invalid">Save
+        and
+        Submit
+      </ion-button>
+    </ion-list>
+  </form>
+
 </ion-content>

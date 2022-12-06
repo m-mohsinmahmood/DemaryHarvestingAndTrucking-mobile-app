@@ -107,74 +107,82 @@
 
   <!-------- Role Truck Driver-->
 
-  <form [formGroup]="verifyFormInHouseTruck" *ngIf="role === 'truck-driver'">
+  <form class="p-4" [formGroup]="verifyFormInHouseTruck" *ngIf="role === 'truck-driver'">
     <ion-list>
-      <ion-item>
-        <ion-label position="floating"> Ticket #</ion-label>
-        <ion-input formControlName="ticketNo" placeholder="State"></ion-input>
-      </ion-item>
-      <ion-text *ngIf="this.verifyFormInHouseTruck.get('ticketNo').hasError('required')"
-        class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Ticket No. required</ion-text>
+      <div class="col-span-12 mb-4">
+        <label class="block text-sm font-medium text-gray-700"> Ticket # <span class="text-red-600"
+            *ngIf="this.verifyFormInHouseTruck.get('ticketNo').hasError('required')">*</span></label>
+        <input
+          class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+          formControlName="ticketNo" placeholder="State">
+      </div>
 
-      <ion-item>
-        <ion-label position="floating">Truck#</ion-label>
-        <ion-input formControlName="truckNo" placeholder="Truck#"></ion-input>
-      </ion-item>
-      <ion-text *ngIf="this.verifyFormInHouseTruck.get('truckNo').hasError('required')"
-        class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Truck No. required</ion-text>
+      <div class="col-span-12 mb-4">
+        <label class="block text-sm font-medium text-gray-700">Truck# <span class="text-red-600"
+            *ngIf="this.verifyFormInHouseTruck.get('truckNo').hasError('required')">*</span></label>
+        <input
+          class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+          formControlName="truckNo" placeholder="Truck#">
+      </div>
+      <div class="col-span-12 mb-4">
+        <label class="block text-sm font-medium text-gray-700">Home Base (Beginning) Odometer Reading <span
+            class="text-red-600"
+            *ngIf="this.verifyFormInHouseTruck.get('homeBeginingOdometerReading').hasError('required')">*</span></label>
+        <input
+          class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+          formControlName="homeBeginingOdometerReading" placeholder="Home Base (Beginning) Odometer Reading">
 
-      <ion-item>
-        <ion-label position="floating">Home Base (Beginning) Odometer Reading</ion-label>
-        <ion-input formControlName="homeBeginingOdometerReading" placeholder="Home Base (Beginning) Odometer Reading">
-        </ion-input>
-      </ion-item>
-      <ion-text *ngIf="this.verifyFormInHouseTruck.get('homeBeginingOdometerReading').hasError('required')"
-        class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Home base (begining) odometer reading required
-      </ion-text>
+      </div>
 
-      <ion-item>
-        <ion-label position="floating">Origin (Begining) Odometer Reading</ion-label>
-        <ion-input formControlName="originBeginingOdometerReading" placeholder="Origin (Begining) Odometer Reading">
-        </ion-input>
-      </ion-item>
-      <ion-text *ngIf="this.verifyFormInHouseTruck.get('originBeginingOdometerReading').hasError('required')"
-        class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Origin (begining) odometer reading required
-      </ion-text>
+      <div class="col-span-12 mb-4">
+        <label class="block text-sm font-medium text-gray-700">Origin (Begining) Odometer Reading <span
+            class="text-red-600"
+            *ngIf="this.verifyFormInHouseTruck.get('originBeginingOdometerReading').hasError('required')">*</span></label>
+        <input
+          class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+          formControlName="originBeginingOdometerReading" placeholder="Origin (Begining) Odometer Reading">
 
-      <ion-item>
-        <ion-label position="floating">Destination (Ending) Odometer Reading</ion-label>
-        <ion-input formControlName="destinationEndingOdometerReading"
-          placeholder="Destination (Ending) Odometer Reading"></ion-input>
-      </ion-item>
-      <ion-text *ngIf="this.verifyFormInHouseTruck.get('destinationEndingOdometerReading').hasError('required')"
-        class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Destination (ending) odometer reading required
-      </ion-text>
+      </div>
+      <div class="col-span-12 mb-4">
+        <label class="block text-sm font-medium text-gray-700">Destination (Ending) Odometer Reading <span
+            class="text-red-600"
+            *ngIf="this.verifyFormInHouseTruck.get('destinationEndingOdometerReading').hasError('required')">*</span></label>
+        <input
+          class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+          formControlName="destinationEndingOdometerReading" placeholder="Destination (Ending) Odometer Reading">
+      </div>
 
-      <ion-item>
-        <ion-label position="floating">Total trip Miles</ion-label>
-        <ion-input formControlName="totalTripMiles" placeholder="Total trip Miles"></ion-input>
-      </ion-item>
-      <ion-text *ngIf="this.verifyFormInHouseTruck.get('totalTripMiles').hasError('required')"
-        class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Total trip miles required</ion-text>
+      <div class="col-span-12 mb-4">
+        <label class="block text-sm font-medium text-gray-700">Total trip Miles <span class="text-red-600"
+            *ngIf="this.verifyFormInHouseTruck.get('totalTripMiles').hasError('required')">*</span></label>
+        <input
+          class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+          formControlName="totalTripMiles" placeholder="Total trip Miles">
+      </div>
 
-      <ion-item>
-        <ion-label position="floating">Dead Head Miles</ion-label>
-        <ion-input formControlName="deadHeadMiles" placeholder="Dead Head Miles"></ion-input>
-      </ion-item>
-      <ion-text *ngIf="this.verifyFormInHouseTruck.get('deadHeadMiles').hasError('required')"
-        class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">Dead head miles required</ion-text>
+      <div class="col-span-12 mb-4">
+        <label class="block text-sm font-medium text-gray-700">Dead Head Miles <span class="text-red-600"
+            *ngIf="this.verifyFormInHouseTruck.get('deadHeadMiles').hasError('required')">*</span></label>
+        <input
+          class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+          formControlName="deadHeadMiles" placeholder="Dead Head Miles">
+      </div>
 
-      <ion-item>
-        <ion-label position="floating">Total Job Miles</ion-label>
-        <ion-input formControlName="totalJobMiles" placeholder="total Job Miles"></ion-input>
-      </ion-item>
-      <ion-text *ngIf="this.verifyFormInHouseTruck.get('totalJobMiles').hasError('required')"
-        class="text-xs font-semibold font-Lato text-red-500 ml-5 mt-1">total job miles required</ion-text>
+      <div class="col-span-12 mb-4">
+        <label class="block text-sm font-medium text-gray-700">Total Job Miles <span class="text-red-600"
+            *ngIf="this.verifyFormInHouseTruck.get('totalJobMiles').hasError('required')">*</span></label>
+        <input
+          class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+          formControlName="totalJobMiles" placeholder="total Job Miles">
+      </div>
 
-      <ion-item>
-        <ion-label position="floating">Driver Notes (Optional)</ion-label>
-        <ion-input formControlName="notes" placeholder="Notes"></ion-input>
-      </ion-item>
+      <div class="col-span-12 mb-4">
+        <label class="block text-sm font-medium text-gray-700">Driver Notes (Optional) <span class="text-red-600"
+            *ngIf="this.verifyFormInHouseTruck.get('notes').hasError('required')">*</span></label>
+        <input
+          class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+          formControlName="notes" placeholder="Notes">
+      </div>
 
       <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="navigateTruck()"
         [disabled]="this.verifyFormInHouseTruck.invalid">Generate Ticket

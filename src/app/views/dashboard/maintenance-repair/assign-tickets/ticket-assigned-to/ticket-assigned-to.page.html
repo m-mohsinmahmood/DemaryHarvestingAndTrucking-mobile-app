@@ -15,101 +15,89 @@
         </div>
 
         <div class="col-span-12 mb-4">
-          <label class="block text-sm font-medium text-gray-700">Employee (Issue Reported)</label>
+          <label class="block text-sm font-medium text-gray-700">Employee (Issue Reported)<span class="text-red-600"
+              *ngIf="this.assignTicket.get('empId').hasError('required')">*</span></label>
           <input class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500
             focus:outline-none focus:ring-indigo-500 sm:text-sm" formControlName="empId" placeholder="Employee Name">
-          <ion-text *ngIf="this.assignTicket.get('empId').hasError('required')" class="mt-2 text-sm text-red-600">
-            Employee is required</ion-text>
         </div>
 
         <div class="col-span-12 mb-4">
-          <label class="ml-5" class="block text-sm font-medium text-gray-700">Assigned by Mechanic/Supervisor</label>
+          <label class="ml-5" class="block text-sm font-medium text-gray-700">Assigned by Mechanic/Supervisor<span
+              class="text-red-600" *ngIf="this.assignTicket.get('assignedById').hasError('required')">*</span></label>
           <ion-select class="mt-1 w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm
             focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" formControlName="assignedById"
             placeholder="Assigned by">
             <ion-select-option value="1">Mike Kennedy</ion-select-option>
             <ion-select-option value="2">Bile Handy</ion-select-option>
           </ion-select>
-          <ion-text *ngIf="this.assignTicket.get('assignedById').hasError('required')"
-            class="mt-2 text-sm text-red-600">Assigned By is required</ion-text>
         </div>
 
         <div class="col-span-12 mb-4">
-          <label class="block text-sm font-medium text-gray-700">Assigned to Mechanic/Employee</label>
+          <label class="block text-sm font-medium text-gray-700">Assigned to Mechanic/Employee<span class="text-red-600"
+              *ngIf="this.assignTicket.get('assignedToId').hasError('required')">*</span></label>
           <input class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500
             focus:outline-none focus:ring-indigo-500 sm:text-sm" formControlName="assignedToId"
             placeholder="Enter Employee Name">
-          <ion-text *ngIf="this.assignTicket.get('assignedToId').hasError('required')"
-            class="mt-2 text-sm text-red-600">Assigned To is required</ion-text>
         </div>
 
         <div class="col-span-12 mb-4">
-          <label class="block text-sm font-medium text-gray-700">Equipment ID</label>
+          <label class="block text-sm font-medium text-gray-700">Equipment ID<span class="text-red-600"
+              *ngIf="this.assignTicket.get('equipID').hasError('required')">*</span></label>
           <input class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500
             focus:outline-none focus:ring-indigo-500 sm:text-sm" formControlName="equipID" placeholder="Equipment ID">
-          <ion-text *ngIf="this.assignTicket.get('equipID').hasError('required')" class="mt-2 text-sm text-red-600">
-            Equipment ID is required</ion-text>
         </div>
 
         <div class="col-span-12 mb-4">
-          <label class="block text-sm font-medium text-gray-700">City</label>
+          <label class="block text-sm font-medium text-gray-700">City<span class="text-red-600"
+              *ngIf="this.assignTicket.get('city').hasError('required')">*</span></label>
           <input class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500
             focus:outline-none focus:ring-indigo-500 sm:text-sm" formControlName="city" placeholder="City">
-          <ion-text *ngIf="this.assignTicket.get('city').hasError('required')" class="mt-2 text-sm text-red-600">City is
-            required</ion-text>
         </div>
 
         <div class="col-span-12 mb-4">
-          <label class="block text-sm font-medium text-gray-700">State</label>
+          <label class="block text-sm font-medium text-gray-700">State<span class="text-red-600"
+              *ngIf="this.assignTicket.get('state').hasError('required')">*</span></label>
           <input class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500
             focus:outline-none focus:ring-indigo-500 sm:text-sm" formControlName="state" placeholder="State">
-          <ion-text *ngIf="this.assignTicket.get('state').hasError('required')" class="mt-2 text-sm text-red-600">State is
-            required</ion-text>
         </div>
 
         <div class="col-span-12 mb-4">
-          <label class="block text-sm font-medium text-gray-700">Category</label>
+          <label class="block text-sm font-medium text-gray-700">Category<span class="text-red-600"
+              *ngIf="this.assignTicket.get('categoryId').hasError('required')">*</span></label>
           <input class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500
             focus:outline-none focus:ring-indigo-500 sm:text-sm" formControlName="categoryId"
             placeholder="Enter Category">
-          <ion-text *ngIf="this.assignTicket.get('categoryId').hasError('required')" class="mt-2 text-sm text-red-600">
-            Category is required</ion-text>
         </div>
 
         <div class="col-span-12 mb-4">
-          <label class="block text-sm font-medium text-gray-700">Severity</label>
+          <label class="block text-sm font-medium text-gray-700">Severity<span class="text-red-600"
+              *ngIf="this.assignTicket.get('severityId').hasError('required')">*</span></label>
           <input class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500
             focus:outline-none focus:ring-indigo-500 sm:text-sm" formControlName="severityId" placeholder="Severity">
-          <ion-text *ngIf="this.assignTicket.get('severityId').hasError('required')" class="mt-2 text-sm text-red-600">
-            Severity is required</ion-text>
         </div>
 
         <div class="col-span-12 mb-4">
-          <label class="block text-sm font-medium text-gray-700">Status</label>
+          <label class="block text-sm font-medium text-gray-700">Status<span class="text-red-600"
+              *ngIf="this.assignTicket.get('status').hasError('required')">*</span></label>
           <input class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500
             focus:outline-none focus:ring-indigo-500 sm:text-sm" formControlName="status" placeholder="Severity">
-          <ion-text *ngIf="this.assignTicket.get('status').hasError('required')" class="mt-2 text-sm text-red-600">
-            Status is required</ion-text>
         </div>
 
         <div class="col-span-12 mb-4">
-          <label class="block text-sm font-medium text-gray-700">Detailed Description of Issue</label>
+          <label class="block text-sm font-medium text-gray-700">Detailed Description of Issue<span class="text-red-600"
+              *ngIf="this.assignTicket.get('description').hasError('required')">*</span></label>
           <textarea
             class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
             formControlName="description" placeholder="Type something here">
           </textarea>
-          <ion-text *ngIf="this.assignTicket.get('description').hasError('required')" class="mt-2 text-sm text-red-600">
-            Description is required
-          </ion-text>
         </div>
 
         <div class="col-span-12 mb-4">
-          <label class="block text-sm font-medium text-gray-700">Repair Summary</label>
+          <label class="block text-sm font-medium text-gray-700">Repair Summary<span class="text-red-600"
+              *ngIf="this.assignTicket.get('summary').hasError('required')">*</span></label>
           <textarea
             class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
             formControlName="summary" placeholder="Enter Repair Summary"></textarea>
-          <ion-text *ngIf="this.assignTicket.get('summary').hasError('required')" class="mt-2 text-sm text-red-600">
-            Summary is required</ion-text>
         </div>
       </ion-list>
 

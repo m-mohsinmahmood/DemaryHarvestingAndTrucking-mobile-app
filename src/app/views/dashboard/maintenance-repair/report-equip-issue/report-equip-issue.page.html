@@ -8,42 +8,38 @@
       <ion-list>
 
         <div class="col-span-12 mb-4">
-          <label class="block text-sm font-medium text-gray-700">Employee Name</label>
+          <label class="block text-sm font-medium text-gray-700">Employee Name<span class="text-red-600"
+              *ngIf="this.reportNewEquipIssue.get('empId').hasError('required')">*</span></label>
           <input
             class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
             formControlName="empId" placeholder="Employee Name">
-          <ion-text *ngIf="this.reportNewEquipIssue.get('empId').hasError('required')"
-            class="mt-2 text-sm text-red-600">Employee Name is required</ion-text>
         </div>
 
         <div class="col-span-12 mb-4">
-          <label class="block text-sm font-medium text-gray-700">City</label>
+          <label class="block text-sm font-medium text-gray-700">City<span class="text-red-600"
+              *ngIf="this.reportNewEquipIssue.get('city').hasError('required')">*</span></label>
           <input
             class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
             formControlName="city" placeholder="City">
-          <ion-text *ngIf="this.reportNewEquipIssue.get('city').hasError('required')" class="mt-2 text-sm text-red-600">
-            City is required</ion-text>
         </div>
 
         <div class="col-span-12 mb-4">
-          <label class="block text-sm font-medium text-gray-700">State</label>
+          <label class="block text-sm font-medium text-gray-700">State<span class="text-red-600"
+              *ngIf="this.reportNewEquipIssue.get('state').hasError('required')">*</span></label>
           <input
             class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
             formControlName="state" placeholder="State">
-          <ion-text *ngIf="this.reportNewEquipIssue.get('state').hasError('required')"
-            class="mt-2 text-sm text-red-600">State is required</ion-text>
         </div>
 
         <div class="col-span-12 mb-4">
-          <label class="block text-sm font-medium text-gray-700">Maintenance or Repair</label>
+          <label class="block text-sm font-medium text-gray-700">Maintenance or Repair<span class="text-red-600"
+              *ngIf="this.reportNewEquipIssue.get('categoryTaskId').hasError('required')">*</span></label>
           <ion-select
             class="mt-1 w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
             formControlName="categoryTaskId" placeholder="Select Category">
             <ion-select-option value="1">Maintenance</ion-select-option>
             <ion-select-option value="2">Repair</ion-select-option>
           </ion-select>
-          <ion-text *ngIf="this.reportNewEquipIssue.get('categoryTaskId').hasError('required')"
-            class="mt-2 text-sm text-red-600">Category is required</ion-text>
         </div>
 
         <div class="col-span-12 mb-4">
@@ -54,46 +50,42 @@
         </div>
 
         <div class="col-span-12 mb-4">
-          <label class="ml-5" class="block text-sm font-medium text-gray-700">Category</label>
+          <label class="ml-5" class="block text-sm font-medium text-gray-700">Category<span class="text-red-600"
+              *ngIf="this.reportNewEquipIssue.get('categoryDepartmentId').hasError('required')">*</span></label>
           <ion-select
             class="mt-1 w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
             formControlName="categoryDepartmentId" placeholder="Select Category">
             <ion-select-option value="1">Electrical</ion-select-option>
             <ion-select-option value="2">Mechanical</ion-select-option>
           </ion-select>
-          <ion-text *ngIf="this.reportNewEquipIssue.get('categoryDepartmentId').hasError('required')"
-            class="mt-2 text-sm text-red-600">Category is required</ion-text>
         </div>
 
         <div class="col-span-12 mb-4">
-          <label class="ml-5" class="block text-sm font-medium text-gray-700">Severity</label>
+          <label class="ml-5" class="block text-sm font-medium text-gray-700">Severity<span class="text-red-600"
+              *ngIf="this.reportNewEquipIssue.get('severityId').hasError('required')">*</span></label>
           <ion-select
             class="mt-1 w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
             formControlName="severityId" placeholder="Select Category">
             <ion-select-option value="1">Critical</ion-select-option>
           </ion-select>
-          <ion-text *ngIf="this.reportNewEquipIssue.get('severityId').hasError('required')"
-            class="mt-2 text-sm text-red-600">Severity is required</ion-text>
         </div>
 
         <div class="col-span-12 mb-4">
-          <label class="ml-5" class="block text-sm font-medium text-gray-700">Status</label>
+          <label class="ml-5" class="block text-sm font-medium text-gray-700">Status<span class="text-red-600"
+              *ngIf="this.reportNewEquipIssue.get('repairCategoryId').hasError('required')">*</span></label>
           <ion-select
             class="mt-1 w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
             formControlName="repairCategoryId" placeholder="Select Category">
             <ion-select-option value="1">Repair Reported</ion-select-option>
           </ion-select>
-          <ion-text *ngIf="this.reportNewEquipIssue.get('repairCategoryId').hasError('required')"
-            class="mt-2 text-sm text-red-600">Category is required</ion-text>
         </div>
 
         <div class="col-span-12 mb-4">
-          <label class="block text-sm font-medium text-gray-700">Detail Description of Issue</label>
+          <label class="block text-sm font-medium text-gray-700">Detail Description of Issue<span class="text-red-600"
+              *ngIf="this.reportNewEquipIssue.get('detailedDescription').hasError('required')">*</span></label>
           <textarea
             class="mt-1 w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
             formControlName="detailedDescription" placeholder="Type something here"></textarea>
-          <ion-text *ngIf="this.reportNewEquipIssue.get('detailedDescription').hasError('required')"
-            class="mt-2 text-sm text-red-600">Description is required</ion-text>
         </div>
       </ion-list>
 
