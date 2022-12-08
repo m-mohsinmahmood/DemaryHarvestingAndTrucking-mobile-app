@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable max-len */
 /* eslint-disable no-underscore-dangle */
 import { Component, ElementRef, HostListener, OnInit,Renderer2, ViewChild } from '@angular/core';
@@ -31,9 +32,11 @@ export class JobSetupPage implements OnInit {
   allFarmsClicked: Observable<any>;
   allCrops: Observable<any>;
   allCropsClicked: Observable<any>;
+
   customer_search$ = new Subject();
   farm_search$ = new Subject();
   crop_search$ = new Subject();
+
   search_location_text = '';
   selectedCity: any;
   placeholderText = 'Select Customer';
@@ -56,30 +59,18 @@ export class JobSetupPage implements OnInit {
     private renderer: Renderer2
   ) {
     this.renderer.listen('window', 'click',(e)=>{
-      // console.log('first',e.target);
-      // console.log('-',this.customerInput.nativeElement);
-      // this.allCustomers = of([]);
-      // this.allFarms = of([]);
+
       if(e.target !== this.customerInput.nativeElement){
         this.allCustomers = of([]);
-        // this.allFarms = of([]);
-        // this.customerUL.nativeElement.remove();
-        console.log('Customer');
+        this.isDisabled = this.jobSetupForm.controls['customerName'].value === ''? true : false;
       }
       if(e.target !== this.farmInput.nativeElement){
-        // this.farmUL.nativeElement.remove();
-                // this.allFarms = of([]);
-                this.allFarmsClicked = of([]);
-        console.log('Farm');
-
+        this.allFarmsClicked = of([]);
       }
       if(e.target !== this.cropInput.nativeElement){
-        // this.cropUL.nativeElement.remove();
         this.allCropsClicked = of([]);
-        console.log('Crop');
       }
     });
-
   }
 
   ngOnInit() {
@@ -101,12 +92,18 @@ export class JobSetupPage implements OnInit {
   initForms() {
 
     this.jobSetupForm = this.formBuilder.group({
-      state: ['', [Validators.required]],
+      state: [''],
       customerName: [''],
-      farmName: ['', []],
+      farmName: [''],
       // farm: ['',[Validators.required]],
-      crop: ['', [Validators.required]],
-      initailField: ['', [Validators.required]],
+      crop: [''],
+      initailField: [''],
+
+      // state: [''],
+      // customer_id: [''],
+      // farm_id: [''],
+      // crop_id: [''],
+      // initail_field: [''],
     });
 
     this.customerFiltersForm = this.formBuilder.group({
@@ -127,6 +124,9 @@ export class JobSetupPage implements OnInit {
   }
   //  #region Customer
   customerSearchSubscription() {
+    // clearing array to show only spiner
+    this.allCustomers = of([]);
+
     this.customer_search$
       .pipe(
         debounceTime(500),
@@ -151,9 +151,15 @@ export class JobSetupPage implements OnInit {
   }
 
   inputClickedCustomer() {
-    this.allCustomers = this.harvestingService.getCustomers();
-    // // clearing farm array
-    // this.allFarms = of([]);
+    let value =  this.jobSetupForm.controls['customerName'].value === ''? '' : this.jobSetupForm.controls['customerName'].value;
+    this.allCustomers = this.harvestingService.getCustomers(
+      1,
+      20,
+      '',
+      '',
+      value,
+      this.customerFiltersForm.value
+    );
 
     // subscribing to disable & enable farm, crop inputs
     this.allCustomers.subscribe((e)=>{
@@ -258,7 +264,6 @@ export class JobSetupPage implements OnInit {
         takeUntil(this._unsubscribeAll)
       )
       .subscribe((value: string) => {
-        console.log('first',this.customerID);
         this.allCropsClicked = this.harvestingService.getCustomerCrops(
           this.customerID,
           1,
@@ -267,6 +272,7 @@ export class JobSetupPage implements OnInit {
           '',
           value
         );
+
       });
   }
   inputClickedCrop() {

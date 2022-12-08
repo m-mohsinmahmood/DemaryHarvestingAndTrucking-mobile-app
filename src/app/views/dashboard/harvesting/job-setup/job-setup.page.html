@@ -40,15 +40,15 @@
                   <div class="flex justify-center items-center">
                     <ion-spinner *ngIf="allCustomers?.loading" name="crescent" mode="indeterminate" color="primary"></ion-spinner>
                   </div>
-                  <ul *ngIf="allCustomers?.value"
+                  <ul *ngIf="allCustomers?.value.customers"
                   #customerUL
-                   class="-mb-2 max-h-44 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800  bg-white absolute w-full" id="options"
+                   class="-mb-2 max-h-44 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800 bg-white drop-shadow-lg absolute w-full" id="options"
                    role="listbox">
                    <li  *ngFor="let customer of (allCustomers?.value.customers)"
                    (click)="listClickedCustomer(customer)"
-                     class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200 text-gray-500 hover:text-gray-700 hover:font-semibold"
+                     class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200"
                      role="option" tabindex="-1">
-                     <div class="flex items-center gap-x-4">
+                     <div class="flex items-center p-2">
                        {{customer.customer_name}}
                      </div>
                    </li>
@@ -91,16 +91,16 @@
             <div class="flex justify-center items-center">
               <ion-spinner *ngIf="allFarmsClicked?.loading" name="crescent" mode="indeterminate" color="primary"></ion-spinner>
             </div>
-            <ul *ngIf="allFarmsClicked?.value"
+            <ul *ngIf="allFarmsClicked?.value.customer_farms"
             #farmUL
-              class="-mb-2 max-h-44 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800  bg-white absolute w-full" id="options"
-              role="listbox">
+            class="-mb-2 max-h-44 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800 bg-white drop-shadow-lg absolute w-full" id="options"
+            role="listbox">
               <!-- (click)="select_location(t)" -->
               <li  *ngFor="let farm of (allFarmsClicked?.value.customer_farms)"
               (click)="listClickedFarm(farm)"
-                class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200 text-gray-500 hover:text-gray-700 hover:font-semibold"
-                role="option" tabindex="-1">
-                <div class="flex items-center gap-x-4">
+              class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200"
+              role="option" tabindex="-1">
+                <div class="flex items-center p-2">
                   {{farm.name}}
                 </div>
               </li>
@@ -142,16 +142,16 @@
               <div class="flex justify-center items-center">
                 <ion-spinner *ngIf="allCropsClicked?.loading" name="crescent" mode="indeterminate" color="primary"></ion-spinner>
               </div>
-            <ul *ngIf="allCropsClicked?.value"
+            <ul *ngIf="allCropsClicked?.value.customer_crops"
             #cropUL
-              class="-mb-2 max-h-44 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800  bg-white absolute w-full" id="options"
-              role="listbox">
+            class="-mb-2 max-h-44 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800 bg-white drop-shadow-lg absolute w-full" id="options"
+            role="listbox">
               <!-- (click)="select_location(t)" -->
               <li  *ngFor="let crop of (allCropsClicked?.value.customer_crops)"
               (click)="listClickedCrop(crop)"
-                class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200 text-gray-500 hover:text-gray-700 hover:font-semibold"
-                role="option" tabindex="-1">
-                <div class="flex items-center gap-x-4">
+              class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200"
+              role="option" tabindex="-1">
+                <div class="flex items-center p-2">
                   {{crop.crop_name}}
                 </div>
               </li>
@@ -179,7 +179,7 @@
             <ion-button expand="block"
             class="mt-5 font-Lato text-white w-full"
              (click)="submit()"
-             [disabled]=""
+             [disabled]="jobSetupForm.invalid"
              >Save</ion-button>
           </div>
 
