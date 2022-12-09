@@ -73,9 +73,6 @@ export class CreateTicketPage implements OnInit {
       scaleTicket: ['', [Validators.required]],
       destinationDeliveryLoad: ['', [Validators.required]],
       documentsUpload: ['', [Validators.required]],
-      totalTripMiles: ['', [Validators.required]],
-      deadHeadMiles: ['', [Validators.required]],
-      totalJobMiles: ['', [Validators.required]],
       driverNotes: ['', [Validators.required]],
     });
   }

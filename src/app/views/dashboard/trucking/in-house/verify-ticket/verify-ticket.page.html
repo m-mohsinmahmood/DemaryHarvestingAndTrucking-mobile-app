@@ -1,10 +1,10 @@
-<app-header [title]="'Verify Tickets'" [color]="'trucking'"></app-header>
+<app-header [title]="'Verify In-House Tickets'" [color]="'trucking'" *ngIf="role === 'dispatcher'"></app-header>
 
-<ion-content>
+<ion-content *ngIf="role === 'dispatcher'">
   <app-timer [value]="'12-12-2022'"></app-timer>
   <div class="p-2">
     <!--------- Role Crew Chief ------------->
-    <div class="segment-style" *ngIf="role === 'dispatcher'">
+    <div class="segment-style">
       <ion-segment [(ngModel)]="segment" scrollable>
         <ion-segment-button value="sent">
           <div class="flex justify-center items-center">
@@ -116,9 +116,15 @@
 
       </div>
     </div>
+  </div>
+</ion-content>
 
-    <!----------- Role Truck Driver --------->
-    <div class="segment-style" *ngIf="role === 'truck-driver'">
+<!----------- Role Truck Driver --------->
+<app-header [title]="'Existing Delivery Tickets'" [color]="'trucking'" *ngIf="role === 'truck-driver'"></app-header>
+<ion-content *ngIf="role === 'truck-driver'">
+  <app-timer [value]="'12-12-2022'"></app-timer>
+  <div class="p-2">
+    <div class="segment-style">
       <ion-segment [(ngModel)]="segmentTruckDriver" scrollable>
         <ion-segment-button value="existing">
           <div class="flex justify-center items-center">

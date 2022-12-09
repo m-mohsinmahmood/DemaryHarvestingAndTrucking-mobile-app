@@ -11,7 +11,6 @@ import { JobSetupPage } from './job-setup.page';
 import { HeaderModule } from 'src/app/components/header/header.module';
 import { TimerModule } from 'src/app/components/timer/timer.module';
 import { WithLoadingPipe } from './../../../../pipes/general-pipes/with-loading.pipe';
-
 @NgModule({
   imports: [
     CommonModule,
@@ -20,9 +19,8 @@ import { WithLoadingPipe } from './../../../../pipes/general-pipes/with-loading.
     JobSetupPageRoutingModule,
     HeaderModule,
     TimerModule,
-    ReactiveFormsModule,
-    // NgSelectModule,
+    ReactiveFormsModule
   ],
   declarations: [JobSetupPage, WithLoadingPipe],
 })
-export class JobSetupPageModule {}
+export class JobSetupPageModule { }
