@@ -31,7 +31,8 @@ onSelectEvaluation(e){
 }
 
 navigate(){
-  console.log('first',this.evaluationType);
+  console.log('Evaluation type',this.evaluationType);
+  console.log('Form Type',this.formtype);
   console.log(this.recordsFrom.value);
   if(this.evaluationType === 'summary'){
     console.log('first');

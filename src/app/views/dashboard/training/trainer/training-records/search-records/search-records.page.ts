@@ -16,6 +16,7 @@ export class SearchRecordsPage implements OnInit {
   ngOnInit() {
     this.formType = this.router.getCurrentNavigation().extras.state.formType;
     this.evaluationType = this.router.getCurrentNavigation().extras.state.evaluationType;
+    console.log('State',this.router.getCurrentNavigation().extras.state)
   }
   navigate(x: any){
     console.log('evaluation',x);

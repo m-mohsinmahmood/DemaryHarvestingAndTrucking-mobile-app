@@ -21,7 +21,7 @@
     <label class="block text-sm font-medium text-gray-700">Evaluaton Form</label>
     <ion-select
       class="mt-1 w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-      formControlName="evaluationSelect" placeholder="Evaluation Form" (ionChange)="onSelectEvaluation($event)">
+      formControlName="evaluationSelect" placeholder="Evaluation Form" (ionChange)="onSelect($event)">
       <ion-select-option value="pre-check">Pre-Trip Check</ion-select-option>
       <ion-select-option value="basic-skills">Basic Skills</ion-select-option>
       <ion-select-option value="road-skills">Road Test Skills</ion-select-option>
@@ -29,7 +29,7 @@
       </ion-select>
   </div>
 
-  <div class="col-span-12 mb-4" *ngIf="!(evaluationType === 'summary')">
+  <div class="col-span-12 mb-4" *ngIf="!(formtype === 'summary')">
     <label class="block text-sm font-medium text-gray-700">Type of Evaluaton Form</label>
     <ion-select
       class="mt-1 w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
