@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 /* eslint-disable no-underscore-dangle */
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Location } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { states } from 'src/JSON/state';
@@ -43,7 +43,7 @@ export class JobSetupPage implements OnInit {
     private location: Location,
     private formBuilder: FormBuilder,
     private harvestingService: HarvestingService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.initForms();
@@ -113,6 +113,7 @@ export class JobSetupPage implements OnInit {
     // clearing farm array
     this.allFarms = of([]);
   }
+
   listClickedCustomer(customer) {
     console.log('first')
     // clearing array
@@ -129,8 +130,8 @@ export class JobSetupPage implements OnInit {
     // passing name in select's input
     this.customer_name = customer.customer_name;
 
-    this.farm_name= '';
-    this.crop_name='';
+    this.farm_name = '';
+    this.crop_name = '';
 
     // calling the selected farm
     this.allFarms = this.harvestingService.getCustomerFarm(customer.id);
@@ -206,7 +207,7 @@ export class JobSetupPage implements OnInit {
         takeUntil(this._unsubscribeAll)
       )
       .subscribe((value: string) => {
-        console.log('first',value);
+        console.log('first', value);
         this.allCropsClicked = this.harvestingService.getCustomerCrops(
           this.customerID,
           1,
@@ -235,7 +236,7 @@ export class JobSetupPage implements OnInit {
       crop: crop.crop_name,
       initailField: this.jobSetupForm.get('initailField').value,
     });
-console.log(this.jobSetupForm.value)
+    console.log(this.jobSetupForm.value)
     // clearing array
     this.allCrops = of([]);
     this.allCropsClicked = of([]);

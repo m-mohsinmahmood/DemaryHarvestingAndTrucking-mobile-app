@@ -1,10 +1,10 @@
-<app-header [title]="'Verify Ticket'" [color]="'trucking'"></app-header>
+<app-header [title]="'Verify In-House Ticket'" [color]="'trucking'" *ngIf="role === 'dispatcher'"></app-header>
 
-<ion-content>
+<ion-content *ngIf="role === 'dispatcher'">
   <app-timer [value]="'12-12-2022'"></app-timer>
 
   <!------ Role Dispatcher-->
-  <ion-card *ngIf="role === 'dispatcher'">
+  <ion-card>
     <ion-card-header>
       <ion-card-title class="flex justify-center text-xl font-Lato">In House Delivery Ticket</ion-card-title>
     </ion-card-header>
@@ -104,18 +104,15 @@
 
     </ion-card-content>
   </ion-card>
+</ion-content>
 
-  <!-------- Role Truck Driver-->
+<!-------- Role Truck Driver-->
+<app-header [title]="'Existing Delivery Ticket'" [color]="'trucking'" *ngIf="role === 'truck-driver'"></app-header>
 
-  <form class="p-4" [formGroup]="verifyFormInHouseTruck" *ngIf="role === 'truck-driver'">
+<ion-content *ngIf="role === 'truck-driver'">
+  <app-timer [value]="'12-12-2022'"></app-timer>
+  <form class="p-4" [formGroup]="verifyFormInHouseTruck">
     <ion-list>
-      <div class="col-span-12 mb-4">
-        <label class="block text-sm font-medium text-gray-700"> Ticket # <span class="text-red-600"
-            *ngIf="this.verifyFormInHouseTruck.get('ticketNo').hasError('required')">*</span></label>
-        <input
-          class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-          formControlName="ticketNo" placeholder="State">
-      </div>
 
       <div class="col-span-12 mb-4">
         <label class="block text-sm font-medium text-gray-700">Truck# <span class="text-red-600"
@@ -124,6 +121,15 @@
           class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
           formControlName="truckNo" placeholder="Truck#">
       </div>
+
+      <div class="col-span-12 mb-4">
+        <label class="block text-sm font-medium text-gray-700"> DHT Delivery Ticket # <span class="text-red-600"
+            *ngIf="this.verifyFormInHouseTruck.get('ticketNo').hasError('required')">*</span></label>
+        <input
+          class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+          formControlName="ticketNo" placeholder="State">
+      </div>
+
       <div class="col-span-12 mb-4">
         <label class="block text-sm font-medium text-gray-700">Home Base (Beginning) Odometer Reading <span
             class="text-red-600"
@@ -131,7 +137,6 @@
         <input
           class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
           formControlName="homeBeginingOdometerReading" placeholder="Home Base (Beginning) Odometer Reading">
-
       </div>
 
       <div class="col-span-12 mb-4">
@@ -141,8 +146,8 @@
         <input
           class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
           formControlName="originBeginingOdometerReading" placeholder="Origin (Begining) Odometer Reading">
-
       </div>
+
       <div class="col-span-12 mb-4">
         <label class="block text-sm font-medium text-gray-700">Destination (Ending) Odometer Reading <span
             class="text-red-600"

@@ -34,6 +34,7 @@ export class CreateTicketPage implements OnInit {
       destinationCity: ['', [Validators.required]],
       destinationState: ['', [Validators.required]],
       dispatcherNotes: [''],
+      customerId: ['', [Validators.required]],
     });
     this.createTicketFormTruckDriverInHouse = this.formBuilder.group({
       ticketNo: ['', [Validators.required]],
@@ -46,11 +47,10 @@ export class CreateTicketPage implements OnInit {
       destinationState: ['', [Validators.required]],
       truckNo: ['', [Validators.required]],
       homeBeginingOdometerReading: ['', [Validators.required]],
+      originBeginingOdometerReading: ['', [Validators.required]],
       destinationEndingnOdometerReading: ['', [Validators.required]],
-      tripMiles: ['', [Validators.required]],
-      deadHeadMiles: ['', [Validators.required]],
-      totalJobMiles: ['', [Validators.required]],
-      driverNotes: ['']
+      driverNotes: [''],
+      customerId: ['', [Validators.required]],
     });
   }
   navigateTo(navURL: string) {
