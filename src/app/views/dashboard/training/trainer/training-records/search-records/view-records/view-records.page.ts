@@ -8,7 +8,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./view-records.page.scss'],
 })
 export class ViewRecordsPage implements OnInit {
-  evaluationtype: any;
+  formType: any;
   preCheckForm: FormGroup;
   roadskillsForm: FormGroup;
 
@@ -18,8 +18,8 @@ export class ViewRecordsPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log(this.router.getCurrentNavigation().extras.state.evaluationType);
-    this.evaluationtype = this.router.getCurrentNavigation().extras.state.evaluationType;
+    console.log(this.router.getCurrentNavigation().extras.state.formType);
+    this.formType = this.router.getCurrentNavigation().extras.state.formType;
 
    this.preCheckForm = this.fromBuilder.group({
     oilLevel: [false,[Validators.required]],

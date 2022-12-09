@@ -1,7 +1,7 @@
 <app-header [title]="'Training Records'" [color]="'training'"></app-header>
 
 <!-- CHECKBOXES BLOCK -->
-<ion-content *ngIf="evaluationtype === 'pre-check'">
+<ion-content *ngIf="formType === 'pre-check'">
   <app-timer [value]="'33:222:11'"></app-timer>
   <div class="mx-4">
     <div class="border-b-2 py-2 mt-2">
@@ -106,7 +106,7 @@
 </ion-content>
 
 <!-- SATISFACTORY & UNSATISFACTORY BLOCK FOR BASIC SKILLS -->
-<ion-content *ngIf="evaluationtype === 'basic-skills'">
+<ion-content *ngIf="formType === 'basic-skills'">
   <app-timer [value]="'33:222:11'"></app-timer>
   <div class="mx-4">
     <div class="border-b-2 py-2 mt-2">
@@ -170,10 +170,10 @@
 </ion-content>
 
 <!-- SATISFACTORY & UNSATISFACTORY BLOCK FOR ROAD SKILLS-->
-<ion-content *ngIf="evaluationtype === 'road-skills'">
+<ion-content *ngIf="formType === 'road-skills'">
   <app-timer [value]="'33:222:11'"></app-timer>
   <div class="mx-4">
-    <div class="border-b-2 py-2 mt-2">
+    <div class="border-b-2 py-2 my-2">
       <ion-text class="font-Lato font-semibold">October 21st, 2020</ion-text>
     </div>
     <form [formGroup]="roadskillsForm">
@@ -282,7 +282,7 @@
 </ion-content>
 
 <!-- SATISFACTORY & UNSATISFACTORY BLOCK FOR SUMMARY -->
-<ion-content *ngIf="evaluationtype === 'summary'">
+<ion-content *ngIf="formType === 'summary'">
   <app-timer [value]="'33:222:11'"></app-timer>
   <div class="mx-4">
     <div class="border-b-2 py-2 mt-2">

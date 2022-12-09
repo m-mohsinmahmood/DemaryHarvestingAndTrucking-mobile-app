@@ -16,13 +16,13 @@ export class SearchRecordsPage implements OnInit {
   ngOnInit() {
     this.formType = this.router.getCurrentNavigation().extras.state.formType;
     this.evaluationType = this.router.getCurrentNavigation().extras.state.evaluationType;
-    console.log('State',this.router.getCurrentNavigation().extras.state)
+    console.log('State',this.router.getCurrentNavigation().extras.state);
   }
   navigate(x: any){
-    console.log('evaluation',x);
+    console.log('form Type:',x);
     this.router.navigateByUrl('/tabs/home/training/trainer/training-records/search-records/view-records',{
       state:{
-        evaluationType: x
+        formType: x
       }
     });
   }

@@ -8,7 +8,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
   styleUrls: ['./training-records.page.scss'],
 })
 export class TrainingRecordsPage implements OnInit {
-formtype;
+formType;
 evaluationType;
 recordsFrom: FormGroup;
   constructor(
@@ -24,7 +24,7 @@ recordsFrom: FormGroup;
     });
   }
   onSelect(e){
-this.formtype = e.target.value;
+this.formType = e.target.value;
 }
 onSelectEvaluation(e){
   this.evaluationType = e.target.value;
@@ -32,22 +32,20 @@ onSelectEvaluation(e){
 
 navigate(){
   console.log('Evaluation type',this.evaluationType);
-  console.log('Form Type',this.formtype);
+  console.log('Evaluation Form',this.formType);
   console.log(this.recordsFrom.value);
-  if(this.evaluationType === 'summary'){
-    console.log('first');
+  if(this.formType === 'summary'){
     this.router.navigateByUrl('/tabs/home/training/trainer/training-records/search-records/view-records',{
       state:{
-        evaluationType: this.evaluationType,
+        formType: this.formType,
       }
     });
   }
 else{
-  console.log('firsfft');
 
   this.router.navigateByUrl('/tabs/home/training/trainer/training-records/search-records',{
     state:{
-      formType: this.formtype,
+      formType: this.formType,
       evaluationType: this.evaluationType,
     }
   });
