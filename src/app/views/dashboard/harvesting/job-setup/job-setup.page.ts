@@ -134,6 +134,7 @@ export class JobSetupPage implements OnInit {
   }
   submit() {
     console.log(this.jobSetupForm.value);
+    // this.harvestingService.createJob(this.jobSetupForm.value);
   }
   //  #region Customer
   customerSearchSubscription() {

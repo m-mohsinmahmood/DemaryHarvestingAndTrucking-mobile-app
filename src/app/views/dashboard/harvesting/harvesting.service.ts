@@ -1,11 +1,10 @@
 /* eslint-disable no-underscore-dangle */
 import { Injectable } from '@angular/core';
-import {  BehaviorSubject, Observable } from 'rxjs';
-// import { ApplicantPagination, Applicant } from 'app/modules/admin/apps/applicants/applicants.types';
-// import { applicantNavigationLeft,applicantNavigationRight } from './applicantnavigation';
+import {  BehaviorSubject, Observable, throwError } from 'rxjs';
 import {  take, tap } from 'rxjs/operators';
+import { AlertService } from 'src/app/alert/alert.service';
 
-// import { map } from 'rxjs';
+
 import {
     HttpClient,
     HttpErrorResponse,
@@ -20,9 +19,40 @@ export class HarvestingService{
 
 
   constructor(
-    private _httpClient: HttpClient
+    private _httpClient: HttpClient,
+    private alertSerice: AlertService
   ){}
 
+ //#region Error Function
+ handleError(error: HttpErrorResponse) {
+  let errorMessage = 'Unknown error!';
+  if (error.error instanceof ErrorEvent) {
+      // Client-side errors
+      errorMessage = `Error: ${error.error.message}`;
+      this.alertSerice.showAlert({
+          type: 'error',
+          shake: false,
+          slideRight: true,
+          title: 'Error',
+          message: error.error.message,
+          time: 6000,
+      });
+  } else {
+      // Server-side errors
+      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+      this.alertSerice.showAlert({
+          type: 'error',
+          shake: false,
+          slideRight: true,
+          title: 'Error',
+          message: error.error.message,
+          time: 6000,
+      });
+  }
+  return throwError(errorMessage);
+}
+
+//#endregion
 
 getCustomers(
   page: number = 1,
@@ -53,6 +83,35 @@ getCustomers(
       //         console.log('error,',err);
       //     }
       // );
+}
+
+createJob(data: any) {
+  this._httpClient
+      .post(`api-1/customer-field`, data)
+      .pipe(take(1))
+      .subscribe(
+          (res: any) => {
+              // this.closeDialog.next(true);
+              // this.isLoadingCustomerField.next(false);
+              //show notification based on message returned from the api
+              this.alertSerice.showAlert({
+                  type: 'success',
+                  shake: false,
+                  slideRight: true,
+                  title: 'Success',
+                  message: res.message,
+                  time: 5000,
+              });
+          },
+          (err) => {
+              this.handleError(err);
+              // this.closeDialog.next(false);
+              // this.isLoadingCustomerField.next(false);
+          },
+          // () => {
+          //     this.getCustomerField(data.customer_id, 1, limit, sort, order, search, filters);
+          // }
+      );
 }
 
 getCustomerFarm(
