@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { PreCheckPage } from './pre-check.page';
+import { DriverSetupPage } from './driver-setup.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: PreCheckPage
+    component: DriverSetupPage
   }
 ];
 
@@ -14,4 +14,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class PreCheckPageRoutingModule {}
+export class DriverSetupPageRoutingModule {}

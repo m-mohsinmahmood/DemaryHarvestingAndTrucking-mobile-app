@@ -28,7 +28,9 @@ module.exports = {
         'e9e6e6': '#e9e6e6',
         'FFCD29': '#FFCD29',
         'd9d9d95c': '#d9d9d95c',
-        '46464E': '#46464E'
+        '46464E': '#46464E',
+        '5bbe62': '#5bbe62',
+        'f2f3f5':'#f2f3f5'
       },
       fontFamily: {
         'Lato': ['"Lato"']

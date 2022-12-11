@@ -41,16 +41,13 @@ const routes: Routes = [
     loadChildren: () => import('./verify-ticket/verify-ticket.module').then( m => m.VerifyTicketPageModule)
   },
   {
-    path: 'reassign-ticket',
-    loadChildren: () => import('./reassign-ticket/reassign-ticket.module').then( m => m.ReassignTicketPageModule)
-  },
-  {
-    path: 'pre-check',
-    loadChildren: () => import('./pre-check/pre-check.module').then( m => m.PreCheckPageModule)
-  },  {
     path: 'close-out',
     loadChildren: () => import('./close-out/close-out.module').then( m => m.CloseOutPageModule)
+  },  {
+    path: 'driver-setup',
+    loadChildren: () => import('./driver-setup/driver-setup.module').then( m => m.DriverSetupPageModule)
   }
+
 
 ];
 

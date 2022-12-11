@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { ReassignTicketPage } from './reassign-ticket.page';
+import { DriverSetupPage } from './driver-setup.page';
 
-describe('ReassignTicketPage', () => {
-  let component: ReassignTicketPage;
-  let fixture: ComponentFixture<ReassignTicketPage>;
+describe('DriverSetupPage', () => {
+  let component: DriverSetupPage;
+  let fixture: ComponentFixture<DriverSetupPage>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ ReassignTicketPage ],
+      declarations: [ DriverSetupPage ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ReassignTicketPage);
+    fixture = TestBed.createComponent(DriverSetupPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

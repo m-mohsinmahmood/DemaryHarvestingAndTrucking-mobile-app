@@ -101,9 +101,16 @@
 
 <!-- Kart Operator Tasks -->
 <ion-content *ngIf="role === 'kart-operator'">
-<p class="text-xl font-bold font-Lato mt-8 ml-7">Job Management</p>
+<p class="text-xl font-bold font-Lato mt-8 ml-7">Kart Operator Tasks</p>
   <ion-grid>
     <ion-row>
+      <ion-col size="12">
+        <ion-card class="card" [routerLink]="['driver-setup']">
+          <ion-card-content>
+             <p class="font-15px font-bold font-Lato">Truck Driver Set-up</p>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
       <ion-col size="12">
         <ion-card class="card" [routerLink]="['start-job']">
           <ion-card-content>
