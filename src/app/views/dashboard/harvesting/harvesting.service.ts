@@ -87,7 +87,7 @@ getCustomers(
 
 createJob(data: any) {
   this._httpClient
-      .post(`api-1/customer-field`, data)
+      .post(`api-1/customer-job-setup`, data)
       .pipe(take(1))
       .subscribe(
           (res: any) => {

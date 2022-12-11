@@ -34,20 +34,20 @@
                     <ion-spinner *ngIf="allCustomers?.loading" name="crescent" mode="indeterminate"
                       color="primary"></ion-spinner>
                   </div>
-                  <ul *ngIf="allCustomers?.value.customers" #customerUL
+                  <ul *ngIf="allCustomers?.value && customerUL"
                     class="-mb-2 max-h-44 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800 bg-white drop-shadow-lg absolute w-full"
                     id="options" role="listbox">
                     <li *ngFor="let customer of (allCustomers?.value.customers)" (click)="listClickedCustomer(customer)"
                       class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200" role="option"
-                      tabindex="-1">
+                      tabindex="-1" >
                       <div class="flex items-center p-2">
                         {{customer.customer_name}}
                       </div>
                     </li>
                   </ul>
-                  <div *ngIf="allCustomers?.value?.customers?.length === 0">
-                    <p class="cursor-pointer select-none rounded-md px-4 pt-3 hover:bg-gray-200 text-gray-500 hover:text-gray-700 hover:font-semibold"
-                      disabled role="option" tabindex="-1"> No Customer(s) found </p>
+                  <div *ngIf="allCustomers?.value?.customers?.length === 0" (onclick)="disableFields()">
+                    <div class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200 text-gray-500 hover:text-gray-700 hover:font-semibold"
+                      disabled  role="option" tabindex="-1"> No Customer(s) found </div>
                   </div>
                 </div>
               </div>
@@ -78,7 +78,7 @@
                   <ion-spinner *ngIf="allFarmsClicked?.loading" name="crescent" mode="indeterminate"
                     color="primary"></ion-spinner>
                 </div>
-                <ul *ngIf="allFarmsClicked?.value?.customer_farms" #farmUL
+                <ul *ngIf="allFarmsClicked?.value && farmUL"
                   class="-mb-2 max-h-44 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800 bg-white drop-shadow-lg absolute w-full"
                   id="options" role="listbox">
                   <!-- (click)="select_location(t)" -->
@@ -92,7 +92,7 @@
                 </ul>
                 <div *ngIf="allFarmsClicked?.value?.customer_farms?.length === 0">
                   <p disabled
-                    class="cursor-pointer select-none rounded-md px-4 pt-3 hover:bg-gray-200 text-gray-500 hover:text-gray-700 hover:font-semibold">
+                    class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200 text-gray-500 hover:text-gray-700 hover:font-semibold">
                     No Farm(s) found </p>
                 </div>
               </div>
@@ -124,7 +124,7 @@
                   <ion-spinner *ngIf="allCropsClicked?.loading" name="crescent" mode="indeterminate"
                     color="primary"></ion-spinner>
                 </div>
-                <ul *ngIf="allCropsClicked?.value?.customer_crops" #cropUL
+                <ul *ngIf="allCropsClicked?.value && cropUL"
                   class="-mb-2 max-h-44 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800 bg-white drop-shadow-lg absolute w-full"
                   id="options" role="listbox">
                   <!-- (click)="select_location(t)" -->
@@ -138,7 +138,7 @@
                 </ul>
                 <div *ngIf="allCropsClicked?.value?.customer_crops?.length === 0">
                   <p disabled
-                    class="cursor-pointer select-none rounded-md px-4 pt-3 hover:bg-gray-200 text-gray-500 hover:text-gray-700 hover:font-semibold">
+                    class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200 text-gray-500 hover:text-gray-700 hover:font-semibold">
                     No Crop(s) found </p>
                 </div>
               </div>
@@ -159,7 +159,7 @@
 
           <div class="fixed bottom-2 w-full p-5 -ml-5">
             <ion-button expand="block" class="mt-5 font-Lato text-white w-full" (click)="submit()"
-              [disabled]="">Save</ion-button>
+              [disabled]="jobSetupForm.invalid || isCustomerSelected || isFarmSelected || isCropSelected">Save</ion-button>
           </div>
 
           <!-- </div> -->
