@@ -47,7 +47,7 @@ role ==='truck-driver'? 'Submit End of Day Work Data' : ''"
 <ion-content *ngIf="role === 'combine-operator'">
   <app-timer [value]="'22:32:43'"></app-timer>
   <div class="p-4">
-    <ion-card class="m-0 mb-2">
+    <ion-card class="m-0 mb-4">
       <ion-card-header>
         <ion-card-title class="font-Lato">Customer Profile</ion-card-title>
       </ion-card-header>
@@ -73,7 +73,7 @@ role ==='truck-driver'? 'Submit End of Day Work Data' : ''"
               >Dakota
             </ion-col>
             <ion-col size="6" class="text-sm text-black font-Lato font-semibold"
-              >Crop</ion-col
+              >Current</ion-col
             >
             <ion-col size="6" class="text-sm flex justify-end font-Lato "
               >Corn</ion-col
@@ -143,7 +143,7 @@ role ==='truck-driver'? 'Submit End of Day Work Data' : ''"
             formControlName="endingOdometerMiles" placeholder="Enter Ending Odometer Miles">
         </div>
 
-        <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="submit()" [disabled]="closeJobFormTruck.invalid">Save and Close-out Job</ion-button
+        <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="submit()" [disabled]="closeJobFormTruck.invalid">Save</ion-button
         >
       </div>
     </form>

@@ -29,7 +29,30 @@ ion-checkbox::part(container) {
 }
 ion-progress-bar {
   --background: #F2F3F5;
-  --progress-background: #59C64F;
+  --progress-background: #3D8AA4;
   height: 7px;
   border-radius: 10px;
+}
+.close-out-button{
+  --background:none;
+    --color: #3D8AA4;
+    --border-radius: 10px;
+    --border-color: #3D8AA4;
+    --border-style: solid;
+    --border-width: 1px;
+    // margin-top: 20px;
+    // margin-left: 19px;
+}
+ion-segment {
+  --background: none;
+  ion-segment-button {
+    min-width: 10px;
+    color: #aaaaaa;
+    --border-color: none;
+    --indicator-color: none;
+    --indicator-box-shadow: 0;
+    ion-icon {
+      zoom: 1;
+    }
+  }
 }

@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-basic-skills',
@@ -24,46 +26,80 @@ export class BasicSkillsPage implements OnInit {
 
   increment = 0;
   increment1 = 0;
-  basicSkillFrom: FormGroup;
+  basicSkillForm: FormGroup;
+  upload_1 = false;
+  upload_2 = false;
+  upload_3 = false;
+ upload = false;
 
-  constructor(private fromBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder, private router: Router) { }
 
   ngOnInit() {
-    this.value = 'straight-line';
+    // this.value = 'straight-line';
+    this.value = '1';
 
-    this.basicSkillFrom = this.fromBuilder.group({
-      pullUps: ['',[Validators.required]],
-      encroach: ['',[Validators.required]],
-      goal: ['',[Validators.required]],
-      finalPosition: ['',[Validators.required]],
-      straightLineBaking: ['',[Validators.required]],
-      straightLineBakingInput: ['',[Validators.required]],
-      alleyDocking: ['',[Validators.required]],
-      alleyDockingInput: ['',[Validators.required]],
-      offSetBacking: ['',[Validators.required]],
-      offSetBackingInput: ['',[Validators.required]],
-      parallelParkingBlind: ['',[Validators.required]],
-      parallelParkingBlindInput: ['',[Validators.required]],
-      coupUncoup: ['',[Validators.required]],
-      coupUncoupInput: ['',[Validators.required]],
-
+    this.basicSkillForm = this.formBuilder.group({
+      formSelect: ['',[Validators.required]],
+      trainerName: ['',[Validators.required]],
+      traineeName: ['',[Validators.required]],
+      clp: [''], //<-
+      supervisorName: ['',[Validators.required]],
+      truckId: ['',[Validators.required]],
+      odometerStartingMiles: ['',[Validators.required]],
+      odometerEndingMiles: ['',[Validators.required]],
+      classroomSelect: ['',[Validators.required]],
+      groupPracticalSelect: ['',[Validators.required]],
+      city: ['',[Validators.required]],
+      state: ['',[Validators.required]],
+      uploadDocs1: ['',[Validators.required]],
+      uploadDocs2: ['',[Validators.required]],
+      uploadDocs3: ['',[Validators.required]],
     });
   };
-  navigate() {
-    console.log(this.basicSkillFrom.value);
-    this.increment1 = this.increment1 +1;
-    // console.log(this.increment1)
-    this.value = this.selectAray[this.increment1];
-    console.log(this.value);
+  // navigate() {
+  //   console.log(this.basicSkillForm.value);
+  //   this.increment1 = this.increment1 +1;
+  //   // console.log(this.increment1)
+  //   this.value = this.selectAray[this.increment1];
+  //   console.log(this.value);
 
-    // passing index to get progress
-    this.progress = this.indexArray[this.increment];
+  //   // passing index to get progress
+  //   this.progress = this.indexArray[this.increment];
 
-    this.increment = this.increment +1;
-    console.log(this.increment);
-    this.text = this.increment;
+  //   this.increment = this.increment +1;
+  //   console.log(this.increment);
+  //   this.text = this.increment;
+  // }
+  onSelectedFiles(file,name){
+    console.log('file:',file);
+
+    if(name === 'upload_1'){
+      this.upload_1 = !this.upload_1;
+    }
+    if(name === 'upload_2'){
+      this.upload_2 = !this.upload_2;
+    }if(name === 'upload_3'){
+      this.upload_3 = !this.upload_3;
+    }
+
+  }
+  uploadClick(){
+     this.upload = !this.upload;
+  }
+  onSelect(e){
+    console.log(e.target.value);
+    if(e.target.value === '1'){
+      this.value = e.target.value;
+    }else {
+      this.upload = false;
+      this.value = e.target.value;
+    }
   }
   submit(){
-    console.log(this.basicSkillFrom.value);
+    console.log(this.basicSkillForm.value);
+  }
+  continue(){
+    // console.log(this.preTrip.value);
+    this.router.navigateByUrl('/tabs/home/training/trainer/pre-trip/digital-form');
   }
 }
