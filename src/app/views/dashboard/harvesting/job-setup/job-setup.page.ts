@@ -133,7 +133,37 @@ export class JobSetupPage implements OnInit {
   }
   submit() {
     console.log(this.jobSetupForm.value);
-    // this.harvestingService.createJob(this.jobSetupForm.value);
+    this.harvestingService.createJob(this.jobSetupForm.value)
+     .subscribe(
+          (res: any) => {
+              console.log('Response:',res);
+              if(res.status === 200){
+                this.jobSetupForm.reset();
+                this.isDisabled = true;
+                this.customer_name ='';
+                this.farm_name ='';
+                this.crop_name = '';
+
+                console.log(res.message);
+              }else{
+                console.log('Something happened :)');
+              }
+              //show notification based on message returned from the api
+              // this.alertSerice.showAlert({
+              //     type: 'success',
+              //     shake: false,
+              //     slideRight: true,
+              //     title: 'Success',
+              //     message: res.message,
+              //     time: 5000,
+              // });
+          },
+          (err) => {
+            console.log('Error:',err);
+              // this.handleError(err);
+          },
+      );
+
   }
 
   //  #region Customer
@@ -188,8 +218,7 @@ export class JobSetupPage implements OnInit {
       .subscribe((v) => {
         this.customerSearchValue = v;
       });
-    console.log(this.customerSearchValue);
-    console.log(this.customer_name);
+
     const value =
       this.customerSearchValue === undefined
         ? this.customer_name

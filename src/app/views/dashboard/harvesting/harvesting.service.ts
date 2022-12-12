@@ -15,8 +15,11 @@ import {
   providedIn: 'root',
 })
 export class HarvestingService{
-  private jobs: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
-
+//   private jobs: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
+//   private customers: BehaviorSubject<any[] | null> =
+//   new BehaviorSubject(null);
+// readonly customers$: Observable<any[] | null> =
+//   this.customers.asObservable();
 
   constructor(
     private _httpClient: HttpClient,
@@ -86,32 +89,27 @@ getCustomers(
 }
 
 createJob(data: any) {
-  this._httpClient
-      .post(`api-1/customer-job-setup`, data)
-      .pipe(take(1))
-      .subscribe(
-          (res: any) => {
-              // this.closeDialog.next(true);
-              // this.isLoadingCustomerField.next(false);
-              //show notification based on message returned from the api
-              this.alertSerice.showAlert({
-                  type: 'success',
-                  shake: false,
-                  slideRight: true,
-                  title: 'Success',
-                  message: res.message,
-                  time: 5000,
-              });
-          },
-          (err) => {
-              this.handleError(err);
-              // this.closeDialog.next(false);
-              // this.isLoadingCustomerField.next(false);
-          },
-          // () => {
-          //     this.getCustomerField(data.customer_id, 1, limit, sort, order, search, filters);
-          // }
-      );
+ return this._httpClient
+      .post(`http://localhost:7071/api/customer-job-setup`, data)
+      .pipe(take(1));
+      // .subscribe(
+      //     (res: any) => {
+      //         console.log('Response:',res);
+      //         //show notification based on message returned from the api
+      //         this.alertSerice.showAlert({
+      //             type: 'success',
+      //             shake: false,
+      //             slideRight: true,
+      //             title: 'Success',
+      //             message: res.message,
+      //             time: 5000,
+      //         });
+      //     },
+      //     (err) => {
+      //       console.log('Error:',err);
+      //         this.handleError(err);
+      //     },
+      // );
 }
 
 getCustomerFarm(
