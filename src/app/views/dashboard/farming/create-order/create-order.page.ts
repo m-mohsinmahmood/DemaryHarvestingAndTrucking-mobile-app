@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { FarmingService } from './../farming.service';
 
 @Component({
   selector: 'app-create-order',
@@ -13,7 +14,7 @@ export class CreateOrderPage implements OnInit {
   createOrderDispatcher: FormGroup;
   createOrderTDriver: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private router: Router) { }
+  constructor(private formBuilder: FormBuilder, private router: Router, private farmingService: FarmingService) { }
 
   ngOnInit() {
     this.role = localStorage.getItem('role');
@@ -46,12 +47,18 @@ export class CreateOrderPage implements OnInit {
   navigateTo(nav: string) {
     if (this.role === 'dispatcher') {
       console.log(this.createOrderDispatcher.value);
+      this.createWorkOrder(this.createOrderDispatcher.value);
     }
     else {
       console.log(this.createOrderTDriver.value);
+      this.createWorkOrder(this.createOrderTDriver.value);
     }
 
     this.router.navigateByUrl(nav);
+  }
+
+  createWorkOrder(workOrder: any): void {
+    this.farmingService.createNewWorkOrder(workOrder);
   }
 
 }
