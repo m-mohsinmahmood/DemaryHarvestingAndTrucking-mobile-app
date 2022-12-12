@@ -25,7 +25,6 @@ closeJobFormTruck: FormGroup;
     this.closeJobFormCrew = this.formBuilder.group({
       separatorHours: ['',[Validators.required]],
       engineHours: ['',[Validators.required]],
-      acresGPSCompleted: ['',[Validators.required]],
     });
     this.closeJobFormCombine = this.formBuilder.group({
       endingSeparatorHours: ['',[Validators.required]],

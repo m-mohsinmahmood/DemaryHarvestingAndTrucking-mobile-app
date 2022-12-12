@@ -16,6 +16,7 @@ export class CloseOutPage implements OnInit {
 
   ngOnInit() {
     this.closeJobForm = this.formBuilder.group({
+      date: ['',[Validators.required]],
       totalAcres: ['',[Validators.required]],
       totalGPSAcres: ['',[Validators.required]],
     });

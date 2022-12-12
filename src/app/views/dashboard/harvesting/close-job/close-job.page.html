@@ -15,7 +15,7 @@ role ==='truck-driver'? 'Submit End of Day Work Data' : ''"
         <ion-list>
           <div class="px-2">
             <div class="col-span-12 mb-4">
-              <label class="block text-sm font-medium text-gray-700">Separator Hours(Ending) <span *ngIf="this.closeJobFormCrew.get('separatorHours').hasError('required')" class="text-red-400">*</span></label>
+              <label class="block text-sm font-medium text-gray-700">Separator Hours (Ending) <span *ngIf="this.closeJobFormCrew.get('separatorHours').hasError('required')" class="text-red-400">*</span></label>
               <input
                 class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                 formControlName="separatorHours" placeholder="Separator Hours(Ending)">
@@ -23,18 +23,13 @@ role ==='truck-driver'? 'Submit End of Day Work Data' : ''"
 
 
             <div class="col-span-12 mb-4">
-              <label class="block text-sm font-medium text-gray-700">Engine Hours(Ending) <span *ngIf="this.closeJobFormCrew.get('engineHours').hasError('required')" class="text-red-400">*</span></label>
+              <label class="block text-sm font-medium text-gray-700">Engine Hours (Ending) <span *ngIf="this.closeJobFormCrew.get('engineHours').hasError('required')" class="text-red-400">*</span></label>
               <input
                 class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                 formControlName="engineHours" placeholder="Engine Hours(Ending)">
             </div>
 
-            <div class="col-span-12 mb-4">
-              <label class="block text-sm font-medium text-gray-700">GPS Acres Completed <span *ngIf="this.closeJobFormCrew.get('acresGPSCompleted').hasError('required')" class="text-red-400">*</span></label>
-              <input
-                class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-                formControlName="acresGPSCompleted" placeholder="GPS Acres Completed">
-            </div>
+
 
             <ion-button expand="block" class="mt-5 font-Lato text-white"
             [disabled]="closeJobFormCrew.invalid"

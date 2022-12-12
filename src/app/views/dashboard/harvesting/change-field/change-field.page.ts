@@ -24,6 +24,7 @@ ngOnInit() {
   this.role = localStorage.getItem('role');
   this.changeFieldFormChief = this.formBuilder.group({
     fieldName: ['',[Validators.required]],
+    acres: ['',[Validators.required]],
     acresPriorField: ['',[Validators.required]],
   });
   this.changeFieldFormKart = this.formBuilder.group({
