@@ -2,7 +2,7 @@
 || role === 'tractor-driver'? 'Tractor Driver Tasks': ''" [color]="'farming'"></app-header>
 
 <!-- Role: Dispatcher-->
-<ion-content class="homeScreen"  *ngIf="role === 'dispatcher'">
+<ion-content class="homeScreen" *ngIf="role === 'dispatcher'">
   <ion-grid>
     <ion-row>
       <ion-col size="12">
@@ -22,7 +22,7 @@
         <ion-card class="card" [routerLink]="['verify-orders']">
           <ion-card-content>
             <div class="flex justify-center items-center">
-              <p class="font-15px font-bold font-Lato">Verify New Work Orders</p>
+              <p class="font-15px font-bold font-Lato">Verify Work Orders</p>
               <span
                 class="text-white font-semibold ml-2 bg-project-green w-8 h-6 rounded-full flex justify-center items-center">
                 8</span>
@@ -56,7 +56,7 @@
         <ion-card class="card" [routerLink]="['existing-order']">
           <ion-card-content>
             <div class="flex justify-center items-center">
-              <p class="font-15px font-bold font-Lato">Complete Existing Work Orders</p>
+              <p class="font-15px font-bold font-Lato">Complete Existing Work Order</p>
               <span
                 class="text-white font-semibold ml-2 bg-project-green w-8 h-6 rounded-full flex justify-center items-center">
                 8</span>
@@ -71,6 +71,16 @@
         <ion-card class="card" [routerLink]="['change-field']">
           <ion-card-content>
             <p class="font-bold font-Lato font-15px">Change Field</p>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col size="12">
+        <ion-card class="card" [routerLink]="['submit-end-day']">
+          <ion-card-content>
+            <p class="font-bold font-Lato font-15px">Submit End of Day Work Data</p>
           </ion-card-content>
         </ion-card>
       </ion-col>

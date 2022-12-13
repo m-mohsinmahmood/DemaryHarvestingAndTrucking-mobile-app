@@ -195,7 +195,7 @@ export class JobSetupPage implements OnInit {
 
         // subscribing to disable & enable farm, crop inputs
         this.allCustomers.subscribe((customers) => {
-          this.isDisabled = customers.count === 0 ? true : false;
+          // this.isDisabled = customers.count === 0 ? true : false;
           if (customers.count === 0) {
             this.isDisabled = true;
 
@@ -240,7 +240,7 @@ export class JobSetupPage implements OnInit {
 
     // subscribing to disable & enable farm, crop inputs
     this.allCustomers.subscribe((customers) => {
-      this.isDisabled = customers.count === 0 ? true : false;
+      // this.isDisabled = customers.count === 0 ? true : false;
       if (customers.count === 0) {
         this.isDisabled = true;
 

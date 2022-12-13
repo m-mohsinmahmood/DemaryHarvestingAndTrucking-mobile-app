@@ -40,6 +40,7 @@ export class CreateTicketPage implements OnInit {
       ticketNo: ['', [Validators.required]],
       supervisorName: ['', [Validators.required]],
       driverName: ['', [Validators.required]],
+      load: ['', [Validators.required]],
       loadDate: ['', [Validators.required]],
       cargo: ['', [Validators.required]],
       originCity: ['', [Validators.required]],

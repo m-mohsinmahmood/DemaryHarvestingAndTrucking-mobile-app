@@ -7,7 +7,7 @@ module.exports = {
         'primary-background': '#F5F5F5',
         'navbar-background': '#0E172A',
         'project-green': '#59C64F',
-        'greenBtn': '#5BBE62',
+        'greenBtn': '#3D8AA4',
         'taskbar': '#888B8D',
         'E64646': '#E64646',
         'e64646': '#e64646',
