@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-close-out',
@@ -8,7 +9,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 })
 export class CloseOutPage implements OnInit {
   closeJobForm: FormGroup;
-
+  // date: any = moment(new Date(),'MM/DD/YYYY');
   constructor(
     private formBuilder: FormBuilder,
 
@@ -24,4 +25,8 @@ export class CloseOutPage implements OnInit {
   submit(){
     console.log(this.closeJobForm.value);
   }
+  getDate(e){
+    // console.log('e',e.detail.value);
+    // this.date = moment(e.detail.value,'MM/DD/YYYY');
+      }
 }
