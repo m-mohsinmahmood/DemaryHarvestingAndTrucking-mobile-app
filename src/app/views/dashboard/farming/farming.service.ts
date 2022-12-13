@@ -1,4 +1,4 @@
-import { HttpClient, HttpErrorResponse } from "@angular/common/http";
+import { HttpClient, HttpErrorResponse, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { take } from "rxjs/operators";
 import { AlertService } from "src/app/alert/alert.service";
@@ -65,5 +65,41 @@ export class FarmingService {
                     this.handleError(err);
                 },
             );
+    }
+
+    getEmployees(
+        search: string ,
+        status: string = '',
+        role: string = '',
+        page: number = 1,
+        limit: number = 999999,
+        sort: string = '',
+        order: 'asc' | 'desc' | '' = '',
+        // filters: any = { type: '', status: '' }
+    ) {
+        this._httpClient
+        let params = new HttpParams();
+        params = params.set('search', search);
+        params = params.set('status', status);
+        params = params.set('role', role);
+        params = params.set('page', page);
+        params = params.set('limit', limit);
+        params = params.set('search', search);
+        params = params.set('sort', sort);
+        params = params.set('order', order);
+
+        return this._httpClient
+            .get<any>('http://localhost:7071/api/employee', {
+                params,
+            })
+            .pipe(take(1));
+        // .subscribe(
+        //     (res: any) => {
+        //        console.log('res',res);
+        //     },
+        //     (err) => {
+        //         console.log('error,',err);
+        //     }
+        // );
     }
 }

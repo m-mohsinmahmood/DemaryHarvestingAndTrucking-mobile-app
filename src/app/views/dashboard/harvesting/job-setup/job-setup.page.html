@@ -68,8 +68,8 @@
                 class="text-red-400">*</span></label>
               <div class="flex items-center justify-between gap-x-2 rounded-md">
                 <input (keyup)="farm_search$.next($event.target.value)" (click)="inputClickedFarm()" [value]="farm_name"
-                  #farmInput
-                  class="{{isDisabled? 'pointer-events-none bg-gray-200 w-full px-4 py-2.5 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500': 'w-full px-4 py-2.5 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500'}}"
+                  #farmInput                  class="{{isDisabled? 'pointer-events-none bg-gray-200 w-full px-4 py-2.5 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500': 'w-full px-4 py-2.5 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500'}}"
+
                   placeholder="Select Farm" role="" aria-expanded="false" aria-controls="options">
               </div>
 
