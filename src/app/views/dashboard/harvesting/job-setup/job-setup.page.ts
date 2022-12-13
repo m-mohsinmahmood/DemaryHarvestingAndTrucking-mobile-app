@@ -178,6 +178,10 @@ export class JobSetupPage implements OnInit {
         takeUntil(this._unsubscribeAll)
       )
       .subscribe((value: string) => {
+        // for asterik to look required
+        if(value === ''){ this.isCustomerSelected = true;}
+
+
         this.allCustomers = this.harvestingService.getCustomers(
           1,
           10,
@@ -308,6 +312,8 @@ export class JobSetupPage implements OnInit {
         takeUntil(this._unsubscribeAll)
       )
       .subscribe((value: string) => {
+        // for asterik to look required
+       if(value === ''){ this.isFarmSelected = true;}
         this.allFarmsClicked = this.harvestingService.getCustomerFarm(
           this.customerID,
           1,
@@ -401,6 +407,9 @@ export class JobSetupPage implements OnInit {
         takeUntil(this._unsubscribeAll)
       )
       .subscribe((value: string) => {
+        // for asterik to look required
+        if(value === ''){ this.isCropSelected = true;}
+
         this.allCropsClicked = this.harvestingService.getCustomerCrops(
           this.customerID,
           1,
