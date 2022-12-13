@@ -26,7 +26,6 @@ export class TraineePage implements OnInit {
       state: ['', [Validators.required]],
       training: ['', [Validators.required]],
       topic: ['', [Validators.required]],
-      details: ['', [Validators.required]],
       uploadDocs1: ['', [Validators.required]],
       uploadDocs2: ['', [Validators.required]],
       uploadDocs3: ['', [Validators.required]],

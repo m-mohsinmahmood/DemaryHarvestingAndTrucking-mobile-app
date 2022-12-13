@@ -33,6 +33,7 @@ ngOnInit() {
   });
   this.changeFieldFormCombine = this.formBuilder.group({
     fieldName: ['',[Validators.required]],
+    acres: ['',[Validators.required]],
     acresPriorField: ['',[Validators.required]],
   });
 }

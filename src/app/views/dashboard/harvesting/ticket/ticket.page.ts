@@ -32,6 +32,7 @@ deliveryTicketForm: FormGroup;
       splitLoadCheck: ['false',[Validators.required]],
       kartScaleWeight: ['',[Validators.required]],
       deliveryTicketNumber: ['',[Validators.required]],
+      kartoperatorName: ['',[Validators.required]],
       truckDriverCompany: ['',[Validators.required]],
       truck: ['',[Validators.required]],
       splitLoad: ['',[Validators.required]],
@@ -53,6 +54,6 @@ deliveryTicketForm: FormGroup;
   }
   submit(){
     console.log(this.deliveryTicketForm.value);
-    this.router.navigateByUrl('/tabs/home/harvesting');
+    this.router.navigateByUrl('/tabs/home/harvesting/ticket/generated-ticket');
   }
 }

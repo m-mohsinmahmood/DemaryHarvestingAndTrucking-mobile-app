@@ -7,7 +7,11 @@ const routes: Routes = [
   {
     path: '',
     component: PreTripPage
+  },  {
+    path: 'digital-form',
+    loadChildren: () => import('./digital-form/digital-form.module').then( m => m.DigitalFormPageModule)
   }
+
 ];
 
 @NgModule({

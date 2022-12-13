@@ -7,7 +7,11 @@ const routes: Routes = [
   {
     path: '',
     component: BasicSkillsPage
+  },  {
+    path: 'digital-evaluation',
+    loadChildren: () => import('./digital-evaluation/digital-evaluation.module').then( m => m.DigitalEvaluationPageModule)
   }
+
 ];
 
 @NgModule({

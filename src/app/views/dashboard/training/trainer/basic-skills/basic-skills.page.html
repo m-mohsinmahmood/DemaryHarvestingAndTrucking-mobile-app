@@ -1,208 +1,224 @@
 <app-header [title]="'Basic Skills Digital Evaluation Form'" [color]="'training'"></app-header>
 <ion-content>
   <app-timer [value]="'23:00:00'"></app-timer>
-  <div class="mx-4 my-2">
-    <ion-progress-bar class="mb-2" [buffer]="buffer" [value]="progress"></ion-progress-bar>
-    <ion-text class="text-lg font-semibold justify-start flex font-Lato text-black ml-2">{{text}} of 5 Maneuvers
-      Completed</ion-text>
-  </div>
+
   <div class="mx-4">
-    <form class="" [formGroup]="basicSkillFrom">
-      <div class="mt-5">
-        <ion-text *ngIf="value ==='straight-line'" class="font-semibold font-Lato text-9B9BA4 text-xl">Straight Line
-          Backing</ion-text>
-        <ion-text *ngIf="value ==='alley-docking'" class="font-semibold font-Lato text-9B9BA4 text-xl">Alley Docking
-        </ion-text>
-        <ion-text *ngIf="value ==='offset'" class="font-semibold font-Lato text-9B9BA4 text-xl">Off Set Backing
-        </ion-text>
-        <ion-text *ngIf="value ==='parking-blind'" class="font-semibold font-Lato text-9B9BA4 text-xl">Parallel Parking
-          - Blind</ion-text>
-        <ion-text *ngIf="value ==='parking-sight'" class="font-semibold font-Lato text-9B9BA4 text-xl">Parallel Parking
-          - Sight</ion-text>
-        <ion-text *ngIf="value ==='coup-uncoup'" class="font-semibold font-Lato text-9B9BA4 text-xl">Coupling &
-          Uncoupling</ion-text>
-      </div>
-      <div class="w-full border-b-2 my-3 py-1">
-        <ion-text class="text-base font-semibold font-Lato">Attempts</ion-text>
+
+
+    <form class="mx-2" [formGroup]="basicSkillForm">
+
+      <div class="col-span-12 mb-4 mt-2">
+        <label class="block text-sm font-medium text-gray-700">Type of Evaluation Form</label>
+        <ion-select
+          class="mt-1 w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+          formControlName="formSelect" placeholder="Select Evaluation Form" (ionChange)="onSelect($event)">
+          <ion-select-option value="1">Paper Form</ion-select-option>
+          <ion-select-option value="2">Digital Form</ion-select-option>
+          </ion-select>
       </div>
       <div>
-        <div class="mt-6">
-          <div class="flex justify-between items-center my-3">
-            <ion-text class="font-semibold font-Lato">Pull-Ups</ion-text>
-            <div class="flex justify-center items-center w-28 border-2  rounded-lg px-2">
-              <ion-input placeholder="Enter Value" type="number" formControlName="pullUps"></ion-input>
-            </div>
-          </div>
-          <div class="flex justify-between items-center my-3">
-            <ion-text class="font-semibold font-Lato">Encroach</ion-text>
-            <div class="flex justify-center items-center w-28 border-2  rounded-lg px-2">
-              <ion-input placeholder="Enter Value" type="number" formControlName="encroach"></ion-input>
-            </div>
-          </div>
-        </div>
-        <div class="my-9">
-          <div class="flex justify-between items-center">
-            <ion-text class="font-semibold">G.O.A.L</ion-text>
-            <div class="flex justify-center items-center">
-              <ion-radio-group formControlName="goal" value="true" class="radio flex justify-center items-center">
-                <div class="flex justify-center items-center  mr-2">
-                  <ion-radio  mode="md" value="true"></ion-radio>
-                  <ion-label class="font-Lato ml-1 text-sm">Satisfactory</ion-label>
-                </div>
-                <div class="flex justify-center items-center">
-                  <ion-radio mode="md" class="unsatisfactory" value="false"></ion-radio>
-                  <ion-label class="font-Lato ml-1 text-sm">Unsatisfactory</ion-label>
-                </div>
-              </ion-radio-group>
-            </div>
-          </div>
-          <div class="flex justify-between items-center mt-2">
-            <ion-text class="font-semibold">Final Position</ion-text>
-            <ion-radio-group formControlName="finalPosition" value="true"
-              class="radio flex justify-center items-center">
-              <div class="flex justify-center items-center  mr-2">
-                <ion-radio mode="md" value="false"></ion-radio>
-                <ion-label class="font-Lato ml-1 text-sm">Satisfactory</ion-label>
-              </div>
-              <div class="flex justify-center items-center">
-                <ion-radio mode="md" class="unsatisfactory" value="true"></ion-radio>
-                <ion-label class="font-Lato ml-1 text-sm">Unsatisfactory</ion-label>
-              </div>
-            </ion-radio-group>
-          </div>
-          <ion-button class="upload-button">
-            Add Feedback
-          </ion-button>
-        </div>
-        <div class="w-full border-b-2 my-3 py-1 flex justify-between items-center">
-          <ion-text class="text-base font-semibold font-Lato">All Basic Skills</ion-text>
-          <ion-text class="text-base font-Lato text-9B9BA4">Total Attempts</ion-text>
-        </div>
-        <div class="border-b-4 py-4">
-          <div class="flex flex-col justify-center">
-            <ion-text class="font-Lato font-semibold">Straight Line Backing</ion-text>
-            <div class="flex justify-between items-center mt-3">
-              <ion-radio-group formControlName="straightLineBaking" value="true"
-                class="radio flex justify-center items-center">
-                <div class="flex justify-center items-center  mr-2">
-                  <ion-radio mode="md" value="true"></ion-radio>
-                  <ion-label class="font-Lato ml-1 text-sm">Satisfactory</ion-label>
-                </div>
-                <div class="flex justify-center items-center">
-                  <ion-radio mode="md" class="unsatisfactory" value="false"></ion-radio>
-                  <ion-label class="font-Lato ml-1 text-sm">Unsatisfactory</ion-label>
-                </div>
-              </ion-radio-group>
-              <div class="flex justify-center items-center w-28 border-2  rounded-lg px-2">
-                <ion-input placeholder="Enter Value" type="number" formControlName="straightLineBakingInput">
-                </ion-input>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="border-b-4 py-4">
-          <div class="flex flex-col justify-center">
-            <ion-text class="font-Lato font-semibold">Alley Docking (45/90)</ion-text>
-            <div class="flex justify-between items-center mt-3">
-              <ion-radio-group formControlName="alleyDocking" value="true"
-                class="radio flex justify-center items-center">
-                <div class="flex justify-center items-center  mr-2">
-                  <ion-radio mode="md" value="true"></ion-radio>
-                  <ion-label class="font-Lato ml-1 text-sm">Satisfactory</ion-label>
-                </div>
-                <div class="flex justify-center items-center">
-                  <ion-radio mode="md" class="unsatisfactory" value="false"></ion-radio>
-                  <ion-label class="font-Lato ml-1 text-sm">Unsatisfactory</ion-label>
-                </div>
-              </ion-radio-group>
-              <div class="flex justify-center items-center w-28 border-2  rounded-lg px-2">
-                <ion-input placeholder="Enter Value" type="number" formControlName="alleyDockingInput"></ion-input>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="border-b-4 py-4">
-          <div class="flex flex-col justify-center">
-            <ion-text class="font-Lato font-semibold">Off Set Backing</ion-text>
-            <div class="flex justify-between items-center mt-3">
-              <ion-radio-group formControlName="offSetBacking" value="true"
-                class="radio flex justify-center items-center">
-                <div class="flex justify-center items-center  mr-2">
-                  <ion-radio mode="md" value="true"></ion-radio>
-                  <ion-label class="font-Lato ml-1 text-sm">Satisfactory</ion-label>
-                </div>
-                <div class="flex justify-center items-center">
-                  <ion-radio mode="md" class="unsatisfactory" value="false"></ion-radio>
-                  <ion-label class="font-Lato ml-1 text-sm">Unsatisfactory</ion-label>
-                </div>
-              </ion-radio-group>
-              <div class="flex justify-center items-center w-28 border-2  rounded-lg px-2">
-                <ion-input placeholder="Enter Value" type="number" formControlName="offSetBackingInput"></ion-input>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="border-b-4 py-4">
-          <div class="flex flex-col justify-center">
-            <ion-text class="font-Lato font-semibold">Parallel Paking Blind</ion-text>
-            <div class="flex justify-between items-center mt-3">
-              <ion-radio-group formControlName="parallelParkingBlind" value="true"
-                class="radio flex justify-center items-center">
-                <div class="flex justify-center items-center  mr-2">
-                  <ion-radio mode="md" value="true"></ion-radio>
-                  <ion-label class="font-Lato ml-1 text-sm">Satisfactory</ion-label>
-                </div>
-                <div class="flex justify-center items-center">
-                  <ion-radio mode="md" class="unsatisfactory" value="false"></ion-radio>
-                  <ion-label class="font-Lato ml-1 text-sm">Unsatisfactory</ion-label>
-                </div>
-              </ion-radio-group>
-              <div class="flex justify-center items-center w-28 border-2  rounded-lg px-2">
-                <ion-input placeholder="Enter Value" type="number" formControlName="parallelParkingBlindInput">
-                </ion-input>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="border-b-4 py-4">
-          <div class="flex flex-col justify-center">
-            <ion-text class="font-Lato font-semibold">Coupling & Uncoupling</ion-text>
-            <div class="flex justify-between items-center mt-3">
-              <ion-radio-group formControlName="coupUncoup" value="true" class="radio flex justify-center items-center">
-                <div class="flex justify-center items-center  mr-2">
-                  <ion-radio mode="md" value="true"></ion-radio>
-                  <ion-label class="font-Lato ml-1 text-sm">Satisfactory</ion-label>
-                </div>
-                <div class="flex justify-center items-center">
-                  <ion-radio mode="md" class="unsatisfactory" value="false"></ion-radio>
-                  <ion-label class="font-Lato ml-1 text-sm">Unsatisfactory</ion-label>
-                </div>
-              </ion-radio-group>
-              <div class="flex justify-center items-center w-28 border-2  rounded-lg px-2">
-                <ion-input placeholder="Enter Value" type="number" formControlName="coupUncoupInput"></ion-input>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <ion-card>
-        <ion-card-content>
-          <div class="flex justify-between items-center mb-2">
-            <ion-text class="font-Lato text-black font-semibold">Total Attempts / Results</ion-text>
-            <ion-text
-              class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">
-              Satisfactory</ion-text>
-          </div>
-          <ion-text class="font-Lato text-9B9BA4">Total Attempts: <span class="font-Lato text-black">15</span>
-          </ion-text>
-        </ion-card-content>
-      </ion-card>
-      <ion-button *ngIf="!(value === 'coup-uncoup')" expand="block"
-        class="close-out-button font-Lato mb-4 mt-0 mx-8 bg-opacity-10 text-white" (click)="navigate()">Next
-      </ion-button>
-      <ion-button *ngIf="value === 'coup-uncoup'" expand="block"
-        class="close-out-button font-Lato mb-4 mt-0 mx-8 bg-opacity-10 text-white" (click)="submit()">Exit</ion-button>
 
+      <div class="col-span-12 mb-4">
+        <label class="block text-sm font-medium text-gray-700">Trainer <span *ngIf="this.basicSkillForm.get('trainerName').hasError('required')" class="text-red-400">*</span></label>
+        <input
+          class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+          formControlName="trainerName" placeholder="Enter Trainer Name">
+      </div>
+
+      <div class="col-span-12 mb-4">
+        <label class="block text-sm font-medium text-gray-700">Trainee <span *ngIf="this.basicSkillForm.get('traineeName').hasError('required')" class="text-red-400">*</span></label>
+        <input
+          class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+          formControlName="traineeName" placeholder="Enter Trainee Name">
+      </div>
+
+      <div class="col-span-12 mb-4" *ngIf="value === '2'">
+        <label class="block text-sm font-medium text-gray-700">CLP <span *ngIf="this.basicSkillForm.get('clp').hasError('required')" class="text-red-400">*</span></label>
+        <input
+          class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+          formControlName="clp" placeholder="Enter CLP">
+      </div>
+
+      <div class="col-span-12 mb-4">
+        <label class="block text-sm font-medium text-gray-700">Supervisor <span *ngIf="this.basicSkillForm.get('supervisorName').hasError('required')" class="text-red-400">*</span></label>
+        <input
+          class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+          formControlName="supervisorName" placeholder="Enter Trainee Name">
+      </div>
+      <div class="col-span-12 mb-4">
+        <label class="block text-sm font-medium text-gray-700">Truck ID <span *ngIf="this.basicSkillForm.get('supervisorName').hasError('required')" class="text-red-400">*</span></label>
+        <input
+          class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+          formControlName="truckId" placeholder="Enter Truck ID">
+      </div>
+      <div class="col-span-12 mb-4">
+        <label class="block text-sm font-medium text-gray-700">Odometer Begining Miles<span *ngIf="this.basicSkillForm.get('odometerStartingMiles').hasError('required')" class="text-red-400">*</span></label>
+        <input
+          class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+          formControlName="odometerStartingMiles" placeholder="Enter begining miles">
+      </div>
+      <div class="col-span-12 mb-4">
+        <label class="block text-sm font-medium text-gray-700">Odometer Ending Miles<span *ngIf="this.basicSkillForm.get('odometerEndingMiles').hasError('required')" class="text-red-400">*</span></label>
+        <input
+          class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+          formControlName="odometerEndingMiles" placeholder="Enter begining miles">
+      </div>
+
+      <div class="col-span-12 mb-4">
+        <label class="block text-sm font-medium text-gray-700">Trainee Completed CDL Classroom</label>
+        <ion-select
+          class="mt-1 w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+          formControlName="classroomSelect" placeholder="Trainee Completed CDL Classroom">
+          <ion-select-option value="yes">Yes</ion-select-option>
+          <ion-select-option value="no">No</ion-select-option>
+        </ion-select>
+      </div>
+
+      <div class="col-span-12 mb-4">
+        <label class="block text-sm font-medium text-gray-700">Trainee Completed Group Practical</label>
+        <ion-select
+          class="mt-1 w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+          formControlName="groupPracticalSelect" placeholder="Trainee Completed Group Practical">
+          <ion-select-option value="yes">Yes</ion-select-option>
+          <ion-select-option value="no">No</ion-select-option>
+        </ion-select>
+      </div>
+
+      <div class="col-span-12 mb-4">
+        <label class="block text-sm font-medium text-gray-700">City <span *ngIf="this.basicSkillForm.get('city').hasError('required')" class="text-red-400">*</span></label>
+        <input
+          class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+          formControlName="city" placeholder="Enter City">
+      </div>
+      <div class="col-span-12 mb-4">
+        <label class="block text-sm font-medium text-gray-700">State <span *ngIf="this.basicSkillForm.get('state').hasError('required')" class="text-red-400">*</span></label>
+        <input
+          class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+          formControlName="state" placeholder="Enter state">
+      </div>
+      <ion-button class="upload-button"
+       (click)="uploadClick()"
+       *ngIf="value === '1'"
+      class="text-white">
+        <ion-icon name="add-outline"></ion-icon>
+          Upload Form
+      </ion-button>
+  <!-- For Paper Form -->
+  <div *ngIf="value === '1' && upload">
+    <div class="ml-1 mt-4">
+      <ion-label class="font font-medium text-aaaaaa">Training docs (upload here)</ion-label>
+    </div>
+    <div class="flex px-2 py-2">
+      <div class="w-16 h-16 mr-2">
+        <ion-card
+          [ngClass]="!upload_1 ? ' shadow-none m-0 border-2 border-aaaaaa bg-e9e6e6' : 'shadow-none m-0 border-2 border-3D8AA4 bg-white'"
+          (click)="upload__1.click()"
+        >
+          <ion-card-content class="p-0 w-16 h-16 flex justify-center items-center">
+              <ion-segment scrollable value="done" class="bg-none">
+                <ion-segment-button value="upload" *ngIf="!upload_1">
+                  <ion-icon
+                    [ngStyle]="{'color' : !upload_1 ? '#aaaaaa' : ''}"
+                    name="cloud-upload-outline"
+                  >
+                  </ion-icon>
+                </ion-segment-button>
+
+                <ion-segment-button value="done" *ngIf="upload_1">
+                  <ion-icon
+                    [ngStyle]="{'color' : upload_1 ? '#3D8AA4' : ''}"
+                    name="cloud-done-outline"
+                  >
+                  </ion-icon>
+                </ion-segment-button>
+                <input
+                  #upload__1
+                  type="file"
+                  class=" invisible hidden"
+                  formControlName="uploadDocs1"
+                  (change)="onSelectedFiles($event, 'upload_1')"
+                />
+              </ion-segment>
+          </ion-card-content>
+        </ion-card>
+      </div>
+      <div class="w-16 h-16 mr-2">
+        <ion-card
+          [ngClass]="!upload_2 ? ' shadow-none m-0 border-2 border-aaaaaa bg-e9e6e6' : 'shadow-none m-0 border-2 border-3D8AA4 bg-white'"
+          (click)="upload__2.click()"
+        >
+          <ion-card-content class="p-0 w-16 h-16 flex justify-center items-center">
+              <ion-segment scrollable value="done" class="bg-none">
+                <ion-segment-button value="upload" *ngIf="!upload_2">
+                  <ion-icon
+                    [ngStyle]="{'color' : !upload_2 ? '#aaaaaa' : ''}"
+                    name="cloud-upload-outline"
+                  >
+                  </ion-icon>
+                </ion-segment-button>
+
+                <ion-segment-button value="done" *ngIf="upload_2">
+                  <ion-icon
+                    [ngStyle]="{'color' : upload_2 ? '#3D8AA4' : ''}"
+                    name="cloud-done-outline"
+                  >
+                  </ion-icon>
+                </ion-segment-button>
+                <input
+                  #upload__2
+                  type="file"
+                  class=" invisible hidden"
+                  formControlName="uploadDocs2"
+                  (change)="onSelectedFiles($event, 'upload_2')"
+                />
+              </ion-segment>
+          </ion-card-content>
+        </ion-card>
+      </div>
+      <div class="w-16 h-16 mr-2">
+        <ion-card
+          [ngClass]="!upload_3 ? ' shadow-none m-0 border-2 border-aaaaaa bg-e9e6e6' : 'shadow-none m-0 border-2 border-3D8AA4 bg-white'"
+          (click)="upload__3.click()"
+        >
+          <ion-card-content class="p-0 w-16 h-16 flex justify-center items-center">
+              <ion-segment scrollable value="done" class="bg-none">
+                <ion-segment-button value="upload" *ngIf="!upload_3">
+                  <ion-icon
+                    [ngStyle]="{'color' : !upload_3 ? '#aaaaaa' : ''}"
+                    name="cloud-upload-outline"
+                  >
+                  </ion-icon>
+                </ion-segment-button>
+
+                <ion-segment-button value="done" *ngIf="upload_3">
+                  <ion-icon
+                    [ngStyle]="{'color' : upload_3 ? '#3D8AA4' : ''}"
+                    name="cloud-done-outline"
+                  >
+                  </ion-icon>
+                </ion-segment-button>
+                <input
+                  #upload__3
+                  type="file"
+                  class=" invisible hidden"
+                  formControlName="uploadDocs3"
+                  (change)="onSelectedFiles($event, 'upload_3')"
+
+                />
+              </ion-segment>
+          </ion-card-content>
+        </ion-card>
+      </div>
+  </div>
+  <ion-button expand="block" class="font-Lato text-white mb-4 mt-6 mx-8"
+  [disabled]="basicSkillForm.invalid">Save</ion-button>
+  </div>
+  <!-- For Digital Form -->
+  <div *ngIf="value === '2'">
+  <ion-button expand="block" class="font-Lato text-white mb-4 mt-6 mx-8" (click)="continue()">Continue</ion-button>
+  </div>
+
+    </div>
     </form>
   </div>
 </ion-content>

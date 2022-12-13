@@ -7,7 +7,11 @@ const routes: Routes = [
   {
     path: '',
     component: TicketPage
+  },  {
+    path: 'generated-ticket',
+    loadChildren: () => import('./generated-ticket/generated-ticket.module').then( m => m.GeneratedTicketPageModule)
   }
+
 ];
 
 @NgModule({

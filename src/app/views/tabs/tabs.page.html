@@ -4,28 +4,28 @@
     <ion-tab-button  (click)="navigate('home')">
       <ion-icon name="home-outline" *ngIf="!activeHome"></ion-icon>
       <img src="../../../assets/icon/homeactive.svg" alt="" *ngIf="activeHome">
-      <ion-label [class]="!activeHome? 'text-sm font-medium font-Lato': 'text-project-green text-sm font-medium font-Lato'">Home</ion-label>
+      <ion-label [class]="!activeHome? 'text-sm font-medium font-Lato': 'text-3D8AA4 text-sm font-medium font-Lato'">Home</ion-label>
     </ion-tab-button>
 
     <ion-tab-button  (click)="navigate('web')">
       <img src="../../../assets/icon/Globe.svg" alt="" *ngIf="!activeWeb">
       <img src="../../../assets/icon/globeactive.svg" alt="" *ngIf="activeWeb">
-      <ion-label [class]="!activeWeb? 'text-sm font-medium font-Lato': 'text-project-green text-sm font-medium font-Lato'">Web</ion-label>
+      <ion-label [class]="!activeWeb? 'text-sm font-medium font-Lato': 'text-3D8AA4 text-sm font-medium font-Lato'">Web</ion-label>
     </ion-tab-button>
     <ion-tab-button  (click)="navigate('dwr')">
       <img src="../../../assets/icon/Dwrs.svg" alt="" srcset="" *ngIf="!activeDWR">
       <img src="../../../assets/icon/dwractive.svg" alt="" srcset="" *ngIf="activeDWR">
-        <ion-label [class]="!activeDWR? 'text-sm font-medium font-Lato': 'text-project-green text-sm font-medium font-Lato'">DWR's</ion-label>
+        <ion-label [class]="!activeDWR? 'text-sm font-medium font-Lato': 'text-3D8AA4 text-sm font-medium font-Lato'">DWR's</ion-label>
     </ion-tab-button>
     <ion-tab-button  (click)="navigate('message')">
       <img src="../../../assets/icon/chat.svg" alt="" *ngIf="!activeMessage">
       <img src="../../../assets/icon/chatactive.svg" alt="" *ngIf="activeMessage">
-       <ion-label [class]="!activeMessage? 'text-sm font-medium font-Lato': 'text-project-green text-sm font-medium font-Lato'">Message</ion-label>
+       <ion-label [class]="!activeMessage? 'text-sm font-medium font-Lato': 'text-3D8AA4 text-sm font-medium font-Lato'">Message</ion-label>
     </ion-tab-button>
     <ion-tab-button  (click)="navigate('profile')">
       <img src="../../../assets/icon/Profile.svg" alt="" *ngIf="!activeProfile">
       <img src="../../../assets/icon/profileactive.svg" alt="" *ngIf="activeProfile">
-       <ion-label [class]="!activeProfile? 'text-sm font-medium font-Lato': 'text-project-green text-sm font-medium font-Lato'">Profile</ion-label>
+       <ion-label [class]="!activeProfile? 'text-sm font-medium font-Lato': 'text-3D8AA4 text-sm font-medium font-Lato'">Profile</ion-label>
     </ion-tab-button>
   </ion-tab-bar>
 </ion-tabs>
