@@ -14,6 +14,7 @@ export class ReportEquipIssuePage implements OnInit {
   constructor(private formBuilder: FormBuilder, private router: Router) {
     this.reportNewEquipIssue = this.formBuilder.group({
       empId: ['', Validators.required],
+      equipmentId: ['', Validators.required],
       city: ['', Validators.required],
       state: ['', Validators.required],
       categoryTaskId: ['', Validators.required],

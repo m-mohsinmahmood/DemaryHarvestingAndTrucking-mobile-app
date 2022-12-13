@@ -1,4 +1,4 @@
-<app-header [title]="'Close-Out Work Order'" [color]="'farming'"></app-header>
+<app-header [title]="'Submit End of Day Work Data'" [color]="'farming'"></app-header>
 
 <ion-content>
   <app-timer [value]="'12-10-2022'"> </app-timer>
@@ -8,19 +8,19 @@
       <div>
 
         <div class="col-span-12 mb-4">
-          <label class="block text-sm font-medium text-gray-700">Acres Completed<span class="text-red-600"
-              *ngIf="this.closeOutWorkOrder.get('acresCompleted').hasError('required')">*</span></label>
+          <label class="block text-sm font-medium text-gray-700">Customer Name<span class="text-red-600"
+              *ngIf="this.closeOutWorkOrder.get('customerName').hasError('required')">*</span></label>
           <input
             class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-            formControlName="acresCompleted" placeholder="Enter Completed Acres">
+            formControlName="customerName" placeholder="Enter Customer Name">
         </div>
 
         <div class="col-span-12 mb-4">
-          <label class="block text-sm font-medium text-gray-700">GPS Acres<span class="text-red-600"
-              *ngIf="this.closeOutWorkOrder.get('gpsAcres').hasError('required')">*</span></label>
+          <label class="block text-sm font-medium text-gray-700">Total Acres by Service<span class="text-red-600"
+              *ngIf="this.closeOutWorkOrder.get('acresByService').hasError('required')">*</span></label>
           <input
             class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-            formControlName="gpsAcres" placeholder="Enter GPS Acres">
+            formControlName="acresByService" placeholder="Enter Acres by service">
         </div>
 
         <div class="col-span-12 mb-4">
@@ -32,25 +32,16 @@
         </div>
 
         <div class="col-span-12 mb-4">
-          <label class="block text-sm font-medium text-gray-700">Hours Worked<span class="text-red-600"
-              *ngIf="this.closeOutWorkOrder.get('hoursWorked').hasError('required')">*</span></label>
+          <label class="block text-sm font-medium text-gray-700">Total GPS Acres by Service<span class="text-red-600"
+              *ngIf="this.closeOutWorkOrder.get('gpsAcresByService').hasError('required')">*</span></label>
           <input
             class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-            formControlName="hoursWorked" placeholder="Enter Hours Worked">
-        </div>
-
-        <div class="col-span-12 mb-4">
-          <label class="block text-sm font-medium text-gray-700">Notes<span class="text-red-600"
-              *ngIf="this.closeOutWorkOrder.get('notes').hasError('required')">*</span></label>
-          <textarea
-            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-            formControlName="notes" placeholder="Enter Notes">
-          </textarea>
+            formControlName="gpsAcresByService" placeholder="Enter GPS Acres by service">
         </div>
 
       </div>
       <ion-button [disabled]="this.closeOutWorkOrder.invalid" expand="block" class="mt-5 font-Lato text-white"
-        (click)="navigateTo()">Save and Submit Ticket
+        (click)="navigateTo()">Close-Out Customer Work Order
       </ion-button>
     </div>
   </form>

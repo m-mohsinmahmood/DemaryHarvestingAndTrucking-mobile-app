@@ -6,6 +6,8 @@ import { CreateOrderPageRoutingModule } from './create-order-routing.module';
 import { CreateOrderPage } from './create-order.page';
 import { HeaderModule } from '../../../../components/header/header.module';
 import { TimerModule } from 'src/app/components/timer/timer.module';
+import { WithLoadingPipe } from './../../../../pipes/general-pipes/with-loading.pipe';
+
 @NgModule({
   imports: [
     HeaderModule,
@@ -14,8 +16,9 @@ import { TimerModule } from 'src/app/components/timer/timer.module';
     FormsModule,
     IonicModule,
     CreateOrderPageRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
-  declarations: [CreateOrderPage]
+  declarations: [CreateOrderPage,
+    WithLoadingPipe]
 })
 export class CreateOrderPageModule { }

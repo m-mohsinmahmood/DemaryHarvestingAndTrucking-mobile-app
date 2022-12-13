@@ -15,11 +15,10 @@ export class CloseOutOrderPage implements OnInit {
 
   ngOnInit() {
     this.closeOutWorkOrder = this.formBuilder.group({
-      acresCompleted: ['', [Validators.required]],
-      gpsAcres: ['', [Validators.required]],
+      customerName: ['', [Validators.required]],
+      acresByService: ['', [Validators.required]],
       endingEngineHours: ['', [Validators.required]],
-      hoursWorked: ['', [Validators.required]],
-      notes: ['', [Validators.required]]
+      gpsAcresByService: ['', [Validators.required]]
     });
   }
 

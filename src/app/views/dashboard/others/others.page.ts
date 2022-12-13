@@ -17,8 +17,6 @@ export class OthersPage implements OnInit {
     this.otherForm = this.formBuilder.group({
       empId: ['', Validators.required],
       supervisorId: ['', Validators.required],
-      city: ['', Validators.required],
-      state: ['', Validators.required],
       apprTaskId: ['', Validators.required],
       notes: ['', Validators.required],
     });

@@ -30,7 +30,11 @@ const routes: Routes = [
   {
     path: 'close-out-order',
     loadChildren: () => import('./close-out-order/close-out-order.module').then(m => m.CloseOutOrderPageModule)
+  },  {
+    path: 'submit-end-day',
+    loadChildren: () => import('./submit-end-day/submit-end-day.module').then( m => m.SubmitEndDayPageModule)
   },
+
 
 ];
 
