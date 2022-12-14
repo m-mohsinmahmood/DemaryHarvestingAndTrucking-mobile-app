@@ -22,7 +22,8 @@
                   *ngIf="isCustomerSelected"
                   class="text-red-400">*</span></label>
                 <div class="flex items-center justify-between gap-x-2 rounded-md">
-                  <input (keyup)="customer_search$.next($event.target.value)" [value]="customer_name"
+                  <input (keyup)="customer_search$.next($event.target.value)"
+                  [value]="customer_name ? customer_name :cat "
                     (click)="inputClickedCustomer()" #customerInput
                     class="w-full px-4 py-2.5 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
                     placeholder="Select Customer" role="" aria-expanded="false" aria-controls="options">
