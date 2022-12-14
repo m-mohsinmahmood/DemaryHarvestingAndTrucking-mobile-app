@@ -68,28 +68,18 @@ export class FarmingService {
     }
 
     getEmployees(
-        search: string ,
-        status: string = '',
+        search: string = '',
+        entity: string = '',
         role: string = '',
-        page: number = 1,
-        limit: number = 999999,
-        sort: string = '',
-        order: 'asc' | 'desc' | '' = '',
-        // filters: any = { type: '', status: '' }
     ) {
         this._httpClient
         let params = new HttpParams();
-        params = params.set('search', search);
-        params = params.set('status', status);
+        params = params.set('entity', entity);
         params = params.set('role', role);
-        params = params.set('page', page);
-        params = params.set('limit', limit);
         params = params.set('search', search);
-        params = params.set('sort', sort);
-        params = params.set('order', order);
 
         return this._httpClient
-            .get<any>('http://localhost:7071/api/employee', {
+            .get<any>('http://localhost:7071/api/dropdowns', {
                 params,
             })
             .pipe(take(1));
