@@ -1,7 +1,7 @@
 <app-header [title]="'Trucking (Commercial)'" [color]="'trucking'"></app-header>
-
 <!-- Role: Crew Chief-->
 <ion-content *ngIf="role ==='dispatcher'">
+  <app-timer [value]="'12:12:21'"></app-timer>
   <ion-grid>
     <ion-row>
       <ion-col size="12">
@@ -35,6 +35,8 @@
 
 <!-- Role: Truck Driver-->
 <ion-content *ngIf="role ==='truck-driver'">
+  <app-timer [value]="'12:12:21'"></app-timer>
+
   <ion-grid>
     <ion-row>
       <ion-col size="12">

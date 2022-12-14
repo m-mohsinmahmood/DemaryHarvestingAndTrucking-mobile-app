@@ -1,20 +1,22 @@
 ion-header {
+  text-overflow:clip !important;
+
   .toolbar {
     color: #fff;
     padding: 6px 0px;
-    text-overflow: unset;
-    white-space: unset;
+    text-overflow:clip !important;
+    // white-space: unset;
 
     //  text-overflow: ellipsis !important;
     //  white-space: normal;
     //  position: static;
-    ion-title {
-      // text-overflow: ellipsis !important;
-      // white-space: normal;
-      // position: static;
-      text-overflow: unset;
-      white-space: unset;
-    }
+    // ion-title {
+    //   // text-overflow: ellipsis !important;
+    //   // white-space: normal;
+    //   // position: static;
+    //   // text-overflow: unset;
+    //   // white-space: unset;
+    // }
 
 
     &.harvesting {
@@ -54,3 +56,29 @@ ion-header {
     }
   }
 }
+ion-title{
+  // text-overflow: clip!important;
+  // white-space: none !important;
+  // overflow: none !important;
+  // background-color: red !important;
+  }
+
+// ion-title::part(shadow){
+// text-overflow: clip !important;
+// white-space: none !important;
+// overflow: none !important;
+// background-color: orange !important;
+// }
+// ion-title::part(native){
+//   text-overflow: clip !important;
+//   white-space: none !important;
+//   overflow: none !important;
+//   background-color: green !important;
+//   }
+
+  // ion-title::part(shadow){
+  //   text-overflow: clip !important;
+  //   white-space: none !important;
+  //   overflow: none !important;
+  //   background-color: green !important;
+  //   }

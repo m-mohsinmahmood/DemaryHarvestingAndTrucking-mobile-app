@@ -8,14 +8,16 @@ import { CommercialPageRoutingModule } from './commercial-routing.module';
 
 import { CommercialPage } from './commercial.page';
 import { HeaderModule } from 'src/app/components/header/header.module';
+import { TimerModule } from 'src/app/components/timer/timer.module';
 
 @NgModule({
   imports: [
-    CommonModule,
+  CommonModule,
     FormsModule,
     IonicModule,
     CommercialPageRoutingModule,
-    HeaderModule
+    HeaderModule,
+    TimerModule
   ],
   declarations: [CommercialPage]
 })

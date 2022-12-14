@@ -24,6 +24,7 @@ export class AlertService {
     constructor(private _httpClient: HttpClient) {}
 
     showAlert(_alert_info: Alert){
+        console.log('Alert Called',_alert_info);
         this.alert_info.next(_alert_info);
         this.show_alert.next(true);
         setTimeout(()=>{                           // <<<---using ()=> syntax

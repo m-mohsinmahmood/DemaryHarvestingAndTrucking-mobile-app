@@ -111,6 +111,29 @@ createJob(data: any) {
       //     },
       // );
 }
+startJob(data: any) {
+  return this._httpClient
+       .post(`http://localhost:7071/api/customer-job-start`, data)
+       .pipe(take(1));
+      //  .subscribe(
+      //      (res: any) => {
+      //          console.log('Response:',res);
+      //          //show notification based on message returned from the api
+      //         //  this.alertSerice.showAlert({
+      //         //      type: 'success',
+      //         //      shake: false,
+      //         //      slideRight: true,
+      //         //      title: 'Success',
+      //         //      message: res.message,
+      //         //      time: 5000,
+      //         //  });
+      //      },
+      //      (err) => {
+      //        console.log('Error:',err);
+      //          this.handleError(err);
+      //      },
+      //  );
+ }
 
 getCustomerFarm(
   customerId: string,

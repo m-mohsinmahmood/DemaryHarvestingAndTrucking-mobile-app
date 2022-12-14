@@ -6,13 +6,7 @@
     <!--------- Role Crew Chief ------------->
     <div class="segment-style">
       <ion-segment [(ngModel)]="segment" scrollable>
-        <ion-segment-button value="sent">
-          <div class="flex justify-center items-center">
-            <p class=" font-Lato">Sent</p>
-            <span class="text-white ml-4 w-8 h-4 rounded-full flex justify-center items-center">
-              1</span>
-          </div>
-        </ion-segment-button>
+
         <ion-segment-button value="pending">
           <div class="flex justify-center items-center">
             <p class=" font-Lato">Pending</p>
@@ -20,6 +14,15 @@
               2</span>
           </div>
         </ion-segment-button>
+
+        <ion-segment-button value="sent">
+          <div class="flex justify-center items-center">
+            <p class=" font-Lato">Sent</p>
+            <span class="text-white ml-4 w-8 h-4 rounded-full flex justify-center items-center">
+              1</span>
+          </div>
+        </ion-segment-button>
+
         <ion-segment-button value="verified">
           <div class="flex justify-center items-center">
             <p class=" font-Lato">Verified</p>
