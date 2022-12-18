@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/semi */
+/* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable no-underscore-dangle */
 import { Injectable } from '@angular/core';
 import {  BehaviorSubject, Observable, throwError } from 'rxjs';
@@ -57,82 +59,136 @@ export class HarvestingService{
 
 //#endregion
 
+// getCustomers(
+//   page: number = 1,
+//   limit: number = 10,
+//   sort: string = '',
+//   order: 'asc' | 'desc' | '' = '',
+//   search: string = '',
+//   filters: any = { type: '', status: '' },
+// ) {
+//   let params = new HttpParams();
+//   params = params.set('page', page);
+//   params = params.set('limit', limit);
+//   params = params.set('search', search);
+//   params = params.set('sort', sort);
+//   params = params.set('order', order);
+//   params = params.set('type', filters.type);
+//   params = params.set('status', filters.status);
+//   return this._httpClient
+//       .get<any>('api-1/customers', {
+//           params,
+//       })
+//       .pipe(take(1));
+//       // .subscribe(
+//       //     (res: any) => {
+//       //        console.log('res',res);
+//       //     },
+//       //     (err) => {
+//       //         console.log('error,',err);
+//       //     }
+//       // );
+// }
+
 getCustomers(
-  page: number = 1,
-  limit: number = 10,
-  sort: string = '',
-  order: 'asc' | 'desc' | '' = '',
-  search: string = '',
-  filters: any = { type: '', status: '' },
+        search: string = '',
+        entity: string = '',
+        role: string = '',
 ) {
+
   let params = new HttpParams();
-  params = params.set('page', page);
-  params = params.set('limit', limit);
+  params = params.set('entity', entity);
+  params = params.set('role', role);
   params = params.set('search', search);
-  params = params.set('sort', sort);
-  params = params.set('order', order);
-  params = params.set('type', filters.type);
-  params = params.set('status', filters.status);
+
   return this._httpClient
-      .get<any>('api-1/customers', {
-          params,
-      })
-      .pipe(take(1));
-      // .subscribe(
-      //     (res: any) => {
-      //        console.log('res',res);
-      //     },
-      //     (err) => {
-      //         console.log('error,',err);
-      //     }
-      // );
+       .get(`http://localhost:7071/api/dropdowns`, {
+        params
+       })
+       .pipe(take(1));
+ }
+
+ getFarms(
+  search: string = '',
+  entity: string = '',
+  customerId: string = '',
+) {
+
+let params = new HttpParams();
+params = params.set('entity', entity);
+params = params.set('customerId', customerId);
+params = params.set('search', search);
+
+return this._httpClient
+ .get(`http://localhost:7071/api/dropdowns`, {
+  params
+ })
+ .pipe(take(1));
+}
+getCrops(
+  search: string = '',
+  entity: string = '',
+  customerId: string = '',
+) {
+
+let params = new HttpParams();
+params = params.set('entity', entity);
+params = params.set('customerId', customerId);
+params = params.set('search', search);
+
+return this._httpClient
+ .get(`http://localhost:7071/api/dropdowns`, {
+  params
+ })
+ .pipe(take(1));
+}
+getFields(
+  search: string = '',
+  entity: string = '',
+  customerId: string = '',
+  farmId: string = '',
+) {
+
+let params = new HttpParams();
+params = params.set('entity', entity);
+params = params.set('customerId', customerId);
+params = params.set('search', search);
+params = params.set('farmId',farmId);
+
+return this._httpClient
+ .get(`http://localhost:7071/api/dropdowns`, {
+  params
+ })
+ .pipe(take(1));
 }
 
 createJob(data: any) {
  return this._httpClient
       .post(`http://localhost:7071/api/customer-job-setup`, data)
       .pipe(take(1));
-      // .subscribe(
-      //     (res: any) => {
-      //         console.log('Response:',res);
-      //         //show notification based on message returned from the api
-      //         this.alertSerice.showAlert({
-      //             type: 'success',
-      //             shake: false,
-      //             slideRight: true,
-      //             title: 'Success',
-      //             message: res.message,
-      //             time: 5000,
-      //         });
-      //     },
-      //     (err) => {
-      //       console.log('Error:',err);
-      //         this.handleError(err);
-      //     },
-      // );
 }
+
 startJob(data: any) {
   return this._httpClient
        .post(`http://localhost:7071/api/customer-job-start`, data)
        .pipe(take(1));
-      //  .subscribe(
-      //      (res: any) => {
-      //          console.log('Response:',res);
-      //          //show notification based on message returned from the api
-      //         //  this.alertSerice.showAlert({
-      //         //      type: 'success',
-      //         //      shake: false,
-      //         //      slideRight: true,
-      //         //      title: 'Success',
-      //         //      message: res.message,
-      //         //      time: 5000,
-      //         //  });
-      //      },
-      //      (err) => {
-      //        console.log('Error:',err);
-      //          this.handleError(err);
-      //      },
-      //  );
+ }
+ closeJob(data: any) {
+  return this._httpClient
+       .post(`http://localhost:7071/api/customer-job-close`, data)
+       .pipe(take(1));
+ }
+ closeOutJob(data: any) {
+  return this._httpClient
+       .post(`http://localhost:7071/api/customer-job-close-out`, data)
+       .pipe(take(1));
+ }
+
+ changeField(data: any) {
+  console.log('Payload Change Field:',data);
+  return this._httpClient
+       .put(`http://localhost:7071/api/customer-job-setup`, data)
+       .pipe(take(1));
  }
 
 getCustomerFarm(

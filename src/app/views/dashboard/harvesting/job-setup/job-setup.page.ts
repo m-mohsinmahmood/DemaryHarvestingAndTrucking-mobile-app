@@ -9,6 +9,7 @@ import { states } from 'src/JSON/state';
 import { HarvestingService } from './../harvesting.service';
 import { Observable, of, Subject, } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
+import { ToastService } from 'src/app/services/toast/toast.service';
 
 @Component({
   selector: 'app-job-setup',
@@ -19,13 +20,10 @@ export class JobSetupPage implements OnInit {
   @ViewChild('customerInput') customerInput: ElementRef;
   @ViewChild('farmInput') farmInput: ElementRef;
   @ViewChild('cropInput') cropInput: ElementRef;
+  @ViewChild('fieldInput') fieldInput: ElementRef;
 
   // form
   jobSetupForm: FormGroup;
-
-  // filters form
-  customerFiltersForm: FormGroup;
-  cropFiltersForm: FormGroup;
 
   // observables
   allCustomers: Observable<any>;
@@ -33,39 +31,49 @@ export class JobSetupPage implements OnInit {
   allFarmsClicked: Observable<any>;
   allCrops: Observable<any>;
   allCropsClicked: Observable<any>;
+  allFields: Observable<any>;
 
   // subjects
   customer_search$ = new Subject();
   farm_search$ = new Subject();
   crop_search$ = new Subject();
+  field_search$ = new Subject();
 
   // input values
   customer_name: any = '';
   farm_name: any = '';
   crop_name: any = '';
+  field_name: any = '';
 
   // input's search values
-  customerSearchValue: any;
-  farmSearchValue: any;
-  cropSearchValue: any;
+  customerSearchValue: any = '';
+  farmSearchValue: any = '';
+  cropSearchValue: any = '';
+  fieldSearchValue: any = '';
 
   // to show UL's
   customerUL: any = false;
   farmUL: any = false;
   cropUL: any = false;
+  fieldUL: any = false;
 
   // for invalid
   isCustomerSelected: any = true;
   isFarmSelected: any = true;
   isCropSelected: any = true;
+  isFieldSelected: any = true;
 
 // selected customer id to select farms & crops
   customerID: any;
 
+  // selected farm id to select fields
+  farmID: any;
+
   isDisabled: any = true;
+  isFieldDisabled: any = true;
+
   states: string[];
   add_location_overlay = true;
-  cat = 'hello';
 
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
@@ -73,14 +81,13 @@ export class JobSetupPage implements OnInit {
     private location: Location,
     private formBuilder: FormBuilder,
     private harvestingService: HarvestingService,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private toastService: ToastService
+
   ) {
     this.renderer.listen('window', 'click', (e) => {
       if (e.target !== this.customerInput.nativeElement) {
-        console.log(this.jobSetupForm.controls['customer_id'].value);
-        console.log('CustomerSearchValue:',this.customerSearchValue);
-        // this.isDisabled = this.jobSetupForm.controls['customer_id'].value === '' ? true : false;
-        // this.isDisabled = this.customerSearchValue === '' ? true : false;
+        // console.log('Customer');
         if(this.customerSearchValue === ''){
                 this.isDisabled = true;
                 this.farm_name = '';
@@ -89,29 +96,29 @@ export class JobSetupPage implements OnInit {
                 this.isCustomerSelected= true;
                 this.isFarmSelected= true;
                 this.isCropSelected= true;
+                this.isFieldDisabled = true;
 
         }else{
           this.isDisabled = false;
           this.allCustomers = of([]); // to clear array
           this.customerUL = false; // to hide the UL
         }
-
-        // this.allCustomers = of([]); // to clear array
-        // this.customerUL = false; // to hide the UL
       }
-    //   if (e.target !== this.customerLI.nativeElement) {
-    //  console.log('Customer UL Called');
-    //   }
 
       if (e.target !== this.farmInput.nativeElement) {
-        console.log('Farm');
+        // console.log('Farm');
         this.allFarmsClicked = of([]);
         this.farmUL = false; // to hide the UL
       }
       if (e.target !== this.cropInput.nativeElement) {
-        console.log('Crop');
+        // console.log('Crop');
         this.allCropsClicked = of([]);
         this.cropUL = false; // to hide the UL
+      }
+      if (e.target !== this.fieldInput.nativeElement) {
+        // console.log('Field');
+        this.allFields = of([]);
+        this.fieldUL = false; // to hide the UL
       }
     });
   }
@@ -125,6 +132,7 @@ export class JobSetupPage implements OnInit {
     this.customerSearchSubscription();
     this.farmSearchSubscription();
     this.cropSearchSubscription();
+    this.fieldSearchSubscription();
   }
 
   ngOnDestroy(): void {
@@ -138,17 +146,7 @@ export class JobSetupPage implements OnInit {
       customer_id: [''],
       farm_id: [''],
       crop_id: [''],
-      initial_field: ['', [Validators.required]],
-    });
-
-    this.customerFiltersForm = this.formBuilder.group({
-      type: [''],
-      status: [''],
-    });
-
-    this.cropFiltersForm = this.formBuilder.group({
-      status: [''],
-      calendar_year: [''],
+      initial_field: [''],
     });
   }
   goBack() {
@@ -166,27 +164,19 @@ export class JobSetupPage implements OnInit {
                 this.customer_name ='';
                 this.farm_name ='';
                 this.crop_name = '';
+                this.farm_name = '';
+                this.toastService.presentToast(res.message,'success');
 
                 console.log(res.message);
               }else{
                 console.log('Something happened :)');
               }
-              //show notification based on message returned from the api
-              // this.alertSerice.showAlert({
-              //     type: 'success',
-              //     shake: false,
-              //     slideRight: true,
-              //     title: 'Success',
-              //     message: res.message,
-              //     time: 5000,
-              // });
           },
           (err) => {
             console.log('Error:',err);
               // this.handleError(err);
           },
       );
-
   }
 
   //  #region Customer
@@ -207,14 +197,7 @@ export class JobSetupPage implements OnInit {
         if(value === ''){ this.isCustomerSelected = true;}
 
 
-        this.allCustomers = this.harvestingService.getCustomers(
-          1,
-          10,
-          '',
-          '',
-          value,
-          this.customerFiltersForm.value
-        );
+        this.allCustomers = this.harvestingService.getCustomers(value,'allCustomers');
         // showing UL
         this.customerUL = true;
 
@@ -254,14 +237,7 @@ export class JobSetupPage implements OnInit {
         : this.customerSearchValue;
 
     // calling API
-    this.allCustomers = this.harvestingService.getCustomers(
-      1,
-      20,
-      '',
-      '',
-      value,
-      this.customerFiltersForm.value
-    );
+    this.allCustomers = this.harvestingService.getCustomers('','allCustomers');
 
     // subscribing to disable & enable farm, crop inputs
     this.allCustomers.subscribe((customers) => {
@@ -344,23 +320,21 @@ export class JobSetupPage implements OnInit {
       .subscribe((value: string) => {
         // for asterik to look required
        if(value === ''){ this.isFarmSelected = true;}
-        this.allFarmsClicked = this.harvestingService.getCustomerFarm(
-          this.customerID,
-          1,
-          20,
-          '',
-          '',
-          value
-        );
+
+       //calling API
+        this.allFarmsClicked = this.harvestingService.getFarms(value,'customerFarms',this.customerID);
+
 
         // subscribing to show/hide farm UL
         this.allFarmsClicked.subscribe((farms) => {
           if (farms.count === 0) {
+            this.isFieldDisabled = true;
             // hiding UL
             this.farmUL = false;
           } else {
             // showing UL
             this.farmUL = true;
+            this.isFieldDisabled = false;
           }
         });
       });
@@ -384,27 +358,24 @@ export class JobSetupPage implements OnInit {
         : this.farmSearchValue;
 
     // calling API
-    this.allFarmsClicked = this.harvestingService.getCustomerFarm(
-      this.customerID,
-      1,
-      20,
-      '',
-      '',
-      value
-    );
+    this.allFarmsClicked = this.harvestingService.getFarms('','customerFarms',this.customerID);
+
 
     // subscribing to show/hide farm UL
     this.allFarmsClicked.subscribe((farms) => {
       if (farms.count === 0) {
         // hiding UL
         this.farmUL = false;
+        this.isFieldDisabled = true;
       } else {
         // showing UL
         this.farmUL = true;
+        this.isFieldDisabled = false;
       }
     });
   }
   listClickedFarm(farm) {
+
     // hiding UL
     this.farmUL = false;
 
@@ -426,9 +397,12 @@ export class JobSetupPage implements OnInit {
 
        // to enable submit button
        this.isFarmSelected = false;
+;
+       // passing selected Farm-ID for selected fields
+       this.farmID = farm.id;
   }
   //#endregion
-  //#region Crops
+  //  #region Crops
   cropSearchSubscription() {
     this.crop_search$
       .pipe(
@@ -440,14 +414,9 @@ export class JobSetupPage implements OnInit {
         // for asterik to look required
         if(value === ''){ this.isCropSelected = true;}
 
-        this.allCropsClicked = this.harvestingService.getCustomerCrops(
-          this.customerID,
-          1,
-          20,
-          '',
-          '',
-          value
-        );
+        // calling API
+        this.allCropsClicked = this.harvestingService.getCrops(value,'customerCrops',this.customerID);
+
 
         // subscribing to show/hide crop UL
         this.allCropsClicked.subscribe((crops) => {
@@ -480,14 +449,8 @@ export class JobSetupPage implements OnInit {
         : this.cropSearchValue;
 
     // calling API
-    this.allCropsClicked = this.harvestingService.getCustomerCrops(
-      this.customerID,
-      1,
-      20,
-      '',
-      '',
-      value
-    );
+    this.allCropsClicked = this.harvestingService.getCrops('','customerCrops',this.customerID);
+
 
     // subscribing to show/hide farm UL
     this.allCropsClicked.subscribe((crops) => {
@@ -505,7 +468,7 @@ export class JobSetupPage implements OnInit {
     this.cropUL = false;
 
     // passing name in select's input
-    this.crop_name = crop.crop_name;
+    this.crop_name = crop.name;
 
     // to enable submit button
     this.isCropSelected = false;
@@ -524,4 +487,88 @@ export class JobSetupPage implements OnInit {
     this.allCropsClicked = of([]);
   }
   //#endregion
+  //#region Fields
+ fieldSearchSubscription() {
+
+  this.field_search$
+    .pipe(
+      debounceTime(500),
+      distinctUntilChanged(),
+      takeUntil(this._unsubscribeAll)
+    )
+    .subscribe((value: string) => {
+      // passing for renderer2
+      this.fieldSearchValue = value;
+      // for asterik to look required
+      if(value === ''){ this.isFieldSelected = true;}
+
+     // calling API
+     this.allFields = this.harvestingService.getFields(value,'customerFields',this.customerID,this.farmID);
+
+        // subscribing to show/hide field UL
+        this.allFields.subscribe((fields) => {
+        if (fields.count === 0) {
+          // hiding UL
+          this.fieldUL = false;
+        } else {
+          this.fieldUL = true;
+        }
+      });
+    });
+}
+inputClickedField() {
+  // getting the serch value to check if there's a value in input
+  this.field_search$
+    .pipe(
+      debounceTime(500),
+      distinctUntilChanged(),
+      takeUntil(this._unsubscribeAll)
+    )
+    .subscribe((v) => {
+      this.fieldSearchValue = v;
+    });
+
+  const value =
+    this.fieldSearchValue === undefined
+      ? this.field_name
+      : this.fieldSearchValue;
+
+  // calling API
+  this.allFields = this.harvestingService.getFields('','customerFields',this.customerID,this.farmID);
+
+        // subscribing to show/hide field UL
+        this.allFields.subscribe((fields) => {
+    if (fields.count === 0) {
+      // hiding UL
+      this.fieldUL = false;
+    } else {
+      // showing UL
+      this.fieldUL = true;
+    }
+  });
+}
+listClickedField(field) {
+  console.log('Field Object:',field);
+  // hiding UL
+  this.fieldUL = false;
+
+  // passing name in select's input
+  this.field_name = field.field_name;
+
+  // to enable submit button
+  this.isFieldSelected = false;
+
+  // assigning values in form
+  this.jobSetupForm.setValue({
+    state: this.jobSetupForm.get('state').value,
+    customer_id: this.jobSetupForm.get('customer_id').value,
+    farm_id: this.jobSetupForm.get('farm_id').value,
+    crop_id: this.jobSetupForm.get('crop_id').value,
+    initial_field: field.field_id,
+  });
+
+  // clearing array
+  this.allFields = of([]);
+}
+//#endregion
 }

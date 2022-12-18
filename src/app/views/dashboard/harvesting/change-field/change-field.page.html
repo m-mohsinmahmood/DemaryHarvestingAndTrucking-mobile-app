@@ -28,11 +28,51 @@
 </ion-card>
 <form [formGroup]="changeFieldFormChief">
   <div class="px-2">
+    <!-- Customer -->
+    <div class="" role="dialog" aria-modal="true">
+      <div class="mb-4 relative z-40">
+        <div class="mx-auto max-w-full transform rounded-xl px-0  transition-all">
+          <label class="block text-sm font-medium text-gray-700 mb-1">Customer Name<span
+            *ngIf="isCustomerSelected"
+            class="text-red-400">*</span></label>
+          <div class="flex items-center justify-between gap-x-2 rounded-md">
+            <input (keyup)="customer_search$.next($event.target.value)"
+            [value]="customer_name "
+              (click)="inputClickedCustomer()" #customerInput
+              class="w-full px-4 py-2.5 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
+              placeholder="Select Customer" role="" aria-expanded="false" aria-controls="options">
+          </div>
+
+          <div *ngIf="allCustomers | withLoading | async as allCustomers" class="">
+            <div class="flex justify-center items-center">
+              <ion-spinner *ngIf="allCustomers?.loading" name="crescent" mode="indeterminate"
+                color="primary"></ion-spinner>
+            </div>
+            <ul *ngIf="allCustomers?.value && customerUL"
+              class="-mb-2 max-h-44 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800 bg-white drop-shadow-lg absolute w-full"
+              id="options" role="listbox">
+              <li *ngFor="let customer of (allCustomers?.value.customers)" (click)="listClickedCustomer(customer)"
+                class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200" role="option"
+                tabindex="-1" >
+                <div class="flex items-center p-2">
+                  {{customer.customer_name}}
+                </div>
+              </li>
+            </ul>
+            <div *ngIf="allCustomers?.value?.customers?.length === 0" (onclick)="disableFields()">
+              <div class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200 text-gray-500 hover:text-gray-700 hover:font-semibold"
+                disabled  role="option" tabindex="-1"> No Customer(s) found </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="col-span-12 mb-4">
-      <label class="block text-sm font-medium text-gray-700">Enter New Field <span *ngIf="this.changeFieldFormChief.get('fieldName').hasError('required')" class="text-red-400">*</span></label>
+      <label class="block text-sm font-medium text-gray-700">Enter New Field <span *ngIf="this.changeFieldFormChief.get('field_id').hasError('required')" class="text-red-400">*</span></label>
       <input
         class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-        formControlName="fieldName" placeholder="Field Name">
+        formControlName="field_id" placeholder="Field Name">
     </div>
     <div class="col-span-12 mb-4">
       <label class="block text-sm font-medium text-gray-700">Acres <span *ngIf="this.changeFieldFormChief.get('acres').hasError('required')" class="text-red-400">*</span></label>
@@ -41,10 +81,10 @@
         formControlName="acres" placeholder="Acres">
     </div>
     <div class="col-span-12 mb-4">
-      <label class="block text-sm font-medium text-gray-700">GPS Acres Completed (for prior field) <span *ngIf="this.changeFieldFormChief.get('acresPriorField').hasError('required')" class="text-red-400">*</span></label>
+      <label class="block text-sm font-medium text-gray-700">GPS Acres Completed (for prior field) <span *ngIf="this.changeFieldFormChief.get('acres_completed').hasError('required')" class="text-red-400">*</span></label>
       <input
         class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-        formControlName="acresPriorField" placeholder="GPS Acres Completed (for prior field)">
+        formControlName="acres_completed" placeholder="GPS Acres Completed (for prior field)">
     </div>
         <ion-button expand="block" class="mt-5 font-Lato text-white" [disabled]="changeFieldFormChief.invalid" (click)="submit()">Save</ion-button>
   </div>
@@ -79,10 +119,10 @@
 
   <div class="px-2">
   <div class="col-span-12 mb-4">
-    <label class="block text-sm font-medium text-gray-700">Enter New Field <span *ngIf="this.changeFieldFormCombine.get('fieldName').hasError('required')" class="text-red-400">*</span></label>
+    <label class="block text-sm font-medium text-gray-700">Enter New Field <span *ngIf="this.changeFieldFormCombine.get('field_id').hasError('required')" class="text-red-400">*</span></label>
     <input
       class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-      formControlName="fieldName" placeholder="Enter New Field">
+      formControlName="field_id" placeholder="Enter New Field">
   </div>
   <div class="col-span-12 mb-4">
     <label class="block text-sm font-medium text-gray-700">Acres<span *ngIf="this.changeFieldFormCombine.get('acres').hasError('required')" class="text-red-400">*</span></label>
@@ -91,10 +131,10 @@
       formControlName="acres" placeholder="Enter Acres">
   </div>
   <div class="col-span-12 mb-4">
-    <label class="block text-sm font-medium text-gray-700">GPS Acres Completed (for prior field) <span *ngIf="this.changeFieldFormCombine.get('acresPriorField').hasError('required')" class="text-red-400">*</span></label>
+    <label class="block text-sm font-medium text-gray-700">GPS Acres Completed (for prior field) <span *ngIf="this.changeFieldFormCombine.get('acres_completed').hasError('required')" class="text-red-400">*</span></label>
     <input
       class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-      formControlName="acresPriorField" placeholder="Enter GPS Acres Completed (for prior field)">
+      formControlName="acres_completed" placeholder="Enter GPS Acres Completed (for prior field)">
   </div>
     <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="submit()" [disabled]="changeFieldFormCombine.invalid">Save</ion-button>
 </div>
@@ -128,16 +168,16 @@
 <form [formGroup]="changeFieldFormKart">
   <div class="px-2">
     <div class="col-span-12 mb-4">
-      <label class="block text-sm font-medium text-gray-700">Enter New Field <span *ngIf="this.changeFieldFormKart.get('fieldName').hasError('required')" class="text-red-400">*</span></label>
+      <label class="block text-sm font-medium text-gray-700">Enter New Field <span *ngIf="this.changeFieldFormKart.get('field_id').hasError('required')" class="text-red-400">*</span></label>
       <input
         class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-        formControlName="fieldName" placeholder="Enter New Field">
+        formControlName="field_id" placeholder="Enter New Field">
     </div>
     <div class="col-span-12 mb-4">
-      <label class="block text-sm font-medium text-gray-700">GPS Acres Completed (for prior field) <span *ngIf="this.changeFieldFormKart.get('acresPriorField').hasError('required')" class="text-red-400">*</span></label>
+      <label class="block text-sm font-medium text-gray-700">GPS Acres Completed (for prior field) <span *ngIf="this.changeFieldFormKart.get('acres_completed').hasError('required')" class="text-red-400">*</span></label>
       <input
         class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-        formControlName="acresPriorField" placeholder="GPS Acres Completed (for prior field)">
+        formControlName="acres_completed" placeholder="GPS Acres Completed (for prior field)">
     </div>
     <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="submit()" [disabled]="changeFieldFormKart.invalid">Save</ion-button>
   </div>

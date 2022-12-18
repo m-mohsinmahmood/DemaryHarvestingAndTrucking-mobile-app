@@ -206,26 +206,13 @@ role ==='truck-driver'? 'Enter Begining of Day Work Data' : ''"
   </div>
 
   <div class="col-span-12 mb-4">
-    <label class="block text-sm font-medium text-gray-700">Confirm Begining Odometer Miles <span *ngIf="this.startJobFormTruck.get('begining_odometer_miles').hasError('required')" class="text-red-400">*</span></label>
+    <label class="block text-sm font-medium text-gray-700">Confirm Begining Odometer Miles <span *ngIf="this.startJobFormTruck.get('begining_miles').hasError('required')" class="text-red-400">*</span></label>
     <input
       class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-      formControlName="begining_odometer_miles" placeholder="Confirm Begining Odometer Miles">
+      formControlName="begining_miles" placeholder="Confirm Begining Odometer Miles">
   </div>
     <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="submit()" [disabled]="startJobFormTruck.invalid">Save</ion-button>
 </div>
 </form>
 </div>
 </ion-content>
-
-<div *ngIf="showAlert" class="fixed z-999 pointer-events-none top-0 left-0 w-full h-full">
-  <div class="flex z-999 absolute justify-end items-end w-full h-full">
-      <div class="static pointer-events-auto box-border z-999 flex flex-col justify-end max-w-full max-h-full">
-          <div >
-              <div class="mb-2 mr-2 shadow-2xl">
-                  <span>{{alertInfo.title}}</span>
-                  <span>{{alertInfo.message}}</span>
-              </div>
-          </div>
-      </div>
-  </div>
-</div>

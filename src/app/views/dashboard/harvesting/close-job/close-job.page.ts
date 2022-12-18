@@ -1,6 +1,9 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { HarvestingService } from './../harvesting.service';
+import { ToastService } from 'src/app/services/toast/toast.service';
 
 @Component({
   selector: 'app-close-job',
@@ -17,25 +20,29 @@ closeJobFormTruck: FormGroup;
   constructor(
     private location: Location,
     private formBuilder: FormBuilder,
+    private harvestingService: HarvestingService,
+    private toastService: ToastService
+
+
   ) { }
 
   ngOnInit() {
     this.role = localStorage.getItem('role');
 
     this.closeJobFormCrew = this.formBuilder.group({
-      separatorHours: ['',[Validators.required]],
-      engineHours: ['',[Validators.required]],
+      separator_hours: ['',[Validators.required]],
+      engine_hours: ['',[Validators.required]],
     });
     this.closeJobFormCombine = this.formBuilder.group({
-      endingSeparatorHours: ['',[Validators.required]],
-      endingEngineHours: ['',[Validators.required]],
+      ending_separator_hours: ['',[Validators.required]],
+      ending_engine_hours: ['',[Validators.required]],
     });
 
     this.closeJobFormKart = this.formBuilder.group({
-      engineHours: ['',[Validators.required]],
+      engine_hours: ['',[Validators.required]],
     });
     this.closeJobFormTruck = this.formBuilder.group({
-      endingOdometerMiles: ['',[Validators.required]],
+      ending_odometer_miles: ['',[Validators.required]],
     });
   }
   goBack(){
@@ -43,6 +50,23 @@ closeJobFormTruck: FormGroup;
   }
   submit(){
     console.log(this.closeJobFormCrew.value);
+    this.harvestingService.closeJob(this.closeJobFormCrew.value)
+    .subscribe(
+      (res: any) => {
+          console.log('Response Start Job:',res);
+          if(res.status === 200){
+            this.closeJobFormCrew.reset();
+            this.toastService.presentToast(res.message,'success');
+          }else{
+            console.log('Something happened :)');
+            this.toastService.presentToast(res.mssage,'danger');
+          }
+        },
+      (err) => {
+        this.toastService.presentToast(err,'danger');
+        console.log('Error:',err);
+      },
+  );
     console.log(this.closeJobFormKart.value);
     console.log(this.closeJobFormTruck.value);
     console.log(this.closeJobFormCombine.value);
