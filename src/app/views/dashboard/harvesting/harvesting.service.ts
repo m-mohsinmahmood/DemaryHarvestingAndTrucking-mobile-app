@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/member-ordering */
 /* eslint-disable @typescript-eslint/semi */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable no-underscore-dangle */
@@ -5,27 +6,33 @@ import { Injectable } from '@angular/core';
 import {  BehaviorSubject, Observable, throwError } from 'rxjs';
 import {  take, tap } from 'rxjs/operators';
 import { AlertService } from 'src/app/alert/alert.service';
-
-
 import {
-    HttpClient,
-    HttpErrorResponse,
-    HttpParams,
+  HttpClient,
+  HttpErrorResponse,
+  HttpParams,
 } from '@angular/common/http';
+import { ToastService } from 'src/app/services/toast/toast.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class HarvestingService{
-//   private jobs: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
-//   private customers: BehaviorSubject<any[] | null> =
-//   new BehaviorSubject(null);
-// readonly customers$: Observable<any[] | null> =
-//   this.customers.asObservable();
+  private customer: BehaviorSubject<any[] | null> =
+  new BehaviorSubject(null);
+readonly customer$: Observable<any[] | null> =
+  this.customer.asObservable();
+
+  private customerLoading: BehaviorSubject<boolean> =
+  new BehaviorSubject<boolean>(true);
+readonly customerLoading$: Observable<boolean> =
+  this.customerLoading.asObservable();
+
 
   constructor(
     private _httpClient: HttpClient,
-    private alertSerice: AlertService
+    private alertSerice: AlertService,
+    private toastService: ToastService
+
   ){}
 
  //#region Error Function
@@ -59,36 +66,6 @@ export class HarvestingService{
 
 //#endregion
 
-// getCustomers(
-//   page: number = 1,
-//   limit: number = 10,
-//   sort: string = '',
-//   order: 'asc' | 'desc' | '' = '',
-//   search: string = '',
-//   filters: any = { type: '', status: '' },
-// ) {
-//   let params = new HttpParams();
-//   params = params.set('page', page);
-//   params = params.set('limit', limit);
-//   params = params.set('search', search);
-//   params = params.set('sort', sort);
-//   params = params.set('order', order);
-//   params = params.set('type', filters.type);
-//   params = params.set('status', filters.status);
-//   return this._httpClient
-//       .get<any>('api-1/customers', {
-//           params,
-//       })
-//       .pipe(take(1));
-//       // .subscribe(
-//       //     (res: any) => {
-//       //        console.log('res',res);
-//       //     },
-//       //     (err) => {
-//       //         console.log('error,',err);
-//       //     }
-//       // );
-// }
 
 getCustomers(
         search: string = '',
@@ -167,6 +144,21 @@ createJob(data: any) {
       .post(`http://localhost:7071/api/customer-job-setup`, data)
       .pipe(take(1));
 }
+getJob() {
+  return this._httpClient
+       .get(`http://localhost:7071/api/customer-job-setup`)
+       .pipe(take(1))
+       .subscribe(
+        (res: any)=>{
+          this.customerLoading.next(true);
+         this.customer.next(res.customer_job);
+         this.customerLoading.next(false)
+       },
+       (err)=>{
+        this.toastService.presentToast(err,'danger');
+
+       })
+ }
 
 startJob(data: any) {
   return this._httpClient

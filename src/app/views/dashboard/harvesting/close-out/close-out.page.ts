@@ -14,11 +14,12 @@ import { ToastService } from 'src/app/services/toast/toast.service';
 export class CloseOutPage implements OnInit {
   closeJobForm: FormGroup;
   date: any = moment(new Date()).format('DD-MM-YYYY');
+  customerData: any;
+  isLoading: any;
   constructor(
     private formBuilder: FormBuilder,
     private harvestingservice: HarvestingService,
     private toastService: ToastService
-
   ) { }
 
   ngOnInit() {
@@ -26,6 +27,19 @@ export class CloseOutPage implements OnInit {
       date: [''],
       total_acres: ['',[Validators.required]],
       total_gps_acres: ['',[Validators.required]],
+    });
+    this.initApis();
+    this.initObservables();
+  }
+  initApis(){
+    this.harvestingservice.getJob();
+  }
+  initObservables(){
+    this.harvestingservice.customer$.subscribe((res)=>{
+      this.customerData = res;
+    });
+    this.harvestingservice.customerLoading$.subscribe((val)=>{
+      this.isLoading = val;
     });
   }
   submit(){
@@ -36,7 +50,7 @@ export class CloseOutPage implements OnInit {
           if(res.status === 200){
             this.closeJobForm.reset();
             this.toastService.presentToast(res.message,'success');
-          }else{
+          } else{
             console.log('Something happened :)');
           }
       },

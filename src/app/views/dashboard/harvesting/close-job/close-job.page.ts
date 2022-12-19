@@ -30,19 +30,23 @@ closeJobFormTruck: FormGroup;
     this.role = localStorage.getItem('role');
 
     this.closeJobFormCrew = this.formBuilder.group({
+      role: [localStorage.getItem('role')],
       separator_hours: ['',[Validators.required]],
       engine_hours: ['',[Validators.required]],
     });
     this.closeJobFormCombine = this.formBuilder.group({
-      ending_separator_hours: ['',[Validators.required]],
-      ending_engine_hours: ['',[Validators.required]],
+      role: [localStorage.getItem('role')],
+      separator_hours: ['',[Validators.required]],
+      engine_hours: ['',[Validators.required]],
     });
 
     this.closeJobFormKart = this.formBuilder.group({
+      role: [localStorage.getItem('role')],
       engine_hours: ['',[Validators.required]],
     });
     this.closeJobFormTruck = this.formBuilder.group({
-      ending_odometer_miles: ['',[Validators.required]],
+      role: [localStorage.getItem('role')],
+      ending_miles: ['',[Validators.required]],
     });
   }
   goBack(){
@@ -50,26 +54,86 @@ closeJobFormTruck: FormGroup;
   }
   submit(){
     console.log(this.closeJobFormCrew.value);
-    this.harvestingService.closeJob(this.closeJobFormCrew.value)
-    .subscribe(
-      (res: any) => {
-          console.log('Response Start Job:',res);
-          if(res.status === 200){
-            this.closeJobFormCrew.reset();
-            this.toastService.presentToast(res.message,'success');
-          }else{
-            console.log('Something happened :)');
-            this.toastService.presentToast(res.mssage,'danger');
-          }
-        },
-      (err) => {
-        this.toastService.presentToast(err,'danger');
-        console.log('Error:',err);
-      },
-  );
     console.log(this.closeJobFormKart.value);
     console.log(this.closeJobFormTruck.value);
     console.log(this.closeJobFormCombine.value);
+
+    if(localStorage.getItem('role') === 'crew-chief'){
+      this.harvestingService.closeJob(this.closeJobFormCrew.value)
+      .subscribe(
+        (res: any) => {
+            console.log('Response:',res);
+            if(res.status === 200){
+              this.closeJobFormCrew.reset();
+              this.toastService.presentToast(res.message,'success');
+            }else{
+              console.log('Something happened :)');
+              this.toastService.presentToast(res.mssage,'danger');
+            }
+          },
+        (err) => {
+          this.toastService.presentToast(err,'danger');
+          console.log('Error:',err);
+        },
+    );
+    }
+    if(localStorage.getItem('role') === 'combine-operator'){
+      this.harvestingService.closeJob(this.closeJobFormCombine.value)
+      .subscribe(
+        (res: any) => {
+            console.log('Response:',res);
+            if(res.status === 200){
+              this.closeJobFormCombine.reset();
+              this.toastService.presentToast(res.message,'success');
+            }else{
+              console.log('Something happened :)');
+              this.toastService.presentToast(res.mssage,'danger');
+            }
+          },
+        (err) => {
+          this.toastService.presentToast(err,'danger');
+          console.log('Error:',err);
+        },
+    );
+    }
+    if(localStorage.getItem('role') === 'kart-operator'){
+      this.harvestingService.closeJob(this.closeJobFormKart.value)
+      .subscribe(
+        (res: any) => {
+            console.log('Response:',res);
+            if(res.status === 200){
+              this.closeJobFormKart.reset();
+              this.toastService.presentToast(res.message,'success');
+            }else{
+              console.log('Something happened :)');
+              this.toastService.presentToast(res.mssage,'danger');
+            }
+          },
+        (err) => {
+          this.toastService.presentToast(err,'danger');
+          console.log('Error:',err);
+        },
+    );
+    }
+    if(localStorage.getItem('role') === 'truck-driver'){
+      this.harvestingService.closeJob(this.closeJobFormTruck.value)
+      .subscribe(
+        (res: any) => {
+            console.log('Response:',res);
+            if(res.status === 200){
+              this.closeJobFormTruck.reset();
+              this.toastService.presentToast(res.message,'success');
+            }else{
+              console.log('Something happened :)');
+              this.toastService.presentToast(res.mssage,'danger');
+            }
+          },
+        (err) => {
+          this.toastService.presentToast(err,'danger');
+          console.log('Error:',err);
+        },
+    );
+    }
 
   }
 }

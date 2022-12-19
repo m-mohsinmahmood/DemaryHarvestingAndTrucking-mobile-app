@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable @angular-eslint/use-lifecycle-interface */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable @typescript-eslint/naming-convention */
@@ -25,25 +26,36 @@ changeFieldFormCombine: FormGroup;
 
 // observables
   allCustomers: Observable<any>;
+  allFields: Observable<any>;
 
     // subjects
   customer_search$ = new Subject();
+  field_search$ = new Subject();
 
     // input values
   customer_name: any = '';
+  field_name: any = '';
 
    // input's search values
   customerSearchValue: any;
+  fieldSearchValue: any = '';
 
    // to show UL's
   customerUL: any = false;
+  fieldUL: any = false;
 
-    // for invalid
+  // for invalid
   isCustomerSelected: any = true;
+  isFieldSelected: any = true;
 
   // selected customer id to select field
   customerID: any;
 
+  // selected farm id to select fields
+  farmID: any;
+
+  customerData: any;
+  isLoading: any;
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
 
@@ -60,9 +72,20 @@ ngOnInit() {
   this.role = localStorage.getItem('role');
 
 
+  this.initForms();
+  this.initApis();
+  this.initObservables();
+}
+
+ngOnDestroy(): void {
+  this._unsubscribeAll.next(null);
+  this._unsubscribeAll.complete();
+}
+initForms(){
   this.changeFieldFormChief = this.formBuilder.group({
-    customer_id:['', [Validators.required]], // <-
-    field_id: ['',[Validators.required]],
+    customer_id:[''], // <-
+    field_id: [''],
+    field_name: [''],
     acres: ['',[Validators.required]],
     acres_completed: ['',[Validators.required]],
   });
@@ -80,22 +103,27 @@ ngOnInit() {
     status: [''],
   });
 }
-
-ngOnDestroy(): void {
-  this._unsubscribeAll.next(null);
-  this._unsubscribeAll.complete();
+initApis(){
+  this.harvestingService.getJob();
+}
+initObservables(){
+  this.harvestingService.customer$.subscribe((res)=>{
+    this.customerData = res;
+    console.log(this.customerData);
+  });
+  this.harvestingService.customerLoading$.subscribe((val)=>{
+    this.isLoading = val;
+  });
 }
 
   goBack(){
     this.location.back();
   }
 
-   //  #region Customer
-   customerSearchSubscription() {
-    // clearing array to show only spiner
-    this.allCustomers = of([]);
+ //#region Fields
+  fieldSearchSubscription() {
 
-    this.customer_search$
+    this.field_search$
       .pipe(
         debounceTime(500),
         distinctUntilChanged(),
@@ -103,131 +131,80 @@ ngOnDestroy(): void {
       )
       .subscribe((value: string) => {
         // passing for renderer2
-        this.customerSearchValue = value;
+        this.fieldSearchValue = value;
+
         // for asterik to look required
-        if(value === ''){ this.isCustomerSelected = true;}
+        if(value === ''){ this.isFieldSelected = true;}
 
+       // calling API
+       this.allFields = this.harvestingService.getFields(value,'customerFields',this.customerData[0].customer_id,this.customerData[0].farm_id);
 
-        this.allCustomers = this.harvestingService.getCustomers('allCustomers');
-        // showing UL
-        this.customerUL = true;
-
-        // subscribing to disable & enable farm, crop inputs
-        // this.allCustomers.subscribe((customers) => {
-        //   // this.isDisabled = customers.count === 0 ? true : false;
-        //   if (customers.count === 0) {
-        //     this.isDisabled = true;
-
-        //     // clearing the input values in farm, crop after getting disabled
-        //     this.farm_name = '';
-        //     this.crop_name = '';
-
-        //     // hiding UL
-        //     this.customerUL = false;
-        //   } else {
-        //     this.isDisabled = false;
-        //   }
-        // });
+          // subscribing to show/hide field UL
+          this.allFields.subscribe((fields) => {
+          if (fields.count === 0) {
+            // hiding UL
+            this.fieldUL = false;
+          } else {
+            this.fieldUL = true;
+          }
+        });
       });
   }
-  inputClickedCustomer() {
+  inputClickedField() {
     // getting the serch value to check if there's a value in input
-    this.customer_search$
+    this.field_search$
       .pipe(
         debounceTime(500),
         distinctUntilChanged(),
         takeUntil(this._unsubscribeAll)
       )
       .subscribe((v) => {
-        this.customerSearchValue = v;
+        this.fieldSearchValue = v;
       });
 
     const value =
-      this.customerSearchValue === undefined
-        ? this.customer_name
-        : this.customerSearchValue;
+      this.fieldSearchValue === undefined
+        ? this.field_name
+        : this.fieldSearchValue;
 
     // calling API
-    this.allCustomers = this.harvestingService.getCustomers('allCustomers');
+    this.allFields = this.harvestingService.getFields('','customerFields',this.customerData[0].customer_id,this.customerData[0].farm_id);
 
-
-    // subscribing to disable & enable farm, crop inputs
-    // this.allCustomers.subscribe((customers) => {
-    //   // this.isDisabled = customers.count === 0 ? true : false;
-    //   if (customers.count === 0) {
-    //     this.isDisabled = true;
-
-    //     // clearing the input values in farm, crop after getting disabled
-    //     this.farm_name = '';
-    //     this.crop_name = '';
-
-    //     // hiding UL
-    //     this.customerUL = false;
-    //   } else {
-    //     this.isDisabled = false;
-         // showing UL
-        this.customerUL = true;
-    //   }
-    // });
-  }
-  listClickedCustomer(customer) {
-    console.log('Customer Object:',customer);
-
-    // clearing array
-    this.allCustomers = of([]);
-    // this.allFarms = of([]);
-    // this.allFarmsClicked = of([]);
-    // this.allCrops = of([]);
-    // this.allCropsClicked = of([]);
-
-    // clearing value from farm & crop input
-    // this.farm_name = '';
-    // this.crop_name = '';
-
-    // hiding UL
-    this.customerUL = false;
-
-    // removing farm & crop name from select
-    this.changeFieldFormChief.setValue({
-      customer_id:'', // <-
-      field_id: '',
-      acres: '',
-      acres_completed: '',
+          // subscribing to show/hide field UL
+          this.allFields.subscribe((fields) => {
+      if (fields.count === 0) {
+        // hiding UL
+        this.fieldUL = false;
+      } else {
+        // showing UL
+        this.fieldUL = true;
+      }
     });
+  }
+  listClickedField(field) {
+    console.log('Field Object:',field);
+    // hiding UL
+    this.fieldUL = false;
+
+    // passing name in select's input
+    this.field_name = field.field_name;
+
+    // to enable submit button
+    this.isFieldSelected = false;
 
     // assigning values in form
     this.changeFieldFormChief.setValue({
-      customer_id: customer.id, // <-
-      field_id: this.changeFieldFormChief.get('field_id').value,
-      acres: this.changeFieldFormChief.get('acres').value,
-      acres_completed: this.changeFieldFormChief.get('acres_completed').value,
-    });
+    customer_id: this.changeFieldFormChief.get('customer_id').value,
+    field_id: field.field_id,
+    acres: this.changeFieldFormChief.get('acres').value,
+    acres_completed: this.changeFieldFormChief.get('acres_completed').value,
+    field_name: field.field_name,
+  });
 
-    // this.jobSetupForm.setValue({
-    //   state: this.jobSetupForm.get('state').value,
-    //   customer_id: customer.id,
-    //   farm_id: this.jobSetupForm.get('farm_id').value,
-    //   crop_id: this.jobSetupForm.get('crop_id').value,
-    //   initial_field: this.jobSetupForm.get('initial_field').value,
-    // });
-
-    // passing name in select's input
-    this.customer_name = customer.customer_name;
-
-    // passing name in customer-search-value in Rendered2 to checks
-    this.customerSearchValue = customer.customer_name;
-
-    // to enable submit button
-    this.isCustomerSelected = false;
-
-    // passing the customer id to  select farm & crop id
-    this.customerID = customer.id;
+    // clearing array
+    this.allFields = of([]);
   }
-  // disableFields() {
-  //   this.isDisabled = true;
-  // }
   //#endregion
-
   submit(){
     console.log(this.changeFieldFormChief.value);
 //  this.harvestingService.changeField(this.changeFieldFormChief.value)
