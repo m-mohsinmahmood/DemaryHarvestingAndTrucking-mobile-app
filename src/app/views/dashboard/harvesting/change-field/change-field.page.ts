@@ -54,6 +54,7 @@ changeFieldFormCombine: FormGroup;
   // selected farm id to select fields
   farmID: any;
 
+  // Profile variables
   customerData: any;
   isLoading: any;
   private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -109,7 +110,7 @@ initApis(){
 initObservables(){
   this.harvestingService.customer$.subscribe((res)=>{
     this.customerData = res;
-    console.log(this.customerData);
+    console.log('res::',res);
   });
   this.harvestingService.customerLoading$.subscribe((val)=>{
     this.isLoading = val;

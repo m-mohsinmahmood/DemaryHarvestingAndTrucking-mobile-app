@@ -1,262 +1,378 @@
-<app-header
-  [title]="role === 'kart-operator' && !isReassign? 'Create Delivery Ticket' : '' ||
-  role === 'kart-operator' && isReassign? 'Reassign Delivery Ticket': ''"
-  [color]="'harvesting'"
-></app-header>
+<app-header [title]="role === 'kart-operator' && !isReassign? 'Create Delivery Ticket' : '' ||
+  role === 'kart-operator' && isReassign? 'Reassign Delivery Ticket': ''" [color]="'harvesting'"></app-header>
 
 <!-- Kart-Operator -->
 <ion-content *ngIf="role === 'kart-operator' && !isReassign ">
   <app-timer [value]="'12:11:19'"></app-timer>
   <div class="p-4">
-<ion-card class="m-0 mb-4">
-  <ion-card-header>
-    <ion-card-title class="font-Lato">Customer Profile</ion-card-title>
-  </ion-card-header>
-  <ion-card-content>
-    <ion-grid>
-      <ion-row>
-        <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Customer Name</ion-col>
-        <ion-col size="6" class="text-sm flex justify-end font-Lato">Mike Allen</ion-col>
-        <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Farm</ion-col>
-        <ion-col size="6" class="text-sm flex justify-end font-Lato">Dakota </ion-col>
-        <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Crop</ion-col>
-        <ion-col size="6" class="text-sm flex justify-end font-Lato">Corn</ion-col>
-      </ion-row>
-    </ion-grid>
-  </ion-card-content>
-</ion-card>
-<form [formGroup]="deliveryTicketForm">
+    <ion-card class="m-0 mb-4">
+      <ion-card-header>
+        <ion-card-title class="font-Lato">Customer Profile</ion-card-title>
+      </ion-card-header>
+      <ion-card-content *ngIf="!isLoading">
+        <ion-grid>
+          <ion-row >
+            <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Customer Name</ion-col>
+            <ion-col size="6" class="text-sm font-Lato">{{customerData?.customer_job[0].customer_name}}</ion-col>
+            <ion-col size="6" class="text-sm text-black font-Lato font-semibold">State</ion-col>
+            <ion-col size="6" class="text-sm font-Lato">{{customerData?.customer_job[0].state}} </ion-col>
+            <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Farm</ion-col>
+            <ion-col size="6" class="text-sm font-Lato">{{customerData?.customer_job[0].farm_name}} </ion-col>
+            <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Crop</ion-col>
+            <ion-col size="6" class="text-sm font-Lato">{{customerData?.customer_job[0].crop_name}} </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+      <ion-card-content *ngIf="isLoading">
+        <ion-grid>
+          <ion-row>
+            <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Customer Name</ion-col>
+            <ion-col size="6" class="text-sm font-Lato">
+              <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+            </ion-col>
+            <ion-col size="6" class="text-sm text-black font-Lato font-semibold">State</ion-col>
+            <ion-col size="6" class="text-sm font-Lato">
+              <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
+            </ion-col>
+            <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Farm</ion-col>
+            <ion-col size="6" class="text-sm font-Lato">
+              <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
+            </ion-col>
+            <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Crop</ion-col>
+            <ion-col size="6" class="text-sm font-Lato">
+              <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
+            </ion-col>
+            <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Current Field</ion-col>
+            <ion-col size="6" class="text-sm font-Lato">
+              <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+    <form [formGroup]="deliveryTicketForm">
 
-<div class=" px-2">
+        <!-- <div class=" px-2"> -->
 
-  <div class="col-span-12 mb-4">
-    <label class="block text-sm font-medium text-gray-700">Truck Driver <span *ngIf="this.deliveryTicketForm.get('truckDriver').hasError('required')"  class="text-red-400">*</span></label>
-    <input
-      class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-      formControlName="truckDriver" placeholder="Truck Driver">
+        <!-- <div class="col-span-12 mb-4">
+            <label class="block text-sm font-medium text-gray-700">Truck Driver <span *ngIf="this.deliveryTicketForm.get('truck_driver').hasError('required')"  class="text-red-400">*</span></label>
+            <input
+              class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+              formControlName="truck_driver" placeholder="Truck Driver">
+          </div> -->
+        <div class="px-2">
+          <div [ngClass]="'opacity-100 visible ease-in duration-200'" class="" role="dialog" aria-modal="true">
+
+            <div [ngClass]="'opacity-100 visible scale-100 ease-in duration-200'" class="mb-4 relative z-20">
+              <div class="mx-auto max-w-full transform rounded-xl px-0 transition-all">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Driver Name <span
+                    *ngIf="isTruckDriverSelected" class="text-red-400">*</span></label>
+                <div class="flex items-center justify-between gap-x-2 rounded-md">
+                  <input (keyup)="trick_driver_search$.next($event.target.value)" (click)="inputClickedTruckDriver()"
+                    [value]="trick_driver_name" #combineInput
+                    class="{{isFieldDisabled? 'pointer-events-none bg-gray-200 w-full px-4 py-2.5 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500': 'w-full px-4 py-2.5 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500'}}"
+                    placeholder="Select Driver" role="" aria-expanded="false" aria-controls="options">
+                </div>
+
+                <div *ngIf="allTruckDrivers | withLoading | async as allTruckDrivers" class="">
+                  <div class="flex justify-center items-center">
+                    <ion-spinner *ngIf="allTruckDrivers?.loading" name="crescent" mode="indeterminate"
+                      color="primary"></ion-spinner>
+                  </div>
+                  <ul *ngIf="allTruckDrivers?.value && truckDriverUL"
+                    class="-mb-2 max-h-44 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800 bg-white drop-shadow-lg absolute w-full"
+                    id="options" role="listbox">
+                    <li *ngFor="let truckDrivers of (allTruckDrivers?.value.employees)"
+                      (click)="listClickedTruckDriver(truckDrivers)"
+                      class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200" role="option"
+                      tabindex="-1">
+                      <div class="flex items-center p-2">
+                        {{truckDrivers.first_name}} {{truckDrivers.last_name}}
+                      </div>
+                    </li>
+                  </ul>
+                  <div *ngIf="allTruckDrivers?.value?.employees?.length === 0">
+                    <p disabled
+                      class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200 text-gray-500 hover:text-gray-700 hover:font-semibold">
+                      No driver (s) found </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="col-span-12 mb-4">
+            <label class="block text-sm font-medium text-gray-700">Destination <span
+                *ngIf="this.deliveryTicketForm.get('destination').hasError('required')"
+                class="text-red-400">*</span></label>
+            <input
+              class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+              formControlName="destination" placeholder="Destination">
+          </div>
+
+          <div class="col-span-12 mb-4">
+            <label class="block text-sm font-medium text-gray-700">Loaded Miles <span
+                *ngIf="this.deliveryTicketForm.get('loaded_miles').hasError('required')"
+                class="text-red-400">*</span></label>
+            <input
+              class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+              formControlName="loaded_miles" placeholder="Loaded Miles">
+          </div>
+
+          <div class="col-span-12 mb-4">
+            <label class="block text-sm font-medium text-gray-700">Field <span
+                *ngIf="this.deliveryTicketForm.get('field').hasError('required')" class="text-red-400">*</span></label>
+            <input
+              class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+              formControlName="field" placeholder="Enter Field">
+          </div>
+          <ion-item lines="none">
+            <ion-checkbox slot="start" (ionChange)="buttton()" formControlName="split_load_check"></ion-checkbox>
+            <ion-label class="font">Split Load</ion-label>
+          </ion-item>
+          <div *ngIf="!isSplitTrue">
+
+            <div class="col-span-12 mb-4">
+              <label class="block text-sm font-medium text-gray-700">Kart Scale Weight (optional) <span
+                  *ngIf="this.deliveryTicketForm.get('kart_scale_weight').hasError('required')"
+                  class="text-red-400">*</span></label>
+              <input
+                class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                formControlName="kart_scale_weight" placeholder="Kart Scale Weight (optional)">
+            </div>
+
+            <div class="col-span-12 mb-4">
+              <label class="block text-sm font-medium text-gray-700">Delivery Ticket Number <span
+                  *ngIf="this.deliveryTicketForm.get('delivery_ticket_number').hasError('required')"
+                  class="text-red-400">*</span></label>
+              <input
+                class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                formControlName="delivery_ticket_number" placeholder="Delivery Ticket Number">
+            </div>
+            <div class="col-span-12 mb-4">
+              <label class="block text-sm font-medium text-gray-700">Kart Operator Name <span
+                  *ngIf="this.deliveryTicketForm.get('kart_operator').hasError('required')"
+                  class="text-red-400">*</span></label>
+              <input
+                class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                formControlName="kart_operator" placeholder="Delivery Ticket Number">
+            </div>
+
+            <div class="col-span-12 mb-4">
+              <label class="block text-sm font-medium text-gray-700">Truck Driver Company <span
+                  *ngIf="this.deliveryTicketForm.get('truck_driver_company').hasError('required')"
+                  class="text-red-400">*</span></label>
+              <input
+                class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                formControlName="truck_driver_company" placeholder="Truck Driver Company">
+            </div>
+
+            <div class="col-span-12 mb-4">
+              <label class="block text-sm font-medium text-gray-700">Truck# <span
+                  *ngIf="this.deliveryTicketForm.get('truck').hasError('required')"
+                  class="text-red-400">*</span></label>
+              <input
+                class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                formControlName="truck" placeholder="Truck#">
+            </div>
+          </div>
+          <div *ngIf="isSplitTrue">
+
+            <div class="col-span-12 mb-4">
+              <label class="block text-sm font-medium text-gray-700">SplitLoad <span
+                  *ngIf="this.deliveryTicketForm.get('split_load').hasError('required')"
+                  class="text-red-400">*</span></label>
+              <input
+                class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                formControlName="split_load" placeholder="SplitLoad">
+            </div>
+
+            <div class="col-span-12 mb-4">
+              <label class="block text-sm font-medium text-gray-700">Kart Scale Weight (Split Load) <span
+                  *ngIf="this.deliveryTicketForm.get('kart_scale_weight_split').hasError('required')"
+                  class="text-red-400">*</span></label>
+              <input
+                class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                formControlName="kart_scale_weight_split" placeholder="Kart Scale Weight (Split Load)">
+            </div>
+
+            <div class="col-span-12 mb-4">
+              <label class="block text-sm font-medium text-gray-700">Kart Scale Weight (optional) <span
+                  *ngIf="this.deliveryTicketForm.get('kart_scale_weight').hasError('required')"
+                  class="text-red-400">*</span></label>
+              <input
+                class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                formControlName="kart_scale_weight" placeholder="Kart Scale Weight (optional)">
+            </div>
+
+            <div class="col-span-12 mb-4">
+              <label class="block text-sm font-medium text-gray-700">Field (Split Load) <span
+                  *ngIf="this.deliveryTicketForm.get('field_load_split').hasError('required')"
+                  class="text-red-400">*</span></label>
+              <input
+                class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                formControlName="field_load_split" placeholder="Field (Split Load)">
+            </div>
+
+            <div class="col-span-12 mb-4">
+              <label class="block text-sm font-medium text-gray-700">Delivery Ticket Number <span
+                  *ngIf="this.deliveryTicketForm.get('delivery_ticket_number').hasError('required')"
+                  class="text-red-400">*</span></label>
+              <input
+                class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                formControlName="delivery_ticket_number" placeholder="Delivery Ticket Number">
+            </div>
+
+            <div class="col-span-12 mb-4">
+              <label class="block text-sm font-medium text-gray-700">Kart Operator Name <span
+                  *ngIf="this.deliveryTicketForm.get('kart_operator').hasError('required')"
+                  class="text-red-400">*</span></label>
+              <input
+                class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                formControlName="kart_operator" placeholder="Kart Operator Name">
+            </div>
+
+            <div class="col-span-12 mb-4">
+              <label class="block text-sm font-medium text-gray-700">Truck Driver Company <span
+                  *ngIf="this.deliveryTicketForm.get('truck_driver_company').hasError('required')"
+                  class="text-red-400">*</span></label>
+              <input
+                class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                formControlName="truck_driver_company" placeholder="Truck Driver Company">
+            </div>
+
+            <div class="col-span-12 mb-4">
+              <label class="block text-sm font-medium text-gray-700">Truck# <span
+                  *ngIf="this.deliveryTicketForm.get('truck').hasError('required')"
+                  class="text-red-400">*</span></label>
+              <input
+                class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                formControlName="truck" placeholder="Truck#">
+            </div>
+          </div>
+        </div>
+        <ion-button expand="block" class="mt-5 font-Lato text-white" *ngIf="!isReassign && !isSplitTrue"
+          (click)="submit()">Generate and Send</ion-button>
+        <ion-button expand="block" class="mt-5 font-Lato text-white" *ngIf="!isReassign && isSplitTrue"
+          (click)="submit()">Generate Duplicate Ticket</ion-button>
+        <ion-button expand="block" class="mt-5 font-Lato text-white" *ngIf="isReassign" (click)="submit()">Reassign
+          Delivery Ticket</ion-button>
+    </form>
+
   </div>
-
-  <div class="col-span-12 mb-4">
-    <label class="block text-sm font-medium text-gray-700">Destination <span *ngIf="this.deliveryTicketForm.get('destination').hasError('required')" class="text-red-400">*</span></label>
-    <input
-      class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-      formControlName="destination" placeholder="Destination">
-  </div>
-
-  <div class="col-span-12 mb-4">
-    <label class="block text-sm font-medium text-gray-700">Loaded Miles <span *ngIf="this.deliveryTicketForm.get('loadedMiles').hasError('required')" class="text-red-400">*</span></label>
-    <input
-      class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-      formControlName="loadedMiles" placeholder="Loaded Miles">
-  </div>
-
-  <div class="col-span-12 mb-4">
-    <label class="block text-sm font-medium text-gray-700">Field <span *ngIf="this.deliveryTicketForm.get('field').hasError('required')" class="text-red-400">*</span></label>
-    <input
-      class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-      formControlName="field" placeholder="Enter Field">
-  </div>
-    <ion-item lines="none">
-    <ion-checkbox slot="start" (ionChange)="buttton()" formControlName="splitLoadCheck"></ion-checkbox>
-    <ion-label class="font">Split Load</ion-label>
-  </ion-item>
-  <div *ngIf="!isSplitTrue">
-
-  <div class="col-span-12 mb-4">
-    <label class="block text-sm font-medium text-gray-700">Kart Scale Weight (optional) <span *ngIf="this.deliveryTicketForm.get('kartScaleWeight').hasError('required')" class="text-red-400">*</span></label>
-    <input
-      class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-      formControlName="kartScaleWeight" placeholder="Kart Scale Weight (optional)">
-  </div>
-
-  <div class="col-span-12 mb-4">
-    <label class="block text-sm font-medium text-gray-700">Delivery Ticket Number <span *ngIf="this.deliveryTicketForm.get('deliveryTicketNumber').hasError('required')" class="text-red-400">*</span></label>
-    <input
-      class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-      formControlName="deliveryTicketNumber" placeholder="Delivery Ticket Number">
-  </div>
-  <div class="col-span-12 mb-4">
-    <label class="block text-sm font-medium text-gray-700">Kart Operator Name <span *ngIf="this.deliveryTicketForm.get('kartoperatorName').hasError('required')" class="text-red-400">*</span></label>
-    <input
-      class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-      formControlName="kartoperatorName" placeholder="Delivery Ticket Number">
-  </div>
-
-  <div class="col-span-12 mb-4">
-    <label class="block text-sm font-medium text-gray-700">Truck Driver Company <span *ngIf="this.deliveryTicketForm.get('truckDriverCompany').hasError('required')" class="text-red-400">*</span></label>
-    <input
-      class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-      formControlName="truckDriverCompany" placeholder="Truck Driver Company">
-  </div>
-
-  <div class="col-span-12 mb-4">
-    <label class="block text-sm font-medium text-gray-700">Truck# <span *ngIf="this.deliveryTicketForm.get('truck').hasError('required')" class="text-red-400">*</span></label>
-    <input
-      class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-      formControlName="truck" placeholder="Truck#">
-  </div>
-</div>
-<div *ngIf="isSplitTrue">
-
-  <div class="col-span-12 mb-4">
-    <label class="block text-sm font-medium text-gray-700">SplitLoad <span class="text-red-400">*</span></label>
-    <input
-      class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-      formControlName="splitLoad" placeholder="SplitLoad">
-  </div>
-
-  <div class="col-span-12 mb-4">
-    <label class="block text-sm font-medium text-gray-700">Kart Scale Weight (Split Load) <span *ngIf="this.deliveryTicketForm.get('kartScaleWeightSplit').hasError('required')" class="text-red-400">*</span></label>
-    <input
-      class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-      formControlName="kartScaleWeightSplit" placeholder="Kart Scale Weight (Split Load)">
-  </div>
-
-    <div class="col-span-12 mb-4">
-      <label class="block text-sm font-medium text-gray-700">Kart Scale Weight (optional) <span *ngIf="this.deliveryTicketForm.get('kartScaleWeightOptionalSplit').hasError('required')" class="text-red-400">*</span></label>
-      <input
-        class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-        formControlName="kartScaleWeightOptionalSplit" placeholder="Kart Scale Weight (optional)">
-    </div>
-
-    <div class="col-span-12 mb-4">
-      <label class="block text-sm font-medium text-gray-700">Field (Split Load) <span *ngIf="this.deliveryTicketForm.get('fieldLoadSplit').hasError('required')" class="text-red-400">*</span></label>
-      <input
-        class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-        formControlName="fieldLoadSplit" placeholder="Field (Split Load)">
-    </div>
-
-    <div class="col-span-12 mb-4">
-      <label class="block text-sm font-medium text-gray-700">Delivery Ticket Number <span *ngIf="this.deliveryTicketForm.get('deliveryTicketNumberSplit').hasError('required')" class="text-red-400">*</span></label>
-      <input
-        class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-        formControlName="deliveryTicketNumberSplit" placeholder="Delivery Ticket Number">
-    </div>
-
-    <div class="col-span-12 mb-4">
-      <label class="block text-sm font-medium text-gray-700">Kart Operator Name <span *ngIf="this.deliveryTicketForm.get('kartoperatorNameSplit').hasError('required')" class="text-red-400">*</span></label>
-      <input
-        class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-        formControlName="kartoperatorNameSplit" placeholder="Kart Operator Name">
-    </div>
-
-  <div class="col-span-12 mb-4">
-    <label class="block text-sm font-medium text-gray-700">Truck Driver Company <span *ngIf="this.deliveryTicketForm.get('truckDriverCompanySplit').hasError('required')" class="text-red-400">*</span></label>
-    <input
-      class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-      formControlName="truckDriverCompanySplit" placeholder="Truck Driver Company">
-  </div>
-
-  <div class="col-span-12 mb-4">
-    <label class="block text-sm font-medium text-gray-700">Truck# <span *ngIf="this.deliveryTicketForm.get('truckSplit').hasError('required')" class="text-red-400">*</span></label>
-    <input
-      class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-      formControlName="truckSplit" placeholder="Truck#">
-  </div>
-</div>
-</div>
-<ion-button expand="block" class="mt-5 font-Lato text-white" *ngIf="!isReassign && !isSplitTrue">Generate and Send</ion-button>
-<ion-button expand="block" class="mt-5 font-Lato text-white" *ngIf="!isReassign && isSplitTrue" (click)="submit()">Generate Duplicate Ticket</ion-button>
-<ion-button expand="block" class="mt-5 font-Lato text-white" *ngIf="isReassign" (click)="submit()">Reassign Delivery Ticket</ion-button>
-</form>
-
-</div>
 </ion-content>
 
 <ion-content *ngIf="role === 'kart-operator' && isReassign">
   <app-timer [value]="'12:11:19'"></app-timer>
   <div class="p-4">
-<ion-card class="m-0 mb-4">
-  <ion-card-header>
-    <ion-card-title class="font-Lato">Customer Profilee</ion-card-title>
-  </ion-card-header>
-  <ion-card-content>
-    <ion-grid>
-      <ion-row>
-        <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Customer Name</ion-col>
-        <ion-col size="6" class="text-sm flex justify-end font-Lato">Mike Allen</ion-col>
-        <ion-col size="6" class="text-sm text-black font-Lato font-semibold">State</ion-col>
-        <ion-col size="6" class="text-sm flex justify-end font-Lato">Arizona </ion-col>
-        <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Farm</ion-col>
-        <ion-col size="6" class="text-sm flex justify-end font-Lato">Dakota </ion-col>
-        <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Crop</ion-col>
-        <ion-col size="6" class="text-sm flex justify-end font-Lato">Corn</ion-col>
-        <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Field</ion-col>
-        <ion-col size="6" class="text-sm flex justify-end font-Lato">Harvesting</ion-col>
-      </ion-row>
-    </ion-grid>
-  </ion-card-content>
-</ion-card>
-<form [formGroup]="deliveryTicketForm">
+    <ion-card class="m-0 mb-4">
+      <ion-card-header>
+        <ion-card-title class="font-Lato">Customer Profilee</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-grid>
+          <ion-row>
+            <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Customer Name</ion-col>
+            <ion-col size="6" class="text-sm flex justify-end font-Lato">Mike Allen</ion-col>
+            <ion-col size="6" class="text-sm text-black font-Lato font-semibold">State</ion-col>
+            <ion-col size="6" class="text-sm flex justify-end font-Lato">Arizona </ion-col>
+            <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Farm</ion-col>
+            <ion-col size="6" class="text-sm flex justify-end font-Lato">Dakota </ion-col>
+            <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Crop</ion-col>
+            <ion-col size="6" class="text-sm flex justify-end font-Lato">Corn</ion-col>
+            <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Field</ion-col>
+            <ion-col size="6" class="text-sm flex justify-end font-Lato">Harvesting</ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+    <form [formGroup]="deliveryTicketForm">
 
-<div class=" px-2">
+      <div class=" px-2">
 
-  <div class="col-span-12 mb-4">
-    <label class="block text-sm font-medium text-gray-700">Truck Driver <span *ngIf="this.deliveryTicketForm.get('truckDriver').hasError('required')"  class="text-red-400">*</span></label>
-    <input
-      class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-      formControlName="truckDriver" placeholder="Truck Driver">
-  </div>
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Truck Driver <span
+              *ngIf="this.deliveryTicketForm.get('truckDriver').hasError('required')"
+              class="text-red-400">*</span></label>
+          <input
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="truckDriver" placeholder="Truck Driver">
+        </div>
 
-  <div class="col-span-12 mb-4">
-    <label class="block text-sm font-medium text-gray-700">Destination <span *ngIf="this.deliveryTicketForm.get('destination').hasError('required')" class="text-red-400">*</span></label>
-    <input
-      class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-      formControlName="destination" placeholder="Destination">
-  </div>
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Destination <span
+              *ngIf="this.deliveryTicketForm.get('destination').hasError('required')"
+              class="text-red-400">*</span></label>
+          <input
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="destination" placeholder="Destination">
+        </div>
 
-  <div class="col-span-12 mb-4">
-    <label class="block text-sm font-medium text-gray-700">Loaded Miles <span *ngIf="this.deliveryTicketForm.get('loadedMiles').hasError('required')" class="text-red-400">*</span></label>
-    <input
-      class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-      formControlName="loadedMiles" placeholder="Loaded Miles">
-  </div>
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Loaded Miles <span
+              *ngIf="this.deliveryTicketForm.get('loadedMiles').hasError('required')"
+              class="text-red-400">*</span></label>
+          <input
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="loadedMiles" placeholder="Loaded Miles">
+        </div>
 
-  <div class="col-span-12 mb-4">
-    <label class="block text-sm font-medium text-gray-700">Field <span *ngIf="this.deliveryTicketForm.get('field').hasError('required')" class="text-red-400">*</span></label>
-    <input
-      class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-      formControlName="field" placeholder="Enter Field">
-  </div>
-  <div class="col-span-12 mb-4">
-    <label class="block text-sm font-medium text-gray-700">Kart Scale Weight (optional) <span *ngIf="this.deliveryTicketForm.get('kartScaleWeight').hasError('required')" class="text-red-400">*</span></label>
-    <input
-      class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-      formControlName="kartScaleWeight" placeholder="Kart Scale Weight (optional)">
-  </div>
-    <ion-item lines="none">
-    <ion-checkbox slot="start" (ionChange)="buttton()" formControlName="splitLoadCheck"></ion-checkbox>
-    <ion-label class="font">Split Load</ion-label>
-  </ion-item>
-  <div>
-  <div class="col-span-12 mb-4">
-    <label class="block text-sm font-medium text-gray-700">Delivery Ticket Number <span *ngIf="this.deliveryTicketForm.get('deliveryTicketNumber').hasError('required')" class="text-red-400">*</span></label>
-    <input
-      class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-      formControlName="deliveryTicketNumber" placeholder="Delivery Ticket Number">
-  </div>
-  <div class="col-span-12 mb-4">
-    <label class="block text-sm font-medium text-gray-700">Kart Operator Name <span *ngIf="this.deliveryTicketForm.get('kartoperatorName').hasError('required')" class="text-red-400">*</span></label>
-    <input
-      class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-      formControlName="kartoperatorName" placeholder="Delivery Ticket Number">
-  </div>
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Field <span
+              *ngIf="this.deliveryTicketForm.get('field').hasError('required')" class="text-red-400">*</span></label>
+          <input
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="field" placeholder="Enter Field">
+        </div>
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Kart Scale Weight (optional) <span
+              *ngIf="this.deliveryTicketForm.get('kartScaleWeight').hasError('required')"
+              class="text-red-400">*</span></label>
+          <input
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="kartScaleWeight" placeholder="Kart Scale Weight (optional)">
+        </div>
+        <ion-item lines="none">
+          <ion-checkbox slot="start" (ionChange)="buttton()" formControlName="splitLoadCheck"></ion-checkbox>
+          <ion-label class="font">Split Load</ion-label>
+        </ion-item>
+        <div>
+          <div class="col-span-12 mb-4">
+            <label class="block text-sm font-medium text-gray-700">Delivery Ticket Number <span
+                *ngIf="this.deliveryTicketForm.get('deliveryTicketNumber').hasError('required')"
+                class="text-red-400">*</span></label>
+            <input
+              class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+              formControlName="deliveryTicketNumber" placeholder="Delivery Ticket Number">
+          </div>
+          <div class="col-span-12 mb-4">
+            <label class="block text-sm font-medium text-gray-700">Kart Operator Name <span
+                *ngIf="this.deliveryTicketForm.get('kartoperatorName').hasError('required')"
+                class="text-red-400">*</span></label>
+            <input
+              class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+              formControlName="kartoperatorName" placeholder="Delivery Ticket Number">
+          </div>
 
-  <div class="col-span-12 mb-4">
-    <label class="block text-sm font-medium text-gray-700">Truck Driver Company <span *ngIf="this.deliveryTicketForm.get('truckDriverCompany').hasError('required')" class="text-red-400">*</span></label>
-    <input
-      class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-      formControlName="truckDriverCompany" placeholder="Truck Driver Company">
-  </div>
+          <div class="col-span-12 mb-4">
+            <label class="block text-sm font-medium text-gray-700">Truck Driver Company <span
+                *ngIf="this.deliveryTicketForm.get('truckDriverCompany').hasError('required')"
+                class="text-red-400">*</span></label>
+            <input
+              class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+              formControlName="truckDriverCompany" placeholder="Truck Driver Company">
+          </div>
 
-  <div class="col-span-12 mb-4">
-    <label class="block text-sm font-medium text-gray-700">Truck# <span *ngIf="this.deliveryTicketForm.get('truck').hasError('required')" class="text-red-400">*</span></label>
-    <input
-      class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-      formControlName="truck" placeholder="Truck#">
-  </div>
-</div>
-<!-- <div *ngIf="isSplitTrue">
+          <div class="col-span-12 mb-4">
+            <label class="block text-sm font-medium text-gray-700">Truck# <span
+                *ngIf="this.deliveryTicketForm.get('truck').hasError('required')" class="text-red-400">*</span></label>
+            <input
+              class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+              formControlName="truck" placeholder="Truck#">
+          </div>
+        </div>
+        <!-- <div *ngIf="isSplitTrue">
 
   <div class="col-span-12 mb-4">
     <label class="block text-sm font-medium text-gray-700">SplitLoad <span class="text-red-400">*</span></label>
@@ -314,10 +430,12 @@
       formControlName="truckSplit" placeholder="Truck#">
   </div>
 </div> -->
-</div>
-<ion-button expand="block" class="mt-5 font-Lato text-white" *ngIf="!isReassign" (click)="submit()" [disabled]="deliveryTicketForm.invalid">Generate and Send</ion-button>
-<ion-button expand="block" class="mt-5 font-Lato text-white" *ngIf="isReassign" (click)="submit()" [disabled]="deliveryTicketForm.invalid">Reassign Delivery Ticket</ion-button>
-</form>
+      </div>
+      <ion-button expand="block" class="mt-5 font-Lato text-white" *ngIf="!isReassign" (click)="submit()"
+        [disabled]="deliveryTicketForm.invalid">Generate and Send</ion-button>
+      <ion-button expand="block" class="mt-5 font-Lato text-white" *ngIf="isReassign" (click)="submit()"
+        [disabled]="deliveryTicketForm.invalid">Reassign Delivery Ticket</ion-button>
+    </form>
 
-</div>
+  </div>
 </ion-content>

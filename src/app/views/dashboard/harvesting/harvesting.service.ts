@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 /* eslint-disable @typescript-eslint/member-ordering */
 /* eslint-disable @typescript-eslint/semi */
 /* eslint-disable @typescript-eslint/naming-convention */
@@ -17,16 +18,65 @@ import { ToastService } from 'src/app/services/toast/toast.service';
   providedIn: 'root',
 })
 export class HarvestingService{
+  //#region customers
   private customer: BehaviorSubject<any[] | null> =
   new BehaviorSubject(null);
 readonly customer$: Observable<any[] | null> =
   this.customer.asObservable();
 
   private customerLoading: BehaviorSubject<boolean> =
-  new BehaviorSubject<boolean>(true);
-readonly customerLoading$: Observable<boolean> =
+  new BehaviorSubject<boolean>(null);
+  readonly customerLoading$: Observable<boolean> =
   this.customerLoading.asObservable();
+  //#endregion
 
+  //#region tickets
+ private tickets: BehaviorSubject<any[] | null> =
+  new BehaviorSubject(null);
+readonly tickets$: Observable<any[] | null> =
+  this.tickets.asObservable();
+
+  private ticketsLoading: BehaviorSubject<boolean> =
+  new BehaviorSubject<boolean>(true);
+  readonly ticketsLoading$: Observable<boolean> =
+  this.ticketsLoading.asObservable();
+  //#endregion
+
+  //#region ticket
+  private ticket: BehaviorSubject<any[] | null> =
+  new BehaviorSubject(null);
+readonly ticket$: Observable<any[] | null> =
+  this.ticket.asObservable();
+
+  private ticketLoading: BehaviorSubject<boolean> =
+  new BehaviorSubject<boolean>(true);
+  readonly ticketLoading$: Observable<boolean> =
+  this.ticketLoading.asObservable();
+//#endregion
+
+//#region Get Ticket
+private sentTicket: BehaviorSubject<any[] | null> =
+new BehaviorSubject(null);
+readonly sentTicket$: Observable<any[] | null> =
+this.sentTicket.asObservable();
+
+private sentTicketLoading: BehaviorSubject<boolean> =
+new BehaviorSubject<boolean>(true);
+readonly sentTicketLoading$: Observable<boolean> =
+this.sentTicketLoading.asObservable();
+//#endregion
+
+//#region Pending Ticket
+private pendingTicket: BehaviorSubject<any[] | null> =
+new BehaviorSubject(null);
+readonly pendingTicket$: Observable<any[] | null> =
+this.pendingTicket.asObservable();
+
+private pendingTicketLoading: BehaviorSubject<boolean> =
+new BehaviorSubject<boolean>(true);
+readonly pendingTicketLoading$: Observable<boolean> =
+this.pendingTicketLoading.asObservable();
+//#endregion
 
   constructor(
     private _httpClient: HttpClient,
@@ -34,38 +84,6 @@ readonly customerLoading$: Observable<boolean> =
     private toastService: ToastService
 
   ){}
-
- //#region Error Function
- handleError(error: HttpErrorResponse) {
-  let errorMessage = 'Unknown error!';
-  if (error.error instanceof ErrorEvent) {
-      // Client-side errors
-      errorMessage = `Error: ${error.error.message}`;
-      this.alertSerice.showAlert({
-          type: 'error',
-          shake: false,
-          slideRight: true,
-          title: 'Error',
-          message: error.error.message,
-          time: 6000,
-      });
-  } else {
-      // Server-side errors
-      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
-      this.alertSerice.showAlert({
-          type: 'error',
-          shake: false,
-          slideRight: true,
-          title: 'Error',
-          message: error.error.message,
-          time: 6000,
-      });
-  }
-  return throwError(errorMessage);
-}
-
-//#endregion
-
 
 getCustomers(
         search: string = '',
@@ -144,6 +162,12 @@ createJob(data: any) {
       .post(`http://localhost:7071/api/customer-job-setup`, data)
       .pipe(take(1));
 }
+updateJob(data: any) {
+  return this._httpClient
+       .patch(`http://localhost:7071/api/customer-job-setup`, data)
+       .pipe(take(1));
+ }
+
 getJob() {
   return this._httpClient
        .get(`http://localhost:7071/api/customer-job-setup`)
@@ -151,7 +175,7 @@ getJob() {
        .subscribe(
         (res: any)=>{
           this.customerLoading.next(true);
-         this.customer.next(res.customer_job);
+         this.customer.next(res);
          this.customerLoading.next(false)
        },
        (err)=>{
@@ -172,7 +196,7 @@ startJob(data: any) {
  }
  closeOutJob(data: any) {
   return this._httpClient
-       .post(`http://localhost:7071/api/customer-job-close-out`, data)
+       .patch(`http://localhost:7071/api/customer-job-setup`, data)
        .pipe(take(1));
  }
 
@@ -182,6 +206,75 @@ startJob(data: any) {
        .put(`http://localhost:7071/api/customer-job-setup`, data)
        .pipe(take(1));
  }
+ getEmployees(
+  search: string = '',
+  entity: string = '',
+  role: string = '',
+) {
+  this._httpClient
+  let params = new HttpParams();
+  params = params.set('entity', entity);
+  params = params.set('role', role);
+  params = params.set('search', search);
+  return this._httpClient
+    .get<any>('http://localhost:7071/api/dropdowns', {
+      params,
+    })
+    .pipe(take(1));
+}
+createTicket(data: any) {
+  return this._httpClient
+       .post(`http://localhost:7071/api/harvesting-ticket`, data)
+       .pipe(take(1));
+ }
+ getTickets() {
+  return this._httpClient
+       .get(`http://localhost:7071/api/harvesting-ticket`)
+       .pipe(take(1))
+       .subscribe((res: any)=>{
+        this.ticketsLoading.next(true);
+        this.tickets.next(res);
+        this.ticketsLoading.next(false);
+       },
+       (err)=>{
+        this.toastService.presentToast(err,'danger');
+
+       }
+       )
+ }
+ getTicketById(id: any) {
+  return this._httpClient
+       .get(`http://localhost:7071/api/harvesting-ticket?id=${id}`)
+       .pipe(take(1))
+       .subscribe((res: any)=>{
+        this.ticketLoading.next(true);
+        this.ticket.next(res);
+        this.ticketLoading.next(false);
+  //  console.log('Response::',res);
+      },
+       (err)=>{
+        this.toastService.presentToast(err,'danger');
+
+       }
+       )
+ }
+ getSentTicket(value: any) {
+  return this._httpClient
+       .get(`http://localhost:7071/api/harvesting-ticket?status=${value}`)
+       .pipe(take(1))
+       .subscribe((res: any)=>{
+        this.sentTicketLoading.next(true);
+        this.sentTicket.next(res);
+        this.sentTicketLoading.next(false);
+        console.log('Response Sent:',res);
+      },
+       (err)=>{
+        this.toastService.presentToast(err,'danger');
+
+       }
+       )
+ }
+
 
 getCustomerFarm(
   customerId: string,

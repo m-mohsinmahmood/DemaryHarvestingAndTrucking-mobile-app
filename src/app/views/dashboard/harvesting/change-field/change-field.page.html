@@ -11,17 +11,17 @@
   </ion-card-header>
   <ion-card-content *ngIf="!isLoading">
     <ion-grid>
-      <ion-row *ngFor="let customer of customerData">
+      <ion-row >
         <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Customer Name</ion-col>
-        <ion-col size="6" class="text-sm font-Lato">{{customer.customer_name}}</ion-col>
+        <ion-col size="6" class="text-sm font-Lato">{{customerData?.customer_job[0].customer_name}}</ion-col>
         <ion-col size="6" class="text-sm text-black font-Lato font-semibold">State</ion-col>
-        <ion-col size="6" class="text-sm font-Lato">{{customer.customer_name}} </ion-col>
+        <ion-col size="6" class="text-sm font-Lato">{{customerData?.customer_job[0].state}} </ion-col>
         <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Farm</ion-col>
-        <ion-col size="6" class="text-sm font-Lato">{{customer.farm_name}} </ion-col>
+        <ion-col size="6" class="text-sm font-Lato">{{customerData?.customer_job[0].farm_name}} </ion-col>
         <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Crop</ion-col>
-        <ion-col size="6" class="text-sm font-Lato">{{customer.crop_name}} </ion-col>
+        <ion-col size="6" class="text-sm font-Lato">{{customerData?.customer_job[0].crop_name}} </ion-col>
         <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Current Field</ion-col>
-        <ion-col size="6" class="text-sm font-Lato">{{customer.field_name}} </ion-col>
+        <ion-col size="6" class="text-sm font-Lato">{{customerData?.customer_job[0].field_name}} </ion-col>
       </ion-row>
     </ion-grid>
   </ion-card-content>
@@ -53,16 +53,8 @@
   </ion-card-content>
 </ion-card>
 <form [formGroup]="changeFieldFormChief">
-  <!-- Customer -->
+  <!-- field -->
   <div class="px-2">
-    <!-- <div class="col-span-12 mb-4">
-      <label class="block text-sm font-medium text-gray-700">Enter New Field <span *ngIf="this.changeFieldFormChief.get('field_id').hasError('required')" class="text-red-400">*</span></label>
-      <input
-        class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-        formControlName="field_id" placeholder="Field Name">
-    </div> -->
-
-
     <div
         [ngClass]="'opacity-100 visible ease-in duration-200'"
         class="" role="dialog" aria-modal="true">
@@ -132,17 +124,45 @@
   <ion-card-header>
     <ion-card-title class="font-Lato">Customer Profile</ion-card-title>
   </ion-card-header>
-  <ion-card-content>
+  <ion-card-content *ngIf="!isLoading">
+    <ion-grid>
+      <ion-row >
+        <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Customer Name</ion-col>
+        <ion-col size="6" class="text-sm font-Lato">{{customerData?.customer_job[0].customer_name}}</ion-col>
+        <ion-col size="6" class="text-sm text-black font-Lato font-semibold">State</ion-col>
+        <ion-col size="6" class="text-sm font-Lato">{{customerData?.customer_job[0].state}} </ion-col>
+        <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Farm</ion-col>
+        <ion-col size="6" class="text-sm font-Lato">{{customerData?.customer_job[0].farm_name}} </ion-col>
+        <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Crop</ion-col>
+        <ion-col size="6" class="text-sm font-Lato">{{customerData?.customer_job[0].crop_name}} </ion-col>
+        <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Current Field</ion-col>
+        <ion-col size="6" class="text-sm font-Lato">{{customerData?.customer_job[0].field_name}} </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-card-content>
+  <ion-card-content *ngIf="isLoading">
     <ion-grid>
       <ion-row>
         <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Customer Name</ion-col>
-        <ion-col size="6" class="text-sm flex justify-end font-Lato">Mike Allen</ion-col>
+        <ion-col size="6" class="text-sm font-Lato">
+          <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+        </ion-col>
         <ion-col size="6" class="text-sm text-black font-Lato font-semibold">State</ion-col>
-        <ion-col size="6" class="text-sm flex justify-end font-Lato">Arizona</ion-col>
+        <ion-col size="6" class="text-sm font-Lato">
+          <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
+        </ion-col>
         <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Farm</ion-col>
-        <ion-col size="6" class="text-sm flex justify-end font-Lato">Dakota </ion-col>
+        <ion-col size="6" class="text-sm font-Lato">
+          <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
+        </ion-col>
+        <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Crop</ion-col>
+        <ion-col size="6" class="text-sm font-Lato">
+          <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
+        </ion-col>
         <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Current Field</ion-col>
-        <ion-col size="6" class="text-sm flex justify-end font-Lato">Corn</ion-col>
+        <ion-col size="6" class="text-sm font-Lato">
+          <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
+        </ion-col>
       </ion-row>
     </ion-grid>
   </ion-card-content>
@@ -183,17 +203,45 @@
   <ion-card-header>
     <ion-card-title class="font-Lato">Customer Profile</ion-card-title>
   </ion-card-header>
-  <ion-card-content>
+  <ion-card-content *ngIf="!isLoading">
+    <ion-grid>
+      <ion-row >
+        <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Customer Name</ion-col>
+        <ion-col size="6" class="text-sm font-Lato">{{customerData?.customer_job[0].customer_name}}</ion-col>
+        <ion-col size="6" class="text-sm text-black font-Lato font-semibold">State</ion-col>
+        <ion-col size="6" class="text-sm font-Lato">{{customerData?.customer_job[0].state}} </ion-col>
+        <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Farm</ion-col>
+        <ion-col size="6" class="text-sm font-Lato">{{customerData?.customer_job[0].farm_name}} </ion-col>
+        <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Crop</ion-col>
+        <ion-col size="6" class="text-sm font-Lato">{{customerData?.customer_job[0].crop_name}} </ion-col>
+        <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Current Field</ion-col>
+        <ion-col size="6" class="text-sm font-Lato">{{customerData?.customer_job[0].field_name}} </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-card-content>
+  <ion-card-content *ngIf="isLoading">
     <ion-grid>
       <ion-row>
         <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Customer Name</ion-col>
-        <ion-col size="6" class="text-sm flex justify-end font-Lato">Mike Allen</ion-col>
+        <ion-col size="6" class="text-sm font-Lato">
+          <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+        </ion-col>
         <ion-col size="6" class="text-sm text-black font-Lato font-semibold">State</ion-col>
-        <ion-col size="6" class="text-sm flex justify-end font-Lato">Arizona</ion-col>
+        <ion-col size="6" class="text-sm font-Lato">
+          <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
+        </ion-col>
         <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Farm</ion-col>
-        <ion-col size="6" class="text-sm flex justify-end font-Lato">Dakota </ion-col>
+        <ion-col size="6" class="text-sm font-Lato">
+          <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
+        </ion-col>
+        <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Crop</ion-col>
+        <ion-col size="6" class="text-sm font-Lato">
+          <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
+        </ion-col>
         <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Current Field</ion-col>
-        <ion-col size="6" class="text-sm flex justify-end font-Lato">Corn</ion-col>
+        <ion-col size="6" class="text-sm font-Lato">
+          <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
+        </ion-col>
       </ion-row>
     </ion-grid>
   </ion-card-content>

@@ -144,13 +144,9 @@ export class JobSetupPage implements OnInit {
     this.jobSetupForm = this.formBuilder.group({
       state: ['', [Validators.required]],
       customer_id: [''],
-      customer_name:[''],
       farm_id: [''],
-      farm_name:[''],
       crop_id: [''],
-      crop_name:[''],
-      initial_field: [''],
-      field_name:[''],
+      field_id: [''],
     });
   }
   goBack() {
@@ -286,26 +282,18 @@ export class JobSetupPage implements OnInit {
     this.jobSetupForm.setValue({
       state: this.jobSetupForm.get('state').value,
       customer_id: '',
-      customer_name:'',
       farm_id: '',
-      farm_name:'',
       crop_id: '',
-      crop_name:'',
-      initial_field: '',
-      field_name:'',
+      field_id: '',
     });
 
     // assigning values in form
     this.jobSetupForm.setValue({
       state: this.jobSetupForm.get('state').value,
       customer_id: customer.id,
-      customer_name: customer.customer_name,
       farm_id: this.jobSetupForm.get('farm_id').value,
-      farm_name: this.jobSetupForm.get('farm_name').value,
       crop_id: this.jobSetupForm.get('crop_id').value,
-      crop_name: this.jobSetupForm.get('crop_name').value,
-      initial_field: this.jobSetupForm.get('initial_field').value,
-      field_name: this.jobSetupForm.get('field_name').value,
+      field_id: this.jobSetupForm.get('field_id').value,
     });
 
     // passing name in select's input
@@ -326,6 +314,7 @@ export class JobSetupPage implements OnInit {
   //#endregion
   //  #region Farm
   farmSearchSubscription() {
+    console.log('farmsubscription');
     this.farm_search$
       .pipe(
         debounceTime(500),
@@ -378,6 +367,8 @@ export class JobSetupPage implements OnInit {
 
     // subscribing to show/hide farm UL
     this.allFarmsClicked.subscribe((farms) => {
+      console.log('Farms',farms);
+
       if (farms.count === 0) {
         // hiding UL
         this.farmUL = false;
@@ -395,24 +386,13 @@ export class JobSetupPage implements OnInit {
     this.farmUL = false;
 
     // assigning values in form
-    // this.jobSetupForm.setValue({
-    //   state: this.jobSetupForm.get('state').value,
-    //   customer_id: this.jobSetupForm.get('customer_id').value,
-    //   farm_id: farm.id,
-    //   crop_id: this.jobSetupForm.get('crop_id').value,
-    //   initial_field: this.jobSetupForm.get('initial_field').value,
-    // });
 
     this.jobSetupForm.setValue({
       state: this.jobSetupForm.get('state').value,
       customer_id: this.jobSetupForm.get('customer_id').value,
-      customer_name: this.jobSetupForm.get('customer_name').value,
       farm_id: farm.id,
-      farm_name: farm.name,
       crop_id: this.jobSetupForm.get('crop_id').value,
-      crop_name: this.jobSetupForm.get('crop_name').value,
-      initial_field: this.jobSetupForm.get('initial_field').value,
-      field_name: this.jobSetupForm.get('field_name').value,
+      field_id: this.jobSetupForm.get('field_id').value,
     });
 
       // passing name in select's input
@@ -501,24 +481,13 @@ export class JobSetupPage implements OnInit {
     this.isCropSelected = false;
 
     // assigning values in form
-    // this.jobSetupForm.setValue({
-    //   state: this.jobSetupForm.get('state').value,
-    //   customer_id: this.jobSetupForm.get('customer_id').value,
-    //   farm_id: this.jobSetupForm.get('farm_id').value,
-    //   crop_id: crop.crop_id,
-    //   initial_field: this.jobSetupForm.get('initial_field').value,
-    // });
 
     this.jobSetupForm.setValue({
       state: this.jobSetupForm.get('state').value,
       customer_id: this.jobSetupForm.get('customer_id').value,
-      customer_name: this.jobSetupForm.get('customer_name').value,
       farm_id: this.jobSetupForm.get('farm_id').value,
-      farm_name: this.jobSetupForm.get('farm_name').value,
       crop_id: crop.crop_id,
-      crop_name: crop.name,
-      initial_field: this.jobSetupForm.get('initial_field').value,
-      field_name: this.jobSetupForm.get('field_name').value,
+      field_id: this.jobSetupForm.get('field_id').value,
     });
 
     // clearing array
@@ -600,13 +569,9 @@ listClickedField(field) {
   this.jobSetupForm.setValue({
     state: this.jobSetupForm.get('state').value,
     customer_id: this.jobSetupForm.get('customer_id').value,
-    customer_name: this.jobSetupForm.get('customer_name').value,
     farm_id: this.jobSetupForm.get('farm_id').value,
-    farm_name: this.jobSetupForm.get('farm_name').value,
     crop_id: this.jobSetupForm.get('crop_id').value,
-    crop_name: this.jobSetupForm.get('crop_name').value,
-    initial_field: field.field_id,
-    field_name: field.field_name,
+    field_id: field.field_id,
   });
 
   // clearing array

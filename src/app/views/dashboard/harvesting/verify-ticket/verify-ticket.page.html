@@ -12,54 +12,58 @@
     </ion-segment>
     <div [ngSwitch]="segment" [routerLink]="['generated-ticket']">
       <div *ngSwitchCase="'sent'">
-        <ion-card class="p-2 sentTicket" >
-          <div class="flex flex-col">
-            <div class="flex flex-row py-2">
-                <div class="w-8/12 flex flex-col">
-                  <span class="text-lg text-black font-Lato">Harvesting Task 1</span>
-                  <span>Coronodo Feed Center, Arizona</span>
-                </div>
-                <div class="w-4/12 flex justify-end">
-                  <span class="text-sm font-Lato">Ticket#:  </span>
-                  <span class="text-sm text-black font-Lato bg-0165c31a h-5 rounded-xl px-2 ml-1"> {{"334355"}}</span>
-                </div>
+        <div *ngIf="!isLoadingTicket">
+          <ion-card class="p-2 sentTicket" *ngFor="let ticket of ticketData.generated_tickets">
+            <div class="flex flex-col">
+              <div class="flex flex-row py-2">
+                  <div class="w-8/12 flex flex-col">
+                    <span class="text-lg text-black font-Lato">Harvesting Task 1</span>
+                    <span>Coronodo Feed Center, Arizona</span>
+                  </div>
+                  <div class="w-4/12 flex justify-end">
+                    <span class="text-sm font-Lato">Ticket#:  </span>
+                    <span class="text-sm text-black font-Lato bg-0165c31a h-5 rounded-xl px-2 ml-1"> {{ticket.delivery_ticket_number}}</span>
+                  </div>
+              </div>
+              <div class="flex justify-between p-0">
+               <div>
+                <span class="text-sm font-Lato" >Truck Driver: </span>
+                <span class="text-sm text-black font-Lato">{{"Mike Allen"}}</span>
+              </div>
+               <div>
+                <span class="text-sm font-Lato" >Destination: </span>
+                <span class="text-sm text-black font-Lato">{{ticket.destination}}</span>
+               </div>
+              </div>
             </div>
-            <div class="flex justify-between p-0">
-             <div>
-              <span class="text-sm font-Lato" >Truck Driver: </span>
-              <span class="text-sm text-black font-Lato">{{"Mike Allen"}}</span>
+          </ion-card>
+        </div>
+        <div *ngIf="isLoadingTicket">
+          <ion-card class="p-2 sentTicket" >
+            <div class="flex flex-col">
+              <div class="flex flex-row py-2">
+                  <div class="w-8/12 flex flex-col">
+                    <span class="text-lg text-black font-Lato">Harvesting Task 1</span>
+                    <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+                  </div>
+                  <div class="w-4/12 flex justify-end">
+                    <span class="text-sm font-Lato">Ticket#:  </span>
+                    <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+                  </div>
+              </div>
+              <div class="flex justify-between p-0">
+               <div>
+                <span class="text-sm font-Lato" >Truck Driver: </span>
+                <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+              </div>
+               <div>
+                <span class="text-sm font-Lato" >Destination: </span>
+                <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+              </div>
+              </div>
             </div>
-             <div>
-              <span class="text-sm font-Lato" >Destination: </span>
-              <span class="text-sm text-black font-Lato">{{"Dakota"}}</span>
-             </div>
-            </div>
-          </div>
-        </ion-card>
-        <ion-card class="p-2 sentTicket">
-          <div class="flex flex-col">
-            <div class="flex flex-row py-2">
-                <div class="w-8/12 flex flex-col">
-                  <span class="text-lg text-black font-Lato">Harvesting Task 2</span>
-                  <span class="font-Lato">Coronodo Feed Center, Arizona</span>
-                </div>
-                <div class="w-4/12 flex justify-end">
-                  <span class="text-sm font-Lato">Ticket#:  </span>
-                  <span class="text-sm text-black font-Lato bg-0165c31a h-5 rounded-xl px-2 ml-1"> {{"334355"}}</span>
-                </div>
-            </div>
-            <div class="flex justify-between p-0">
-             <div>
-              <span class="text-sm font-Lato" >Truck Driver: </span>
-              <span class="text-sm text-black font-Lato">{{"Mike Allen"}}</span>
-            </div>
-             <div>
-              <span class="text-sm font-Lato" >Destination: </span>
-              <span class="text-sm text-black font-Lato">{{"Dakota"}}</span>
-             </div>
-            </div>
-          </div>
-        </ion-card>
+          </ion-card>
+        </div>
       </div>
       <div *ngSwitchCase="'pending'">
         <ion-card class="p-2 pendingTicket">
@@ -180,56 +184,87 @@
           <p class="font-bold font-Lato text-white">2 New Tasks<span class="font-normal textt-white"> added to the Queue</span></p>
           <ion-icon name="close-outline" class="scale-150" [ngStyle]="{'color':'white'}" ></ion-icon>
         </div>
-        <ion-card class="px-4 py-2 bg-project-green sentTicket" [routerLink]="['generated-ticket']">
-          <div class="flex flex-col">
-            <div class="flex flex-row py-2 ">
-                <div class="w-8/12 flex flex-col">
-                  <span class="text-base font-Lato text-white">Ticket# <span class="text-base font-Lato text-white bg-0165c31a h-5 rounded-xl px-2 ml-1">{{"389787"}}</span></span>
-                  <span class="font-bold text-lg text-white">Coronodo Feed Center, Arizona</span>
-                </div>
-                <div class="w-4/12 flex justify-end">
-                  <div>
-                    <span class="text-sm font-Lato border rounded-full px-3 py-1 text-project-green bg-white">In Progress  </span>
-                  </div>
-                </div>
-            </div>
-            <div class="flex justify-between">
-             <div>
-              <span class="text-sm font-Lato text-white" >Truck Driver: </span>
-              <span class="text-sm font-Lato text-white">{{"Mike Allen"}}</span>
-            </div>
-             <div>
-              <span class="text-sm font-Lato text-white" >Destination: </span>
-              <span class="text-sm font-Lato text-white">{{"Dakota"}}</span>
-             </div>
+<div *ngIf="!sentTicketLoading">
+  <ion-card *ngFor="let sentTicket of sentTicketData" class="px-4 py-2 bg-project-green sentTicket" [routerLink]="['generated-ticket']">
+    <div class="flex flex-col">
+      <div class="flex flex-row py-2 ">
+          <div class="w-8/12 flex flex-col">
+            <span class="text-base font-Lato text-white">Ticket# <span class="text-base font-Lato text-white bg-0165c31a h-5 rounded-xl px-2 ml-1">{{sentTicket.delivery_ticket_number}}</span></span>
+            <span class="font-bold text-lg text-white">Coronodo Feed Center, Arizona</span>
+          </div>
+          <div class="w-4/12 flex justify-end">
+            <div>
+              <span class="text-sm font-Lato border rounded-full px-3 py-1 text-project-green bg-white">In Progress  </span>
             </div>
           </div>
-        </ion-card>
-        <ion-card class="px-4 py-2 sentTicket" [routerLink]="['generated-ticket']">
-          <div class="flex flex-col">
-            <div class="flex flex-row py-2">
-                <div class="w-8/12 flex flex-col">
-                  <span class="text-base font-Lato">Ticket# <span class="text-base font-Lato text-black bg-0165c31a h-5 rounded-xl px-2 ml-1">{{"389787"}}</span></span>
-                  <span class="font-bold text-lg">Coronodo Feed Center, Arizona</span>
-                </div>
-                <div class="w-4/12 flex justify-end">
-                  <div>
-                    <span class="text-sm font-Lato border text-orange-400 bg-orange-100 rounded-full px-3 py-1">Pending  </span>
-                  </div>
-                </div>
-            </div>
-            <div class="flex justify-between">
-             <div>
-              <span class="text-sm font-Lato" >Truck Driver: </span>
-              <span class="text-sm text-black font-Lato">{{"Mike Allen"}}</span>
-            </div>
-             <div>
-              <span class="text-sm font-Lato" >Destination: </span>
-              <span class="text-sm text-black font-Lato">{{"Dakota"}}</span>
-             </div>
+      </div>
+      <div class="flex justify-between">
+       <div>
+        <span class="text-sm font-Lato text-white" >Truck Driver: </span>
+        <span class="text-sm font-Lato text-white">{{"Mike Allen"}}</span>
+      </div>
+       <div>
+        <span class="text-sm font-Lato text-white" >Destination: </span>
+        <span class="text-sm font-Lato text-white">{{sentTicket.destination}}</span>
+       </div>
+      </div>
+    </div>
+  </ion-card>
+</div>
+<div *ngIf="sentTicketLoading">
+  <ion-card *ngFor="let sentTicket of sentTicketData" class="px-4 py-2 bg-project-green sentTicket" [routerLink]="['generated-ticket']">
+    <div class="flex flex-col">
+      <div class="flex flex-row py-2 ">
+          <div class="w-8/12 flex flex-col">
+            <span class="text-base font-Lato text-white">Ticket#                     <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+            </span>
+            <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+          </div>
+          <div class="w-4/12 flex justify-end">
+            <div>
+              <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
             </div>
           </div>
-        </ion-card>
+      </div>
+      <div class="flex justify-between">
+       <div>
+        <span class="text-sm font-Lato text-white" >Truck Driver: </span>
+        <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+      </div>
+       <div>
+        <span class="text-sm font-Lato text-white" >Destination: </span>
+        <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+      </div>
+      </div>
+    </div>
+  </ion-card>
+</div>
+<ion-card class="px-4 py-2 sentTicket" [routerLink]="['generated-ticket']">
+  <div class="flex flex-col">
+    <div class="flex flex-row py-2">
+        <div class="w-8/12 flex flex-col">
+          <span class="text-base font-Lato">Ticket# <span class="text-base font-Lato text-black bg-0165c31a h-5 rounded-xl px-2 ml-1">{{"389787"}}</span></span>
+          <span class="font-bold text-lg">Coronodo Feed Center, Arizona</span>
+        </div>
+        <div class="w-4/12 flex justify-end">
+          <div>
+            <span class="text-sm font-Lato border text-orange-400 bg-orange-100 rounded-full px-3 py-1">Pending  </span>
+          </div>
+        </div>
+    </div>
+    <div class="flex justify-between">
+     <div>
+      <span class="text-sm font-Lato" >Truck Driver: </span>
+      <span class="text-sm text-black font-Lato">{{"Mike Allen"}}</span>
+    </div>
+     <div>
+      <span class="text-sm font-Lato" >Destination: </span>
+      <span class="text-sm text-black font-Lato">{{"Dakota"}}</span>
+     </div>
+    </div>
+  </div>
+</ion-card>
+
       </div>
       <div *ngSwitchCase="'completed'">
         <ion-card class="px-4 py-2 verifiedTicket" [routerLink]="['generated-ticket']">

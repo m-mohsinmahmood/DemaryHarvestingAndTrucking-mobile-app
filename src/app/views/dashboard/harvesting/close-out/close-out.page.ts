@@ -24,6 +24,8 @@ export class CloseOutPage implements OnInit {
 
   ngOnInit() {
     this.closeJobForm = this.formBuilder.group({
+      customer_id: [],
+      is_close: [true],
       date: [''],
       total_acres: ['',[Validators.required]],
       total_gps_acres: ['',[Validators.required]],
@@ -36,7 +38,11 @@ export class CloseOutPage implements OnInit {
   }
   initObservables(){
     this.harvestingservice.customer$.subscribe((res)=>{
+      console.log(res);
       this.customerData = res;
+      this.closeJobForm.patchValue({
+        customer_id: this.customerData?.customer_job[0].customer_id
+      });
     });
     this.harvestingservice.customerLoading$.subscribe((val)=>{
       this.isLoading = val;
@@ -60,7 +66,8 @@ export class CloseOutPage implements OnInit {
   );
   }
   getDate(e){
-    // console.log('Date:',e.detail.value);
+    console.log('Date:',e.detail.value);
+    this.closeJobForm.patchValue({date: e.detail.value});
     this.date = moment(e.detail.value).format('DD-MM-YYYY');
       }
 }
