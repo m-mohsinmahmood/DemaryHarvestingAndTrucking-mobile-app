@@ -51,25 +51,16 @@
       </ion-card-content>
     </ion-card>
     <form [formGroup]="deliveryTicketForm">
-
-        <!-- <div class=" px-2"> -->
-
-        <!-- <div class="col-span-12 mb-4">
-            <label class="block text-sm font-medium text-gray-700">Truck Driver <span *ngIf="this.deliveryTicketForm.get('truck_driver').hasError('required')"  class="text-red-400">*</span></label>
-            <input
-              class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-              formControlName="truck_driver" placeholder="Truck Driver">
-          </div> -->
         <div class="px-2">
+           <!-- Truck Driver -->
           <div [ngClass]="'opacity-100 visible ease-in duration-200'" class="" role="dialog" aria-modal="true">
-
             <div [ngClass]="'opacity-100 visible scale-100 ease-in duration-200'" class="mb-4 relative z-20">
               <div class="mx-auto max-w-full transform rounded-xl px-0 transition-all">
-                <label class="block text-sm font-medium text-gray-700 mb-1">Driver Name <span
+                <label class="block text-sm font-medium text-gray-700 mb-1">Truck Driver Name <span
                     *ngIf="isTruckDriverSelected" class="text-red-400">*</span></label>
                 <div class="flex items-center justify-between gap-x-2 rounded-md">
                   <input (keyup)="trick_driver_search$.next($event.target.value)" (click)="inputClickedTruckDriver()"
-                    [value]="trick_driver_name" #combineInput
+                    [value]="trick_driver_name" #truckInput
                     class="{{isFieldDisabled? 'pointer-events-none bg-gray-200 w-full px-4 py-2.5 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500': 'w-full px-4 py-2.5 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500'}}"
                     placeholder="Select Driver" role="" aria-expanded="false" aria-controls="options">
                 </div>
@@ -100,7 +91,7 @@
               </div>
             </div>
           </div>
-
+          <!-- Truck Driver -->
 
           <div class="col-span-12 mb-4">
             <label class="block text-sm font-medium text-gray-700">Destination <span
@@ -150,15 +141,48 @@
                 class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                 formControlName="delivery_ticket_number" placeholder="Delivery Ticket Number">
             </div>
+             <!-- Kart Operator -->
             <div class="col-span-12 mb-4">
-              <label class="block text-sm font-medium text-gray-700">Kart Operator Name <span
-                  *ngIf="this.deliveryTicketForm.get('kart_operator').hasError('required')"
-                  class="text-red-400">*</span></label>
-              <input
-                class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-                formControlName="kart_operator" placeholder="Delivery Ticket Number">
-            </div>
+              <div [ngClass]="'opacity-100 visible ease-in duration-200'" class="" role="dialog" aria-modal="true">
+                <div [ngClass]="'opacity-100 visible scale-100 ease-in duration-200'" class="mb-4 relative z-20">
+                  <div class="mx-auto max-w-full transform rounded-xl px-0 transition-all">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Kart Operator Name <span
+                        *ngIf="isKartOperatorSelected" class="text-red-400">*</span></label>
+                    <div class="flex items-center justify-between gap-x-2 rounded-md">
+                      <input (keyup)="kart_operator_search$.next($event.target.value)" (click)="inputClickedKartOperator()"
+                        [value]="kart_operator_name" #kartInput
+                        class="{{isFieldDisabled? 'pointer-events-none bg-gray-200 w-full px-4 py-2.5 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500': 'w-full px-4 py-2.5 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500'}}"
+                        placeholder="Select Kart Operator" role="" aria-expanded="false" aria-controls="options">
+                    </div>
 
+                    <div *ngIf="allKartOperators | withLoading | async as allKartOperators" class="">
+                      <div class="flex justify-center items-center">
+                        <ion-spinner *ngIf="allKartOperators?.loading" name="crescent" mode="indeterminate"
+                          color="primary"></ion-spinner>
+                      </div>
+                      <ul *ngIf="allKartOperators?.value && kartOperatorUL"
+                        class="-mb-2 max-h-44 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800 bg-white drop-shadow-lg absolute w-full"
+                        id="options" role="listbox">
+                        <li *ngFor="let kartOperators of (allKartOperators?.value.employees)"
+                          (click)="listClickedKartOperator(kartOperators)"
+                          class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200" role="option"
+                          tabindex="-1">
+                          <div class="flex items-center p-2">
+                            {{kartOperators.first_name}} {{kartOperators.last_name}}
+                          </div>
+                        </li>
+                      </ul>
+                      <div *ngIf="allKartOperators?.value?.employees?.length === 0">
+                        <p disabled
+                          class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200 text-gray-500 hover:text-gray-700 hover:font-semibold">
+                          No kart operator (s) found </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+           <!-- Kart Operator -->
             <div class="col-span-12 mb-4">
               <label class="block text-sm font-medium text-gray-700">Truck Driver Company <span
                   *ngIf="this.deliveryTicketForm.get('truck_driver_company').hasError('required')"
@@ -170,15 +194,14 @@
 
             <div class="col-span-12 mb-4">
               <label class="block text-sm font-medium text-gray-700">Truck# <span
-                  *ngIf="this.deliveryTicketForm.get('truck').hasError('required')"
+                  *ngIf="this.deliveryTicketForm.get('truck_id').hasError('required')"
                   class="text-red-400">*</span></label>
               <input
                 class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-                formControlName="truck" placeholder="Truck#">
+                formControlName="truck_id" placeholder="Truck#">
             </div>
           </div>
           <div *ngIf="isSplitTrue">
-
             <div class="col-span-12 mb-4">
               <label class="block text-sm font-medium text-gray-700">SplitLoad <span
                   *ngIf="this.deliveryTicketForm.get('split_load').hasError('required')"
@@ -223,16 +246,48 @@
                 class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                 formControlName="delivery_ticket_number" placeholder="Delivery Ticket Number">
             </div>
-
+    <!-- Kart Operator -->
             <div class="col-span-12 mb-4">
-              <label class="block text-sm font-medium text-gray-700">Kart Operator Name <span
-                  *ngIf="this.deliveryTicketForm.get('kart_operator').hasError('required')"
-                  class="text-red-400">*</span></label>
-              <input
-                class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-                formControlName="kart_operator" placeholder="Kart Operator Name">
-            </div>
+              <div [ngClass]="'opacity-100 visible ease-in duration-200'" class="" role="dialog" aria-modal="true">
+                <div [ngClass]="'opacity-100 visible scale-100 ease-in duration-200'" class="mb-4 relative z-20">
+                  <div class="mx-auto max-w-full transform rounded-xl px-0 transition-all">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Kart Operator Name <span
+                        *ngIf="isKartOperatorSelected" class="text-red-400">*</span></label>
+                    <div class="flex items-center justify-between gap-x-2 rounded-md">
+                      <input (keyup)="kart_operator_search$.next($event.target.value)" (click)="inputClickedKartOperator()"
+                        [value]="kart_operator_name" #kartInput
+                        class="{{isFieldDisabled? 'pointer-events-none bg-gray-200 w-full px-4 py-2.5 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500': 'w-full px-4 py-2.5 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500'}}"
+                        placeholder="Select Kart Operator" role="" aria-expanded="false" aria-controls="options">
+                    </div>
 
+                    <div *ngIf="allKartOperators | withLoading | async as allKartOperators" class="">
+                      <div class="flex justify-center items-center">
+                        <ion-spinner *ngIf="allKartOperators?.loading" name="crescent" mode="indeterminate"
+                          color="primary"></ion-spinner>
+                      </div>
+                      <ul *ngIf="allKartOperators?.value && kartOperatorUL"
+                        class="-mb-2 max-h-44 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800 bg-white drop-shadow-lg absolute w-full"
+                        id="options" role="listbox">
+                        <li *ngFor="let kartOperators of (allKartOperators?.value.employees)"
+                          (click)="listClickedKartOperator(kartOperators)"
+                          class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200" role="option"
+                          tabindex="-1">
+                          <div class="flex items-center p-2">
+                            {{kartOperators.first_name}} {{kartOperators.last_name}}
+                          </div>
+                        </li>
+                      </ul>
+                      <div *ngIf="allKartOperators?.value?.employees?.length === 0">
+                        <p disabled
+                          class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200 text-gray-500 hover:text-gray-700 hover:font-semibold">
+                          No kart operator (s) found </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+ <!-- Kart Operator -->
             <div class="col-span-12 mb-4">
               <label class="block text-sm font-medium text-gray-700">Truck Driver Company <span
                   *ngIf="this.deliveryTicketForm.get('truck_driver_company').hasError('required')"
@@ -244,11 +299,11 @@
 
             <div class="col-span-12 mb-4">
               <label class="block text-sm font-medium text-gray-700">Truck# <span
-                  *ngIf="this.deliveryTicketForm.get('truck').hasError('required')"
+                  *ngIf="this.deliveryTicketForm.get('truck_id').hasError('required')"
                   class="text-red-400">*</span></label>
               <input
                 class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-                formControlName="truck" placeholder="Truck#">
+                formControlName="truck_id" placeholder="Truck#">
             </div>
           </div>
         </div>

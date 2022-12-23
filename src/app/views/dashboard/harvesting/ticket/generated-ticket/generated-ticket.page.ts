@@ -40,7 +40,7 @@ export class GeneratedTicketPage implements OnInit {
   initApis(){
     // this.harvestingService.getTickets();
     this.harvestingService.getJob();
-    this.harvestingService.getTicketById(555);
+    this.harvestingService.getTicketById(this.router.getCurrentNavigation().extras.state.ticketId,'ticket');
 
   }
   initObservables(){

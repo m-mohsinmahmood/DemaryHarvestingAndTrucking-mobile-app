@@ -25,7 +25,7 @@ readonly customer$: Observable<any[] | null> =
   this.customer.asObservable();
 
   private customerLoading: BehaviorSubject<boolean> =
-  new BehaviorSubject<boolean>(null);
+  new BehaviorSubject<boolean>(true);
   readonly customerLoading$: Observable<boolean> =
   this.customerLoading.asObservable();
   //#endregion
@@ -76,6 +76,18 @@ private pendingTicketLoading: BehaviorSubject<boolean> =
 new BehaviorSubject<boolean>(true);
 readonly pendingTicketLoading$: Observable<boolean> =
 this.pendingTicketLoading.asObservable();
+//#endregion
+
+//#region Verified Ticket
+private verifiedTicket: BehaviorSubject<any[] | null> =
+new BehaviorSubject(null);
+readonly verifiedTicket$: Observable<any[] | null> =
+this.verifiedTicket.asObservable();
+
+private verifiedTicketLoading: BehaviorSubject<boolean> =
+new BehaviorSubject<boolean>(true);
+readonly verifiedTicketLoading$: Observable<boolean> =
+this.verifiedTicketLoading.asObservable();
 //#endregion
 
   constructor(
@@ -242,9 +254,9 @@ createTicket(data: any) {
        }
        )
  }
- getTicketById(id: any) {
+ getTicketById(id: any,entity: any) {
   return this._httpClient
-       .get(`http://localhost:7071/api/harvesting-ticket?id=${id}`)
+       .get(`http://localhost:7071/api/harvesting-ticket?id=${id}&entity=${entity}`)
        .pipe(take(1))
        .subscribe((res: any)=>{
         this.ticketLoading.next(true);
@@ -258,6 +270,11 @@ createTicket(data: any) {
        }
        )
  }
+ updateTicket(ticketID: any,data: any) {
+  return this._httpClient
+       .patch(`http://localhost:7071/api/harvesting-ticket?ticket_id=${ticketID}`,data)
+       .pipe(take(1));
+ }
  getSentTicket(value: any) {
   return this._httpClient
        .get(`http://localhost:7071/api/harvesting-ticket?status=${value}`)
@@ -266,7 +283,38 @@ createTicket(data: any) {
         this.sentTicketLoading.next(true);
         this.sentTicket.next(res);
         this.sentTicketLoading.next(false);
-        console.log('Response Sent:',res);
+      },
+       (err)=>{
+        this.toastService.presentToast(err,'danger');
+
+       }
+       )
+ }
+ getPendingTicket(value: any) {
+  return this._httpClient
+       .get(`http://localhost:7071/api/harvesting-ticket?status=${value}`)
+       .pipe(take(1))
+       .subscribe((res: any)=>{
+        this.pendingTicketLoading.next(true);
+        this.pendingTicket.next(res);
+        this.pendingTicketLoading.next(false);
+        console.log('Response Verified:',res);
+
+      },
+       (err)=>{
+        this.toastService.presentToast(err,'danger');
+
+       }
+       )
+ }
+ getVerifiedTicket(value: any) {
+  return this._httpClient
+       .get(`http://localhost:7071/api/harvesting-ticket?status=${value}`)
+       .pipe(take(1))
+       .subscribe((res: any)=>{
+        this.verifiedTicketLoading.next(true);
+        this.verifiedTicket.next(res);
+        this.verifiedTicketLoading.next(false);
       },
        (err)=>{
         this.toastService.presentToast(err,'danger');

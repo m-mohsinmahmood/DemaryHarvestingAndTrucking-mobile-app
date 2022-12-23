@@ -111,6 +111,7 @@ initObservables(){
   this.harvestingService.customer$.subscribe((res)=>{
     this.customerData = res;
     console.log('res::',res);
+    // console.log('eeee::',this.customerData.customer_job[0]);
   });
   this.harvestingService.customerLoading$.subscribe((val)=>{
     this.isLoading = val;
@@ -138,7 +139,7 @@ initObservables(){
         if(value === ''){ this.isFieldSelected = true;}
 
        // calling API
-       this.allFields = this.harvestingService.getFields(value,'customerFields',this.customerData[0].customer_id,this.customerData[0].farm_id);
+       this.allFields = this.harvestingService.getFields(value,'customerFields',this.customerData.customer_job[0].customer_id,this.customerData.customer_job[0].farm_id);
 
           // subscribing to show/hide field UL
           this.allFields.subscribe((fields) => {
@@ -168,8 +169,8 @@ initObservables(){
         ? this.field_name
         : this.fieldSearchValue;
 
-    // calling API
-    this.allFields = this.harvestingService.getFields('','customerFields',this.customerData[0].customer_id,this.customerData[0].farm_id);
+    // calling API // need id to check
+    this.allFields = this.harvestingService.getFields(value,'customerFields',this.customerData.customer_job[0].customer_id,this.customerData.customer_job[0].farm_id);
 
           // subscribing to show/hide field UL
           this.allFields.subscribe((fields) => {

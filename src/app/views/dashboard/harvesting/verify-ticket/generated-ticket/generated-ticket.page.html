@@ -8,7 +8,7 @@
   <ion-card-header class="bg-3D8AA4">
     <ion-card-title class="flex justify-center text-2xl font-Lato text-white">DHT Delivery Ticket</ion-card-title>
   </ion-card-header>
-  <ion-card-content>
+  <ion-card-content *ngIf="!isLoadingTicket">
     <ion-grid>
       <!-- First Row -->
       <ion-row class="mb-1 h-16">
@@ -18,7 +18,7 @@
         </ion-col>
         <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
           <p class="font-Lato text-black font-bold font-14">Customer Name</p>
-          <span class="font-Lato font-14">Mike Allen</span>
+          <span class="font-Lato font-14">{{ticketData.customer_name}}</span>
         </ion-col>
       </ion-row>
 
@@ -26,11 +26,11 @@
       <ion-row class="mb-1 h-16">
         <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
           <p class="font-Lato text-black font-bold font-14">Farm</p>
-          <span class="font-Lato font-14">9999</span>
+          <span class="font-Lato font-14">{{ticketData.farm_id}}</span>
         </ion-col>
         <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
           <p class="font-Lato text-black font-bold font-14">Crop</p>
-          <span class="font-Lato font-14">333222</span>
+          <span class="font-Lato font-14">{{ticketData.crop_id}}</span>
         </ion-col>
       </ion-row>
 
@@ -38,11 +38,11 @@
         <ion-row class="mb-1 h-16">
           <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
             <p class="font-Lato text-black font-bold font-14">Field</p>
-            <span class="font-Lato font-14">9999</span>
+            <span class="font-Lato font-14">{{ticketData.crop_id}}</span>
           </ion-col>
           <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
             <p class="font-Lato text-black font-bold font-14">Truck ID</p>
-            <span class="font-Lato font-14">333222</span>
+            <span class="font-Lato font-14">{{ticketData.truck_id}}</span>
           </ion-col>
         </ion-row>
 
@@ -50,11 +50,11 @@
         <ion-row class="mb-1 h-16">
           <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
             <p class="font-Lato text-black font-bold font-14">Truck Company</p>
-            <span class="font-Lato font-14">DHT</span>
+            <span class="font-Lato font-14">{{ticketData.truck_driver_company}}</span>
           </ion-col>
           <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
             <p class="font-Lato text-black font-bold font-14">Destination</p>
-            <span class="font-Lato font-14">Dakota</span>
+            <span class="font-Lato font-14">{{ticketData.destination}}</span>
           </ion-col>
         </ion-row>
 
@@ -62,32 +62,32 @@
         <ion-row class="mb-1 h-16">
           <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
             <p class="font-Lato text-black font-bold font-14">Loaded Miles</p>
-            <span class="font-Lato font-14">20</span>
+            <span class="font-Lato font-14">{{ticketData.loaded_miles}}</span>
           </ion-col>
           <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
             <p class="font-Lato text-black font-bold font-14">Kart Operator</p>
-            <span class="font-Lato font-14">John Adam</span>
+            <span class="font-Lato font-14">{{ticketData.first_name}} {{ticketData.last_name}}</span>
           </ion-col>
         </ion-row>
 
         <ion-row class="mb-1 h-16">
           <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
             <p class="font-Lato text-black font-bold font-14">Driver</p>
-            <span class="font-Lato font-14">Mike Allen</span>
+            <span class="font-Lato font-14">{{ticketData.first_name}} {{ticketData.last_name}}</span>
           </ion-col>
           <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
             <p class="font-Lato text-black font-bold font-14">Scale Ticket Weight</p>
-            <span class="font-Lato font-14">3322 lb</span>
+            <span class="font-Lato font-14">{{ticketData.scale_ticket_weight}}</span>
           </ion-col>
         </ion-row>
         <ion-row class="mb-1 h-16">
           <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
             <p class="font-Lato text-black font-bold font-14">Moisture Content</p>
-            <span class="font-Lato font-14">20%</span>
+            <span class="font-Lato font-14">{{ticketData.moisture_content}}</span>
           </ion-col>
           <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
             <p class="font-Lato text-black font-bold font-14">Scale Ticket</p>
-            <span class="font-Lato font-14">4232</span>
+            <span class="font-Lato font-14">{{ticketData.scale_ticket}}</span>
           </ion-col>
         </ion-row>
         <ion-row class="mb-1 h-16">
@@ -98,7 +98,97 @@
 
         </ion-row>
     </ion-grid>
-    <ion-button expand="block" class="mt-5 font-Lato text-white" [routerLink]="['/tabs/home/harvesting/']">Verify</ion-button>
+    <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="submit()">Verify</ion-button>
+  </ion-card-content>
+  <ion-card-content *ngIf="isLoadingTicket">
+    <ion-grid>
+      <!-- First Row -->
+      <ion-row class="mb-1 h-16">
+        <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+          <p class="font-Lato text-black font-bold font-14">DHT Date</p>
+          <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+        </ion-col>
+        <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+          <p class="font-Lato text-black font-bold font-14">Customer Name</p>
+          <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+        </ion-col>
+      </ion-row>
+
+      <!-- Second Row -->
+      <ion-row class="mb-1 h-16">
+        <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+          <p class="font-Lato text-black font-bold font-14">Farm</p>
+          <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+        </ion-col>
+        <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+          <p class="font-Lato text-black font-bold font-14">Crop</p>
+          <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+        </ion-col>
+      </ion-row>
+
+        <!-- Third Row -->
+        <ion-row class="mb-1 h-16">
+          <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">Field</p>
+            <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+          </ion-col>
+          <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">Truck ID</p>
+            <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+          </ion-col>
+        </ion-row>
+
+        <!-- Fourth Row -->
+        <ion-row class="mb-1 h-16">
+          <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">Truck Company</p>
+            <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+          </ion-col>
+          <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">Destination</p>
+            <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+          </ion-col>
+        </ion-row>
+
+        <!-- Fifth Row -->
+        <ion-row class="mb-1 h-16">
+          <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">Loaded Miles</p>
+            <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+          </ion-col>
+          <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">Kart Operator</p>
+            <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+          </ion-col>
+        </ion-row>
+
+        <ion-row class="mb-1 h-16">
+          <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">Driver</p>
+            <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+          </ion-col>
+          <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">Scale Ticket Weight</p>
+            <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+          </ion-col>
+        </ion-row>
+        <ion-row class="mb-1 h-16">
+          <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">Moisture Content</p>
+            <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+          </ion-col>
+          <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">Scale Ticket</p>
+            <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+          </ion-col>
+        </ion-row>
+        <ion-row class="mb-1 h-16">
+          <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">Kart Scale Weight</p>
+            <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+          </ion-col>
+        </ion-row>
+    </ion-grid>
   </ion-card-content>
 </ion-card>
 </ion-content>
@@ -107,69 +197,162 @@
   <app-timer [value]="'23:44:12'"></app-timer>
   <ion-card>
     <ion-card-header class="bg-3D8AA4">
-      <ion-card-title class="flex justify-center text-2xl font-Lato text-white ">Ticket #39089890</ion-card-title>
+      <ion-card-title class="flex justify-center text-2xl font-Lato text-white ">Ticket# {{ticketID}}</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <ion-grid>
+      <ion-grid *ngIf="!isLoadingTicket">
         <ion-row class="mb-5 h-10">
           <ion-col size="6" class="flex flex-col justify-center items-start ion-text-center">
             <p class="font-Lato text-black font-bold font-14">Field</p>
-            <span class="font-Lato font-14">Bonita Beans</span>
+            <span class="font-Lato font-14">{{ticketData.field_name}}</span>
           </ion-col>
           <ion-col size="6" class="flex flex-col justify-center items-start ion-text-center">
             <p class="font-Lato text-black font-bold font-14">Destination</p>
-            <span class="font-Lato font-14">Coronado feed Center</span>
+            <span class="font-Lato font-14">{{ticketData.destination}}</span>
           </ion-col>
         </ion-row>
         <ion-row class="mb-5 h-10">
           <ion-col size="6" class="flex flex-col justify-center items-start ion-text-center">
             <p class="font-Lato text-black font-bold font-14">Farms</p>
-            <span class="font-Lato font-14">Farmer's Bin</span>
+            <span class="font-Lato font-14">{{ticketData.farm_name}}</span>
           </ion-col>
           <ion-col size="6" class="flex flex-col justify-center items-start ion-text-center">
-            <p class="font-Lato text-black font-bold font-14">Corn</p>
-            <span class="font-Lato font-14">Corn</span>
+            <p class="font-Lato text-black font-bold font-14">Crop</p>
+            <span class="font-Lato font-14 text-left">{{ticketData.crop_name}}</span>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      <ion-grid *ngIf="isLoadingTicket" >
+        <ion-row class="mb-5 h-10">
+          <ion-col size="6" class="flex flex-col justify-center items-start ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">Field</p>
+            <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+          </ion-col>
+          <ion-col size="6" class="flex flex-col justify-center items-start ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">Destination</p>
+            <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+          </ion-col>
+        </ion-row>
+        <ion-row class="mb-5 h-10">
+          <ion-col size="6" class="flex flex-col justify-center items-start ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">Farms</p>
+            <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+          </ion-col>
+          <ion-col size="6" class="flex flex-col justify-center items-start ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">Crop</p>
+            <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
           </ion-col>
         </ion-row>
       </ion-grid>
       <form [formGroup]="generateTicketFormTruck">
 
-        <div class="col-span-12 mb-4">
-          <label class="block text-sm font-medium text-gray-700">Scale Ticket <span *ngIf="this.generateTicketFormTruck.get('scaleTicket').hasError('required')" class="text-red-400">*</span></label>
+        <div class="col-span-12 mb-2">
+          <label class="block text-sm font-medium text-gray-700">Scale Ticket <span *ngIf="this.generateTicketFormTruck.get('scale_ticket').hasError('required')" class="text-red-400">*</span></label>
           <input
             class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-            formControlName="scaleTicket" placeholder="Scale Ticket">
+            formControlName="scale_ticket" placeholder="Scale Ticket">
         </div>
 
+      <div class="flex px-2 pb-4">
+        <div class="w-16 h-16 mr-2">
+        <ion-card
+          [ngClass]="!upload_1 ? ' shadow-none m-0 border-2 border-aaaaaa bg-e9e6e6' : 'shadow-none m-0 border-2 border-project-green bg-white'"
+          (click)="upload__1.click()"
+        >
+          <ion-card-content class="p-0 w-16 h-16 flex justify-center items-center">
+              <ion-segment scrollable value="done" class="bg-none">
+                <ion-segment-button value="upload" *ngIf="!upload_1">
+                  <ion-icon
+                    [ngStyle]="{'color' : !upload_1 ? '#aaaaaa' : ''}"
+                    name="cloud-upload-outline"
+                  >
+                  </ion-icon>
+                </ion-segment-button>
 
-      <div class="col-span-12 mb-4">
-        <label class="block text-sm font-medium text-gray-700">Scale Ticket Weight <span *ngIf="this.generateTicketFormTruck.get('scaleTicketWeight').hasError('required')" class="text-red-400">*</span></label>
+                <ion-segment-button value="done" *ngIf="upload_1">
+                  <ion-icon
+                    [ngStyle]="{'color' : upload_1 ? '#59C64F' : ''}"
+                    name="cloud-done-outline"
+                  >
+                  </ion-icon>
+                </ion-segment-button>
+                <input
+                  #upload__1
+                  type="file"
+                  class=" invisible hidden"
+                  formControlName="scale_ticket_docs"
+                  (change)="onSelectedFiles($event, 'upload_1')"
+                />
+              </ion-segment>
+          </ion-card-content>
+        </ion-card>
+      </div>
+    </div>
+
+
+      <div class="col-span-12 mb-2">
+        <label class="block text-sm font-medium text-gray-700">Scale Ticket Weight <span *ngIf="this.generateTicketFormTruck.get('scale_ticket_weight').hasError('required')" class="text-red-400">*</span></label>
         <input
           class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-          formControlName="scaleTicketWeight" placeholder="Scale Ticket Weight">
+          formControlName="scale_ticket_weight" placeholder="Scale Ticket Weight">
+      </div>
+    <div class="flex px-2 pb-4">
+      <div class="w-16 h-16 mr-2">
+      <ion-card
+        [ngClass]="!upload_2 ? ' shadow-none m-0 border-2 border-aaaaaa bg-e9e6e6' : 'shadow-none m-0 border-2 border-project-green bg-white'"
+        (click)="upload__2.click()"
+      >
+        <ion-card-content class="p-0 w-16 h-16 flex justify-center items-center">
+            <ion-segment scrollable value="done" class="bg-none">
+              <ion-segment-button value="upload" *ngIf="!upload_2">
+                <ion-icon
+                  [ngStyle]="{'color' : !upload_2 ? '#aaaaaa' : ''}"
+                  name="cloud-upload-outline"
+                >
+                </ion-icon>
+              </ion-segment-button>
+
+              <ion-segment-button value="done" *ngIf="upload_2">
+                <ion-icon
+                  [ngStyle]="{'color' : upload_2 ? '#59C64F' : ''}"
+                  name="cloud-done-outline"
+                >
+                </ion-icon>
+              </ion-segment-button>
+              <input
+                #upload__2
+                type="file"
+                class=" invisible hidden"
+                formControlName="scale_ticket_weight_docs"
+                (change)="onSelectedFiles($event, 'upload_2')"
+              />
+            </ion-segment>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </div>
+
+      <div class="col-span-12 mb-4">
+        <label class="block text-sm font-medium text-gray-700">Test Weight <span *ngIf="this.generateTicketFormTruck.get('test_weight').hasError('required')" class="text-red-400">*</span></label>
+        <input
+          class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+          formControlName="test_weight" placeholder="Test Weight">
       </div>
 
+
       <div class="col-span-12 mb-4">
-        <label class="block text-sm font-medium text-gray-700">Test Weight <span *ngIf="this.generateTicketFormTruck.get('testWeight').hasError('required')" class="text-red-400">*</span></label>
+        <label class="block text-sm font-medium text-gray-700">Protein Content <span *ngIf="this.generateTicketFormTruck.get('protein_content').hasError('required')" class="text-red-400">*</span></label>
         <input
           class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-          formControlName="testWeight" placeholder="Test Weight">
+          formControlName="protein_content" placeholder="Protein Content">
       </div>
 
 
       <div class="col-span-12 mb-4">
-        <label class="block text-sm font-medium text-gray-700">Protein Content <span *ngIf="this.generateTicketFormTruck.get('proteinContent').hasError('required')" class="text-red-400">*</span></label>
+        <label class="block text-sm font-medium text-gray-700">Moisture Content <span *ngIf="this.generateTicketFormTruck.get('moisture_content').hasError('required')" class="text-red-400">*</span></label>
         <input
           class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-          formControlName="proteinContent" placeholder="Protein Content">
-      </div>
-
-
-      <div class="col-span-12 mb-4">
-        <label class="block text-sm font-medium text-gray-700">Moisture Content <span *ngIf="this.generateTicketFormTruck.get('moistureContent').hasError('required')" class="text-red-400">*</span></label>
-        <input
-          class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-          formControlName="moistureContent" placeholder="Moisture Content">
+          formControlName="moisture_content" placeholder="Moisture Content">
       </div>
             <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="submit()" [disabled]="generateTicketFormTruck.invalid">Save and Send to Kart Operator</ion-button>
     </form>

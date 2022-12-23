@@ -80,6 +80,7 @@ export class ChangeFarmPage implements OnInit {
 
   customerData: any;
 
+
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
   constructor(
@@ -182,6 +183,10 @@ initObservables(){
     // passing customer & field name's
     this.customer_name = this.customerData?.customer_job[0].customer_name;
     this.field_name = this.customerData?.customer_job[0].field_name;
+
+    //passing customerid for farm & crop
+    this.customerID = this.customerData?.customer_job[0].customer_id;
+
   });
   this.harvestingService.customerLoading$.subscribe((val)=>{
     // console.log('Loading Value',val);
@@ -414,7 +419,7 @@ initObservables(){
         : this.farmSearchValue;
 
     // calling API
-    this.allFarmsClicked = this.harvestingService.getFarms('','customerFarms',this.customerData?.customer_job[0].customer_id);
+    this.allFarmsClicked = this.harvestingService.getFarms('','customerFarms',this.customerID);
 
 
     // subscribing to show/hide farm UL
@@ -507,7 +512,7 @@ initObservables(){
         : this.cropSearchValue;
 
     // calling API
-    this.allCropsClicked = this.harvestingService.getCrops('','customerCrops',this.customerData?.customer_job[0].customer_id);
+    this.allCropsClicked = this.harvestingService.getCrops('','customerCrops',this.customerID);
 
 
     // subscribing to show/hide farm UL

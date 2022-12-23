@@ -26,7 +26,7 @@ export class CloseOutPage implements OnInit {
     this.closeJobForm = this.formBuilder.group({
       customer_id: [],
       is_close: [true],
-      date: [''],
+      date: [new Date()],
       total_acres: ['',[Validators.required]],
       total_gps_acres: ['',[Validators.required]],
     });
@@ -45,6 +45,7 @@ export class CloseOutPage implements OnInit {
       });
     });
     this.harvestingservice.customerLoading$.subscribe((val)=>{
+      console.log('value',val);
       this.isLoading = val;
     });
   }
