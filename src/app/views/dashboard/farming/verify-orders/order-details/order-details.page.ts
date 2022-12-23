@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { FarmingService } from '../../farming.service';
 
 @Component({
   selector: 'app-order-details',
@@ -8,12 +9,21 @@ import { Router } from '@angular/router';
 })
 export class OrderDetailsPage implements OnInit {
 
-  constructor(private router: Router) { }
+  data: any;
+
+  constructor(private router: Router, private activeRoute: ActivatedRoute, private farmingService: FarmingService) {
+    this.activeRoute.params.subscribe(params => {
+      console.log(params);
+
+      this.data = params;
+    })
+  }
 
   ngOnInit() {
   }
 
   navigateTo(nav: string) {
+    this.farmingService.updateWorkOrder({customerId:this.data.work_order_id}, 'dispatcher');
     this.router.navigateByUrl(nav);
   }
 

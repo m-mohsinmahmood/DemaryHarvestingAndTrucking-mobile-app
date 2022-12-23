@@ -4,117 +4,129 @@
   <app-timer [value]="'12-10-2022'"> </app-timer>
   <div class="p-2">
     <div class="segment-style">
-      <ion-segment [(ngModel)]="segment" scrollable>
+
+      <ion-skeleton-text [animated]="true" style="width: 100%; "
+        *ngIf="!dataLoaded.sentList && !dataLoaded.pendingList && !dataLoaded.verifiedList"></ion-skeleton-text>
+
+      <ion-segment [(ngModel)]="segment" scrollable
+        *ngIf="dataLoaded.sentList && dataLoaded.pendingList && dataLoaded.verifiedList">
         <ion-segment-button value="sent">
           <div class="flex justify-center items-center">
             <p class=" font-Lato">Sent</p>
             <span class="text-white ml-4 w-8 h-4 rounded-full flex justify-center items-center">
-              8</span>
+              {{sentCount}}</span>
           </div>
         </ion-segment-button>
         <ion-segment-button value="pending">
           <div class="flex justify-center items-center">
             <p class=" font-Lato">Pending</p>
             <span class="text-white ml-4 w-8 h-4 rounded-full flex justify-center items-center">
-              1</span>
+              {{pendingCount}}</span>
           </div>
         </ion-segment-button>
         <ion-segment-button value="verified">
           <div class="flex justify-center items-center">
             <p class=" font-Lato">Verified</p>
             <span class="text-white ml-4 w-8 h-4 rounded-full flex justify-center items-center">
-              4</span>
+              {{verifiedCount}}</span>
           </div>
         </ion-segment-button>
       </ion-segment>
 
       <div [ngSwitch]="segment">
         <div *ngSwitchCase="'sent'">
-          <ion-card class="sentTicket p-2" [routerLink]="['order-details']">
-            <div class="flex flex-col">
-              <div class="flex flex-row py-2">
-                <div class="w-8/12 flex flex-col">
-                  <span class="text-lg text-black font-Lato font-semibold	">Farming Task 1</span>
-                  <span class="font-Lato">Coronodo Feed Center, Arizona</span>
+          <div *ngIf="sentWorkOrders | async as sentWorkOrders">
+            <ion-card *ngFor="let orders of (sentWorkOrders.workOrders)" class="sentTicket p-2">
+              <div class="flex flex-col">
+                <div class="flex flex-row py-2">
+                  <div class="w-8/12 flex flex-col">
+                    <span class="text-lg text-black font-Lato font-semibold	">{{orders.customer_first_name}}</span>
+                    <span class="font-Lato">{{orders.address}}</span>
+                  </div>
+
+                  <div class="w-10/12 flex justify-end rounded-3xl h-6 flex items-center justify-center"
+                    [ngStyle]="{'background-color':'#E6F0F9'}">
+                    <span class="text-sm font-Lato">Work Order# </span>
+                    <span class="text-sm text-black font-Lato"> {{"334355"}}</span>
+                  </div>
                 </div>
 
-                <div class="w-10/12 flex justify-end rounded-3xl h-6 flex items-center justify-center"
-                  [ngStyle]="{'background-color':'#E6F0F9'}">
-                  <span class="text-sm font-Lato">Work Order# </span>
-                  <span class="text-sm text-black font-Lato"> {{"334355"}}</span>
+                <div class="mt-2.5 flex justify-between p-0">
+                  <div>
+                    <span class="text-sm font-Lato">Truck Driver: </span>
+                    <span class="text-sm text-black font-Lato"></span>
+                  </div>
+                  <div>
+                    <span class="text-sm font-Lato">Destination: </span>
+                    <span class="text-sm text-black font-Lato">{{orders.address}}</span>
+                  </div>
                 </div>
               </div>
-
-              <div class="mt-2.5 flex justify-between p-0">
-                <div>
-                  <span class="text-sm font-Lato">Truck Driver: </span>
-                  <span class="text-sm text-black font-Lato">{{"Mike Allen"}}</span>
-                </div>
-                <div>
-                  <span class="text-sm font-Lato">Destination: </span>
-                  <span class="text-sm text-black font-Lato">{{"Dakota"}}</span>
-                </div>
-              </div>
-            </div>
-          </ion-card>
+            </ion-card>
+          </div>
         </div>
 
         <div *ngSwitchCase="'pending'">
-          <ion-card class="pendingTicket p-2" [routerLink]="['order-details']">
-            <div class="flex flex-col">
-              <div class="flex flex-row py-2">
-                <div class="w-8/12 flex flex-col">
-                  <span class="text-lg text-black font-Lato font-semibold	">Farming Task 2</span>
-                  <span class="font-Lato">Coronodo Feed Center, Arizona</span>
+          <div *ngIf="pendingWorkOrders | async as pendingWorkOrders">
+            <ion-card *ngFor="let orders of (pendingWorkOrders.workOrders)" class="pendingTicket p-2"
+              [routerLink]="['order-details', orders]">
+              <div class="flex flex-col">
+                <div class="flex flex-row py-2">
+                  <div class="w-8/12 flex flex-col">
+                    <span class="text-lg text-black font-Lato font-semibold	">{{orders.customer_name}}</span>
+                    <span class="font-Lato">{{orders.address}}</span>
+                  </div>
+                  <div class="w-10/12 flex justify-end rounded-3xl h-6 flex items-center justify-center"
+                    [ngStyle]="{'background-color':'#E6F0F9'}">
+                    <span class="text-sm font-Lato">Work Order# </span>
+                    <span class="text-sm text-black font-Lato"> {{"334355"}}</span>
+                  </div>
                 </div>
-                <div class="w-10/12 flex justify-end rounded-3xl h-6 flex items-center justify-center"
-                  [ngStyle]="{'background-color':'#E6F0F9'}">
-                  <span class="text-sm font-Lato">Work Order# </span>
-                  <span class="text-sm text-black font-Lato"> {{"334355"}}</span>
-                </div>
-              </div>
 
-              <div class="mt-2.5 flex justify-between p-0">
-                <div>
-                  <span class="text-sm font-Lato">Truck Driver: </span>
-                  <span class="text-sm text-black font-Lato">{{"Mike Allen"}}</span>
-                </div>
-                <div>
-                  <span class="text-sm font-Lato">Destination: </span>
-                  <span class="text-sm text-black font-Lato">{{"Dakota"}}</span>
+                <div class="mt-2.5 flex justify-between p-0">
+                  <div>
+                    <span class="text-sm font-Lato">Truck Driver: </span>
+                    <span class="text-sm text-black font-Lato">{{orders.first_name}}</span>
+                  </div>
+                  <div>
+                    <span class="text-sm font-Lato">Destination: </span>
+                    <span class="text-sm text-black font-Lato">{{orders.address}}</span>
+                  </div>
                 </div>
               </div>
-            </div>
-          </ion-card>
+            </ion-card>
+          </div>
         </div>
 
         <div *ngSwitchCase="'verified'">
-          <ion-card class="verifiedTicket p-2" [routerLink]="['order-details']">
-            <div class="flex flex-col">
-              <div class="flex flex-row py-2">
-                <div class="w-8/12 flex flex-col">
-                  <span class="text-lg text-black font-Lato font-semibold	">Farming Task 3</span>
-                  <span class="font-Lato">Coronodo Feed Center, Arizona</span>
+          <div *ngIf="verifiedWorkOrders | async as verifiedWorkOrders">
+            <ion-card *ngFor="let orders of (verifiedWorkOrders.workOrders)" class="verifiedTicket p-2">
+              <div class="flex flex-col">
+                <div class="flex flex-row py-2">
+                  <div class="w-8/12 flex flex-col">
+                    <span class="text-lg text-black font-Lato font-semibold	">{{orders.customer_name}}</span>
+                    <span class="font-Lato">{{orders.address}}</span>
+                  </div>
+                  <div class="w-10/12 flex justify-end rounded-3xl h-6 flex items-center justify-center"
+                    [ngStyle]="{'background-color':'#E6F0F9'}">
+                    <span class="text-sm font-Lato">Work Order# </span>
+                    <span class="text-sm text-black font-Lato"> {{"334355"}}</span>
+                  </div>
                 </div>
-                <div class="w-10/12 flex justify-end rounded-3xl h-6 flex items-center justify-center"
-                  [ngStyle]="{'background-color':'#E6F0F9'}">
-                  <span class="text-sm font-Lato">Work Order# </span>
-                  <span class="text-sm text-black font-Lato"> {{"334355"}}</span>
-                </div>
-              </div>
 
-              <div class="mt-2.5 flex justify-between p-0">
-                <div>
-                  <span class="text-sm font-Lato">Truck Driver: </span>
-                  <span class="text-sm text-black font-Lato">{{"Mike Allen"}}</span>
-                </div>
-                <div>
-                  <span class="text-sm font-Lato">Destination: </span>
-                  <span class="text-sm text-black font-Lato">{{"Dakota"}}</span>
+                <div class="mt-2.5 flex justify-between p-0">
+                  <div>
+                    <span class="text-sm font-Lato">Truck Driver: </span>
+                    <span class="text-sm text-black font-Lato"></span>
+                  </div>
+                  <div>
+                    <span class="text-sm font-Lato">Destination: </span>
+                    <span class="text-sm text-black font-Lato">{{orders.address}}</span>
+                  </div>
                 </div>
               </div>
-            </div>
-          </ion-card>
+            </ion-card>
+          </div>
         </div>
 
       </div>

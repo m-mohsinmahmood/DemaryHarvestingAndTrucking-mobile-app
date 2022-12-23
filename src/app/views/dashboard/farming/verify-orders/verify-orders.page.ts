@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { FarmingService } from './../farming.service';
 
 @Component({
   selector: 'app-verify-orders',
@@ -8,11 +10,47 @@ import { Component, OnInit } from '@angular/core';
 export class VerifyOrdersPage implements OnInit {
   segment = 'sent'; // For Segment
 
-  constructor(
+  sentWorkOrders: Observable<any>;
+  pendingWorkOrders: Observable<any>;
+  verifiedWorkOrders: Observable<any>;
 
+  sentCount = 0;
+  pendingCount = 0;
+  verifiedCount = 0;
+
+  dataLoaded = {
+    sentList: false,
+    pendingList: false,
+    verifiedList: false
+  }
+
+  constructor(
+    private farmingService: FarmingService
   ) { }
 
   ngOnInit() {
+    this.sentWorkOrders = this.farmingService.getAllWorkOrders('', 'sent_work_order');
+    this.pendingWorkOrders = this.farmingService.getAllWorkOrders('', 'pending_work_order');
+    this.verifiedWorkOrders = this.farmingService.getAllWorkOrders('', 'verified_work_order');
+
+    this.sentWorkOrders.subscribe((workOrders) => {
+
+      this.sentCount = workOrders.workOrders.length;
+      this.dataLoaded.sentList = true;
+      console.log(workOrders);
+    });
+
+    this.pendingWorkOrders.subscribe((workOrders) => {
+      this.pendingCount = workOrders.workOrders.length;
+      this.dataLoaded.pendingList = true;
+      console.log(workOrders);
+    });
+
+    this.verifiedWorkOrders.subscribe((workOrders) => {
+      this.verifiedCount = workOrders.workOrders.length;
+      this.dataLoaded.verifiedList = true;
+      console.log(workOrders);
+    });
   }
 
 }

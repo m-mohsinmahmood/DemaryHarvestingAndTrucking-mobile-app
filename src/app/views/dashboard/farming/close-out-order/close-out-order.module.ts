@@ -9,6 +9,7 @@ import { CloseOutOrderPageRoutingModule } from './close-out-order-routing.module
 import { CloseOutOrderPage } from './close-out-order.page';
 import { HeaderModule } from 'src/app/components/header/header.module';
 import { TimerModule } from 'src/app/components/timer/timer.module';
+import { WithLoadingPipe } from './../../../../pipes/general-pipes/with-loading.pipe';
 
 @NgModule({
   imports: [
@@ -20,6 +21,6 @@ import { TimerModule } from 'src/app/components/timer/timer.module';
     TimerModule,
     ReactiveFormsModule
   ],
-  declarations: [CloseOutOrderPage]
+  declarations: [CloseOutOrderPage, WithLoadingPipe]
 })
 export class CloseOutOrderPageModule { }

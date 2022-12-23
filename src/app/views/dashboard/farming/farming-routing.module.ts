@@ -34,6 +34,10 @@ const routes: Routes = [
     path: 'submit-end-day',
     loadChildren: () => import('./submit-end-day/submit-end-day.module').then( m => m.SubmitEndDayPageModule)
   },
+  {
+    path: 'submit-beginning-day',
+    loadChildren: () => import('./submit-beginning-day/submit-beginning-day.module').then( m => m.SubmitBeginningDayPageModule)
+  },
 
 
 ];

@@ -4,23 +4,23 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { CompleteExistingOrderPageRoutingModule } from './complete-existing-order-routing.module';
+import { SubmitBeginningDayPageRoutingModule } from './submit-beginning-day-routing.module';
 
-import { CompleteExistingOrderPage } from './complete-existing-order.page';
+import { SubmitBeginningDayPage } from './submit-beginning-day.page';
 import { HeaderModule } from 'src/app/components/header/header.module';
 import { TimerModule } from 'src/app/components/timer/timer.module';
-import { WithLoadingPipe } from './../../../../../pipes/general-pipes/with-loading.pipe';
+import { WithLoadingPipe } from './../../../../pipes/general-pipes/with-loading.pipe';
 
 @NgModule({
   imports: [
-  CommonModule,
+    CommonModule,
     FormsModule,
     IonicModule,
-    CompleteExistingOrderPageRoutingModule,
+    SubmitBeginningDayPageRoutingModule,
     HeaderModule,
     TimerModule,
     ReactiveFormsModule
   ],
-  declarations: [CompleteExistingOrderPage, WithLoadingPipe]
+  declarations: [SubmitBeginningDayPage, WithLoadingPipe]
 })
-export class CompleteExistingOrderPageModule { }
+export class SubmitBeginningDayPageModule { }

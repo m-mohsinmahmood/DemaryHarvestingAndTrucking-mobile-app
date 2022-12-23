@@ -19,8 +19,6 @@ export class ToastService {
       position: position,
       duration: duration ? duration : 5000,
       color: color,
-      // cssClass: 'backtoast',
-
     });
     toast.present();
   }
