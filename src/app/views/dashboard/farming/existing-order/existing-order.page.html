@@ -4,108 +4,88 @@
   <app-timer [value]="'12-10-2022'"> </app-timer>
   <div class="p-2">
     <div class="segment-style">
-      <ion-segment [(ngModel)]="segment" scrollable>
+
+      <ion-skeleton-text [animated]="true" style="width: 100%; "
+        *ngIf="!dataLoaded.completedList && !dataLoaded.existingList"></ion-skeleton-text>
+
+      <ion-segment *ngIf="dataLoaded.completedList && dataLoaded.existingList" [(ngModel)]="segment" scrollable>
         <ion-segment-button value="existing">
           <div class="flex justify-center items-center">
             <p class=" font-Lato">Existing</p>
             <span class="text-white ml-4 w-8 h-4 rounded-full flex justify-center items-center">
-              8</span>
+              {{existingOrdersCount}}</span>
           </div>
         </ion-segment-button>
         <ion-segment-button value="completed">
           <div class="flex justify-center items-center">
             <p class=" font-Lato">Completed</p>
             <span class="text-white ml-4 w-8 h-4 rounded-full flex justify-center items-center">
-              2</span>
+              {{completeOrdersCount}}</span>
           </div>
         </ion-segment-button>
       </ion-segment>
 
       <div [ngSwitch]="segment">
         <div *ngSwitchCase="'existing'">
-          <ion-card class="existingTicket p-2" [routerLink]="['complete-existing-order']">
-            <div class="flex flex-col">
-              <div class="flex flex-row py-2">
-                <div class="w-8/12 flex flex-col">
-                  <span class="text-sm font-Lato">Work Order# 12345 </span>
-                  <span class="text-lg text-black font-Lato font-semibold	">Farming Task 1</span>
+          <div *ngIf="existingWorkOrders | async as existingWorkOrders">
+            <ion-card *ngFor="let orders of (existingWorkOrders.workOrders)" class="existingTicket p-2"
+              [routerLink]="['complete-existing-order', orders]">
+              <div class="flex flex-col">
+                <div class="flex flex-row py-2">
+                  <div class="w-8/12 flex flex-col">
+                    <span class="text-sm font-Lato">Work Order# 12345 </span>
+                    <span class="text-lg text-black font-Lato font-semibold	">{{orders.customer_first_name}}</span>
+                  </div>
+                  <div class="w-4/12 flex rounded-3xl h-6  items-center justify-center"
+                    [ngStyle]="{'background-color':'#E6F0F9'}">
+                    <span class="text-sm text-black font-Lato"> In Progress</span>
+                  </div>
                 </div>
-                <div class="w-4/12 flex rounded-3xl h-6  items-center justify-center"
-                  [ngStyle]="{'background-color':'#E6F0F9'}">
-                  <span class="text-sm text-black font-Lato"> In Progress</span>
-                </div>
-              </div>
 
-              <div class="mt-2.5 flex justify-between p-0">
-                <div>
-                  <span class="text-sm font-Lato">Truck Driver: </span>
-                  <span class="text-sm text-black font-Lato">{{"Mike Allen"}}</span>
-                </div>
-                <div>
-                  <span class="text-sm font-Lato">Destination: </span>
-                  <span class="text-sm text-black font-Lato">{{"Dakota"}}</span>
+                <div class="mt-2.5 flex justify-between p-0">
+                  <div>
+                    <span class="text-sm font-Lato">Truck Driver: </span>
+                    <span class="text-sm text-black font-Lato">{{orders.first_name}}</span>
+                  </div>
+                  <div>
+                    <span class="text-sm font-Lato">Destination: </span>
+                    <span class="text-sm text-black font-Lato">{{orders.address}}</span>
+                  </div>
                 </div>
               </div>
-            </div>
-          </ion-card>
+            </ion-card>
+          </div>
         </div>
 
         <div *ngSwitchCase="'completed'">
-          <ion-card class="completedTicket p-2" [routerLink]="['complete-existing-order']">
-            <div class="flex flex-col">
-              <div class="flex flex-row py-2">
-                <div class="w-8/12 flex flex-col">
-                  <span class="text-sm font-Lato">Work Order# 3213</span>
-                  <span class="text-lg text-black font-Lato font-semibold	">Farming Task 2</span>
+          <div *ngIf="completedWorkOrders | async as completedWorkOrders">
+            <ion-card *ngFor="let orders of (completedWorkOrders.workOrders)" class="completedTicket p-2">
+              <div class="flex flex-col">
+                <div class="flex flex-row py-2">
+                  <div class="w-8/12 flex flex-col">
+                    <span class="text-sm font-Lato">Work Order# 3213</span>
+                    <span class="text-lg text-black font-Lato font-semibold	">{{orders.customer_name}}</span>
+                  </div>
+                  <div class="w-4/12 flex rounded-3xl h-6  items-center justify-center"
+                    [ngStyle]="{'background-color':'#E6F0F9'}">
+                    <span class="text-sm text-black font-Lato"> Completed</span>
+                  </div>
                 </div>
-                <div class="w-4/12 flex rounded-3xl h-6  items-center justify-center"
-                  [ngStyle]="{'background-color':'#E6F0F9'}">
-                  <span class="text-sm text-black font-Lato"> Pending</span>
-                </div>
-              </div>
 
-              <div class="mt-2.5 flex justify-between p-0">
-                <div>
-                  <span class="text-sm font-Lato">Truck Driver: </span>
-                  <span class="text-sm text-black font-Lato">{{"Mike Allen"}}</span>
-                </div>
-                <div>
-                  <span class="text-sm font-Lato">Destination: </span>
-                  <span class="text-sm text-black font-Lato">{{"Dakota"}}</span>
+                <div class="mt-2.5 flex justify-between p-0">
+                  <div>
+                    <span class="text-sm font-Lato">Truck Driver: </span>
+                    <span class="text-sm text-black font-Lato"></span>
+                  </div>
+                  <div>
+                    <span class="text-sm font-Lato">Destination: </span>
+                    <span class="text-sm text-black font-Lato">{{orders.address}}</span>
+                  </div>
                 </div>
               </div>
-            </div>
-          </ion-card>
+            </ion-card>
+          </div>
         </div>
-
-        <div *ngSwitchCase="'verified'">
-          <ion-card class="verifiedTicket p-2" [routerLink]="['order-detail']">
-            <div class="flex flex-col">
-              <div class="flex flex-row py-2">
-                <div class="w-8/12 flex flex-col">
-                  <span class="text-lg text-black font-Lato font-semibold	">Farming Task 3</span>
-                  <span class="font-Lato">Coronodo Feed Center, Arizona</span>
-                </div>
-                <div class="w-4/12 flex justify-end">
-                  <span class="text-sm font-Lato">Ticket#: </span>
-                  <span class="text-sm text-black font-Lato"> {{"334355"}}</span>
-                </div>
-              </div>
-
-              <div class="mt-2.5 flex justify-between p-0">
-                <div>
-                  <span class="text-sm font-Lato">Truck Driver: </span>
-                  <span class="text-sm text-black font-Lato">{{"Mike Allen"}}</span>
-                </div>
-                <div>
-                  <span class="text-sm font-Lato">Destination: </span>
-                  <span class="text-sm text-black font-Lato">{{"Dakota"}}</span>
-                </div>
-              </div>
-            </div>
-          </ion-card>
-        </div>
-
       </div>
     </div>
   </div>

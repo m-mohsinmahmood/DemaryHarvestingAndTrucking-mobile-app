@@ -12,11 +12,11 @@
         <ion-row class="h-20 flex content-center pl-4">
           <ion-col size="6" class="flex flex-col">
             <p class="font-Lato text-black font-bold font-14">Date</p>
-            <span class="font-Lato font-14">Sun 5, 2022</span>
+            <span class="font-Lato font-14">{{data.date}}</span>
           </ion-col>
           <ion-col size="6" class="flex flex-col ">
             <p class="font-Lato text-black font-bold font-14">Work Order #</p>
-            <span class="font-Lato font-14">12345</span>
+            <span class="font-Lato font-14">{{data.work_order_id}}</span>
           </ion-col>
         </ion-row>
 
@@ -24,11 +24,11 @@
         <ion-row class="h-20 flex content-center pl-4">
           <ion-col size="6" class="flex flex-col  ">
             <p class="font-Lato text-black font-bold font-14">Dispatcher</p>
-            <span class="font-Lato font-14">Mike</span>
+            <span class="font-Lato font-14">{{data.dispatcher_name}}</span>
           </ion-col>
           <ion-col size="6" class="flex flex-col">
             <p class="font-Lato text-black font-bold font-14">Customer</p>
-            <span class="font-Lato font-14">Alen</span>
+            <span class="font-Lato font-14">{{data.customer_name}}</span>
           </ion-col>
         </ion-row>
 
@@ -36,66 +36,67 @@
         <ion-row class="h-20 flex content-center pl-4">
           <ion-col size="6" class="flex flex-col ">
             <p class="font-Lato text-black font-bold font-14">Farm</p>
-            <span class="font-Lato font-14">New Farm</span>
+            <span class="font-Lato font-14">{{data.farm_name}}</span>
           </ion-col>
           <ion-col size="6" class="flex flex-col ">
             <p class="font-Lato text-black font-bold font-14">Field</p>
-            <span class="font-Lato font-14">New Field</span>
+            <span class="font-Lato font-14">{{data.field_name}}</span>
           </ion-col>
         </ion-row>
 
         <ion-row class="h-20 flex content-center pl-4">
           <ion-col size="6" class="flex flex-col ">
             <p class="font-Lato text-black font-bold font-14">Service</p>
-            <span class="font-Lato font-14">DHT</span>
+            <span class="font-Lato font-14">{{data.service}}</span>
           </ion-col>
           <ion-col size="6" class="flex flex-col ">
             <p class="font-Lato text-black font-bold font-14">Tractor Driver</p>
-            <span class="font-Lato font-14">Michigan</span>
+            <span class="font-Lato font-14"></span>
           </ion-col>
         </ion-row>
 
         <ion-row class="h-20 flex content-center pl-4">
           <ion-col size="6" class="flex flex-col ">
             <p class="font-Lato text-black font-bold font-14">Field Address</p>
-            <span class="font-Lato font-14">33</span>
+            <span class="font-Lato font-14">{{data.address}}</span>
           </ion-col>
           <ion-col size="6" class="flex flex-col ">
             <p class="font-Lato text-black font-bold font-14">Acres Completed</p>
-            <span class="font-Lato font-14">56</span>
+            <span class="font-Lato font-14">{{data.acres_completed}}</span>
           </ion-col>
         </ion-row>
 
         <ion-row class="h-20 flex content-center pl-4">
           <ion-col size="6" class="flex flex-col ">
             <p class="font-Lato text-black font-bold font-14">Customer Phone</p>
-            <span class="font-Lato font-14">+9245666</span>
+            <span class="font-Lato font-14">{{data.customer_phone}}</span>
           </ion-col>
           <ion-col size="6" class="flex flex-col ">
             <p class="font-Lato text-black font-bold font-14">GPS Acres</p>
-            <span class="font-Lato font-14">33</span>
+            <span class="font-Lato font-14">{{data.gps_acres}}</span>
           </ion-col>
         </ion-row>
 
         <ion-row class="h-20 flex content-center pl-4">
           <ion-col size="6" class="flex flex-col ">
-            <p class="font-Lato text-black font-bold font-14">Ending Engine Hour>
-              <span class="font-Lato font-14">100</span>
+            <p class="font-Lato text-black font-bold font-14">Ending Engine Hour
+              <span class="font-Lato font-14">{{data.ending_engine_hours}}</span>
           </ion-col>
           <ion-col size="6" class="flex flex-col ">
             <p class="font-Lato text-black font-bold font-14">Hours Worked</p>
-            <span class="font-Lato font-14">100</span>
+            <span class="font-Lato font-14"></span>
           </ion-col>
         </ion-row>
 
         <ion-row class="h-20 flex content-center pl-4">
           <ion-col size="6" class="flex flex-col ">
             <p class="font-Lato text-black font-bold font-14">Notes</p>
-            <span class="font-Lato font-14">N/A</span>
+            <span class="font-Lato font-14"></span>
           </ion-col>
         </ion-row>
       </ion-grid>
-      <ion-button expand="block" class="w-10/12 flex mx-auto mt-5 font-Lato  text-white" (click)="navigateTo('/tabs/home/farming')">Verify
+      <ion-button expand="block" class="w-10/12 flex mx-auto mt-5 font-Lato  text-white"
+        (click)="navigateTo('/tabs/home/farming')">Verify
       </ion-button>
 
     </ion-card-content>
