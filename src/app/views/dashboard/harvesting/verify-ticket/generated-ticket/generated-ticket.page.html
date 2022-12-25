@@ -8,8 +8,8 @@
   <ion-card-header class="bg-3D8AA4">
     <ion-card-title class="flex justify-center text-2xl font-Lato text-white">DHT Delivery Ticket</ion-card-title>
   </ion-card-header>
-  <ion-card-content *ngIf="!isLoadingTicket">
-    <ion-grid>
+  <ion-card-content *ngIf="(isLoadingTicket$ | async) === false">
+    <ion-grid >
       <!-- First Row -->
       <ion-row class="mb-1 h-16">
         <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
@@ -26,11 +26,11 @@
       <ion-row class="mb-1 h-16">
         <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
           <p class="font-Lato text-black font-bold font-14">Farm</p>
-          <span class="font-Lato font-14">{{ticketData.farm_id}}</span>
+          <span class="font-Lato font-14">{{ticketData.farm_name}}</span>
         </ion-col>
         <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
           <p class="font-Lato text-black font-bold font-14">Crop</p>
-          <span class="font-Lato font-14">{{ticketData.crop_id}}</span>
+          <span class="font-Lato font-14 text-left">{{ticketData.crop_name}}</span>
         </ion-col>
       </ion-row>
 
@@ -38,7 +38,7 @@
         <ion-row class="mb-1 h-16">
           <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
             <p class="font-Lato text-black font-bold font-14">Field</p>
-            <span class="font-Lato font-14">{{ticketData.crop_id}}</span>
+            <span class="font-Lato font-14">{{ticketData.field_name}}</span>
           </ion-col>
           <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
             <p class="font-Lato text-black font-bold font-14">Truck ID</p>
@@ -66,7 +66,7 @@
           </ion-col>
           <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
             <p class="font-Lato text-black font-bold font-14">Kart Operator</p>
-            <span class="font-Lato font-14">{{ticketData.first_name}} {{ticketData.last_name}}</span>
+            <span class="font-Lato font-14">{{ticketData.kart_first_name}} {{ticketData.kart_last_name}}</span>
           </ion-col>
         </ion-row>
 
@@ -100,7 +100,7 @@
     </ion-grid>
     <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="submit()">Verify</ion-button>
   </ion-card-content>
-  <ion-card-content *ngIf="isLoadingTicket">
+  <ion-card-content *ngIf="(isLoadingTicket$ | async) === true">
     <ion-grid>
       <!-- First Row -->
       <ion-row class="mb-1 h-16">
@@ -200,7 +200,7 @@
       <ion-card-title class="flex justify-center text-2xl font-Lato text-white ">Ticket# {{ticketID}}</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <ion-grid *ngIf="!isLoadingTicket">
+      <ion-grid *ngIf="(isLoadingTicket$ | async) === false">
         <ion-row class="mb-5 h-10">
           <ion-col size="6" class="flex flex-col justify-center items-start ion-text-center">
             <p class="font-Lato text-black font-bold font-14">Field</p>
@@ -222,7 +222,7 @@
           </ion-col>
         </ion-row>
       </ion-grid>
-      <ion-grid *ngIf="isLoadingTicket" >
+      <ion-grid *ngIf="(isLoadingTicket$ | async) === true" >
         <ion-row class="mb-5 h-10">
           <ion-col size="6" class="flex flex-col justify-center items-start ion-text-center">
             <p class="font-Lato text-black font-bold font-14">Field</p>

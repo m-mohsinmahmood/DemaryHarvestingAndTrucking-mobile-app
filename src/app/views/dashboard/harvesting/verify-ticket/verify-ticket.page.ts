@@ -3,9 +3,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { HarvestingService } from './../harvesting.service';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-verify-ticket',
@@ -15,20 +17,18 @@ import { takeUntil } from 'rxjs/operators';
 export class VerifyTicketPage implements OnInit {
   segment: any;
   role: any;
- // Data
-  ticketData: any;
-  sentTicketData: any;
-  pendingTicketData: any;
-  verifiedTicketData: any;
+  // Data Observables
+  sentTicketData$: Observable<any>;
+  pendingTicketData$: Observable<any>;
+  verifiedTicketData$: Observable<any>;
 
   // Loaders
-  isLoadingTicket: boolean;
-  sentTicketLoading: boolean;
-  pendingTicketLoading: boolean;
-  verifiedTicketLoading: boolean;
+  sentTicketLoading$: Observable<any>;
+  pendingTicketLoading$: Observable<any>;
+  verifiedTicketLoading$: Observable<any>;
+
 
   private _unsubscribeAll: Subject<any> = new Subject<any>();
-
   constructor(
     private location: Location,
     private harvestingService: HarvestingService,
@@ -41,8 +41,6 @@ export class VerifyTicketPage implements OnInit {
     // passing the segment value conditionally
     this.segment = this.role === 'kart-operator' ? 'sent' : 'received';
     if (this.role === 'kart-operator') {
-      // this.initApis();
-      // this.initObservables();
       this.initSentApis();
       this.initSentObservables();
     }
@@ -54,104 +52,79 @@ export class VerifyTicketPage implements OnInit {
   ngOnDestroy(): void {
     this._unsubscribeAll.next(null);
     this._unsubscribeAll.complete();
-  }
-  initApis() {
-    this.harvestingService.getTickets();
-  }
-  initObservables() {
-    this.harvestingService.tickets$.subscribe((res) => {
-      console.log('Tickets:', res);
-      this.ticketData = res;
-    });
 
-    this.harvestingService.ticketsLoading$.subscribe((val) => {
-      console.log('Ticket Value', val);
-      this.isLoadingTicket = val;
-    });
+    console.log('NG-DESTROY');
   }
+
   initSentApis() {
     this.harvestingService.getSentTicket('sent');
   }
   initSentObservables() {
-    this.harvestingService.sentTicket$.subscribe((res) => {
-      this.sentTicketData = res;
-    });
-
-    this.harvestingService.sentTicketLoading$.subscribe((val) => {
-      console.log('Sent Loading Value', val);
-      this.sentTicketLoading = val;
-    });
+    this.sentTicketData$ = this.harvestingService.sentTicket$;
+    this.sentTicketLoading$ = this.harvestingService.sentTicketLoading$;
   }
   initPendingApis() {
     this.harvestingService.getPendingTicket('pending');
   }
   initPendingObservables() {
-    this.harvestingService.pendingTicket$
-    // .pipe(takeUntil(this._unsubscribeAll))
-    .subscribe((res) => {
-      this.pendingTicketData = res;
-    });
-
-    this.harvestingService.pendingTicketLoading$
-    // .pipe(takeUntil(this._unsubscribeAll))
-    .subscribe((val) => {
-      console.log('Pending Loading Value',val);
-      this.pendingTicketLoading = val;
-    });
+    this.pendingTicketData$ = this.harvestingService.pendingTicket$;
+    this.pendingTicketLoading$ = this.harvestingService.pendingTicketLoading$;
   }
   initVerifiedApis() {
     this.harvestingService.getVerifiedTicket('verified');
   }
   initVerifiedObservables() {
-    this.harvestingService.verifiedTicket$
-    .subscribe((res) => {
-      console.log('---',res);
-      this.verifiedTicketData = res;
-    });
-
-    this.harvestingService.verifiedTicketLoading$
-    .subscribe((val) => {
-      console.log('Verified Loading Value',val);
-      this.verifiedTicketLoading = val;
-    });
+    this.verifiedTicketData$ = this.harvestingService.verifiedTicket$;
+    this.verifiedTicketLoading$ = this.harvestingService.verifiedTicketLoading$;
   }
 
-  navigate(ticket){
-    this.router.navigateByUrl('/tabs/home/harvesting/verify-ticket/generated-ticket',{
-      state:{
-        ticketId: ticket
+  navigate(ticket) {
+    this.router.navigateByUrl(
+      '/tabs/home/harvesting/verify-ticket/generated-ticket',
+      {
+        state: {
+          ticketId: ticket,
+        },
       }
-    });
+    );
+  }
+  reassignTicket(ticket) {
+    this.router.navigateByUrl(
+      '/tabs/home/harvesting/ticket',
+      {
+        state: {
+          ticketId: ticket,
+          reassign: true
+        },
+      }
+    );
   }
 
   goBack() {
     this.location.back();
   }
-  segmentChange(event){
-    console.log('--',event.target.value);
-    if(event.target.value === 'pending'){
+  segmentChange(event) {
+    if (event.target.value === 'pending') {
       this.initPendingApis();
       this.initPendingObservables();
     }
-    if(event.target.value === 'sent'){
+    if (event.target.value === 'sent') {
       this.initSentApis();
       this.initSentObservables();
     }
-    if(event.target.value === 'verified'){
+    if (event.target.value === 'verified') {
       this.initVerifiedApis();
       this.initVerifiedObservables();
     }
   }
-  segmentChangeTruck(event){
-    console.log('-',event.target.value);
-    if(event.target.value === 'received'){
+  segmentChangeTruck(event) {
+    if (event.target.value === 'received') {
       this.initSentApis();
       this.initSentObservables();
     }
-    if(event.target.value === 'completed'){
+    if (event.target.value === 'completed') {
       this.initVerifiedApis();
       this.initVerifiedObservables();
     }
-
   }
 }

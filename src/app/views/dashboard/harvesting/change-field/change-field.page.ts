@@ -139,7 +139,7 @@ initObservables(){
         if(value === ''){ this.isFieldSelected = true;}
 
        // calling API
-       this.allFields = this.harvestingService.getFields(value,'customerFields',this.customerData.customer_job[0].customer_id,this.customerData.customer_job[0].farm_id);
+       this.allFields = this.harvestingService.getFields(value,'customerFields',this.customerData.customer_job[5].customer_id,this.customerData.customer_job[5].farm_id);
 
           // subscribing to show/hide field UL
           this.allFields.subscribe((fields) => {
@@ -170,7 +170,7 @@ initObservables(){
         : this.fieldSearchValue;
 
     // calling API // need id to check
-    this.allFields = this.harvestingService.getFields(value,'customerFields',this.customerData.customer_job[0].customer_id,this.customerData.customer_job[0].farm_id);
+    this.allFields = this.harvestingService.getFields(value,'customerFields',this.customerData.customer_job[5].customer_id,this.customerData.customer_job[5].farm_id);
 
           // subscribing to show/hide field UL
           this.allFields.subscribe((fields) => {

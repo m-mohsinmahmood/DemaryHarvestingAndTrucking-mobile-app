@@ -30,21 +30,25 @@ closeJobFormTruck: FormGroup;
     this.role = localStorage.getItem('role');
 
     this.closeJobFormCrew = this.formBuilder.group({
+      type: ['harvesting'],
       role: [localStorage.getItem('role')],
       separator_hours: ['',[Validators.required]],
       engine_hours: ['',[Validators.required]],
     });
     this.closeJobFormCombine = this.formBuilder.group({
+      type: ['harvesting'],
       role: [localStorage.getItem('role')],
       separator_hours: ['',[Validators.required]],
       engine_hours: ['',[Validators.required]],
     });
 
     this.closeJobFormKart = this.formBuilder.group({
+      type: ['harvesting'],
       role: [localStorage.getItem('role')],
       engine_hours: ['',[Validators.required]],
     });
     this.closeJobFormTruck = this.formBuilder.group({
+      type: ['harvesting'],
       role: [localStorage.getItem('role')],
       ending_miles: ['',[Validators.required]],
     });

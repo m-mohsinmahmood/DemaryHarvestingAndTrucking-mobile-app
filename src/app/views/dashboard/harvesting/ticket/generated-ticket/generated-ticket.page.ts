@@ -39,7 +39,7 @@ export class GeneratedTicketPage implements OnInit {
   }
   initApis(){
     // this.harvestingService.getTickets();
-    this.harvestingService.getJob();
+    this.harvestingService.getJob2();
     this.harvestingService.getTicketById(this.router.getCurrentNavigation().extras.state.ticketId,'ticket');
 
   }
@@ -54,7 +54,7 @@ export class GeneratedTicketPage implements OnInit {
       this.ticketData = res;
     });
 
-    this.harvestingService.customerLoading$.subscribe((val)=>{
+    this.harvestingService.customerLoading2$.subscribe((val)=>{
       console.log('Customer Value',val);
       this.isLoadingCustomer = val;
     });

@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { HarvestingService } from './../../harvesting.service';
 import { Subject } from 'rxjs';
 import { ToastService } from 'src/app/services/toast/toast.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-generated-ticket',
@@ -16,15 +17,14 @@ import { ToastService } from 'src/app/services/toast/toast.service';
 export class GeneratedTicketPage implements OnInit {
   role: any;
   generateTicketFormTruck: FormGroup;
-  // generateTicketFormKart: FormGroup;
   ticketID: any;
 
   // ticket data
   ticketData: any;
-  // kartTicketData: any;
 
   //loaders
-  isLoadingTicket: boolean;
+  isLoadingTicket$: Observable<any>;
+
   // isLoadingKartTicket: boolean;
   upload_1 = false;
   upload_2 = false;
@@ -51,16 +51,6 @@ export class GeneratedTicketPage implements OnInit {
       scale_ticket_weight_docs: [''],
       status:['pending'],
     });
-    // this.generateTicketFormKart = this.formBuilder.group({
-    //   scale_ticket: [''],
-    //   scale_ticket_weight: [''],
-    //   test_weight: [''],
-    //   protein_content: [''],
-    //   moisture_content: [''],
-    //   scale_ticket_docs: [''],
-    //   scale_ticket_weight_docs: [''],
-    //   status:['verified'],
-    // });
     console.log(
       'Ticket-ID',
       this.router.getCurrentNavigation().extras.state.ticketId
@@ -142,10 +132,9 @@ export class GeneratedTicketPage implements OnInit {
       console.log('Ticket Verify:', res);
       this.ticketData = res;
     });
-    this.harvestingService.ticketLoading$.subscribe((val) => {
-      console.log('Ticket Value', val);
-      this.isLoadingTicket = val;
-    });
+
+    this.isLoadingTicket$ = this.harvestingService.ticketLoading$;
+
   }
   initKartApis() {
     this.harvestingService.getTicketById(this.ticketID, 'verify-ticket-kart');
@@ -155,13 +144,7 @@ export class GeneratedTicketPage implements OnInit {
       console.log('Ticket Kart Verify:', res);
       this.ticketData = res;
     });
-    this.harvestingService.ticketLoading$.subscribe((val) => {
-      console.log('Ticket Value', val);
-      this.isLoadingTicket = val;
-      if(val === false){
-        this.patchKartForm();
-      }
-    });
+    this.isLoadingTicket$ = this.harvestingService.ticketLoading$;
   }
   patchKartForm(){
 

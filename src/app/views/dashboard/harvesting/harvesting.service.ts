@@ -28,12 +28,17 @@ readonly customer$: Observable<any[] | null> =
   new BehaviorSubject<boolean>(true);
   readonly customerLoading$: Observable<boolean> =
   this.customerLoading.asObservable();
+
+  private customerLoading2: BehaviorSubject<boolean> =
+  new BehaviorSubject<boolean>(true);
+  readonly customerLoading2$: Observable<boolean> =
+  this.customerLoading2.asObservable();
   //#endregion
 
   //#region tickets
  private tickets: BehaviorSubject<any[] | null> =
   new BehaviorSubject(null);
-readonly tickets$: Observable<any[] | null> =
+  readonly tickets$: Observable<any[] | null> =
   this.tickets.asObservable();
 
   private ticketsLoading: BehaviorSubject<boolean> =
@@ -195,6 +200,21 @@ getJob() {
 
        })
  }
+ getJob2() {
+  return this._httpClient
+       .get(`http://localhost:7071/api/customer-job-setup`)
+       .pipe(take(1))
+       .subscribe(
+        (res: any)=>{
+          this.customerLoading2.next(true);
+         this.customer.next(res);
+         this.customerLoading2.next(false)
+       },
+       (err)=>{
+        this.toastService.presentToast(err,'danger');
+
+       })
+ }
 
 startJob(data: any) {
   return this._httpClient
@@ -262,7 +282,7 @@ createTicket(data: any) {
         this.ticketLoading.next(true);
         this.ticket.next(res);
         this.ticketLoading.next(false);
-  //  console.log('Response::',res);
+   console.log('Response Ticket ID::',res);
       },
        (err)=>{
         this.toastService.presentToast(err,'danger');

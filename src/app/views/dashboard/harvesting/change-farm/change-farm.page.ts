@@ -167,7 +167,7 @@ initApis(){
 }
 initObservables(){
   this.harvestingService.customer$.subscribe((res)=>{
-    console.log('Response',res);
+    // console.log('Response',res);
     this.customerData = res;
     // console.log(this.customerData?.customer_job[0]);
 
