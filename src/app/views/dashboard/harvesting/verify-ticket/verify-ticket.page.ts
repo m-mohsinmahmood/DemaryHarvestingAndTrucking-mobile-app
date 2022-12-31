@@ -1,6 +1,6 @@
 /* eslint-disable @angular-eslint/use-lifecycle-interface */
 /* eslint-disable no-underscore-dangle */
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ChangeDetectorRef } from '@angular/core';
 import { Location } from '@angular/common';
 import { HarvestingService } from './../harvesting.service';
 import { Subject, Subscription } from 'rxjs';
@@ -17,22 +17,25 @@ import { of } from 'rxjs';
 export class VerifyTicketPage implements OnInit {
   segment: any;
   role: any;
-  // Data Observables
+  // Data
   sentTicketData$: Observable<any>;
   pendingTicketData$: Observable<any>;
   verifiedTicketData$: Observable<any>;
+
+  // subscriptions
+  sentTicketDataSub: Subscription;
+  sentTicketLoadiingSub: Subscription;
 
   // Loaders
   sentTicketLoading$: Observable<any>;
   pendingTicketLoading$: Observable<any>;
   verifiedTicketLoading$: Observable<any>;
 
-
   private _unsubscribeAll: Subject<any> = new Subject<any>();
   constructor(
     private location: Location,
     private harvestingService: HarvestingService,
-    private router: Router
+    private router: Router,
   ) {}
 
   ngOnInit() {
@@ -53,15 +56,16 @@ export class VerifyTicketPage implements OnInit {
     this._unsubscribeAll.next(null);
     this._unsubscribeAll.complete();
 
-    console.log('NG-DESTROY');
+    // console.log('NG-DESTROY');
   }
 
   initSentApis() {
     this.harvestingService.getSentTicket('sent');
   }
   initSentObservables() {
-    this.sentTicketData$ = this.harvestingService.sentTicket$;
-    this.sentTicketLoading$ = this.harvestingService.sentTicketLoading$;
+   this.sentTicketData$ =  this.harvestingService.sentTicket$;
+   this.sentTicketLoading$ = this.harvestingService.sentTicketLoading$;
+
   }
   initPendingApis() {
     this.harvestingService.getPendingTicket('pending');
@@ -89,15 +93,12 @@ export class VerifyTicketPage implements OnInit {
     );
   }
   reassignTicket(ticket) {
-    this.router.navigateByUrl(
-      '/tabs/home/harvesting/ticket',
-      {
-        state: {
-          ticketId: ticket,
-          reassign: true
-        },
-      }
-    );
+    this.router.navigateByUrl('/tabs/home/harvesting/ticket', {
+      state: {
+        ticketId: ticket,
+        reassign: true,
+      },
+    });
   }
 
   goBack() {
@@ -107,6 +108,8 @@ export class VerifyTicketPage implements OnInit {
     if (event.target.value === 'pending') {
       this.initPendingApis();
       this.initPendingObservables();
+      // this.harvestingService.unsubscribeBehaviourSubject.next(0);
+
     }
     if (event.target.value === 'sent') {
       this.initSentApis();

@@ -19,8 +19,9 @@
     </ion-text>
 
     <form [formGroup]="trailerCheckForm">
+
       <ion-item>
-        <div class="mt-4 mb-6">
+        <div class="mt-4 mb-3">
           <label class="font-bold">Brake Connections</label>
           <ion-radio-group formControlName="brakeConnections" value="true" class="radio">
             <div class="flex">
@@ -35,15 +36,29 @@
             </div>
           </ion-radio-group>
           <div
-            [ngClass]="this.trailerCheckForm.get('brakeConnections').value ==='true' ? 'hidden':'flex bg-slate-200 px-4 mt-4'">
-            <ion-textarea formControlName="brakeConnectionsNotes" placeholder=" Add Comments" [autocapitalize]="true">
-            </ion-textarea>
+            [ngClass]="this.trailerCheckForm.get('brakeConnections').value ==='true' ? 'hidden':'flex-row  mt-2'">
+            <div>
+              <ion-item lines="none" class="select_native">
+                <ion-select
+                formControlName="brakeConnectionsSelect"
+                [value]="'Minor'"
+                 placeholder="Select Severity Level"
+                  class="border-2 border-3D8AA4 rounded-lg">
+                  <ion-select-option value="minor" class="font-Lato">Minor</ion-select-option>
+                  <ion-select-option value="moderate" class="font-Lato">Moderate</ion-select-option>
+                  <ion-select-option value="critical-repair" class="font-Lato">Critical repair </ion-select-option>
+                </ion-select>
+              </ion-item>
+            </div>
+            <div>
+              <ion-textarea formControlName="brakeConnectionsNotes" class="bg-slate-200 mt-2 rounded-md custom-textarea" placeholder="Type something here"></ion-textarea>
+            </div>
           </div>
         </div>
       </ion-item>
 
       <ion-item>
-        <div class="mt-4 mb-6">
+        <div class="mt-4 mb-3">
           <label class="font-bold">Brakes</label>
           <ion-radio-group formControlName="brakes" value="true" class="radio">
             <div class="flex">
@@ -57,15 +72,31 @@
               </ion-item>
             </div>
           </ion-radio-group>
-          <div [ngClass]="this.trailerCheckForm.get('brakes').value ==='true' ? 'hidden':'flex bg-slate-200 px-4 mt-4'">
-            <ion-textarea formControlName="brakesNotes" placeholder=" Add Comments" [autocapitalize]="true">
-            </ion-textarea>
+          <div
+            [ngClass]="this.trailerCheckForm.get('brakes').value ==='true' ? 'hidden':'flex-row  mt-2'">
+            <div>
+              <ion-item lines="none" class="select_native">
+                <ion-select
+                formControlName="brakesSelect"
+                [value]="'Minor'"
+                 placeholder="Select Severity Level"
+                  class="border-2 border-3D8AA4 rounded-lg">
+                  <ion-select-option value="minor" class="font-Lato">Minor</ion-select-option>
+                  <ion-select-option value="moderate" class="font-Lato">Moderate</ion-select-option>
+                  <ion-select-option value="critical-repair" class="font-Lato">Critical repair </ion-select-option>
+                </ion-select>
+              </ion-item>
+            </div>
+            <div>
+              <ion-textarea formControlName="brakesNotes" class="bg-slate-200 mt-2 rounded-md custom-textarea" placeholder="Type something here"></ion-textarea>
+            </div>
           </div>
         </div>
       </ion-item>
 
+
       <ion-item>
-        <div class="mt-4 mb-6">
+        <div class="mt-4 mb-3">
           <label class="font-bold">Coupling Devices</label>
           <ion-radio-group formControlName="couplingDevices" value="true" class="radio">
             <div class="flex">
@@ -80,15 +111,30 @@
             </div>
           </ion-radio-group>
           <div
-            [ngClass]="this.trailerCheckForm.get('couplingDevices').value ==='true' ? 'hidden':'flex bg-slate-200 px-4 mt-4'">
-            <ion-textarea formControlName="couplingDevicesNotes" placeholder=" Add Comments" [autocapitalize]="true">
-            </ion-textarea>
+            [ngClass]="this.trailerCheckForm.get('couplingDevices').value ==='true' ? 'hidden':'flex-row  mt-2'">
+            <div>
+              <ion-item lines="none" class="select_native">
+                <ion-select
+                formControlName="couplingDevicesSelect"
+                [value]="'Minor'"
+                 placeholder="Select Severity Level"
+                  class="border-2 border-3D8AA4 rounded-lg">
+                  <ion-select-option value="minor" class="font-Lato">Minor</ion-select-option>
+                  <ion-select-option value="moderate" class="font-Lato">Moderate</ion-select-option>
+                  <ion-select-option value="critical-repair" class="font-Lato">Critical repair </ion-select-option>
+                </ion-select>
+              </ion-item>
+            </div>
+            <div>
+              <ion-textarea formControlName="couplingDevicesNotes" class="bg-slate-200 mt-2 rounded-md custom-textarea" placeholder="Type something here"></ion-textarea>
+            </div>
           </div>
         </div>
       </ion-item>
 
+
       <ion-item>
-        <div class="mt-4 mb-6">
+        <div class="mt-4 mb-3">
           <label class="font-bold">Coupling (King) Pin</label>
           <ion-radio-group formControlName="coupling" value="true" class="radio">
             <div class="flex">
@@ -103,15 +149,29 @@
             </div>
           </ion-radio-group>
           <div
-            [ngClass]="this.trailerCheckForm.get('coupling').value ==='true' ? 'hidden':'flex bg-slate-200 px-4 mt-4'">
-            <ion-textarea formControlName="couplingNotes" placeholder=" Add Comments" [autocapitalize]="true">
-            </ion-textarea>
+            [ngClass]="this.trailerCheckForm.get('coupling').value ==='true' ? 'hidden':'flex-row  mt-2'">
+            <div>
+              <ion-item lines="none" class="select_native">
+                <ion-select
+                formControlName="couplingSelect"
+                [value]="'Minor'"
+                 placeholder="Select Severity Level"
+                  class="border-2 border-3D8AA4 rounded-lg">
+                  <ion-select-option value="minor" class="font-Lato">Minor</ion-select-option>
+                  <ion-select-option value="moderate" class="font-Lato">Moderate</ion-select-option>
+                  <ion-select-option value="critical-repair" class="font-Lato">Critical repair </ion-select-option>
+                </ion-select>
+              </ion-item>
+            </div>
+            <div>
+              <ion-textarea formControlName="couplingNotes" class="bg-slate-200 mt-2 rounded-md custom-textarea" placeholder="Type something here"></ion-textarea>
+            </div>
           </div>
         </div>
       </ion-item>
 
       <ion-item>
-        <div class="mt-4 mb-6">
+        <div class="mt-4 mb-3">
           <label class="font-bold">Doors</label>
           <ion-radio-group formControlName="doors" value="true" class="radio">
             <div class="flex">
@@ -125,15 +185,31 @@
               </ion-item>
             </div>
           </ion-radio-group>
-          <div [ngClass]="this.trailerCheckForm.get('doors').value ==='true' ? 'hidden':'flex bg-slate-200 px-4 mt-4'">
-            <ion-textarea formControlName="doorsNotes" placeholder=" Add Comments" [autocapitalize]="true">
-            </ion-textarea>
+          <div
+            [ngClass]="this.trailerCheckForm.get('doors').value ==='true' ? 'hidden':'flex-row  mt-2'">
+            <div>
+              <ion-item lines="none" class="select_native">
+                <ion-select
+                formControlName="doorSelect"
+                [value]="'Minor'"
+                 placeholder="Select Severity Level"
+                  class="border-2 border-3D8AA4 rounded-lg">
+                  <ion-select-option value="minor" class="font-Lato">Minor</ion-select-option>
+                  <ion-select-option value="moderate" class="font-Lato">Moderate</ion-select-option>
+                  <ion-select-option value="critical-repair" class="font-Lato">Critical repair </ion-select-option>
+                </ion-select>
+              </ion-item>
+            </div>
+            <div>
+              <ion-textarea formControlName="doorsNotes" class="bg-slate-200 mt-2 rounded-md custom-textarea" placeholder="Type something here"></ion-textarea>
+            </div>
           </div>
         </div>
       </ion-item>
 
+
       <ion-item>
-        <div class="mt-4 mb-6">
+        <div class="mt-4 mb-3">
           <label class="font-bold">Hitch</label>
           <ion-radio-group formControlName="hitch" value="true" class="radio">
             <div class="flex">
@@ -147,15 +223,32 @@
               </ion-item>
             </div>
           </ion-radio-group>
-          <div [ngClass]="this.trailerCheckForm.get('hitch').value ==='true' ? 'hidden':'flex bg-slate-200 px-4 mt-4'">
-            <ion-textarea formControlName="hitchNotes" placeholder=" Add Comments" [autocapitalize]="true">
-            </ion-textarea>
+          <div
+            [ngClass]="this.trailerCheckForm.get('hitch').value ==='true' ? 'hidden':'flex-row  mt-2'">
+            <div>
+              <ion-item lines="none" class="select_native">
+                <ion-select
+                formControlName="hitchSelect"
+                [value]="'Minor'"
+                 placeholder="Select Severity Level"
+                  class="border-2 border-3D8AA4 rounded-lg">
+                  <ion-select-option value="minor" class="font-Lato">Minor</ion-select-option>
+                  <ion-select-option value="moderate" class="font-Lato">Moderate</ion-select-option>
+                  <ion-select-option value="critical-repair" class="font-Lato">Critical repair </ion-select-option>
+                </ion-select>
+              </ion-item>
+            </div>
+            <div>
+              <ion-textarea formControlName="hitchNotes" class="bg-slate-200 mt-2 rounded-md custom-textarea" placeholder="Type something here"></ion-textarea>
+            </div>
           </div>
         </div>
       </ion-item>
 
+
+
       <ion-item>
-        <div class="mt-4 mb-6">
+        <div class="mt-4 mb-3">
           <label class="font-bold">Landing Gear</label>
           <ion-radio-group formControlName="landingGear" value="true" class="radio">
             <div class="flex">
@@ -170,15 +263,29 @@
             </div>
           </ion-radio-group>
           <div
-            [ngClass]="this.trailerCheckForm.get('landingGear').value ==='true' ? 'hidden':'flex bg-slate-200 px-4 mt-4'">
-            <ion-textarea formControlName="landingGearNotes" placeholder=" Add Comments" [autocapitalize]="true">
-            </ion-textarea>
+            [ngClass]="this.trailerCheckForm.get('landingGear').value ==='true' ? 'hidden':'flex-row  mt-2'">
+            <div>
+              <ion-item lines="none" class="select_native">
+                <ion-select
+                formControlName="landingGearSelect"
+                [value]="'Minor'"
+                 placeholder="Select Severity Level"
+                  class="border-2 border-3D8AA4 rounded-lg">
+                  <ion-select-option value="minor" class="font-Lato">Minor</ion-select-option>
+                  <ion-select-option value="moderate" class="font-Lato">Moderate</ion-select-option>
+                  <ion-select-option value="critical-repair" class="font-Lato">Critical repair </ion-select-option>
+                </ion-select>
+              </ion-item>
+            </div>
+            <div>
+              <ion-textarea formControlName="landingGearNotes" class="bg-slate-200 mt-2 rounded-md custom-textarea" placeholder="Type something here"></ion-textarea>
+            </div>
           </div>
         </div>
       </ion-item>
 
       <ion-item>
-        <div class="mt-4 mb-6">
+        <div class="mt-4 mb-3">
           <label class="font-bold">Lights - All</label>
           <ion-radio-group formControlName="lights" value="true" class="radio">
             <div class="flex">
@@ -192,15 +299,31 @@
               </ion-item>
             </div>
           </ion-radio-group>
-          <div [ngClass]="this.trailerCheckForm.get('lights').value ==='true' ? 'hidden':'flex bg-slate-200 px-4 mt-4'">
-            <ion-textarea formControlName="lightsNotes" placeholder=" Add Comments" [autocapitalize]="true">
-            </ion-textarea>
+          <div
+            [ngClass]="this.trailerCheckForm.get('lights').value ==='true' ? 'hidden':'flex-row  mt-2'">
+            <div>
+              <ion-item lines="none" class="select_native">
+                <ion-select
+                formControlName="lightsSelect"
+                [value]="'Minor'"
+                 placeholder="Select Severity Level"
+                  class="border-2 border-3D8AA4 rounded-lg">
+                  <ion-select-option value="minor" class="font-Lato">Minor</ion-select-option>
+                  <ion-select-option value="moderate" class="font-Lato">Moderate</ion-select-option>
+                  <ion-select-option value="critical-repair" class="font-Lato">Critical repair </ion-select-option>
+                </ion-select>
+              </ion-item>
+            </div>
+            <div>
+              <ion-textarea formControlName="lightsNotes" class="bg-slate-200 mt-2 rounded-md custom-textarea" placeholder="Type something here"></ion-textarea>
+            </div>
           </div>
         </div>
       </ion-item>
 
+
       <ion-item>
-        <div class="mt-4 mb-6">
+        <div class="mt-4 mb-3">
           <label class="font-bold">Reflectors / Reflect. Tape</label>
           <ion-radio-group formControlName="reflectors" value="true" class="radio">
             <div class="flex">
@@ -215,15 +338,29 @@
             </div>
           </ion-radio-group>
           <div
-            [ngClass]="this.trailerCheckForm.get('reflectors').value ==='true' ? 'hidden':'flex bg-slate-200 px-4 mt-4'">
-            <ion-textarea formControlName="reflectorsNotes" placeholder=" Add Comments" [autocapitalize]="true">
-            </ion-textarea>
+            [ngClass]="this.trailerCheckForm.get('reflectors').value ==='true' ? 'hidden':'flex-row  mt-2'">
+            <div>
+              <ion-item lines="none" class="select_native">
+                <ion-select
+                formControlName="reflectorsSelect"
+                [value]="'Minor'"
+                 placeholder="Select Severity Level"
+                  class="border-2 border-3D8AA4 rounded-lg">
+                  <ion-select-option value="minor" class="font-Lato">Minor</ion-select-option>
+                  <ion-select-option value="moderate" class="font-Lato">Moderate</ion-select-option>
+                  <ion-select-option value="critical-repair" class="font-Lato">Critical repair </ion-select-option>
+                </ion-select>
+              </ion-item>
+            </div>
+            <div>
+              <ion-textarea formControlName="reflectorsNotes" class="bg-slate-200 mt-2 rounded-md custom-textarea" placeholder="Type something here"></ion-textarea>
+            </div>
           </div>
         </div>
       </ion-item>
 
       <ion-item>
-        <div class="mt-4 mb-6">
+        <div class="mt-4 mb-3">
           <label class="font-bold">Roof</label>
           <ion-radio-group formControlName="roof" value="true" class="radio">
             <div class="flex">
@@ -237,15 +374,30 @@
               </ion-item>
             </div>
           </ion-radio-group>
-          <div [ngClass]="this.trailerCheckForm.get('roof').value ==='true' ? 'hidden':'flex bg-slate-200 px-4 mt-4'">
-            <ion-textarea formControlName="roofNotes" placeholder=" Add Comments" [autocapitalize]="true">
-            </ion-textarea>
+          <div
+            [ngClass]="this.trailerCheckForm.get('roof').value ==='true' ? 'hidden':'flex-row  mt-2'">
+            <div>
+              <ion-item lines="none" class="select_native">
+                <ion-select
+                formControlName="roofSelect"
+                [value]="'Minor'"
+                 placeholder="Select Severity Level"
+                  class="border-2 border-3D8AA4 rounded-lg">
+                  <ion-select-option value="minor" class="font-Lato">Minor</ion-select-option>
+                  <ion-select-option value="moderate" class="font-Lato">Moderate</ion-select-option>
+                  <ion-select-option value="critical-repair" class="font-Lato">Critical repair </ion-select-option>
+                </ion-select>
+              </ion-item>
+            </div>
+            <div>
+              <ion-textarea formControlName="roofNotes" class="bg-slate-200 mt-2 rounded-md custom-textarea" placeholder="Type something here"></ion-textarea>
+            </div>
           </div>
         </div>
       </ion-item>
 
       <ion-item>
-        <div class="mt-4 mb-6">
+        <div class="mt-4 mb-3">
           <label class="font-bold">Suspension System</label>
           <ion-radio-group formControlName="suspension" value="true" class="radio">
             <div class="flex">
@@ -260,15 +412,30 @@
             </div>
           </ion-radio-group>
           <div
-            [ngClass]="this.trailerCheckForm.get('suspension').value ==='true' ? 'hidden':'flex bg-slate-200 px-4 mt-4'">
-            <ion-textarea formControlName="suspensionNotes" placeholder=" Add Comments" [autocapitalize]="true">
-            </ion-textarea>
+            [ngClass]="this.trailerCheckForm.get('suspension').value ==='true' ? 'hidden':'flex-row  mt-2'">
+            <div>
+              <ion-item lines="none" class="select_native">
+                <ion-select
+                formControlName="suspensionSelect"
+                [value]="'Minor'"
+                 placeholder="Select Severity Level"
+                  class="border-2 border-3D8AA4 rounded-lg">
+                  <ion-select-option value="minor" class="font-Lato">Minor</ion-select-option>
+                  <ion-select-option value="moderate" class="font-Lato">Moderate</ion-select-option>
+                  <ion-select-option value="critical-repair" class="font-Lato">Critical repair </ion-select-option>
+                </ion-select>
+              </ion-item>
+            </div>
+            <div>
+              <ion-textarea formControlName="suspensionNotes" class="bg-slate-200 mt-2 rounded-md custom-textarea" placeholder="Type something here"></ion-textarea>
+            </div>
           </div>
         </div>
       </ion-item>
 
+
       <ion-item>
-        <div class="mt-4 mb-6">
+        <div class="mt-4 mb-3">
           <label class="font-bold">Tarpaulin</label>
           <ion-radio-group formControlName="tarpaulin" value="true" class="radio">
             <div class="flex">
@@ -283,15 +450,29 @@
             </div>
           </ion-radio-group>
           <div
-            [ngClass]="this.trailerCheckForm.get('tarpaulin').value ==='true' ? 'hidden':'flex bg-slate-200 px-4 mt-4'">
-            <ion-textarea formControlName="tarpaulinNotes" placeholder=" Add Comments" [autocapitalize]="true">
-            </ion-textarea>
+            [ngClass]="this.trailerCheckForm.get('tarpaulin').value ==='true' ? 'hidden':'flex-row  mt-2'">
+            <div>
+              <ion-item lines="none" class="select_native">
+                <ion-select
+                formControlName="tarpaulinSelect"
+                [value]="'Minor'"
+                 placeholder="Select Severity Level"
+                  class="border-2 border-3D8AA4 rounded-lg">
+                  <ion-select-option value="minor" class="font-Lato">Minor</ion-select-option>
+                  <ion-select-option value="moderate" class="font-Lato">Moderate</ion-select-option>
+                  <ion-select-option value="critical-repair" class="font-Lato">Critical repair </ion-select-option>
+                </ion-select>
+              </ion-item>
+            </div>
+            <div>
+              <ion-textarea formControlName="tarpaulinNotes" class="bg-slate-200 mt-2 rounded-md custom-textarea" placeholder="Type something here"></ion-textarea>
+            </div>
           </div>
         </div>
       </ion-item>
 
       <ion-item>
-        <div class="mt-4 mb-6">
+        <div class="mt-4 mb-3">
           <label class="font-bold">Tires</label>
           <ion-radio-group formControlName="tires" value="true" class="radio">
             <div class="flex">
@@ -305,9 +486,24 @@
               </ion-item>
             </div>
           </ion-radio-group>
-          <div [ngClass]="this.trailerCheckForm.get('tires').value ==='true' ? 'hidden':'flex bg-slate-200 px-4 mt-4'">
-            <ion-textarea formControlName="tiresNotes" placeholder=" Add Comments" [autocapitalize]="true">
-            </ion-textarea>
+          <div
+            [ngClass]="this.trailerCheckForm.get('tires').value ==='true' ? 'hidden':'flex-row  mt-2'">
+            <div>
+              <ion-item lines="none" class="select_native">
+                <ion-select
+                formControlName="tiresSelect"
+                [value]="'Minor'"
+                 placeholder="Select Severity Level"
+                  class="border-2 border-3D8AA4 rounded-lg">
+                  <ion-select-option value="minor" class="font-Lato">Minor</ion-select-option>
+                  <ion-select-option value="moderate" class="font-Lato">Moderate</ion-select-option>
+                  <ion-select-option value="critical-repair" class="font-Lato">Critical repair </ion-select-option>
+                </ion-select>
+              </ion-item>
+            </div>
+            <div>
+              <ion-textarea formControlName="tiresNotes" class="bg-slate-200 mt-2 rounded-md custom-textarea" placeholder="Type something here"></ion-textarea>
+            </div>
           </div>
         </div>
       </ion-item>

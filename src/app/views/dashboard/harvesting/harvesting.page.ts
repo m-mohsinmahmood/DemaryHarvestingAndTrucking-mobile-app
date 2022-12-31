@@ -54,15 +54,15 @@ role: any;
 
   }
 }
-function interval(arg0: number) {
-  throw new Error('Function not implemented.');
-}
+// function interval(arg0: number) {
+//   throw new Error('Function not implemented.');
+// }
 
-function fromEvent(document: Document, arg1: string) {
-  throw new Error('Function not implemented.');
-}
+// function fromEvent(document: Document, arg1: string) {
+//   throw new Error('Function not implemented.');
+// }
 
-function takeUntil(clicks: any): any {
-  throw new Error('Function not implemented.');
-}
+// function takeUntil(clicks: any): any {
+//   throw new Error('Function not implemented.');
+// }
 

@@ -76,8 +76,51 @@
               </div>
             </ion-col>
           </ion-row>
+          <div *ngFor="let item of items;">
+            <div *ngIf="item.status === 'Satisfactory'">
+              <ion-row class="px-0 py-1">
+                <ion-col size="7" class="flex items-center">
+                  <label class="font-Lato float-left flex justify-center font-Lato ">{{item.value}}
+                  </label>
+                </ion-col>
+                <ion-col size="5" class="p-0 flex">
+                  <div class="flex justify-center items-center">
+                    <span class="font-Lato text-white w-32 h-6 bg-project-green rounded-full flex justify-center items-center">
+                      {{item.status}}</span>
+                  </div>
+                </ion-col>
+              </ion-row>
+            </div>
+            <div *ngIf="item.status === 'Unsatisfactory'">
+              <ion-accordion-group>
+                <ion-accordion value="first">
+                  <ion-item class="font-Lato accordionItem" slot="header">
+                    <ion-grid>
 
-          <ion-row class="px-0 py-1">
+                    <ion-row class="px-0 py-1">
+                      <ion-col size="6" class="flex items-center">
+                        <label class="font-Lato float-left flex justify-center">{{item.value}}
+                        </label>
+                      </ion-col>
+                      <ion-col size="6" class="p-0 flex justify-end">
+                        <div class="flex justify-center items-center">
+                          <span class="font-Lato text-white w-32 h-6 bg-red-400 rounded-full flex justify-center items-center">
+                            {{item.status}}</span>
+                        </div>
+                      </ion-col>
+                    </ion-row>
+                  </ion-grid>
+
+                  </ion-item>
+                  <ion-row class="bg-red-400 mx-2 px-4 py-2 text-white rounded-lg py-1" slot="content">
+                    <ion-text>{{item.description}}</ion-text>
+                  </ion-row>
+                </ion-accordion>
+              </ion-accordion-group>
+            </div>
+          </div>
+
+          <!-- <ion-row class="px-0 py-1">
             <ion-col size="7" class="flex items-center">
               <label class="font-Lato float-left flex justify-center font-Lato ">Radiator
               </label>
@@ -89,9 +132,9 @@
                   Satisfactory</span>
               </div>
             </ion-col>
-          </ion-row>
+          </ion-row> -->
 
-          <ion-accordion-group>
+          <!-- <ion-accordion-group>
             <ion-accordion value="first">
               <ion-item class="font-Lato accordionItem" slot="header">
                 <ion-row class="px-0 py-1">
@@ -117,8 +160,7 @@
                 </ion-text>
               </ion-row>
             </ion-accordion>
-          </ion-accordion-group>
-
+          </ion-accordion-group> -->
         </ion-grid>
       </ion-card-content>
     </ion-card>

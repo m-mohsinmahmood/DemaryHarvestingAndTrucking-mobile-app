@@ -46,13 +46,13 @@
         </div>
         <div class="timeline-content {{item.status}}">
           {{item.content}}
-          <ion-button [disabled]="this.preCheckForm.invalid" expand="block w-1/2" class="text-white font-Lato my-4" (click)="navigateTo(item.content)">Start
+          <ion-button [disabled]="!item.active" expand="block" class="text-white font-Lato my-2 w-20" (click)="navigateTo(item.content)">Start
           </ion-button>
         </div>
       </div>
 
     </div>
-    <ion-button expand="block" class="text-white font-Lato my-4" [routerLink]="'engine-check'">Submit</ion-button>
+    <!-- <ion-button expand="block" class="text-white font-Lato my-4" [routerLink]="'engine-check'">Submit</ion-button> -->
 
   </div>
 

@@ -5,13 +5,13 @@
   <div class="p-2">
     <div class="segment-style">
       <ion-segment [(ngModel)]="segment" scrollable (ionChange)="segmentChange($event)">
-        <ion-segment-button value="sent"> Sent </ion-segment-button>
+        <ion-segment-button value="sent"> Sent {{sentTicketLoading$ | async }} </ion-segment-button>
         <ion-segment-button value="pending"> Pending </ion-segment-button>
         <ion-segment-button value="verified"> Verified </ion-segment-button>
       </ion-segment>
       <div [ngSwitch]="segment" >
         <div *ngSwitchCase="'sent'">
-          <div *ngIf="(sentTicketLoading$ | async) === false">
+          <div *ngIf="(sentTicketLoading$ | async ) === false">
             <ion-card class="p-2 sentTicket" *ngFor="let sentTicket of sentTicketData$ | async">
               <div class="flex flex-col">
                 <div class="flex flex-row py-2">
@@ -38,7 +38,7 @@
               </div>
             </ion-card>
           </div>
-          <div *ngIf="(sentTicketLoading$ | async) === true">
+          <div *ngIf="(sentTicketLoading$ | async ) === true">
             <ion-card class="p-2 sentTicket">
               <div class="flex flex-col">
                 <div class="flex flex-row py-2">
@@ -67,9 +67,9 @@
         </div>
         <div *ngSwitchCase="'pending'">
           <div *ngIf="(pendingTicketLoading$ | async) === false">
-            <ion-card class="p-2 pendingTicket" *ngFor="let pendingTicket of pendingTicketData$ | async" (click)="navigate(pendingTicket.delivery_ticket_number)">
+            <ion-card class="p-2 pendingTicket" *ngFor="let pendingTicket of pendingTicketData$ | async">
               <div class="flex flex-col">
-                <div class="flex flex-row py-2">
+                <!-- <div class="flex flex-row py-2">
                   <div class="w-8/12 flex flex-col">
                     <span class="text-lg text-black font-Lato">Harvesting Task 3</span>
                     <span class="font-Lato">Coronodo Feed Center, Arizona</span>
@@ -77,6 +77,22 @@
                   <div class="w-4/12 flex justify-end">
                     <span class="text-sm font-Lato">Ticket#: </span>
                     <span class="text-sm text-black font-Lato bg-0165c31a h-5 rounded-xl px-2 ml-1"> {{pendingTicket.delivery_ticket_number}}</span>
+                  </div>
+                </div> -->
+                <div class="flex flex-row py-2">
+                  <div class="w-7/12 flex flex-col">
+                    <span class="text-lg text-black font-Lato">Harvesting Task 5</span>
+                    <span class="font-Lato">Coronodo Feed Center, Arizona</span>
+                  </div>
+                  <div class="w-5/12 flex flex-col items-end">
+                    <div>
+                      <span class="text-sm font-Lato">Ticket#: </span>
+                      <span class="text-sm text-black font-Lato bg-0165c31a h-5 rounded-xl px-2 ml-1"> {{pendingTicket.delivery_ticket_number}}</span>
+                    </div>
+                    <div class="flex justify-between">
+                      <button class="bg-FFCD29 text-white rounded-md font-Lato text-sm px-2 py-0 ml-2 mt-1" (click)="navigate(pendingTicket.delivery_ticket_number)">Verify</button>
+                      <button class="bg-project-green text-white rounded-md font-Lato text-sm px-2 py-0 ml-2 mt-1" (click)="reassignTicket(pendingTicket.delivery_ticket_number)">Reassign</button>
+                    </div>
                   </div>
                 </div>
                 <div class="flex justify-between p-0">
@@ -134,7 +150,7 @@
                       <span class="text-sm text-black font-Lato bg-0165c31a h-5 rounded-xl px-2 ml-1"> {{verifiedTicketData.delivery_ticket_number}}</span>
                     </div>
                     <div>
-                      <button class="bg-project-green text-white rounded-md font-Lato text-sm px-2 py-0 ml-2 mt-1" (click)="reassignTicket(verifiedTicketData.delivery_ticket_number)">Reassign</button>
+                      <!-- <button class="bg-project-green text-white rounded-md font-Lato text-sm px-2 py-0 ml-2 mt-1" (click)="reassignTicket(verifiedTicketData.delivery_ticket_number)">Reassign</button> -->
                     </div>
                   </div>
                 </div>

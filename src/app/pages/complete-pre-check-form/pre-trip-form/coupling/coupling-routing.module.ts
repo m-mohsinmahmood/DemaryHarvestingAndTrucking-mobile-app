@@ -7,6 +7,10 @@ const routes: Routes = [
   {
     path: '',
     component: CouplingPage
+  },
+  {
+    path: 'trailer',
+    loadChildren: () => import('../trailer/trailer.module').then( m => m.TrailerPageModule)
   }
 ];
 

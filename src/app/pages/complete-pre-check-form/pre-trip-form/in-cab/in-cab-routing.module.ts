@@ -7,7 +7,11 @@ const routes: Routes = [
   {
     path: '',
     component: InCabPage
-  }
+  },
+  {
+    path: 'vehicle-external',
+    loadChildren: () => import('../vehicle-external/vehicle-external.module').then( m => m.VehicleExternalPageModule)
+  },
 ];
 
 @NgModule({

@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
@@ -43,10 +44,15 @@ const routes: Routes = [
   {
     path: 'close-out',
     loadChildren: () => import('./close-out/close-out.module').then( m => m.CloseOutPageModule)
-  },  {
+  },
+  {
     path: 'driver-setup',
     loadChildren: () => import('./driver-setup/driver-setup.module').then( m => m.DriverSetupPageModule)
-  }
+  },
+  {
+    path: 'complete-pre-check-form',
+    loadChildren: () => import('../../../pages/complete-pre-check-form/complete-pre-check-form.module').then( m => m.CompletePreCheckFormPageModule)
+  },
 
 
 ];

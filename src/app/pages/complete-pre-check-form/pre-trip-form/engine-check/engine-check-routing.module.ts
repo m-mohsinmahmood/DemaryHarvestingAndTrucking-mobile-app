@@ -7,7 +7,14 @@ const routes: Routes = [
   {
     path: '',
     component: EngineCheckPage
-  }
+  },
+  {
+    path: 'in-cab',
+    // loadChildren: () => import('./in-cab/in-cab.module').then( m => m.InCabPageModule)
+    loadChildren: () => import('../in-cab/in-cab.module').then( m => m.InCabPageModule)
+
+  },
+
 ];
 
 @NgModule({

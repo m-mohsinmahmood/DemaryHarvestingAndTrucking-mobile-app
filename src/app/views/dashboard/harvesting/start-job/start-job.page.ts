@@ -18,6 +18,7 @@ import { ToastService } from 'src/app/services/toast/toast.service';
 })
 export class StartJobPage implements OnInit {
   @ViewChild('fieldInput') fieldInput: ElementRef;
+  @ViewChild('machineryInput') machineryInput: ElementRef;
 
   role: any;
 
@@ -34,6 +35,14 @@ export class StartJobPage implements OnInit {
   fieldSearchValue: any = '';
   fieldUL: any = false;
   isFieldSelected: any = true;
+
+   // machinery variables
+   allMachinery: Observable<any>;
+   machine_search$ = new Subject();
+   machine_name: any = '';
+   machineSearchValue: any = '';
+   machineUL: any = false;
+   isMachineSelected: any = true;
 
   // selected customer id to select farms & crops
   customerID: any;
@@ -62,9 +71,12 @@ export class StartJobPage implements OnInit {
     if(localStorage.getItem('role') === 'crew-chief' || localStorage.getItem('role') === 'combine-operator'){
       this.renderer.listen('window', 'click', (e) => {
         if (e.target !== this.fieldInput.nativeElement) {
-          // console.log('Field');
           this.allFields = of([]);
           this.fieldUL = false; // to hide the UL
+        }
+        else if (e.target !== this.machineryInput.nativeElement) {
+          this.allMachinery = of([]);
+          this.machineUL = false; // to hide the UL
         }
       });
     }
@@ -78,6 +90,7 @@ export class StartJobPage implements OnInit {
 
       // subscriptioln for fields
        this.fieldSearchSubscription();
+       this.machineSearchSubscription();
 
   }
 
@@ -109,34 +122,34 @@ export class StartJobPage implements OnInit {
   }
   initForms() {
     this.startJobFormCrew = this.formBuilder.group({
-      type: ['harvesting'],
-      role: [localStorage.getItem('role')],
-      machine_id: ['', [Validators.required]],
-      separator_hours: ['', [Validators.required]],
-      engine_hours: ['', [Validators.required]],
+      machineryId: ['', [Validators.required]],
+      beginning_separator_hours: ['', [Validators.required]],
+      beginningEngineHours: ['', [Validators.required]],
       field_id: [''],
+      employeeId: ['5aec5490-57fe-4688-9ac3-b3e6e13bafb5'],
     });
     this.startJobFormCombine = this.formBuilder.group({
-      type: ['harvesting'],
-      role: [localStorage.getItem('role')],
-      machine_id: ['', [Validators.required]],
-      separator_hours: ['', [Validators.required]],
-      engine_hours: ['', [Validators.required]],
+      machineryId: [''],
+      beginning_separator_hours: ['', [Validators.required]],
+      beginningEngineHours: ['', [Validators.required]],
       field_id: [''],
+      field_acres: ['', [Validators.required]],
+      employeeId: ['e4d3e774-fade-4603-93ba-c03ef6f6c150'],
+
     });
     this.startJobFormKart = this.formBuilder.group({
-      type: ['harvesting'],
-      role: [localStorage.getItem('role')],
-      machine_id: ['', [Validators.required]],
-      engine_hours: ['', [Validators.required]],
+      machineryId: [''],
+      beginningEngineHours: ['', [Validators.required]],
+      employeeId: ['daea0b53-f5f5-4d0e-ac6b-1175542f74b0'],
+
     });
     this.startJobFormTruck = this.formBuilder.group({
-      type: ['harvesting'],
-      role: [localStorage.getItem('role')],
       truck_id: ['', [Validators.required]],
-      crew_chief: ['', [Validators.required]],
+      crew_chief_id: ['1a4d594b-726c-46e4-b677-5e4a78adbc1e'],
       truck_company: ['', [Validators.required]],
-      begining_miles: ['', [Validators.required]],
+      begining_odometer_miles: ['', [Validators.required]],
+      employeeId: ['2bf46542-d0bb-4ada-96e6-c103853c3f0d'],
+
     });
   }
   submit() {
@@ -144,6 +157,84 @@ export class StartJobPage implements OnInit {
     console.log(this.startJobFormCombine.value);
     console.log(this.startJobFormKart.value);
     console.log(this.startJobFormTruck.value);
+        // For Crew Chief
+        if(localStorage.getItem('role') === 'crew-chief'){
+          this.harvestingService.createBeginingDay(this.startJobFormCrew.value, 'harvesting')
+          .subscribe((res)=>{
+            console.log(res);
+            if(res.status === 200){
+              console.log('RES:',res);
+              this.toastService.presentToast('DWR has been created successfully','success');
+            }
+          },
+          (err)=>{
+            console.log('Something happened :)',err);
+          });
+        }
+
+         // For Combine Operator
+    if(localStorage.getItem('role') === 'combine-operator'){
+      this.harvestingService.createBeginingDay(this.startJobFormCombine.value,'harvesting')
+      .subscribe(
+        (res: any) => {
+            console.log('Response:',res);
+            if(res.status === 200){
+              this.startJobFormCombine.reset();
+              this.toastService.presentToast(res.message,'success');
+            }else{
+              console.log('Something happened :)');
+              this.toastService.presentToast('DWR has been created successfully','success');
+            }
+          },
+        (err) => {
+          this.toastService.presentToast(err,'danger');
+          console.log('Error:',err);
+        },
+    );
+    }
+
+        // For Combine Operator
+        if(localStorage.getItem('role') === 'kart-operator'){
+          this.harvestingService.createBeginingDay(this.startJobFormKart.value,'harvesting')
+          .subscribe(
+            (res: any) => {
+                console.log('Response:',res);
+                if(res.status === 200){
+                  this.startJobFormCombine.reset();
+                  this.toastService.presentToast(res.message,'success');
+                }else{
+                  console.log('Something happened :)');
+                  this.toastService.presentToast('DWR has been created successfully','success');
+                }
+              },
+            (err) => {
+              this.toastService.presentToast(err,'danger');
+              console.log('Error:',err);
+            },
+        );
+        }
+
+        // For Truck Driver
+    if(localStorage.getItem('role') === 'truck-driver'){
+      this.harvestingService.createBeginingDay(this.startJobFormTruck.value,'harvesting')
+      .subscribe(
+        (res: any) => {
+            console.log('Response:',res);
+            if(res.status === 200){
+              this.startJobFormCombine.reset();
+              this.toastService.presentToast(res.message,'success');
+            }else{
+              console.log('Something happened :)');
+              this.toastService.presentToast('DWR has been created successfully','success');
+            }
+          },
+        (err) => {
+          this.toastService.presentToast(err,'danger');
+          console.log('Error:',err);
+        },
+    );
+    }
+
 
     // For Crew Chief
     // if(localStorage.getItem('role') === 'crew-chief'){
@@ -312,13 +403,140 @@ export class StartJobPage implements OnInit {
     // to enable submit button
     this.isFieldSelected = false;
 
-    // assigning values in form
-    this.startJobFormCrew.patchValue({
-      field_id: field.field_id
-    });
+    // assigning values in form conditionally
+    if (this.role === 'crew-chief') {
+      this.startJobFormCrew.patchValue({
+        field_id: field.field_id,
+      });
+    } else if (this.role === 'combine-operator') {
+      this.startJobFormCombine.patchValue({
+        field_id: field.field_id,
+      });
+    }
+    else if (this.role === 'kart-operator') {
+      this.startJobFormKart.patchValue({
+        field_id: field.field_id,
+      });
+    }
+    else if (this.role === 'truck-driver') {
+      this.startJobFormTruck.patchValue({
+        field_id: field.field_id,
+      });
+    }
 
     // clearing array
     this.allFields = of([]);
+  }
+  //#endregion
+  //#region Machinery
+  machineSearchSubscription() {
+    this.machine_search$
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        takeUntil(this._unsubscribeAll)
+      )
+      .subscribe((value: string) => {
+        // passing for renderer2
+        this.machineSearchValue = value;
+        // for asterik to look required
+        if (value === '') {
+          this.isMachineSelected = true;
+        }
+
+        // calling API
+        // this.allFields = this.harvestingService.getFields(
+        //   value,
+        //   'customerFields',
+        //   this.customerID,
+        //   this.farmID
+        // );
+        this.allMachinery = this.harvestingService.getMachinery(
+          value,
+          'allMachinery'
+        );
+
+        // subscribing to show/hide machine UL
+        this.allMachinery.subscribe((machine) => {
+          if (machine.count === 0) {
+            // hiding UL
+            this.machineUL = false;
+            this.isMachineSelected = true;
+          } else {
+            this.machineUL = true;
+          }
+        });
+      });
+  }
+  inputClickedMachinery() {
+    // getting the serch value to check if there's a value in input
+    this.machine_search$
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        takeUntil(this._unsubscribeAll)
+      )
+      .subscribe((v) => {
+        this.machineSearchValue = v;
+      });
+
+    const value =
+      this.machineSearchValue === undefined
+        ? this.machine_name
+        : this.machineSearchValue;
+
+    // calling API
+    this.allMachinery = this.harvestingService.getMachinery(
+      value,
+      'allMachinery'
+    );
+
+    // subscribing to show/hide field UL
+    this.allMachinery.subscribe((machinery) => {
+      console.log('--',machinery);
+      if (machinery.count === 0) {
+        // hiding UL
+        this.machineUL = false;
+      } else {
+        // showing UL
+        this.machineUL = true;
+      }
+    });
+  }
+  listClickedMachiney(machinery) {
+    console.log('Machinery Object:', machinery);
+    // hiding UL
+    this.machineUL = false;
+
+    // passing name in select's input
+    this.machine_name = machinery.name;
+
+    // to enable submit button
+    this.isMachineSelected = false;
+
+    // assigning values in form conditionally
+    if(this.role === 'crew-chief'){
+      this.startJobFormCrew.patchValue({
+        machineryId: machinery.id
+      });
+    }else if(this.role === 'combine-operator'){
+      this.startJobFormCombine.patchValue({
+        machineryId: machinery.id
+      });
+    }
+    else if(this.role === 'kart-operator'){
+      this.startJobFormKart.patchValue({
+        machineryId: machinery.id
+      });
+    }
+    else if(this.role === 'truck-driver'){
+      this.startJobFormTruck.patchValue({
+        machineryId: machinery.id
+      });
+    }
+
+    // clearing array
+    this.allMachinery = of([]);
   }
   //#endregion
 }

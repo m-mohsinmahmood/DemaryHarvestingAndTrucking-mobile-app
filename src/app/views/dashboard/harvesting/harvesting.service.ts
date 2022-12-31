@@ -4,7 +4,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable no-underscore-dangle */
 import { Injectable } from '@angular/core';
-import {  BehaviorSubject, Observable, throwError } from 'rxjs';
+import {  BehaviorSubject, Observable, Subject, throwError } from 'rxjs';
 import {  take, tap } from 'rxjs/operators';
 import { AlertService } from 'src/app/alert/alert.service';
 import {
@@ -13,6 +13,7 @@ import {
   HttpParams,
 } from '@angular/common/http';
 import { ToastService } from 'src/app/services/toast/toast.service';
+import { takeUntil } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -95,12 +96,21 @@ readonly verifiedTicketLoading$: Observable<boolean> =
 this.verifiedTicketLoading.asObservable();
 //#endregion
 
+unsubscribeBehaviourSubject: BehaviorSubject<any> =
+new BehaviorSubject<any>(1);
+
+
   constructor(
     private _httpClient: HttpClient,
     private alertSerice: AlertService,
     private toastService: ToastService
 
-  ){}
+  ){
+    // console.log('UnSUBSCRIBE:',this._unsubscribeAll);
+    // console.log('UnSUBSCRIBE:',this.unsubscribeBehaviourSubject.value);
+
+
+  }
 
 getCustomers(
         search: string = '',
@@ -200,6 +210,22 @@ getJob() {
 
        })
  }
+ getJobTesting(entity) {
+  return this._httpClient
+       .get(`http://localhost:7071/api/customer-job-setup?entity=${entity}`)
+       .pipe(take(1))
+       .subscribe(
+        (res: any)=>{
+          this.customerLoading.next(true);
+         this.customer.next(res);
+         this.customerLoading.next(false)
+       },
+       (err)=>{
+        console.log('ERR:',err);
+        this.toastService.presentToast(err,'danger');
+
+       })
+ }
  getJob2() {
   return this._httpClient
        .get(`http://localhost:7071/api/customer-job-setup`)
@@ -238,6 +264,11 @@ startJob(data: any) {
        .put(`http://localhost:7071/api/customer-job-setup`, data)
        .pipe(take(1));
  }
+ closeBeginningDay(data: any) {
+  return this._httpClient
+    .patch(`http://localhost:7071/api/dwr`, data)
+    .pipe(take(1));
+}
  getEmployees(
   search: string = '',
   entity: string = '',
@@ -303,10 +334,10 @@ createTicket(data: any) {
         this.sentTicketLoading.next(true);
         this.sentTicket.next(res);
         this.sentTicketLoading.next(false);
+
       },
        (err)=>{
         this.toastService.presentToast(err,'danger');
-
        }
        )
  }
@@ -318,8 +349,6 @@ createTicket(data: any) {
         this.pendingTicketLoading.next(true);
         this.pendingTicket.next(res);
         this.pendingTicketLoading.next(false);
-        console.log('Response Verified:',res);
-
       },
        (err)=>{
         this.toastService.presentToast(err,'danger');
@@ -342,8 +371,6 @@ createTicket(data: any) {
        }
        )
  }
-
-
 getCustomerFarm(
   customerId: string,
   page: number = 1,
@@ -408,6 +435,29 @@ getCustomerCrops(
       //     }
       // );
 }
+createBeginingDay(data: any, dwr_type: string): Observable<any> {
+  data.dwr_type = dwr_type
+  console.log(data);
+  console.log(dwr_type)
+  return this._httpClient
+      .post<any>(`http://localhost:7071/api/dwr`,data)
+      .pipe(take(1));
+}
+getMachinery(
+    search: string = '',
+    entity: string = '',
+  ) {
+    this._httpClient
+    let params = new HttpParams();
+    params = params.set('entity', entity);
+    params = params.set('search', search);
+
+    return this._httpClient
+      .get<any>('http://localhost:7071/api/dropdowns', {
+        params,
+      })
+      .pipe(take(1));
+  }
 
 getDropdownCustomerCrops(customerId: string, search: string): Observable<any> {
   console.log('DropDownAPICropsCAlled');

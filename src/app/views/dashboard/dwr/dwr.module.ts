@@ -9,13 +9,15 @@ import { DwrPageRoutingModule } from './dwr-routing.module';
 import { DwrPage } from './dwr.page';
 
 import { HeaderModule } from 'src/app/components/header/header.module';
+import { TimerModule } from 'src/app/components/timer/timer.module';
 @NgModule({
   imports: [
-  CommonModule,
+CommonModule,
     FormsModule,
     IonicModule,
     DwrPageRoutingModule,
-    HeaderModule
+    HeaderModule,
+    TimerModule
   ],
   declarations: [DwrPage]
 })

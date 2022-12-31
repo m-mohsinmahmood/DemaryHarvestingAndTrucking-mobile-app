@@ -8,14 +8,16 @@ import { TrainingPageRoutingModule } from './training-routing.module';
 
 import { TrainingPage } from './training.page';
 import { HeaderModule } from 'src/app/components/header/header.module';
+import { TimerModule } from 'src/app/components/timer/timer.module';
 
 @NgModule({
   imports: [
-  CommonModule,
+CommonModule,
     FormsModule,
     IonicModule,
     TrainingPageRoutingModule,
-    HeaderModule
+    HeaderModule,
+    TimerModule
   ],
   declarations: [TrainingPage]
 })

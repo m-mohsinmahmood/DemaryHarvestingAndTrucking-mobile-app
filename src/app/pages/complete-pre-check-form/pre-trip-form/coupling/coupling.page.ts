@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -20,28 +21,39 @@ export class CouplingPage implements OnInit {
     this.couplingCheckForm = this.formBuilder.group({
       airLine: ['true', [Validators.required]],
       airLineNotes: [''],
+      airLineSelect:['minor'],
       brakeAccessories: ['true', [Validators.required]],
       brakeAccessoriesNotes: [''],
+      brakeAccessoriesSelect:['minor'],
       couplingDevices: ['true', [Validators.required]],
       couplingDevicesNotes: [''],
+      couplingDevicesSelect:['minor'],
       fifthWheel: ['true', [Validators.required]],
       fifthWheelNotes: [''],
+      fifthWheelSelect:['minor'],
       rearEnd: ['true', [Validators.required]],
       rearEndNotes: [''],
+      rearEndSelect:['minor'],
       muffler: ['true', [Validators.required]],
       mufflerNotes: [''],
+      mufflerSelect:['minor'],
       frontAxle: ['true', [Validators.required]],
       frontAxleNotes: [''],
+      frontAxleSelect:['minor'],
       suspensionSystem: ['true', [Validators.required]],
       suspensionSystemNotes: [''],
+      suspensionSystemSelect:['minor'],
       transmission: ['true', [Validators.required]],
       transmissionNotes: [''],
+      transmissionSelect:['minor'],
     });
   }
 
   submitForm() {
     console.log(this.couplingCheckForm.value);
-    this.router.navigateByUrl('/complete-pre-check-form/pre-trip-form/trailer');
+    // this.router.navigateByUrl('/complete-pre-check-form/pre-trip-form/trailer');
+    this.router.navigateByUrl('/tabs/home/harvesting/complete-pre-check-form/pre-trip-form/engine-check/in-cab/vehicle-external/coupling/trailer');
+
   }
 
 }

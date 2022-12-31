@@ -9,7 +9,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 export class PreTripFormPage implements OnInit {
 
   buffer = 1;
-  progress = 0.4;
+  progress = 0;
   items = [];
   selectAray: any[] = [
     'Engine/Compartment',
@@ -28,10 +28,10 @@ export class PreTripFormPage implements OnInit {
   ngOnInit() {
     this.items = [
       { content: 'Engine/Compartment', name: 'Bethnay Blake', date: '15/02/2022', status: 'complete', active: true },
-      { content: 'In Cab', name: 'Martha Grander', date: '15/02/2022', status: 'complete', active: true },
-      { content: 'Vehicle/External', name: 'Bethnay Blake', date: '15/02/2022', status: 'active', active: true },
-      { content: 'Brakes, Coupling & Suspension', name: 'Katherine synder', date: '15/02/2022', status: 'in-complete', active: true },
-      { content: 'Trailer', name: 'Katherine synder', date: '15/02/2022', status: 'in-complete', active: true },
+      { content: 'In Cab', name: 'Martha Grander', date: '15/02/2022', status: 'complete', active: false },
+      { content: 'Vehicle/External', name: 'Bethnay Blake', date: '15/02/2022', status: 'active', active: false },
+      { content: 'Brakes, Coupling & Suspension', name: 'Katherine synder', date: '15/02/2022', status: 'in-complete', active: false },
+      { content: 'Trailer', name: 'Katherine synder', date: '15/02/2022', status: 'in-complete', active: false },
     ];
 
     this.preCheckForm = this.formBuilder.group({
@@ -43,7 +43,8 @@ export class PreTripFormPage implements OnInit {
   navigateTo(navTo: string) {
     switch (navTo) {
       case 'Engine/Compartment':
-        this.router.navigateByUrl('/complete-pre-check-form/pre-trip-form/engine-check');
+        // this.router.navigateByUrl('/complete-pre-check-form/pre-trip-form/engine-check');
+        this.router.navigateByUrl('/tabs/home/harvesting/complete-pre-check-form/pre-trip-form/engine-check');
         break;
       case 'In Cab':
         this.router.navigateByUrl('/complete-pre-check-form/pre-trip-form/in-cab');

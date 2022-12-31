@@ -118,21 +118,21 @@
 <ion-card class="card">
   <ion-grid >
     <ion-row class="">
-      <ion-col size="6"  class="">
-        <div class=" pl-2 pt-1 border rounded-md border-project-green bg-gray-200">
+      <ion-col size="6"  class="" (click)="onClick('combine-operator')">
+        <div class=" pl-2 pt-1 border rounded-md {{value === 'combine-operator'? 'border-3D8AA4 border-2':''}} bg-gray-200">
           <h1 class="font-Lato text-xs font-semibold">Combine Operator</h1>
           <span class="font-Lato text-xs font-semibold">10</span>
         </div>
       </ion-col>
-      <ion-col size="6"  class="">
-        <div class=" pl-2 pt-1 border rounded-md border-project-green bg-gray-200">
+      <ion-col size="6"  class="" (click)="onClick('cart-operator')">
+        <div class=" pl-2 pt-1 border rounded-md {{value === 'cart-operator'? 'border-3D8AA4 border-2':''}} bg-gray-200">
           <h1 class="font-Lato text-xs font-semibold">Kart Operator</h1>
           <span class="font-Lato text-xs font-semibold">30</span>
         </div>
       </ion-col>
     </ion-row>
 
-  <ion-row class="m-1">
+  <ion-row class="m-1" *ngIf="value === 'combine-operator'">
     <ion-col size="6" class="p-5 border-b-2">
       <div class="font-Lato font-semibold">Mike </div>
     </ion-col>
@@ -141,6 +141,38 @@
     </ion-col>
     <ion-col size="6" class="p-5 border-b-2">
       <div class="font-Lato font-semibold	">Mike </div>
+    </ion-col>
+    <ion-col size="6" class="p-5 border-b-2">
+      <div class="font-Lato">William</div>
+    </ion-col>
+    <ion-col size="6" class="p-5 border-b-2">
+      <div class="font-Lato font-semibold	">Mike </div>
+    </ion-col>
+    <ion-col size="6" class="p-5 border-b-2">
+      <div class="font-Lato">William</div>
+    </ion-col>
+    <ion-col size="6" class="p-5 border-b-2">
+      <div class="font-Lato font-semibold	">Mike </div>
+    </ion-col>
+    <ion-col size="6" class="p-5 border-b-2">
+      <div class="font-Lato">William</div>
+    </ion-col>
+    <ion-col size="6" class="p-5">
+      <div class="font-Lato font-semibold	">Mike </div>
+    </ion-col>
+    <ion-col size="6" class="p-5">
+      <div class="font-Lato">William</div>
+    </ion-col>
+  </ion-row>
+  <ion-row class="m-1" *ngIf="value === 'cart-operator'">
+    <ion-col size="6" class="p-5 border-b-2">
+      <div class="font-Lato font-semibold">Mike1 </div>
+    </ion-col>
+    <ion-col size="6" class="p-5 border-b-2">
+      <div class="font-Lato 	">William</div>
+    </ion-col>
+    <ion-col size="6" class="p-5 border-b-2">
+      <div class="font-Lato font-semibold	">Mike2 </div>
     </ion-col>
     <ion-col size="6" class="p-5 border-b-2">
       <div class="font-Lato">William</div>

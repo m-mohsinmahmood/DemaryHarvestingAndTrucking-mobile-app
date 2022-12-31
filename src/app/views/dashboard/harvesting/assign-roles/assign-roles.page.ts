@@ -43,6 +43,9 @@ export class AssignRolesPage implements OnInit {
   isCombineSelected: any = true;
   isCartSelected: any = true;
 
+  // for selected
+  value='combine-operator';
+
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
   constructor(private location: Location,
@@ -248,4 +251,12 @@ export class AssignRolesPage implements OnInit {
     this.allCartOperators = of([]);
   }
   //#endregion
+
+onClick(val: any ){
+  if (val === 'combine-operator') {
+      this.value = 'combine-operator';
+  } else {
+    this.value = 'cart-operator';
+  }
+}
 }

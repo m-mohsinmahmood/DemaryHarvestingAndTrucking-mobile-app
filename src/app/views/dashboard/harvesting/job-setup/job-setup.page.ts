@@ -147,6 +147,8 @@ export class JobSetupPage implements OnInit {
       farm_id: [''],
       crop_id: [''],
       field_id: [''],
+      is_close: [false],
+
     });
   }
   goBack() {
