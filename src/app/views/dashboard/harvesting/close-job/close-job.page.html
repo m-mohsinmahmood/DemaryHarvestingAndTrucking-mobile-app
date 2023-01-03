@@ -44,7 +44,7 @@ role ==='truck-driver'? 'Submit End of Day Work Data' : ''"
 <ion-content *ngIf="role === 'combine-operator'">
   <app-timer [value]="'22:32:43'"></app-timer>
   <div class="p-4">
-    <ion-card class="m-0 mb-4">
+    <!-- <ion-card class="m-0 mb-4">
       <ion-card-header>
         <ion-card-title class="font-Lato">Customer Profile</ion-card-title>
       </ion-card-header>
@@ -75,6 +75,47 @@ role ==='truck-driver'? 'Submit End of Day Work Data' : ''"
             <ion-col size="6" class="text-sm flex justify-end font-Lato "
               >Corn</ion-col
             >
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card> -->
+    <ion-card class="m-0 mb-2">
+      <ion-card-header>
+        <ion-card-title class="font-Lato">Customer Profile</ion-card-title>
+      </ion-card-header>
+      <ion-card-content *ngIf="(isLoadingCustomer$ | async) === false">
+        <ion-grid>
+          <ion-row>
+            <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Customer Name</ion-col>
+            <ion-col size="6" class="text-sm flex font-Lato ">{{this.customerData.customer_job[0].customer_name}}</ion-col>
+            <ion-col size="6" class="text-sm text-black font-Lato font-semibold">State</ion-col>
+            <ion-col size="6" class="text-sm flex font-Lato">{{this.customerData.customer_job[0].state}}</ion-col>
+            <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Farm</ion-col>
+            <ion-col size="6" class="text-sm flex font-Lato">{{this.customerData.customer_job[0].farm_name}} </ion-col>
+            <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Crop</ion-col>
+            <ion-col size="6" class="text-sm flex font-Lato">{{this.customerData.customer_job[0].crop_name}}</ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+      <ion-card-content *ngIf="(isLoadingCustomer$ | async) === true">
+        <ion-grid>
+          <ion-row>
+            <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Customer Name</ion-col>
+            <ion-col size="6" class="text-sm flex justify-end font-Lato ">
+              <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+            </ion-col>
+            <ion-col size="6" class="text-sm text-black font-Lato font-semibold">State</ion-col>
+            <ion-col size="6" class="text-sm flex justify-end font-Lato">
+              <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+            </ion-col>
+            <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Farm</ion-col>
+            <ion-col size="6" class="text-sm flex justify-end font-Lato">
+               <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+            </ion-col>
+            <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Crop</ion-col>
+            <ion-col size="6" class="text-sm flex justify-end font-Lato">
+                     <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+            </ion-col>
           </ion-row>
         </ion-grid>
       </ion-card-content>

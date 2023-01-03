@@ -21,13 +21,13 @@ role ==='truck-driver'? 'Enter Begining of Day Work Data' : ''"
         <ion-grid>
           <ion-row>
             <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Customer Name</ion-col>
-            <ion-col size="6" class="text-sm flex font-Lato ">{{this.customerData.customer_job[5].customer_name}}</ion-col>
+            <ion-col size="6" class="text-sm flex font-Lato ">{{this.customerData.customer_job[0].customer_name}}</ion-col>
             <ion-col size="6" class="text-sm text-black font-Lato font-semibold">State</ion-col>
-            <ion-col size="6" class="text-sm flex font-Lato">{{this.customerData.customer_job[5].state}}</ion-col>
+            <ion-col size="6" class="text-sm flex font-Lato">{{this.customerData.customer_job[0].state}}</ion-col>
             <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Farm</ion-col>
-            <ion-col size="6" class="text-sm flex font-Lato">{{this.customerData.customer_job[5].farm_name}} </ion-col>
+            <ion-col size="6" class="text-sm flex font-Lato">{{this.customerData.customer_job[0].farm_name}} </ion-col>
             <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Crop</ion-col>
-            <ion-col size="6" class="text-sm flex font-Lato">{{this.customerData.customer_job[5].crop_name}}</ion-col>
+            <ion-col size="6" class="text-sm flex font-Lato">{{this.customerData.customer_job[0].crop_name}}</ion-col>
           </ion-row>
         </ion-grid>
       </ion-card-content>
@@ -185,13 +185,13 @@ role ==='truck-driver'? 'Enter Begining of Day Work Data' : ''"
     <ion-grid>
       <ion-row>
         <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Customer Name</ion-col>
-        <ion-col size="6" class="text-sm flex font-Lato ">{{this.customerData.customer_job[5].customer_name}}</ion-col>
+        <ion-col size="6" class="text-sm flex font-Lato ">{{this.customerData.customer_job[0].customer_name}}</ion-col>
         <ion-col size="6" class="text-sm text-black font-Lato font-semibold">State</ion-col>
-        <ion-col size="6" class="text-sm flex font-Lato">{{this.customerData.customer_job[5].state}}</ion-col>
+        <ion-col size="6" class="text-sm flex font-Lato">{{this.customerData.customer_job[0].state}}</ion-col>
         <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Farm</ion-col>
-        <ion-col size="6" class="text-sm flex font-Lato">{{this.customerData.customer_job[5].farm_name}} </ion-col>
+        <ion-col size="6" class="text-sm flex font-Lato">{{this.customerData.customer_job[0].farm_name}} </ion-col>
         <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Crop</ion-col>
-        <ion-col size="6" class="text-sm flex font-Lato">{{this.customerData.customer_job[5].crop_name}}</ion-col>
+        <ion-col size="6" class="text-sm flex font-Lato">{{this.customerData.customer_job[0].crop_name}}</ion-col>
       </ion-row>
     </ion-grid>
   </ion-card-content>
@@ -353,13 +353,13 @@ role ==='truck-driver'? 'Enter Begining of Day Work Data' : ''"
     <ion-grid>
       <ion-row>
         <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Customer Name</ion-col>
-        <ion-col size="6" class="text-sm flex justify-end font-Lato">{{this.customerData.customer_job[5].customer_name}}</ion-col>
+        <ion-col size="6" class="text-sm flex justify-end font-Lato">{{this.customerData.customer_job[0].customer_name}}</ion-col>
         <ion-col size="6" class="text-sm text-black font-Lato font-semibold">State</ion-col>
-        <ion-col size="6" class="text-sm flex justify-end font-Lato">{{this.customerData.customer_job[5].state}}</ion-col>
+        <ion-col size="6" class="text-sm flex justify-end font-Lato">{{this.customerData.customer_job[0].state}}</ion-col>
         <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Farm</ion-col>
-        <ion-col size="6" class="text-sm flex justify-end font-Lato">{{this.customerData.customer_job[5].farm_name}} </ion-col>
+        <ion-col size="6" class="text-sm flex justify-end font-Lato">{{this.customerData.customer_job[0].farm_name}} </ion-col>
         <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Crop</ion-col>
-        <ion-col size="6" class="text-sm flex justify-end font-Lato">{{this.customerData.customer_job[5].crop_name}}</ion-col>
+        <ion-col size="6" class="text-sm flex justify-end font-Lato">{{this.customerData.customer_job[0].crop_name}}</ion-col>
       </ion-row>
     </ion-grid>
   </ion-card-content>
@@ -448,7 +448,7 @@ role ==='truck-driver'? 'Enter Begining of Day Work Data' : ''"
 <ion-content *ngIf="role === 'truck-driver'">
   <app-timer [value]="'23:00:12'"></app-timer>
   <div class="p-4">
-<ion-card class="m-0 mb-2">
+<!-- <ion-card class="m-0 mb-2">
   <ion-card-header>
     <ion-card-title class="font-Lato">Customer Profile</ion-card-title>
   </ion-card-header>
@@ -456,13 +456,13 @@ role ==='truck-driver'? 'Enter Begining of Day Work Data' : ''"
     <ion-grid>
       <ion-row>
         <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Customer Name</ion-col>
-        <ion-col size="6" class="text-sm flex justify-end font-Lato">{{this.customerData.customer_job[5].customer_name}}</ion-col>
+        <ion-col size="6" class="text-sm flex justify-end font-Lato">{{this.customerData.customer_job[0].customer_name}}</ion-col>
         <ion-col size="6" class="text-sm text-black font-Lato font-semibold">State</ion-col>
-        <ion-col size="6" class="text-sm flex justify-end font-Lato">{{this.customerData.customer_job[5].state}}</ion-col>
+        <ion-col size="6" class="text-sm flex justify-end font-Lato">{{this.customerData.customer_job[0].state}}</ion-col>
         <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Farm</ion-col>
-        <ion-col size="6" class="text-sm flex justify-end font-Lato">{{this.customerData.customer_job[5].farm_name}} </ion-col>
+        <ion-col size="6" class="text-sm flex justify-end font-Lato">{{this.customerData.customer_job[0].farm_name}} </ion-col>
         <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Crop</ion-col>
-        <ion-col size="6" class="text-sm flex justify-end font-Lato">{{this.customerData.customer_job[5].crop_name}}</ion-col>
+        <ion-col size="6" class="text-sm flex justify-end font-Lato">{{this.customerData.customer_job[0].crop_name}}</ion-col>
       </ion-row>
     </ion-grid>
   </ion-card-content>
@@ -487,9 +487,9 @@ role ==='truck-driver'? 'Enter Begining of Day Work Data' : ''"
       </ion-row>
     </ion-grid>
   </ion-card-content>
-</ion-card>
+</ion-card> -->
 
-<p class="text-xl font-bold font-Lato mt-8 ml-2 mb-2">Job Set-up</p>
+<p class="text-xl font-bold font-Lato mt-3 ml-2 mb-2">Job Set-up</p>
 <form [formGroup]="startJobFormTruck">
   <div class="px-2">
     <div class="col-span-12 mb-4">

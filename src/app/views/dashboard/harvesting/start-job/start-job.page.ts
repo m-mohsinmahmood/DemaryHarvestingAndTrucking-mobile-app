@@ -104,7 +104,15 @@ export class StartJobPage implements OnInit {
     this.location.back();
   }
   initApis() {
-    this.harvestingService.getJob();
+    if(this.role === 'crew-chief'){
+      this.harvestingService.getJobTesting('crew-chief');
+    }else if(this.role === 'combine-operator'){
+      this.harvestingService.getJobTesting('combine-operator');
+    }else if(this.role === 'kart-operator'){
+      this.harvestingService.getJobTesting('kart-operator');
+    }else if(this.role === 'truck-driver'){
+      // this.harvestingService.getJobTesting('truck-driver');
+    }
   }
   initObservables() {
     this.harvestingService.customer$.subscribe((res) => {
@@ -112,8 +120,8 @@ export class StartJobPage implements OnInit {
         this.customerData = res;
 
         // passing customer-id & farm-id to get the specific field
-        this.customerID = this.customerData.customer_job[5].customer_id;
-        this.farmID = this.customerData.customer_job[5].farm_id;
+        this.customerID = this.customerData.customer_job[0].customer_id;
+        this.farmID = this.customerData.customer_job[0].farm_id;
       }
     });
 
@@ -126,7 +134,7 @@ export class StartJobPage implements OnInit {
       beginning_separator_hours: ['', [Validators.required]],
       beginningEngineHours: ['', [Validators.required]],
       field_id: [''],
-      employeeId: ['5aec5490-57fe-4688-9ac3-b3e6e13bafb5'],
+      employeeId: ['2bf46542-d0bb-4ada-96e6-c103853c3f0d'],
     });
     this.startJobFormCombine = this.formBuilder.group({
       machineryId: [''],
@@ -193,7 +201,7 @@ export class StartJobPage implements OnInit {
     );
     }
 
-        // For Combine Operator
+        // For Kart Operator
         if(localStorage.getItem('role') === 'kart-operator'){
           this.harvestingService.createBeginingDay(this.startJobFormKart.value,'harvesting')
           .subscribe(

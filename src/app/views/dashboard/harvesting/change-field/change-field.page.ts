@@ -84,6 +84,7 @@ ngOnDestroy(): void {
 }
 initForms(){
   this.changeFieldFormChief = this.formBuilder.group({
+    employee_id: [''],
     customer_id:[''], // <-
     field_id: [''],
     field_name: [''],
@@ -91,10 +92,19 @@ initForms(){
     acres_completed: ['',[Validators.required]],
   });
   this.changeFieldFormKart = this.formBuilder.group({
-    field_id: ['',[Validators.required]],
-    acres_completed: ['',[Validators.required]],
+    employee_id: ['f4cfa75b-7c14-4b68-a192-00d56c9f2022'],
+    customer_id: [''],
+    state: [''],
+    farm_id: [''],
+    crop_id: [''],
+    field_id: [''],
+    field_id_new: [''],
+    total_gps_acres: ['',[Validators.required]],
+    is_field_changed: [true],
+    has_employee:[false]
   });
   this.changeFieldFormCombine = this.formBuilder.group({
+    employee_id: [''],
     field_id: ['',[Validators.required]],
     acres: ['',[Validators.required]],
     acres_completed: ['',[Validators.required]],
@@ -104,14 +114,33 @@ initForms(){
     status: [''],
   });
 }
-initApis(){
-  this.harvestingService.getJob();
+initApis() {
+  if(this.role === 'crew-chief'){
+    this.harvestingService.getJobTesting2('crew-chief','8920a566-003c-47f0-82dc-21e74196bb98');
+  }else if(this.role === 'combine-operator'){
+    this.harvestingService.getJobTesting2('combine-operator','3ac2db42-d0c1-4493-a0cf-b19deb834f46');
+  }else if(this.role === 'kart-operator'){
+    this.harvestingService.getJobTesting2('kart-operator','f4cfa75b-7c14-4b68-a192-00d56c9f2022');
+  }else if(this.role === 'truck-driver'){
+    this.harvestingService.getJobTesting2('truck-driver','edbce4de-bee6-40f9-b720-9ccf230bb3af');
+  }
 }
 initObservables(){
   this.harvestingService.customer$.subscribe((res)=>{
-    this.customerData = res;
     console.log('res::',res);
-    // console.log('eeee::',this.customerData.customer_job[0]);
+    if(res){
+      this.customerData = res;
+      console.log('--',this.customerData.customer_job.length);
+
+      this.changeFieldFormKart.patchValue({
+        customer_id: this.customerData.customer_job[0].customer_id,
+        state: this.customerData.customer_job[0].state,
+        farm_id: this.customerData.customer_job[0].farm_id,
+        crop_id: this.customerData.customer_job[0].crop_id,
+        field_id: this.customerData.customer_job[0].field_id,
+        has_employee: this.customerData.customer_job[0].has_employee,
+      });
+    }
   });
   this.harvestingService.customerLoading$.subscribe((val)=>{
     this.isLoading = val;
@@ -139,7 +168,7 @@ initObservables(){
         if(value === ''){ this.isFieldSelected = true;}
 
        // calling API
-       this.allFields = this.harvestingService.getFields(value,'customerFields',this.customerData.customer_job[5].customer_id,this.customerData.customer_job[5].farm_id);
+       this.allFields = this.harvestingService.getFields(value,'customerFields',this.customerData.customer_job[0].customer_id,this.customerData.customer_job[0].farm_id);
 
           // subscribing to show/hide field UL
           this.allFields.subscribe((fields) => {
@@ -170,10 +199,11 @@ initObservables(){
         : this.fieldSearchValue;
 
     // calling API // need id to check
-    this.allFields = this.harvestingService.getFields(value,'customerFields',this.customerData.customer_job[5].customer_id,this.customerData.customer_job[5].farm_id);
+    this.allFields = this.harvestingService.getFields(value,'customerFields',this.customerData.customer_job[0].customer_id,this.customerData.customer_job[0].farm_id);
 
           // subscribing to show/hide field UL
           this.allFields.subscribe((fields) => {
+            console.log('first',fields);
       if (fields.count === 0) {
         // hiding UL
         this.fieldUL = false;
@@ -194,14 +224,20 @@ initObservables(){
     // to enable submit button
     this.isFieldSelected = false;
 
-    // assigning values in form
-    this.changeFieldFormChief.setValue({
-    customer_id: this.changeFieldFormChief.get('customer_id').value,
-    field_id: field.field_id,
-    acres: this.changeFieldFormChief.get('acres').value,
-    acres_completed: this.changeFieldFormChief.get('acres_completed').value,
-    field_name: field.field_name,
-  });
+    // assigning values in form conditionally
+    if(this.role === 'crew-chief'){
+      this.changeFieldFormChief.setValue({
+      customer_id: this.changeFieldFormChief.get('customer_id').value,
+      field_id: field.field_id,
+      acres: this.changeFieldFormChief.get('acres').value,
+      acres_completed: this.changeFieldFormChief.get('acres_completed').value,
+      field_name: field.field_name,
+    });
+    }else if(this.role === 'kart-operator'){
+this.changeFieldFormKart.patchValue({
+  field_id_new: field.field_id,
+});
+    }
 
     // clearing array
     this.allFields = of([]);
@@ -209,26 +245,48 @@ initObservables(){
   //#endregion
   submit(){
     console.log(this.changeFieldFormChief.value);
-//  this.harvestingService.changeField(this.changeFieldFormChief.value)
- this.harvestingService.changeField(this.changeFieldFormChief.value)
- .subscribe(
-  (res: any) => {
-      console.log('Response Change Field:',res);
-      if(res.status === 200){
-        this.changeFieldFormChief.reset();
-        this.toastService.presentToast(res.message,'success');
-      }else{
-        console.log('Something happened :)');
-        this.toastService.presentToast(res.mssage,'danger');
-      }
-    },
-  (err) => {
-    this.toastService.presentToast(err,'danger');
-    console.log('Error:',err);
-  },
-);
+    console.log(this.changeFieldFormKart.value);
     console.log(this.changeFieldFormKart.value);
     console.log(this.changeFieldFormCombine.value);
+if(this.role === 'crew-chief'){
+  this.harvestingService.changeField(this.changeFieldFormChief.value)
+  .subscribe(
+   (res: any) => {
+       console.log('Response Change Field:',res);
+       if(res.status === 200){
+         this.changeFieldFormChief.reset();
+         this.toastService.presentToast(res.message,'success');
+       }else{
+         console.log('Something happened :)');
+         this.toastService.presentToast(res.mssage,'danger');
+       }
+     },
+   (err) => {
+     this.toastService.presentToast(err,'danger');
+     console.log('Error:',err);
+   },
+  );
+}
+else if(this.role === 'kart-operator'){
+  this.harvestingService.changeField(this.changeFieldFormKart.value)
+  .subscribe(
+   (res: any) => {
+       console.log('Response Change Field:',res);
+       if(res.status === 200){
+         this.changeFieldFormKart.reset();
+         this.toastService.presentToast(res.message,'success');
+       }else{
+         console.log('Something happened :)');
+         this.toastService.presentToast(res.mssage,'danger');
+       }
+     },
+   (err) => {
+     this.toastService.presentToast(err,'danger');
+     console.log('Error:',err);
+   },
+  );
+}
+
 
   }
 

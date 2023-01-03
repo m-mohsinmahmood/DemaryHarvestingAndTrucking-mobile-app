@@ -226,6 +226,22 @@ getJob() {
 
        })
  }
+ getJobTesting2(entity,employeeId) {
+  return this._httpClient
+       .get(`http://localhost:7071/api/customer-job-setup?entity=${entity}&employeeId=${employeeId}`)
+       .pipe(take(1))
+       .subscribe(
+        (res: any)=>{
+          this.customerLoading.next(true);
+         this.customer.next(res);
+         this.customerLoading.next(false)
+       },
+       (err)=>{
+        console.log('ERR:',err);
+        this.toastService.presentToast(err,'danger');
+
+       })
+ }
  getJob2() {
   return this._httpClient
        .get(`http://localhost:7071/api/customer-job-setup`)
@@ -259,9 +275,11 @@ startJob(data: any) {
  }
 
  changeField(data: any) {
-  console.log('Payload Change Field:',data);
+  // return this._httpClient
+  //      .put(`http://localhost:7071/api/customer-job-setup`, data)
+  //      .pipe(take(1));
   return this._httpClient
-       .put(`http://localhost:7071/api/customer-job-setup`, data)
+       .post(`http://localhost:7071/api/customer-job-setup`, data)
        .pipe(take(1));
  }
  closeBeginningDay(data: any) {

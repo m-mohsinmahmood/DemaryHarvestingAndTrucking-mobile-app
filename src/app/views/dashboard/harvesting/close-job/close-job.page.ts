@@ -4,6 +4,7 @@ import { Location } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HarvestingService } from './../harvesting.service';
 import { ToastService } from 'src/app/services/toast/toast.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-close-job',
@@ -16,6 +17,10 @@ closeJobFormCrew: FormGroup;
 closeJobFormCombine: FormGroup;
 closeJobFormKart: FormGroup;
 closeJobFormTruck: FormGroup;
+
+customerData: any;
+isLoadingCustomer$:  Observable<any>;
+
 
   constructor(
     private location: Location,
@@ -31,6 +36,29 @@ closeJobFormTruck: FormGroup;
     this.role = localStorage.getItem('role');
 
     this.initForms();
+    this.initApis();
+    this.initObservables();
+  }
+  initApis() {
+    if(this.role === 'crew-chief'){
+      this.harvestingService.getJobTesting('crew-chief');
+    }else if(this.role === 'combine-operator'){
+      this.harvestingService.getJobTesting('combine-operator');
+    }else if(this.role === 'kart-operator'){
+      this.harvestingService.getJobTesting('kart-operator');
+    }else if(this.role === 'truck-driver'){
+      this.harvestingService.getJobTesting('truck-driver');
+    }
+  }
+  initObservables() {
+    this.harvestingService.customer$.subscribe((res) => {
+      if(res){
+        this.customerData = res;
+      }
+    });
+
+    //Loader
+    this.isLoadingCustomer$ = this.harvestingService.customerLoading$;
   }
   goBack(){
     this.location.back();
@@ -90,7 +118,7 @@ closeJobFormTruck: FormGroup;
                 }
               },
               (err) => {
-                this.toastService.presentToast(err, 'danger');
+                this.toastService.presentToast(err.message, 'danger');
               },
             );
         }

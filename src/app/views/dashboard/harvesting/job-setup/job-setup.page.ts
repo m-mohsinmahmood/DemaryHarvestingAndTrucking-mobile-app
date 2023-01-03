@@ -281,21 +281,27 @@ export class JobSetupPage implements OnInit {
     this.customerUL = false;
 
     // removing farm & crop name from select
-    this.jobSetupForm.setValue({
-      state: this.jobSetupForm.get('state').value,
-      customer_id: '',
-      farm_id: '',
-      crop_id: '',
-      field_id: '',
-    });
+    // this.jobSetupForm.setValue({
+    //   state: this.jobSetupForm.get('state').value,
+    //   customer_id: '',
+    //   farm_id: '',
+    //   crop_id: '',
+    //   field_id: '',
+    // });
+    // this.jobSetupForm.patchValue({
+    //   state: this.jobSetupForm.get('state').value,
+    // });
 
     // assigning values in form
-    this.jobSetupForm.setValue({
-      state: this.jobSetupForm.get('state').value,
+    // this.jobSetupForm.setValue({
+    //   state: this.jobSetupForm.get('state').value,
+    //   customer_id: customer.id,
+    //   farm_id: this.jobSetupForm.get('farm_id').value,
+    //   crop_id: this.jobSetupForm.get('crop_id').value,
+    //   field_id: this.jobSetupForm.get('field_id').value,
+    // });
+    this.jobSetupForm.patchValue({
       customer_id: customer.id,
-      farm_id: this.jobSetupForm.get('farm_id').value,
-      crop_id: this.jobSetupForm.get('crop_id').value,
-      field_id: this.jobSetupForm.get('field_id').value,
     });
 
     // passing name in select's input
@@ -389,12 +395,12 @@ export class JobSetupPage implements OnInit {
 
     // assigning values in form
 
-    this.jobSetupForm.setValue({
-      state: this.jobSetupForm.get('state').value,
-      customer_id: this.jobSetupForm.get('customer_id').value,
+    this.jobSetupForm.patchValue({
+      // state: this.jobSetupForm.get('state').value,
+      // customer_id: this.jobSetupForm.get('customer_id').value,
       farm_id: farm.id,
-      crop_id: this.jobSetupForm.get('crop_id').value,
-      field_id: this.jobSetupForm.get('field_id').value,
+      // crop_id: this.jobSetupForm.get('crop_id').value,
+      // field_id: this.jobSetupForm.get('field_id').value,
     });
 
       // passing name in select's input
@@ -484,12 +490,12 @@ export class JobSetupPage implements OnInit {
 
     // assigning values in form
 
-    this.jobSetupForm.setValue({
-      state: this.jobSetupForm.get('state').value,
-      customer_id: this.jobSetupForm.get('customer_id').value,
-      farm_id: this.jobSetupForm.get('farm_id').value,
+    this.jobSetupForm.patchValue({
+      // state: this.jobSetupForm.get('state').value,
+      // customer_id: this.jobSetupForm.get('customer_id').value,
+      // farm_id: this.jobSetupForm.get('farm_id').value,
       crop_id: crop.crop_id,
-      field_id: this.jobSetupForm.get('field_id').value,
+      // field_id: this.jobSetupForm.get('field_id').value,
     });
 
     // clearing array
@@ -568,11 +574,11 @@ listClickedField(field) {
   this.isFieldSelected = false;
 
   // assigning values in form
-  this.jobSetupForm.setValue({
-    state: this.jobSetupForm.get('state').value,
-    customer_id: this.jobSetupForm.get('customer_id').value,
-    farm_id: this.jobSetupForm.get('farm_id').value,
-    crop_id: this.jobSetupForm.get('crop_id').value,
+  this.jobSetupForm.patchValue({
+    // state: this.jobSetupForm.get('state').value,
+    // customer_id: this.jobSetupForm.get('customer_id').value,
+    // farm_id: this.jobSetupForm.get('farm_id').value,
+    // crop_id: this.jobSetupForm.get('crop_id').value,
     field_id: field.field_id,
   });
 

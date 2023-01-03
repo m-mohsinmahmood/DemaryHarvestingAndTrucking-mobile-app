@@ -163,7 +163,8 @@ export class ChangeFarmPage implements OnInit {
   }
 
 initApis(){
-  this.harvestingService.getJob();
+  // getting for crew-chief only
+  this.harvestingService.getJobTesting('crew-chief');
 }
 initObservables(){
   this.harvestingService.customer$.subscribe((res)=>{

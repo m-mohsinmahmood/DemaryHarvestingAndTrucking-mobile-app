@@ -155,12 +155,14 @@ export class TicketPage implements OnInit {
     this._unsubscribeAll.complete();
   }
   initApis() {
-    this.harvestingService.getJob();
+    this.harvestingService.getJobTesting('kart-operator');
   }
   initObservables() {
     this.harvestingService.customer$.subscribe((res) => {
-      this.customerData = res;
       console.log('Ticket:::', res);
+      if(res){
+        this.customerData = res;
+      }
     });
 
     this.harvestingService.customerLoading$.subscribe((val) => {
@@ -172,12 +174,12 @@ export class TicketPage implements OnInit {
   }
   patchForm() {
     this.deliveryTicketForm.patchValue({
-      customer_id: this.customerData.customer_job[5].customer_id,
-      state: this.customerData.customer_job[5].state,
-      farm_id: this.customerData.customer_job[5].farm_id,
-      crop_id: this.customerData.customer_job[5].crop_id,
-      field_id: this.customerData.customer_job[5].field_id,
-      field: this.customerData.customer_job[5].field_name,
+      customer_id: this.customerData.customer_job[0].customer_id,
+      state: this.customerData.customer_job[0].state,
+      farm_id: this.customerData.customer_job[0].farm_id,
+      crop_id: this.customerData.customer_job[0].crop_id,
+      field_id: this.customerData.customer_job[0].field_id,
+      field: this.customerData.customer_job[0].field_name,
     });
   }
   getTicketById(){

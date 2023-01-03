@@ -13,15 +13,15 @@
     <ion-grid>
       <ion-row >
         <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Customer Name</ion-col>
-        <ion-col size="6" class="text-sm font-Lato">{{customerData?.customer_job[5].customer_name}}</ion-col>
+        <ion-col size="6" class="text-sm font-Lato">{{customerData?.customer_job[0].customer_name}}</ion-col>
         <ion-col size="6" class="text-sm text-black font-Lato font-semibold">State</ion-col>
-        <ion-col size="6" class="text-sm font-Lato">{{customerData?.customer_job[5].state}} </ion-col>
+        <ion-col size="6" class="text-sm font-Lato">{{customerData?.customer_job[0].state}} </ion-col>
         <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Farm</ion-col>
-        <ion-col size="6" class="text-sm font-Lato">{{customerData?.customer_job[5].farm_name}} </ion-col>
+        <ion-col size="6" class="text-sm font-Lato">{{customerData?.customer_job[0].farm_name}} </ion-col>
         <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Crop</ion-col>
-        <ion-col size="6" class="text-sm font-Lato">{{customerData?.customer_job[5].crop_name}} </ion-col>
+        <ion-col size="6" class="text-sm font-Lato">{{customerData?.customer_job[0].crop_name}} </ion-col>
         <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Current Field</ion-col>
-        <ion-col size="6" class="text-sm font-Lato">{{customerData?.customer_job[5].field_name}} </ion-col>
+        <ion-col size="6" class="text-sm font-Lato">{{customerData?.customer_job[0].field_name}} </ion-col>
       </ion-row>
     </ion-grid>
   </ion-card-content>
@@ -80,7 +80,7 @@
                   color="primary"></ion-spinner>
               </div>
               <ul *ngIf="allFields?.value && fieldUL"
-                class="-mb-2 max-h-44 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800 bg-white drop-shadow-lg absolute w-full"
+                class="-mb-2 max-h-44 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800 bg-white absolute w-full"
                 id="options" role="listbox">
                 <li *ngFor="let field of (allFields?.value.customer_fields)" (click)="listClickedField(field)"
                   class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200" role="option"
@@ -128,15 +128,15 @@
     <ion-grid>
       <ion-row >
         <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Customer Name</ion-col>
-        <ion-col size="6" class="text-sm font-Lato">{{customerData?.customer_job[5].customer_name}}</ion-col>
+        <ion-col size="6" class="text-sm font-Lato">{{customerData?.customer_job[0].customer_name}}</ion-col>
         <ion-col size="6" class="text-sm text-black font-Lato font-semibold">State</ion-col>
-        <ion-col size="6" class="text-sm font-Lato">{{customerData?.customer_job[5].state}} </ion-col>
+        <ion-col size="6" class="text-sm font-Lato">{{customerData?.customer_job[0].state}} </ion-col>
         <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Farm</ion-col>
-        <ion-col size="6" class="text-sm font-Lato">{{customerData?.customer_job[5].farm_name}} </ion-col>
+        <ion-col size="6" class="text-sm font-Lato">{{customerData?.customer_job[0].farm_name}} </ion-col>
         <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Crop</ion-col>
-        <ion-col size="6" class="text-sm font-Lato">{{customerData?.customer_job[5].crop_name}} </ion-col>
+        <ion-col size="6" class="text-sm font-Lato">{{customerData?.customer_job[0].crop_name}} </ion-col>
         <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Current Field</ion-col>
-        <ion-col size="6" class="text-sm font-Lato">{{customerData?.customer_job[5].field_name}} </ion-col>
+        <ion-col size="6" class="text-sm font-Lato">{{customerData?.customer_job[0].field_name}} </ion-col>
       </ion-row>
     </ion-grid>
   </ion-card-content>
@@ -207,15 +207,15 @@
     <ion-grid>
       <ion-row >
         <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Customer Name</ion-col>
-        <ion-col size="6" class="text-sm font-Lato">{{customerData?.customer_job[5].customer_name}}</ion-col>
+        <ion-col size="6" class="text-sm font-Lato">{{customerData?.customer_job[0].customer_name}}</ion-col>
         <ion-col size="6" class="text-sm text-black font-Lato font-semibold">State</ion-col>
-        <ion-col size="6" class="text-sm font-Lato">{{customerData?.customer_job[5].state}} </ion-col>
+        <ion-col size="6" class="text-sm font-Lato">{{customerData?.customer_job[0].state}} </ion-col>
         <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Farm</ion-col>
-        <ion-col size="6" class="text-sm font-Lato">{{customerData?.customer_job[5].farm_name}} </ion-col>
+        <ion-col size="6" class="text-sm font-Lato">{{customerData?.customer_job[0].farm_name}} </ion-col>
         <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Crop</ion-col>
-        <ion-col size="6" class="text-sm font-Lato">{{customerData?.customer_job[5].crop_name}} </ion-col>
+        <ion-col size="6" class="text-sm font-Lato">{{customerData?.customer_job[0].crop_name}} </ion-col>
         <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Current Field</ion-col>
-        <ion-col size="6" class="text-sm font-Lato">{{customerData?.customer_job[5].field_name}} </ion-col>
+        <ion-col size="6" class="text-sm font-Lato">{{customerData?.customer_job[0].field_name}} </ion-col>
       </ion-row>
     </ion-grid>
   </ion-card-content>
@@ -248,17 +248,62 @@
 </ion-card>
 <form [formGroup]="changeFieldFormKart">
   <div class="px-2">
-    <div class="col-span-12 mb-4">
+    <!-- <div class="col-span-12 mb-4">
       <label class="block text-sm font-medium text-gray-700">Enter New Field <span *ngIf="this.changeFieldFormKart.get('field_id').hasError('required')" class="text-red-400">*</span></label>
       <input
         class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
         formControlName="field_id" placeholder="Enter New Field">
-    </div>
+    </div> -->
+    <div
+        [ngClass]="'opacity-100 visible ease-in duration-200'"
+        class="" role="dialog" aria-modal="true">
+
+        <div
+          [ngClass]="'opacity-100 visible scale-100 ease-in duration-200'"
+          class="mb-4 relative z-20">
+          <div class="mx-auto max-w-full transform rounded-xl px-0 transition-all">
+            <label class="block text-sm font-medium text-gray-700 mb-1">Field Name <span
+              *ngIf="isFieldSelected"
+              class="text-red-400">*</span></label>
+            <div class="flex items-center justify-between gap-x-2 rounded-md">
+              <input (keyup)="field_search$.next($event.target.value)"
+               (click)="inputClickedField()" [value]="field_name"
+               #fieldInput
+               class="{{isFieldDisabled? 'pointer-events-none bg-gray-200 w-full px-4 py-2.5 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500': 'w-full px-4 py-2.5 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500'}}"
+               placeholder="Select Field" role="" aria-expanded="false" aria-controls="options">
+            </div>
+
+            <div *ngIf="allFields | withLoading | async as allFields" class="">
+              <div class="flex justify-center items-center">
+                <ion-spinner *ngIf="allFields?.loading" name="crescent" mode="indeterminate"
+                  color="primary"></ion-spinner>
+              </div>
+              <ul *ngIf="allFields?.value && fieldUL"
+                class="-mb-2 max-h-44 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800 bg-white absolute w-full"
+                id="options" role="listbox">
+                <li *ngFor="let field of (allFields?.value.customer_fields)" (click)="listClickedField(field)"
+                  class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200" role="option"
+                  tabindex="-1">
+                  <div class="flex items-center p-2">
+                    {{field.field_name}}
+                  </div>
+                </li>
+              </ul>
+              <div *ngIf="allFields?.value?.customer_fields?.length === 0">
+                <p disabled
+                  class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200 text-gray-500 hover:text-gray-700 hover:font-semibold">
+                  No Fields(s) found </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
     <div class="col-span-12 mb-4">
-      <label class="block text-sm font-medium text-gray-700">GPS Acres Completed (for prior field) <span *ngIf="this.changeFieldFormKart.get('acres_completed').hasError('required')" class="text-red-400">*</span></label>
+      <label class="block text-sm font-medium text-gray-700">GPS Acres Completed (for prior field) <span *ngIf="this.changeFieldFormKart.get('total_gps_acres').hasError('required')" class="text-red-400">*</span></label>
       <input
         class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-        formControlName="acres_completed" placeholder="GPS Acres Completed (for prior field)">
+        formControlName="total_gps_acres" placeholder="GPS Acres Completed (for prior field)">
     </div>
     <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="submit()" [disabled]="changeFieldFormKart.invalid">Save</ion-button>
   </div>
