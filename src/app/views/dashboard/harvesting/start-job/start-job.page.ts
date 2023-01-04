@@ -103,15 +103,60 @@ export class StartJobPage implements OnInit {
   goBack() {
     this.location.back();
   }
+  initForms() {
+    this.startJobFormCrew = this.formBuilder.group({
+      machineryId: ['', [Validators.required]],
+      job_id:[''],
+      beginning_separator_hours: ['', [Validators.required]],
+      beginningEngineHours: ['', [Validators.required]],
+      field_id: [''],
+      employeeId: ['8920a566-003c-47f0-82dc-21e74196bb98'],
+    });
+    this.startJobFormCombine = this.formBuilder.group({
+      machineryId: [''],
+      job_id:[''],
+      beginning_separator_hours: ['', [Validators.required]],
+      beginningEngineHours: ['', [Validators.required]],
+      field_id: [''],
+      field_acres: ['', [Validators.required]],
+      employeeId: ['3ac2db42-d0c1-4493-a0cf-b19deb834f46'],
+
+    });
+    this.startJobFormKart = this.formBuilder.group({
+      machineryId: [''],
+      job_id:[''],
+      beginningEngineHours: ['', [Validators.required]],
+      employeeId: ['f4cfa75b-7c14-4b68-a192-00d56c9f2022'],
+
+    });
+    this.startJobFormTruck = this.formBuilder.group({
+      job_id:[''],
+      truck_id: ['', [Validators.required]],
+      crew_chief_id: ['1a4d594b-726c-46e4-b677-5e4a78adbc1e'],
+      truck_company: ['', [Validators.required]],
+      begining_odometer_miles: ['', [Validators.required]],
+      employeeId: ['edbce4de-bee6-40f9-b720-9ccf230bb3af'],
+
+    });
+  }
   initApis() {
+    // if(this.role === 'crew-chief'){
+    //   this.harvestingService.getJobTesting('crew-chief');
+    // }else if(this.role === 'combine-operator'){
+    //   this.harvestingService.getJobTesting('combine-operator');
+    // }else if(this.role === 'kart-operator'){
+    //   this.harvestingService.getJobTesting('kart-operator');
+    // }else if(this.role === 'truck-driver'){
+    //   // this.harvestingService.getJobTesting('truck-driver');
+    // }
     if(this.role === 'crew-chief'){
-      this.harvestingService.getJobTesting('crew-chief');
+      this.harvestingService.getJobTesting2('crew-chief','8920a566-003c-47f0-82dc-21e74196bb98');
     }else if(this.role === 'combine-operator'){
-      this.harvestingService.getJobTesting('combine-operator');
+      this.harvestingService.getJobTesting2('combine-operator','3ac2db42-d0c1-4493-a0cf-b19deb834f46');
     }else if(this.role === 'kart-operator'){
-      this.harvestingService.getJobTesting('kart-operator');
+      this.harvestingService.getJobTesting2('kart-operator','f4cfa75b-7c14-4b68-a192-00d56c9f2022');
     }else if(this.role === 'truck-driver'){
-      // this.harvestingService.getJobTesting('truck-driver');
+      this.harvestingService.getJobTesting2('truck-driver','edbce4de-bee6-40f9-b720-9ccf230bb3af');
     }
   }
   initObservables() {
@@ -122,43 +167,30 @@ export class StartJobPage implements OnInit {
         // passing customer-id & farm-id to get the specific field
         this.customerID = this.customerData.customer_job[0].customer_id;
         this.farmID = this.customerData.customer_job[0].farm_id;
+
+        // passing job id's conditionally for DWR
+        if (this.role === 'crew-chief') {
+          this.startJobFormCrew.patchValue({
+            job_id: this.customerData.customer_job[0].job_id,
+          });
+        } else if (this.role === 'kart-operator') {
+          this.startJobFormKart.patchValue({
+            job_id: this.customerData.customer_job[0].job_id,
+          });
+        } else if (this.role === 'combine-operator') {
+          this.startJobFormCombine.patchValue({
+            job_id: this.customerData.customer_job[0].job_id,
+          });
+        } else if (this.role === 'truck-driver') {
+          this.startJobFormTruck.patchValue({
+            job_id: this.customerData.customer_job[0].job_id,
+          });
+        }
       }
     });
 
     //Loader
     this.isLoadingCustomer$ = this.harvestingService.customerLoading$;
-  }
-  initForms() {
-    this.startJobFormCrew = this.formBuilder.group({
-      machineryId: ['', [Validators.required]],
-      beginning_separator_hours: ['', [Validators.required]],
-      beginningEngineHours: ['', [Validators.required]],
-      field_id: [''],
-      employeeId: ['2bf46542-d0bb-4ada-96e6-c103853c3f0d'],
-    });
-    this.startJobFormCombine = this.formBuilder.group({
-      machineryId: [''],
-      beginning_separator_hours: ['', [Validators.required]],
-      beginningEngineHours: ['', [Validators.required]],
-      field_id: [''],
-      field_acres: ['', [Validators.required]],
-      employeeId: ['e4d3e774-fade-4603-93ba-c03ef6f6c150'],
-
-    });
-    this.startJobFormKart = this.formBuilder.group({
-      machineryId: [''],
-      beginningEngineHours: ['', [Validators.required]],
-      employeeId: ['daea0b53-f5f5-4d0e-ac6b-1175542f74b0'],
-
-    });
-    this.startJobFormTruck = this.formBuilder.group({
-      truck_id: ['', [Validators.required]],
-      crew_chief_id: ['1a4d594b-726c-46e4-b677-5e4a78adbc1e'],
-      truck_company: ['', [Validators.required]],
-      begining_odometer_miles: ['', [Validators.required]],
-      employeeId: ['2bf46542-d0bb-4ada-96e6-c103853c3f0d'],
-
-    });
   }
   submit() {
     console.log(this.startJobFormCrew.value);

@@ -40,15 +40,26 @@ isLoadingCustomer$:  Observable<any>;
     this.initObservables();
   }
   initApis() {
-    if(this.role === 'crew-chief'){
-      this.harvestingService.getJobTesting('crew-chief');
-    }else if(this.role === 'combine-operator'){
-      this.harvestingService.getJobTesting('combine-operator');
-    }else if(this.role === 'kart-operator'){
-      this.harvestingService.getJobTesting('kart-operator');
-    }else if(this.role === 'truck-driver'){
-      this.harvestingService.getJobTesting('truck-driver');
+    // if(this.role === 'crew-chief'){
+    //   this.harvestingService.getJobTesting('crew-chief');
+    // }else if(this.role === 'combine-operator'){
+    //   this.harvestingService.getJobTesting('combine-operator');
+    // }else if(this.role === 'kart-operator'){
+    //   this.harvestingService.getJobTesting('kart-operator');
+    // }else if(this.role === 'truck-driver'){
+    //   this.harvestingService.getJobTesting('truck-driver');
+    // }
+    // if(this.role === 'crew-chief'){
+    //   this.harvestingService.getJobTesting2('crew-chief','8920a566-003c-47f0-82dc-21e74196bb98');
+    // }
+     if(this.role === 'combine-operator'){
+      this.harvestingService.getJobTesting2('combine-operator','3ac2db42-d0c1-4493-a0cf-b19deb834f46');
     }
+    // else if(this.role === 'kart-operator'){
+    //   this.harvestingService.getJobTesting2('kart-operator','f4cfa75b-7c14-4b68-a192-00d56c9f2022');
+    // }else if(this.role === 'truck-driver'){
+    //   this.harvestingService.getJobTesting2('truck-driver','edbce4de-bee6-40f9-b720-9ccf230bb3af');
+    // }
   }
   initObservables() {
     this.harvestingService.customer$.subscribe((res) => {
@@ -67,23 +78,23 @@ isLoadingCustomer$:  Observable<any>;
     this.closeJobFormCrew = this.formBuilder.group({
       ending_separator_hours: ['',[Validators.required]],
       endingEngineHours: ['',[Validators.required]],
-      employeeId: ['5aec5490-57fe-4688-9ac3-b3e6e13bafb5'],
+      employeeId: ['8920a566-003c-47f0-82dc-21e74196bb98'],
     });
     this.closeJobFormCombine = this.formBuilder.group({
 
       ending_separator_hours: ['',[Validators.required]],
       endingEngineHours: ['',[Validators.required]],
-      employeeId: ['e4d3e774-fade-4603-93ba-c03ef6f6c150'],
+      employeeId: ['3ac2db42-d0c1-4493-a0cf-b19deb834f46'],
     });
 
     this.closeJobFormKart = this.formBuilder.group({
       endingEngineHours: ['',[Validators.required]],
-      employeeId: ['daea0b53-f5f5-4d0e-ac6b-1175542f74b0'],
+      employeeId: ['f4cfa75b-7c14-4b68-a192-00d56c9f2022'],
 
     });
     this.closeJobFormTruck = this.formBuilder.group({
       ending_odometer_miles: ['',[Validators.required]],
-      employeeId: ['2bf46542-d0bb-4ada-96e6-c103853c3f0d'],
+      employeeId: ['edbce4de-bee6-40f9-b720-9ccf230bb3af'],
     });
   }
   submit(){

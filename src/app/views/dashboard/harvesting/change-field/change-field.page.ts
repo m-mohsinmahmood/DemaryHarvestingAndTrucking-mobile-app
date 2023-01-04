@@ -84,12 +84,18 @@ ngOnDestroy(): void {
 }
 initForms(){
   this.changeFieldFormChief = this.formBuilder.group({
-    employee_id: [''],
+    employee_id: ['8920a566-003c-47f0-82dc-21e74196bb98'],
     customer_id:[''], // <-
+    state: [''],
     field_id: [''],
+    farm_id: [''],
+    crop_id: [''],
     field_name: [''],
-    acres: ['',[Validators.required]],
-    acres_completed: ['',[Validators.required]],
+    total_acres: ['',[Validators.required]],
+    total_gps_acres: ['',[Validators.required]],
+    field_id_new: [''],
+    is_field_changed: [true],
+    has_employee:[false]
   });
   this.changeFieldFormKart = this.formBuilder.group({
     employee_id: ['f4cfa75b-7c14-4b68-a192-00d56c9f2022'],
@@ -130,9 +136,17 @@ initObservables(){
     console.log('res::',res);
     if(res){
       this.customerData = res;
-      console.log('--',this.customerData.customer_job.length);
+      // console.log('--',this.customerData.customer_job.length);
 
       this.changeFieldFormKart.patchValue({
+        customer_id: this.customerData.customer_job[0].customer_id,
+        state: this.customerData.customer_job[0].state,
+        farm_id: this.customerData.customer_job[0].farm_id,
+        crop_id: this.customerData.customer_job[0].crop_id,
+        field_id: this.customerData.customer_job[0].field_id,
+        has_employee: this.customerData.customer_job[0].has_employee,
+      });
+      this.changeFieldFormChief.patchValue({
         customer_id: this.customerData.customer_job[0].customer_id,
         state: this.customerData.customer_job[0].state,
         farm_id: this.customerData.customer_job[0].farm_id,
@@ -226,12 +240,12 @@ initObservables(){
 
     // assigning values in form conditionally
     if(this.role === 'crew-chief'){
-      this.changeFieldFormChief.setValue({
-      customer_id: this.changeFieldFormChief.get('customer_id').value,
-      field_id: field.field_id,
-      acres: this.changeFieldFormChief.get('acres').value,
-      acres_completed: this.changeFieldFormChief.get('acres_completed').value,
-      field_name: field.field_name,
+      this.changeFieldFormChief.patchValue({
+      // customer_id: this.changeFieldFormChief.get('customer_id').value,
+      field_id_new: field.field_id,
+      // acres: this.changeFieldFormChief.get('acres').value,
+      // acres_completed: this.changeFieldFormChief.get('acres_completed').value,
+      // field_name: field.field_name,
     });
     }else if(this.role === 'kart-operator'){
 this.changeFieldFormKart.patchValue({
