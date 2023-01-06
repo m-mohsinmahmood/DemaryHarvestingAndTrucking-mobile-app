@@ -155,7 +155,9 @@ export class TicketPage implements OnInit {
     this._unsubscribeAll.complete();
   }
   initApis() {
-    this.harvestingService.getJobTesting('kart-operator');
+    // this.harvestingService.getJobTesting('kart-operator');
+    this.harvestingService.getJobTesting2('kart-operator','f4cfa75b-7c14-4b68-a192-00d56c9f2022');
+
   }
   initObservables() {
     this.harvestingService.customer$.subscribe((res) => {

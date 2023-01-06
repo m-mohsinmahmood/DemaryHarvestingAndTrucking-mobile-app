@@ -20,6 +20,7 @@ closeJobFormTruck: FormGroup;
 
 customerData: any;
 isLoadingCustomer$:  Observable<any>;
+dataDWR: any;
 
 
   constructor(
@@ -49,9 +50,15 @@ isLoadingCustomer$:  Observable<any>;
     // }else if(this.role === 'truck-driver'){
     //   this.harvestingService.getJobTesting('truck-driver');
     // }
-    // if(this.role === 'crew-chief'){
-    //   this.harvestingService.getJobTesting2('crew-chief','8920a566-003c-47f0-82dc-21e74196bb98');
-    // }
+    if(this.role === 'crew-chief'){
+      this.harvestingService.getJobTesting2('crew-chief','8920a566-003c-47f0-82dc-21e74196bb98');
+      // this.harvestingService.getDWR('8920a566-003c-47f0-82dc-21e74196bb98','beginningOfDay')
+      // .subscribe((res)=>{
+      //   console.log('RESS:',res);
+      //   this.dataDWR = res;
+
+      // });
+    }
      if(this.role === 'combine-operator'){
       this.harvestingService.getJobTesting2('combine-operator','3ac2db42-d0c1-4493-a0cf-b19deb834f46');
     }

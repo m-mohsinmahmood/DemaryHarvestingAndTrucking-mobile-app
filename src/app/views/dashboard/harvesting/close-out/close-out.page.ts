@@ -57,14 +57,23 @@ export class CloseOutPage implements OnInit {
     });
   }
   initApis(){
+    // if(this.role === 'crew-chief'){
+    //   this.harvestingservice.getJobTesting('crew-chief');
+    // }else if(this.role === 'combine-operator'){
+    //   this.harvestingservice.getJobTesting('combine-operator');
+    // }else if(this.role === 'kart-operator'){
+    //   this.harvestingservice.getJobTesting('kart-operator');
+    // }else if(this.role === 'truck-driver'){
+    //   this.harvestingservice.getJobTesting('truck-driver');
+    // }
     if(this.role === 'crew-chief'){
-      this.harvestingservice.getJobTesting('crew-chief');
+      this.harvestingservice.getJobTesting2('crew-chief','8920a566-003c-47f0-82dc-21e74196bb98');
     }else if(this.role === 'combine-operator'){
-      this.harvestingservice.getJobTesting('combine-operator');
+      this.harvestingservice.getJobTesting2('combine-operator','3ac2db42-d0c1-4493-a0cf-b19deb834f46');
     }else if(this.role === 'kart-operator'){
-      this.harvestingservice.getJobTesting('kart-operator');
+      this.harvestingservice.getJobTesting2('kart-operator','f4cfa75b-7c14-4b68-a192-00d56c9f2022');
     }else if(this.role === 'truck-driver'){
-      this.harvestingservice.getJobTesting('truck-driver');
+      this.harvestingservice.getJobTesting2('truck-driver','edbce4de-bee6-40f9-b720-9ccf230bb3af');
     }
 
   }

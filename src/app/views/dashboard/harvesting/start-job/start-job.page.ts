@@ -56,6 +56,9 @@ export class StartJobPage implements OnInit {
   customerData: any;
   add_location_overlay = true;
 
+  //field name for pre-filled
+  fieldName: any;
+
   isLoadingCustomer$:  Observable<any>;
 
   private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -70,20 +73,23 @@ export class StartJobPage implements OnInit {
   ) {
     if(localStorage.getItem('role') === 'crew-chief' || localStorage.getItem('role') === 'combine-operator'){
       this.renderer.listen('window', 'click', (e) => {
-        if (e.target !== this.fieldInput.nativeElement) {
-          this.allFields = of([]);
-          this.fieldUL = false; // to hide the UL
-        }
-        else if (e.target !== this.machineryInput.nativeElement) {
+        // if (e.target !== this.fieldInput.nativeElement) {
+        //   this.allFields = of([]);
+        //   this.fieldUL = false; // to hide the UL
+        // }
+         if (e.target !== this.machineryInput.nativeElement) {
           this.allMachinery = of([]);
           this.machineUL = false; // to hide the UL
         }
       });
     }
+
+
   }
 
   ngOnInit() {
     this.role = localStorage.getItem('role');
+
     this.initForms();
       this.initApis();
       this.initObservables();
@@ -163,6 +169,7 @@ export class StartJobPage implements OnInit {
     this.harvestingService.customer$.subscribe((res) => {
       if(res){
         this.customerData = res;
+        console.log(this.customerData)
 
         // passing customer-id & farm-id to get the specific field
         this.customerID = this.customerData.customer_job[0].customer_id;
@@ -172,11 +179,18 @@ export class StartJobPage implements OnInit {
         if (this.role === 'crew-chief') {
           this.startJobFormCrew.patchValue({
             job_id: this.customerData.customer_job[0].job_id,
+            field_id: this.customerData.customer_job[0].field_id, // passing to pre-filled
           });
-        } else if (this.role === 'kart-operator') {
+
+          // passing field name for pre-filled
+          this.fieldName = this.customerData.customer_job[0].field_name;
+
+     } else if (this.role === 'kart-operator') {
           this.startJobFormKart.patchValue({
             job_id: this.customerData.customer_job[0].job_id,
           });
+          console.log('-',this.startJobFormKart.value);
+
         } else if (this.role === 'combine-operator') {
           this.startJobFormCombine.patchValue({
             job_id: this.customerData.customer_job[0].job_id,

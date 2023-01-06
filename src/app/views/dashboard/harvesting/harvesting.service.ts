@@ -257,6 +257,11 @@ getJob() {
 
        })
  }
+ getDWR(employeeId,searchClause){
+  return this._httpClient
+       .get(`http://localhost:7071/api/dwr?employeeId=${employeeId}&searchClause=${searchClause}`)
+       .pipe(take(1));
+ }
 
 startJob(data: any) {
   return this._httpClient

@@ -84,7 +84,7 @@ ngOnDestroy(): void {
 }
 initForms(){
   this.changeFieldFormChief = this.formBuilder.group({
-    employee_id: ['8920a566-003c-47f0-82dc-21e74196bb98'],
+    employeeId: ['8920a566-003c-47f0-82dc-21e74196bb98'],
     customer_id:[''], // <-
     state: [''],
     field_id: [''],
@@ -95,10 +95,12 @@ initForms(){
     total_gps_acres: ['',[Validators.required]],
     field_id_new: [''],
     is_field_changed: [true],
-    has_employee:[false]
+    has_employee:[false],
+    job_id:[''],
+
   });
   this.changeFieldFormKart = this.formBuilder.group({
-    employee_id: ['f4cfa75b-7c14-4b68-a192-00d56c9f2022'],
+    employeeId: ['f4cfa75b-7c14-4b68-a192-00d56c9f2022'],
     customer_id: [''],
     state: [''],
     farm_id: [''],
@@ -107,13 +109,18 @@ initForms(){
     field_id_new: [''],
     total_gps_acres: ['',[Validators.required]],
     is_field_changed: [true],
-    has_employee:[false]
+    has_employee:[false],
+    job_id:[''],
+
   });
+  // if change field added
   this.changeFieldFormCombine = this.formBuilder.group({
-    employee_id: [''],
+    employeeId: [''],
     field_id: ['',[Validators.required]],
     acres: ['',[Validators.required]],
     acres_completed: ['',[Validators.required]],
+    job_id:[''],
+
   });
   this.customerFiltersForm = this.formBuilder.group({
     type: [''],
@@ -145,6 +152,7 @@ initObservables(){
         crop_id: this.customerData.customer_job[0].crop_id,
         field_id: this.customerData.customer_job[0].field_id,
         has_employee: this.customerData.customer_job[0].has_employee,
+        job_id: this.customerData.customer_job[0].job_id,
       });
       this.changeFieldFormChief.patchValue({
         customer_id: this.customerData.customer_job[0].customer_id,
@@ -153,6 +161,7 @@ initObservables(){
         crop_id: this.customerData.customer_job[0].crop_id,
         field_id: this.customerData.customer_job[0].field_id,
         has_employee: this.customerData.customer_job[0].has_employee,
+        job_id: this.customerData.customer_job[0].job_id,
       });
     }
   });
@@ -263,6 +272,7 @@ this.changeFieldFormKart.patchValue({
     console.log(this.changeFieldFormKart.value);
     console.log(this.changeFieldFormCombine.value);
 if(this.role === 'crew-chief'){
+  // changing field
   this.harvestingService.changeField(this.changeFieldFormChief.value)
   .subscribe(
    (res: any) => {
@@ -280,6 +290,32 @@ if(this.role === 'crew-chief'){
      console.log('Error:',err);
    },
   );
+
+  // submitting DWR
+  // this.harvestingService.createBeginingDay(this.changeFieldFormChief.value, 'harvesting')
+  //         .subscribe((res)=>{
+  //           console.log(res);
+  //           if(res.status === 200){
+  //             console.log('RES:',res);
+  //             this.toastService.presentToast('DWR has been created successfully','success');
+  //           }
+  //         },
+  //         (err)=>{
+  //           console.log('Something happened :)',err);
+  //         });
+  // this.harvestingService.closeBeginningDay(this.changeFieldFormChief.value)
+  // .subscribe(
+  //   (res: any) => {
+  //     console.log(res);
+  //     if (res.status === 200) {
+  //       this.toastService.presentToast('Day has been closed successfully!', 'success');
+  //       // this.router.navigateByUrl('/tabs/home/farming');
+  //     }
+  //   },
+  //   (err) => {
+  //     this.toastService.presentToast(err, 'danger');
+  //   },
+  // );
 }
 else if(this.role === 'kart-operator'){
   this.harvestingService.changeField(this.changeFieldFormKart.value)
