@@ -7,16 +7,17 @@ import { FormBuilder, FormGroup } from '@angular/forms';
   styleUrls: ['./dashboard.page.scss'],
 })
 export class DashboardPage implements OnInit {
-  roleOptions = ['crew-chief','kart-operator','combine-operator','truck-driver','tractor-driver','dispatcher'];
-role = this.roleOptions[1];
-selectform: FormGroup;
+  roleOptions = ['crew-chief', 'kart-operator', 'combine-operator', 'truck-driver', 'tractor-driver', 'dispatcher'];
+  role = this.roleOptions[1];
+  selectform: FormGroup;
 
   constructor(
     private formbuilder: FormBuilder
   ) { }
 
   ngOnInit() {
-    localStorage.setItem('role',this.role);
+    localStorage.setItem('role', this.role);
+
     this.selectform = this.formbuilder.group({
       select: ['']
     });
@@ -24,12 +25,17 @@ selectform: FormGroup;
     // this.selectform.controls.select.setValue(this.roleOptions[1]);
 
   }
-onSelect(e){
-console.log(e.target.value);
-localStorage.setItem('role',e.target.value);
-// assigning role
-this.role = e.target.value;
-// this.selectform.get('select').setValue(e.target.value);
+  onSelect(e) {
+    console.log(e.target.value);
+    localStorage.setItem('role', e.target.value);
+    // assigning role
+    this.role = e.target.value;
 
-}
+    if (localStorage.getItem('role') === 'dispatcher')
+    localStorage.setItem('employeeId', '5254e1f7-bedf-4166-bba7-8a64892dc28e');
+
+    else if (localStorage.getItem('role') === 'truck-driver')
+    localStorage.setItem('employeeId', '00277ae0-9534-473a-afe8-c648aa0e6d9d');
+
+  }
 }

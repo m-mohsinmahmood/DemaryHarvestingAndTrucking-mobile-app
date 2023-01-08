@@ -37,19 +37,19 @@ export class VerifyOrdersPage implements OnInit {
 
       this.sentCount = workOrders.workOrders.length;
       this.dataLoaded.sentList = true;
-      console.log(workOrders);
+      console.log("Sent: ", workOrders);
     });
 
     this.pendingWorkOrders.subscribe((workOrders) => {
       this.pendingCount = workOrders.workOrders.length;
       this.dataLoaded.pendingList = true;
-      console.log(workOrders);
+      console.log("Pending: ", workOrders);
     });
 
     this.verifiedWorkOrders.subscribe((workOrders) => {
       this.verifiedCount = workOrders.workOrders.length;
       this.dataLoaded.verifiedList = true;
-      console.log(workOrders);
+      console.log("Verified: ", workOrders);
     });
   }
 

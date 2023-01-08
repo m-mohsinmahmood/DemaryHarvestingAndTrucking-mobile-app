@@ -17,7 +17,7 @@
         <div role="dialog" aria-modal="true">
           <div class="mb-4 relative z-80">
             <div class="mx-auto max-w-full transform rounded-xl px-0  transition-all">
-              <label class="block text-sm font-medium text-gray-700 mb-1">Customer Name <span *ngIf="isCustomerSelected"
+              <label class="block text-sm font-medium text-gray-700 mb-1">Customer<span *ngIf="isCustomerSelected"
                   class="text-red-400">*</span></label>
               <div class="flex items-center justify-between gap-x-2 rounded-md">
                 <input (keyup)="customer_search$.next($event.target.value)" [value]="customer_name"
@@ -130,16 +130,43 @@
           </div>
         </div>
 
-        <div class="col-span-12 mb-4">
-          <label class="ml-5" class="block text-sm font-medium text-gray-700">Service<span class="text-red-600"
-              *ngIf="this.createOrderDispatcher.get('service').hasError('required')">*</span></label>
-          <ion-select class="mt-1 w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm
-            focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" formControlName="service"
-            placeholder="Select Service">
-            <ion-select-option value="CF">Farming</ion-select-option>
-            <ion-select-option value="CH">Harvesting</ion-select-option>
-            <ion-select-option value="CT">Trucking</ion-select-option>
-          </ion-select>
+        <!--Service-->
+        <div role="dialog" aria-modal="true">
+          <div class="mb-4 relative z-60">
+            <div class="mx-auto max-w-full transform rounded-xl px-0  transition-all">
+              <label class="block text-sm font-medium text-gray-700 mb-1">Service <span *ngIf="isServiceSelected"
+                  class="text-red-400">*</span></label>
+              <div class="flex items-center justify-between gap-x-2 rounded-md">
+                <input (keyup)="service_search$.next($event.target.value)" [value]="service_name"
+                  (click)="inputClickedService()" #serviceInput
+                  class="w-full px-4 py-2.5 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
+                  placeholder="Select Field" role="" aria-expanded="false" aria-controls="options">
+              </div>
+
+              <div *ngIf="allServices | withLoading | async as allServices">
+                <div class="flex justify-center items-center">
+                  <ion-spinner *ngIf="allServices?.loading" name="crescent" mode="indeterminate"
+                    color="primary"></ion-spinner>
+                </div>
+                <ul *ngIf="allServices?.value && serviceUL"
+                  class="-mb-2 max-h-44 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800 bg-white drop-shadow-lg relative w-full"
+                  id="options" role="listbox">
+                  <li *ngFor="let service of (allServices?.value.customer_farms)" (click)="listClickedService(service)"
+                    class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200" role="option"
+                    tabindex="-1">
+                    <div class="flex items-center p-2">
+                      {{service}}
+                    </div>
+                  </li>
+                </ul>
+                <div *ngIf="allServices?.value?.customer_farms?.length === 0">
+                  <div
+                    class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200 text-gray-500 hover:text-gray-700 hover:font-semibold"
+                    disabled role="option" tabindex="-1"> No Service(s) found </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- Tractor Driver -->
@@ -181,13 +208,6 @@
             </div>
           </div>
         </div>
-        <!-- <div class="col-span-12 mb-4">
-          <label class="block text-sm font-medium text-gray-700">Tractor Driver <span class="text-red-600"
-              *ngIf="this.createOrderDispatcher.get('tractorDriverId').hasError('required')">*</span></label>
-          <input
-            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-            formControlName="tractorDriverId" placeholder="Enter Tractor Driver">
-        </div> -->
 
         <div class="col-span-12 mb-4">
           <label class="block text-sm font-medium text-gray-700">Field Address (if known) <span class="text-red-600"
@@ -206,8 +226,8 @@
         </div>
 
       </div>
-      <ion-button expand="block" class="mt-5 font-Lato text-white"
-        (click)="navigateTo('/tabs/home/farming')">Create New Work Order
+      <ion-button [disabled]="this.createOrderDispatcher.invalid"  expand="block" class="mt-5 font-Lato text-white" (click)="navigateTo('/tabs/home/farming')">Create New
+        Work Order
       </ion-button>
     </form>
   </div>
@@ -221,7 +241,7 @@
           <label class="block text-sm font-medium text-gray-700">Tractor Driver</label>
           <input
             class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-            value="2bf46542-d0bb-4ada-96e6-c103853c3f0d" formControlName="tractorDriverId" readonly >
+            value="2bf46542-d0bb-4ada-96e6-c103853c3f0d" formControlName="tractorDriverId" readonly>
         </div>
 
         <!-- Machinery ID-->
@@ -430,7 +450,7 @@
         </div>
 
         <!--Service-->
-        <!-- <div role="dialog" aria-modal="true">
+        <div role="dialog" aria-modal="true">
           <div class="mb-4 relative z-10">
             <div class="mx-auto max-w-full transform rounded-xl px-0  transition-all">
               <label class="block text-sm font-medium text-gray-700 mb-1">Service <span *ngIf="isServiceSelected"
@@ -454,7 +474,7 @@
                     class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200" role="option"
                     tabindex="-1">
                     <div class="flex items-center p-2">
-                      {{service.customer_type}}
+                      {{service}}
                     </div>
                   </li>
                 </ul>
@@ -466,18 +486,6 @@
               </div>
             </div>
           </div>
-        </div> -->
-
-        <div class="col-span-12 mb-4">
-          <label class="ml-5" class="block text-sm font-medium text-gray-700">Service<span class="text-red-600"
-              *ngIf="this.createOrderTDriver.get('service').hasError('required')">*</span></label>
-          <ion-select class="mt-1 w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm
-            focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" formControlName="service"
-            placeholder="Select Service">
-            <ion-select-option value="CF">Farming</ion-select-option>
-            <ion-select-option value="CH">Harvesting</ion-select-option>
-            <ion-select-option value="CT">Trucking</ion-select-option>
-          </ion-select>
         </div>
 
         <div class="col-span-12 mb-4">
@@ -498,8 +506,7 @@
         </div>
 
       </div>
-      <ion-button  expand="block" class="mt-5 font-Lato text-white"
-        (click)="navigateTo('/tabs/home/farming')">Generate
+      <ion-button [disabled]="this.createOrderTDriver.invalid" expand="block" class="mt-5 font-Lato text-white" (click)="navigateTo('/tabs/home/farming')">Generate
         Ticket
       </ion-button>
     </form>

@@ -23,9 +23,12 @@
           <ion-card-content>
             <div class="flex justify-center items-center">
               <p class="font-15px font-bold font-Lato">Verify Work Orders</p>
-              <span
+              <ion-spinner class="ml-4 justify-center items-center flex" *ngIf="pendingOrdersCount < 0" name="crescent"
+                mode="indeterminate" color="primary"></ion-spinner>
+
+              <span *ngIf="pendingOrdersCount > -1"
                 class="text-white font-semibold ml-2 bg-project-green w-8 h-6 rounded-full flex justify-center items-center">
-                8</span>
+                {{pendingOrdersCount}}</span>
             </div>
           </ion-card-content>
         </ion-card>
@@ -56,10 +59,13 @@
         <ion-card class="card" [routerLink]="['existing-order']">
           <ion-card-content>
             <div class="flex justify-center items-center">
-              <p class="font-15px font-bold font-Lato">Complete Existing Work Order</p>
-              <span
+              <p class="font-15px font-bold font-Lato">Complete Existing Work Order (Dispatched)</p>
+              <ion-spinner class="ml-4 justify-center items-center flex" *ngIf="sentOrdersCount < 0" name="crescent"
+                mode="indeterminate" color="primary"></ion-spinner>
+
+              <span *ngIf="sentOrdersCount > -1"
                 class="text-white font-semibold ml-2 bg-project-green w-8 h-6 rounded-full flex justify-center items-center">
-                8</span>
+                {{sentOrdersCount}}</span>
             </div>
           </ion-card-content>
         </ion-card>
@@ -68,17 +74,7 @@
 
     <ion-row>
       <ion-col size="12">
-        <ion-card class="card" [routerLink]="['change-field']">
-          <ion-card-content>
-            <p class="font-bold font-Lato font-15px">Change Field</p>
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-    </ion-row>
-
-    <ion-row>
-      <ion-col size="12">
-        <ion-card class="card" [routerLink]="['submit-beginning-day']">
+        <ion-card class="card" [disabled]="workOrderCount > 0" [routerLink]="['submit-beginning-day']">
           <ion-card-content>
             <p class="font-bold font-Lato font-15px">Submit Beginning of Day Work Data</p>
           </ion-card-content>
@@ -88,7 +84,7 @@
 
     <ion-row>
       <ion-col size="12">
-        <ion-card class="card" [routerLink]="['submit-end-day']">
+        <ion-card class="card" [disabled]="workOrderCount <= 0" [routerLink]="['submit-end-day']">
           <ion-card-content>
             <p class="font-bold font-Lato font-15px">Submit End of Day Work Data</p>
           </ion-card-content>
@@ -98,7 +94,7 @@
 
     <ion-row>
       <ion-col size="12">
-        <ion-card class="card" [routerLink]="['close-out-order']">
+        <ion-card class="card" [disabled]="workOrderCount <= 0" [routerLink]="['close-out-order']">
           <ion-card-content>
             <p class="font-bold font-Lato font-15px">Close-Out Work Order</p>
           </ion-card-content>
