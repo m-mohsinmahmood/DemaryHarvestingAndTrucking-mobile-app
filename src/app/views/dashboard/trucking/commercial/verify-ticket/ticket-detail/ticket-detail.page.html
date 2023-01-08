@@ -190,19 +190,49 @@
 
     <ion-list>
       <div class="col-span-12 mb-4">
-        <label class="block text-sm font-medium text-gray-700">Truck #<span class="text-red-600"
-            *ngIf="this.createFormTruckCommercial.get('truck').hasError('required')">*</span></label>
+        <label class="block text-sm font-medium text-gray-700">Delivery Ticket #<span class="text-red-600"
+            *ngIf="this.createFormTruckCommercial.get('ticketNo').hasError('required')">*</span></label>
         <input
           class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-          formControlName="truck" placeholder="Truck #">
+          formControlName="ticketNo" placeholder="Ticket #" readonly>
       </div>
 
-      <div class="col-span-12 mb-4">
-        <label class="block text-sm font-medium text-gray-700">Delivery Ticket #<span class="text-red-600"
-            *ngIf="this.createFormTruckCommercial.get('ticket').hasError('required')">*</span></label>
-        <input
-          class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-          formControlName="ticket" placeholder="Ticket #">
+      <!-- Machinery #-->
+      <div role="dialog" aria-modal="true">
+        <div class="mb-4 relative z-100">
+          <div class="mx-auto max-w-full transform rounded-xl px-0  transition-all">
+            <label class="block text-sm font-medium text-gray-700 mb-1">Truck # <span *ngIf="isMachinerySelected"
+                class="text-red-400">*</span></label>
+            <div class="flex items-center justify-between gap-x-2 rounded-md">
+              <input (keyup)="machinery_search$.next($event.target.value)" [value]="machinery_name"
+                (click)="inputClickedMachinery()" #machineryInput
+                class="w-full px-4 py-2.5 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
+                placeholder="Select Truck" role="" aria-expanded="false" aria-controls="options">
+            </div>
+
+            <div *ngIf="allMachinery | withLoading | async as allMachinery">
+              <div class="flex justify-center items-center">
+                <ion-spinner *ngIf="allMachinery?.loading" name="crescent" mode="indeterminate"
+                  color="primary"></ion-spinner>
+              </div>
+              <ul *ngIf="allMachinery?.value && machineryUL"
+                class="mb-2 max-h-44 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800 bg-white drop-shadow-lg relative w-full"
+                id="options" role="listbox">
+                <li *ngFor="let machinery of (allMachinery?.value.machinery)" (click)="listClickedMachinery(machinery)"
+                  class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200" role="option" tabindex="-1">
+                  <div class="flex items-center p-2">
+                    {{machinery.type}}
+                  </div>
+                </li>
+              </ul>
+              <div *ngIf="allMachinery?.value?.machinery?.length === 0">
+                <div
+                  class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200 text-gray-500 hover:text-gray-700 hover:font-semibold"
+                  disabled role="option" tabindex="-1"> No Machinery(s) found </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div class="col-span-12 mb-4">
@@ -269,10 +299,10 @@
       <div class="col-span-12 mb-4">
         <label class="block text-sm font-medium text-gray-700">Destination Ending Odometer Reading<span
             class="text-red-600"
-            *ngIf="this.createFormTruckCommercial.get('destinationEndingnOdometerReading').hasError('required')">*</span></label>
+            *ngIf="this.createFormTruckCommercial.get('destinationEndingOdometerReading').hasError('required')">*</span></label>
         <input
           class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-          formControlName="destinationEndingnOdometerReading" placeholder="Destination Ending Odometer Reading">
+          formControlName="destinationEndingOdometerReading" placeholder="Destination Ending Odometer Reading">
       </div>
 
       <div class="col-span-12 mb-4">
@@ -340,32 +370,32 @@
         <label class="block text-sm font-medium text-gray-700">Total Trip Miles</label>
         <input
           class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-          readonly placeholder="12345">
+          readonly formControlName="totalTripMiles">
       </div>
 
       <div class="col-span-12 mb-4">
         <label class="block text-sm font-medium text-gray-700">Dead Head Miles</label>
         <input
           class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-          readonly placeholder="12345">
+          readonly formControlName="deadHeadMiles">
       </div>
 
       <div class="col-span-12 mb-4">
         <label class="block text-sm font-medium text-gray-700">Total Job Miles</label>
         <input
           class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-          readonly placeholder="12345">
+          readonly formControlName="totalJobMiles">
       </div>
 
       <div class="col-span-12 mb-4">
         <label class="block text-sm font-medium text-gray-700">Driver Notes<span class="text-red-600"
-            *ngIf="this.createFormTruckCommercial.get('driverNotes').hasError('required')">*</span></label>
+            *ngIf="this.createFormTruckCommercial.get('truckDriverNotes').hasError('required')">*</span></label>
         <input
           class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-          formControlName="driverNotes" placeholder="Driver Notes">
+          formControlName="truckDriverNotes" placeholder="Driver Notes">
       </div>
 
-      <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="submit()"
+      <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="submitExistingTicket()"
         [disabled]="this.createFormTruckCommercial.invalid">Save
         and
         Submit

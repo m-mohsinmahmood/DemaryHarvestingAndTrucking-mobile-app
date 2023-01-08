@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-ticket-generated',
@@ -8,9 +8,21 @@ import { Router } from '@angular/router';
 })
 export class TicketGeneratedPage implements OnInit {
 
+  data: any;
+  nameArr: any;
+
   constructor(
-    private router: Router
-  ) { }
+    private router: Router,
+    private activeRoute: ActivatedRoute
+  ) {
+    this.activeRoute.params.subscribe(params => {
+      console.log(params);
+      this.data = params;
+      this.nameArr = this.data.uploadFile.split(',');
+      console.log(this.nameArr);
+
+    })
+  }
 
   ngOnInit() {
   }

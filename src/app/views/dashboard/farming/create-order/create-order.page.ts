@@ -19,7 +19,6 @@ export class CreateOrderPage implements OnInit {
   @ViewChild('machineryInput') machineryInput: ElementRef;
   @ViewChild('serviceInput') serviceInput: ElementRef;
 
-
   role = '';
   createOrderDispatcher: FormGroup;
   createOrderTDriver: FormGroup;
@@ -104,10 +103,10 @@ export class CreateOrderPage implements OnInit {
           this.allMachinery = of([]); // to clear array
           this.machineryUL = false; // to hide the UL
         }
-        // if (e.target !== this.serviceInput.nativeElement) {
-        //   this.allServices = of([]); // to clear array
-        //   this.serviceUL = false; // to hide the UL
-        // }
+        if (e.target !== this.serviceInput.nativeElement) {
+          this.allServices = of([]); // to clear array
+          this.serviceUL = false; // to hide the UL
+        }
       });
     }
     if (localStorage.getItem('role') === 'dispatcher') {
@@ -128,6 +127,10 @@ export class CreateOrderPage implements OnInit {
         if (e.target !== this.dispatcherInput.nativeElement) {
           this.allDispatchers = of([]); // to clear array
           this.dispatcherUL = false; // to hide the UL
+        }
+        if (e.target !== this.serviceInput.nativeElement) {
+          this.allServices = of([]); // to clear array
+          this.serviceUL = false; // to hide the UL
         }
       });
     }
@@ -155,7 +158,7 @@ export class CreateOrderPage implements OnInit {
     });
 
     this.createOrderTDriver = this.formBuilder.group({
-      tractorDriverId: ['2bf46542-d0bb-4ada-96e6-c103853c3f0d', [Validators.required]],
+      tractorDriverId: ['2bf46542-d0bb-4ada-96e6-c103853c3f0d'],
       machineryID: ['', [Validators.required]],
       cBeginningEngineHours: ['', [Validators.required]],
       dispatcherId: ['', [Validators.required]],
@@ -171,16 +174,16 @@ export class CreateOrderPage implements OnInit {
   navigateTo(nav: string) {
     if (this.role === 'dispatcher') {
       console.log(this.createOrderDispatcher.value);
-      this.createWorkOrder(this.createOrderDispatcher.value, "dispatcher", nav);
+      this.createWorkOrder(this.createOrderDispatcher.value, "dispatcher", nav, false);
     }
     else {
       console.log(this.createOrderTDriver.value);
-      this.createWorkOrder(this.createOrderTDriver.value, "tractor-driver", nav);
+      this.createWorkOrder(this.createOrderTDriver.value, "tractor-driver", nav, true);
     }
   }
 
-  createWorkOrder(workOrder: any, role: string, nav: string): void {
-    this.farmingService.createNewWorkOrder(workOrder, role)
+  createWorkOrder(workOrder: any, role: string, nav: string, completeInfo: boolean): void {
+    this.farmingService.createNewWorkOrder(workOrder, role, completeInfo)
       .subscribe(
         (res: any) => {
           console.log(res);
@@ -869,7 +872,7 @@ export class CreateOrderPage implements OnInit {
 
     // subscribing to show/hide farm UL
     this.allServices.subscribe((service) => {
-      console.log(service);
+      console.log(service.customer_farms);
 
       if (service.count === 0) {
         // hiding UL
@@ -880,6 +883,7 @@ export class CreateOrderPage implements OnInit {
       }
     });
   }
+
   listClickedService(service) {
 
     // hiding UL
@@ -888,19 +892,16 @@ export class CreateOrderPage implements OnInit {
     console.log(service);
 
     // assigning values in form
-    this.createOrderTDriver.setValue({
-      machineryID: this.createOrderTDriver.get('machineryID').value,
-      cBeginningEngineHours: this.createOrderTDriver.get('cBeginningEngineHours').value,
-      dispatcherId: this.createOrderTDriver.get('dispatcherId').value,
-      customerId: this.createOrderTDriver.get('customerId').value,
-      farmId: this.createOrderTDriver.get('farmId').value,
-      fieldId: this.createOrderTDriver.get('fieldId').value,
-      service: service.customer_type,
-      tractorDriverId: this.createOrderTDriver.get('tractorDriverId').value,
-      fieldAddress: this.createOrderTDriver.get('fieldAddress').value,
-      phone: this.createOrderTDriver.get('phone').value
-    });
-
+    if (localStorage.getItem('role') === 'dispatcher') {
+      this.createOrderDispatcher.patchValue({
+        service: service,
+      })
+    }
+    else {
+      this.createOrderTDriver.patchValue({
+        service: service,
+      });
+    }
     // clearing array
     this.allServices = of([]);
 
@@ -908,7 +909,7 @@ export class CreateOrderPage implements OnInit {
     // this.fieldId = field.id;
 
     // passing name in select's input
-    this.service_name = service.customer_type;
+    this.service_name = service;
 
     // to enable submit button
     this.isServiceSelected = false;

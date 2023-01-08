@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { FarmingService } from './../farming.service';
+import { ToastService } from 'src/app/services/toast/toast.service';
 
 @Component({
   selector: 'app-submit-end-day',
@@ -11,10 +12,21 @@ import { FarmingService } from './../farming.service';
 export class SubmitEndDayPage implements OnInit {
 
   submitEndDayWorkOrder: FormGroup;
-  constructor(private router: Router, private formBuilder: FormBuilder, private farmingService: FarmingService) {
+  workOrderCount: any;
+  workOrder: any;
+
+  constructor(private toast: ToastService, private router: Router, private formBuilder: FormBuilder, private farmingService: FarmingService) {
   }
 
   ngOnInit() {
+
+    this.farmingService.getBeginningOfDay('1a4d594b-726c-46e4-b677-5e4a78adbc1e', 'beginningOfDay').subscribe(workOrder => {
+      this.workOrderCount = workOrder.count;
+      this.workOrder = workOrder.workOrders;
+      console.log(workOrder);
+
+    })
+
     this.submitEndDayWorkOrder = this.formBuilder.group({
       employeeId: ['1a4d594b-726c-46e4-b677-5e4a78adbc1e'],
       acresCompleted: ['', [Validators.required]],
@@ -27,8 +39,32 @@ export class SubmitEndDayPage implements OnInit {
 
   navigateTo() {
     console.log(this.submitEndDayWorkOrder.value);
-    this.farmingService.closeBeginningDay(this.submitEndDayWorkOrder.value);
-    this.router.navigateByUrl('/tabs/home/farming');
+
+    this.farmingService.closeBeginningDay(this.submitEndDayWorkOrder.value, this.workOrder[0])
+      .subscribe(
+        (res: any) => {
+          console.log(res);
+
+          if (res.status === 200) {
+            this.toast.presentToast("Day has been closed successfully!", 'success');
+            this.router.navigateByUrl('/tabs/home/farming');
+          }
+        },
+        (err) => {
+          this.toast.presentToast(err, 'danger');
+        },
+      );
+
+    let workOrderId = { workOrderId: this.workOrder[0].work_order_id };
+
+    this.farmingService.updateWorkOrder(workOrderId, 'tractor-driver', 'submitEndingDay')
+      .subscribe(
+        (res: any) => {
+        },
+        (err) => {
+          this.toast.presentToast(err, 'danger');
+        },
+      );
   }
 
 }

@@ -45,8 +45,9 @@ export class FarmingService {
   }
 
 
-  createNewWorkOrder(data: any, role: string) {
+  createNewWorkOrder(data: any, role: string, completeInfo: boolean) {
     data.role = role;
+    data.completeInfo = completeInfo;
 
     if (role === 'dispatcher') {
       data.workOrderStatus = 'sent';
@@ -61,72 +62,29 @@ export class FarmingService {
       .pipe(take(1));
   }
 
-  updateWorkOrder(data: any, role: string) {
+  updateWorkOrder(data: any, role: string, searchClause?: string) {
     data.role = role;
+    data.searchClause = searchClause;
 
-    this._httpClient
+    return this._httpClient
       .patch(`http://localhost:7071/api/work-order-farming`, data)
-      .pipe(take(1))
-      .subscribe(
-        (res: any) => {
-          //show notification based on message returned from the api
-          this.alertSerice.showAlert({
-            type: 'success',
-            shake: false,
-            slideRight: true,
-            title: 'Success',
-            message: res.message,
-            time: 5000,
-          });
-        },
-        (err) => {
-          this.handleError(err);
-        },
-      );
+      .pipe(take(1));
   }
 
-  createBeginningDay(data: any) {
-    this._httpClient
+  createBeginningDay(data: any, dwr_type: String) {
+    data.dwr_type = dwr_type;
+
+    return this._httpClient
       .post(`http://localhost:7071/api/dwr`, data)
-      .pipe(take(1))
-      .subscribe(
-        (res: any) => {
-          //show notification based on message returned from the api
-          this.alertSerice.showAlert({
-            type: 'success',
-            shake: false,
-            slideRight: true,
-            title: 'Success',
-            message: res.message,
-            time: 5000,
-          });
-        },
-        (err) => {
-          this.handleError(err);
-        },
-      );
+      .pipe(take(1));
   }
 
-  closeBeginningDay(data: any) {
-    this._httpClient
+  closeBeginningDay(data: any, workOrder: any) {
+    data.workOrderId = workOrder.work_order_id;
+
+    return this._httpClient
       .patch(`http://localhost:7071/api/dwr`, data)
-      .pipe(take(1))
-      .subscribe(
-        (res: any) => {
-          //show notification based on message returned from the api
-          this.alertSerice.showAlert({
-            type: 'success',
-            shake: false,
-            slideRight: true,
-            title: 'Success',
-            message: res.message,
-            time: 5000,
-          });
-        },
-        (err) => {
-          this.handleError(err);
-        },
-      );
+      .pipe(take(1));
   }
 
   getEmployees(
@@ -142,6 +100,20 @@ export class FarmingService {
 
     return this._httpClient
       .get<any>('http://localhost:7071/api/dropdowns', {
+        params,
+      })
+      .pipe(take(1));
+  }
+
+  getEmployeesById(
+    id: string
+  ) {
+    this._httpClient
+    let params = new HttpParams();
+    params = params.set('id', id);
+
+    return this._httpClient
+      .get<any>('http://localhost:7071/api/employee', {
         params,
       })
       .pipe(take(1));
@@ -240,11 +212,13 @@ export class FarmingService {
   getAllWorkOrders(
     search: string,
     searchClause: string,
+    employeeId?: string
   ) {
     this._httpClient
     let params = new HttpParams();
     params = params.set('search', search);
     params = params.set('searchClause', searchClause);
+    params = params.set('employeeId', employeeId);
 
     return this._httpClient
       .get<any>('http://localhost:7071/api/work-order-farming', {
@@ -252,4 +226,22 @@ export class FarmingService {
       })
       .pipe(take(1));
   }
+
+  getBeginningOfDay(
+    employeeId: string,
+    searchClause: string
+  ) {
+    this._httpClient
+    let params = new HttpParams();
+    params = params.set('employeeId', employeeId);
+    params = params.set('searchClause', searchClause);
+
+    return this._httpClient
+      .get<any>('http://localhost:7071/api/dwr', {
+        params,
+      })
+      .pipe(take(1));
+  }
 }
+
+

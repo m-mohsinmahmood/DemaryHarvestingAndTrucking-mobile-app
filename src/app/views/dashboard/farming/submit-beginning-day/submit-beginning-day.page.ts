@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Subject, Observable, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { FarmingService } from '../farming.service';
+import { ToastService } from 'src/app/services/toast/toast.service';
 
 @Component({
   selector: 'app-submit-beginning-day',
@@ -31,17 +32,24 @@ export class SubmitBeginningDayPage implements OnInit {
 
   isDisabled: any = true;
   private _unsubscribeAll: Subject<any> = new Subject<any>();
+  data: Observable<any>;
+  workOrderCount = -1;
+  dataLoaded = false;
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private farmingService: FarmingService, private renderer: Renderer2) {
+  constructor(private toast: ToastService, private formBuilder: FormBuilder, private router: Router, private farmingService: FarmingService, private renderer: Renderer2) {
     if (localStorage.getItem('role') === 'tractor-driver') {
       this.renderer.listen('window', 'click', (e) => {
         if (e.target !== this.machineryInput.nativeElement) {
           this.allMachinery = of([]); // to clear array
           this.machineryUL = false; // to hide the UL
         }
-        if (e.target !== this.workOrderInput.nativeElement) {
-          this.allWorkOrder = of([]); // to clear array
-          this.workOrderUL = false; // to hide the UL
+        console.log(this.workOrderCount);
+
+        if (this.workOrderCount >= 0) {
+          if (e.target !== this.workOrderInput.nativeElement) {
+            this.allWorkOrder = of([]); // to clear array
+            this.workOrderUL = false; // to hide the UL
+          }
         }
       });
     }
@@ -50,6 +58,15 @@ export class SubmitBeginningDayPage implements OnInit {
   ngOnInit() {
     this.machinerySearchSubscription();
     this.workOrderSearchSubscription();
+
+    this.farmingService.getBeginningOfDay('1a4d594b-726c-46e4-b677-5e4a78adbc1e', 'beginningOfDay').subscribe(workOrder => {
+      this.workOrderCount = workOrder.count;
+      this.dataLoaded = true;
+      if (this.workOrderCount > 0)
+        this.workOrder_name = workOrder.workOrders[0].work_order_id;
+      console.log(workOrder);
+
+    })
 
     this.submitBeginningDay = this.formBuilder.group({
       employeeId: ['1a4d594b-726c-46e4-b677-5e4a78adbc1e'],
@@ -61,9 +78,31 @@ export class SubmitBeginningDayPage implements OnInit {
 
   navigateTo(nav: string) {
     console.log(this.submitBeginningDay.value);
-    this.farmingService.createBeginningDay(this.submitBeginningDay.value);
 
-    this.router.navigateByUrl(nav);
+    this.farmingService.updateWorkOrder(this.submitBeginningDay.value, 'tractor-driver', 'submitBeginningDay')
+      .subscribe(
+        (res: any) => {
+          console.log(res);
+        },
+        (err) => {
+          this.toast.presentToast(err, 'danger');
+        },
+      );
+
+    this.farmingService.createBeginningDay(this.submitBeginningDay.value, 'farming')
+      .subscribe(
+        (res: any) => {
+          console.log(res);
+
+          if (res.status === 200) {
+            this.toast.presentToast("DWR has been created successfully!", 'success');
+            this.router.navigateByUrl(nav);
+          }
+        },
+        (err) => {
+          this.toast.presentToast(err, 'danger');
+        },
+      );
   }
 
   //#region Machinery
@@ -213,7 +252,6 @@ export class SubmitBeginningDayPage implements OnInit {
 
     // subscribing to show/hide farm UL
     this.allWorkOrder.subscribe((workOrder) => {
-
       if (workOrder.count === 0) {
         // hiding UL
         this.workOrderUL = false;
@@ -226,7 +264,7 @@ export class SubmitBeginningDayPage implements OnInit {
   listClickedWorkOrder(workOrder) {
 
     // hiding UL
-    this.machineryUL = false;
+    this.workOrderUL = false;
     console.log(workOrder);
 
     // assigning values in form

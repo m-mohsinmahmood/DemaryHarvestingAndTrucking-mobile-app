@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Subject, Observable, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { FarmingService } from './../../farming.service';
+import { ToastService } from 'src/app/services/toast/toast.service';
 
 @Component({
   selector: 'app-complete-existing-order',
@@ -62,19 +63,28 @@ export class CompleteExistingOrderPage implements OnInit {
   allFields: Observable<any>;
   fieldUL: any = false;
 
-  service_name: any = '';
   field_address: any = '';
   phone: any = '';
+
+  // Service Data
+  @ViewChild('serviceInput') serviceInput: ElementRef;
+  isServiceSelected: any = true;
+  service_search$ = new Subject();
+  serviceSearchValue: any;
+  allServices: Observable<any>;
+  serviceUL: any = false;
+  service_name: any = '';
 
   isDisabled: any = true;
 
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
-  constructor(private farmingService: FarmingService, private activeRoute: Router, private formBuilder: FormBuilder, private activatedR: ActivatedRoute, private renderer: Renderer2) {
+  constructor(private toast: ToastService, private farmingService: FarmingService, private activeRoute: Router, private formBuilder: FormBuilder, private activatedR: ActivatedRoute, private renderer: Renderer2) {
     this.activatedR.params.subscribe(params => {
       console.log(params);
 
       this.data = params;
+      this.customerId = this.data.customer_id;
 
       this.renderer.listen('window', 'click', (e) => {
         if (e.target !== this.dispatcherInput.nativeElement) {
@@ -98,6 +108,10 @@ export class CompleteExistingOrderPage implements OnInit {
           this.allMachinery = of([]); // to clear array
           this.machineryUL = false; // to hide the UL
         }
+        if (e.target !== this.serviceInput.nativeElement) {
+          this.allServices = of([]); // to clear array
+          this.serviceUL = false; // to hide the UL
+        }
       });
     })
   }
@@ -108,7 +122,7 @@ export class CompleteExistingOrderPage implements OnInit {
     this.customerSearchSubscription();
     this.farmSearchSubscription();
     this.fieldSearchSubscription();
-    // this.serviceSearchSubscription();
+    this.serviceSearchSubscription();
 
     this.completeExistingWorkOrder = this.formBuilder.group({
       workOrderId: [this.data.work_order_id],
@@ -119,7 +133,7 @@ export class CompleteExistingOrderPage implements OnInit {
       farmId: [this.data.farm_id, [Validators.required]],
       fieldId: [this.data.field_id, [Validators.required]],
       service: [this.data.service, [Validators.required]],
-      tractorDriverId: ['2bf46542-d0bb-4ada-96e6-c103853c3f0d', [Validators.required]],
+      tractorDriverId: ['2bf46542-d0bb-4ada-96e6-c103853c3f0d'],
       fieldAddress: [this.data.address, [Validators.required]],
       phone: [this.data.customer_phone, [Validators.required]],
     });
@@ -132,9 +146,22 @@ export class CompleteExistingOrderPage implements OnInit {
   }
 
   navigateTo(nav: string) {
+    this.completeExistingWorkOrder.value.completeInfo = true;
     console.log(this.completeExistingWorkOrder.value);
-    this.farmingService.updateWorkOrder(this.completeExistingWorkOrder.value, 'tractor-driver');
-    this.activeRoute.navigateByUrl(nav);
+    this.farmingService.updateWorkOrder(this.completeExistingWorkOrder.value, 'tractor-driver', 'existingWorkOrder')
+      .subscribe(
+        (res: any) => {
+          console.log(res);
+
+          if (res.status === 200) {
+            this.toast.presentToast("Work Order has been updated successfully!", 'success');
+            this.activeRoute.navigateByUrl(nav);
+          }
+        },
+        (err) => {
+          this.toast.presentToast(err, 'danger');
+        },
+      );
   }
 
   //#region Machinery
@@ -687,6 +714,98 @@ export class CompleteExistingOrderPage implements OnInit {
   }
   //#endregion
 
+  //#region Service
+  serviceSearchSubscription() {
+    this.service_search$
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        takeUntil(this._unsubscribeAll)
+      )
+      .subscribe((value: string) => {
+        // for asterik to look required
+        if (value === '') { this.isServiceSelected = true; }
+        this.allServices = this.farmingService.getServices(
+          value,
+          this.customerId,
+          'customerServices'
+        );
+
+        // subscribing to show/hide Field UL
+        this.allServices.subscribe((service) => {
+          if (service.count === 0) {
+            // hiding UL
+            this.serviceUL = false;
+          } else {
+            // showing UL
+            this.serviceUL = true;
+          }
+        });
+      });
+  }
+
+  inputClickedService() {
+    // getting the serch value to check if there's a value in input
+    this.service_search$
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        takeUntil(this._unsubscribeAll)
+      )
+      .subscribe((v) => {
+        this.serviceSearchValue = v;
+      });
+
+    const value =
+      this.serviceSearchValue === undefined
+        ? this.service_name
+        : this.serviceSearchValue;
+
+    // calling API
+    this.allServices = this.farmingService.getServices(
+      value,
+      this.customerId,
+      'customerServices'
+    );
+
+    // subscribing to show/hide farm UL
+    this.allServices.subscribe((service) => {
+      console.log(service.customer_farms);
+
+      if (service.count === 0) {
+        // hiding UL
+        this.serviceUL = false;
+      } else {
+        // showing UL
+        this.serviceUL = true;
+      }
+    });
+  }
+  listClickedService(service) {
+
+    // hiding UL
+    this.serviceUL = false;
+
+    console.log(service);
+
+    // assigning values in form
+
+    this.completeExistingWorkOrder.patchValue({
+      service: service,
+    });
+    // clearing array
+    this.allServices = of([]);
+
+    // For Specific Fields
+    // this.fieldId = field.id;
+
+    // passing name in select's input
+    this.service_name = service;
+
+    // to enable submit button
+    this.isServiceSelected = false;
+  }
+  //#endregion
   disableFields() {
     this.isDisabled = true;
   }
