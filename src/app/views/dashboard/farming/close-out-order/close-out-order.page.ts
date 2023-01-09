@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Observable, of, Subject } from 'rxjs';
 import { FarmingService } from './../farming.service';
-import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { ToastService } from 'src/app/services/toast/toast.service';
 
 @Component({
@@ -26,7 +25,7 @@ export class CloseOutOrderPage implements OnInit {
 
   ngOnInit() {
 
-    this.data = this.farmingService.getAllWorkOrders('', 'close_out_work_order', '2bf46542-d0bb-4ada-96e6-c103853c3f0d');
+    this.data = this.farmingService.getAllWorkOrders('', 'close_out_work_order', localStorage.getItem('employeeId'));
 
     this.data.subscribe((workOrders) => {
       console.log(workOrders);

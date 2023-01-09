@@ -98,7 +98,7 @@ export class TicketDetailPage implements OnInit {
 
   submitExistingTicket() {
     console.log(this.createFormTruckCommercial.value);
-    this.truckingService.updateDeliveryTicket({ ticketNo: this.data.id }, 'pending')
+    this.truckingService.updateDeliveryTicket(this.createFormTruckCommercial.value, 'pending')
       .subscribe(
         (res: any) => {
           console.log(res);

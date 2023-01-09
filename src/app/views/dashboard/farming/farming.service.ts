@@ -52,8 +52,10 @@ export class FarmingService {
     if (role === 'dispatcher') {
       data.workOrderStatus = 'sent';
       data.workOrderIsCompleted = false;
+      data.workOrderCloseOut = false;
     }
     else {
+      data.workOrderStatus = 'sent';
       data.workOrderCloseOut = false;
     }
 

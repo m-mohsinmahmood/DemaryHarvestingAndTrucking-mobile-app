@@ -133,7 +133,7 @@ export class CompleteExistingOrderPage implements OnInit {
       farmId: [this.data.farm_id, [Validators.required]],
       fieldId: [this.data.field_id, [Validators.required]],
       service: [this.data.service, [Validators.required]],
-      tractorDriverId: ['2bf46542-d0bb-4ada-96e6-c103853c3f0d'],
+      tractorDriverId: [localStorage.getItem('employeeId')],
       fieldAddress: [this.data.address, [Validators.required]],
       phone: [this.data.customer_phone, [Validators.required]],
     });

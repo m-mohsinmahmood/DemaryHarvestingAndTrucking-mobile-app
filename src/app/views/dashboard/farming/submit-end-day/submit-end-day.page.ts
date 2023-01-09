@@ -20,7 +20,7 @@ export class SubmitEndDayPage implements OnInit {
 
   ngOnInit() {
 
-    this.farmingService.getBeginningOfDay('1a4d594b-726c-46e4-b677-5e4a78adbc1e', 'beginningOfDay').subscribe(workOrder => {
+    this.farmingService.getBeginningOfDay(localStorage.getItem('employeeId'), 'beginningOfDay').subscribe(workOrder => {
       this.workOrderCount = workOrder.count;
       this.workOrder = workOrder.workOrders;
       console.log(workOrder);
@@ -28,7 +28,7 @@ export class SubmitEndDayPage implements OnInit {
     })
 
     this.submitEndDayWorkOrder = this.formBuilder.group({
-      employeeId: ['1a4d594b-726c-46e4-b677-5e4a78adbc1e'],
+      employeeId: [localStorage.getItem('employeeId')],
       acresCompleted: ['', [Validators.required]],
       gpsAcres: ['', [Validators.required]],
       endingEngineHours: ['', [Validators.required]],
