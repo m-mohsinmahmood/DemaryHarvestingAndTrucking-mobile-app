@@ -147,7 +147,7 @@ export class CreateOrderPage implements OnInit {
     this.role = localStorage.getItem('role');
 
     this.createOrderDispatcher = this.formBuilder.group({
-      dispatcherId: ['225ec948-dae8-4b61-95e8-93551342d0c5'],
+      dispatcherId: [localStorage.getItem('employeeId')],
       customerId: ['', [Validators.required]],
       farmId: ['', [Validators.required]],
       fieldId: ['', [Validators.required]],
@@ -158,7 +158,7 @@ export class CreateOrderPage implements OnInit {
     });
 
     this.createOrderTDriver = this.formBuilder.group({
-      tractorDriverId: ['2bf46542-d0bb-4ada-96e6-c103853c3f0d'],
+      tractorDriverId: [localStorage.getItem('employeeId')],
       machineryID: ['', [Validators.required]],
       cBeginningEngineHours: ['', [Validators.required]],
       dispatcherId: ['', [Validators.required]],
@@ -434,20 +434,6 @@ export class CreateOrderPage implements OnInit {
 
     // hiding UL
     this.customerUL = false;
-
-    // removing farm & crop name from select
-    // this.createOrderTDriver = this.formBuilder.group({
-    //   machineryID: '',
-    //   cBeginningEngineHours: '',
-    //   dispatcherId: '',
-    //   customerId: '',
-    //   farmId: '',
-    //   fieldId: '',
-    //   service: '',
-    //   tractorDriverId: '',
-    //   fieldAddress: '',
-    //   phone: '',
-    // });
 
     // assigning values in form
     if (localStorage.getItem('role') === 'dispatcher') {

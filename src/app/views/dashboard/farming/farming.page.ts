@@ -28,7 +28,8 @@ export class FarmingPage implements OnInit {
       })
     }
     else {
-      this.farmingService.getBeginningOfDay('1a4d594b-726c-46e4-b677-5e4a78adbc1e', 'beginningOfDay').subscribe(workOrder => {
+      console.log("Tractor Driver: ", localStorage.getItem('employeeId'));
+      this.farmingService.getBeginningOfDay(localStorage.getItem('employeeId'), 'beginningOfDay').subscribe(workOrder => {
         this.workOrderCount = workOrder.count;
         console.log(workOrder);
       });

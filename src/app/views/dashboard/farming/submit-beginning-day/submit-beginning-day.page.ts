@@ -59,7 +59,7 @@ export class SubmitBeginningDayPage implements OnInit {
     this.machinerySearchSubscription();
     this.workOrderSearchSubscription();
 
-    this.farmingService.getBeginningOfDay('1a4d594b-726c-46e4-b677-5e4a78adbc1e', 'beginningOfDay').subscribe(workOrder => {
+    this.farmingService.getBeginningOfDay(localStorage.getItem('employeeId'), 'beginningOfDay').subscribe(workOrder => {
       this.workOrderCount = workOrder.count;
       this.dataLoaded = true;
       if (this.workOrderCount > 0)
@@ -69,7 +69,7 @@ export class SubmitBeginningDayPage implements OnInit {
     })
 
     this.submitBeginningDay = this.formBuilder.group({
-      employeeId: ['1a4d594b-726c-46e4-b677-5e4a78adbc1e'],
+      employeeId: [localStorage.getItem('employeeId')],
       machineryId: ['', [Validators.required]],
       beginningEngineHours: ['', [Validators.required]],
       workOrderId: ['', [Validators.required]]

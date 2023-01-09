@@ -24,19 +24,16 @@ const routes: Routes = [
     loadChildren: () => import('./existing-order/existing-order.module').then(m => m.ExistingOrderPageModule)
   },
   {
-    path: 'change-field',
-    loadChildren: () => import('./change-field/change-field.module').then(m => m.ChangeFieldPageModule)
-  },
-  {
     path: 'close-out-order',
     loadChildren: () => import('./close-out-order/close-out-order.module').then(m => m.CloseOutOrderPageModule)
-  },  {
+  },
+  {
     path: 'submit-end-day',
-    loadChildren: () => import('./submit-end-day/submit-end-day.module').then( m => m.SubmitEndDayPageModule)
+    loadChildren: () => import('./submit-end-day/submit-end-day.module').then(m => m.SubmitEndDayPageModule)
   },
   {
     path: 'submit-beginning-day',
-    loadChildren: () => import('./submit-beginning-day/submit-beginning-day.module').then( m => m.SubmitBeginningDayPageModule)
+    loadChildren: () => import('./submit-beginning-day/submit-beginning-day.module').then(m => m.SubmitBeginningDayPageModule)
   },
 
 

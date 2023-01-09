@@ -10,7 +10,8 @@
           <label class="block text-sm font-medium text-gray-700">Dispatcher</label>
           <input
             class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-            value="225ec948-dae8-4b61-95e8-93551342d0c5" formControlName="dispatcherId" readonly placeholder="12345">
+            [value]="this.createOrderDispatcher.get('dispatcherId').value" formControlName="dispatcherId" readonly
+            placeholder="12345">
         </div>
 
         <!-- Customer-->
@@ -226,7 +227,8 @@
         </div>
 
       </div>
-      <ion-button [disabled]="this.createOrderDispatcher.invalid"  expand="block" class="mt-5 font-Lato text-white" (click)="navigateTo('/tabs/home/farming')">Create New
+      <ion-button [disabled]="this.createOrderDispatcher.invalid" expand="block" class="mt-5 font-Lato text-white"
+        (click)="navigateTo('/tabs/home/farming')">Create New
         Work Order
       </ion-button>
     </form>
@@ -241,7 +243,7 @@
           <label class="block text-sm font-medium text-gray-700">Tractor Driver</label>
           <input
             class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-            value="2bf46542-d0bb-4ada-96e6-c103853c3f0d" formControlName="tractorDriverId" readonly>
+            [value]="this.createOrderTDriver.get('tractorDriverId').value" formControlName="tractorDriverId" readonly>
         </div>
 
         <!-- Machinery ID-->
@@ -506,7 +508,8 @@
         </div>
 
       </div>
-      <ion-button [disabled]="this.createOrderTDriver.invalid" expand="block" class="mt-5 font-Lato text-white" (click)="navigateTo('/tabs/home/farming')">Generate
+      <ion-button [disabled]="this.createOrderTDriver.invalid" expand="block" class="mt-5 font-Lato text-white"
+        (click)="navigateTo('/tabs/home/farming')">Generate
         Ticket
       </ion-button>
     </form>

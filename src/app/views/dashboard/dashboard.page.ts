@@ -7,9 +7,9 @@ import { FormBuilder, FormGroup } from '@angular/forms';
   styleUrls: ['./dashboard.page.scss'],
 })
 export class DashboardPage implements OnInit {
-  roleOptions = ['crew-chief','kart-operator','combine-operator','truck-driver','tractor-driver','dispatcher'];
-role = this.roleOptions[0];
-selectform: FormGroup;
+  roleOptions = ['crew-chief', 'kart-operator', 'combine-operator', 'truck-driver', 'tractor-driver', 'dispatcher'];
+  role = this.roleOptions[0];
+  selectform: FormGroup;
 
   constructor(
     private formbuilder: FormBuilder
@@ -32,10 +32,10 @@ selectform: FormGroup;
     this.role = e.target.value;
 
     if (localStorage.getItem('role') === 'dispatcher')
-    localStorage.setItem('employeeId', '5254e1f7-bedf-4166-bba7-8a64892dc28e');
-
+      localStorage.setItem('employeeId', '5254e1f7-bedf-4166-bba7-8a64892dc28e');
     else if (localStorage.getItem('role') === 'truck-driver')
-    localStorage.setItem('employeeId', '00277ae0-9534-473a-afe8-c648aa0e6d9d');
-
+      localStorage.setItem('employeeId', '00277ae0-9534-473a-afe8-c648aa0e6d9d');
+    else if (localStorage.getItem('role') === 'tractor-driver')
+      localStorage.setItem('employeeId', '2bf46542-d0bb-4ada-96e6-c103853c3f0d');
   }
 }

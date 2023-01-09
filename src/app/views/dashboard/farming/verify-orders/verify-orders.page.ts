@@ -8,7 +8,7 @@ import { FarmingService } from './../farming.service';
   styleUrls: ['./verify-orders.page.scss'],
 })
 export class VerifyOrdersPage implements OnInit {
-  segment = 'sent'; // For Segment
+  segment = 'pending'; // For Segment
 
   sentWorkOrders: Observable<any>;
   pendingWorkOrders: Observable<any>;
