@@ -6,7 +6,7 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'tabs',
+    redirectTo: 'login',
     pathMatch: 'full'
   },
   {
@@ -17,6 +17,11 @@ const routes: Routes = [
     path: 'complete-pre-check-form',
     loadChildren: () => import('./pages/complete-pre-check-form/complete-pre-check-form.module').then( m => m.CompletePreCheckFormPageModule)
   },
+  {
+    path: 'login',
+    loadChildren: () => import('./views/login/login.module').then( m => m.LoginPageModule)
+  },
+
 
 
 ];
