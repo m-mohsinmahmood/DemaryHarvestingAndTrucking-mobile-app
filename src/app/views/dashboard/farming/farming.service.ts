@@ -231,7 +231,7 @@ export class FarmingService {
 
   getBeginningOfDay(
     employeeId: string,
-    searchClause: string
+    searchClause: string,
   ) {
     this._httpClient
     let params = new HttpParams();
