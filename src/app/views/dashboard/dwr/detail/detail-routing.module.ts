@@ -7,7 +7,11 @@ const routes: Routes = [
   {
     path: '',
     component: DetailPage
+  },  {
+    path: 'view-job',
+    loadChildren: () => import('./view-job/view-job.module').then( m => m.ViewJobPageModule)
   }
+
 ];
 
 @NgModule({

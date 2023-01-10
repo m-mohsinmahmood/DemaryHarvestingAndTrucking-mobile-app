@@ -10,6 +10,7 @@ import { WorkHistoryPage } from './work-history.page';
 import { HeaderComponent } from 'src/app/components/header/header.component';
 import { HeaderModule } from 'src/app/components/header/header.module';
 import { TimerModule } from 'src/app/components/timer/timer.module';
+import { WithLoadingPipe } from 'src/app/pipes/general-pipes/with-loading.pipe';
 
 @NgModule({
   imports: [
@@ -20,6 +21,6 @@ CommonModule,
     HeaderModule,
     TimerModule
   ],
-  declarations: [WorkHistoryPage]
+  declarations: [WorkHistoryPage, WithLoadingPipe]
 })
 export class WorkHistoryPageModule {}

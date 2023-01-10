@@ -1,4 +1,9 @@
-import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
+/* eslint-disable @typescript-eslint/naming-convention */
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpParams,
+} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { take } from 'rxjs/operators';
 import { AlertService } from 'src/app/alert/alert.service';
@@ -7,7 +12,6 @@ import { AlertService } from 'src/app/alert/alert.service';
   providedIn: 'root',
 })
 export class DWRService {
-
   // -----------------------------------------------------------------------------------------------------
   // @ Public methods
   // -----------------------------------------------------------------------------------------------------
@@ -15,16 +19,12 @@ export class DWRService {
   constructor(
     private httpClient: HttpClient,
     private alertSerice: AlertService
-  ) { }
+  ) {}
 
-  getDWR(
-    employeeId: string,
-    searchClause: string,
-    date: any
-  ) {
+  getDWR(employeeId: string, date: any) {
     let params = new HttpParams();
     params = params.set('employeeId', employeeId);
-    params = params.set('searchClause', searchClause);
+    params = params.set('dateType', 'day');
     params = params.set('date', date);
 
     return this.httpClient
@@ -33,6 +33,35 @@ export class DWRService {
       })
       .pipe(take(1));
   }
+  getDWRById(id: string) {
+    let params = new HttpParams();
+    params = params.set('id', id);
+    return this.httpClient
+      .get<any>('http://localhost:7071/api/dwr', {
+        params,
+      })
+      .pipe(take(1));
+  }
+  getJobById(job_id: any){
+    let params = new HttpParams();
+    params = params.set('job_id',job_id);
+    return this.httpClient
+    .get<any>('http://localhost:7071/api/customer-job-setup', {
+      params,
+    })
+    .pipe(take(1));
+
+  }
+  getMonthDWR(employeeId: string, month: any, year: any) {
+    let params = new HttpParams();
+    params = params.set('employeeId', employeeId);
+    params = params.set('dateType', 'month');
+    params = params.set('month', month);
+    params = params.set('year', year);
+    return this.httpClient
+      .get<any>('http://localhost:7071/api/dwr', {
+        params,
+      })
+      .pipe(take(1));
+  }
 }
-
-
