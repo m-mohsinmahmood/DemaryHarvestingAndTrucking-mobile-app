@@ -9,6 +9,7 @@ import { TrainingTasksPageRoutingModule } from './training-tasks-routing.module'
 import { TrainingTasksPage } from './training-tasks.page';
 import { HeaderModule } from 'src/app/components/header/header.module';
 import { TimerModule } from 'src/app/components/timer/timer.module';
+import { WithLoadingPipe } from 'src/app/pipes/general-pipes/with-loading.pipe';
 
 @NgModule({
   imports: [
@@ -20,6 +21,6 @@ CommonModule,
     TimerModule,
     ReactiveFormsModule
   ],
-  declarations: [TrainingTasksPage]
+  declarations: [TrainingTasksPage,WithLoadingPipe]
 })
 export class TrainingTasksPageModule {}

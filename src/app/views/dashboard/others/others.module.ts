@@ -9,6 +9,7 @@ import { OthersPageRoutingModule } from './others-routing.module';
 import { OthersPage } from './others.page';
 import { HeaderModule } from 'src/app/components/header/header.module';
 import { TimerModule } from 'src/app/components/timer/timer.module';
+import { WithLoadingPipe } from 'src/app/pipes/general-pipes/with-loading.pipe';
 
 @NgModule({
   imports: [
@@ -20,6 +21,6 @@ import { TimerModule } from 'src/app/components/timer/timer.module';
     TimerModule,
     ReactiveFormsModule
   ],
-  declarations: [OthersPage]
+  declarations: [OthersPage, WithLoadingPipe]
 })
 export class OthersPageModule { }

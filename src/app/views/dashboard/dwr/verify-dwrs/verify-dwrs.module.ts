@@ -9,6 +9,7 @@ import { VerifyDwrsPageRoutingModule } from './verify-dwrs-routing.module';
 import { VerifyDwrsPage } from './verify-dwrs.page';
 import { HeaderModule } from 'src/app/components/header/header.module';
 import { TimerModule } from 'src/app/components/timer/timer.module';
+import { WithLoadingPipe } from 'src/app/pipes/general-pipes/with-loading.pipe';
 
 @NgModule({
   imports: [
@@ -19,6 +20,6 @@ CommonModule,
     HeaderModule,
     TimerModule
   ],
-  declarations: [VerifyDwrsPage]
+  declarations: [VerifyDwrsPage, WithLoadingPipe]
 })
 export class VerifyDwrsPageModule {}

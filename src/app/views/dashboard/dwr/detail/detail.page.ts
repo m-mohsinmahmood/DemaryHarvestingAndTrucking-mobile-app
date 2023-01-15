@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { DWRService } from '../dwr.service';
@@ -14,9 +15,11 @@ export class DetailPage implements OnInit {
 
   // data
   workHistoryData: any;
+  data: any;
 
   // behaviour subject for loader
   public loading = new BehaviorSubject(true);
+  public loaderModel = new BehaviorSubject(true);
 
   constructor(
     private router: Router,
@@ -39,7 +42,25 @@ export class DetailPage implements OnInit {
     }
   }
   getJob(){
-    console.log('first');
     this.router.navigateByUrl('/tabs/home/dwr/detail/view-job');
+  }
+  getJobById(job_id: any){
+    this.dwrService
+      .getJobById(job_id)
+      .subscribe((res) => {
+        this.loaderModel.next(true);
+        this.data = res;
+        this.loaderModel.next(false);
+      });
+  }
+  getWordOrderById(work_order_id: any){
+    console.log('Work Order Called')
+    this.dwrService
+      .getWordOrderById(work_order_id)
+      .subscribe((res) => {
+        this.loaderModel.next(true);
+        this.data = res;
+        this.loaderModel.next(false);
+      });
   }
 }

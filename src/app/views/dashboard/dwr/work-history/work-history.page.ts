@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
@@ -28,6 +29,12 @@ export class WorkHistoryPage implements OnInit {
   moment: any = moment;
 
   isOpen;
+
+  // kart operator id
+  kart_operator_id = 'f4cfa75b-7c14-4b68-a192-00d56c9f2022';
+
+  // crew chief id
+  crew_chief_id = '4b843edb-0b74-49a2-b3c7-d3884f5f6013';
   constructor(private router: Router, private dwrService: DWRService) {}
 
   ngOnInit() {
@@ -60,9 +67,9 @@ export class WorkHistoryPage implements OnInit {
     });
   }
   getDWRByDate(){
-    this.dwrs$ =this.dwrService.getDWR('f4cfa75b-7c14-4b68-a192-00d56c9f2022',this.date);
+    this.dwrs$ =this.dwrService.getDWR(this.kart_operator_id,this.date);
   }
   getDWRByMonth(){
-    this.monthDWRS$ = this.dwrService.getMonthDWR('f4cfa75b-7c14-4b68-a192-00d56c9f2022',this.monthValue,this.yearValue);
+    this.monthDWRS$ = this.dwrService.getMonthDWR(this.kart_operator_id,this.monthValue,this.yearValue);
   }
 }

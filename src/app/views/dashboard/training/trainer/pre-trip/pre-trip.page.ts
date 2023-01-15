@@ -1,7 +1,13 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable @typescript-eslint/naming-convention */
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
+import { ToastService } from 'src/app/services/toast/toast.service';
+import { TrainingService } from '../../training.service';
+import { states } from 'src/JSON/state';
 
 @Component({
   selector: 'app-pre-trip',
@@ -9,206 +15,353 @@ import { Router } from '@angular/router';
   styleUrls: ['./pre-trip.page.scss'],
 })
 export class PreTripPage implements OnInit {
+  @ViewChild('traineeInput') traineeInput: ElementRef;
+  @ViewChild('supervisorInput') supervisorInput: ElementRef;
+
   // preTripForm: FormGroup;
   preTrip: FormGroup;
 
-  value: any;
-  buffer = 1;
-  progress = 0;
-  selectAray: any[] = [
-    'engine/compartment',
-    'incab',
-    'vehicle/external',
-    'coupling',
-    'suspension/brakes',
-  ];
-  indexArray: any[] = [0.2, 0.4, 0.6, 0.8, 1];
-  text=0;
-  increment = 0;
-  increment1 = 0;
+  value: any = 'paper-form';
 
   upload_1 = false;
   upload_2 = false;
   upload_3 = false;
- upload = false;
-//  value: any;
+  upload = true;
 
-  constructor(private formBuilder: FormBuilder, private router: Router) {}
+  // behaviour subject for loader
+  public loading = new BehaviorSubject(true);
 
-  ngOnInit() {
-    // // passing the select value for Engine/Compartment to render when page loads
-    // this.value = 'engine/compartment';
+  // trainer id
+  trainer_id = '4b84234b-0b74-49a2-b3c7-d3884f5f6013';
 
-    // passing the select value for Paper Form to render when page loads
-    this.value = '1';
+  profileData: any;
+  states: string[];
 
-    this.initForms();
-  }
+  //#region trainee drop-down variables
+  allTrainees: Observable<any>;
+  traineeSearch$ = new Subject();
+  trainee_name: any = '';
+  traineeSearchValue: any = '';
+  traineeUL: any = false;
+  isTraineeSelected: any = true;
+  //#endregion
 
-  initForms(){
-    // this.preTripForm = this.formBuilder.group({
-    //   preSelect: ['',[Validators.required]],
-    //   //Engine/Compartment
-    //   oilLevel: ['false',[Validators.required]],
-    //   coolantLevelEngine: ['false',[Validators.required]],
-    //   powerSteelingLevel: ['false',[Validators.required]],
-    //   h20: ['false',[Validators.required]],
-    //   alternatorBelt: ['false',[Validators.required]],
-    //   airCompresseorEngine: ['false',[Validators.required]],
-    //   leaksHoses: ['false',[Validators.required]],
-    //   fanShroud: ['false',[Validators.required]],
-    //   radiator: ['false',[Validators.required]],
-    //   wiring: ['false',[Validators.required]],
-    //   steeringBox: ['false',[Validators.required]],
-    //   steeringLinkage: ['false',[Validators.required]],
-    //   hosesSteering: ['false',[Validators.required]],
-    //   turbo: ['false',[Validators.required]],
-    //   windowFluid: ['false',[Validators.required]],
-    //   mirror: ['false',[Validators.required]],
-    //   clutchCondition: ['false',[Validators.required]],
-    //   commentsEngine: ['',[Validators.required]],
+  //#region supervisor drop-down variables
+  allSupervisors: Observable<any>;
+  supervisorSearch$ = new Subject();
+  supervisor_name: any = '';
+  supervisorSearchValue: any = '';
+  supervisorUL: any = false;
+  isSupervisorSelected: any = true;
+  //#endregion
 
-    //   // In Cab
-    //   safetyBelt: ['false',[Validators.required]],
-    //   coolantLevelCab: ['false',[Validators.required]],
-    //   emergencyEquipment: ['false',[Validators.required]],
-    //   safeStart: ['false',[Validators.required]],
-    //   temperatureGauge: ['false',[Validators.required]],
-    //   oilPressure: ['false',[Validators.required]],
-    //   voltMeter: ['false',[Validators.required]],
-    //   airGaugeBuCo: ['false',[Validators.required]],
-    //   indicators: ['false',[Validators.required]],
-    //   horns: ['false',[Validators.required]],
-    //   defroster: ['false',[Validators.required]],
-    //   windshield: ['false',[Validators.required]],
-    //   wipersWash: ['false',[Validators.required]],
-    //   parkBrake: ['false',[Validators.required]],
-    //   svcBrake: ['false',[Validators.required]],
-    //   leakTest: ['false',[Validators.required]],
-    //   abcLights: ['false',[Validators.required]],
-    //   lightFunction: ['false',[Validators.required]],
-    //   commentsCab: ['',[Validators.required]],
+  private _unsubscribeAll: Subject<any> = new Subject<any>();
 
-    //   // Vehicle/External
-    //   lightFunctionVehicle: ['false',[Validators.required]],
-    //   lensReflector: ['false',[Validators.required]],
-    //   door: ['false',[Validators.required]],
-    //   fuelTank: ['false',[Validators.required]],
-    //   leaks: ['false',[Validators.required]],
-    //   steps: ['false',[Validators.required]],
-    //   frame: ['false',[Validators.required]],
-    //   driveShaft: ['false',[Validators.required]],
-    //   tires: ['false',[Validators.required]],
-    //   rims: ['false',[Validators.required]],
-    //   lugNuts: ['false',[Validators.required]],
-    //   axelHubSeal: ['false',[Validators.required]],
-    //   bidSpacers: ['false',[Validators.required]],
-    //   batteryBox: ['false',[Validators.required]],
-    //   exhaust: ['false',[Validators.required]],
-    //   headerBvd: ['false',[Validators.required]],
-    //   landingGear: ['false',[Validators.required]],
-    //   commentsVehicle: ['',[Validators.required]],
-
-    //   //Coupling
-    //   airConditioners: ['false',[Validators.required]],
-    //   electricConnectors: ['false',[Validators.required]],
-    //   mountingBolts: ['false',[Validators.required]],
-    //   platformBase: ['false',[Validators.required]],
-    //   lockingJaws: ['false',[Validators.required]],
-    //   grease: ['false',[Validators.required]],
-    //   releaseArm: ['false',[Validators.required]],
-    //   skidPlate: ['false',[Validators.required]],
-    //   slidingPins: ['false',[Validators.required]],
-    //   kingPin: ['false',[Validators.required]],
-    //   apron: ['false',[Validators.required]],
-    //   gap: ['false',[Validators.required]],
-    //   airLine: ['false',[Validators.required]],
-    //   location: ['false',[Validators.required]],
-    //   safetyDevices: ['false',[Validators.required]],
-    //   print: ['false',[Validators.required]],
-    //   drawBar: ['false',[Validators.required]],
-    //   commentsCoupling: ['',[Validators.required]],
-
-    //   //Suspension/Brakes
-    //   springs: ['false',[Validators.required]],
-    //   airBags: ['false',[Validators.required]],
-    //   shocks: ['false',[Validators.required]],
-    //   vBolts: ['false',[Validators.required]],
-    //   mounts: ['false',[Validators.required]],
-    //   bushings: ['false',[Validators.required]],
-    //   leafSprings: ['false',[Validators.required]],
-    //   slackAdjusters: ['false',[Validators.required]],
-    //   crackChammber: ['false',[Validators.required]],
-    //   pushRod: ['false',[Validators.required]],
-    //   drums: ['false',[Validators.required]],
-    //   linings: ['false',[Validators.required]],
-    //   rotor: ['false',[Validators.required]],
-    //   discPads: ['false',[Validators.required]],
-    //   brakeHoses: ['false',[Validators.required]],
-    //   cams: ['false',[Validators.required]],
-    //   torqueArm: ['false',[Validators.required]],
-    //   wheelSeals: ['false',[Validators.required]],
-    //   commentsSuspension: ['',[Validators.required]],
-    // });
-
-    this.preTrip = this.formBuilder.group({
-      formSelect: ['',[Validators.required]],
-      trainerName: ['',[Validators.required]],
-      traineeName: ['',[Validators.required]],
-      clp: ['',[Validators.required]],
-      supervisorName: ['',[Validators.required]],
-      // odometerStartingMiles: ['',[Validators.required]],
-      // odometerEndingMiles: ['',[Validators.required]],
-      classroomSelect: ['',[Validators.required]],
-      groupPracticalSelect: ['',[Validators.required]],
-      city: ['',[Validators.required]],
-      state: ['',[Validators.required]],
-      uploadDocs1: ['',[Validators.required]],
-      uploadDocs2: ['',[Validators.required]],
-      uploadDocs3: ['',[Validators.required]],
+  constructor(
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private trainingService: TrainingService,
+    private renderer: Renderer2,
+    private toastService: ToastService
+  ) {
+    this.renderer.listen('window', 'click', (e) => {
+      if (e.target !== this.traineeInput.nativeElement) {
+        this.allTrainees = of([]);
+        this.traineeUL = false; // to hide the UL
+      }
+      if (e.target !== this.supervisorInput.nativeElement) {
+        this.allSupervisors = of([]);
+        this.supervisorUL = false; // to hide the UL
+      }
     });
   }
 
-  onSelectedFiles(file,name){
-    console.log('file:',file);
+  ngOnInit() {
+    // pasing states
+    this.states = states;
 
-    if(name === 'upload_1'){
+    this.initForms();
+
+    // getting Trainer profile data
+    this.getTrainer();
+  }
+
+  initForms() {
+
+    this.preTrip = this.formBuilder.group({
+      evaluation_form: ['', [Validators.required]],
+      trainer_id: [''],
+      trainee_id: [''],
+      supervisor_id: [''],
+      is_completed_cdl_classroom: ['', [Validators.required]],
+      is_completed_group_practical: ['', [Validators.required]],
+      city: ['', [Validators.required]],
+      state: ['', [Validators.required]],
+      uploadDocs1: ['', [Validators.required]],
+      uploadDocs2: ['', [Validators.required]],
+      uploadDocs3: ['', [Validators.required]],
+    });
+
+    // trainee subscription
+    this.traineeSearchSubscription();
+
+    // supervisor subscription
+    this.traineeSearchSubscription();
+  }
+
+  onSelectedFiles(file, name) {
+    console.log('file:', file);
+
+    if (name === 'upload_1') {
       this.upload_1 = !this.upload_1;
     }
-    if(name === 'upload_2'){
+    if (name === 'upload_2') {
       this.upload_2 = !this.upload_2;
-    }if(name === 'upload_3'){
+    }
+    if (name === 'upload_3') {
       this.upload_3 = !this.upload_3;
     }
-
   }
-  uploadClick(){
-     this.upload = !this.upload;
+  uploadClick() {
+    this.upload = !this.upload;
   }
-  onSelect(e){
+  onSelect(e) {
     console.log(e.target.value);
-    if(e.target.value === '1'){
+    if (e.target.value === 'paper-form') {
       this.value = e.target.value;
-    }else{
+    } else {
       this.upload = false;
       this.value = e.target.value;
     }
   }
-  submit(){
-    // console.log(this.preTripForm.value);
 
-    // this.increment1 = this.increment1 +1;
-    // this.value = this.selectAray[this.increment1];
-
-    // // passing index to get progress
-    // this.progress = this.indexArray[this.increment];
-
-    // this.increment = this.increment +1;
-    // console.log(this.increment);
-    // this.text = this.increment;
-  }
-  continue(){
+  submit() {
     console.log(this.preTrip.value);
-    this.router.navigateByUrl('/tabs/home/training/trainer/pre-trip/digital-form');
+    this.trainingService.save(this.preTrip.value, 'pre-trip').subscribe(
+      (res) => {
+        console.log('RES:', res);
+        if (res.status === 200) {
+          this.toastService.presentToast(
+            'Your details have been submitted',
+            'success'
+          );
+        } else {
+          console.log('Something happened :)');
+          this.toastService.presentToast(res.mssage, 'danger');
+        }
+      },
+      (err) => {
+        console.log('ERROR::', err);
+        this.toastService.presentToast(err.mssage, 'danger');
+      }
+    );
   }
+  continue() {
+    console.log(this.preTrip.value);
+    this.router.navigateByUrl(
+      '/tabs/home/training/trainer/pre-trip/digital-form'
+    );
+  }
+
+  getTrainer() {
+    this.trainingService.getTrainerById(this.trainer_id).subscribe((res) => {
+      this.loading.next(true);
+      console.log('Res:', res);
+      this.profileData = res;
+
+      // patching values
+      this.preTrip.patchValue({
+        trainer_id: res.trainer_id,
+      });
+      this.loading.next(false);
+    });
+  }
+
+  //#region Trainee
+  traineeSearchSubscription() {
+    this.traineeSearch$
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        takeUntil(this._unsubscribeAll)
+      )
+      .subscribe((value: string) => {
+        // passing for renderer2
+        this.traineeSearchValue = value;
+
+        // for asterik to look required
+        if (value === '') {
+          this.isTraineeSelected = true;
+        }
+
+        // calling API
+        this.allTrainees = this.trainingService.getEmployees(
+          this.traineeSearchValue,
+          'allEmployees',
+          'Trainee'
+        );
+
+        // subscribing to show/hide  UL
+        this.allTrainees.subscribe((trainee) => {
+          console.log('trainee:', trainee);
+
+          if (trainee.count === 0) {
+            // hiding UL
+            this.traineeUL = false;
+          } else {
+            this.traineeUL = true;
+          }
+        });
+      });
+  }
+  inputClickedTrainee() {
+    // getting the serch value to check if there's a value in input
+    this.traineeSearch$
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        takeUntil(this._unsubscribeAll)
+      )
+      .subscribe((v) => {
+        this.traineeSearchValue = v;
+      });
+
+    const value =
+      this.traineeSearchValue === undefined
+        ? this.trainee_name
+        : this.traineeSearchValue;
+
+    // calling API
+    this.allTrainees = this.trainingService.getEmployees(
+      this.traineeSearchValue,
+      'allEmployees',
+      'Trainee'
+    );
+
+    // subscribing to show/hide field UL
+    this.allTrainees.subscribe((trainee) => {
+      console.log('trainee:', trainee);
+      if (trainee.count === 0) {
+        // hiding UL
+        this.traineeUL = false;
+      } else {
+        // showing UL
+        this.traineeUL = true;
+      }
+    });
+  }
+  listClickedTrainee(trainee) {
+    console.log('Trainee Object:', trainee);
+    // hiding UL
+    this.traineeUL = false;
+
+    // passing name in select's input
+    this.trainee_name = trainee.first_name + ' ' + trainee.last_name;
+
+    // to enable submit button
+    this.isTraineeSelected = false;
+
+    // assigning values in form
+    this.preTrip.patchValue({
+      trainee_id: trainee.id,
+    });
+
+    // clearing array
+    this.allTrainees = of([]);
+  }
+  //#endregion
+
+  //#region Supervisor
+  supervisorSearchSubscription() {
+    this.supervisorSearch$
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        takeUntil(this._unsubscribeAll)
+      )
+      .subscribe((value: string) => {
+        // passing for renderer2
+        this.supervisorSearchValue = value;
+
+        // for asterik to look required
+        if (value === '') {
+          this.isSupervisorSelected = true;
+        }
+
+        // calling API
+        this.allSupervisors = this.trainingService.getEmployees(
+          this.supervisorSearchValue,
+          'allEmployees',
+          'Trainee'
+        );
+
+        // subscribing to show/hide  UL
+        this.allSupervisors.subscribe((supervisor) => {
+          console.log('supervisor:', supervisor);
+
+          if (supervisor.count === 0) {
+            // hiding UL
+            this.supervisorUL = false;
+          } else {
+            this.supervisorUL = true;
+          }
+        });
+      });
+  }
+  inputClickedSupervisor() {
+    // getting the serch value to check if there's a value in input
+    this.supervisorSearch$
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        takeUntil(this._unsubscribeAll)
+      )
+      .subscribe((v) => {
+        this.supervisorSearchValue = v;
+      });
+
+    const value =
+      this.supervisorSearchValue === undefined
+        ? this.supervisor_name
+        : this.supervisorSearchValue;
+
+    // calling API
+    this.allSupervisors = this.trainingService.getEmployees(
+      this.traineeSearchValue,
+      'allEmployees',
+      'Supervisor'
+    );
+
+    // subscribing to show/hide field UL
+    this.allSupervisors.subscribe((supervisor) => {
+      console.log('supervisor:', supervisor);
+      if (supervisor.count === 0) {
+        // hiding UL
+        this.supervisorUL = false;
+      } else {
+        // showing UL
+        this.supervisorUL = true;
+      }
+    });
+  }
+  listClickedSupervisor(supervisor) {
+    console.log('supervisor Object:', supervisor);
+    // hiding UL
+    this.supervisorUL = false;
+
+    // passing name in select's input
+    this.supervisor_name = supervisor.first_name + ' ' + supervisor.last_name;
+
+    // to enable submit button
+    this.isSupervisorSelected = false;
+
+    // assigning values in form
+    this.preTrip.patchValue({
+      supervisor_id: supervisor.id,
+    });
+
+    // clearing array
+    this.allSupervisors = of([]);
+  }
+  //#endregion
 }

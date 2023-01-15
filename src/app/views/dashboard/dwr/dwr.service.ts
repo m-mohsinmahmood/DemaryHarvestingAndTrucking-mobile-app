@@ -50,7 +50,15 @@ export class DWRService {
       params,
     })
     .pipe(take(1));
-
+  }
+  getWordOrderById(work_order_id: any){
+    let params = new HttpParams();
+    params = params.set('work_order_id',work_order_id);
+    return this.httpClient
+    .get<any>('http://localhost:7071/api/work-order-farming', {
+      params,
+    })
+    .pipe(take(1));
   }
   getMonthDWR(employeeId: string, month: any, year: any) {
     let params = new HttpParams();

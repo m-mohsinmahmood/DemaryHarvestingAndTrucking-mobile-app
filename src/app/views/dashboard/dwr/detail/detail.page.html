@@ -480,7 +480,8 @@
 
     <!-- Harvesting -->
     <div *ngIf="(loading | async) === false">
-    <ion-card-content class="flex flex-col justify-between mt-2" *ngIf="workHistoryData?.dwr_type === 'harvesting'">
+      <div *ngIf="workHistoryData?.dwr_type === 'harvesting'">
+    <ion-card-content class="flex flex-col justify-between mt-2">
       <div class="flex justify-start items-center my-1">
         <ion-text
           class="bg-E64646 bg-opacity-20 text-e64646 text-xs rounded-md ion-text-uppercase border-2 border-e64646 px-2 py-1">Harvesting</ion-text>
@@ -532,8 +533,141 @@
         </ion-col>
       </ion-row>
     </ion-grid>
-    <ion-button expand="block" class="font-Lato text-white mb-4 mx-8" (click)="getJob()">View Job</ion-button>
+    <ion-button id="open-harvesting-modal" expand="block" class="text-white" (click)="getJobById('504ab52f-4a13-414c-82d8-cd6aee91641e')">View Job</ion-button>
+    <!-- HARVESTING MODEL STARTS -->
+    <ion-modal #modal trigger="open-harvesting-modal" [initialBreakpoint]="0.75" [breakpoints]="[0, 0.25, 0.5, 0.75]">
+      <ng-template>
+        <ion-content>
+          <ion-card>
+            <ion-card-header class="bg-3D8AA4">
+              <ion-card-title class="flex justify-center text-2xl font-Lato text-white">Harvesting Job</ion-card-title>
+            </ion-card-header>
+            <ion-card-content *ngIf="(loaderModel | async) === false">
+              <ion-grid >
+                <ion-row>
+                  <ion-col size="12" class="flex justify-center font-Lato text-black font-bold font-14">
+                    Job Id
+                  </ion-col>
+                  <ion-col size="12" class="flex justify-center">
+                    <p>{{data?.job_id}}</p>
+                  </ion-col>
+                </ion-row>
+                <!-- First Row -->
+                <ion-row class="mb-1 h-16">
+                  <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+                    <p class="font-Lato text-black font-bold font-14">Employee Name</p>
+                    <span class="font-Lato font-14">{{data?.first_name}} {{data?.last_name}}</span>
+                  </ion-col>
+                  <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+                    <p class="font-Lato text-black font-bold font-14">Customer Name</p>
+                    <span class="font-Lato font-14">{{data?.customer_name}}</span>
+                  </ion-col>
+                </ion-row>
 
+                <!-- Second Row -->
+                <ion-row class="mb-1 h-16">
+                  <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+                    <p class="font-Lato text-black font-bold font-14">Farm</p>
+                    <span class="font-Lato font-14">{{data?.farm_name}}</span>
+                  </ion-col>
+                  <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+                    <p class="font-Lato text-black font-bold font-14">Crop</p>
+                    <span class="font-Lato font-14 text-left">{{data?.crop_name}}</span>
+                  </ion-col>
+                </ion-row>
+
+                  <!-- Third Row -->
+                  <ion-row class="mb-1 h-16">
+                    <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+                      <p class="font-Lato text-black font-bold font-14">Field</p>
+                      <span class="font-Lato font-14">{{data?.field_name}}</span>
+                    </ion-col>
+                    <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+                      <p class="font-Lato text-black font-bold font-14">Acres</p>
+                      <span class="font-Lato font-14">{{data?.total_acres}}</span>
+                    </ion-col>
+                  </ion-row>
+
+                  <!-- Fourth Row -->
+                  <ion-row class="mb-1 h-16">
+                    <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+                      <p class="font-Lato text-black font-bold font-14">GPS Acres</p>
+                      <span class="font-Lato font-14">{{data?.total_gps_acres}}</span>
+                    </ion-col>
+                    <!-- <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+                      <p class="font-Lato text-black font-bold font-14">Destination</p>
+                      <span class="font-Lato font-14">{{'ticketData.destination'}}</span>
+                    </ion-col> -->
+                  </ion-row>
+              </ion-grid>
+              <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="modal.dismiss()">Exit</ion-button>
+            </ion-card-content>
+            <ion-card-content *ngIf="(loaderModel | async) === true">
+              <ion-grid>
+                <ion-row>
+                  <ion-col size="12" class="flex justify-center font-Lato text-black font-bold font-14">
+                    Job Id
+                  </ion-col>
+                  <ion-col size="12" class="flex justify-center">
+                   <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+                  </ion-col>
+                </ion-row>
+                <!-- First Row -->
+                <ion-row class="mb-1 h-16">
+                  <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+                    <p class="font-Lato text-black font-bold font-14">Employee Name</p>
+                    <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+                  </ion-col>
+                  <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+                    <p class="font-Lato text-black font-bold font-14">Customer Name</p>
+                    <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+                  </ion-col>
+                </ion-row>
+
+                <!-- Second Row -->
+                <ion-row class="mb-1 h-16">
+                  <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+                    <p class="font-Lato text-black font-bold font-14">Farm</p>
+                    <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+                  </ion-col>
+                  <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+                    <p class="font-Lato text-black font-bold font-14">Crop</p>
+                    <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+                  </ion-col>
+                </ion-row>
+
+                  <!-- Third Row -->
+                  <ion-row class="mb-1 h-16">
+                    <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+                      <p class="font-Lato text-black font-bold font-14">Field</p>
+                      <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+                    </ion-col>
+                    <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+                      <p class="font-Lato text-black font-bold font-14">Acres</p>
+                      <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+                    </ion-col>
+                  </ion-row>
+
+                  <!-- Fourth Row -->
+                  <ion-row class="mb-1 h-16">
+                    <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+                      <p class="font-Lato text-black font-bold font-14">GPS Acres</p>
+                      <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+                    </ion-col>
+                    <!-- <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+                      <p class="font-Lato text-black font-bold font-14">Destination</p>
+                      <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+                    </ion-col> -->
+                  </ion-row>
+
+              </ion-grid>
+            </ion-card-content>
+          </ion-card>
+        </ion-content>
+      </ng-template>
+    </ion-modal>
+ <!-- MODEL ENDS -->
+     </div>
   </div>
 
     <!-- TRUCKING -->
@@ -631,7 +765,8 @@
 
     <!-- FARMING -->
     <div *ngIf="(loading | async) === false">
-      <ion-card-content class="flex flex-col justify-between" *ngIf="workHistoryData?.dwr_type === 'farming'">
+      <div *ngIf="workHistoryData?.dwr_type === 'farming'">
+      <ion-card-content class="flex flex-col justify-between" >
         <div class="flex justify-start items-center my-1">
           <ion-text
             class="bg-FFCD29 bg-opacity-20 text-FFCD29 text-xs rounded-md ion-text-uppercase border-2 border-FFCD29 px-2 py-1">
@@ -675,6 +810,141 @@
           <ion-text class="text-black font-Lato font-bold text-base">8</ion-text>
         </div>
       </ion-card-content>
+      <ion-button id="open-farming-modal" expand="block" class="text-white" (click)="getWordOrderById(workHistoryData.work_order_id)">View Work Order</ion-button>
+    <!-- FARMING MODEL STARTS -->
+    <ion-modal #modal trigger="open-farming-modal" [initialBreakpoint]="0.75" [breakpoints]="[0, 0.25, 0.5, 0.75]">
+      <ng-template>
+        <ion-content>
+          <ion-card>
+            <ion-card-header class="bg-3D8AA4">
+              <ion-card-title class="flex justify-center text-2xl font-Lato text-white">Farming Work Order</ion-card-title>
+            </ion-card-header>
+            <ion-card-content *ngIf="(loaderModel | async) === false">
+              <ion-grid >
+                <ion-row>
+                  <ion-col size="12" class="flex justify-center">
+                    Work Order Id
+                  </ion-col>
+                  <ion-col size="12" class="flex justify-center">
+                   <p>{{workHistoryData.work_order_id}}</p>
+                  </ion-col>
+                </ion-row>
+                <!-- First Row -->
+                <ion-row class="mb-1 h-16">
+                  <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+                    <p class="font-Lato text-black font-bold font-14">Customer Name</p>
+                    <span class="font-Lato font-14">{{data?.customer_name}}</span>
+                  </ion-col>
+                  <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+                    <p class="font-Lato text-black font-bold font-14">Machinery Name</p>
+                    <span class="font-Lato font-14">{{data?.machinery_name}}</span>
+                  </ion-col>
+                </ion-row>
+
+                <!-- Second Row -->
+                <ion-row class="mb-1 h-16">
+                  <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+                    <p class="font-Lato text-black font-bold font-14">Farm</p>
+                    <span class="font-Lato font-14">{{data?.farm_name}}</span>
+                  </ion-col>
+                  <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+                    <p class="font-Lato text-black font-bold font-14">Field</p>
+                    <span class="font-Lato font-14 text-left">{{data?.field_name}}</span>
+                  </ion-col>
+                </ion-row>
+
+                  <!-- Third Row -->
+                  <ion-row class="mb-1 h-16">
+                    <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+                      <p class="font-Lato text-black font-bold font-14">Truck Driver</p>
+                      <span class="font-Lato font-14">{{data?.truck_driver_first_name}} {{data?.truck_driver_last_name}}</span>
+                    </ion-col>
+                    <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+                      <p class="font-Lato text-black font-bold font-14">Dispatcher</p>
+                      <span class="font-Lato font-14">{{data?.dispatcher_first_name}} {{data?.dispatcher_last_name}}</span>
+                    </ion-col>
+                  </ion-row>
+
+                  <!-- Fourth Row -->
+                  <ion-row class="mb-1 h-16">
+                    <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+                      <p class="font-Lato text-black font-bold font-14">Field Address</p>
+                      <span class="font-Lato font-14">{{data?.field_address}}</span>
+                    </ion-col>
+                    <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+                      <p class="font-Lato text-black font-bold font-14">Customer Phone</p>
+                      <span class="font-Lato font-14">{{data?.customer_phone}}</span>
+                    </ion-col>
+                  </ion-row>
+              </ion-grid>
+              <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="modal.dismiss()">Exit</ion-button>
+            </ion-card-content>
+            <ion-card-content *ngIf="(loaderModel | async) === true">
+              <ion-grid>
+                <ion-row>
+                  <ion-col size="12" class="flex justify-center font-Lato text-black font-bold font-14">
+                    Work Order Id
+                  </ion-col>
+                  <ion-col size="12" class="flex justify-center">
+                   <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+                  </ion-col>
+                </ion-row>
+                <!-- First Row -->
+                <ion-row class="mb-1 h-16">
+                  <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+                    <p class="font-Lato text-black font-bold font-14">Customer Name</p>
+                    <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+                  </ion-col>
+                  <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+                    <p class="font-Lato text-black font-bold font-14">Machinery Name</p>
+                    <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+                  </ion-col>
+                </ion-row>
+
+                <!-- Second Row -->
+                <ion-row class="mb-1 h-16">
+                  <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+                    <p class="font-Lato text-black font-bold font-14">Farm</p>
+                    <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+                  </ion-col>
+                  <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+                    <p class="font-Lato text-black font-bold font-14">Field</p>
+                    <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+                  </ion-col>
+                </ion-row>
+
+                  <!-- Third Row -->
+                  <ion-row class="mb-1 h-16">
+                    <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+                      <p class="font-Lato text-black font-bold font-14">Truck Driver</p>
+                      <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+                    </ion-col>
+                    <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+                      <p class="font-Lato text-black font-bold font-14">Dispatcher</p>
+                      <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+                    </ion-col>
+                  </ion-row>
+
+                  <!-- Fourth Row -->
+                  <ion-row class="mb-1 h-16">
+                    <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+                      <p class="font-Lato text-black font-bold font-14">Field Address</p>
+                      <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+                    </ion-col>
+                    <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+                      <p class="font-Lato text-black font-bold font-14">Customer Phone</p>
+                      <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+                    </ion-col>
+                  </ion-row>
+
+              </ion-grid>
+            </ion-card-content>
+          </ion-card>
+        </ion-content>
+      </ng-template>
+    </ion-modal>
+ <!-- MODEL ENDS -->
+</div>
     </div>
 
     <!-- <ion-grid>
