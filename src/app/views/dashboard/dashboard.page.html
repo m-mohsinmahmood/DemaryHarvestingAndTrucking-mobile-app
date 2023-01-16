@@ -7,7 +7,7 @@
   <div class="grid-background">
     <ion-grid>
       <ion-row>
-        <ion-col size="10" class="flex flex-row	items-center">
+        <ion-col size="8" class="flex flex-row	items-center">
           <ion-avatar>
             <img src="../../../assets/images//Oval.png" alt="">
           </ion-avatar>
@@ -27,6 +27,24 @@
             <ion-badge class="text-white absolute left-6 top-1">6</ion-badge>
           </ion-tab-button>
         </ion-col>
+        <ion-col size="2" class="flex justify-center items-center">
+          <ion-tab-button id="click-trigger" class="relative" (click)="presentPopover($event)">
+            <ion-icon name="log-out-outline" size="large"></ion-icon>
+          </ion-tab-button>
+
+        </ion-col>
+
+ <!-- POP-OVER -->
+
+  <ion-popover #popover [isOpen]="isOpen" (didDismiss)="isOpen = false">
+
+    <ng-template>
+
+      <ion-content class="ion-padding" (click)="logout()">Logout</ion-content>
+
+    </ng-template>
+
+  </ion-popover>
       </ion-row>
     </ion-grid>
     <div class="w-5/12 ml-4">
