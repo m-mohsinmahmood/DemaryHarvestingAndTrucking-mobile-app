@@ -146,7 +146,7 @@ export class CreateTicketPage implements OnInit {
   navigatedispatcher() {
     console.log(this.createTicketFormDispatcherInHouse.value);
 
-    this.truckingService.createNewDeliveryTicket(this.createTicketFormDispatcherInHouse.value, 'dispatcher', 'home', 'sent')
+    this.truckingService.createNewDeliveryTicket(this.createTicketFormDispatcherInHouse.value, 'dispatcher', 'home', 'sent', false)
       .subscribe(
         (res: any) => {
           console.log(res);
@@ -163,7 +163,7 @@ export class CreateTicketPage implements OnInit {
   navigateTruckDriver() {
     console.log(this.createTicketFormTruckDriverInHouse.value);
 
-    this.truckingService.createNewDeliveryTicket(this.createTicketFormTruckDriverInHouse.value, 'truck-driver', 'home', 'pending')
+    this.truckingService.createNewDeliveryTicket(this.createTicketFormTruckDriverInHouse.value, 'truck-driver', 'home', 'sent', true)
       .subscribe(
         (res: any) => {
           console.log(res);

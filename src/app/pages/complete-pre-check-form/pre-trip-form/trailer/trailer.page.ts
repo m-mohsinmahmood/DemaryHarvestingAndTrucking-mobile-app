@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
+import { TripCheckService } from '../../trip-check-form.service';
+import { ToastService } from './../../../../services/toast/toast.service';
+import { TruckingService } from './../../../../views/dashboard/trucking/trucking.service';
 
 @Component({
   selector: 'app-trailer',
@@ -13,56 +17,110 @@ export class TrailerPage implements OnInit {
   trailerCheckForm: FormGroup;
   indexArray: any[] = [0.2, 0.4, 0.6, 0.8, 1];
 
-  constructor(private router: Router, private formBuilder: FormBuilder) { }
+  data: Observable<any>;
+  id;
+  deliveryTicketId;
+
+  constructor(private truckingService: TruckingService, private activeRoute: ActivatedRoute, private tripCheck: TripCheckService, private toast: ToastService, private router: Router, private formBuilder: FormBuilder) { }
 
   ngOnInit() {
+    this.initDataFetch();
+  }
+
+  async ionViewDidEnter() {
+    this.initDataFetch();
+  }
+
+  initDataFetch() {
+    this.activeRoute.params.subscribe(params => {
+      this.deliveryTicketId = params.deliveryTicketId;
+      console.log("Params:", params);
+
+    })
+
+    this.data = this.tripCheck.getActivePreCheckTicket('getActiveTicket');
+
+    this.data.subscribe((workOrders) => {
+      this.id = workOrders.ticket[0].id;
+      console.log(workOrders);
+
+    });
+
     this.trailerCheckForm = this.formBuilder.group({
       brakeConnections: ['true', [Validators.required]],
       brakeConnectionsNotes: [''],
-      brakeConnectionsSelect:['minor'],
+      brakeConnectionsSeverity: ['minor'],
       brakes: ['true', [Validators.required]],
       brakesNotes: [''],
-      brakesSelect:['minor'],
-      couplingDevices: ['true', [Validators.required]],
-      couplingDevicesNotes: [''],
-      couplingDevicesSelect:['minor'],
+      brakesSeverity: ['minor'],
+      couplingDevicesTrailer: ['true', [Validators.required]],
+      couplingDevicesNotesTrailer: [''],
+      couplingDevicesSeverityTrailer: ['minor'],
       coupling: ['true', [Validators.required]],
       couplingNotes: [''],
-      couplingSelect:['minor'],
+      couplingSeverity: ['minor'],
       doors: ['true', [Validators.required]],
       doorsNotes: [''],
-      doorSelect:['minor'],
+      doorSeverity: ['minor'],
       hitch: ['true', [Validators.required]],
       hitchNotes: [''],
-      hitchSelect:['minor'],
+      hitchSeverity: ['minor'],
       landingGear: ['true', [Validators.required]],
       landingGearNotes: [''],
-      landingGearSelect:['minor'],
+      landingGearSeverity: ['minor'],
       lights: ['true', [Validators.required]],
       lightsNotes: [''],
-      lightsSelect:['minor'],
+      lightsSeverity: ['minor'],
       reflectors: ['true', [Validators.required]],
       reflectorsNotes: [''],
-      reflectorsSelect:['minor'],
+      reflectorsSeverity: ['minor'],
       roof: ['true', [Validators.required]],
       roofNotes: [''],
-      roofSelect:['minor'],
+      roofSeverity: ['minor'],
       suspension: ['true', [Validators.required]],
       suspensionNotes: [''],
-      suspensionSelect:['minor'],
+      suspensionSeverity: ['minor'],
       tarpaulin: ['true', [Validators.required]],
       tarpaulinNotes: [''],
-      tarpaulinSelect:['minor'],
+      tarpaulinSeverity: ['minor'],
       tires: ['true', [Validators.required]],
       tiresNotes: [''],
-      tiresSelect:['minor'],
+      tiresSeverity: ['minor'],
     });
   }
 
   submitForm() {
     console.log(this.trailerCheckForm.value);
-    // this.router.navigateByUrl('/complete-pre-check-form/pre-trip-form');
-    this.router.navigateByUrl('/tabs/home/harvesting/complete-pre-check-form/pre-trip-form');
+    this.trailerCheckForm.value.deliveryTicketId = this.deliveryTicketId;
+    this.tripCheck.updatePreTripCheckForm(this.trailerCheckForm.value, 5, this.id)
+      .subscribe(
+        (res: any) => {
+          console.log(res);
 
+          if (res.status === 200) {
+            this.toast.presentToast("Pre Trip Check Form has updated successfully!", 'success');
+            this.router.navigateByUrl('/tabs/home/trucking/in-house');
+          }
+        },
+        (err) => {
+          this.toast.presentToast(err, 'danger');
+        },
+      );
+
+    console.log(this.deliveryTicketId);
+
+    this.truckingService.updateDeliveryTicket({
+      ticketNo: this.deliveryTicketId,
+      isTicketActive: true,
+      isTripCheckFilled: true
+    }, 'sent')
+      .subscribe(
+        (res: any) => {
+          console.log(res);
+        },
+        (err) => {
+          this.toast.presentToast(err, 'danger');
+        },
+      );
   }
 }

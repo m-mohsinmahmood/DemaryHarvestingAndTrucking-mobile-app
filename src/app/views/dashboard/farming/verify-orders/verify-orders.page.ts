@@ -29,9 +29,19 @@ export class VerifyOrdersPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.sentWorkOrders = this.farmingService.getAllWorkOrders('', 'sent_work_order');
-    this.pendingWorkOrders = this.farmingService.getAllWorkOrders('', 'pending_work_order');
-    this.verifiedWorkOrders = this.farmingService.getAllWorkOrders('', 'verified_work_order');
+    this.sentCount = 0;
+    this.pendingCount = 0;
+    this.verifiedCount = 0;
+
+    this.dataLoaded = {
+      sentList: false,
+      pendingList: false,
+      verifiedList: false
+    }
+
+    this.sentWorkOrders = this.farmingService.getAllWorkOrders('', 'sent_work_order', localStorage.getItem('employeeId'));
+    this.pendingWorkOrders = this.farmingService.getAllWorkOrders('', 'pending_work_order', localStorage.getItem('employeeId'));
+    this.verifiedWorkOrders = this.farmingService.getAllWorkOrders('', 'verified_work_order', localStorage.getItem('employeeId'));
 
     this.sentWorkOrders.subscribe((workOrders) => {
 

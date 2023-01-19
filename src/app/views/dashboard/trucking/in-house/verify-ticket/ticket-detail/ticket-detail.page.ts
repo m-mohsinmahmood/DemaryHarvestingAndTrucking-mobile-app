@@ -79,8 +79,8 @@ export class TicketDetailPage implements OnInit {
 
   navigateTruck() {
     console.log(this.verifyFormInHouseTruck.value);
-
-    this.truckingService.updateDeliveryTicket(this.verifyFormInHouseTruck.value, 'pending')
+    this.verifyFormInHouseTruck.value.isTicketInfoCompleted = true;
+    this.truckingService.updateDeliveryTicket(this.verifyFormInHouseTruck.value, 'sent')
       .subscribe(
         (res: any) => {
           console.log(res);

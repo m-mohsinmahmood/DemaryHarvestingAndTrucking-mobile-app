@@ -203,6 +203,7 @@ export class FarmingService {
     let params = new HttpParams();
     params = params.set('entity', entity);
     params = params.set('search', search);
+    params = params.set('vehicleType', 'Tractor');
 
     return this._httpClient
       .get<any>('http://localhost:7071/api/dropdowns', {

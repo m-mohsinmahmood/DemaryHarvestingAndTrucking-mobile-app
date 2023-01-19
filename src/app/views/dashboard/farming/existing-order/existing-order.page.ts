@@ -27,7 +27,7 @@ export class ExistingOrderPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.completedWorkOrders = this.farmingService.getAllWorkOrders('', 'pending_work_order');
+    this.completedWorkOrders = this.farmingService.getAllWorkOrders('', 'completed_work_order', localStorage.getItem('employeeId'));
 
     this.completedWorkOrders.subscribe((customers) => {
       this.completeOrdersCount = customers.workOrders.length;
@@ -35,7 +35,7 @@ export class ExistingOrderPage implements OnInit {
       console.log(customers);
     });
 
-    this.existingWorkOrders = this.farmingService.getAllWorkOrders('', 'sent_work_order');
+    this.existingWorkOrders = this.farmingService.getAllWorkOrders('', 'existing_work_order', localStorage.getItem('employeeId'));
 
     this.existingWorkOrders.subscribe((customers) => {
       this.existingOrdersCount = customers.workOrders.length;

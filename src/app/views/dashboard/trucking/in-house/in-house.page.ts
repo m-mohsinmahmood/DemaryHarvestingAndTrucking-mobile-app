@@ -11,6 +11,10 @@ export class InHousePage implements OnInit {
 
   pendingWorkOrders: Observable<any>;
   existingWorkOrders: Observable<any>;
+  activeWorkOrders: Observable<any>;
+  preCheckFilled: Observable<any>;
+  activeTicket;
+  preCheck;
 
   dataLoaded = {
     pendingList: false,
@@ -19,6 +23,8 @@ export class InHousePage implements OnInit {
   dataCount = {
     pending: -1,
     existing: -1,
+    active: -1,
+    preCheck: -1
   }
 
   roleOptions = ['dispatcher', 'truck-driver'];
@@ -27,6 +33,26 @@ export class InHousePage implements OnInit {
   constructor(private truckingService: TruckingService) { }
 
   ngOnInit() {
+    this.initData();
+  }
+
+  async ionViewDidEnter() {
+    this.initData();
+  }
+
+  initData() {
+    this.dataLoaded = {
+      pendingList: false,
+      existingList: false,
+    }
+
+    this.dataCount = {
+      pending: -1,
+      existing: -1,
+      active: -1,
+      preCheck: -1
+    }
+
     this.role = localStorage.getItem('role');
     console.log(localStorage.getItem('role'));
     console.log(localStorage.getItem('employeeId'));
@@ -43,11 +69,25 @@ export class InHousePage implements OnInit {
     }
     else {
       // If Truck Driver Logs In
-      this.existingWorkOrders = this.truckingService.getDeliveryTickets(this.role, 'sent', localStorage.getItem('employeeId'), 'home');
+      this.existingWorkOrders = this.truckingService.getDeliveryTickets(this.role, 'sent', localStorage.getItem('employeeId'), 'home', false, false, false);
       this.existingWorkOrders.subscribe((workOrders) => {
         this.dataLoaded.existingList = true;
         this.dataCount.existing = workOrders.count;
         console.log("Existing: ", workOrders);
+      });
+
+      this.activeWorkOrders = this.truckingService.getDeliveryTickets(this.role, 'sent', localStorage.getItem('employeeId'), 'home', true, true, false);
+      this.activeWorkOrders.subscribe((workOrders) => {
+        this.activeTicket = workOrders.workOrders[0];
+        this.dataCount.active = workOrders.count;
+        console.log("Active: ", workOrders);
+      });
+
+      this.preCheckFilled = this.truckingService.getDeliveryTickets(this.role, 'sent', localStorage.getItem('employeeId'), 'home', true, true, true);
+      this.preCheckFilled.subscribe((workOrders) => {
+        this.preCheck = workOrders.workOrders[0];
+        this.dataCount.preCheck = workOrders.count;
+        console.log("Pre Check Filled: ", workOrders);
       });
     }
   }

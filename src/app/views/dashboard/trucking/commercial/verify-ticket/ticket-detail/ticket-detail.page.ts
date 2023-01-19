@@ -49,7 +49,6 @@ export class TicketDetailPage implements OnInit {
     })
   }
 
-
   ngOnInit() {
     this.role = localStorage.getItem('role');
     this.machinerySearchSubscription();
@@ -93,12 +92,25 @@ export class TicketDetailPage implements OnInit {
     }
   }
   navigateTo(nav: string) {
-    this.router.navigateByUrl(nav);
+    this.truckingService.updateDeliveryTicket({ ticketNo: this.data.id }, 'verified')
+      .subscribe(
+        (res: any) => {
+          console.log(res);
+          if (res.status === 200) {
+            this.toast.presentToast("Delivery ticket has been Verified!", 'success');
+            this.router.navigateByUrl(nav);
+          }
+        },
+        (err) => {
+          this.toast.presentToast(err, 'danger');
+        },
+      );
   }
 
   submitExistingTicket() {
     console.log(this.createFormTruckCommercial.value);
-    this.truckingService.updateDeliveryTicket(this.createFormTruckCommercial.value, 'pending')
+    this.createFormTruckCommercial.value.isTicketInfoCompleted = true;
+    this.truckingService.updateDeliveryTicket(this.createFormTruckCommercial.value, 'sent')
       .subscribe(
         (res: any) => {
           console.log(res);

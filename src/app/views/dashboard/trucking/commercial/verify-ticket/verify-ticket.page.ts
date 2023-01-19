@@ -10,7 +10,7 @@ import { TruckingService } from '../../trucking.service';
 })
 export class VerifyTicketPage implements OnInit {
 
-  segment = 'sent'; // For Segment
+  segment = 'pending'; // For Segment
   segmentTruckDriver = 'existing'; // For Segment
 
   roleOptions = ['dispatcher', 'truck-driver']
@@ -42,6 +42,30 @@ export class VerifyTicketPage implements OnInit {
   constructor(private truckingService: TruckingService, private location: Location) { }
 
   ngOnInit() {
+    this.initData();
+  }
+
+  async ionViewDidEnter() {
+    this.initData();
+  }
+
+  initData() {
+    this.dataLoaded = {
+      sentList: false,
+      pendingList: false,
+      verifiedList: false,
+      existingList: false,
+      completedList: false
+    }
+
+    this.dataCount = {
+      sent: 0,
+      pending: 0,
+      verified: 0,
+      existing: 0,
+      completed: 0
+    }
+
     this.role = localStorage.getItem('role');
 
     if (this.role === 'dispatcher') {
@@ -67,7 +91,7 @@ export class VerifyTicketPage implements OnInit {
       });
     }
     else {
-      this.existingTickets = this.truckingService.getDeliveryTickets(this.role, 'sent', localStorage.getItem('employeeId'), 'commercial');
+      this.existingTickets = this.truckingService.getDeliveryTickets(this.role, 'sent', localStorage.getItem('employeeId'), 'commercial', false, false, false);
       this.existingTickets.subscribe((workOrders) => {
         this.dataLoaded.existingList = true;
         this.dataCount.existing = workOrders.count;

@@ -154,20 +154,22 @@ export class CreateOrderPage implements OnInit {
       service: ['', [Validators.required]],
       tractorDriverId: ['', [Validators.required]],
       fieldAddress: ['', [Validators.required]],
-      phone: ['', [Validators.required]]
+      phone: ['', [Validators.required]],
+      totalAcres: ['']
     });
 
     this.createOrderTDriver = this.formBuilder.group({
       tractorDriverId: [localStorage.getItem('employeeId')],
       machineryID: ['', [Validators.required]],
-      cBeginningEngineHours: ['', [Validators.required]],
+      beginningEngineHours: ['', [Validators.required]],
       dispatcherId: ['', [Validators.required]],
       customerId: ['', [Validators.required]],
       farmId: ['', [Validators.required]],
       fieldId: ['', [Validators.required]],
       service: ['', [Validators.required]],
       fieldAddress: ['', [Validators.required]],
-      phone: ['', [Validators.required]]
+      phone: ['', [Validators.required]],
+      totalAcres: ['']
     });
   }
 
@@ -294,29 +296,14 @@ export class CreateOrderPage implements OnInit {
 
     // assigning values in form
     if (localStorage.getItem('role') === 'dispatcher') {
-      this.createOrderDispatcher.setValue({
-        dispatcherId: this.createOrderDispatcher.get('dispatcherId').value,
-        customerId: this.createOrderDispatcher.get('customerId').value,
-        farmId: this.createOrderDispatcher.get('farmId').value,
-        fieldId: this.createOrderDispatcher.get('fieldId').value,
-        service: this.createOrderDispatcher.get('service').value,
-        tractorDriverId: dispatcher.id,
-        fieldAddress: this.createOrderDispatcher.get('fieldAddress').value,
-        phone: this.createOrderDispatcher.get('phone').value,
+      this.createOrderDispatcher.patchValue({
+        tractorDriverId: dispatcher.id
       });
     }
     else {
-      this.createOrderTDriver.setValue({
+      this.createOrderTDriver.patchValue({
         machineryID: this.createOrderTDriver.get('machineryID').value,
-        cBeginningEngineHours: this.createOrderTDriver.get('cBeginningEngineHours').value,
-        dispatcherId: dispatcher.id,
-        customerId: this.createOrderTDriver.get('customerId').value,
-        farmId: this.createOrderTDriver.get('farmId').value,
-        fieldId: this.createOrderTDriver.get('fieldId').value,
-        service: this.createOrderTDriver.get('service').value,
-        tractorDriverId: this.createOrderTDriver.get('tractorDriverId').value,
-        fieldAddress: this.createOrderTDriver.get('fieldAddress').value,
-        phone: this.createOrderTDriver.get('phone').value
+        dispatcherId: dispatcher.id
       });
     }
     // clearing array
@@ -437,29 +424,15 @@ export class CreateOrderPage implements OnInit {
 
     // assigning values in form
     if (localStorage.getItem('role') === 'dispatcher') {
-      this.createOrderDispatcher.setValue({
-        dispatcherId: this.createOrderDispatcher.get('dispatcherId').value,
+      this.createOrderDispatcher.patchValue({
         customerId: customer.id,
-        farmId: this.createOrderDispatcher.get('farmId').value,
-        fieldId: this.createOrderDispatcher.get('fieldId').value,
-        service: this.createOrderDispatcher.get('service').value,
-        tractorDriverId: this.createOrderDispatcher.get('tractorDriverId').value,
-        fieldAddress: this.createOrderDispatcher.get('fieldAddress').value,
-        phone: this.createOrderDispatcher.get('phone').value,
+        phone: customer.phone_number
       });
     }
     else {
-      this.createOrderTDriver.setValue({
-        machineryID: this.createOrderTDriver.get('machineryID').value,
-        cBeginningEngineHours: this.createOrderTDriver.get('cBeginningEngineHours').value,
-        dispatcherId: this.createOrderTDriver.get('dispatcherId').value,
+      this.createOrderTDriver.patchValue({
         customerId: customer.id,
-        farmId: this.createOrderTDriver.get('farmId').value,
-        fieldId: this.createOrderTDriver.get('fieldId').value,
-        service: this.createOrderTDriver.get('service').value,
-        tractorDriverId: this.createOrderTDriver.get('tractorDriverId').value,
-        fieldAddress: this.createOrderTDriver.get('fieldAddress').value,
-        phone: this.createOrderTDriver.get('phone').value
+        phone: customer.phone_number
       });
     }
     // passing name in select's input
@@ -547,28 +520,12 @@ export class CreateOrderPage implements OnInit {
 
     // assigning values in form
     if (localStorage.getItem('role') === 'dispatcher') {
-      this.createOrderDispatcher.setValue({
-        dispatcherId: this.createOrderDispatcher.get('dispatcherId').value,
-        customerId: this.createOrderDispatcher.get('customerId').value,
-        farmId: farm.id,
-        fieldId: this.createOrderDispatcher.get('fieldId').value,
-        service: this.createOrderDispatcher.get('service').value,
-        tractorDriverId: this.createOrderDispatcher.get('tractorDriverId').value,
-        fieldAddress: this.createOrderDispatcher.get('fieldAddress').value,
-        phone: this.createOrderDispatcher.get('phone').value,
+      this.createOrderDispatcher.patchValue({
+        farmId: farm.id
       });
     } else {
-      this.createOrderTDriver.setValue({
-        machineryID: this.createOrderTDriver.get('machineryID').value,
-        cBeginningEngineHours: this.createOrderTDriver.get('cBeginningEngineHours').value,
-        dispatcherId: this.createOrderTDriver.get('dispatcherId').value,
-        customerId: this.createOrderTDriver.get('customerId').value,
-        farmId: farm.id,
-        fieldId: this.createOrderTDriver.get('fieldId').value,
-        service: this.createOrderTDriver.get('service').value,
-        tractorDriverId: this.createOrderTDriver.get('tractorDriverId').value,
-        fieldAddress: this.createOrderTDriver.get('fieldAddress').value,
-        phone: this.createOrderTDriver.get('phone').value
+      this.createOrderTDriver.patchValue({
+        farmId: farm.id
       });
     }
     // clearing array
@@ -663,29 +620,15 @@ export class CreateOrderPage implements OnInit {
 
     // assigning values in form
     if (localStorage.getItem('role') === 'dispatcher') {
-      this.createOrderDispatcher.setValue({
-        dispatcherId: this.createOrderDispatcher.get('dispatcherId').value,
-        customerId: this.createOrderDispatcher.get('customerId').value,
-        farmId: this.createOrderDispatcher.get('farmId').value,
+      this.createOrderDispatcher.patchValue({
         fieldId: field.field_id,
-        service: this.createOrderDispatcher.get('service').value,
-        tractorDriverId: this.createOrderDispatcher.get('tractorDriverId').value,
-        fieldAddress: this.createOrderDispatcher.get('fieldAddress').value,
-        phone: this.createOrderDispatcher.get('phone').value,
+        totalAcres: field.acres
       });
 
     } else {
-      this.createOrderTDriver.setValue({
-        machineryID: this.createOrderTDriver.get('machineryID').value,
-        cBeginningEngineHours: this.createOrderTDriver.get('cBeginningEngineHours').value,
-        dispatcherId: this.createOrderTDriver.get('dispatcherId').value,
-        customerId: this.createOrderTDriver.get('customerId').value,
-        farmId: this.createOrderTDriver.get('farmId').value,
+      this.createOrderTDriver.patchValue({
         fieldId: field.field_id,
-        service: this.createOrderTDriver.get('service').value,
-        tractorDriverId: this.createOrderTDriver.get('tractorDriverId').value,
-        fieldAddress: this.createOrderTDriver.get('fieldAddress').value,
-        phone: this.createOrderTDriver.get('phone').value
+        totalAcres: field.acres
       });
     }
 
@@ -716,7 +659,7 @@ export class CreateOrderPage implements OnInit {
         if (value === '') { this.isMachinerySelected = true; }
         this.allMachinery = this.farmingService.getMachinery(
           value,
-          'allMachinery'
+          'allMotorizedVehicles'
         );
 
         // subscribing to show/hide Field UL
@@ -752,7 +695,7 @@ export class CreateOrderPage implements OnInit {
     // calling API
     this.allMachinery = this.farmingService.getMachinery(
       value,
-      'allMachinery'
+      'allMotorizedVehicles'
     );
 
     // subscribing to show/hide farm UL
@@ -775,17 +718,9 @@ export class CreateOrderPage implements OnInit {
 
     // assigning values in form
     if (localStorage.getItem('role') === 'tractor-driver') {
-      this.createOrderTDriver.setValue({
+      this.createOrderTDriver.patchValue({
         machineryID: machinery.id,
-        cBeginningEngineHours: this.createOrderTDriver.get('cBeginningEngineHours').value,
-        dispatcherId: this.createOrderTDriver.get('dispatcherId').value,
-        customerId: this.createOrderTDriver.get('customerId').value,
-        farmId: this.createOrderTDriver.get('farmId').value,
-        fieldId: this.createOrderTDriver.get('fieldId').value,
-        service: this.createOrderTDriver.get('service').value,
-        tractorDriverId: this.createOrderTDriver.get('tractorDriverId').value,
-        fieldAddress: this.createOrderTDriver.get('fieldAddress').value,
-        phone: this.createOrderTDriver.get('phone').value
+        beginningEngineHours: machinery.odometer_reading_end
       });
     }
     // clearing array

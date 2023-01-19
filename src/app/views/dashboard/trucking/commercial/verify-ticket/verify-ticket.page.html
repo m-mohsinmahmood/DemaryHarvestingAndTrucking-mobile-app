@@ -75,7 +75,7 @@
         <div *ngSwitchCase="'pending'">
           <div *ngIf="pendingWorkOrders | async as pendingWorkOrders">
             <ion-card *ngFor="let orders of (pendingWorkOrders.workOrders)" class="pendingTicket p-2"
-              [routerLink]="['ticket-detail']">
+              [routerLink]="['ticket-detail', orders]">
               <div class="flex flex-col">
                 <div class="flex flex-row">
                   <div class="w-full h-6 flex items-center justify-start">

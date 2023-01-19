@@ -33,6 +33,7 @@ export class OrderDetailsPage implements OnInit {
   }
 
   navigateTo(nav: string) {
+    this.router.navigateByUrl(nav);
     this.farmingService.updateWorkOrder({ customerId: this.data.work_order_id }, 'dispatcher')
       .subscribe(
         (res: any) => {

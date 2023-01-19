@@ -30,7 +30,7 @@ export class SubmitEndDayPage implements OnInit {
     this.submitEndDayWorkOrder = this.formBuilder.group({
       employeeId: [localStorage.getItem('employeeId')],
       acresCompleted: ['', [Validators.required]],
-      gpsAcres: ['', [Validators.required]],
+      // gpsAcres: ['', [Validators.required]],
       endingEngineHours: ['', [Validators.required]],
       hoursWorked: ['', [Validators.required]],
       notes: ['', [Validators.required]]
@@ -38,8 +38,9 @@ export class SubmitEndDayPage implements OnInit {
   }
 
   navigateTo() {
-    console.log(this.submitEndDayWorkOrder.value);
+    this.submitEndDayWorkOrder.value.machineryID = this.workOrder[0].machinery_id;
 
+    console.log(this.submitEndDayWorkOrder.value);
     this.farmingService.closeBeginningDay(this.submitEndDayWorkOrder.value, this.workOrder[0])
       .subscribe(
         (res: any) => {
@@ -55,9 +56,13 @@ export class SubmitEndDayPage implements OnInit {
         },
       );
 
-    let workOrderId = { workOrderId: this.workOrder[0].work_order_id };
+    let updateWorkOrder = {
+      workOrderId: this.workOrder[0].work_order_id,
+      machineryID: this.workOrder[0].machinery_id,
+      endingEngineHours: this.submitEndDayWorkOrder.get("endingEngineHours").value
+    }
 
-    this.farmingService.updateWorkOrder(workOrderId, 'tractor-driver', 'submitEndingDay')
+    this.farmingService.updateWorkOrder(updateWorkOrder, 'tractor-driver', 'submitEndingDay')
       .subscribe(
         (res: any) => {
         },

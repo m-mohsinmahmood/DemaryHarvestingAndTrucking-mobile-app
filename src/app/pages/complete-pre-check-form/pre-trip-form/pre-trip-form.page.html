@@ -2,24 +2,99 @@
 
 <ion-content>
   <app-timer [value]="'11-12-2022'"></app-timer>
-  <div class="p-4">
+
+  <div class="flex justify-center items-center h-96" *ngIf="!dataLoaded">
+    <ion-spinner name="crescent" mode="indeterminate" color="primary" style="height: 70px; width: 70px;"></ion-spinner>
+  </div>
+
+  <div class="p-4" *ngIf="dataLoaded">
     <div>
       <form [formGroup]="preCheckForm">
         <ion-list>
-          <div class="col-span-12 mb-4">
-            <label class="block text-sm font-medium text-gray-700">Truck ID<span class="text-red-600"
-                *ngIf="this.preCheckForm.get('truckID').hasError('required')">*</span></label>
-            <input
-              class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-              formControlName="truckID" placeholder="Enter Truck ID">
-          </div>
+          <!-- Truck #-->
+          <!-- <div role="dialog" aria-modal="true" *ngIf="d===0">
+            <div class="mb-4 relative z-100">
+              <div class="mx-auto max-w-full transform rounded-xl px-0  transition-all">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Truck # <span *ngIf="isMachinerySelected"
+                    class="text-red-400">*</span></label>
+                <div class="flex items-center justify-between gap-x-2 rounded-md">
+                  <input (keyup)="machinery_search$.next($event.target.value)" [value]="machinery_name"
+                    (click)="inputClickedMachinery()" #machineryInput
+                    class="w-full px-4 py-2.5 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
+                    placeholder="Select Truck" role="" aria-expanded="false" aria-controls="options">
+                </div>
+
+                <div *ngIf="allMachinery | withLoading | async as allMachinery">
+                  <div class="flex justify-center items-center">
+                    <ion-spinner *ngIf="allMachinery?.loading" name="crescent" mode="indeterminate"
+                      color="primary"></ion-spinner>
+                  </div>
+                  <ul *ngIf="allMachinery?.value && machineryUL"
+                    class="mb-2 max-h-44 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800 bg-white drop-shadow-lg relative w-full"
+                    id="options" role="listbox">
+                    <li *ngFor="let machinery of (allMachinery?.value.machinery)"
+                      (click)="listClickedMachinery(machinery)"
+                      class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200" role="option"
+                      tabindex="-1">
+                      <div class="flex items-center p-2">
+                        {{machinery.type}}
+                      </div>
+                    </li>
+                  </ul>
+                  <div *ngIf="allMachinery?.value?.machinery?.length === 0">
+                    <div
+                      class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200 text-gray-500 hover:text-gray-700 hover:font-semibold"
+                      disabled role="option" tabindex="-1"> No Truck(s) found </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div> -->
 
           <div class="col-span-12 mb-4">
-            <label class="block text-sm font-medium text-gray-700">Trailer<span class="text-red-600"
-                *ngIf="this.preCheckForm.get('trailerID').hasError('required')">*</span></label>
+            <label class="block text-sm font-medium text-gray-700">Truck ID</label>
             <input
               class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-              formControlName="trailerID" placeholder="Enter Trailer">
+              formControlName="truckID" readonly>
+          </div>
+
+          <!-- Trailer #-->
+          <div role="dialog" aria-modal="true" *ngIf="d===0">
+            <div class="mb-4 relative z-100">
+              <div class="mx-auto max-w-full transform rounded-xl px-0  transition-all">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Trailer ID <span *ngIf="isTrailerSelected"
+                    class="text-red-400">*</span></label>
+                <div class="flex items-center justify-between gap-x-2 rounded-md">
+                  <input (keyup)="trailer_search$.next($event.target.value)" [value]="trailer_name"
+                    (click)="inputClickedTrailer()" #trailerInput
+                    class="w-full px-4 py-2.5 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
+                    placeholder="Select Truck" role="" aria-expanded="false" aria-controls="options">
+                </div>
+
+                <div *ngIf="allTrailer | withLoading | async as allTrailer">
+                  <div class="flex justify-center items-center">
+                    <ion-spinner *ngIf="allTrailer?.loading" name="crescent" mode="indeterminate"
+                      color="primary"></ion-spinner>
+                  </div>
+                  <ul *ngIf="allTrailer?.value && trailerUL"
+                    class="mb-2 max-h-44 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800 bg-white drop-shadow-lg relative w-full"
+                    id="options" role="listbox">
+                    <li *ngFor="let trailer of (allTrailer?.value.machinery)" (click)="listClickedTrailer(trailer)"
+                      class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200" role="option"
+                      tabindex="-1">
+                      <div class="flex items-center p-2">
+                        {{trailer.type}}
+                      </div>
+                    </li>
+                  </ul>
+                  <div *ngIf="allTrailer?.value?.machinery?.length === 0">
+                    <div
+                      class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200 text-gray-500 hover:text-gray-700 hover:font-semibold"
+                      disabled role="option" tabindex="-1"> No Trailer(s) found </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
         </ion-list>
@@ -46,14 +121,15 @@
         </div>
         <div class="timeline-content {{item.status}}">
           {{item.content}}
-          <ion-button [disabled]="!item.active" expand="block" class="text-white font-Lato my-2 w-20" (click)="navigateTo(item.content)">Start
+
+          <ion-button expand="block" class="timeLineButton {{item.status}} flex text-white font-Lato my-2 w-20"
+            [disabled]="!item.active" (click)="navigateTo(item.content)">{{item.button}}
           </ion-button>
+
         </div>
       </div>
 
     </div>
-    <!-- <ion-button expand="block" class="text-white font-Lato my-4" [routerLink]="'engine-check'">Submit</ion-button> -->
-
   </div>
 
 </ion-content>
