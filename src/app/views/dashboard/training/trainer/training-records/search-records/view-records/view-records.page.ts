@@ -40,10 +40,11 @@ export class ViewRecordsPage implements OnInit {
     this.records = record[0];
    });
 
-   this.preCheckForm.patchValue({
-    oilLevel: true,
-    // coolantLevel: JSON.stringify(this.records.coolantLevel)
-   });
+  //  this.preCheckForm.patchValue({
+  //   oilLevel: this.records?.oilLevel === true? true : false,
+  //   steelingLevel: this.records?.powerSteelingLevel === 'true'? true: false,
+  //   coolantLevel: this.records?.coolantLevelEngine === 'true'? true : false,
+  //  });
 
   }
   exit(){
@@ -52,23 +53,23 @@ export class ViewRecordsPage implements OnInit {
   }
   initForms(){
     this.preCheckForm = this.fromBuilder.group({
-      oilLevel: [false,[Validators.required]],
-      coolantLevel: [false,[Validators.required]],
-      steelingLevel: [false,[Validators.required]],
-      h20: [false,[Validators.required]],
-      alternatorBelt: [false,[Validators.required]],
-      airCompresseorEngine: [false,[Validators.required]],
-      leaksHoses: [false,[Validators.required]],
-      fanShroud: [false,[Validators.required]],
-      radiator: [false,[Validators.required]],
-      wiring: [false,[Validators.required]],
-      steeringBox: [false,[Validators.required]],
-      steeringLinkage: [false,[Validators.required]],
-      hosesSteering: [false,[Validators.required]],
-      turbo: [false,[Validators.required]],
-      windowFluid: [false,[Validators.required]],
-      mirror: [false,[Validators.required]],
-      clutchCondition: [false,[Validators.required]],
+      oilLevel: ['',[Validators.required]],
+      coolantLevel: ['',[Validators.required]],
+      steelingLevel: ['',[Validators.required]],
+      h20: ['',[Validators.required]],
+      alternatorBelt: ['',[Validators.required]],
+      airCompresseorEngine: ['',[Validators.required]],
+      leaksHoses: ['',[Validators.required]],
+      fanShroud: ['',[Validators.required]],
+      radiator: ['',[Validators.required]],
+      wiring: ['',[Validators.required]],
+      steeringBox: ['',[Validators.required]],
+      steeringLinkage: ['',[Validators.required]],
+      hosesSteering: ['',[Validators.required]],
+      turbo: ['',[Validators.required]],
+      windowFluid: ['',[Validators.required]],
+      mirror: ['',[Validators.required]],
+      clutchCondition: ['',[Validators.required]],
       comments: ['',[Validators.required]]
      });
 

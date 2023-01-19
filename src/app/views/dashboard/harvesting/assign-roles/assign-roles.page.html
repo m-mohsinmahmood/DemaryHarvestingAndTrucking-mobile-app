@@ -5,7 +5,7 @@
   <app-timer [value]="'13:03:344'"></app-timer>
 
 <div class="p-2 px-4">
-  <form [formGroup]="assignForm">
+  <form [formGroup]="assignFormCombine">
     <!-- Combine Operator -->
 <div class="px-2">
   <div
@@ -53,7 +53,11 @@
       </div>
     </div>
 </div>
-<!-- Cart Operator -->
+
+<ion-button expand="block" [disabled]="isCombineSelected"  class="font-Lato font-white text-white mt-4 mb-4" (click)="addCombine()">Add Combine Operator</ion-button>
+</form>
+<!-- Kart Operator -->
+<form [formGroup]="assignFormKart">
 <div class="px-2">
   <div
       [ngClass]="'opacity-100 visible ease-in duration-200'"
@@ -113,7 +117,7 @@
   </div> -->
       <!-- <ion-button expand="block" class="mt-5 font-Lato text-white" [disabled]="changeFieldFormChief.invalid || isFieldSelected" (click)="submit()">Save</ion-button> -->
 </div>
-<ion-button expand="block" [disabled]="isCombineSelected || isCartSelected"  class="font-Lato font-white text-white mt-4" (click)="add()">Add</ion-button>
+<ion-button expand="block" [disabled]="isCartSelected"  class="font-Lato font-white text-white mt-4" (click)="addKart()">Add Kart Operator</ion-button>
 </form>
 <ion-card class="card">
   <ion-grid >
@@ -198,7 +202,7 @@
   </ion-row>
 </ion-grid>
 </ion-card>
-<ion-button expand="block" class="font-Lato font-white text-white mt-4">Save</ion-button>
+<!-- <ion-button expand="block" class="font-Lato font-white text-white mt-4">Save</ion-button> -->
 
 </div>
 </ion-content>

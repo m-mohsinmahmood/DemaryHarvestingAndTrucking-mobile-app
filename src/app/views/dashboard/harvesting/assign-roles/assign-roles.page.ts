@@ -1,7 +1,13 @@
 /* eslint-disable max-len */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable @typescript-eslint/naming-convention */
-import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnInit,
+  Renderer2,
+  ViewChild,
+} from '@angular/core';
 import { Location } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable, of, Subject } from 'rxjs';
@@ -17,7 +23,9 @@ export class AssignRolesPage implements OnInit {
   @ViewChild('combineInput') combineInput: ElementRef;
   @ViewChild('cartInput') cartInput: ElementRef;
 
-  assignForm: FormGroup;
+
+  assignFormCombine: FormGroup;
+  assignFormKart: FormGroup;
 
   // observables
   allCombineOperators: Observable<any>;
@@ -44,15 +52,16 @@ export class AssignRolesPage implements OnInit {
   isCartSelected: any = true;
 
   // for selected
-  value='combine-operator';
+  value = 'combine-operator';
 
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
-  constructor(private location: Location,
-     private formBuilder: FormBuilder,
-     private renderer: Renderer2,
-     private harvestingService: HarvestingService
-     ) {
+  constructor(
+    private location: Location,
+    private formBuilder: FormBuilder,
+    private renderer: Renderer2,
+    private harvestingService: HarvestingService
+  ) {
     this.renderer.listen('window', 'click', (e) => {
       if (e.target !== this.combineInput.nativeElement) {
         // console.log('Combine');
@@ -68,9 +77,18 @@ export class AssignRolesPage implements OnInit {
   }
 
   ngOnInit() {
-    this.assignForm = this.formBuilder.group({
-      combine_operator: ['', [Validators.required]],
-      cart_operator: ['', [Validators.required]],
+    // this.assignForm = this.formBuilder.group({
+    //   crew_chief_id: [localStorage.getItem('employeeId')],
+    //   combine_operator_id: [''],
+    //   cart_operator_id: [''],
+    // });
+    this.assignFormCombine = this.formBuilder.group({
+      crew_chief_id: [localStorage.getItem('employeeId')],
+      combine_operator_id: [''],
+    });
+    this.assignFormKart = this.formBuilder.group({
+      crew_chief_id: [localStorage.getItem('employeeId')],
+      cart_operator_id: [''],
     });
 
     this.combineSearchSubscription();
@@ -78,12 +96,17 @@ export class AssignRolesPage implements OnInit {
   goBack() {
     this.location.back();
   }
-  add() {
-    console.log(this.assignForm.value);
-  }
-//#region comnine
-  combineSearchSubscription() {
 
+  addCombine() {
+
+    console.log(this.assignFormCombine.value);
+  }
+  addKart() {
+
+    console.log(this.assignFormKart.value);
+  }
+  //#region comnine
+  combineSearchSubscription() {
     this.combine_search$
       .pipe(
         debounceTime(500),
@@ -95,14 +118,20 @@ export class AssignRolesPage implements OnInit {
         this.combineSearchValue = value;
 
         // for asterik to look required
-        if(value === ''){ this.isCombineSelected = true;}
+        if (value === '') {
+          this.isCombineSelected = true;
+        }
 
-       // calling API
-    this.allCombineOperators = this.harvestingService.getEmployees(this.combineSearchValue,'allEmployees','Combine Operator');
+        // calling API
+        this.allCombineOperators = this.harvestingService.getEmployees(
+          this.combineSearchValue,
+          'allEmployees',
+          'Combine Operator'
+        );
 
-          // subscribing to show/hide field UL
-          this.allCombineOperators.subscribe((combineOperators) => {
-            console.log('Combines:',combineOperators);
+        // subscribing to show/hide field UL
+        this.allCombineOperators.subscribe((combineOperators) => {
+          console.log('Combines:', combineOperators);
 
           if (combineOperators.count === 0) {
             // hiding UL
@@ -131,10 +160,14 @@ export class AssignRolesPage implements OnInit {
         : this.combineSearchValue;
 
     // calling API
-    this.allCombineOperators = this.harvestingService.getEmployees(this.combineSearchValue,'allEmployees','Combine Operator');
+    this.allCombineOperators = this.harvestingService.getEmployees(
+      this.combineSearchValue,
+      'allEmployees',
+      'Combine Operator'
+    );
 
-          // subscribing to show/hide field UL
-          this.allCombineOperators.subscribe((combineOperators) => {
+    // subscribing to show/hide field UL
+    this.allCombineOperators.subscribe((combineOperators) => {
       if (combineOperators.count === 0) {
         // hiding UL
         this.combineUL = false;
@@ -145,7 +178,7 @@ export class AssignRolesPage implements OnInit {
     });
   }
   listClickedCombine(combine) {
-    console.log('Combine Object:',combine);
+    console.log('Combine Object:', combine);
     // hiding UL
     this.combineUL = false;
 
@@ -156,18 +189,16 @@ export class AssignRolesPage implements OnInit {
     this.isCombineSelected = false;
 
     // assigning values in form
-    this.assignForm.setValue({
-      combine_operator: combine.id,
-      cart_operator: this.assignForm.get('cart_operator').value
-  });
+    this.assignFormCombine.patchValue({
+      combine_operator_id: combine.id,
+    });
 
     // clearing array
     this.allCombineOperators = of([]);
   }
   //#endregion
-//#region Cart
+  //#region Cart
   cartSearchSubscription() {
-
     this.cart_search$
       .pipe(
         debounceTime(500),
@@ -179,14 +210,20 @@ export class AssignRolesPage implements OnInit {
         this.cartSearchValue = value;
 
         // for asterik to look required
-        if(value === ''){ this.isCartSelected = true;}
+        if (value === '') {
+          this.isCartSelected = true;
+        }
 
-       // calling API
-       this.allCartOperators = this.harvestingService.getEmployees(this.cartSearchValue,'allEmployees','Kart Operator');
+        // calling API
+        this.allCartOperators = this.harvestingService.getEmployees(
+          this.cartSearchValue,
+          'allEmployees',
+          'Kart Operator'
+        );
 
-          // subscribing to show/hide field UL
-          this.allCartOperators.subscribe((cartOperators) => {
-            console.log('Cart:',cartOperators);
+        // subscribing to show/hide field UL
+        this.allCartOperators.subscribe((cartOperators) => {
+          console.log('Cart:', cartOperators);
 
           if (cartOperators.count === 0) {
             // hiding UL
@@ -215,11 +252,15 @@ export class AssignRolesPage implements OnInit {
         : this.cartSearchValue;
 
     // calling API
-    this.allCartOperators = this.harvestingService.getEmployees(this.cartSearchValue,'allEmployees','Kart Operator');
+    this.allCartOperators = this.harvestingService.getEmployees(
+      this.cartSearchValue,
+      'allEmployees',
+      'Kart Operator'
+    );
 
-          // subscribing to show/hide field UL
-          this.allCartOperators.subscribe((cartOperators) => {
-            console.log('Cart:',cartOperators);
+    // subscribing to show/hide field UL
+    this.allCartOperators.subscribe((cartOperators) => {
+      console.log('Cart:', cartOperators);
       if (cartOperators.count === 0) {
         // hiding UL
         this.cartUL = false;
@@ -230,33 +271,30 @@ export class AssignRolesPage implements OnInit {
     });
   }
   listClickedCart(cart) {
-    console.log('Cart Object:',cart);
+    console.log('Cart Object:', cart);
     // hiding UL
     this.cartUL = false;
 
     // passing name in select's input
     this.cart_name = cart.first_name + ' ' + cart.last_name;
 
-
     // to enable submit button
     this.isCartSelected = false;
 
     // assigning values in form
-    this.assignForm.setValue({
-      combine_operator: this.assignForm.get('combine_operator').value,
-      cart_operator: cart.id
-  });
-
+    this.assignFormKart.patchValue({
+      cart_operator_id: cart.id,
+    });
     // clearing array
     this.allCartOperators = of([]);
   }
   //#endregion
 
-onClick(val: any ){
-  if (val === 'combine-operator') {
+  onClick(val: any) {
+    if (val === 'combine-operator') {
       this.value = 'combine-operator';
-  } else {
-    this.value = 'cart-operator';
+    } else {
+      this.value = 'cart-operator';
+    }
   }
-}
 }

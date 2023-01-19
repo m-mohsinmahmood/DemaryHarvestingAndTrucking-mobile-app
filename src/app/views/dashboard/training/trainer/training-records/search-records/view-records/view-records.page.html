@@ -21,71 +21,71 @@
 
     <div class="flex justify-between items-center my-3">
      <ion-text class="font-Lato font-medium">Oil Level</ion-text>
-      <ion-checkbox formControlName="oilLevel" slot="start"></ion-checkbox>
+      <ion-checkbox disabled [checked]="records?.oilLevel"  slot="start"></ion-checkbox>
     </div>
     <div class="flex justify-between items-center my-3">
       <ion-text class="font-Lato font-medium" >Coolant Level</ion-text>
-       <ion-checkbox formControlName="coolantLevel" slot="start"></ion-checkbox>
+       <ion-checkbox disabled  [checked]="records?.coolantLevelEngine" slot="start"></ion-checkbox>
      </div>
      <div class="flex justify-between items-center my-3">
       <ion-text class="font-Lato font-medium">Power Steeling Level</ion-text>
-       <ion-checkbox formControlName="steelingLevel" slot="start"></ion-checkbox>
+       <ion-checkbox disabled [checked]="records?.powerSteelingLevel" slot="start"></ion-checkbox>
      </div>
      <div class="flex justify-between items-center my-3">
       <ion-text class="font-Lato font-medium">H20 Pump engine</ion-text>
-       <ion-checkbox formControlName="h20" slot="start"></ion-checkbox>
+       <ion-checkbox disabled [checked]="records?.h20" slot="start"></ion-checkbox>
      </div>
      <div class="flex justify-between items-center my-3">
       <ion-text class="font-Lato font-medium">Alternator Belt</ion-text>
-       <ion-checkbox formControlName="alternatorBelt" slot="start"></ion-checkbox>
+       <ion-checkbox disabled [checked]="records?.alternatorBelt" slot="start"></ion-checkbox>
      </div>
      <div class="flex justify-between items-center my-3">
       <ion-text class="font-Lato font-medium">Air Compressor Engine</ion-text>
-       <ion-checkbox formControlName="airCompresseorEngine" slot="start"></ion-checkbox>
+       <ion-checkbox disabled [checked]="records?.airCompresseorEngine" slot="start"></ion-checkbox>
      </div>
      <div class="flex justify-between items-center my-3">
       <ion-text class="font-Lato font-medium">Leaks & Hoses</ion-text>
-       <ion-checkbox formControlName="leaksHoses" slot="start"></ion-checkbox>
+       <ion-checkbox disabled [checked]="records?.leaksHoses" slot="start"></ion-checkbox>
      </div>
      <div class="flex justify-between items-center my-3">
       <ion-text class="font-Lato font-medium">Fan & Shroud</ion-text>
-       <ion-checkbox formControlName="fanShroud" slot="start"></ion-checkbox>
+       <ion-checkbox disabled [checked]="records?.fanShroud" slot="start"></ion-checkbox>
      </div>
      <div class="flex justify-between items-center my-3">
       <ion-text class="font-Lato font-medium">Radiator</ion-text>
-       <ion-checkbox formControlName="radiator" slot="start"></ion-checkbox>
+       <ion-checkbox disabled [checked]="records?.radiator" slot="start" ></ion-checkbox>
      </div>
      <div class="flex justify-between items-center my-3">
       <ion-text class="font-Lato font-medium">Wiring</ion-text>
-       <ion-checkbox formControlName="wiring" slot="start"></ion-checkbox>
+       <ion-checkbox disabled [checked]="records?.wiring" slot="start"></ion-checkbox>
      </div>
      <div class="flex justify-between items-center my-3">
       <ion-text class="font-Lato font-medium">Steering Box</ion-text>
-       <ion-checkbox formControlName="steeringBox" slot="start"></ion-checkbox>
+       <ion-checkbox disabled [checked]="records?.steeringBox" slot="start"></ion-checkbox>
      </div>
      <div class="flex justify-between items-center my-3">
       <ion-text class="font-Lato font-medium">Steering Linkage</ion-text>
-       <ion-checkbox formControlName="steeringLinkage" slot="start"></ion-checkbox>
+       <ion-checkbox disabled [checked]="records?.steeringLinkage" slot="start"></ion-checkbox>
      </div>
      <div class="flex justify-between items-center my-3">
       <ion-text class="font-Lato font-medium">Hoses(Steering)</ion-text>
-       <ion-checkbox formControlName="hosesSteering" slot="start"></ion-checkbox>
+       <ion-checkbox disabled [checked]="records?.hosesSteering" slot="start"></ion-checkbox>
      </div>
      <div class="flex justify-between items-center my-3">
       <ion-text class="font-Lato font-medium">Turbo</ion-text>
-       <ion-checkbox formControlName="turbo" slot="start"></ion-checkbox>
+       <ion-checkbox disabled [checked]="records?.turbo" slot="start"></ion-checkbox>
      </div>
      <div class="flex justify-between items-center my-3">
       <ion-text class="font-Lato font-medium">Window Fluid</ion-text>
-       <ion-checkbox formControlName="windowFluid" slot="start"></ion-checkbox>
+       <ion-checkbox disabled [checked]="records?.windowFluid" slot="start"></ion-checkbox>
      </div>
      <div class="flex justify-between items-center my-3">
       <ion-text class="font-Lato font-medium">Mirror</ion-text>
-       <ion-checkbox formControlName="mirror" slot="start"></ion-checkbox>
+       <ion-checkbox disabled [checked]="records?.mirror" slot="start"></ion-checkbox>
      </div>
      <div class="flex justify-between items-center my-3">
       <ion-text class="font-Lato font-medium">Clutch Condition</ion-text>
-       <ion-checkbox formControlName="clutchCondition" slot="start"></ion-checkbox>
+       <ion-checkbox disabled [checked]="records?.clutchCondition" slot="start"></ion-checkbox>
      </div>
 
      <div class="flex justify-between items-center my-3">
@@ -93,11 +93,19 @@
        <ion-text class="font-Lato font-bold text-lg">85%</ion-text>
       </div>
 
-      <ion-text class="text-sm font-semibold font-Lato text-black mt-2">Notes</ion-text>
-      <ion-item>
+      <!-- <ion-text class="text-sm font-semibold font-Lato text-black mt-2">Notes</ion-text> -->
+
+      <!-- <ion-item>
         <ion-textarea [autoGrow]="true"
         formControlName="comments"
         placeholder="Add your notes here :)">
+      </ion-textarea>
+    </ion-item> -->
+    <ion-text class="text-sm font-semibold font-Lato text-black mt-2">Notes</ion-text>
+    <ion-item lines="none" class="textarea">
+      <ion-textarea [autoGrow]="true"
+      formControlName="notes"
+        >
       </ion-textarea>
     </ion-item>
   </form>
