@@ -60,5 +60,43 @@ export class TrainingService {
     })
     .pipe(take(1));
   }
+  saveFroms(data, entity: any){
+    let params=  new HttpParams();
+    params = params.set('entity', entity);
+    return this.httpClient
+    .patch<any>('http://localhost:7071/api/training', data,{
+      params
+    })
+    .pipe(take(1));
+  }
+  getData(entity){
+    let params=  new HttpParams();
+    params = params.set('entity', entity);
+    return this.httpClient
+    .get<any>('http://localhost:7071/api/training',{
+      params
+    })
+    .pipe(take(1));
+  }
+  getRecordsById(trainee_id,evaluation_type,evaluation_form){
+    let params = new HttpParams();
+    params = params.set('trainee_record_id',trainee_id);
+    params = params.set('evaluation_type',evaluation_type);
+    params = params.set('evaluation_form',evaluation_form);
+    return this.httpClient
+    .get<any>('http://localhost:7071/api/training', {
+      params
+    })
+    .pipe(take(1));
+  }
+  getRecordById(record_id){
+    let params = new HttpParams();
+    params = params.set('record_id',record_id);
+    return this.httpClient
+    .get<any>('http://localhost:7071/api/training', {
+      params
+    })
+    .pipe(take(1));
+  }
 
 }

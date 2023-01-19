@@ -1,5 +1,6 @@
 <app-header [title]="'Road Test Skills Digital Evaluation Form'" [color]="'training'"></app-header>
 <ion-content>
+
   <app-timer [value]="'11:22:00'"></app-timer>
   <div class="mx-4">
     <div class="flex justify-between items-center border-b-2 my-5">
@@ -28,7 +29,6 @@
           </div>
         </div>
       </div>
-
       <div class="border-b-2 py-4">
         <div class="flex flex-col justify-center">
           <ion-text class="font-Lato font-semibold">Right Turns</ion-text>
@@ -283,7 +283,17 @@
           <ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">
             Satisfactory</ion-text>
         </div>
-        <ion-text class="font-Lato text-9B9BA4">Total Attempts: <span class="font-Lato text-black">15</span></ion-text>
+        <div class="flex justify-between items-center mb-2">
+          <ion-text class="font-Lato text-9B9BA4">Total Attempts:
+            <span class="font-Lato text-black">
+              {{sum}}
+          </span>
+        </ion-text>
+        <div>
+          <button class="bg-project-green text-white rounded-md font-Lato text-sm px-2 py-0 ml-2 mt-1" (click)="getSum()">Get sum</button>
+        </div>
+        </div >
+
       </ion-card-content>
     </ion-card>
     <ion-button expand="block" class="close-out-button font-Lato mb-4 mt-0 mx-8 bg-opacity-10 text-white"

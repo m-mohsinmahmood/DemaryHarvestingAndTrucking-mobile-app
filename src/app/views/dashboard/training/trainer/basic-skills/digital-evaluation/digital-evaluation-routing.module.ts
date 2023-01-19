@@ -7,7 +7,11 @@ const routes: Routes = [
   {
     path: '',
     component: DigitalEvaluationPage
+  },  {
+    path: 'alley-docking',
+    loadChildren: () => import('./alley-docking/alley-docking.module').then( m => m.AlleyDockingPageModule)
   }
+
 ];
 
 @NgModule({

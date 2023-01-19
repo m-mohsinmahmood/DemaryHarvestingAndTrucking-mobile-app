@@ -1,0 +1,201 @@
+<app-header [title]="'Basic Skills Digital Evaluation Form'" [color]="'training'"></app-header>
+<ion-content>
+  <app-timer [value]="'23:00:00'"></app-timer>
+  <div class="mx-4 my-2">
+    <ion-progress-bar class="mb-2" [buffer]="buffer" [value]="progress"></ion-progress-bar>
+    <ion-text class="text-lg font-semibold justify-start flex font-Lato text-black ml-2">{{progress*5}} of 5 Maneuvers
+      Completed</ion-text>
+  </div>
+<form class="mx-4" [formGroup]="basicSkillForm">
+      <div class="mt-5">
+     <ion-text class="font-semibold font-Lato text-9B9BA4 text-xl">Parallel Parking Blind</ion-text>
+
+      </div>
+      <div class="w-full border-b-2 my-3 py-1">
+        <ion-text class="text-base font-semibold font-Lato">Attempts</ion-text>
+      </div>
+      <div>
+        <div class="mt-6">
+          <div class="flex justify-between items-center my-3">
+            <ion-text class="font-semibold font-Lato">Pull-Ups</ion-text>
+            <div class="flex justify-center items-center w-28 border-2  rounded-lg px-2">
+              <ion-input placeholder="Enter Value" type="number" formControlName="pullUps_pb"></ion-input>
+            </div>
+          </div>
+          <div class="flex justify-between items-center my-3">
+            <ion-text class="font-semibold font-Lato">Encroach</ion-text>
+            <div class="flex justify-center items-center w-28 border-2  rounded-lg px-2">
+              <ion-input placeholder="Enter Value" type="number" formControlName="encroach_pb"></ion-input>
+            </div>
+          </div>
+        </div>
+        <div class="my-9">
+          <div class="flex justify-between items-center">
+            <ion-text class="font-semibold">G.O.A.L</ion-text>
+            <div class="flex justify-center items-center">
+              <ion-radio-group formControlName="goal_pb" value="true" class="radio flex justify-center items-center">
+                <div class="flex justify-center items-center  mr-2">
+                  <ion-radio  mode="md" value="true"></ion-radio>
+                  <ion-label class="font-Lato ml-1 text-sm">Satisfactory</ion-label>
+                </div>
+                <div class="flex justify-center items-center">
+                  <ion-radio mode="md" class="unsatisfactory" value="false"></ion-radio>
+                  <ion-label class="font-Lato ml-1 text-sm">Unsatisfactory</ion-label>
+                </div>
+              </ion-radio-group>
+            </div>
+          </div>
+          <div class="flex justify-between items-center mt-2">
+            <ion-text class="font-semibold">Final Position</ion-text>
+            <ion-radio-group formControlName="finalPosition_pb" value="true"
+              class="radio flex justify-center items-center">
+              <div class="flex justify-center items-center  mr-2">
+                <ion-radio mode="md" value="false"></ion-radio>
+                <ion-label class="font-Lato ml-1 text-sm">Satisfactory</ion-label>
+              </div>
+              <div class="flex justify-center items-center">
+                <ion-radio mode="md" class="unsatisfactory" value="true"></ion-radio>
+                <ion-label class="font-Lato ml-1 text-sm">Unsatisfactory</ion-label>
+              </div>
+            </ion-radio-group>
+          </div>
+
+          <ion-button class="upload-button" (click)="addFeedback()">
+            Add Feedback
+          </ion-button>
+          <ion-textarea [autoGrow]="true"
+          *ngIf="feedbackValue"
+          formControlName="comments_pb"
+          class="border-2 rounded-lg my-2 px-1"
+            placeholder="Add your feedback here">
+          </ion-textarea>
+        </div>
+        <div class="w-full border-b-2 my-3 py-1 flex justify-between items-center">
+          <ion-text class="text-base font-semibold font-Lato">All Basic Skills</ion-text>
+          <ion-text class="text-base font-Lato text-9B9BA4">Total Attempts</ion-text>
+        </div>
+        <div class="border-b-4 py-4">
+          <div class="flex flex-col justify-center">
+            <ion-text class="font-Lato font-semibold">Straight Line Backing</ion-text>
+            <div class="flex justify-between items-center mt-3">
+              <ion-radio-group formControlName="straightLineBaking_pb" value="true"
+                class="radio flex justify-center items-center">
+                <div class="flex justify-center items-center  mr-2">
+                  <ion-radio mode="md" value="true"></ion-radio>
+                  <ion-label class="font-Lato ml-1 text-sm">Satisfactory</ion-label>
+                </div>
+                <div class="flex justify-center items-center">
+                  <ion-radio mode="md" class="unsatisfactory" value="false"></ion-radio>
+                  <ion-label class="font-Lato ml-1 text-sm">Unsatisfactory</ion-label>
+                </div>
+              </ion-radio-group>
+              <div class="flex justify-center items-center w-28 border-2  rounded-lg px-2">
+                <ion-input placeholder="Enter Value" type="number" formControlName="straightLineBakingInput_pb">
+                </ion-input>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="border-b-4 py-4">
+          <div class="flex flex-col justify-center">
+            <ion-text class="font-Lato font-semibold">Alley Docking (45/90)</ion-text>
+            <div class="flex justify-between items-center mt-3">
+              <ion-radio-group formControlName="alleyDocking_pb" value="true"
+                class="radio flex justify-center items-center">
+                <div class="flex justify-center items-center  mr-2">
+                  <ion-radio mode="md" value="true"></ion-radio>
+                  <ion-label class="font-Lato ml-1 text-sm">Satisfactory</ion-label>
+                </div>
+                <div class="flex justify-center items-center">
+                  <ion-radio mode="md" class="unsatisfactory" value="false"></ion-radio>
+                  <ion-label class="font-Lato ml-1 text-sm">Unsatisfactory</ion-label>
+                </div>
+              </ion-radio-group>
+              <div class="flex justify-center items-center w-28 border-2  rounded-lg px-2">
+                <ion-input placeholder="Enter Value" type="number" formControlName="alleyDockingInput_pb"></ion-input>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="border-b-4 py-4">
+          <div class="flex flex-col justify-center">
+            <ion-text class="font-Lato font-semibold">Off Set Backing</ion-text>
+            <div class="flex justify-between items-center mt-3">
+              <ion-radio-group formControlName="offSetBacking_pb" value="true"
+                class="radio flex justify-center items-center">
+                <div class="flex justify-center items-center  mr-2">
+                  <ion-radio mode="md" value="true"></ion-radio>
+                  <ion-label class="font-Lato ml-1 text-sm">Satisfactory</ion-label>
+                </div>
+                <div class="flex justify-center items-center">
+                  <ion-radio mode="md" class="unsatisfactory" value="false"></ion-radio>
+                  <ion-label class="font-Lato ml-1 text-sm">Unsatisfactory</ion-label>
+                </div>
+              </ion-radio-group>
+              <div class="flex justify-center items-center w-28 border-2  rounded-lg px-2">
+                <ion-input placeholder="Enter Value" type="number" formControlName="offSetBackingInput_pb"></ion-input>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="border-b-4 py-4">
+          <div class="flex flex-col justify-center">
+            <ion-text class="font-Lato font-semibold">Parallel Paking Blind</ion-text>
+            <div class="flex justify-between items-center mt-3">
+              <ion-radio-group formControlName="parallelParkingBlind_pb" value="true"
+                class="radio flex justify-center items-center">
+                <div class="flex justify-center items-center  mr-2">
+                  <ion-radio mode="md" value="true"></ion-radio>
+                  <ion-label class="font-Lato ml-1 text-sm">Satisfactory</ion-label>
+                </div>
+                <div class="flex justify-center items-center">
+                  <ion-radio mode="md" class="unsatisfactory" value="false"></ion-radio>
+                  <ion-label class="font-Lato ml-1 text-sm">Unsatisfactory</ion-label>
+                </div>
+              </ion-radio-group>
+              <div class="flex justify-center items-center w-28 border-2  rounded-lg px-2">
+                <ion-input placeholder="Enter Value" type="number" formControlName="parallelParkingBlindInput_pb">
+                </ion-input>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="border-b-4 py-4">
+          <div class="flex flex-col justify-center">
+            <ion-text class="font-Lato font-semibold">Coupling & Uncoupling</ion-text>
+            <div class="flex justify-between items-center mt-3">
+              <ion-radio-group formControlName="coupUncoup_pb" value="true" class="radio flex justify-center items-center">
+                <div class="flex justify-center items-center  mr-2">
+                  <ion-radio mode="md" value="true"></ion-radio>
+                  <ion-label class="font-Lato ml-1 text-sm">Satisfactory</ion-label>
+                </div>
+                <div class="flex justify-center items-center">
+                  <ion-radio mode="md" class="unsatisfactory" value="false"></ion-radio>
+                  <ion-label class="font-Lato ml-1 text-sm">Unsatisfactory</ion-label>
+                </div>
+              </ion-radio-group>
+              <div class="flex justify-center items-center w-28 border-2  rounded-lg px-2">
+                <ion-input placeholder="Enter Value" type="number" formControlName="coupUncoupInput_pb"></ion-input>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <ion-card>
+        <ion-card-content>
+          <div class="flex justify-between items-center mb-2">
+            <ion-text class="font-Lato text-black font-semibold">Total Attempts / Results</ion-text>
+            <ion-text
+              class="font-Lato text-sm text-3D8AA4 bg-3D8AA4 bg-opacity-10 rounded-full px-3 py-1">
+              Satisfactory</ion-text>
+          </div>
+          <ion-text class="font-Lato text-9B9BA4">Total Attempts: <span class="font-Lato text-black">15</span>
+          </ion-text>
+        </ion-card-content>
+      </ion-card>
+      <ion-button  expand="block"
+        class="close-out-button font-Lato mb-4 mt-0 mx-8 bg-opacity-10 text-white" (click)="navigate()">Next
+      </ion-button>
+
+    </form>
+</ion-content>

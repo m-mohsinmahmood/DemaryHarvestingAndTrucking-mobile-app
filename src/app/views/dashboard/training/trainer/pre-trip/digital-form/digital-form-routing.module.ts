@@ -7,7 +7,11 @@ const routes: Routes = [
   {
     path: '',
     component: DigitalFormPage
+  },  {
+    path: 'in-cab',
+    loadChildren: () => import('./in-cab/in-cab.module').then( m => m.InCabPageModule)
   }
+
 ];
 
 @NgModule({

@@ -9,6 +9,7 @@ import { RoadSkillsPageRoutingModule } from './road-skills-routing.module';
 import { RoadSkillsPage } from './road-skills.page';
 import { HeaderModule } from 'src/app/components/header/header.module';
 import { TimerModule } from 'src/app/components/timer/timer.module';
+import { WithLoadingPipe } from 'src/app/pipes/general-pipes/with-loading.pipe';
 
 @NgModule({
   imports: [
@@ -20,6 +21,6 @@ CommonModule,
     TimerModule,
     ReactiveFormsModule
   ],
-  declarations: [RoadSkillsPage]
+  declarations: [RoadSkillsPage, WithLoadingPipe]
 })
 export class RoadSkillsPageModule {}

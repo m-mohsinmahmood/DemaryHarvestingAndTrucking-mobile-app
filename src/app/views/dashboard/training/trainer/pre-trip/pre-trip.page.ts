@@ -28,12 +28,19 @@ export class PreTripPage implements OnInit {
   upload_3 = false;
   upload = true;
 
+  // model
+ isModalOpen = false;
+
+  // Data
+  data: any;
   // behaviour subject for loader
   public loading = new BehaviorSubject(true);
 
   // trainer id
   trainer_id = '4b84234b-0b74-49a2-b3c7-d3884f5f6013';
 
+  backDropValue: any = false; // Bacck-Drop Value
+  showModel: any= false;
   profileData: any;
   states: string[];
 
@@ -130,8 +137,21 @@ export class PreTripPage implements OnInit {
     if (e.target.value === 'paper-form') {
       this.value = e.target.value;
     } else {
+      // Digital Form
       this.upload = false;
       this.value = e.target.value;
+
+      this.trainingService.getData('pre-trip').subscribe((res) => {
+        console.log('RES::', res);
+        this.data = res;
+        if (res.message === 'No Records Found.') {
+        // nothing
+        }
+        else {
+          this.data = res;
+        this.isModalOpen = true;
+        }
+      });
     }
   }
 
@@ -158,8 +178,31 @@ export class PreTripPage implements OnInit {
   }
   continue() {
     console.log(this.preTrip.value);
-    this.router.navigateByUrl(
+    // this.router.navigateByUrl(
+    //   '/tabs/home/training/trainer/pre-trip/digital-form'
+    // );
+    this.trainingService.save(this.preTrip.value, 'pre-trip').subscribe(
+      (res) => {
+        console.log('RES:', res);
+        if (res.status === 200) {
+          this.toastService.presentToast(
+            'Digital evaluation started',
+            'success'
+          );
+
+          // navigating
+          this.router.navigateByUrl(
       '/tabs/home/training/trainer/pre-trip/digital-form'
+    );
+        } else {
+          console.log('Something happened :)');
+          this.toastService.presentToast(res.mssage, 'danger');
+        }
+      },
+      (err) => {
+        console.log('ERROR::', err);
+        this.toastService.presentToast(err.mssage, 'danger');
+      }
     );
   }
 
@@ -171,7 +214,7 @@ export class PreTripPage implements OnInit {
 
       // patching values
       this.preTrip.patchValue({
-        trainer_id: res.trainer_id,
+        trainer_id: res[0].trainer_id,
       });
       this.loading.next(false);
     });
@@ -364,4 +407,73 @@ export class PreTripPage implements OnInit {
     this.allSupervisors = of([]);
   }
   //#endregion
+
+  completeEvaluation(){
+// Engine/Compartment
+if (
+  this.data.is_digital_form_started &&
+  !this.data.is_engine_compartment_started &&
+  !this.data.is_in_cab_started &&
+  !this.data.is_suspension_brakes_started &&
+  !this.data.is_coupling_started &&
+  !this.data.is_vehicle_external_started
+) {
+  this.router.navigateByUrl(
+    '/tabs/home/training/trainer/pre-trip/digital-form'
+  );
+}
+// In Cab
+else if (
+  this.data.is_digital_form_started &&
+  this.data.is_engine_compartment_started &&
+  !this.data.is_in_cab_started &&
+  !this.data.is_suspension_brakes_started &&
+  !this.data.is_coupling_started &&
+  !this.data.is_vehicle_external_started
+) {
+  this.router.navigateByUrl(
+    '/tabs/home/training/trainer/pre-trip/digital-form/in-cab'
+  );
+}
+// Vehicle/External
+else if (
+  this.data.is_digital_form_started &&
+  this.data.is_engine_compartment_started &&
+  this.data.is_in_cab_started &&
+  !this.data.is_suspension_brakes_started &&
+  !this.data.is_coupling_started &&
+  !this.data.is_vehicle_external_started
+) {
+  console.log('Vehicle/External');
+  this.router.navigateByUrl(
+    '/tabs/home/training/trainer/pre-trip/digital-form/in-cab/vehicle-external'
+  );
+}
+// Coupling
+else if (
+  this.data.is_digital_form_started &&
+  this.data.is_engine_compartment_started &&
+  this.data.is_in_cab_started &&
+  this.data.is_vehicle_external_started &&
+  !this.data.is_coupling_started &&
+  !this.data.is_suspension_brakes_started
+) {
+  this.router.navigateByUrl(
+    '/tabs/home/training/trainer/pre-trip/digital-form/in-cab/vehicle-external/coupling'
+  );
+}
+// Suspension & Brakes
+else if (
+  this.data.is_digital_form_started &&
+  this.data.is_engine_compartment_started &&
+  this.data.is_in_cab_started &&
+  this.data.is_vehicle_external_started &&
+  this.data.is_coupling_started &&
+  !this.data.is_suspension_brakes_started
+) {
+  this.router.navigateByUrl(
+    '/tabs/home/training/trainer/pre-trip/digital-form/in-cab/vehicle-external/coupling/suspension-brakes'
+  );
+}
+  }
 }

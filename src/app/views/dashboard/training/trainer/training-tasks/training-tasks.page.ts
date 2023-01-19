@@ -61,16 +61,16 @@ export class TrainingTasksPage implements OnInit {
     this.route = this.router.getCurrentNavigation().extras.state.routeName;
 
     this.trainingTasksForm = this.formBuilder.group({
-      trainer_id: ['', [Validators.required]],
-      supervisor_id: ['', [Validators.required]],
-      city: ['', [Validators.required]],
-      state: ['', [Validators.required]],
-      training_type: ['', [Validators.required]],
+      trainer_id: [''],
+      supervisor_id: [''],
+      city: [''],
+      state: [''],
+      training_type: [''],
       topic: ['', [Validators.required]],
-      uploadDocs1: ['', [Validators.required]],
-      uploadDocs2: ['', [Validators.required]],
-      uploadDocs3: ['', [Validators.required]],
-      notes: ['', [Validators.required]],
+      uploadDocs1: [''],
+      uploadDocs2: [''],
+      uploadDocs3: [''],
+      notes: [''],
     });
 
     // passing value in training type
@@ -119,13 +119,13 @@ export class TrainingTasksPage implements OnInit {
     .subscribe((res)=>{
       this.loading.next(true);
       console.log('Res:',res);
-      this.profileData = res;
+      this.profileData = res[0];
 
       // patching values
       this.trainingTasksForm.patchValue({
-        trainer_id: res.trainer_id,
-        city:  res.town_city,
-        state: res.state,
+        trainer_id: res[0].trainer_id,
+        city:  res[0].town_city,
+        state: res[0].state,
       });
       this.loading.next(false);
     });

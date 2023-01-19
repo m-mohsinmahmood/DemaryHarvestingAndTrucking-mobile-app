@@ -2,7 +2,13 @@
 <app-header [title]="'CDL Training Pre-Trip Check'" [color]="'training'"></app-header>
 <ion-content>
   <app-timer [value]="'01:23:45'"></app-timer>
-
+  <!-- <div *ngIf="showModel">
+  <ion-backdrop [visible]="backDropValue"></ion-backdrop>
+  <div id="box">
+    <ion-text>You need to first complete your evaluation form.</ion-text>
+    <ion-button>Okie</ion-button>
+  </div>
+</div> -->
   <form class="mx-4" [formGroup]="preTrip">
 
     <div class="col-span-12 mb-4 mt-2">
@@ -20,7 +26,7 @@
       <label class="block text-sm font-medium text-gray-700">Trainer </label>
       <input
       readonly
-      [value]="profileData.trainer_name"
+      [value]="profileData[0].trainer_name"
       disabled
         class="mt-1 block w-full  rounded-md border border-gray-300  text-gray-400 focus:text-gray-700
         bg-gray-200 py-2 px-3 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
@@ -276,4 +282,18 @@
   </div>
   </form>
 
+  <!-- MODEL -->
+<ion-modal #modal [isOpen]="isModalOpen">
+  <ng-template>
+    <ion-content class="ion-padding">
+      <ion-text class="flex justify-center items-center ion-text-center">
+         You need to first complete your started evaluation
+      </ion-text>
+      <div class="flex justify-center items-center mt-3">
+        <ion-button class="text-white" (click)="completeEvaluation(); modal.dismiss()">Complete evaluation</ion-button>
+      </div>
+    </ion-content>
+  </ng-template>
+</ion-modal>
+ <!-- MODEL -->
 </ion-content>

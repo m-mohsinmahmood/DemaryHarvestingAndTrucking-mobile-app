@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { TrainingService } from '../../../training.service';
+import { ToastService } from 'src/app/services/toast/toast.service';
 
 @Component({
   selector: 'app-digital-form',
@@ -11,140 +14,76 @@ export class DigitalFormPage implements OnInit {
   value: any;
   buffer = 1;
   progress = 0;
-  selectAray: any[] = [
-    'engine/compartment',
-    'incab',
-    'vehicle/external',
-    'coupling',
-    'suspension/brakes',
-  ];
-  indexArray: any[] = [0.2, 0.4, 0.6, 0.8, 1];
-  text=0;
-  increment = 0;
-  increment1 = 0;
+  // selectAray: any[] = [
+  //   'engine/compartment',
+  //   'incab',
+  //   'vehicle/external',
+  //   'coupling',
+  //   'suspension/brakes',
+  // ];
+  // indexArray: any[] = [0.2, 0.4, 0.6, 0.8, 1];
+  // text=0;
+  // increment = 0;
+  // increment1 = 0;
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder,
+    private router:  Router,
+    private trainingService: TrainingService,
+    private toastService: ToastService) { }
 
   ngOnInit() {
      // passing the select value for Engine/Compartment to render when page loads
     this.value = 'engine/compartment';
 
     this.preTripForm = this.formBuilder.group({
-      preSelect: ['',[Validators.required]],
       //Engine/Compartment
-      oilLevel: ['false',[Validators.required]],
-      coolantLevelEngine: ['false',[Validators.required]],
-      powerSteelingLevel: ['false',[Validators.required]],
-      h20: ['false',[Validators.required]],
-      alternatorBelt: ['false',[Validators.required]],
-      airCompresseorEngine: ['false',[Validators.required]],
-      leaksHoses: ['false',[Validators.required]],
-      fanShroud: ['false',[Validators.required]],
-      radiator: ['false',[Validators.required]],
-      wiring: ['false',[Validators.required]],
-      steeringBox: ['false',[Validators.required]],
-      steeringLinkage: ['false',[Validators.required]],
-      hosesSteering: ['false',[Validators.required]],
-      turbo: ['false',[Validators.required]],
-      windowFluid: ['false',[Validators.required]],
-      mirror: ['false',[Validators.required]],
-      clutchCondition: ['false',[Validators.required]],
+      oilLevel: [false,[Validators.required]],
+      coolantLevelEngine: [false,[Validators.required]],
+      powerSteelingLevel: [false,[Validators.required]],
+      h20: [false,[Validators.required]],
+      alternatorBelt: [false,[Validators.required]],
+      airCompresseorEngine: [false,[Validators.required]],
+      leaksHoses: [false,[Validators.required]],
+      fanShroud: [false,[Validators.required]],
+      radiator: [false,[Validators.required]],
+      wiring: [false,[Validators.required]],
+      steeringBox: [false,[Validators.required]],
+      steeringLinkage: [false,[Validators.required]],
+      hosesSteering: [false,[Validators.required]],
+      turbo: [false,[Validators.required]],
+      windowFluid: [false,[Validators.required]],
+      mirror: [false,[Validators.required]],
+      clutchCondition: [false,[Validators.required]],
       commentsEngine: ['',[Validators.required]],
+      category:['engine-compartment']
 
-      // In Cab
-      safetyBelt: ['false',[Validators.required]],
-      coolantLevelCab: ['false',[Validators.required]],
-      emergencyEquipment: ['false',[Validators.required]],
-      safeStart: ['false',[Validators.required]],
-      temperatureGauge: ['false',[Validators.required]],
-      oilPressure: ['false',[Validators.required]],
-      voltMeter: ['false',[Validators.required]],
-      airGaugeBuCo: ['false',[Validators.required]],
-      indicators: ['false',[Validators.required]],
-      horns: ['false',[Validators.required]],
-      defroster: ['false',[Validators.required]],
-      windshield: ['false',[Validators.required]],
-      wipersWash: ['false',[Validators.required]],
-      parkBrake: ['false',[Validators.required]],
-      svcBrake: ['false',[Validators.required]],
-      leakTest: ['false',[Validators.required]],
-      abcLights: ['false',[Validators.required]],
-      lightFunction: ['false',[Validators.required]],
-      commentsCab: ['',[Validators.required]],
-
-      // Vehicle/External
-      lightFunctionVehicle: ['false',[Validators.required]],
-      lensReflector: ['false',[Validators.required]],
-      door: ['false',[Validators.required]],
-      fuelTank: ['false',[Validators.required]],
-      leaks: ['false',[Validators.required]],
-      steps: ['false',[Validators.required]],
-      frame: ['false',[Validators.required]],
-      driveShaft: ['false',[Validators.required]],
-      tires: ['false',[Validators.required]],
-      rims: ['false',[Validators.required]],
-      lugNuts: ['false',[Validators.required]],
-      axelHubSeal: ['false',[Validators.required]],
-      bidSpacers: ['false',[Validators.required]],
-      batteryBox: ['false',[Validators.required]],
-      exhaust: ['false',[Validators.required]],
-      headerBvd: ['false',[Validators.required]],
-      landingGear: ['false',[Validators.required]],
-      commentsVehicle: ['',[Validators.required]],
-
-      //Coupling
-      airConditioners: ['false',[Validators.required]],
-      electricConnectors: ['false',[Validators.required]],
-      mountingBolts: ['false',[Validators.required]],
-      platformBase: ['false',[Validators.required]],
-      lockingJaws: ['false',[Validators.required]],
-      grease: ['false',[Validators.required]],
-      releaseArm: ['false',[Validators.required]],
-      skidPlate: ['false',[Validators.required]],
-      slidingPins: ['false',[Validators.required]],
-      kingPin: ['false',[Validators.required]],
-      apron: ['false',[Validators.required]],
-      gap: ['false',[Validators.required]],
-      airLine: ['false',[Validators.required]],
-      location: ['false',[Validators.required]],
-      safetyDevices: ['false',[Validators.required]],
-      print: ['false',[Validators.required]],
-      drawBar: ['false',[Validators.required]],
-      commentsCoupling: ['',[Validators.required]],
-
-      //Suspension/Brakes
-      springs: ['false',[Validators.required]],
-      airBags: ['false',[Validators.required]],
-      shocks: ['false',[Validators.required]],
-      vBolts: ['false',[Validators.required]],
-      mounts: ['false',[Validators.required]],
-      bushings: ['false',[Validators.required]],
-      leafSprings: ['false',[Validators.required]],
-      slackAdjusters: ['false',[Validators.required]],
-      crackChammber: ['false',[Validators.required]],
-      pushRod: ['false',[Validators.required]],
-      drums: ['false',[Validators.required]],
-      linings: ['false',[Validators.required]],
-      rotor: ['false',[Validators.required]],
-      discPads: ['false',[Validators.required]],
-      brakeHoses: ['false',[Validators.required]],
-      cams: ['false',[Validators.required]],
-      torqueArm: ['false',[Validators.required]],
-      wheelSeals: ['false',[Validators.required]],
-      commentsSuspension: ['',[Validators.required]],
     });
   }
   submit(){
     console.log(this.preTripForm.value);
+    this.trainingService.saveFroms(this.preTripForm.value, 'pre-trip').subscribe(
+      (res) => {
+        console.log('RES:', res);
+        if (res.status === 200) {
+          this.toastService.presentToast(
+            'Engine/Compartment details have been submitted',
+            'success'
+          );
 
-    this.increment1 = this.increment1 +1;
-    this.value = this.selectAray[this.increment1];
+          // navigating
+          this.router.navigateByUrl(
+              '/tabs/home/training/trainer/pre-trip/digital-form/in-cab'
+        );
+        } else {
+          console.log('Something happened :)');
+          this.toastService.presentToast(res.mssage, 'danger');
+        }
+      },
+      (err) => {
+        console.log('ERROR::', err);
+        this.toastService.presentToast(err.mssage, 'danger');
+      }
+    );
 
-    // passing index to get progress
-    this.progress = this.indexArray[this.increment];
-
-    this.increment = this.increment +1;
-    console.log(this.increment);
-    this.text = this.increment;
   }
 }

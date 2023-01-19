@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
@@ -7,6 +7,9 @@ import { FormBuilder, FormGroup } from '@angular/forms';
   styleUrls: ['./dashboard.page.scss'],
 })
 export class DashboardPage implements OnInit {
+  @ViewChild('popover') popover;
+  isOpen = false;
+
   roleOptions = ['crew-chief', 'kart-operator', 'combine-operator', 'truck-driver', 'tractor-driver', 'dispatcher'];
   role = this.roleOptions[0];
   selectform: FormGroup;
@@ -32,10 +35,21 @@ export class DashboardPage implements OnInit {
     this.role = e.target.value;
 
     if (localStorage.getItem('role') === 'dispatcher')
-      localStorage.setItem('employeeId', '5254e1f7-bedf-4166-bba7-8a64892dc28e');
+      {localStorage.setItem('employeeId', '5254e1f7-bedf-4166-bba7-8a64892dc28e');}
     else if (localStorage.getItem('role') === 'truck-driver')
-      localStorage.setItem('employeeId', '00277ae0-9534-473a-afe8-c648aa0e6d9d');
+      {localStorage.setItem('employeeId', '00277ae0-9534-473a-afe8-c648aa0e6d9d');}
     else if (localStorage.getItem('role') === 'tractor-driver')
-      localStorage.setItem('employeeId', '2bf46542-d0bb-4ada-96e6-c103853c3f0d');
+      {localStorage.setItem('employeeId', '2bf46542-d0bb-4ada-96e6-c103853c3f0d');}
+  }
+
+  presentPopover(e: Event) {
+    this.popover.event = e;
+    this.isOpen = true;
+  }
+  logout(){
+    console.log('LOGOUT')
+
+    //to close pop-over
+    this.isOpen = false;
   }
 }

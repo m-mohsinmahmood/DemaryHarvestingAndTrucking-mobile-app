@@ -56,16 +56,16 @@ export class TraineePage implements OnInit {
 
   ngOnInit() {
     this.traineeForm = this.formBuilder.group({
-      trainee_id: ['', []],
-      trainer_id: ['', []],
+      trainee_id: [''],
+      trainer_id: [''],
       city: ['', [Validators.required]],
       state: ['', [Validators.required]],
       training_type: ['', [Validators.required]],
-      topic: ['', [Validators.required]],
-      detail: ['', [Validators.required]],
-      uploadDocs1: ['', []],
-      uploadDocs2: ['', []],
-      uploadDocs3: ['', []],
+      topic: [''],
+      detail: [''],
+      uploadDocs1: [''],
+      uploadDocs2: [''],
+      uploadDocs3: [''],
     });
     console.log(this.traineeForm.value);
 
@@ -96,12 +96,12 @@ export class TraineePage implements OnInit {
       (res) => {
         this.loading.next(true);
         console.log('res:::',res);
-        this.trainee_name = res.first_name + ' ' + res.last_name;
+        this.trainee_name = res[0].first_name + ' ' + res[0].last_name;
         this.loading.next(false);
 
         // patching trainee id
         this.traineeForm.patchValue({
-          trainee_id: res.trainee_id
+          trainee_id: res[0].trainee_id
         });
       },
       (err) => {

@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { ToastService } from 'src/app/services/toast/toast.service';
+import { TrainingService } from '../../../training.service';
 
 @Component({
   selector: 'app-evaluation-form',
@@ -8,8 +11,12 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class EvaluationFormPage implements OnInit {
   evaluationFrom: FormGroup;
-
-  constructor(private formBuilder: FormBuilder) { }
+sum= 0;
+  constructor(private formBuilder: FormBuilder,
+    private router: Router,
+    private trainingService: TrainingService,
+    private toastService: ToastService
+    ) { }
 
   ngOnInit() {
     this.evaluationFrom = this.formBuilder.group({
@@ -39,10 +46,66 @@ export class EvaluationFormPage implements OnInit {
       generalDrivingInput: ['',[Validators.required]],
       eLogPractical: ['',[Validators.required]],
       eLogPracticalInput: ['',[Validators.required]],
+      category:['road-testing']
 
     });
+
+    console.log('SUM:', this.evaluationFrom.get('eLogPracticalInput').value);
   }
 endEvaluation(){
   console.log(this.evaluationFrom.value);
+  // this.trainingService.saveFroms(this.evaluationFrom.value, 'road-skills').subscribe(
+  //   (res) => {
+  //     console.log('RES:', res);
+  //     if (res.status === 200) {
+  //       this.toastService.presentToast(
+  //         'Evaluation ended',
+  //         'success'
+  //       );
+
+
+  //       // navigating
+  //       this.router.navigateByUrl('/tabs/home/training/trainer');
+
+  //     } else {
+  //       console.log('Something happened :)');
+  //       this.toastService.presentToast(res.mssage, 'danger');
+  //     }
+  //   },
+  //   (err) => {
+  //     console.log('ERROR::', err);
+  //     this.toastService.presentToast(err.mssage, 'danger');
+  //   }
+  // );
 }
+getSum(){
+  console.log('SUM:',   this.evaluationFrom.get('leftTurnsInput').value +
+  this.evaluationFrom.get('rightTurnsInput').value +
+  this.evaluationFrom.get('intersectionStopInput').value +
+  this.evaluationFrom.get('intersectionThruInput').value +
+  this.evaluationFrom.get('interstateInput').value +
+  this.evaluationFrom.get('urbanBusinessInput').value +
+  this.evaluationFrom.get('lanceChangesInput').value +
+  this.evaluationFrom.get('curveInput').value +
+  this.evaluationFrom.get('roadsideInput').value +
+  this.evaluationFrom.get('rrCrossingInput').value +
+  this.evaluationFrom.get('signsInput').value +
+  this.evaluationFrom.get('generalDrivingInput').value +
+  this.evaluationFrom.get('eLogPracticalInput').value );
+
+
+ this.sum =  this.evaluationFrom.get('leftTurnsInput').value +
+  this.evaluationFrom.get('rightTurnsInput').value +
+  this.evaluationFrom.get('intersectionStopInput').value +
+  this.evaluationFrom.get('intersectionThruInput').value +
+  this.evaluationFrom.get('interstateInput').value +
+  this.evaluationFrom.get('urbanBusinessInput').value +
+  this.evaluationFrom.get('lanceChangesInput').value +
+  this.evaluationFrom.get('curveInput').value +
+  this.evaluationFrom.get('roadsideInput').value +
+  this.evaluationFrom.get('rrCrossingInput').value +
+  this.evaluationFrom.get('signsInput').value +
+  this.evaluationFrom.get('generalDrivingInput').value +
+  this.evaluationFrom.get('eLogPracticalInput').value;
 }
+};
