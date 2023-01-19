@@ -92,19 +92,11 @@
        <ion-text class="font-Lato font-bold text-lg">Score</ion-text>
        <ion-text class="font-Lato font-bold text-lg">85%</ion-text>
       </div>
-
-      <!-- <ion-text class="text-sm font-semibold font-Lato text-black mt-2">Notes</ion-text> -->
-
-      <!-- <ion-item>
-        <ion-textarea [autoGrow]="true"
-        formControlName="comments"
-        placeholder="Add your notes here :)">
-      </ion-textarea>
-    </ion-item> -->
-    <ion-text class="text-sm font-semibold font-Lato text-black mt-2">Notes</ion-text>
+    <ion-text class="text-sm font-semibold font-Lato text-black mt-2">Engine Notes</ion-text>
     <ion-item lines="none" class="textarea">
       <ion-textarea [autoGrow]="true"
-      formControlName="notes"
+      disabled=""
+      [value]="records?.commentsEngine"
         >
       </ion-textarea>
     </ion-item>

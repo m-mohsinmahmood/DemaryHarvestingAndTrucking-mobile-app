@@ -40,11 +40,6 @@ export class ViewRecordsPage implements OnInit {
     this.records = record[0];
    });
 
-  //  this.preCheckForm.patchValue({
-  //   oilLevel: this.records?.oilLevel === true? true : false,
-  //   steelingLevel: this.records?.powerSteelingLevel === 'true'? true: false,
-  //   coolantLevel: this.records?.coolantLevelEngine === 'true'? true : false,
-  //  });
 
   }
   exit(){
@@ -70,7 +65,7 @@ export class ViewRecordsPage implements OnInit {
       windowFluid: ['',[Validators.required]],
       mirror: ['',[Validators.required]],
       clutchCondition: ['',[Validators.required]],
-      comments: ['',[Validators.required]]
+      commentsEngine: ['',[Validators.required]]
      });
 
      this.roadskillsForm = this.fromBuilder.group({

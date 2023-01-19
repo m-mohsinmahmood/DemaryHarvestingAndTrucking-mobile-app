@@ -13,6 +13,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable, of, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { HarvestingService } from './../harvesting.service';
+import { ToastService } from 'src/app/services/toast/toast.service';
 
 @Component({
   selector: 'app-assign-roles',
@@ -60,7 +61,8 @@ export class AssignRolesPage implements OnInit {
     private location: Location,
     private formBuilder: FormBuilder,
     private renderer: Renderer2,
-    private harvestingService: HarvestingService
+    private harvestingService: HarvestingService,
+    private toastService: ToastService
   ) {
     this.renderer.listen('window', 'click', (e) => {
       if (e.target !== this.combineInput.nativeElement) {
@@ -100,6 +102,23 @@ export class AssignRolesPage implements OnInit {
   addCombine() {
 
     console.log(this.assignFormCombine.value);
+    this.harvestingService.createJob(this.assignFormCombine.value)
+      .subscribe(
+        (res: any) => {
+          console.log('Response:', res);
+          if (res.status === 200) {
+            this.toastService.presentToast(res.message, 'success');
+
+            console.log(res.message);
+          } else {
+            console.log('Something happened :)');
+          }
+        },
+        (err) => {
+          console.log('Error:', err);
+          // this.handleError(err);
+        },
+      );
   }
   addKart() {
 
