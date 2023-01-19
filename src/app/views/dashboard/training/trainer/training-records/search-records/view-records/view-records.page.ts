@@ -42,9 +42,9 @@ export class ViewRecordsPage implements OnInit {
    // getting record by id
    this.trainingService.getRecordById(this.recordId)
    .subscribe((record)=>{
-    // this.loading.next(true);
+    this.loading.next(true);
     this.records = record[0];
-    // this.loading.next(true);
+    this.loading.next(false);
     console.log('Record:',record);
 
    });
