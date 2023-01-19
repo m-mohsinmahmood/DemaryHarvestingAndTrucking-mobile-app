@@ -123,6 +123,23 @@ export class AssignRolesPage implements OnInit {
   addKart() {
 
     console.log(this.assignFormKart.value);
+    this.harvestingService.createJob(this.assignFormKart.value)
+      .subscribe(
+        (res: any) => {
+          console.log('Response:', res);
+          if (res.status === 200) {
+            this.toastService.presentToast(res.message, 'success');
+
+            console.log(res.message);
+          } else {
+            console.log('Something happened :)');
+          }
+        },
+        (err) => {
+          console.log('Error:', err);
+          // this.handleError(err);
+        },
+      );
   }
   //#region comnine
   combineSearchSubscription() {

@@ -149,6 +149,7 @@ export class ChangeFarmPage implements OnInit {
   }
   initForms() {
     this.jobSetupForm = this.formBuilder.group({
+      // crew_chief_id: [localStorage.getItem('employeeId')],
       state: ['', [Validators.required]],
       customer_id: [''],
       farm_id: [''],
@@ -205,29 +206,22 @@ initObservables(){
       crop_id: this.jobSetupForm.get('crop_id').value,
     });
 
-    this.harvestingService.updateJob(this.jobUpdateForm.value)
-     .subscribe(
-          (res: any) => {
-              console.log('Response:',res);
-              if(res.status === 200){
-                this.jobSetupForm.reset();
-                this.isDisabled = true;
-                this.customer_name ='';
-                this.farm_name ='';
-                this.crop_name = '';
-                this.farm_name = '';
-                this.field_name = '';
-                this.toastService.presentToast(res.message,'success');
+    this.harvestingService.createJob(this.jobUpdateForm.value)
+      .subscribe(
+        (res: any) => {
+          console.log('Response:', res);
+          if (res.status === 200) {
+            this.toastService.presentToast(res.message, 'success');
 
-                console.log(res.message);
-              }else{
-                console.log('Something happened :)');
-              }
-          },
-          (err) => {
-            console.log('Error:',err);
-              // this.handleError(err);
-          },
+            console.log(res.message);
+          } else {
+            console.log('Something happened :)');
+          }
+        },
+        (err) => {
+          console.log('Error:', err);
+          // this.handleError(err);
+        },
       );
   }
 
