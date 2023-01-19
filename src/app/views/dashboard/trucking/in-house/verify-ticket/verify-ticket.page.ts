@@ -41,6 +41,14 @@ export class VerifyTicketPage implements OnInit {
   constructor(private truckingService: TruckingService) { }
 
   ngOnInit() {
+    this.initDataFetch();
+  }
+
+  async ionViewDidEnter() {
+    this.initDataFetch();
+  }
+
+  initDataFetch() {
     this.role = localStorage.getItem('role');
 
     if (this.role === 'dispatcher') {
@@ -67,7 +75,7 @@ export class VerifyTicketPage implements OnInit {
     }
 
     else {
-      this.existingTickets = this.truckingService.getDeliveryTickets(this.role, 'sent', localStorage.getItem('employeeId'), 'home');
+      this.existingTickets = this.truckingService.getDeliveryTickets(this.role, 'sent', localStorage.getItem('employeeId'), 'home', false, false, false);
       this.existingTickets.subscribe((workOrders) => {
         this.dataLoaded.existingList = true;
         this.dataCount.existing = workOrders.count;
@@ -82,5 +90,4 @@ export class VerifyTicketPage implements OnInit {
       });
     }
   }
-
 }

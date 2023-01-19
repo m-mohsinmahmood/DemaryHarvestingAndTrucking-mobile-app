@@ -118,7 +118,7 @@ export class SubmitBeginningDayPage implements OnInit {
         if (value === '') { this.isMachinerySelected = true; }
         this.allMachinery = this.farmingService.getMachinery(
           value,
-          'allMachinery'
+          'allMotorizedVehicles'
         );
 
         // subscribing to show/hide Field UL
@@ -154,7 +154,7 @@ export class SubmitBeginningDayPage implements OnInit {
     // calling API
     this.allMachinery = this.farmingService.getMachinery(
       value,
-      'allMachinery'
+      'allMotorizedVehicles'
     );
 
     // subscribing to show/hide farm UL
@@ -176,12 +176,9 @@ export class SubmitBeginningDayPage implements OnInit {
     console.log(machinery);
 
     // assigning values in form
-    this.submitBeginningDay.setValue({
-      employeeId: this.submitBeginningDay.get('employeeId').value,
+    this.submitBeginningDay.patchValue({
       machineryId: machinery.id,
-      beginningEngineHours: this.submitBeginningDay.get('beginningEngineHours').value,
-      workOrderId: this.submitBeginningDay.get('workOrderId').value,
-
+      beginningEngineHours: machinery.odometer_reading_end
     });
 
     // clearing array
@@ -192,6 +189,7 @@ export class SubmitBeginningDayPage implements OnInit {
 
     // passing name in select's input
     this.machinery_name = machinery.type;
+    console.log(this.machinery_name);
 
     // to enable submit button
     this.isMachinerySelected = false;
@@ -211,7 +209,8 @@ export class SubmitBeginningDayPage implements OnInit {
         if (value === '') { this.isWorkOrderSelected = true; }
         this.allWorkOrder = this.farmingService.getAllWorkOrders(
           value,
-          'beginningOfDay'
+          'beginningOfDay',
+          localStorage.getItem('employeeId')
         );
 
         // subscribing to show/hide Field UL
@@ -247,7 +246,8 @@ export class SubmitBeginningDayPage implements OnInit {
     // calling API
     this.allWorkOrder = this.farmingService.getAllWorkOrders(
       value,
-      'beginningOfDay'
+      'beginningOfDay',
+      localStorage.getItem('employeeId')
     );
 
     // subscribing to show/hide farm UL
@@ -268,10 +268,7 @@ export class SubmitBeginningDayPage implements OnInit {
     console.log(workOrder);
 
     // assigning values in form
-    this.submitBeginningDay.setValue({
-      employeeId: this.submitBeginningDay.get('employeeId').value,
-      machineryId: this.submitBeginningDay.get('machineryId').value,
-      beginningEngineHours: this.submitBeginningDay.get('beginningEngineHours').value,
+    this.submitBeginningDay.patchValue({
       workOrderId: workOrder.id
     });
 

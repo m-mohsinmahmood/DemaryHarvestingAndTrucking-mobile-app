@@ -5,7 +5,7 @@
   <ion-grid>
     <ion-row>
       <ion-col size="12">
-        <ion-card class="card bg-greenBtn" [routerLink]="['pre-trip-form']">
+        <ion-card class="card bg-greenBtn" [routerLink]="['pre-trip-form',activeTicket]">
           <ion-card-content>
             <div class="flex justify-center items-center">
               <ion-icon class="mr-2 text-white w-6 h-6" slot="start" name="add-outline"></ion-icon>
@@ -15,59 +15,139 @@
         </ion-card>
       </ion-col>
     </ion-row>
-
   </ion-grid>
+
+
+  <div *ngIf="!(data | async) as data">
+    <ion-card>
+      <ion-card-content class="flex flex-col py-2">
+
+        <ion-text class="font-Lato font-semibold text-lg text-black ion-text-start">
+          <ion-skeleton-text [animated]="true" style="width: 100%; height: 30px;"></ion-skeleton-text>
+        </ion-text>
+
+        <ion-text class="font-Lato font-semibold text-lg text-black ion-text-start">
+          <ion-skeleton-text [animated]="true" style="width: 100%; height: 30px;"></ion-skeleton-text>
+        </ion-text>
+
+        <ion-text class="font-Lato font-semibold text-lg text-black ion-text-start">
+          <ion-skeleton-text [animated]="true" style="width: 100%; height: 30px;"></ion-skeleton-text>
+        </ion-text>
+
+      </ion-card-content>
+    </ion-card>
+  </div>
+
   <div class="mx-6">
-    <div class="flex justify-between items-center">
-      <ion-text class="font-Lato font-semibold">Prior Pre-Trip Check Forms</ion-text>
-      <ion-select placeholder="This Month">
-        <ion-select-option value="month" class="font-Lato">Month</ion-select-option>
-        <ion-select-option value="year" class="font-Lato">Year</ion-select-option>
-        <ion-select-option value="week" class="font-Lato">Week</ion-select-option>
-      </ion-select>
+    <div *ngIf="data | async as data">
+
+      <div class="flex justify-between items-center">
+        <ion-text class="font-Lato font-semibold">Prior Pre-Trip Check Forms</ion-text>
+      </div>
+
+      <div class="segment-style">
+        <ion-segment [(ngModel)]="segment" scrollable>
+          <ion-segment-button value="day">By Day </ion-segment-button>
+          <ion-segment-button value="month">By Month </ion-segment-button>
+          <ion-segment-button value="year">By Year </ion-segment-button>
+        </ion-segment>
+      </div>
+
+      <div [ngSwitch]="segment">
+        <div *ngSwitchCase="'day'">
+          <div>
+            <div class="col-span-12 mb-4 mt-2" id="click-trigger">
+              <label class="block text-sm font-medium text-gray-700">Select Date:</label>
+              <input id="click-trigger"
+                class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                placeholder="Enter date" readonly [value]="date">
+            </div>
+
+            <ion-popover trigger="click-trigger" triggerAction="click">
+              <ng-template>
+                <ion-datetime (ionChange)="getDate($event)" presentation="date" size="cover"></ion-datetime>
+              </ng-template>
+            </ion-popover>
+          </div>
+
+          <ion-button class="text-white" (click)="getTicketsOnSpecificInterval('day')">
+            Get Records
+          </ion-button>
+        </div>
+
+        <div *ngSwitchCase="'month'">
+          <div>
+            <div class="col-span-12 mb-4 mt-2" id="click-trigger">
+              <label class="block text-sm font-medium text-gray-700">Select Month:</label>
+              <input id="click-trigger"
+                class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                placeholder="Enter date" readonly [value]="month">
+            </div>
+
+            <ion-popover trigger="click-trigger" triggerAction="click">
+              <ng-template>
+                <ion-datetime (ionChange)="getMonth($event)" presentation="month-year" size="cover"></ion-datetime>
+              </ng-template>
+            </ion-popover>
+          </div>
+
+          <ion-button class="text-white" (click)="getTicketsOnSpecificInterval('month')">
+            Get Records
+          </ion-button>
+        </div>
+
+        <div *ngSwitchCase="'year'">
+          <div>
+            <div class="col-span-12 mb-4 mt-2" id="click-trigger">
+              <label class="block text-sm font-medium text-gray-700">Select Year:</label>
+              <input id="click-trigger"
+                class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                placeholder="Enter date" readonly [value]="year">
+            </div>
+
+            <ion-popover trigger="click-trigger" triggerAction="click">
+              <ng-template>
+                <ion-datetime (ionChange)="getYear($event)" presentation="year" size="cover"></ion-datetime>
+              </ng-template>
+            </ion-popover>
+          </div>
+
+          <ion-button class="text-white" (click)="getTicketsOnSpecificInterval('year')">
+            Get Records
+          </ion-button>
+        </div>
+      </div>
+      <!-- <div class="flex justify-between items-center">
+        <ion-text class="font-Lato font-semibold">Prior Pre-Trip Check Forms</ion-text>
+        <ion-select placeholder="This Month">
+          <ion-select-option value="month" class="font-Lato">Month</ion-select-option>
+          <ion-select-option value="year" class="font-Lato">Year</ion-select-option>
+          <ion-select-option value="week" class="font-Lato">Week</ion-select-option>
+        </ion-select>
+      </div> -->
+
+      <div *ngIf="dataLoaded">
+        <ion-card *ngFor="let ticket of (checkList.ticket)" class="m-1 mb-2"
+          [routerLink]="['pre-check-form-detail', ticket]">
+          <ion-card-content class="flex flex-col py-2">
+            <ion-text class="font-Lato font-semibold text-lg text-black ion-text-start"> {{ticket.created_at |
+              date:'MMMM dd, yyyy'}}</ion-text>
+            <div class="flex justify-between mt-3 mb-2">
+              <ion-text class=" font-Lato text-9B9BA4 ion-text-start text-base">Inspected by (Truck Driver)</ion-text>
+              <ion-text
+                class="ion-text-end font-Lato font-semibold text-black text-sm">{{ticket.inspected_by}}</ion-text>
+            </div>
+            <div class="flex justify-between ">
+              <ion-text class=" font-Lato text-9B9BA4 ion-text-start">Unsatisfactory Items</ion-text>
+              <ion-text class="  font-Lato text-red-600">{{ticket.unsatisfactory_items}}</ion-text>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </div>
+      <ion-button class="upload-button" (click)="getTicketsOnSpecificInterval('all')">
+        View All
+        <ion-icon name="arrow-forward-outline"></ion-icon>
+      </ion-button>
     </div>
-    <ion-card class="m-1 mb-2" [routerLink]="['pre-check-form-detail']">
-      <ion-card-content class="flex flex-col py-2">
-        <ion-text class="font-Lato font-semibold text-lg text-black ion-text-start"> October 21st,2022</ion-text>
-        <div class="flex justify-between mt-3 mb-2">
-          <ion-text class=" font-Lato text-9B9BA4 ion-text-start text-base">Inspected by (Truck Driver)</ion-text>
-          <ion-text class="ion-text-end font-Lato font-semibold text-black text-sm">Bob Higgins</ion-text>
-        </div>
-        <div class="flex justify-between ">
-          <ion-text class=" font-Lato text-9B9BA4 ion-text-start">Unsatisfactory Items</ion-text>
-          <ion-text class="  font-Lato text-red-600">02</ion-text>
-        </div>
-      </ion-card-content>
-    </ion-card>
-    <ion-card class="m-1 mb-2" [routerLink]="['pre-check-form-detail']">
-      <ion-card-content class="flex flex-col py-2">
-        <ion-text class="font-Lato font-semibold text-lg text-black ion-text-start"> October 21st,2022</ion-text>
-        <div class="flex justify-between mt-3 mb-2">
-          <ion-text class=" font-Lato text-9B9BA4 ion-text-start text-base">Inspected by (Truck Driver)</ion-text>
-          <ion-text class="ion-text-end font-Lato font-semibold text-black text-sm">Bob Higgins</ion-text>
-        </div>
-        <div class="flex justify-between ">
-          <ion-text class=" font-Lato text-9B9BA4 ion-text-start">Unsatisfactory Items</ion-text>
-          <ion-text class="  font-Lato text-red-600">02</ion-text>
-        </div>
-      </ion-card-content>
-    </ion-card>
-    <ion-card class="m-1 mb-2" [routerLink]="['pre-check-form-detail']">
-      <ion-card-content class="flex flex-col py-2">
-        <ion-text class="font-Lato font-semibold text-lg text-black ion-text-start"> October 21st,2022</ion-text>
-        <div class="flex justify-between mt-3 mb-2">
-          <ion-text class=" font-Lato text-9B9BA4 ion-text-start text-base">Inspected by (Truck Driver)</ion-text>
-          <ion-text class="ion-text-end font-Lato font-semibold text-black text-sm">Bob Higgins</ion-text>
-        </div>
-        <div class="flex justify-between ">
-          <ion-text class=" font-Lato text-9B9BA4 ion-text-start">Unsatisfactory Items</ion-text>
-          <ion-text class="  font-Lato text-red-600">02</ion-text>
-        </div>
-      </ion-card-content>
-    </ion-card>
-    <ion-button class="upload-button">
-      View All
-      <ion-icon name="arrow-forward-outline"></ion-icon>
-    </ion-button>
   </div>
 </ion-content>

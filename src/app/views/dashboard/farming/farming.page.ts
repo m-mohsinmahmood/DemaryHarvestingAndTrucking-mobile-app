@@ -15,15 +15,27 @@ export class FarmingPage implements OnInit {
   sentOrdersCount = -1;
   workOrderCount: any;
 
-  constructor(private farmingService: FarmingService) { }
+  constructor(private farmingService: FarmingService) {
+
+  }
 
   ngOnInit() {
+    this.initDataRetrieval();
+  }
+
+  async ionViewDidEnter() {
+    this.initDataRetrieval();
+  }
+
+  initDataRetrieval() {
+    this.pendingOrdersCount = -1;
+    this.sentOrdersCount = -1;
+
     this.role = localStorage.getItem('role');
 
     // To check if employee has begun a day before closing it
-
     if (this.role === 'dispatcher') {
-      this.farmingService.getAllWorkOrders('', 'pending_work_order').subscribe(workOrder => {
+      this.farmingService.getAllWorkOrders('', 'pending_work_order', localStorage.getItem('employeeId')).subscribe(workOrder => {
         this.pendingOrdersCount = workOrder.count;
       })
     }
@@ -34,7 +46,7 @@ export class FarmingPage implements OnInit {
         console.log(workOrder);
       });
 
-      this.farmingService.getAllWorkOrders('', 'sent_work_order').subscribe(workOrder => {
+      this.farmingService.getAllWorkOrders('', 'existing_work_order', localStorage.getItem('employeeId')).subscribe(workOrder => {
         this.sentOrdersCount = workOrder.count;
         console.log(this.sentOrdersCount);
 

@@ -37,13 +37,12 @@
   flex: 1;
   padding: 0 1rem;
   font-weight: 500;
-  font-size: 20px;
+  font-size: 19px;
   font-family: 'Lato';
   width: 100%;
 
   &.complete {
     color: #121212;
-
   }
 
   &.active {
@@ -53,7 +52,20 @@
   &.in-complete {
     color: #D0D0D4;
   }
+}
 
+.timeLineButton {
+  &.complete {
+    color: #121212;
+    --background: transparent;
+    color: transparent;
+  }
+
+  &.in-complete {
+    color: #D0D0D4;
+    --background: transparent;
+    color: transparent;
+  }
 }
 
 .timeline-point-track-container {

@@ -14,10 +14,10 @@ export class CloseOutOrderPage implements OnInit {
 
   closeOutWorkOrder: FormGroup;
   workOrderId: string;
-
+  machineryID: string;
   data: Observable<any>;
   dataLoaded = false;
-  workOrderCount =0;
+  workOrderCount = 0;
 
   constructor(private toast: ToastService, private formBuilder: FormBuilder, private router: Router, private farmingService: FarmingService, private renderer: Renderer2) {
 
@@ -32,12 +32,12 @@ export class CloseOutOrderPage implements OnInit {
       this.workOrderCount = workOrders.count;
       if (workOrders.count > 0) {
         this.workOrderId = workOrders.workOrders[0].id;
+        this.machineryID = workOrders.workOrders[0].machinery_id;
       }
       this.dataLoaded = true;
       console.log(this.workOrderCount);
 
     })
-
 
     this.closeOutWorkOrder = this.formBuilder.group({
       workOrderId: [this.workOrderId],
@@ -45,9 +45,9 @@ export class CloseOutOrderPage implements OnInit {
       acresCompleted: ['', [Validators.required]],
       endingEngineHours: ['', [Validators.required]],
       gpsAcresByService: ['', [Validators.required]],
-      gpsAcres: ['', [Validators.required]],
+      // gpsAcres: ['', [Validators.required]],
       hoursWorked: ['', [Validators.required]],
-      notes: ['', [Validators.required]],
+      notes: ['', [Validators.required]]
     });
   }
 
@@ -55,6 +55,8 @@ export class CloseOutOrderPage implements OnInit {
     this.closeOutWorkOrder.patchValue({
       workOrderId: this.workOrderId
     })
+
+    this.closeOutWorkOrder.value.machineryID = this.machineryID;
 
     console.log(this.closeOutWorkOrder.value);
     this.farmingService.updateWorkOrder(this.closeOutWorkOrder.value, 'tractor-driver', 'closeOutWorkOrder')

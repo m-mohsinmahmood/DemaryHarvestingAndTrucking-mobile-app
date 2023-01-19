@@ -53,11 +53,12 @@ export class TruckingService {
       .pipe(take(1));
   }
 
-  createNewDeliveryTicket(data: any, role: string, truckingType: string, ticketStatus: string) {
+  createNewDeliveryTicket(data: any, role: string, truckingType: string, ticketStatus: string, isInfoCompleted: boolean) {
     data.role = role;
 
     data.ticketStatus = ticketStatus;
     data.truckingType = truckingType
+    data.isTicketInfoCompleted = isInfoCompleted;
 
     return this._httpClient
       .post(`http://localhost:7071/api/delivery_ticket_trucking`, data)
@@ -72,11 +73,30 @@ export class TruckingService {
       .pipe(take(1));
   }
 
+  createDWR(data: any, dwr_type: String) {
+    data.dwr_type = dwr_type;
+
+    return this._httpClient
+      .post(`http://localhost:7071/api/dwr`, data)
+      .pipe(take(1));
+  }
+
+  updateDWR(data: any, dwr_type: String) {
+    data.dwr_type = dwr_type;
+
+    return this._httpClient
+      .patch(`http://localhost:7071/api/dwr`, data)
+      .pipe(take(1));
+  }
+
   getDeliveryTickets(
     role: string,
     ticketStatus: string,
     employeeId?: string,
-    truckingType?: string
+    truckingType?: string,
+    isTicketInfoComplete?: boolean,
+    isTicketActive?: boolean,
+    isPreCHeckFilled?: boolean
   ) {
     this._httpClient
     let params = new HttpParams();
@@ -84,6 +104,15 @@ export class TruckingService {
     params = params.set('ticketStatus', ticketStatus);
     params = params.set('employeeId', employeeId);
     params = params.set('truckingType', truckingType);
+
+    if (isTicketInfoComplete != null)
+      params = params.set('isTicketInfoComplete', isTicketInfoComplete);
+
+    if (isTicketActive != null)
+      params = params.set('isTicketActive', isTicketActive);
+
+    if (isPreCHeckFilled != null)
+      params = params.set('isPreCheckFilled', isPreCHeckFilled);
 
     return this._httpClient
       .get<any>('http://localhost:7071/api/delivery_ticket_trucking', {
@@ -116,6 +145,7 @@ export class TruckingService {
     let params = new HttpParams();
     params = params.set('entity', entity);
     params = params.set('search', search);
+    params = params.set('vehicleType', 'Truck');
 
     return this._httpClient
       .get<any>('http://localhost:7071/api/dropdowns', {

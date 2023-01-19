@@ -127,7 +127,7 @@ export class CompleteExistingOrderPage implements OnInit {
     this.completeExistingWorkOrder = this.formBuilder.group({
       workOrderId: [this.data.work_order_id],
       machineryID: ['', [Validators.required]],
-      cBeginningEngineHours: ['', [Validators.required]],
+      beginningEngineHours: ['', [Validators.required]],
       dispatcherId: [this.data.dispatcher_id, [Validators.required]],
       customerId: [this.data.customer_id, [Validators.required]],
       farmId: [this.data.farm_id, [Validators.required]],
@@ -136,6 +136,7 @@ export class CompleteExistingOrderPage implements OnInit {
       tractorDriverId: [localStorage.getItem('employeeId')],
       fieldAddress: [this.data.address, [Validators.required]],
       phone: [this.data.customer_phone, [Validators.required]],
+      totalAcres: [this.data.totalAcres]
     });
 
     this.dispatcher_name = this.data.dispatcher_name;
@@ -177,7 +178,7 @@ export class CompleteExistingOrderPage implements OnInit {
         if (value === '') { this.isMachinerySelected = true; }
         this.allMachinery = this.farmingService.getMachinery(
           value,
-          'allMachinery'
+          'allMotorizedVehicles'
         );
 
         // subscribing to show/hide Field UL
@@ -213,7 +214,7 @@ export class CompleteExistingOrderPage implements OnInit {
     // calling API
     this.allMachinery = this.farmingService.getMachinery(
       value,
-      'allMachinery'
+      'allMotorizedVehicles'
     );
 
     // subscribing to show/hide farm UL
@@ -235,18 +236,9 @@ export class CompleteExistingOrderPage implements OnInit {
     console.log(machinery);
 
     // assigning values in form
-    this.completeExistingWorkOrder.setValue({
-      workOrderId: this.completeExistingWorkOrder.get('workOrderId').value,
+    this.completeExistingWorkOrder.patchValue({
       machineryID: machinery.id,
-      cBeginningEngineHours: this.completeExistingWorkOrder.get('cBeginningEngineHours').value,
-      dispatcherId: this.completeExistingWorkOrder.get('dispatcherId').value,
-      customerId: this.completeExistingWorkOrder.get('customerId').value,
-      farmId: this.completeExistingWorkOrder.get('farmId').value,
-      fieldId: this.completeExistingWorkOrder.get('fieldId').value,
-      service: this.completeExistingWorkOrder.get('service').value,
-      tractorDriverId: this.completeExistingWorkOrder.get('tractorDriverId').value,
-      fieldAddress: this.completeExistingWorkOrder.get('fieldAddress').value,
-      phone: this.completeExistingWorkOrder.get('phone').value
+      beginningEngineHours: machinery.odometer_reading_end
     });
     // clearing array
     this.allMachinery = of([]);
@@ -354,18 +346,8 @@ export class CompleteExistingOrderPage implements OnInit {
     this.dispatcherUL = false;
 
     // assigning values in form
-    this.completeExistingWorkOrder.setValue({
-      workOrderId: this.completeExistingWorkOrder.get('workOrderId').value,
-      machineryID: this.completeExistingWorkOrder.get('machineryID').value,
-      cBeginningEngineHours: this.completeExistingWorkOrder.get('cBeginningEngineHours').value,
-      dispatcherId: dispatcher.id,
-      customerId: this.completeExistingWorkOrder.get('customerId').value,
-      farmId: this.completeExistingWorkOrder.get('farmId').value,
-      fieldId: this.completeExistingWorkOrder.get('fieldId').value,
-      service: this.completeExistingWorkOrder.get('service').value,
-      tractorDriverId: this.completeExistingWorkOrder.get('tractorDriverId').value,
-      fieldAddress: this.completeExistingWorkOrder.get('fieldAddress').value,
-      phone: this.completeExistingWorkOrder.get('phone').value
+    this.completeExistingWorkOrder.patchValue({
+      dispatcherId: dispatcher.id
     });
 
     // clearing array
@@ -485,18 +467,9 @@ export class CompleteExistingOrderPage implements OnInit {
     this.customerUL = false;
 
     // assigning values in form
-    this.completeExistingWorkOrder.setValue({
-      workOrderId: this.completeExistingWorkOrder.get('workOrderId').value,
-      machineryID: this.completeExistingWorkOrder.get('machineryID').value,
-      cBeginningEngineHours: this.completeExistingWorkOrder.get('cBeginningEngineHours').value,
-      dispatcherId: this.completeExistingWorkOrder.get('dispatcherId').value,
+    this.completeExistingWorkOrder.patchValue({
       customerId: customer.id,
-      farmId: this.completeExistingWorkOrder.get('farmId').value,
-      fieldId: this.completeExistingWorkOrder.get('fieldId').value,
-      service: this.completeExistingWorkOrder.get('service').value,
-      tractorDriverId: this.completeExistingWorkOrder.get('tractorDriverId').value,
-      fieldAddress: this.completeExistingWorkOrder.get('fieldAddress').value,
-      phone: this.completeExistingWorkOrder.get('phone').value
+      phone: customer.phone_number
     });
     // passing name in select's input
     this.customer_name = customer.customer_name;
@@ -582,18 +555,8 @@ export class CompleteExistingOrderPage implements OnInit {
     this.farmUL = false;
 
     // assigning values in form
-    this.completeExistingWorkOrder.setValue({
-      workOrderId: this.completeExistingWorkOrder.get('workOrderId').value,
-      machineryID: this.completeExistingWorkOrder.get('machineryID').value,
-      cBeginningEngineHours: this.completeExistingWorkOrder.get('cBeginningEngineHours').value,
-      dispatcherId: this.completeExistingWorkOrder.get('dispatcherId').value,
-      customerId: this.completeExistingWorkOrder.get('customerId').value,
-      farmId: farm.id,
-      fieldId: this.completeExistingWorkOrder.get('fieldId').value,
-      service: this.completeExistingWorkOrder.get('service').value,
-      tractorDriverId: this.completeExistingWorkOrder.get('tractorDriverId').value,
-      fieldAddress: this.completeExistingWorkOrder.get('fieldAddress').value,
-      phone: this.completeExistingWorkOrder.get('phone').value
+    this.completeExistingWorkOrder.patchValue({
+      farmId: farm.id
     });
     // clearing array
     this.allFarms = of([]);
@@ -686,18 +649,9 @@ export class CompleteExistingOrderPage implements OnInit {
     console.log(field);
 
     // assigning values in form
-    this.completeExistingWorkOrder.setValue({
-      workOrderId: this.completeExistingWorkOrder.get('workOrderId').value,
-      machineryID: this.completeExistingWorkOrder.get('machineryID').value,
-      cBeginningEngineHours: this.completeExistingWorkOrder.get('cBeginningEngineHours').value,
-      dispatcherId: this.completeExistingWorkOrder.get('dispatcherId').value,
-      customerId: this.completeExistingWorkOrder.get('customerId').value,
-      farmId: this.completeExistingWorkOrder.get('farmId').value,
+    this.completeExistingWorkOrder.patchValue({
       fieldId: field.field_id,
-      service: this.completeExistingWorkOrder.get('service').value,
-      tractorDriverId: this.completeExistingWorkOrder.get('tractorDriverId').value,
-      fieldAddress: this.completeExistingWorkOrder.get('fieldAddress').value,
-      phone: this.completeExistingWorkOrder.get('phone').value
+      totalAcres: field.acres
     });
 
     // clearing array
@@ -791,7 +745,7 @@ export class CompleteExistingOrderPage implements OnInit {
     // assigning values in form
 
     this.completeExistingWorkOrder.patchValue({
-      service: service,
+      service: service
     });
     // clearing array
     this.allServices = of([]);

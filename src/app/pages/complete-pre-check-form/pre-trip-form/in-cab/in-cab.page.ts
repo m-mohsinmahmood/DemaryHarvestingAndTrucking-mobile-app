@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs/internal/Observable';
+import { TripCheckService } from './../../trip-check-form.service';
+import { ToastService } from './../../../../services/toast/toast.service';
 
 @Component({
   selector: 'app-in-cab',
@@ -12,58 +15,90 @@ export class InCabPage implements OnInit {
   progress = 0.2;
   cabCheckForm: FormGroup;
   indexArray: any[] = [0.2, 0.4, 0.6, 0.8, 1];
+  deliveryTicketId;
+  data: Observable<any>;
+  id;
 
-  constructor(private router: Router, private formBuilder: FormBuilder) { }
+  constructor(private activeRoute: ActivatedRoute, private toast: ToastService, private preTripForm: TripCheckService, private tripCheck: TripCheckService, private router: Router, private formBuilder: FormBuilder) { }
 
   ngOnInit() {
+    this.initDataFetch();
+  }
+
+  async ionViewDidEnter() {
+    this.initDataFetch();
+  }
+
+  initDataFetch() {
+    this.data = this.tripCheck.getActivePreCheckTicket('getActiveTicket');
+
+    this.data.subscribe((workOrders) => {
+      this.id = workOrders.ticket[0].id;
+    });
+
+    this.activeRoute.params.subscribe(params => {
+      this.deliveryTicketId = params.deliveryTicketId;
+      console.log("Params:", params);
+
+    })
+
     this.cabCheckForm = this.formBuilder.group({
       safetyEquip: ['true', [Validators.required]],
       safetyEquipNotes: [''],
-      safetyEquipSelect: ['minor'],
+      safetyEquipSeverity: ['minor'],
       starter: ['true', [Validators.required]],
       starterNotes: [''],
-      starterSelect: ['minor'],
+      starterSeverity: ['minor'],
       gauges: ['true', [Validators.required]],
       gaugesNotes: [''],
-      gaugesSelect: ['minor'],
+      gaugesSeverity: ['minor'],
       oilPressure: ['true', [Validators.required]],
       oilPressureNotes: [''],
-      oilPressureSelect: ['minor'],
+      oilPressureSeverity: ['minor'],
       wipers: ['true', [Validators.required]],
       wipersNotes: [''],
-      wipersSelect: ['minor'],
+      wipersSeverity: ['minor'],
       heater: ['true', [Validators.required]],
       heaterNotes: [''],
-      heaterSelect: ['minor'],
+      heaterSeverity: ['minor'],
       windows: ['true', [Validators.required]],
       windowsNotes: [''],
-      windowsSelect: ['minor'],
+      windowsSeverity: ['minor'],
       horns: ['true', [Validators.required]],
       hornsNotes: [''],
-      hornsSelect: ['minor'],
+      hornsSeverity: ['minor'],
       pBrakes: ['true', [Validators.required]],
       pBrakesNotes: [''],
-      pBrakesSelect: ['minor'],
+      pBrakesSeverity: ['minor'],
       sBrakes: ['true', [Validators.required]],
       sBrakesNotes: [''],
-      sBrakesSelect: ['minor'],
+      sBrakesSeverity: ['minor'],
       leakTest: ['true', [Validators.required]],
       leakTestNotes: [''],
-      leakTestSelect: ['minor'],
-      lights: ['true', [Validators.required]],
-      lightsNotes: [''],
-      lightsSelect: ['minor'],
+      leakTestSeverity: ['minor'],
+      lightsCab: ['true', [Validators.required]],
+      lightsNotesCab: [''],
+      lightsSeverityCab: ['minor'],
     });
-
-    // // getting progress no.
-    // this.progress = this.router.getCurrentNavigation().extras.state.progressNo;
   }
 
   submitForm() {
     console.log(this.cabCheckForm.value);
     // this.router.navigateByUrl('/complete-pre-check-form/pre-trip-form/vehicle-external');
-    this.router.navigateByUrl('/tabs/home/harvesting/complete-pre-check-form/pre-trip-form/engine-check/in-cab/vehicle-external');
+    this.preTripForm.updatePreTripCheckForm(this.cabCheckForm.value, 2, this.id)
+      .subscribe(
+        (res: any) => {
+          console.log(res);
 
+          if (res.status === 200) {
+            this.toast.presentToast("Pre Trip Check Form has updated successfully!", 'success');
+            this.router.navigate(['vehicle-external', { deliveryTicketId: this.deliveryTicketId }], { relativeTo: this.activeRoute });
+          }
+        },
+        (err) => {
+          this.toast.presentToast(err, 'danger');
+        },
+      );
   }
 
 }

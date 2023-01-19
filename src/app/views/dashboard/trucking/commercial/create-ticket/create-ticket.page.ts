@@ -23,6 +23,14 @@ export class CreateTicketPage implements OnInit {
   createTicketFormDispatcher: FormGroup;
   createTicketFormTruckDriver: FormGroup;
 
+  @ViewChild('dispatcherInput') dispatcherInput: ElementRef;
+  isDispatcherSelected: any = true;
+  dispatcher_search$ = new Subject();
+  dispatcher_name: any = '';
+  dispatcherSearchValue: any;
+  allDispatchers: Observable<any>;
+  dispatcherUL: any = false;
+
   @ViewChild('customerInput') customerInput: ElementRef;
   isCustomerSelected: any = true;
   customer_search$ = new Subject();
@@ -48,6 +56,14 @@ export class CreateTicketPage implements OnInit {
   rateSearchValue: any;
   allRates: Observable<any>;
   rateUL: any = false;
+
+  @ViewChild('machineryInput') machineryInput: ElementRef;
+  isMachinerySelected: any = true;
+  machinery_search$ = new Subject();
+  machinery_name: any = '';
+  machinerySearchValue: any;
+  allMachinery: Observable<any>;
+  machineryUL: any = false;
 
   isDisabled: any = true;
 
@@ -91,15 +107,43 @@ export class CreateTicketPage implements OnInit {
           }
         });
       }
+      else {
+        this.renderer.listen('window', 'click', (e) => {
+          if (e.target !== this.dispatcherInput.nativeElement) {
+            this.allDispatchers = of([]); // to clear array
+            this.dispatcherUL = false; // to hide the UL
+          }
+          if (e.target !== this.customerInput.nativeElement) {
+            this.allCustomers = of([]); // to clear array
+            this.customerUL = false; // to hide the UL
+          }
+          if (e.target !== this.rateInput.nativeElement) {
+            this.allRates = of([]); // to clear array
+            this.rateUL = false; // to hide the UL
+          }
+          if (e.target !== this.machineryInput.nativeElement) {
+            this.allMachinery = of([]); // to clear array
+            this.machineryUL = false; // to hide the UL
+          }
+        });
+      }
     }
   }
 
   ngOnInit() {
     this.role = localStorage.getItem('role');
 
-    this.customerSearchSubscription();
-    this.tDriverSearchSubscription();
-    this.rateSearchSubscription();
+    if (localStorage.getItem('role') === 'dispatcher') {
+      this.customerSearchSubscription();
+      this.tDriverSearchSubscription();
+      this.rateSearchSubscription();
+    }
+    else {
+      this.dispatcherSearchSubscription();
+      this.customerSearchSubscription();
+      this.rateSearchSubscription();
+      this.machinerySearchSubscription();
+    }
 
     this.createTicketFormDispatcher = this.formBuilder.group({
       dispatcherId: [localStorage.getItem('employeeId')],
@@ -117,10 +161,9 @@ export class CreateTicketPage implements OnInit {
     });
 
     this.createTicketFormTruckDriver = this.formBuilder.group({
-      deliveryTicket: ['', [Validators.required]],
-      supervisorName: ['', [Validators.required]],
-      truckDriver: ['', [Validators.required]],
-      customerName: ['', [Validators.required]],
+      dispatcherId: ['', [Validators.required]],
+      driverId: [[localStorage.getItem('employeeId')]],
+      customerId: ['', [Validators.required]],
       rateSheetUpload: ['', [Validators.required]],
       load: ['', [Validators.required]],
       rateType: ['', [Validators.required]],
@@ -129,23 +172,24 @@ export class CreateTicketPage implements OnInit {
       originCity: ['', [Validators.required]],
       destinationCity: ['', [Validators.required]],
       destinationState: ['', [Validators.required]],
-      truck: ['', [Validators.required]],
-      ticket: ['', [Validators.required]],
+      truckNo: ['', [Validators.required]],
       homeBeginingOdometerReading: ['', [Validators.required]],
       originBeginingOdometerReading: ['', [Validators.required]],
       originEmptyWeight: ['', [Validators.required]],
       originLoadedWeight: ['', [Validators.required]],
-      originWeightLoad1: ['', [Validators.required]],
+      originWeightLoad: ['', [Validators.required]],
       originalDocsUpload: ['', [Validators.required]],
       destinationEndingnOdometerReading: ['', [Validators.required]],
       destinationLoadedWeight: ['', [Validators.required]],
       destinationEmptyWeight: ['', [Validators.required]],
-      originWeightLoad2: ['', [Validators.required]],
       weightLoad: ['', [Validators.required]],
       scaleTicket: ['', [Validators.required]],
       destinationDeliveryLoad: ['', [Validators.required]],
       documentsUpload: ['', [Validators.required]],
-      driverNotes: ['', [Validators.required]],
+      truckDriverNotes: ['', [Validators.required]],
+      deadHeadMiles: ['12345'],
+      totalJobMiles: ['12345'],
+      totalTripMiles: ['12345'],
     });
   }
 
@@ -168,7 +212,7 @@ export class CreateTicketPage implements OnInit {
   }
   navigateDispatcher() {
     console.log(this.createTicketFormDispatcher.value);
-    this.truckingService.createNewDeliveryTicket(this.createTicketFormDispatcher.value, 'dispatcher', 'commercial', 'sent')
+    this.truckingService.createNewDeliveryTicket(this.createTicketFormDispatcher.value, 'dispatcher', 'commercial', 'sent', false)
       .subscribe(
         (res: any) => {
           console.log(res);
@@ -199,7 +243,19 @@ export class CreateTicketPage implements OnInit {
   }
   navigateTruckDriver() {
     console.log(this.createTicketFormTruckDriver.value);
-    this.router.navigateByUrl('/tabs/home/trucking/commercial');
+    this.truckingService.createNewDeliveryTicket(this.createTicketFormTruckDriver.value, 'truck-driver', 'commercial', 'sent', true)
+      .subscribe(
+        (res: any) => {
+          console.log(res);
+          if (res.status === 200) {
+            this.toast.presentToast("Delivery ticket has been created successfully!", 'success');
+            this.router.navigateByUrl('/tabs/home/trucking/commercial');
+          }
+        },
+        (err) => {
+          this.toast.presentToast(err, 'danger');
+        },
+      );
   }
 
 
@@ -297,6 +353,11 @@ export class CreateTicketPage implements OnInit {
     // assigning values in form
     if (localStorage.getItem('role') === 'dispatcher') {
       this.createTicketFormDispatcher.patchValue({
+        customerId: customer.id,
+      });
+    }
+    else {
+      this.createTicketFormTruckDriver.patchValue({
         customerId: customer.id,
       });
     }
@@ -463,12 +524,12 @@ export class CreateTicketPage implements OnInit {
         // for asterik to look required
         if (value === '') { this.isRateSelected = true; }
 
-        if (localStorage.getItem('role') === 'dispatcher') {
-          this.allRates = this.truckingService.getTruckingRates(
-            'allCustomersTruckingRate',
-            this.customerId
-          );
-        }
+        // if (localStorage.getItem('role') === 'dispatcher') {
+        this.allRates = this.truckingService.getTruckingRates(
+          'allCustomersTruckingRate',
+          this.customerId
+        );
+        // }
         // else {
         //   this.allDispatchers = this.farmingService.getEmployees(
         //     value,
@@ -508,12 +569,12 @@ export class CreateTicketPage implements OnInit {
         : this.rateSearchValue;
 
     // calling API
-    if (localStorage.getItem('role') === 'dispatcher') {
-      this.allRates = this.truckingService.getTruckingRates(
-        'allCustomersTruckingRate',
-        this.customerId
-      );
-    }
+    // if (localStorage.getItem('role') === 'dispatcher') {
+    this.allRates = this.truckingService.getTruckingRates(
+      'allCustomersTruckingRate',
+      this.customerId
+    );
+    // }
     // else {
     //   this.allDispatchers = this.farmingService.getEmployees(
     //     value,
@@ -547,20 +608,11 @@ export class CreateTicketPage implements OnInit {
         rateType: rate.id
       });
     }
-    // else {
-    //   this.createOrderTDriver.setValue({
-    //     machineryID: this.createOrderTDriver.get('machineryID').value,
-    //     cBeginningEngineHours: this.createOrderTDriver.get('cBeginningEngineHours').value,
-    //     dispatcherId: dispatcher.id,
-    //     customerId: this.createOrderTDriver.get('customerId').value,
-    //     farmId: this.createOrderTDriver.get('farmId').value,
-    //     fieldId: this.createOrderTDriver.get('fieldId').value,
-    //     service: this.createOrderTDriver.get('service').value,
-    //     tractorDriverId: this.createOrderTDriver.get('tractorDriverId').value,
-    //     fieldAddress: this.createOrderTDriver.get('fieldAddress').value,
-    //     phone: this.createOrderTDriver.get('phone').value
-    //   });
-    // }
+    else {
+      this.createTicketFormTruckDriver.patchValue({
+        rateType: rate.id
+      });
+    }
     // clearing array
     this.allRates = of([]);
 
@@ -569,6 +621,191 @@ export class CreateTicketPage implements OnInit {
 
     // to enable submit button
     this.isRateSelected = false;
+  }
+  //#endregion
+
+  //#region Dispatcher
+  dispatcherSearchSubscription() {
+    this.dispatcher_search$
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        takeUntil(this._unsubscribeAll)
+      )
+      .subscribe((value: string) => {
+        // for asterik to look required
+        if (value === '') { this.isDispatcherSelected = true; }
+
+        if (localStorage.getItem('role') === 'truck-driver') {
+          this.allDispatchers = this.truckingService.getEmployees(
+            value,
+            'allEmployees',
+            'Dispatcher'
+          );
+        }
+
+        // subscribing to show/hide Field UL
+        this.allDispatchers.subscribe((dispatcher) => {
+          if (dispatcher.count === 0) {
+            // hiding UL
+            this.dispatcherUL = false;
+          } else {
+            // showing UL
+            this.dispatcherUL = true;
+          }
+        });
+      });
+  }
+
+  inputClickedDispatcher() {
+    // getting the serch value to check if there's a value in input
+    this.dispatcher_search$
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        takeUntil(this._unsubscribeAll)
+      )
+      .subscribe((v) => {
+        this.dispatcherSearchValue = v;
+      });
+
+    const value =
+      this.dispatcherSearchValue === undefined
+        ? this.dispatcher_name
+        : this.dispatcherSearchValue;
+
+    // calling API
+    console.log(localStorage.getItem('role'));
+
+    if (localStorage.getItem('role') === 'truck-driver') {
+      this.allDispatchers = this.truckingService.getEmployees(
+        value,
+        'allEmployees',
+        'Dispatcher'
+      );
+    }
+
+    // subscribing to show/hide farm UL
+    this.allDispatchers.subscribe((dispatcher) => {
+      console.log(dispatcher);
+
+      if (dispatcher.count === 0) {
+        // hiding UL
+        this.dispatcherUL = false;
+      } else {
+        // showing UL
+        this.dispatcherUL = true;
+      }
+    });
+  }
+  listClickedDispatcher(dispatcher) {
+
+    console.log(dispatcher);
+
+    // hiding UL
+    this.dispatcherUL = false;
+
+    // assigning values in form
+    if (localStorage.getItem('role') === 'truck-driver') {
+      this.createTicketFormTruckDriver.patchValue({
+        dispatcherId: dispatcher.id
+      });
+    }
+
+    this.allDispatchers = of([]);
+
+    // passing name in select's input
+    this.dispatcher_name = dispatcher.first_name;
+
+    // to enable submit button
+    this.isDispatcherSelected = false;
+  }
+  //#endregion
+
+  //#region Machinery
+  machinerySearchSubscription() {
+    this.machinery_search$
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        takeUntil(this._unsubscribeAll)
+      )
+      .subscribe((value: string) => {
+        // for asterik to look required
+        if (value === '') { this.isMachinerySelected = true; }
+        this.allMachinery = this.truckingService.getTruck(
+          value,
+          'allMotorizedVehicles'
+        );
+
+        // subscribing to show/hide Field UL
+        this.allMachinery.subscribe((machinery) => {
+          if (machinery.count === 0) {
+            // hiding UL
+            this.machineryUL = false;
+          } else {
+            // showing UL
+            this.machineryUL = true;
+          }
+        });
+      });
+  }
+
+  inputClickedMachinery() {
+    // getting the serch value to check if there's a value in input
+    this.machinery_search$
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        takeUntil(this._unsubscribeAll)
+      )
+      .subscribe((v) => {
+        this.machinerySearchValue = v;
+      });
+
+    const value =
+      this.machinerySearchValue === undefined
+        ? this.machinery_name
+        : this.machinerySearchValue;
+
+    // calling API
+    this.allMachinery = this.truckingService.getTruck(
+      value,
+      'allMotorizedVehicles'
+    );
+
+    // subscribing to show/hide farm UL
+    this.allMachinery.subscribe((machinery) => {
+
+      if (machinery.count === 0) {
+        // hiding UL
+        this.machineryUL = false;
+      } else {
+        // showing UL
+        this.machineryUL = true;
+      }
+    });
+  }
+  listClickedMachinery(machinery) {
+
+    // hiding UL
+    this.machineryUL = false;
+    console.log(machinery);
+
+    // assigning values in form
+    this.createTicketFormTruckDriver.patchValue({
+      truckNo: machinery.id,
+    });
+    // clearing array
+    this.allMachinery = of([]);
+
+    // For Specific Fields
+
+    // passing name in select's input
+    this.machinery_name = machinery.id;
+
+    // to enable submit button
+    this.isMachinerySelected = false;
   }
   //#endregion
 

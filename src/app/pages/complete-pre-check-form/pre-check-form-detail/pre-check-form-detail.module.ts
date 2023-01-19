@@ -9,16 +9,17 @@ import { PreCheckFormDetailPageRoutingModule } from './pre-check-form-detail-rou
 import { PreCheckFormDetailPage } from './pre-check-form-detail.page';
 import { HeaderModule } from 'src/app/components/header/header.module';
 import { TimerModule } from 'src/app/components/timer/timer.module';
+import { WithLoadingPipe } from './../../../pipes/general-pipes/with-loading.pipe';
 
 @NgModule({
   imports: [
-    CommonModule,
+  CommonModule,
     FormsModule,
     IonicModule,
     PreCheckFormDetailPageRoutingModule,
     HeaderModule,
     TimerModule
   ],
-  declarations: [PreCheckFormDetailPage]
+  declarations: [PreCheckFormDetailPage, WithLoadingPipe]
 })
 export class PreCheckFormDetailPageModule { }
