@@ -19,7 +19,9 @@ export class DashboardPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    // assigning role & employeeId
     localStorage.setItem('role', this.role);
+    localStorage.setItem('employeeId', '8920a566-453c-47f0-82dc-21e74196bb98');
 
     this.selectform = this.formbuilder.group({
       select: ['']

@@ -79,6 +79,10 @@
     <ion-text class="font-Lato text-xl font-bold px-4"
       >Pre-Trip Check History</ion-text
     >
+<div *ngIf="(loading |async) === true" class="h-64 flex justify-center items-center">
+    <ion-spinner name="crescent" class="h-14 w-14"></ion-spinner>
+</div>
+  <div *ngIf="(loading |async) === false">
     <div *ngIf="evaluationType === 'paper-form'">
       <ion-card class="p-3">
       <ion-card-header class="border-b-2 m-0 p-2">
@@ -127,6 +131,7 @@
     </ion-card>
 
   </div>
+</div>
 
   </div>
 </ion-content>

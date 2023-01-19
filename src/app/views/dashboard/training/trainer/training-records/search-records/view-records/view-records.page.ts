@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TrainingService } from '../../../../training.service';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-view-records',
@@ -13,7 +14,11 @@ export class ViewRecordsPage implements OnInit {
   preCheckForm: FormGroup;
   roadskillsForm: FormGroup;
   recordId: any;
+  trainerName: any;
   records: any;
+
+  // behaviour subject
+  public loading = new BehaviorSubject(true);
   constructor(
     private router: Router,
     private fromBuilder: FormBuilder,
@@ -29,6 +34,7 @@ export class ViewRecordsPage implements OnInit {
     console.log('PARAMS:',params);
     this.formType = params.formType;
     this.recordId = params.recordId;
+    this.trainerName = params.trainerName;
    });
 
    this.initForms();
@@ -36,8 +42,11 @@ export class ViewRecordsPage implements OnInit {
    // getting record by id
    this.trainingService.getRecordById(this.recordId)
    .subscribe((record)=>{
-    console.log('Record:',record);
+    // this.loading.next(true);
     this.records = record[0];
+    // this.loading.next(true);
+    console.log('Record:',record);
+
    });
 
 

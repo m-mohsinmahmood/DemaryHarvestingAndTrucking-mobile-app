@@ -108,8 +108,6 @@ new BehaviorSubject<any>(1);
   ){
     // console.log('UnSUBSCRIBE:',this._unsubscribeAll);
     // console.log('UnSUBSCRIBE:',this.unsubscribeBehaviourSubject.value);
-
-
   }
 
 getCustomers(
@@ -507,5 +505,16 @@ getDropdownCustomerCropsAll(search: string = ''): Observable<any> {
   return this._httpClient
       .get<any>(`api-1/dropdowns?entity=allCrops`, { params })
       .pipe(take(1))
+}
+getRoles(combine_operator_id,cart_operator_id, crew_chief_id){
+  let params = new HttpParams();
+  params = params.set('combine_operator_id', combine_operator_id);
+  params = params.set('cart_operator_id', cart_operator_id);
+  params = params.set('crew_chief_id', crew_chief_id);
+  return this._httpClient
+      .get<any>(`http://localhost:7071/api/customer-job-setup`,{
+        params
+      })
+      .pipe(take(1));
 }
 }

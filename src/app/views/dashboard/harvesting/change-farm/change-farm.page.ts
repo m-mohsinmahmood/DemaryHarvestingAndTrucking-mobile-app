@@ -157,9 +157,12 @@ export class ChangeFarmPage implements OnInit {
       field_id: [''],
     });
     this.jobUpdateForm = this.formBuilder.group({
+      crew_chief_id:[localStorage.getItem('employeeId')],
+      state: ['', [Validators.required]],
       customer_id: [''],
       farm_id: [''],
       crop_id: [''],
+      field_id: [''],
     });
   }
 
@@ -199,11 +202,14 @@ initObservables(){
     this.location.back();
   }
   submit() {
+    console.log(this.jobUpdateForm.value);
     // passing crop & farm id
     this.jobUpdateForm.patchValue({
       customer_id: this.jobSetupForm.get('customer_id').value,
       farm_id: this.jobSetupForm.get('farm_id').value,
       crop_id: this.jobSetupForm.get('crop_id').value,
+      field_id: this.jobSetupForm.get('field_id').value,
+      state: this.jobSetupForm.get('state').value,
     });
 
     this.harvestingService.createJob(this.jobUpdateForm.value)

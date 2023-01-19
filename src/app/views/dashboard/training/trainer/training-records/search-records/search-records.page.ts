@@ -43,16 +43,12 @@ moment: any = moment;
   }
   navigate(x: any,record: any){
     console.log('form Type:',x);
-    // this.router.navigateByUrl('/tabs/home/training/trainer/training-records/search-records/view-records',{
-    //   state:{
-    //     formType: x
-    //   }
-    // });
     this.router.navigate(['/tabs/home/training/trainer/training-records/search-records/view-records'],
       {
         queryParams:{
           formType: x,
-          recordId: record.record_id
+          recordId: record.record_id,
+          trainerName: record.trainer_name
         }
       });
   }

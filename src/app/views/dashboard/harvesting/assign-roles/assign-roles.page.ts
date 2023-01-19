@@ -55,6 +55,9 @@ export class AssignRolesPage implements OnInit {
   // for selected
   value = 'combine-operator';
 
+  // data
+  data: any;
+
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
   constructor(
@@ -79,11 +82,6 @@ export class AssignRolesPage implements OnInit {
   }
 
   ngOnInit() {
-    // this.assignForm = this.formBuilder.group({
-    //   crew_chief_id: [localStorage.getItem('employeeId')],
-    //   combine_operator_id: [''],
-    //   cart_operator_id: [''],
-    // });
     this.assignFormCombine = this.formBuilder.group({
       crew_chief_id: [localStorage.getItem('employeeId')],
       combine_operator_id: [''],
@@ -93,7 +91,26 @@ export class AssignRolesPage implements OnInit {
       cart_operator_id: [''],
     });
 
+    // combine subscription
     this.combineSearchSubscription();
+
+    //api call
+    this.harvestingService.getRoles(111,111,localStorage.getItem('employeeId'))
+      .subscribe(
+        (res: any) => {
+          if (res.status === 200) {
+            console.log('RESPONSE:', res);
+            this.data = res;
+
+          } else {
+            console.log('Something happened :)');
+          }
+        },
+        (err) => {
+          console.log('Error:', err);
+        this.toastService.presentToast(err, 'danger');
+        },
+      );
   }
   goBack() {
     this.location.back();
@@ -119,6 +136,28 @@ export class AssignRolesPage implements OnInit {
           // this.handleError(err);
         },
       );
+
+      this.harvestingService.getRoles(111,111,localStorage.getItem('employeeId'))
+      .subscribe(
+        (res: any) => {
+          console.log('Combine Operators:', res);
+          if (res.status === 200) {
+            // this.toastService.presentToast('', 'success');
+            // console.log(res.message);
+            console.log('Combine Operators:', res);
+            this.data = res;
+
+          } else {
+            console.log('Something happened :)');
+          }
+        },
+        (err) => {
+          console.log('Error:', err);
+        this.toastService.presentToast(err, 'danger');
+
+          // this.handleError(err);
+        },
+      );
   }
   addKart() {
 
@@ -137,6 +176,27 @@ export class AssignRolesPage implements OnInit {
         },
         (err) => {
           console.log('Error:', err);
+          // this.handleError(err);
+        },
+      );
+
+      this.harvestingService.getRoles(111,111,localStorage.getItem('employeeId'))
+      .subscribe(
+        (res: any) => {
+          console.log('Kart Operators:', res);
+          if (res.status === 200) {
+
+            console.log('Kart Operators:', res);
+            this.data = res;
+
+          } else {
+            console.log('Something happened :)');
+          }
+        },
+        (err) => {
+          console.log('Error:', err);
+        this.toastService.presentToast(err, 'danger');
+
           // this.handleError(err);
         },
       );
@@ -329,8 +389,49 @@ export class AssignRolesPage implements OnInit {
   onClick(val: any) {
     if (val === 'combine-operator') {
       this.value = 'combine-operator';
+
+      //api call
+      this.harvestingService.getRoles(111,111,localStorage.getItem('employeeId'))
+      .subscribe(
+        (res: any) => {
+          if (res.status === 200) {
+            console.log('Kart Operators:', res);
+            this.data = res;
+
+          } else {
+            console.log('Something happened :)');
+          }
+        },
+        (err) => {
+          console.log('Error:', err);
+        this.toastService.presentToast(err, 'danger');
+        },
+      );
     } else {
       this.value = 'cart-operator';
+
+      // api call
+      this.harvestingService.getRoles(111,111,localStorage.getItem('employeeId'))
+      .subscribe(
+        (res: any) => {
+          console.log('Kart Operators:', res);
+          if (res.status === 200) {
+            // this.toastService.presentToast('', 'success');
+            // console.log(res.message);
+            console.log('Kart Operators:', res);
+            this.data = res;
+
+          } else {
+            console.log('Something happened :)');
+          }
+        },
+        (err) => {
+          console.log('Error:', err);
+        this.toastService.presentToast(err, 'danger');
+
+          // this.handleError(err);
+        },
+      );
     }
   }
 }
