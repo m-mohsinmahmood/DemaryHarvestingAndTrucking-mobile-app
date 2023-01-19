@@ -13,6 +13,7 @@ export class ViewRecordsPage implements OnInit {
   preCheckForm: FormGroup;
   roadskillsForm: FormGroup;
   recordId: any;
+  records: any;
   constructor(
     private router: Router,
     private fromBuilder: FormBuilder,
@@ -36,6 +37,12 @@ export class ViewRecordsPage implements OnInit {
    this.trainingService.getRecordById(this.recordId)
    .subscribe((record)=>{
     console.log('Record:',record);
+    this.records = record[0];
+   });
+
+   this.preCheckForm.patchValue({
+    oilLevel: true,
+    // coolantLevel: JSON.stringify(this.records.coolantLevel)
    });
 
   }
