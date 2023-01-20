@@ -1,5 +1,7 @@
 <app-header [title]="'Training Records'" [color]="'training'"></app-header>
 
+
+
 <!-- CHECKBOXES BLOCK -->
 <ion-content *ngIf="formType === 'pre-trip'">
   <app-timer [value]="'33:222:11'"></app-timer>
@@ -453,34 +455,8 @@
       <ion-text class="font-Lato text-sm text-9B9BA4">Total Time</ion-text>
       <ion-text class="font-Lato text-sm text-black font-semibold">2.45 hrs {{(loading | async) === false}}</ion-text>
     </div>
-
-     <!-- COMMON LOADER -->
-     <ion-grid *ngIf="(loading | async) === true">
-      <!-- <ion-row class="my-4">
-        <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">Alley Docking (45/90)</ion-text></ion-col>
-        <ion-col size="5" class="ion-text-start"><ion-skeleton-text [animated]="true" style="width: 80%; height: 80%;border-radius: 9px;"></ion-skeleton-text></ion-col>
-        <ion-col size="1" class="ion-text-center"><ion-skeleton-text [animated]="true" style="width: 100%;height: 80%;border-radius: 9px;"></ion-skeleton-text></ion-col>
-      </ion-row>
-      <ion-row class="my-4">
-        <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">Off Set Backing</ion-text></ion-col>
-        <ion-col size="5" class="ion-text-start"><ion-skeleton-text [animated]="true" style="width: 80%; height: 80%;border-radius: 9px;"></ion-skeleton-text></ion-col>
-        <ion-col size="1" class="ion-text-center"><ion-skeleton-text [animated]="true" style="width: 100%;height: 80%;border-radius: 9px;"></ion-skeleton-text></ion-col>
-      </ion-row>
-      <ion-row class="my-4">
-        <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">Parallel Parking Blind</ion-text></ion-col>
-        <ion-col size="5" class="ion-text-start"><ion-skeleton-text [animated]="true" style="width: 80%; height: 80%;border-radius: 9px;"></ion-skeleton-text></ion-col>
-        <ion-col size="1" class="ion-text-center"><ion-skeleton-text [animated]="true" style="width: 100%;height: 80%;border-radius: 9px;"></ion-skeleton-text></ion-col>
-      </ion-row>
-      <ion-row class="my-4">
-        <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">Parallel Parking Sight</ion-text></ion-col>
-        <ion-col size="5" class="ion-text-start"><ion-skeleton-text [animated]="true" style="width: 80%; height: 80%;border-radius: 9px;"></ion-skeleton-text></ion-col>
-        <ion-col size="1" class="ion-text-center"><ion-skeleton-text [animated]="true" style="width: 100%;height: 80%;border-radius: 9px;"></ion-skeleton-text></ion-col>
-      </ion-row>
-      <ion-row class="my-4">
-        <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">Coupling $ Uncoupling</ion-text></ion-col>
-        <ion-col size="5" class="ion-text-start"><ion-skeleton-text [animated]="true" style="width: 80%; height: 80%;border-radius: 9px;"></ion-skeleton-text></ion-col>
-        <ion-col size="1" class="ion-text-center"><ion-skeleton-text [animated]="true" style="width: 100%;height: 80%;border-radius: 9px;"></ion-skeleton-text></ion-col>
-      </ion-row> -->
+    <!-- LOADER -->
+    <ion-grid *ngIf="(loading | async) === true">
       <div class="h-64 w-full flex justify-center items-center" >
         <ion-spinner name="crescent" class="w-10 h-10"></ion-spinner>
       </div>
@@ -787,26 +763,24 @@
 <ion-content *ngIf="formType === 'road-skills'">
   <app-timer [value]="'33:222:11'"></app-timer>
   <div class="mx-4">
-    <div class="border-b-2 py-2 my-2">
+    <div class="border-b-2 py-2 mt-2">
       <ion-text class="font-Lato font-semibold">October 21st, 2020</ion-text>
     </div>
-    <form [formGroup]="roadskillsForm">
-
-
-      <div class="col-span-12 mb-4">
-        <label class="block text-sm font-medium text-gray-700">Trainer <span class="text-red-400">*</span></label>
-        <input
-          class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-          formControlName="trainerName" placeholder="Enter Trainer Name">
-      </div>
-
-      <div class="col-span-12 mb-4">
-        <label class="block text-sm font-medium text-gray-700">Total Time <span class="text-red-400">*</span></label>
-        <input
-          class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-          formControlName="totalTime" placeholder="Enter Total Time">
-      </div>
-    </form>
+    <div class="flex justify-between items-center my-5">
+      <ion-text class="font-Lato text-sm text-9B9BA4">Trainer</ion-text>
+      <ion-text class="font-Lato text-sm text-black font-semibold">{{trainerName}}</ion-text>
+    </div>
+    <div class="flex justify-between items-center my-5">
+      <ion-text class="font-Lato text-sm text-9B9BA4">Total Time</ion-text>
+      <ion-text class="font-Lato text-sm text-black font-semibold">2.45 hrs {{(loading | async) === false}}</ion-text>
+    </div>
+    <!-- LOADER -->
+<ion-grid *ngIf="(loading | async) === true">
+  <div class="h-64 w-full flex justify-center items-center" >
+    <ion-spinner name="crescent" class="w-10 h-10"></ion-spinner>
+  </div>
+</ion-grid>
+    <div *ngIf="(loading | async) === false">
     <div class="my-3"><ion-text class="font-Lato font-semibold">Road Test Evaluation Results</ion-text></div>
     <ion-grid>
       <ion-row class="bg-d9d9d95c py-2 px-2">
@@ -818,70 +792,84 @@
     <ion-grid>
       <ion-row class="my-4">
         <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">Left Turns</ion-text></ion-col>
-        <ion-col size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
-        <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">5</ion-text></ion-col>
+        <ion-col *ngIf="records.leftTurns" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="!records.leftTurns" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">Unsatisfactory</ion-text></ion-col>
+        <ion-col  size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.leftTurnsInput}}</ion-text></ion-col>
       </ion-row>
       <ion-row class="my-4">
         <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">Right Turns</ion-text></ion-col>
-        <ion-col size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">Unsatisfactory</ion-text></ion-col>
-        <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">2</ion-text></ion-col>
+        <ion-col *ngIf="records.rightTurns" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="!records.rightTurns" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">Unsatisfactory</ion-text></ion-col>
+        <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.rightTurnsInput}}</ion-text></ion-col>
       </ion-row>
       <ion-row class="my-4">
         <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">Intersection Stop</ion-text></ion-col>
-        <ion-col size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
-        <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">6</ion-text></ion-col>
+        <ion-col *ngIf="records.intersectionStop" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="!records.intersectionStop" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">Unsatisfactory</ion-text></ion-col>
+        <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.intersectionStopInput}}</ion-text></ion-col>
       </ion-row>
       <ion-row class="my-4">
         <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">Intersection Thru</ion-text></ion-col>
-        <ion-col size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
-        <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">5</ion-text></ion-col>
+        <ion-col *ngIf="records.intersectionThru" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="!records.intersectionThru" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">Unsatisfactory</ion-text></ion-col>
+        <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.intersectionThruInput}}</ion-text></ion-col>
       </ion-row>
       <ion-row class="my-4">
         <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">Interstate</ion-text></ion-col>
-        <ion-col size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
-        <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">5</ion-text></ion-col>
+        <ion-col *ngIf="records.interstate" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="!records.interstate" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">Unsatisfactory</ion-text></ion-col>
+        <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.interstateInput}}</ion-text></ion-col>
       </ion-row>
       <ion-row class="my-4">
         <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">Urban Business</ion-text></ion-col>
-        <ion-col size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
-        <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">5</ion-text></ion-col>
+        <ion-col *ngIf="records.urbanBusiness" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="!records.urbanBusiness" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">Unsatisfactory</ion-text></ion-col>
+        <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.urbanBusinessInput}}</ion-text></ion-col>
       </ion-row>
       <ion-row class="my-4">
         <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">Lance Changes</ion-text></ion-col>
-        <ion-col size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
-        <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">5</ion-text></ion-col>
+        <ion-col *ngIf="records.lanceChanges" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="!records.lanceChanges" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">Unsatisfactory</ion-text></ion-col>
+        <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.lanceChangesInput}}</ion-text></ion-col>
       </ion-row>
       <ion-row class="my-4">
         <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">Curve</ion-text></ion-col>
-        <ion-col size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
-        <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">5</ion-text></ion-col>
+        <ion-col *ngIf="records.curve" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="!records.curve" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">Unsatisfactory</ion-text></ion-col>
+        <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.curveInput}}</ion-text></ion-col>
       </ion-row>
       <ion-row class="my-4">
         <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">Roadside Start/Stop</ion-text></ion-col>
-        <ion-col size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
-        <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">5</ion-text></ion-col>
+        <ion-col *ngIf="records.roadside" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="!records.roadside" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">Unsatisfactory</ion-text></ion-col>
+        <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.roadsideInput}}</ion-text></ion-col>
       </ion-row>
       <ion-row class="my-4">
         <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">RR Crodsing</ion-text></ion-col>
-        <ion-col size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
-        <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">5</ion-text></ion-col>
+        <ion-col *ngIf="records.rrCrossing" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="!records.rrCrossing" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">Unsatisfactory</ion-text></ion-col>
+        <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.rrCrossingInput}}</ion-text></ion-col>
       </ion-row>
       <ion-row class="my-4">
         <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">Signs</ion-text></ion-col>
-        <ion-col size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
-        <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">5</ion-text></ion-col>
+        <ion-col *ngIf="records.signs" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="!records.signs" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">Unsatisfactory</ion-text></ion-col>
+        <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.signsInput}}</ion-text></ion-col>
       </ion-row>
       <ion-row class="my-4">
         <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">General Driving</ion-text></ion-col>
-        <ion-col size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
-        <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">5</ion-text></ion-col>
+        <ion-col *ngIf="records.generalDriving" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="!records.generalDriving" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">Unsatisfactory</ion-text></ion-col>
+        <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.generalDrivingInput}}</ion-text></ion-col>
       </ion-row>
       <ion-row class="my-4">
         <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">eLog Practical</ion-text></ion-col>
-        <ion-col size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
-        <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">5</ion-text></ion-col>
+        <ion-col *ngIf="records.eLogPractical" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="!records.eLogPractical" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">Unsatisfactory</ion-text></ion-col>
+        <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.eLogPracticalInput}}</ion-text></ion-col>
       </ion-row>
     </ion-grid>
+  </div>
     <ion-card>
       <ion-card-content>
         <div class="flex justify-between items-center mb-2">
@@ -904,14 +892,19 @@
     </div>
     <div class="flex justify-between items-center my-5">
       <ion-text class="font-Lato text-sm font-semibold text-9B9BA4">Trainee</ion-text>
-      <ion-text class="font-Lato text-sm text-black font-semibold">Trevor Black</ion-text>
+      <ion-text class="font-Lato text-sm text-black font-semibold">{{trainerName}}</ion-text>
     </div>
     <div class="flex justify-between items-center my-5">
       <ion-text class="font-Lato text-sm font-semibold text-9B9BA4">Evaluation Form</ion-text>
       <ion-text class="font-Lato text-sm text-black font-semibold">Summary</ion-text>
     </div>
+    <ion-grid *ngIf="(loading | async) === true">
+      <div class="h-64 w-full flex justify-center items-center" >
+        <ion-spinner name="crescent" class="w-10 h-10"></ion-spinner>
+      </div>
+    </ion-grid>
+    <div *ngIf="(loading | async) === false">
     <div class="my-3"><ion-text class="font-Lato font-semibold">Training Type</ion-text></div>
-
     <ion-grid>
       <ion-row class="bg-d9d9d95c py-2 px-2">
         <ion-col size="5" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">Skill</ion-text></ion-col>
@@ -931,7 +924,7 @@
         <ion-col size="2" class="ion-text-center"><ion-text class="font-Lato font-semibold">4:22</ion-text></ion-col>
       </ion-row>
       <ion-row class="my-4">
-        <ion-col size="5" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">CDL Pre-Trip Chack</ion-text></ion-col>
+        <ion-col size="5" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">CDL Pre-Trip Check</ion-text></ion-col>
         <ion-col size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
         <ion-col size="2" class="ion-text-center"><ion-text class="font-Lato font-semibold">6</ion-text></ion-col>
       </ion-row>
@@ -956,5 +949,6 @@
     </ion-card>
      <ion-button expand="block" class="close-out-button font-Lato mb-8 mt-4 mx-8 bg-opacity-10 text-white">Close</ion-button>
     </div>
+  </div>
 </ion-content>
 

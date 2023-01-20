@@ -39,7 +39,8 @@ export class ViewRecordsPage implements OnInit {
 
    this.initForms();
 
-   // getting record by id
+
+   // getting record by id for pre-trip, basic-skills,road-skills
    this.trainingService.getRecordById(this.recordId)
    .subscribe((record)=>{
     this.loading.next(true);
