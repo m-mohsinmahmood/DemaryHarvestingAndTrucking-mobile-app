@@ -158,6 +158,8 @@ export class JobSetupPage implements OnInit {
   }
   submit() {
     console.log(this.jobSetupForm.value);
+    this.jobSetupForm.value.changeFarmFieldCrop = true;
+    console.log(this.jobSetupForm.value);
     this.harvestingService.createJob(this.jobSetupForm.value)
       .subscribe(
         (res: any) => {

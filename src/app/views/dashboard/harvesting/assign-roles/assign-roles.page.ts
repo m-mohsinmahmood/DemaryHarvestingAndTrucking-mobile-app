@@ -57,6 +57,7 @@ export class AssignRolesPage implements OnInit {
 
   // data
   data: any;
+  activeJobs: 0;
 
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
@@ -82,6 +83,7 @@ export class AssignRolesPage implements OnInit {
   }
 
   ngOnInit() {
+
     this.assignFormCombine = this.formBuilder.group({
       crew_chief_id: [localStorage.getItem('employeeId')],
       combine_operator_id: [''],
@@ -95,20 +97,20 @@ export class AssignRolesPage implements OnInit {
     this.combineSearchSubscription();
 
     //api call
-    this.harvestingService.getRoles(111,111,localStorage.getItem('employeeId'))
+    this.harvestingService.getRoles(111, 111, localStorage.getItem('employeeId'))
       .subscribe(
         (res: any) => {
           if (res.status === 200) {
             console.log('RESPONSE:', res);
             this.data = res;
-
+            this.activeJobs = res;
           } else {
             console.log('Something happened :)');
           }
         },
         (err) => {
           console.log('Error:', err);
-        this.toastService.presentToast(err, 'danger');
+          this.toastService.presentToast(err, 'danger');
         },
       );
   }
@@ -137,7 +139,7 @@ export class AssignRolesPage implements OnInit {
         },
       );
 
-      this.harvestingService.getRoles(111,111,localStorage.getItem('employeeId'))
+    this.harvestingService.getRoles(111, 111, localStorage.getItem('employeeId'))
       .subscribe(
         (res: any) => {
           console.log('Combine Operators:', res);
@@ -153,7 +155,7 @@ export class AssignRolesPage implements OnInit {
         },
         (err) => {
           console.log('Error:', err);
-        this.toastService.presentToast(err, 'danger');
+          this.toastService.presentToast(err, 'danger');
 
           // this.handleError(err);
         },
@@ -180,7 +182,7 @@ export class AssignRolesPage implements OnInit {
         },
       );
 
-      this.harvestingService.getRoles(111,111,localStorage.getItem('employeeId'))
+    this.harvestingService.getRoles(111, 111, localStorage.getItem('employeeId'))
       .subscribe(
         (res: any) => {
           console.log('Kart Operators:', res);
@@ -195,7 +197,7 @@ export class AssignRolesPage implements OnInit {
         },
         (err) => {
           console.log('Error:', err);
-        this.toastService.presentToast(err, 'danger');
+          this.toastService.presentToast(err, 'danger');
 
           // this.handleError(err);
         },
@@ -391,47 +393,47 @@ export class AssignRolesPage implements OnInit {
       this.value = 'combine-operator';
 
       //api call
-      this.harvestingService.getRoles(111,111,localStorage.getItem('employeeId'))
-      .subscribe(
-        (res: any) => {
-          if (res.status === 200) {
-            console.log('Kart Operators:', res);
-            this.data = res;
+      this.harvestingService.getRoles(111, 111, localStorage.getItem('employeeId'))
+        .subscribe(
+          (res: any) => {
+            if (res.status === 200) {
+              console.log('Kart Operators:', res);
+              this.data = res;
 
-          } else {
-            console.log('Something happened :)');
-          }
-        },
-        (err) => {
-          console.log('Error:', err);
-        this.toastService.presentToast(err, 'danger');
-        },
-      );
+            } else {
+              console.log('Something happened :)');
+            }
+          },
+          (err) => {
+            console.log('Error:', err);
+            this.toastService.presentToast(err, 'danger');
+          },
+        );
     } else {
       this.value = 'cart-operator';
 
       // api call
-      this.harvestingService.getRoles(111,111,localStorage.getItem('employeeId'))
-      .subscribe(
-        (res: any) => {
-          console.log('Kart Operators:', res);
-          if (res.status === 200) {
-            // this.toastService.presentToast('', 'success');
-            // console.log(res.message);
+      this.harvestingService.getRoles(111, 111, localStorage.getItem('employeeId'))
+        .subscribe(
+          (res: any) => {
             console.log('Kart Operators:', res);
-            this.data = res;
+            if (res.status === 200) {
+              // this.toastService.presentToast('', 'success');
+              // console.log(res.message);
+              console.log('Kart Operators:', res);
+              this.data = res;
 
-          } else {
-            console.log('Something happened :)');
-          }
-        },
-        (err) => {
-          console.log('Error:', err);
-        this.toastService.presentToast(err, 'danger');
+            } else {
+              console.log('Something happened :)');
+            }
+          },
+          (err) => {
+            console.log('Error:', err);
+            this.toastService.presentToast(err, 'danger');
 
-          // this.handleError(err);
-        },
-      );
+            // this.handleError(err);
+          },
+        );
     }
   }
 }
