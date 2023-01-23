@@ -890,9 +890,21 @@
     <div class="border-b-2 py-2 mt-2">
       <ion-text class="font-Lato font-semibold">Summary CDL Training Records</ion-text>
     </div>
-    <div class="flex justify-between items-center my-5">
+    <div class="flex justify-between items-center my-3" *ngIf="(loading |async) === true">
+      <ion-text class="font-Lato text-9B9BA4"> Trainee</ion-text>
+      <ion-skeleton-text  [animated]="true" style="width: 40%; height: 19px; border-radius: 5px;"></ion-skeleton-text>
+    </div>
+    <div class="flex justify-between items-center my-5" *ngIf="(loading |async) === false">
       <ion-text class="font-Lato text-sm font-semibold text-9B9BA4">Trainee</ion-text>
-      <ion-text class="font-Lato text-sm text-black font-semibold">{{trainerName}}</ion-text>
+      <ion-text class="font-Lato text-sm text-black font-semibold">{{records.trainee_name}}</ion-text>
+    </div>
+    <div class="flex justify-between items-center my-3" *ngIf="(loading |async) === true">
+      <ion-text class="font-Lato text-9B9BA4"> Trainer</ion-text>
+      <ion-skeleton-text  [animated]="true" style="width: 40%; height: 19px; border-radius: 5px;"></ion-skeleton-text>
+    </div>
+    <div class="flex justify-between items-center my-5" *ngIf="(loading |async) === false">
+      <ion-text class="font-Lato text-sm font-semibold text-9B9BA4">Trainer</ion-text>
+      <ion-text class="font-Lato text-sm text-black font-semibold">{{records.trainer_name}}</ion-text>
     </div>
     <div class="flex justify-between items-center my-5">
       <ion-text class="font-Lato text-sm font-semibold text-9B9BA4">Evaluation Form</ion-text>

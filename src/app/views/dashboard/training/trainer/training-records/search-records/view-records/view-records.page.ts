@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -16,9 +17,13 @@ export class ViewRecordsPage implements OnInit {
   recordId: any;
   trainerName: any;
   records: any;
+  trainee_id: any;
 
   // behaviour subject
   public loading = new BehaviorSubject(true);
+
+   // trainer id
+ trainer_id = '4b84234b-0b74-49a2-b3c7-d3884f5f6013';
   constructor(
     private router: Router,
     private fromBuilder: FormBuilder,
@@ -35,20 +40,36 @@ export class ViewRecordsPage implements OnInit {
     this.formType = params.formType;
     this.recordId = params.recordId;
     this.trainerName = params.trainerName;
+    this.trainee_id = params.trainee_id;
+
    });
 
    this.initForms();
 
 
-   // getting record by id for pre-trip, basic-skills,road-skills
-   this.trainingService.getRecordById(this.recordId)
-   .subscribe((record)=>{
-    this.loading.next(true);
-    this.records = record[0];
-    this.loading.next(false);
-    console.log('Record:',record);
 
-   });
+
+   if(this.formType === 'summary'){
+// getting record by id for summary
+this.trainingService.getSummary(this.trainee_id, this.trainer_id,'summary')
+.subscribe((record)=>{
+ this.loading.next(true);
+ this.records = record[0];
+ this.loading.next(false);
+ console.log('Record:',record);
+});
+
+   }else{
+
+// getting record by id for pre-trip, basic-skills,road-skills
+this.trainingService.getRecordById(this.recordId)
+.subscribe((record)=>{
+ this.loading.next(true);
+ this.records = record[0];
+ this.loading.next(false);
+ console.log('Record:',record);
+});
+   }
 
 
   }

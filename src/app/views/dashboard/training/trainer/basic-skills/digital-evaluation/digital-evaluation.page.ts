@@ -15,21 +15,14 @@ export class DigitalEvaluationPage implements OnInit {
   value;
   buffer = 1;
   progress = 0;
-  // selectAray: any[] = [
-  //   'straight-line',
-  //   'alley-docking',
-  //   'offset',
-  //   'parking-blind',
-  //   'parking-sight',
-  //   'coup-uncoup'
-  // ];
-  // indexArray: any[] = [0.1666666666666667, 0.3333333333333334, 0.5000000000000001, 0.6666666666666668, 0.8333333333333335,1];
-  // indexArray: any[] = [0.2, 0.4, 0.6, 0.8, 1];
   text=0;
   feedbackValue: any;
 
-  // increment = 0;
-  // increment1 = 0;
+  totalSatisfactory = 0;
+totalUnSatisfactory = 0;
+
+ // trainer id
+ trainer_id = '4b84234b-0b74-49a2-b3c7-d3884f5f6013';
 
   constructor(
     private formBuilder: FormBuilder,
@@ -55,12 +48,52 @@ export class DigitalEvaluationPage implements OnInit {
       coupUncoup_slb: ['',[Validators.required]],
       coupUncoupInput_slb: ['',[Validators.required]],
       comments_slb: [''],
-      category:['straight-line-backing']
+      category:['straight-line-backing'],
+      satisfactoryStraightLineBacking:[],
+      unSatisfactoryStraightLineBacking:[],
+      trainer_id: [this.trainer_id]
+    });
+    this.basicSkillForm.valueChanges.subscribe((value)=>{
+      let sum = 0;
+      let unSatSum = 0;
+      if(value.straightLineBacking_slb === 'true'){
+        sum = +value.straightLineBakingInput_slb + sum;
+      }else{
+        unSatSum = +value.straightLineBakingInput_slb + unSatSum;
+      }
+      if(value.alleyDocking_slb === 'true'){
+        sum = +value.alleyDockingInput_slb + sum;
+      }else{
+        unSatSum = +value.alleyDockingInput_slb + unSatSum;
+      }
+      if(value.offSetBacking_slb === 'true'){
+        sum = +value.offSetBackingInput_slb + sum;
+      }else{
+        unSatSum = +value.offSetBackingInput_slb + unSatSum;
+      }
+      if(value.parallelParkingBlind_slb === 'true'){
+        sum = +value.parallelParkingBlindInput_slb + sum;
+      }else{
+        unSatSum = +value.parallelParkingBlindInput_slb + unSatSum;
+      }
+      if(value.coupUncoup_slb === 'true'){
+        sum = +value.coupUncoupInput_slb + sum;
+      }else{
+        unSatSum = +value.coupUncoupInput_slb + unSatSum;
+      }
+      this.totalSatisfactory = sum;
+      this.totalUnSatisfactory = unSatSum;
     });
   }
   navigate() {
     console.log(this.basicSkillForm.value);
     // this.router.navigateByUrl('/tabs/home/training/trainer/basic-skills/digital-evaluation/alley-docking');
+
+    // patching sat & un-sat results
+  this.basicSkillForm.patchValue({
+    satisfactoryStraightLineBacking:this.totalSatisfactory,
+    unSatisfactoryStraightLineBacking:this.totalUnSatisfactory
+  });
 
     this.trainingService.saveFroms(this.basicSkillForm.value, 'basic-skills').subscribe(
       (res) => {

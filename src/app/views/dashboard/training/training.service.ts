@@ -98,5 +98,16 @@ export class TrainingService {
     })
     .pipe(take(1));
   }
+  getSummary(trainee_id,trainer_id,evaluation_type){
+    let params = new HttpParams();
+    params = params.set('trainee_id',trainee_id);
+    params = params.set('trainer_id',trainer_id);
+    params = params.set('evaluation_type',evaluation_type);
+    return this.httpClient
+    .get<any>('http://localhost:7071/api/training', {
+      params
+    })
+    .pipe(take(1));
+  }
 
 }

@@ -17,6 +17,12 @@ export class ParkingBlindPage implements OnInit {
   progress = 0.6;
   feedbackValue: any;
   basicSkillForm: FormGroup;
+
+  totalSatisfactory = 0;
+  totalUnSatisfactory = 0;
+  // trainer id
+  trainer_id = '4b84234b-0b74-49a2-b3c7-d3884f5f6013';
+
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
@@ -26,30 +32,68 @@ export class ParkingBlindPage implements OnInit {
 
     ngOnInit() {
       this.basicSkillForm = this.formBuilder.group({
-        pullUps_pb: ['',[Validators.required]],
-        encroach_pb: ['',[Validators.required]],
+        pullUps_pb: ['',[Validators.required,Validators.pattern(('^([1-5])$'))]],
+        encroach_pb: ['',[Validators.required,Validators.pattern(('^([1-5])$'))]],
         goal_pb: ['',[Validators.required]],
         finalPosition_pb: ['',[Validators.required]],
         straightLineBaking_pb: ['',[Validators.required]],
-        straightLineBakingInput_pb: ['',[Validators.required]],
+        straightLineBakingInput_pb: ['',[Validators.required,Validators.pattern(('^([1-5])$'))]],
         alleyDocking_pb: ['',[Validators.required]],
-        alleyDockingInput_pb: ['',[Validators.required]],
+        alleyDockingInput_pb: ['',[Validators.required,Validators.pattern(('^([1-5])$'))]],
         offSetBacking_pb: ['',[Validators.required]],
-        offSetBackingInput_pb: ['',[Validators.required]],
+        offSetBackingInput_pb: ['',[Validators.required,Validators.pattern(('^([1-5])$'))]],
         parallelParkingBlind_pb: ['',[Validators.required]],
-        parallelParkingBlindInput_pb: ['',[Validators.required]],
+        parallelParkingBlindInput_pb: ['',[Validators.required,Validators.pattern(('^([1-5])$'))]],
         coupUncoup_pb: ['',[Validators.required]],
-        coupUncoupInput_pb: ['',[Validators.required]],
+        coupUncoupInput_pb: ['',[Validators.required,Validators.pattern(('^([1-5])$'))]],
         comments_pb:[''],
-        category:['parking-blind']
+        category:['parking-blind'],
+        satisfactoryParkingBlind:[],
+        unSatisfactoryParkingBlind:[],
+        trainer_id: [this.trainer_id]
+      });
+      this.basicSkillForm.valueChanges.subscribe((value)=>{
+        let sum = 0;
+        let unSatSum = 0;
+        if(value.straightLineBaking_pb === 'true'){
+          sum = +value.straightLineBakingInput_pb + sum;
+        }else{
+          unSatSum = +value.straightLineBakingInput_pb + unSatSum;
+        }
+        if(value.alleyDocking_pb === 'true'){
+          sum = +value.alleyDockingInput_pb + sum;
+        }else{
+          unSatSum = +value.alleyDockingInput_pb + unSatSum;
+        }
+        if(value.offSetBacking_pb === 'true'){
+          sum = +value.offSetBackingInput_pb + sum;
+        }else{
+          unSatSum = +value.offSetBackingInput_pb + unSatSum;
+        }
+        if(value.parallelParkingBlind_pb === 'true'){
+          sum = +value.parallelParkingBlindInput_pb + sum;
+        }else{
+          unSatSum = +value.parallelParkingBlindInput_pb + unSatSum;
+        }
+        if(value.coupUncoup_pb === 'true'){
+          sum = +value.coupUncoupInput_pb + sum;
+        }else{
+          unSatSum = +value.coupUncoupInput_pb + unSatSum;
+        }
+        this.totalSatisfactory = sum;
+          this.totalUnSatisfactory = unSatSum;
       });
     }
     addFeedback(){
       this.feedbackValue = true;
     }
     navigate() {
+        // patching sat & un-sat results
+  this.basicSkillForm.patchValue({
+    satisfactoryParkingBlind:this.totalSatisfactory,
+    unSatisfactoryParkingBlind:this.totalUnSatisfactory
+  });
       console.log(this.basicSkillForm.value);
-      // this.router.navigateByUrl('/tabs/home/training/trainer/basic-skills/digital-evaluation/alley-docking/off-set-backing/parking-blind/parking-sight');
       this.trainingService.saveFroms(this.basicSkillForm.value, 'basic-skills').subscribe(
         (res) => {
           console.log('RES:', res);
