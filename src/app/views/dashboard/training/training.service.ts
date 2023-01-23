@@ -69,9 +69,10 @@ export class TrainingService {
     })
     .pipe(take(1));
   }
-  getData(entity){
+  getData(entity,trainer_id){
     let params=  new HttpParams();
     params = params.set('entity', entity);
+    params = params.set('trainer_pre_trip_id', trainer_id);
     return this.httpClient
     .get<any>('http://localhost:7071/api/training',{
       params

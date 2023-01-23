@@ -92,7 +92,7 @@
 
      <div class="flex justify-between items-center my-3">
        <ion-text class="font-Lato font-bold text-lg">Score</ion-text>
-       <ion-text class="font-Lato font-bold text-lg">85%</ion-text>
+       <ion-text class="font-Lato font-bold text-lg">{{records?.percentageEngineCompartment}}%</ion-text>
       </div>
     <ion-text class="text-sm font-semibold font-Lato text-black mt-2">Engine Compartment Notes</ion-text>
     <ion-item lines="none" class="textarea">
@@ -178,6 +178,10 @@
        <ion-text class="font-Lato font-medium">Light Function</ion-text>
         <ion-checkbox disabled [checked]="records?.lightFunction" slot="start"></ion-checkbox>
       </div>
+      <div class="flex justify-between items-center my-3">
+        <ion-text class="font-Lato font-bold text-lg">Score</ion-text>
+        <ion-text class="font-Lato font-bold text-lg">{{records?.percentageInCab}}%</ion-text>
+       </div>
       <ion-text class="text-sm font-semibold font-Lato text-black mt-2">In Cab Notes</ion-text>
         <ion-textarea [autoGrow]="true"
         class="border-2 rounded-lg my-2 px-1"
@@ -259,6 +263,10 @@
                <ion-text class="font-Lato font-medium">Landing Gear</ion-text>
                 <ion-checkbox disabled [checked]="records?.landingGear" slot="start" ></ion-checkbox>
               </div>
+              <div class="flex justify-between items-center my-3">
+                <ion-text class="font-Lato font-bold text-lg">Score</ion-text>
+                <ion-text class="font-Lato font-bold text-lg">{{records?.percentageVehicleExternal}}%</ion-text>
+               </div>
               <ion-text class="text-sm font-semibold font-Lato text-black mt-2">Vehicle/External Notes</ion-text>
                 <ion-textarea [autoGrow]="true"
                 class="border-2 rounded-lg my-2 px-1"
@@ -340,6 +348,10 @@
                <ion-text class="font-Lato font-medium">Draw Bar (T)</ion-text>
                 <ion-checkbox disabled [checked]="records?.drawBar" slot="start"></ion-checkbox>
               </div>
+              <div class="flex justify-between items-center my-3">
+                <ion-text class="font-Lato font-bold text-lg">Score</ion-text>
+                <ion-text class="font-Lato font-bold text-lg">{{records?.percentageCoupling}}%</ion-text>
+               </div>
               <ion-text class="text-sm font-semibold font-Lato text-black mt-2">Coupling Notes</ion-text>
                 <ion-textarea [autoGrow]="true"
                 class="border-2 rounded-lg my-2 px-1"
@@ -424,6 +436,10 @@
                    <ion-text class="font-Lato font-medium">Wheel Seals (2)</ion-text>
                     <ion-checkbox  disabled [checked]="records?.wheelSeals" slot="start" ></ion-checkbox>
                   </div>
+                  <div class="flex justify-between items-center my-3">
+                    <ion-text class="font-Lato font-bold text-lg">Score</ion-text>
+                    <ion-text class="font-Lato font-bold text-lg">{{records?.percentageSuspension}}%</ion-text>
+                   </div>
                   <ion-text class="text-sm font-semibold font-Lato text-black mt-2">Suspension Notes</ion-text>
                     <ion-textarea [autoGrow]="true"
                     disabled=""
@@ -896,7 +912,7 @@
     </div>
     <div class="flex justify-between items-center my-5" *ngIf="(loading |async) === false">
       <ion-text class="font-Lato text-sm font-semibold text-9B9BA4">Trainee</ion-text>
-      <ion-text class="font-Lato text-sm text-black font-semibold">{{records.trainee_name}}</ion-text>
+      <ion-text class="font-Lato text-sm text-black font-semibold">{{records[0].trainee_name}}</ion-text>
     </div>
     <div class="flex justify-between items-center my-3" *ngIf="(loading |async) === true">
       <ion-text class="font-Lato text-9B9BA4"> Trainer</ion-text>
@@ -904,7 +920,7 @@
     </div>
     <div class="flex justify-between items-center my-5" *ngIf="(loading |async) === false">
       <ion-text class="font-Lato text-sm font-semibold text-9B9BA4">Trainer</ion-text>
-      <ion-text class="font-Lato text-sm text-black font-semibold">{{records.trainer_name}}</ion-text>
+      <ion-text class="font-Lato text-sm text-black font-semibold">{{records[0].trainer_name}}</ion-text>
     </div>
     <div class="flex justify-between items-center my-5">
       <ion-text class="font-Lato text-sm font-semibold text-9B9BA4">Evaluation Form</ion-text>
@@ -925,7 +941,7 @@
       </ion-row>
     </ion-grid>
     <ion-grid>
-      <ion-row class="my-4">
+      <!-- <ion-row class="my-4">
         <ion-col size="5" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">CDL Classroom</ion-text></ion-col>
         <ion-col size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
         <ion-col size="2" class="ion-text-center"><ion-text class="font-Lato font-semibold">4.35</ion-text></ion-col>
@@ -934,28 +950,34 @@
         <ion-col size="5" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">CDL Group Practicum</ion-text></ion-col>
         <ion-col size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">Unsatisfactory</ion-text></ion-col>
         <ion-col size="2" class="ion-text-center"><ion-text class="font-Lato font-semibold">4:22</ion-text></ion-col>
+      </ion-row> -->
+      <div *ngFor="let record of records">
+      <ion-row class="my-4" *ngIf="record.evaluation_type === 'pre-trip'">
+          <ion-col size="4" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">CDL Pre-Trip Check</ion-text></ion-col>
+          <ion-col size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
+          <ion-col size="3" class="ion-text-start"><ion-text class="font-Lato font-semibold">{{record.enddatepretrip?.hours?record.enddatepretrip.hours: '0'}}h:{{record.enddatepretrip?.minutes?record.enddatepretrip.minutes : '0'}}m</ion-text></ion-col>
+
+        </ion-row>
+        <ion-row class="my-4" *ngIf="record.evaluation_type === 'basic-skills'">
+          <ion-col size="4" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">CDL Basic Skills</ion-text></ion-col>
+          <ion-col size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">{{(((+record.satisfactoryStraightLineBacking + +record.satisfactoryAlleyDocking + +record.satisfactoryOffSetBacking + +record.satisfactoryParkingBlind + +record.satisfactoryCoupUncoup)/600)*100) > 50 ? "Satisfactory" : "Unsatisfactory"}}</ion-text></ion-col>
+          <ion-col size="3" class="ion-text-start"><ion-text class="font-Lato font-semibold">{{record.enddatebasicskill?.hours?record.enddatebasicskill.hours: '0'}}h:{{record.enddatebasicskill?.minutes?record.enddatebasicskill.minutes : '0'}}m</ion-text></ion-col>
       </ion-row>
-      <ion-row class="my-4">
-        <ion-col size="5" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">CDL Pre-Trip Check</ion-text></ion-col>
-        <ion-col size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
-        <ion-col size="2" class="ion-text-center"><ion-text class="font-Lato font-semibold">6</ion-text></ion-col>
+      <ion-row class="my-4" *ngIf="record.evaluation_type === 'road-skills'">
+        <ion-col size="4" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">CDL Road Trip Skills</ion-text></ion-col>
+        <ion-col size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">{{(((+record.satisfactoryRoadTesting)/100)*100) > 50 ? "Satisfactory" : "Unsatisfactory"}}</ion-text></ion-col>
+        <ion-col size="3" class="ion-text-start"><ion-text class="font-Lato font-semibold">{{record.enddateroadskill?.hours?record.enddateroadskill.hours: '0'}}h:{{record.enddateroadskill?.minutes?record.enddateroadskill.minutes : '0'}}m</ion-text></ion-col>
       </ion-row>
-      <ion-row class="my-4">
-        <ion-col size="5" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">CDL Basic Skills</ion-text></ion-col>
-        <ion-col size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
-        <ion-col size="2" class="ion-text-center"><ion-text class="font-Lato font-semibold">3:24</ion-text></ion-col>
-      </ion-row>
-      <ion-row class="my-4">
-        <ion-col size="5" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">CDL Road Trip Skills</ion-text></ion-col>
-        <ion-col size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
-        <ion-col size="2" class="ion-text-center"><ion-text class="font-Lato font-semibold">4:35</ion-text></ion-col>
-      </ion-row>
+      </div>
     </ion-grid>
     <ion-card>
       <ion-card-content>
         <div class="flex justify-between items-center mb-2">
           <ion-text class="font-Lato font-semibold">Total Training Time:</ion-text>
-          <ion-text class="font-Lato text-sm font-semibold text-black px-3 py-1">12hrs 45mins</ion-text>
+          <ion-text class="font-Lato text-sm font-semibold text-black px-3 py-1" *ngFor="let record of records">
+            <!-- {{+record?.enddatepretrip?.hours + +record?.enddateroadskill?.hours}} -->
+            <!-- {{record?.enddatepretrip?.hours? record?.enddatepretrip.hours : '0' +  record?.enddatebasicskill?.hours? record?.enddatebasicskill.hours : '0' + record?.enddateroadskill?.hours? record?.enddateroadskill.hours : '0'}}hrs 45mins -->
+          </ion-text>
         </div>
       </ion-card-content>
     </ion-card>

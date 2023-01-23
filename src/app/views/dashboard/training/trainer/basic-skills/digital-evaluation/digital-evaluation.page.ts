@@ -33,20 +33,20 @@ totalUnSatisfactory = 0;
 
   ngOnInit() {
     this.basicSkillForm = this.formBuilder.group({
-      pullUpsInput_slb: ['',[Validators.required]],
-      encroachInput_slb: ['',[Validators.required]],
+      pullUpsInput_slb: ['',[Validators.required,Validators.pattern('^([1-5])$')]],
+      encroachInput_slb: ['',[Validators.required,Validators.pattern('^([1-5])$')]],
       goal_slb: ['',[Validators.required]],
       finalPosition_slb: ['',[Validators.required]],
       straightLineBacking_slb: ['',[Validators.required]],
-      straightLineBakingInput_slb: ['',[Validators.required]], //<-
+      straightLineBakingInput_slb: ['',[Validators.required,Validators.pattern('^([1-5])$')]], //<-
       alleyDocking_slb: ['',[Validators.required]],
-      alleyDockingInput_slb: ['',[Validators.required]],
+      alleyDockingInput_slb: ['',[Validators.required,Validators.pattern('^([1-5])$')]],
       offSetBacking_slb: ['',[Validators.required]],
-      offSetBackingInput_slb: ['',[Validators.required]],
+      offSetBackingInput_slb: ['',[Validators.required,Validators.pattern('^([1-5])$')]],
       parallelParkingBlind_slb: ['',[Validators.required]],
-      parallelParkingBlindInput_slb: ['',[Validators.required]],
+      parallelParkingBlindInput_slb: ['',[Validators.required,Validators.pattern('^([1-5])$')]],
       coupUncoup_slb: ['',[Validators.required]],
-      coupUncoupInput_slb: ['',[Validators.required]],
+      coupUncoupInput_slb: ['',[Validators.required,Validators.pattern('^([1-5])$')]],
       comments_slb: [''],
       category:['straight-line-backing'],
       satisfactoryStraightLineBacking:[],

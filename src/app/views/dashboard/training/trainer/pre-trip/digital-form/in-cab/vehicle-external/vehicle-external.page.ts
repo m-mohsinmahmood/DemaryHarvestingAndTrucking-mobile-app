@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -13,6 +14,11 @@ export class VehicleExternalPage implements OnInit {
   preTripForm: FormGroup;
   buffer = 1;
   progress = 0.4;
+  result: any = 0;
+
+    // trainer id
+ trainer_id = '4b84234b-0b74-49a2-b3c7-d3884f5f6013';
+
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
@@ -40,14 +46,76 @@ export class VehicleExternalPage implements OnInit {
       headerBvd: [false,[Validators.required]],
       landingGear: [false,[Validators.required]],
       commentsVehicle: ['',[Validators.required]],
-      category:['vehicle-external']
+      category:['vehicle-external'],
+      percentageVehicleExternal:[],
+      trainer_id:[this.trainer_id]
+    });
+    this.preTripForm.valueChanges.subscribe((value)=>{
+      let sum = 0;
+      if(value.lightFunctionVehicle){
+        sum = 1 + sum;
+      }
+       if (value.lensReflector){
+        sum = 1 + sum;
+      }
+      if (value.door){
+        sum = 1 + sum;
+      }
+       if (value.fuelTank){
+        sum = 1 + sum;
+      }
+      if (value.leaks){
+        sum = 1 + sum;
+      }
+      if (value.steps){
+        sum = 1 + sum;
+      }
+      if (value.frame){
+        sum = 1 + sum;
+      }
+      if (value.driveShaft){
+        sum = 1 + sum;
+      }
+      if (value.tires){
+        sum = 1 + sum;
+      }
+      if (value.rims){
+        sum = 1 + sum;
+      }
+      if (value.lugNuts){
+        sum = 1 + sum;
+      }
+      if (value.axelHubSeal){
+        sum = 1 + sum;
+      }
+      if (value.bidSpacers){
+        sum = 1 + sum;
+      }
+      if (value.batteryBox){
+        sum = 1 + sum;
+      }
+      if (value.exhaust){
+        sum = 1 + sum;
+      }
+      if (value.headerBvd){
+        sum = 1 + sum;
+      }
+      if (value.landingGear){
+        sum = 1 + sum;
+      }
+
+      console.log('Sum:',sum);
+      this.result = Math.round((sum / 17) * 100);
+
     });
   }
   submit(){
+    //patching value
+    this.preTripForm.patchValue({
+      percentageVehicleExternal: this.result
+    });
     console.log(this.preTripForm.value);
-    // this.router.navigateByUrl(
-    //   '/tabs/home/training/trainer/pre-trip/digital-form/in-cab/vehicle-external/coupling'
-    // );
+
     this.trainingService.saveFroms(this.preTripForm.value, 'pre-trip').subscribe(
       (res) => {
         console.log('RES:', res);

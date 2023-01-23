@@ -168,7 +168,7 @@ export class BasicSkillsPage implements OnInit {
       // Digital Form
       this.upload = false;
       this.value = e.target.value;
-      this.trainingService.getData('basic-skills').subscribe((res) => {
+      this.trainingService.getData('basic-skills',this.trainer_id).subscribe((res) => {
         console.log('RES::', res);
         // this.data = res;
 
@@ -193,6 +193,8 @@ export class BasicSkillsPage implements OnInit {
             'Your details have been submitted',
             'success'
           );
+          this.router.navigateByUrl('/tabs/home/training/trainer');
+
         } else {
           console.log('Something happened :)');
           this.toastService.presentToast(res.mssage, 'danger');

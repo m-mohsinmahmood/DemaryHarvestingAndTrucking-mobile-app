@@ -24,6 +24,7 @@ export class ViewRecordsPage implements OnInit {
 
    // trainer id
  trainer_id = '4b84234b-0b74-49a2-b3c7-d3884f5f6013';
+  parseFloat: any;
   constructor(
     private router: Router,
     private fromBuilder: FormBuilder,
@@ -41,7 +42,6 @@ export class ViewRecordsPage implements OnInit {
     this.recordId = params.recordId;
     this.trainerName = params.trainerName;
     this.trainee_id = params.trainee_id;
-
    });
 
    this.initForms();
@@ -54,7 +54,7 @@ export class ViewRecordsPage implements OnInit {
 this.trainingService.getSummary(this.trainee_id, this.trainer_id,'summary')
 .subscribe((record)=>{
  this.loading.next(true);
- this.records = record[0];
+ this.records = record;
  this.loading.next(false);
  console.log('Record:',record);
 });
@@ -104,5 +104,8 @@ this.trainingService.getRecordById(this.recordId)
       totalTime: ['',[Validators.required]],
      });
   }
-
+  // getper(value){
+  //   return this.parseFloat(value);
+  //     }
 }
+

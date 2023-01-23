@@ -135,7 +135,7 @@ export class RoadSkillsPage implements OnInit {
     }else{
       this.upload = false;
       this.value = e.target.value;
-      this.trainingService.getData('road-skills').subscribe((res) => {
+      this.trainingService.getData('road-skills',this.trainer_id).subscribe((res) => {
         console.log('RES::', res);
         if (res.message === 'No Records Found.') {
           // nothing
@@ -157,6 +157,8 @@ export class RoadSkillsPage implements OnInit {
             'Your details have been submitted',
             'success'
           );
+          this.router.navigateByUrl('/tabs/home/training/trainer');
+
         } else {
           console.log('Something happened :)');
           this.toastService.presentToast(res.mssage, 'danger');

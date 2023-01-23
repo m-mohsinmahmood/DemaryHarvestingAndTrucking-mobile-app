@@ -141,7 +141,7 @@ export class PreTripPage implements OnInit {
       this.upload = false;
       this.value = e.target.value;
 
-      this.trainingService.getData('pre-trip').subscribe((res) => {
+      this.trainingService.getData('pre-trip',this.trainer_id).subscribe((res) => {
         console.log('RES::', res);
         this.data = res;
         if (res.message === 'No Records Found.') {
@@ -165,6 +165,7 @@ export class PreTripPage implements OnInit {
             'Your details have been submitted',
             'success'
           );
+          this.router.navigateByUrl('/tabs/home/training/trainer');
         } else {
           console.log('Something happened :)');
           this.toastService.presentToast(res.mssage, 'danger');
