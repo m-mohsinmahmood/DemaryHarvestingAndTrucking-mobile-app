@@ -69,14 +69,22 @@ export class TrainingRecordsPage implements OnInit {
     console.log('Evaluation Form', this.formType);
     console.log(this.recordsFrom.value);
     if (this.formType === 'summary') {
-      this.router.navigateByUrl(
-        '/tabs/home/training/trainer/training-records/search-records/view-records',
-        {
-          state: {
+      // this.router.navigateByUrl(
+      //   '/tabs/home/training/trainer/training-records/search-records/view-records',
+      //   {
+      //     state: {
+      //       formType: this.formType,
+      //     },
+      //   }
+      // );
+      this.router.navigate(['/tabs/home/training/trainer/training-records/search-records/view-records'],
+      {
+        queryParams:{
             formType: this.formType,
-          },
+            evaluationType: 'summary',
+            trainee_id: this.recordsFrom.get('trainee_id').value
         }
-      );
+      });
     } else {
       this.router.navigate(['/tabs/home/training/trainer/training-records/search-records'],
       {

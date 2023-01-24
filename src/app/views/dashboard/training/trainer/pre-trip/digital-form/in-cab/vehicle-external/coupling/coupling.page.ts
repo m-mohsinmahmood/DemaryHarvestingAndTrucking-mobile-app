@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -13,6 +14,11 @@ export class CouplingPage implements OnInit {
   preTripForm: FormGroup;
   buffer = 1;
   progress = 0.6;
+  result: any = 0;
+
+    // trainer id
+    trainer_id = '4b84234b-0b74-49a2-b3c7-d3884f5f6013';
+
   constructor(private formBuilder: FormBuilder,
     private router:  Router,
     private trainingService: TrainingService,
@@ -39,14 +45,75 @@ export class CouplingPage implements OnInit {
          print: [false,[Validators.required]],
          drawBar: [false,[Validators.required]],
          commentsCoupling: ['',[Validators.required]],
-         category:['coupling']
+         category:['coupling'],
+         percentageCoupling:[],
+      trainer_id:[this.trainer_id]
+
+    });
+    this.preTripForm.valueChanges.subscribe((value)=>{
+      let sum = 0;
+      if(value.airConditioners){
+        sum = 1 + sum;
+      }
+      if(value.electricConnectors){
+        sum = 1 + sum;
+      }
+      if(value.mountingBolts){
+        sum = 1 + sum;
+      }
+      if(value.platformBase){
+        sum = 1 + sum;
+      }
+      if(value.lockingJaws){
+        sum = 1 + sum;
+      }
+      if(value.grease){
+        sum = 1 + sum;
+      }
+      if(value.releaseArm){
+        sum = 1 + sum;
+      }
+      if(value.skidPlate){
+        sum = 1 + sum;
+      }
+      if(value.slidingPins){
+        sum = 1 + sum;
+      }
+      if(value.kingPin){
+        sum = 1 + sum;
+      }
+       if(value.apron){
+        sum = 1 + sum;
+      }
+       if(value.gap){
+        sum = 1 + sum;
+      }
+      if(value.airLine){
+        sum = 1 + sum;
+      }
+      if(value.location){
+        sum = 1 + sum;
+      }
+      if(value.safetyDevices){
+        sum = 1 + sum;
+      }
+      if(value.print){
+        sum = 1 + sum;
+      }
+      if(value.drawBar){
+        sum = 1 + sum;
+      }
+      console.log('Sum:',sum);
+      this.result = Math.round((sum / 17) * 100);
     });
   }
   submit(){
+    //patching value
+    this.preTripForm.patchValue({
+      percentageCoupling: this.result
+    });
     console.log(this.preTripForm.value);
-    // this.router.navigateByUrl(
-    //   '/tabs/home/training/trainer/pre-trip/digital-form/in-cab/vehicle-external/coupling/suspension-brakes'
-    // );
+   ;
     this.trainingService.saveFroms(this.preTripForm.value, 'pre-trip').subscribe(
       (res) => {
         console.log('RES:', res);

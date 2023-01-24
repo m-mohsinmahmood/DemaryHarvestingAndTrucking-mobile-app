@@ -17,6 +17,13 @@ export class CoupUncoupPage implements OnInit {
   progress = 1;
   feedbackValue: any;
   basicSkillForm: FormGroup;
+
+
+  totalSatisfactory = 0;
+  totalUnSatisfactory = 0;
+  // trainer id
+  trainer_id = '4b84234b-0b74-49a2-b3c7-d3884f5f6013';
+
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
@@ -26,32 +33,71 @@ export class CoupUncoupPage implements OnInit {
 
     ngOnInit() {
       this.basicSkillForm = this.formBuilder.group({
-        pullUps_cou: ['',[Validators.required]],
-        encroach_cou: ['',[Validators.required]],
+        pullUps_cou: ['',[Validators.required,Validators.pattern(('^([1-5])$'))]],
+        encroach_cou: ['',[Validators.required,Validators.pattern(('^([1-5])$'))]],
         goal_cou: ['',[Validators.required]],
         finalPosition_cou: ['',[Validators.required]],
         straightLineBacking_cou: ['',[Validators.required]],
-        straightLineBackingInput_cou: ['',[Validators.required]],
+        straightLineBackingInput_cou: ['',[Validators.required,Validators.pattern(('^([1-5])$'))]],
         alleyDocking_cou: ['',[Validators.required]],
-        alleyDockingInput_cou: ['',[Validators.required]],
+        alleyDockingInput_cou: ['',[Validators.required,Validators.pattern(('^([1-5])$'))]],
         offSetBacking_cou: ['',[Validators.required]],
-        offSetBackingInput_cou: ['',[Validators.required]],
+        offSetBackingInput_cou: ['',[Validators.required,Validators.pattern(('^([1-5])$'))]],
         parallelParkingBlind_cou: ['',[Validators.required]],
-        parallelParkingBlindInput_cou: ['',[Validators.required]],
+        parallelParkingBlindInput_cou: ['',[Validators.required,Validators.pattern(('^([1-5])$'))]],
         coupUncoup_cou: ['',[Validators.required]],
-        coupUncoupInput_cou: ['',[Validators.required]],
+        coupUncoupInput_cou: ['',[Validators.required,Validators.pattern(('^([1-5])$'))]],
         comments_cou:[''],
-        category:['coup-uncoup']
+        category:['coup-uncoup'],
+        satisfactoryCoupUncoup:[],
+        unSatisfactoryCoupUncoup:[],
+        trainer_id: [this.trainer_id]
 
+      });
+      this.basicSkillForm.valueChanges.subscribe((value)=>{
+        let sum = 0;
+        let unSatSum = 0;
+        if(value.straightLineBacking_cou === 'true'){
+          sum = +value.straightLineBackingInput_cou + sum;
+        }else{
+          unSatSum = +value.straightLineBackingInput_cou + unSatSum;
+        }
+        if(value.alleyDocking_cou === 'true'){
+          sum = +value.alleyDockingInput_cou + sum;
+        }else{
+          unSatSum = +value.alleyDockingInput_cou + unSatSum;
+        }
+        if(value.offSetBacking_cou === 'true'){
+          sum = +value.offSetBackingInput_cou + sum;
+        }else{
+          unSatSum = +value.offSetBackingInput_cou + unSatSum;
+        }
+        if(value.parallelParkingBlind_cou === 'true'){
+          sum = +value.parallelParkingBlindInput_cou + sum;
+        }else{
+          unSatSum = +value.parallelParkingBlindInput_cou + unSatSum;
+        }
+        if(value.coupUncoup_cou === 'true'){
+          sum = +value.coupUncoupInput_cou + sum;
+        }else{
+          unSatSum = +value.coupUncoupInput_cou + unSatSum;
+        }
+        this.totalSatisfactory = sum;
+        console.log('--',unSatSum);
+          this.totalUnSatisfactory = unSatSum;
       });
     }
     addFeedback(){
       this.feedbackValue = true;
     }
     navigate() {
+         // patching sat & un-sat results
+  this.basicSkillForm.patchValue({
+    satisfactoryCoupUncoup:this.totalSatisfactory,
+    unSatisfactoryCoupUncoup:this.totalUnSatisfactory
+  });
+
       console.log(this.basicSkillForm.value);
-      // eslint-disable-next-line max-len
-      // this.router.navigateByUrl('/tabs/home/training/trainer/basic-skills/digital-evaluation/alley-docking/off-set-backing/parking-blind/parking-sight');
       this.trainingService.saveFroms(this.basicSkillForm.value, 'basic-skills').subscribe(
         (res) => {
           console.log('RES:', res);

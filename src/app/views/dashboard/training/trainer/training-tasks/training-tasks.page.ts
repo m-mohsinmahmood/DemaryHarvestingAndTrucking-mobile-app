@@ -137,6 +137,7 @@ export class TrainingTasksPage implements OnInit {
     .subscribe((res)=>{
       console.log('RES:',res);
       if(res.status === 200){
+        this.router.navigateByUrl('/tabs/home/training/trainer');
         this.toastService.presentToast('Your details have been submitted','success');
       }else{
         console.log('Something happened :)');

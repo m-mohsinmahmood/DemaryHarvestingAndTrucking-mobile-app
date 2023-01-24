@@ -69,9 +69,10 @@ export class TrainingService {
     })
     .pipe(take(1));
   }
-  getData(entity){
+  getData(entity,trainer_id){
     let params=  new HttpParams();
     params = params.set('entity', entity);
+    params = params.set('trainer_pre_trip_id', trainer_id);
     return this.httpClient
     .get<any>('http://localhost:7071/api/training',{
       params
@@ -92,6 +93,17 @@ export class TrainingService {
   getRecordById(record_id){
     let params = new HttpParams();
     params = params.set('record_id',record_id);
+    return this.httpClient
+    .get<any>('http://localhost:7071/api/training', {
+      params
+    })
+    .pipe(take(1));
+  }
+  getSummary(trainee_id,trainer_id,evaluation_type){
+    let params = new HttpParams();
+    params = params.set('trainee_id',trainee_id);
+    params = params.set('trainer_id',trainer_id);
+    params = params.set('evaluation_type',evaluation_type);
     return this.httpClient
     .get<any>('http://localhost:7071/api/training', {
       params
