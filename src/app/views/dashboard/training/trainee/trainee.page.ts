@@ -8,6 +8,7 @@ import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { Renderer2 } from '@angular/core';
 import { ToastService } from 'src/app/services/toast/toast.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-trainee',
@@ -44,7 +45,8 @@ export class TraineePage implements OnInit {
     private formBuilder: FormBuilder,
     private trainingService: TrainingService,
     private renderer: Renderer2,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private router: Router
   ) {
     this.renderer.listen('window', 'click', (e) => {
       if (e.target !== this.employeeInput.nativeElement) {
@@ -115,6 +117,7 @@ export class TraineePage implements OnInit {
     this.trainingService.save(this.traineeForm.value,'trainee')
     .subscribe((res)=>{
       if(res.status === 200){
+        this.router.navigateByUrl('/tabs/home/training');
         this.toastService.presentToast(res.message,'success');
       }else{
         console.log('Something happened :)');

@@ -3,13 +3,12 @@
   <app-timer [value]="'23:00:00'"></app-timer>
   <div class="mx-4 my-2">
     <ion-progress-bar class="mb-2" [buffer]="buffer" [value]="progress"></ion-progress-bar>
-    <ion-text class="text-lg font-semibold justify-start flex font-Lato text-black ml-2">{{progress*5}} of 5 Maneuvers
+    <ion-text class="text-lg font-semibold justify-start flex font-Lato text-black ml-2">{{math.trunc(progress*6)}} of 6 Maneuvers
       Completed</ion-text>
   </div>
 <form class="mx-4" [formGroup]="basicSkillForm">
       <div class="mt-5">
      <ion-text class="font-semibold font-Lato text-9B9BA4 text-xl">Off Set Backing</ion-text>
-
       </div>
       <div class="w-full border-b-2 my-3 py-1">
         <ion-text class="text-base font-semibold font-Lato">Attempts</ion-text>

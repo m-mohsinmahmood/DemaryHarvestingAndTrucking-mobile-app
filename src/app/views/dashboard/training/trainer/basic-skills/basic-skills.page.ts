@@ -22,20 +22,20 @@ export class BasicSkillsPage implements OnInit {
   value = 'paper-form';
   buffer = 1;
   progress = 0;
-  selectAray: any[] = [
-    'straight-line',
-    'alley-docking',
-    'offset',
-    'parking-blind',
-    'parking-sight',
-    'coup-uncoup'
-  ];
+  // selectAray: any[] = [
+  //   'straight-line',
+  //   'alley-docking',
+  //   'offset',
+  //   'parking-blind',
+  //   'parking-sight',
+  //   'coup-uncoup'
+  // ];
   // indexArray: any[] = [0.1666666666666667, 0.3333333333333334, 0.5000000000000001, 0.6666666666666668, 0.8333333333333335,1];
-  indexArray: any[] = [0.2, 0.4, 0.6, 0.8, 1];
+  // indexArray: any[] = [0.2, 0.4, 0.6, 0.8, 1];
   text=0;
 
-  increment = 0;
-  increment1 = 0;
+  // increment = 0;
+  // increment1 = 0;
   basicSkillForm: FormGroup;
   upload_1 = false;
   upload_2 = false;

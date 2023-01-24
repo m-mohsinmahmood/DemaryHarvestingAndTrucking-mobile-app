@@ -136,7 +136,7 @@
   </div>
 
   <div class="col-span-12 mb-4">
-    <label class="block text-sm font-medium text-gray-700">Trainee Completed CDL Classroom</label>
+    <label class="block text-sm font-medium text-gray-700">Trainee Completed CDL Classroom<span *ngIf="this.roadTestForm.get('is_completed_cdl_classroom').hasError('required')" class="text-red-400">*</span></label>
     <ion-select
       class="mt-1 w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
       formControlName="is_completed_cdl_classroom" placeholder="Trainee Completed CDL Classroom">
@@ -146,7 +146,7 @@
   </div>
 
   <div class="col-span-12 mb-4">
-    <label class="block text-sm font-medium text-gray-700">Trainee Completed Group Practical</label>
+    <label class="block text-sm font-medium text-gray-700">Trainee Completed Group Practical<span *ngIf="this.roadTestForm.get('is_completed_group_practical').hasError('required')" class="text-red-400">*</span></label>
     <ion-select
       class="mt-1 w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
       formControlName="is_completed_group_practical" placeholder="Trainee Completed Group Practical">
@@ -283,12 +283,12 @@
       </div>
   </div>
   <!-- <ion-button expand="block" class="font-Lato text-white mb-4 mt-6 mx-8" (click)="continue()">Continue</ion-button> -->
-  <ion-button expand="block" class="close-out-button font-Lato mb-4 mt-2 mx-8 bg-opacity-10" (click)="submit()">Close-out</ion-button>
+  <ion-button expand="block" class="close-out-button font-Lato mb-4 mt-2 mx-8 bg-opacity-10" (click)="submit()" [disabled]="roadTestForm.invalid || isTraineeSelected || isSupervisorSelected">Save</ion-button>
 </div>
 <!-- For Digital Form -->
 <div *ngIf="value === 'digital-form'">
-<ion-button expand="block" class="font-Lato text-white mb-4 mt-6 mx-8" (click)="continue()">Continue</ion-button>
-<ion-button expand="block" class="close-out-button font-Lato mb-4 mt-0 mx-8 bg-opacity-10">Close-out</ion-button>
+<ion-button expand="block" class="font-Lato text-white mb-4 mt-6 mx-8" (click)="continue()" [disabled]="roadTestForm.invalid || isTraineeSelected || isSupervisorSelected">Continue</ion-button>
+<!-- <ion-button expand="block" class="close-out-button font-Lato mb-4 mt-0 mx-8 bg-opacity-10">Close-out</ion-button> -->
 </div>
 </div>
 </form>

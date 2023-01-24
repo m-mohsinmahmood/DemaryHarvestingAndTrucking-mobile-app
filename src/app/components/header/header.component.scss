@@ -18,7 +18,6 @@ ion-header {
     //   // white-space: unset;
     // }
 
-
     &.harvesting {
       --background: #129476;
     }
@@ -82,3 +81,16 @@ ion-title{
   //   overflow: none !important;
   //   background-color: green !important;
   //   }
+//   ion-title::part(::shadow) {
+//     text-overflow: inherit;
+//     white-space: normal;
+//     background-color: #129476;
+//  }
+//  ion-title::part(native) {
+//   text-overflow: inherit;
+//   white-space: normal;
+//   background-color: #129476;
+// }
+//  ion-title {
+//   position: static;
+// }

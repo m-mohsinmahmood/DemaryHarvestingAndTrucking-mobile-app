@@ -57,7 +57,7 @@
   </div>
   <!-- TRAINEE DROPDOWN -->
   <div class="col-span-12 mb-4">
-    <label class="block text-sm font-medium text-gray-700">Evaluaton Form</label>
+    <label class="block text-sm font-medium text-gray-700">Evaluaton Form <span  *ngIf="this.recordsFrom.get('evaluation_type').hasError('required')" class="text-red-400">*</span></label>
     <ion-select
       class="mt-1 w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
       formControlName="evaluation_type" placeholder="Evaluation Form" (ionChange)="onSelect($event)">
@@ -69,7 +69,7 @@
   </div>
 
   <div class="col-span-12 mb-4" *ngIf="!(formType === 'summary')">
-    <label class="block text-sm font-medium text-gray-700">Type of Evaluaton Form</label>
+    <label class="block text-sm font-medium text-gray-700">Type of Evaluaton Form<span  *ngIf="this.recordsFrom.get('evaluation_form').hasError('required')" class="text-red-400">*</span></label>
     <ion-select
       class="mt-1 w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
       formControlName="evaluation_form" placeholder="Evaluation Form" (ionChange)="onSelectEvaluation($event)">
@@ -80,6 +80,6 @@
 </form>
 </div>
 <div class="">
-  <ion-button expand="block" class="close-out-button font-Lato mb-4 mt-0 mx-8 bg-opacity-10 text-white" (click)="navigate()">Search Training Records</ion-button>
+  <ion-button expand="block" class="close-out-button font-Lato mb-4 mt-0 mx-8 bg-opacity-10 text-white" (click)="navigate()" [disabled]="recordsFrom.invalid || isTraineeSelected">Search Training Records</ion-button>
 </div>
 </ion-content>

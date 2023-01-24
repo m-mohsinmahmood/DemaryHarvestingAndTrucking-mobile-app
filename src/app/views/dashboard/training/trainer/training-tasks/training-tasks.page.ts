@@ -63,7 +63,7 @@ export class TrainingTasksPage implements OnInit {
     this.trainingTasksForm = this.formBuilder.group({
       trainer_id: [''],
       supervisor_id: [''],
-      city: [''],
+      city: ['',],
       state: [''],
       training_type: [''],
       topic: ['', [Validators.required]],
