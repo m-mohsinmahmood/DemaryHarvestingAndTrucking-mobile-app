@@ -11,16 +11,18 @@ import { DriverSetupPage } from './driver-setup.page';
 import { HeaderModule } from 'src/app/components/header/header.module';
 import { TimerModule } from 'src/app/components/timer/timer.module';
 
+import { WithLoadingPipe } from 'src/app/pipes/general-pipes/with-loading.pipe';
+
 @NgModule({
   imports: [
-CommonModule,
+    CommonModule,
     FormsModule,
     IonicModule,
     DriverSetupPageRoutingModule,
     HeaderModule,
     TimerModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
-  declarations: [DriverSetupPage]
+  declarations: [DriverSetupPage, WithLoadingPipe],
 })
 export class DriverSetupPageModule {}
