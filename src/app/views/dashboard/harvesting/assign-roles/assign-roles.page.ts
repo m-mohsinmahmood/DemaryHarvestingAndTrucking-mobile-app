@@ -54,6 +54,7 @@ export class AssignRolesPage implements OnInit {
 
   // for selected
   value = 'combine-operator';
+  activeJobData;
 
   // data
   data: any;
@@ -97,6 +98,17 @@ export class AssignRolesPage implements OnInit {
     this.combineSearchSubscription();
 
     //api call
+
+    this.harvestingService.getJobSetup('crew-chief', localStorage.getItem('employeeId'), '');
+    this.harvestingService.customer$.subscribe((res) => {
+      console.log(res);
+
+      this.activeJobData = res;
+      console.log(this.activeJobData?.customer_job.length);
+    });
+
+
+
     this.harvestingService.getRoles(111, 111, localStorage.getItem('employeeId'))
       .subscribe(
         (res: any) => {
@@ -119,6 +131,9 @@ export class AssignRolesPage implements OnInit {
   }
 
   addCombine() {
+
+    this.assignFormCombine.value.job_id = this.activeJobData?.customer_job[0].id;
+    this.assignFormCombine.value.employee_id = this.assignFormCombine.get("combine_operator_id").value;
 
     console.log(this.assignFormCombine.value);
     this.harvestingService.createJob(this.assignFormCombine.value)
@@ -162,6 +177,9 @@ export class AssignRolesPage implements OnInit {
       );
   }
   addKart() {
+
+    this.assignFormKart.value.job_id = this.activeJobData?.customer_job[0].id;
+    this.assignFormKart.value.employee_id = this.assignFormKart.get("cart_operator_id").value;
 
     console.log(this.assignFormKart.value);
     this.harvestingService.createJob(this.assignFormKart.value)
@@ -284,7 +302,8 @@ export class AssignRolesPage implements OnInit {
     this.combine_name = combine.first_name + ' ' + combine.last_name;
 
     // to enable submit button
-    this.isCombineSelected = false;
+    if (this.activeJobData?.customer_job.length > 0)
+      this.isCombineSelected = false;
 
     // assigning values in form
     this.assignFormCombine.patchValue({
@@ -377,7 +396,8 @@ export class AssignRolesPage implements OnInit {
     this.cart_name = cart.first_name + ' ' + cart.last_name;
 
     // to enable submit button
-    this.isCartSelected = false;
+    if (this.activeJobData?.customer_job.length > 0)
+      this.isCartSelected = false;
 
     // assigning values in form
     this.assignFormKart.patchValue({

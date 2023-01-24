@@ -208,9 +208,15 @@ export class HarvestingService {
 
         })
   }
-  getJobSetup(entity, crew_chief_id) {
+  getJobSetup(entity, crew_chief_id?, employeeId?) {
+    let params = new HttpParams();
+
+    if (employeeId != null)
+      params = params.set('employeeId', employeeId);
+
     return this._httpClient
-      .get(`http://localhost:7071/api/customer-job-setup?entity=${entity}&crew_chief_id=${crew_chief_id}`)
+
+      .get(`http://localhost:7071/api/customer-job-setup?entity=${entity}&crew_chief_id=${crew_chief_id}`, { params })
       .pipe(take(1))
       .subscribe(
         (res: any) => {
@@ -458,8 +464,6 @@ export class HarvestingService {
   }
   createBeginingDay(data: any, dwr_type: string): Observable<any> {
     data.dwr_type = dwr_type
-    console.log(data);
-    console.log(dwr_type)
     return this._httpClient
       .post<any>(`http://localhost:7071/api/dwr`, data)
       .pipe(take(1));

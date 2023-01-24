@@ -263,6 +263,10 @@ export class ChangeFieldPage implements OnInit {
   }
   //#endregion
   submit() {
+    this.changeFieldFormChief.value.changeFarmFieldCrop = true;
+    this.changeFieldFormChief.value.closeJob = true;
+    this.changeFieldFormChief.value.newJobSetup = true;
+
     console.log(this.changeFieldFormChief.value);
     // console.log(this.changeFieldFormKart.value);
     // console.log(this.changeFieldFormKart.value);

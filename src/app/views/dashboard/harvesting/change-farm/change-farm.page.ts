@@ -190,6 +190,9 @@ export class ChangeFarmPage implements OnInit {
     });
 
     this.jobUpdateForm.value.changeFarmFieldCrop = true;
+    this.jobUpdateForm.value.closeJob = true;
+    this.jobUpdateForm.value.newJobSetup = true;
+
     console.log(this.jobUpdateForm.value);
 
     this.harvestingService.createJob(this.jobUpdateForm.value)

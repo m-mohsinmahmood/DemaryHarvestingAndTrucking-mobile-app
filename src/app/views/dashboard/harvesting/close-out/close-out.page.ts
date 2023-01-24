@@ -73,7 +73,7 @@ export class CloseOutPage implements OnInit {
     if (this.role === 'crew-chief') {
       console.log(localStorage.getItem('employeeId'));
 
-      this.harvestingservice.getJobSetup('crew-chief', '8920a566-453c-47f0-82dc-21e74196bb98');
+      this.harvestingservice.getJobSetup('crew-chief', localStorage.getItem('employeeId'));
     }
     // else if(this.role === 'combine-operator'){
     //   this.harvestingservice.getJobTesting2('combine-operator','3ac2db42-d0c1-4493-a0cf-b19deb834f46');
@@ -118,9 +118,13 @@ export class CloseOutPage implements OnInit {
     });
   }
   submit() {
-    console.log(this.closeJobFormCrew.value);
     // console.log(this.closeJobFormCombine.value);
     // console.log(this.closeJobFormKart.value);
+
+    this.closeJobFormCrew.value.changeFarmFieldCrop = true;
+    this.closeJobFormCrew.value.closeJob = true;
+
+    console.log(this.closeJobFormCrew.value);
 
     if (this.role === 'crew-chief') {
       this.harvestingservice.createJob(this.closeJobFormCrew.value).subscribe(
