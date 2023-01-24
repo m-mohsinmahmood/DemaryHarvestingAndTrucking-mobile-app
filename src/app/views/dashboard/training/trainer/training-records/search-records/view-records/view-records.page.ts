@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TrainingService } from '../../../../training.service';
 import { BehaviorSubject } from 'rxjs';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-view-records',
@@ -18,6 +19,8 @@ export class ViewRecordsPage implements OnInit {
   trainerName: any;
   records: any;
   trainee_id: any;
+  // to use in HTML
+moment: any = moment;
 
   // behaviour subject
   public loading = new BehaviorSubject(true);

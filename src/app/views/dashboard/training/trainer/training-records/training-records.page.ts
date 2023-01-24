@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-shadow */
 /* eslint-disable max-len */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable @typescript-eslint/naming-convention */
@@ -49,9 +50,20 @@ export class TrainingRecordsPage implements OnInit {
 
   ngOnInit() {
     this.recordsFrom = this.fromBuilder.group({
-      trainee_id: ['', [Validators.required]],
+      trainee_id: [''],
       evaluation_type: ['', [Validators.required]],
       evaluation_form: ['', [Validators.required]],
+    },
+    );
+    // checking required value
+    this.recordsFrom.valueChanges.subscribe((value)=>{
+     if(value.evaluation_type === 'summary'){
+      this.recordsFrom.get('evaluation_form').setValidators(null);
+     this.recordsFrom.get('evaluation_form').setErrors(null);
+     }else{
+      this.recordsFrom.get('evaluation_type').setValidators([Validators.required]);
+      this.recordsFrom.get('evaluation_form').setValidators([Validators.required]);
+     }
     });
 
     // trainee subscription

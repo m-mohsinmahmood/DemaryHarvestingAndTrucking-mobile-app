@@ -14,7 +14,7 @@ import { TrainingService } from 'src/app/views/dashboard/training/training.servi
 export class CoupUncoupPage implements OnInit {
 
   buffer = 1;
-  progress = 1;
+  progress = 0.8333333333333335;
   feedbackValue: any;
   basicSkillForm: FormGroup;
 
@@ -23,7 +23,7 @@ export class CoupUncoupPage implements OnInit {
   totalUnSatisfactory = 0;
   // trainer id
   trainer_id = '4b84234b-0b74-49a2-b3c7-d3884f5f6013';
-
+  math = Math;
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,

@@ -104,9 +104,9 @@ export class PreTripPage implements OnInit {
       is_completed_group_practical: ['', [Validators.required]],
       city: ['', [Validators.required]],
       state: ['', [Validators.required]],
-      uploadDocs1: ['', [Validators.required]],
-      uploadDocs2: ['', [Validators.required]],
-      uploadDocs3: ['', [Validators.required]],
+      uploadDocs1: [''],
+      uploadDocs2: [''],
+      uploadDocs3: [''],
     });
 
     // trainee subscription

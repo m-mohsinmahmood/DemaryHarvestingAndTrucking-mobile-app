@@ -698,13 +698,6 @@
           </ion-card>
         </div>
       </div>
-      <!-- <ion-text class="text-sm font-semibold font-Lato text-black ml-5">Add Comments</ion-text>
-        <ion-item>
-          <ion-textarea [autoGrow]="true"
-          formControlName="comments"
-          placeholder="Add your comments here :)">
-          </ion-textarea>
-        </ion-item> -->
         <ion-text class="text-sm font-semibold font-Lato text-black mt-2">Notes</ion-text>
               <ion-item lines="none" class="textarea">
                 <ion-textarea [autoGrow]="true"
@@ -713,7 +706,7 @@
                 </ion-textarea>
               </ion-item>
 
-           <ion-button expand="block" class="mt-5 font-Lato   text-white" (click)="submit()" >Save</ion-button>
+           <ion-button expand="block" class="mt-5 font-Lato  text-white" (click)="submit()" [disabled]="trainingTasksForm.invalid || isEmployeeSelected" >Save</ion-button>
        </div>
    </form>
 </ion-content>

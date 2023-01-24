@@ -132,7 +132,7 @@ export class SuspensionBrakesPage implements OnInit {
 
           // navigating
           this.router.navigateByUrl(
-              '/tabs/home/training/trainer/pre-trip'
+              '/tabs/home/training/trainer'
         );
         } else {
           console.log('Something happened :)');

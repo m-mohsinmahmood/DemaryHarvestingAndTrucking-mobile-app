@@ -14,7 +14,7 @@ import { TrainingService } from 'src/app/views/dashboard/training/training.servi
 export class ParkingBlindPage implements OnInit {
 
   buffer = 1;
-  progress = 0.6;
+  progress = 0.5000000000000001;
   feedbackValue: any;
   basicSkillForm: FormGroup;
 
@@ -22,6 +22,7 @@ export class ParkingBlindPage implements OnInit {
   totalUnSatisfactory = 0;
   // trainer id
   trainer_id = '4b84234b-0b74-49a2-b3c7-d3884f5f6013';
+  math = Math;
 
   constructor(
     private formBuilder: FormBuilder,
