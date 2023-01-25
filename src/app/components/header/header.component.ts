@@ -35,7 +35,7 @@ export class HeaderComponent implements OnInit {
         this.location.path().includes('training/trainer/road-skills') ||
         this.location.path().includes('training/trainer/pre-trip')
       ) {
-        this.router.navigateByUrl('/tabs/home/training/trainer');
+        this.location.historyGo(-2);
       } else {
         this.location.back();
       }
