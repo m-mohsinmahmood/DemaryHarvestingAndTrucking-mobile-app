@@ -474,14 +474,80 @@ export class HarvestingService {
       .pipe(take(1));
   }
 
+  getBeginningOfDay(
+    employeeId: string,
+    searchClause: string,
+    type: string
+  ) {
+    this._httpClient
+    let params = new HttpParams();
+    params = params.set('employeeId', employeeId);
+    params = params.set('searchClause', searchClause);
+    params = params.set('type', type);
+
+    return this._httpClient
+      .get<any>('http://localhost:7071/api/dwr', {
+        params,
+      })
+      .pipe(take(1))
+      .subscribe(
+        (res: any) => {
+          this.customerLoading.next(true);
+          this.customer.next(res);
+          this.customerLoading.next(false);
+        },
+        (err) => {
+          console.log('ERR:', err);
+          this.toastService.presentToast(err, 'danger');
+        }
+      );
+  }
+
   getMachinery(search: string = '', entity: string = '') {
     this._httpClient;
     let params = new HttpParams();
     params = params.set('entity', entity);
     params = params.set('search', search);
+    params = params.set('vehicleType', 'Truck');
 
     return this._httpClient
       .get<any>('http://localhost:7071/api/dropdowns', {
+        params,
+      })
+      .pipe(take(1));
+  }
+
+  getDeliveryTickets(
+    role: string,
+    // ticketStatus: string,
+    employeeId?: string,
+    // truckingType?: string,
+    // isTicketInfoComplete?: boolean,
+    isTicketActive?: boolean,
+    isPreCHeckFilled?: boolean,
+    entity?: string
+  ) {
+    this._httpClient
+    let params = new HttpParams();
+    params = params.set('role', role);
+    // params = params.set('ticketStatus', ticketStatus);
+    params = params.set('employeeId', employeeId);
+    // params = params.set('truckingType', truckingType);
+
+    // if (isTicketInfoComplete != null)
+    //   params = params.set('isTicketInfoComplete', isTicketInfoComplete);
+
+    if (isTicketActive != null)
+      params = params.set('isTicketActive', isTicketActive);
+
+    if (entity != null)
+      params = params.set('entity', entity);
+
+    if (isPreCHeckFilled != null)
+      params = params.set('isPreCheckFilled', isPreCHeckFilled);
+
+    return this._httpClient
+      .get<any>('http://localhost:7071/api/customer-job-setup', {
         params,
       })
       .pipe(take(1));

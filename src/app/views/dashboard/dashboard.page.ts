@@ -50,6 +50,10 @@ export class DashboardPage implements OnInit {
       {localStorage.setItem('employeeId', '4543344b-0b74-49a2-b3c7-d3884f5f0013');}
       else if (localStorage.getItem('role') === 'supervisor')
       {localStorage.setItem('employeeId', '4543344b-0b74-49a2-b3c7-d388851f0013');}
+      else if (localStorage.getItem('role') === 'kart-operator')
+      {localStorage.setItem('employeeId', 'f4cfa75b-7c14-4b68-a192-00d56c9f2022');}
+
+
   }
 
   presentPopover(e: Event) {

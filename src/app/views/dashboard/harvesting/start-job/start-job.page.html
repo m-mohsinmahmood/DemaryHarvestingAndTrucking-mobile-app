@@ -25,7 +25,7 @@ role ==='truck-driver'? 'Enter Begining of Day Work Data' : ''" [color]="'harves
               <ion-col size="6" class="text-sm flex font-Lato">{{this.customerData.customer_job[0].farm_name}}
               </ion-col>
               <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Crop</ion-col>
-              <ion-col size="6" class="text-sm flex font-Lato">{{this.customerData.customer_job[0].crop_name}}</ion-col>
+              <ion-col size="6" class="text-sm flex font-Lato">{{this.customerData.customer_job[0].crop}}</ion-col>
             </ion-row>
           </ion-grid>
         </ion-card-content>
@@ -86,7 +86,7 @@ role ==='truck-driver'? 'Enter Begining of Day Work Data' : ''" [color]="'harves
                         class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200" role="option"
                         tabindex="-1">
                         <div class="flex items-center p-2">
-                          {{machinery.name}}
+                          {{machinery.type}}
                         </div>
                       </li>
                     </ul>
@@ -127,52 +127,6 @@ role ==='truck-driver'? 'Enter Begining of Day Work Data' : ''" [color]="'harves
                 placeholder="">
             </div>
 
-            <!-- Field -->
-            <!-- <div
-        [ngClass]="add_location_overlay ? 'opacity-100 visible ease-in duration-200' : 'opacity-0 invisible ease-out duration-300'"
-        class="" role="dialog" aria-modal="true">
-
-        <div
-          [ngClass]="add_location_overlay ? 'opacity-100 visible scale-100 ease-in duration-200' : 'opacity-0 invisible scale-95 ease-out duration-300'"
-          class="mb-4 relative z-20">
-          <div class="mx-auto max-w-full transform rounded-xl px-0 transition-all">
-            <label class="block text-sm font-medium text-gray-700 mb-1">Field Name <span
-              *ngIf="isFieldSelected"
-              class="text-red-400">*</span></label>
-            <div class="flex items-center justify-between gap-x-2 rounded-md">
-              <input (keyup)="field_search$.next($event.target.value)"
-               (click)="inputClickedField()" [value]="field_name"
-               #fieldInput
-               class="w-full px-4 py-2 text-gray-900 placeholder:text-base rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
-               placeholder="Select Field" role="" aria-expanded="false" aria-controls="options">
-            </div>
-
-            <div *ngIf="allFields | withLoading | async as allFields" class="">
-              <div class="flex justify-center items-center">
-                <ion-spinner *ngIf="allFields?.loading" name="crescent" mode="indeterminate"
-                  color="primary"></ion-spinner>
-              </div>
-              <ul *ngIf="allFields?.value && fieldUL"
-                class="-mb-2 max-h-48 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800 bg-white w-full"
-                id="options" role="listbox">
-                <li *ngFor="let field of (allFields?.value.customer_fields)" (click)="listClickedField(field)"
-                  class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200" role="option"
-                  tabindex="-1">
-                  <div class="flex items-center p-2">
-                    {{field.field_name}}
-                  </div>
-                </li>
-              </ul>
-              <div *ngIf="allFields?.value?.customer_fields?.length === 0">
-                <p disabled
-                  class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200 text-gray-500 hover:text-gray-700 hover:font-semibold">
-                  No Fields(s) found </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div> -->
-            <!-- Field -->
             <ion-button expand="block" class="mt-5 font-Lato text-white" [disabled]="startJobFormCrew.invalid"
               (click)="submit()">Save </ion-button>
           </div>
@@ -239,53 +193,6 @@ role ==='truck-driver'? 'Enter Begining of Day Work Data' : ''" [color]="'harves
             formControlName="field_name" readonly>
         </div>
 
-        <!-- Field -->
-        <!-- <div
-    [ngClass]="add_location_overlay ? 'opacity-100 visible ease-in duration-200' : 'opacity-0 invisible ease-out duration-300'"
-    class="" role="dialog" aria-modal="true">
-
-    <div
-      [ngClass]="add_location_overlay ? 'opacity-100 visible scale-100 ease-in duration-200' : 'opacity-0 invisible scale-95 ease-out duration-300'"
-      class="mb-4 relative z-40">
-      <div class="mx-auto max-w-full transform rounded-xl px-0 transition-all">
-        <label class="block text-sm font-medium text-gray-700 mb-1">Confirm/Enter Field Name <span
-          *ngIf="isFieldSelected"
-          class="text-red-400">*</span></label>
-        <div class="flex items-center justify-between gap-x-2 rounded-md">
-          <input (keyup)="field_search$.next($event.target.value)"
-           (click)="inputClickedField()" [value]="field_name"
-           #fieldInput
-           class="w-full px-4 py-2 text-gray-900 placeholder:text-base rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
-           placeholder="Select Field" role="" aria-expanded="false" aria-controls="options">
-        </div>
-
-        <div *ngIf="allFields | withLoading | async as allFields" class="">
-          <div class="flex justify-center items-center">
-            <ion-spinner *ngIf="allFields?.loading" name="crescent" mode="indeterminate"
-              color="primary"></ion-spinner>
-          </div>
-          <ul *ngIf="allFields?.value && fieldUL"
-            class="-mb-2 max-h-44 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800 bg-white absolute w-full"
-            id="options" role="listbox">
-            <li *ngFor="let field of (allFields?.value.customer_fields)" (click)="listClickedField(field)"
-              class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200" role="option"
-              tabindex="-1">
-              <div class="flex items-center p-2">
-                {{field.field_name}}
-              </div>
-            </li>
-          </ul>
-          <div *ngIf="allFields?.value?.customer_fields?.length === 0">
-            <p disabled
-              class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200 text-gray-500 hover:text-gray-700 hover:font-semibold">
-              No Fields(s) found </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div> -->
-        <!-- Field -->
-
         <!-- Machinery -->
         <div
           [ngClass]="add_location_overlay ? 'opacity-100 visible ease-in duration-200' : 'opacity-0 invisible ease-out duration-300'"
@@ -316,7 +223,7 @@ role ==='truck-driver'? 'Enter Begining of Day Work Data' : ''" [color]="'harves
                     class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200" role="option"
                     tabindex="-1">
                     <div class="flex items-center p-2">
-                      {{machinery.name}}
+                      {{machinery.type}}
                     </div>
                   </li>
                 </ul>
@@ -479,57 +386,55 @@ role ==='truck-driver'? 'Enter Begining of Day Work Data' : ''" [color]="'harves
 <ion-content *ngIf="role === 'truck-driver'">
   <app-timer [value]="'23:00:12'"></app-timer>
   <div class="p-4">
-    <!-- <ion-card class="m-0 mb-2">
-  <ion-card-header>
-    <ion-card-title class="font-Lato">Customer Profile</ion-card-title>
-  </ion-card-header>
-  <ion-card-content *ngIf="(isLoadingCustomer$ | async) === false">
-    <ion-grid>
-      <ion-row>
-        <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Customer Name</ion-col>
-        <ion-col size="6" class="text-sm flex justify-end font-Lato">{{this.customerData.customer_job[0].customer_name}}</ion-col>
-        <ion-col size="6" class="text-sm text-black font-Lato font-semibold">State</ion-col>
-        <ion-col size="6" class="text-sm flex justify-end font-Lato">{{this.customerData.customer_job[0].state}}</ion-col>
-        <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Farm</ion-col>
-        <ion-col size="6" class="text-sm flex justify-end font-Lato">{{this.customerData.customer_job[0].farm_name}} </ion-col>
-        <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Crop</ion-col>
-        <ion-col size="6" class="text-sm flex justify-end font-Lato">{{this.customerData.customer_job[0].crop_name}}</ion-col>
-      </ion-row>
-    </ion-grid>
-  </ion-card-content>
-  <ion-card-content *ngIf="(isLoadingCustomer$ | async) === true">
-    <ion-grid>
-      <ion-row>
-        <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Customer Name</ion-col>
-        <ion-col size="6" class="text-sm flex justify-end font-Lato">
-          <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
-        </ion-col>
-        <ion-col size="6" class="text-sm text-black font-Lato font-semibold">State</ion-col>
-        <ion-col size="6" class="text-sm flex justify-end font-Lato">
-          <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
-        </ion-col>
-        <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Farm</ion-col>
-        <ion-col size="6" class="text-sm flex justify-end font-Lato">
-          <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text> </ion-col>
-        <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Crop</ion-col>
-        <ion-col size="6" class="text-sm flex justify-end font-Lato">
-          <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </ion-card-content>
-</ion-card> -->
 
     <p class="text-xl font-bold font-Lato mt-3 ml-2 mb-2">Job Set-up</p>
     <form [formGroup]="startJobFormTruck">
       <div class="px-2">
-        <div class="col-span-12 mb-4">
-          <label class="block text-sm font-medium text-gray-700">Truck ID <span
-              *ngIf="this.startJobFormTruck.get('truck_id').hasError('required')" class="text-red-400">*</span></label>
-          <input
-            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-            formControlName="truck_id" placeholder="Truck ID">
+        <!-- Machinery -->
+        <div
+        [ngClass]="add_location_overlay ? 'opacity-100 visible ease-in duration-200' : 'opacity-0 invisible ease-out duration-300'"
+        class="" role="dialog" aria-modal="true">
+
+        <div
+          [ngClass]="add_location_overlay ? 'opacity-100 visible scale-100 ease-in duration-200' : 'opacity-0 invisible scale-95 ease-out duration-300'"
+          class="mb-4 relative z-20">
+          <div class="mx-auto max-w-full transform rounded-xl px-0 transition-all">
+            <label class="block text-sm font-medium text-gray-700 mb-1">Machinery ID: <span
+                *ngIf="isMachineSelected" class="text-red-400">*</span></label>
+            <div class="flex items-center justify-between gap-x-2 rounded-md">
+              <input (keyup)="machine_search$.next($event.target.value)" (click)="inputClickedMachinery()"
+                [value]="machine_name" #machineryInput
+                class="w-full px-4 py-2 text-gray-900 placeholder:text-base rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
+                placeholder="Select Machiery" role="" aria-expanded="false" aria-controls="options">
+            </div>
+
+            <div *ngIf="allMachinery | withLoading | async as allMachinery" class="">
+              <div class="flex justify-center items-center">
+                <ion-spinner *ngIf="allMachinery?.loading" name="crescent" mode="indeterminate"
+                  color="primary"></ion-spinner>
+              </div>
+              <ul *ngIf="allMachinery?.value && machineUL"
+                class="-mb-2 max-h-48 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800 bg-white absolute w-full"
+                id="options" role="listbox">
+                <li *ngFor="let machinery of (allMachinery?.value.machinery)"
+                  (click)="listClickedMachiney(machinery)"
+                  class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200" role="option"
+                  tabindex="-1">
+                  <div class="flex items-center p-2">
+                    {{machinery.type}}
+                  </div>
+                </li>
+              </ul>
+              <div *ngIf="allMachinery?.value?.machinery?.length === 0">
+                <p disabled
+                  class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200 text-gray-500 hover:text-gray-700 hover:font-semibold">
+                  No Machinery(s) found </p>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
+      <!-- Machinery -->
 
         <div class="col-span-12 mb-4">
           <label class="block text-sm font-medium text-gray-700">Crew Chief <span
@@ -537,17 +442,17 @@ role ==='truck-driver'? 'Enter Begining of Day Work Data' : ''" [color]="'harves
               class="text-red-400">*</span></label>
           <input
             class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-            formControlName="crew_chief_id" placeholder="Crew Chief">
+            formControlName="crew_chief_id" placeholder="Crew Chief" readonly>
         </div>
 
-        <div class="col-span-12 mb-4">
+        <!-- <div class="col-span-12 mb-4">
           <label class="block text-sm font-medium text-gray-700">Truck Company <span
               *ngIf="this.startJobFormTruck.get('truck_company').hasError('required')"
               class="text-red-400">*</span></label>
           <input
             class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
             formControlName="truck_company" placeholder="Truck Company">
-        </div>
+        </div> -->
 
         <div class="col-span-12 mb-4">
           <label class="block text-sm font-medium text-gray-700">Confirm Begining Odometer Miles <span

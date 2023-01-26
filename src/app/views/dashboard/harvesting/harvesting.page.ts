@@ -3,7 +3,7 @@ import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { HarvestingService } from './harvesting.service';
 import { takeLast } from 'rxjs/operators';
-import { range } from 'rxjs';
+import { range, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-harvesting',
@@ -11,42 +11,69 @@ import { range } from 'rxjs';
   styleUrls: ['./harvesting.page.scss'],
 })
 export class HarvestingPage implements OnInit {
-// role= 'combine-operator';
-role: any;
+  preCheckFilled;
+  activeWorkOrders: Observable<any>;
+  activeTicket;
+  preCheck;
+  dataCount = {
+    active: -1,
+    preCheck: -1
+  }
+
+  role: any;
   constructor(
     private location: Location,
-   private router: Router,
-   private harvestingService: HarvestingService
+    private router: Router,
+    private harvestingService: HarvestingService
   ) { }
 
   ngOnInit() {
     // console.log('AAA',localStorage.getItem('role'));
     this.role = localStorage.getItem('role');
 
-//     const many = range(1, 100);
-//     console.log('first',range);
-// const lastThree = many.pipe(takeLast(1));
-// console.log(lastThree);
-// lastThree.subscribe(x => console.log('ss',x));
+    //     const many = range(1, 100);
+    //     console.log('first',range);
+    // const lastThree = many.pipe(takeLast(1));
+    // console.log(lastThree);
+    // lastThree.subscribe(x => console.log('ss',x));
 
-// const source = interval(1000);
-// const clicks = fromEvent(document, 'click');
-// const result = source.pipe(takeUntil(clicks));
-// result.subscribe(x => console.log(x));
+    // const source = interval(1000);
+    // const clicks = fromEvent(document, 'click');
+    // const result = source.pipe(takeUntil(clicks));
+    // result.subscribe(x => console.log(x));
+
+    if (this.role === 'truck-driver') {
+
+      this.activeWorkOrders = this.harvestingService.getDeliveryTickets(this.role, localStorage.getItem('employeeId'), true, false, 'truck-driver-active-tickets');
+      this.activeWorkOrders.subscribe((workOrders) => {
+        this.activeTicket = workOrders.customer_job[0];
+
+        // this.activeTicket.harvestingUrl = '/tabs/home/harvesting';
+        // this.activeTicket.module = 'harvesting';
+
+        console.log("Active: ", workOrders);
+      });
+
+      this.preCheckFilled = this.harvestingService.getDeliveryTickets(this.role, localStorage.getItem('employeeId'), true, true, 'truck-driver-active-tickets');
+      this.preCheckFilled.subscribe((workOrders) => {
+        this.preCheck = workOrders.customer_job[0];
+        console.log("Pre Check Filled: ", workOrders);
+      });
+    }
   }
-  goBack(){
+  goBack() {
     this.location.back();
   }
-  navigate(route){
+  navigate(route) {
     if (route === 'ticket') {
-      this.router.navigateByUrl('tabs/home/harvesting/ticket',{
-        state:{
+      this.router.navigateByUrl('tabs/home/harvesting/ticket', {
+        state: {
           reassign: false
         }
       });
     } else {
-      this.router.navigateByUrl('tabs/home/harvesting/ticket',{
-        state:{
+      this.router.navigateByUrl('tabs/home/harvesting/ticket', {
+        state: {
           reassign: true
         }
       });

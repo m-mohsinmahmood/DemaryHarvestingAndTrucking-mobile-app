@@ -40,15 +40,15 @@ export class FarmingPage implements OnInit {
       })
     }
     else {
-      console.log("Tractor Driver: ", localStorage.getItem('employeeId'));
-      this.farmingService.getBeginningOfDay(localStorage.getItem('employeeId'), 'beginningOfDay').subscribe(workOrder => {
+      // console.log("Tractor Driver: ", localStorage.getItem('employeeId'));
+      this.farmingService.getBeginningOfDay(localStorage.getItem('employeeId'), 'beginningOfDay', 'farming').subscribe(workOrder => {
         this.workOrderCount = workOrder.count;
-        console.log(workOrder);
+        console.log( workOrder);
       });
 
       this.farmingService.getAllWorkOrders('', 'existing_work_order', localStorage.getItem('employeeId')).subscribe(workOrder => {
         this.sentOrdersCount = workOrder.count;
-        console.log(this.sentOrdersCount);
+        console.log(workOrder);
 
       })
     }

@@ -20,10 +20,10 @@ export class SubmitEndDayPage implements OnInit {
 
   ngOnInit() {
 
-    this.farmingService.getBeginningOfDay(localStorage.getItem('employeeId'), 'beginningOfDay').subscribe(workOrder => {
+    this.farmingService.getBeginningOfDay(localStorage.getItem('employeeId'), 'beginningOfDay', 'farming').subscribe(workOrder => {
       this.workOrderCount = workOrder.count;
       this.workOrder = workOrder.workOrders;
-      console.log(workOrder);
+      console.log(this.workOrder);
 
     })
 

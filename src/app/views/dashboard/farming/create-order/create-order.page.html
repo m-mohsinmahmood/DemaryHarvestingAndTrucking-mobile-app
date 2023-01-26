@@ -10,8 +10,7 @@
           <label class="block text-sm font-medium text-gray-700">Dispatcher</label>
           <input
             class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-            [value]="this.createOrderDispatcher.get('dispatcherId').value" formControlName="dispatcherId" readonly
-            placeholder="12345">
+            [value]="employeeName? employeeName : ''" formControlName="dispatcherId" readonly placeholder="12345">
         </div>
 
         <!-- Customer-->
@@ -250,7 +249,7 @@
           <label class="block text-sm font-medium text-gray-700">Tractor Driver</label>
           <input
             class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-            [value]="this.createOrderTDriver.get('tractorDriverId').value" formControlName="tractorDriverId" readonly>
+            [value]="employeeName? employeeName : ''" readonly>
         </div>
 
         <!-- Machinery ID-->
