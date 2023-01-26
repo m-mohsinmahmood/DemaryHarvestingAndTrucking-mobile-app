@@ -60,12 +60,10 @@ export class OthersPage implements OnInit {
      ) {
       this.renderer.listen('window', 'click', (e) => {
         if (e.target !== this.employeeInput.nativeElement) {
-          // console.log('Combine');
           this.allEmployees = of([]);
           this.employeeUL = false; // to hide the UL
         }
         if (e.target !== this.supervisorInput.nativeElement) {
-          // console.log('Kart');
           this.allSupervisors = of([]);
           this.supervisorUL = false; // to hide the UL
         }

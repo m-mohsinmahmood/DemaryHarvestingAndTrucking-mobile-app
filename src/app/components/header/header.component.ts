@@ -31,9 +31,9 @@ export class HeaderComponent implements OnInit {
       this.router.navigateByUrl('/tabs/home');
     } else {
       if (
-        this.location.path().includes('training/trainer/basic-skills') ||
-        this.location.path().includes('training/trainer/road-skills') ||
-        this.location.path().includes('training/trainer/pre-trip')
+        this.location.path().includes('training/trainer/pre-trip/digital-form') ||
+        this.location.path().includes('training/trainer/road-skills/evaluation-form') ||
+        this.location.path().includes('training/trainer/basic-skills/digital-evaluation')
       ) {
         this.location.historyGo(-2);
       } else {

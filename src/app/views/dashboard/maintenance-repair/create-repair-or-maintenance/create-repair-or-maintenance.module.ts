@@ -6,6 +6,7 @@ import { CreateRepairORMaintenancePageRoutingModule } from './create-repair-or-m
 import { CreateRepairORMaintenancePage } from './create-repair-or-maintenance.page';
 import { HeaderModule } from 'src/app/components/header/header.module';
 import { TimerModule } from 'src/app/components/timer/timer.module';
+import { WithLoadingPipe } from 'src/app/pipes/general-pipes/with-loading.pipe';
 
 @NgModule({
   imports: [
@@ -17,6 +18,6 @@ import { TimerModule } from 'src/app/components/timer/timer.module';
     CreateRepairORMaintenancePageRoutingModule,
     ReactiveFormsModule
   ],
-  declarations: [CreateRepairORMaintenancePage]
+  declarations: [CreateRepairORMaintenancePage, WithLoadingPipe]
 })
 export class CreateRepairORMaintenancePageModule { }

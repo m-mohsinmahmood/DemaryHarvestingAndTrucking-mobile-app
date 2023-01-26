@@ -92,7 +92,9 @@ export class StartJobPage implements OnInit {
     this.machineSearchSubscription();
 
   }
-
+  // async ionViewDidEnter() {
+  //   this.role = localStorage.getItem('role');
+  // }
   ngOnDestroy(): void {
     // Unsubscribe from all subscriptions
     this._unsubscribeAll.next(null);

@@ -46,6 +46,10 @@ export class DashboardPage implements OnInit {
       {localStorage.setItem('employeeId', '8920a566-453c-47f0-82dc-21e74196bb98');}
       else if (localStorage.getItem('role') === 'combine-operator')
       {localStorage.setItem('employeeId', '3ac2db42-d0c1-4493-a0cf-b19deb834f46');}
+      else if (localStorage.getItem('role') === 'mechanic')
+      {localStorage.setItem('employeeId', '4543344b-0b74-49a2-b3c7-d3884f5f0013');}
+      else if (localStorage.getItem('role') === 'supervisor')
+      {localStorage.setItem('employeeId', '4543344b-0b74-49a2-b3c7-d388851f0013');}
   }
 
   presentPopover(e: Event) {

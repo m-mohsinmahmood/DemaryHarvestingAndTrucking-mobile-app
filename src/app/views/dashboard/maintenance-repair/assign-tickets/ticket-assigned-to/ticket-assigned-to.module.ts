@@ -6,6 +6,7 @@ import { TicketAssignedToPageRoutingModule } from './ticket-assigned-to-routing.
 import { TicketAssignedToPage } from './ticket-assigned-to.page';
 import { HeaderModule } from 'src/app/components/header/header.module';
 import { TimerModule } from 'src/app/components/timer/timer.module';
+import { WithLoadingPipe } from 'src/app/pipes/general-pipes/with-loading.pipe';
 
 @NgModule({
   imports: [
@@ -17,6 +18,6 @@ import { TimerModule } from 'src/app/components/timer/timer.module';
     TicketAssignedToPageRoutingModule,
     ReactiveFormsModule
   ],
-  declarations: [TicketAssignedToPage]
+  declarations: [TicketAssignedToPage, WithLoadingPipe]
 })
 export class TicketAssignedToPageModule { }
