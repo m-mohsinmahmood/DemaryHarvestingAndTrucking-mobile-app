@@ -59,7 +59,7 @@ export class SubmitBeginningDayPage implements OnInit {
     this.machinerySearchSubscription();
     this.workOrderSearchSubscription();
 
-    this.farmingService.getBeginningOfDay(localStorage.getItem('employeeId'), 'beginningOfDay').subscribe(workOrder => {
+    this.farmingService.getBeginningOfDay(localStorage.getItem('employeeId'), 'beginningOfDay', 'farming').subscribe(workOrder => {
       this.workOrderCount = workOrder.count;
       this.dataLoaded = true;
       if (this.workOrderCount > 0)

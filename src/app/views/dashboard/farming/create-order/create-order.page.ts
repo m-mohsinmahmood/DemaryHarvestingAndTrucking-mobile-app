@@ -76,6 +76,7 @@ export class CreateOrderPage implements OnInit {
   customerId: any;
   //Farm ID for selected Fields
   farmId: any;
+  employeeName: any;
 
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
@@ -137,6 +138,11 @@ export class CreateOrderPage implements OnInit {
   }
 
   ngOnInit() {
+    this.farmingService.getEmployeesById(localStorage.getItem('employeeId')).subscribe(param => {
+      console.log(param);
+      this.employeeName = param.first_name + ' ' + param.last_name;
+    })
+
     this.dispatcherSearchSubscription();
     this.customerSearchSubscription();
     this.farmSearchSubscription();
