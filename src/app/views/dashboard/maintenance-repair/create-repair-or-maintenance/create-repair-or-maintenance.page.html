@@ -16,7 +16,8 @@
               *ngIf="this.createTicket.get('repairTicketId').hasError('required')">*</span></label>
           <input
           readonly
-          [placeholder]="1122333"
+          [placeholder]=""
+          formControlName="repairTicketId"
             class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
              placeholder="Ticket Number">
         </div>
@@ -203,15 +204,14 @@
           </textarea>
         </div>
 
-        <div class="col-span-12 mb-4">
+        <!-- <div class="col-span-12 mb-4">
           <label class="block text-sm font-medium text-gray-700">Repair Summary<span
               class="text-red-600" *ngIf="this.createTicket.get('summary').hasError('required')">*</span></label>
-
           <textarea
             class="mt-1 w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
             formControlName="summary" placeholder="Enter Summary">
           </textarea>
-        </div>
+        </div> -->
 
       </ion-list>
 
@@ -228,7 +228,17 @@
   <div class="p-4">
     <form [formGroup]="createTicket">
       <ion-list>
-
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Maintenance Ticket
+            Number<span class="text-red-600"
+              *ngIf="this.createTicket.get('repairTicketId').hasError('required')">*</span></label>
+          <input
+          readonly
+          [placeholder]=""
+          formControlName="repairTicketId"
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+             placeholder="Ticket Number">
+        </div>
          <!-- EMPLOYEE DROPDOWN -->
          <div [ngClass]="'opacity-100 visible ease-in duration-200'" class="" role="dialog" aria-modal="true">
           <div [ngClass]="'opacity-100 visible scale-100 ease-in duration-200'" class="mb-4 relative z-30">
@@ -422,7 +432,7 @@
           </textarea>
         </div>
 
-        <div class="col-span-12 mb-4">
+        <!-- <div class="col-span-12 mb-4">
 
           <label class="block text-sm font-medium text-gray-700">Maintenance Summary
             <span class="text-red-600" *ngIf="this.createTicket.get('summary').hasError('required')">*</span></label>
@@ -430,7 +440,7 @@
             class="mt-1 w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
             formControlName="summary" placeholder="Enter Summary">
           </textarea>
-        </div>
+        </div> -->
 
       </ion-list>
 

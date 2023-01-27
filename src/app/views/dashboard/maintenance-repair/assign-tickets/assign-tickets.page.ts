@@ -25,6 +25,14 @@ export class AssignTicketsPage implements OnInit {
   ngOnInit() {
     this.getTicketsData();
   }
+  ionViewWillEnter(){
+    this.getTicketsData();
+
+}
+// ionViewDidEnter(){
+//     console.log('ionViewDidEnter');
+// }
+
   getTicketsData() {
     // unassigned tickets
     this.maintenanceRepairService

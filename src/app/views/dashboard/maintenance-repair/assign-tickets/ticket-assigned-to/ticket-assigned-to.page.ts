@@ -71,7 +71,11 @@ export class TicketAssignedToPage implements OnInit {
     });
 
     // getting ticket record
-    this.getTicketRecord();
+    if (this.value === 'assign') {
+      this.getUnAssignedTicketRecord();
+    } else {
+      this.getAssignedTicketRecord();
+    }
 
     //subscription
     this.employeeSearchSubscription();
@@ -80,7 +84,7 @@ export class TicketAssignedToPage implements OnInit {
   initForm() {
     this.assignTicket = this.formBuilder.group({
       repairTicketId: [''],
-      empModule: ['', Validators.required],
+      empModule: [''],
       assignedById: [''],
       assignedToId: [''],
       equipID: [''],
@@ -89,31 +93,90 @@ export class TicketAssignedToPage implements OnInit {
       issueCategory: [''],
       severityType: [''],
       status: [''],
-      summary: ['', Validators.required],
+      summary: [''],
       description: [''],
     });
   }
-  getTicketRecord() {
+  getAssignedTicketRecord() {
     // getting ticket record
     this.maintenanceRepairService
-      .getTicketRecordById(this.ticketRecordId, 'ticketRecord')
+      .getTicketRecordById(this.ticketRecordId, 'assignedTicketRecord')
       .subscribe((res) => {
         console.log('res', res);
         this.loading.next(true);
         this.ticketData = res[0];
         this.loading.next(false);
 
-        //patching value form
-        this.assignTicket.patchValue({
-          repairTicketId: this.ticketData.repairTicketId,
-          equipID: this.ticketData.equipmentId,
-          city: this.ticketData.city,
-          state: this.ticketData.state,
-          issueCategory: this.ticketData.issueCategory,
-          severityType: this.ticketData.severityType,
-          status: this.ticketData.status,
-          description: this.ticketData.description,
-        });
+        //patching value's conditionally
+        // if(this.value === 'assign'){
+        //   this.assignTicket.patchValue({
+        //     repairTicketId: this.ticketData.repairTicketId,
+        //     equipID: this.ticketData.equipmentId,
+        //     city: this.ticketData.city,
+        //     state: this.ticketData.state,
+        //     issueCategory: this.ticketData.issueCategory,
+        //     severityType: this.ticketData.severityType,
+        //     status: this.ticketData.status,
+        //     description: this.ticketData.description,
+        //   });
+        // }else{
+          this.assignTicket.patchValue({
+            repairTicketId: this.ticketData.repairTicketId,
+            assignedById: this.ticketData.assignedById,
+            assignedToId: this.ticketData.assignedToId,
+            empModule: this.ticketData.empModule,
+            equipID: this.ticketData.equipmentId,
+            city: this.ticketData.city,
+            state: this.ticketData.state,
+            issueCategory: this.ticketData.issueCategory,
+            severityType: this.ticketData.severityType,
+            status: this.ticketData.status,
+            description: this.ticketData.description,
+          });
+          this.employee_name = this.ticketData.assignedBy;
+          this.employee_name_2 = this.ticketData.assignedTo;
+        // }
+      });
+  }
+  getUnAssignedTicketRecord() {
+    // getting ticket record
+    this.maintenanceRepairService
+      .getTicketRecordById(this.ticketRecordId, 'unassignedTicketRecord')
+      .subscribe((res) => {
+        console.log('res', res);
+        this.loading.next(true);
+        this.ticketData = res[0];
+        this.loading.next(false);
+
+        //patching value's conditionally
+        // if(this.value === 'assign'){
+          this.assignTicket.patchValue({
+            repairTicketId: this.ticketData.repairTicketId,
+            equipID: this.ticketData.equipmentId,
+            city: this.ticketData.city,
+            state: this.ticketData.state,
+            issueCategory: this.ticketData.issueCategory,
+            severityType: this.ticketData.severityType,
+            status: this.ticketData.status,
+            description: this.ticketData.description,
+          });
+        // }else{
+        //   this.assignTicket.patchValue({
+        //     repairTicketId: this.ticketData.repairTicketId,
+        //     assignedById: this.ticketData.assignedById,
+        //     assignedToId: this.ticketData.assignedToId,
+        //     empModule: this.ticketData.empModule,
+        //     equipID: this.ticketData.equipmentId,
+        //     city: this.ticketData.city,
+        //     state: this.ticketData.state,
+        //     issueCategory: this.ticketData.issueCategory,
+        //     severityType: this.ticketData.severityType,
+        //     status: this.ticketData.status,
+        //     description: this.ticketData.description,
+        //   });
+        //   this.employee_name = this.ticketData.assignedBy;
+        //   this.employee_name_2 = this.ticketData.assignedTo;
+        // }
       });
   }
 
@@ -154,6 +217,8 @@ export class TicketAssignedToPage implements OnInit {
       });
   }
   inputClickedEmployee() {
+    // to disable this function when value is 'repair' & 'maintenance'
+    if(this.value === 'assign'){
     // getting the serch value to check if there's a value in input
     this.employeesearch$
       .pipe(
@@ -187,6 +252,7 @@ export class TicketAssignedToPage implements OnInit {
         this.employeeUL = true;
       }
     });
+  }
   }
   listClickedEmployee(employee) {
     console.log('Employee Object:', employee);
@@ -245,6 +311,8 @@ export class TicketAssignedToPage implements OnInit {
       });
   }
   inputClickedEmployee_2() {
+        // to disable this function when value is 'repair' & 'maintenance'
+    if(this.value === 'assign'){
     // getting the serch value to check if there's a value in input
     this.employeesearch_2$
       .pipe(
@@ -279,6 +347,7 @@ export class TicketAssignedToPage implements OnInit {
       }
     });
   }
+  }
   listClickedEmployee_2(employee) {
     console.log('Employee Object:', employee);
     // hiding UL
@@ -303,12 +372,12 @@ export class TicketAssignedToPage implements OnInit {
   submit() {
     console.log(this.assignTicket.value);
     this.maintenanceRepairService
-      .assignTicket(this.assignTicket.value, this.ticketRecordId)
+      .ticket(this.assignTicket.value, this.ticketRecordId,'unassign')
       .subscribe(
         (res) => {
           console.log('RES:', res);
           if (res.status === 200) {
-            // this.router.navigateByUrl('/tabs/home/maintenance-repair');
+            this.router.navigateByUrl('/tabs/home/maintenance-repair/assign-tickets');
             this.toastService.presentToast(
               'Ticket has been assigned',
               'success'
@@ -323,5 +392,55 @@ export class TicketAssignedToPage implements OnInit {
           this.toastService.presentToast(err.mssage, 'danger');
         }
       );
+  }
+  completTicket(){
+    console.log(this.assignTicket.value);
+    this.maintenanceRepairService
+      .ticket(this.assignTicket.value, this.ticketRecordId,'complete')
+      .subscribe(
+        (res) => {
+          console.log('RES:', res);
+          if (res.status === 200) {
+            this.router.navigateByUrl('/tabs/home/maintenance-repair/assign-tickets');
+            this.toastService.presentToast(
+              'Ticket has been completed',
+              'success'
+            );
+          } else {
+            console.log('Something happened :)');
+            this.toastService.presentToast(res.mssage, 'danger');
+          }
+        },
+        (err) => {
+          console.log('ERROR::', err);
+          this.toastService.presentToast(err.mssage, 'danger');
+        }
+      );
+
+  }
+  continue(){
+    console.log(this.assignTicket.value);
+    this.maintenanceRepairService
+      .ticket(this.assignTicket.value, this.ticketRecordId,'continue')
+      .subscribe(
+        (res) => {
+          console.log('RES:', res);
+          if (res.status === 200) {
+            this.router.navigateByUrl('/tabs/home/maintenance-repair/assign-tickets');
+            this.toastService.presentToast(
+              'Ticket has been paused',
+              'success'
+            );
+          } else {
+            console.log('Something happened :)');
+            this.toastService.presentToast(res.mssage, 'danger');
+          }
+        },
+        (err) => {
+          console.log('ERROR::', err);
+          this.toastService.presentToast(err.mssage, 'danger');
+        }
+      );
+
   }
 }

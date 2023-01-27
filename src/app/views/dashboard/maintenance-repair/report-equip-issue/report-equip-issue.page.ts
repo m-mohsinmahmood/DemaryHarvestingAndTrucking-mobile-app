@@ -64,6 +64,7 @@ private _unsubscribeAll: Subject<any> = new Subject<any>();
 
      // getting Employee profile data
     this.getEmployee();
+    console.log('id:::',Math.random().toString(16).slice(2));
 
   }
   initForms(){
@@ -73,7 +74,7 @@ private _unsubscribeAll: Subject<any> = new Subject<any>();
       city: ['', Validators.required],
       state: ['', Validators.required],
       ticketType: ['', Validators.required],
-      repairTicketId: ['12345'],
+      repairTicketId: [Math.random().toString(16).slice(2)],
       issueCategory: ['', Validators.required],
       severityType: ['', Validators.required],
       status: ['', Validators.required],
@@ -105,8 +106,8 @@ private _unsubscribeAll: Subject<any> = new Subject<any>();
     .subscribe((res)=>{
       console.log('RES:',res);
       if(res.status === 200){
-        // this.router.navigateByUrl('/tabs/home/training/trainer');
         this.toastService.presentToast('Issue has been reported','success');
+        this.router.navigateByUrl('/tabs/home/maintenance-repair');
       }else{
         console.log('Something happened :)');
         this.toastService.presentToast(res.mssage,'danger');

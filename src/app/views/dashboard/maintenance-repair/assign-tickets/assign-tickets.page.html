@@ -62,16 +62,13 @@
             <ion-spinner name="crescent"></ion-spinner>
           </div>
           <div *ngIf="(loading | async)=== false">
-            <div *ngIf="unassgnedData.message">
-            <ion-text>{{unassgnedData.message}}</ion-text>
-            </div>
-            <div *ngIf="!unassgnedData.message">
+            <div *ngIf="unassgnedData?.length > 0 ">
               <ion-card *ngFor="let unasignedValue of unassgnedData" class="px-6 py-2 m-0 mb-4 mt-4"
                 (click)="navigate(unasignedValue.id, 'assign')">
                 <div class="flex flex-col">
                   <div class="flex flex-row py-2">
                     <div class="w-8/12 flex flex-col">
-                      <span class="text-lg text-black font-Lato font-semibold">Ticket # {{unasignedValue.ticketNo}}</span>
+                      <span class="text-lg text-black font-Lato font-semibold">Ticket # {{unasignedValue.repairTicketId}}</span>
                       <span class="font-Lato"> Status: {{unasignedValue.status}}</span>
                     </div>
                     <div class="w-4/12 flex justify-end rounded-3xl h-6 flex items-center justify-center bg-red-50">
@@ -103,10 +100,7 @@
             <ion-spinner name="crescent"></ion-spinner>
           </div>
           <div *ngIf="(loading | async)=== false">
-            <div *ngIf="repairTicketsData.message">
-              <ion-text>{{repairTicketsData.message}}</ion-text>
-              </div>
-              <div *ngIf="!repairTicketsData.repairTicketsData">
+              <div *ngIf="repairTicketsData?.length > 0">
                 <ion-card class="px-6 py-2 m-0 mb-4 mt-4"
                 (click)="navigate(repairTicket.id,'repair')"
                  *ngFor="let repairTicket of repairTicketsData">
@@ -146,10 +140,7 @@
             <ion-spinner name="crescent"></ion-spinner>
           </div>
           <div *ngIf="(loading | async)=== false">
-            <div *ngIf="maintenanceTicketsData.message">
-              <ion-text>{{maintenanceTicketsData.message}}</ion-text>
-              </div>
-              <div *ngIf="!maintenanceTicketsData.message">
+              <div *ngIf="maintenanceTicketsData?.length > 0">
                 <ion-card class="px-6 py-2 m-0 mb-4 mt-4"
                 (click)="navigate(maintenanceTicketData.id,'maintenance')"
                 *ngFor="let maintenanceTicketData of maintenanceTicketsData">

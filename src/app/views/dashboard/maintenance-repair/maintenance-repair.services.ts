@@ -64,10 +64,10 @@ export class MaintenanceRepairService {
     })
     .pipe(take(1));
   }
-  getTicketRecordById(ticket_record_id: any,ticketRecord: any){
+  getTicketRecordById(ticket_record_id: any,entity){
     let params = new HttpParams();
     params = params.set('ticket_record_id',ticket_record_id);
-    params = params.set('entity',ticketRecord);
+    params = params.set('entity',entity);
     return this.httpClient
     .get<any>('http://localhost:7071/api/main_repair', {
       params,
@@ -84,6 +84,27 @@ export class MaintenanceRepairService {
     })
     .pipe(take(1));
   }
+  getExistingRepairMaintenanceTickets(employee_id: any,entity: any,ticketType: any){
+    let params = new HttpParams();
+    params = params.set('employee_id',employee_id);
+    params = params.set('entity',entity);
+    params = params.set('ticketType',ticketType);
+    return this.httpClient
+    .get<any>('http://localhost:7071/api/main_repair', {
+      params,
+    })
+    .pipe(take(1));
+  }
+  getExistingTicketRecordById(ticket_record_id: any,entity,){
+    let params = new HttpParams();
+    params = params.set('ticket_record_id',ticket_record_id);
+    params = params.set('entity',entity);
+    return this.httpClient
+    .get<any>('http://localhost:7071/api/main_repair', {
+      params,
+    })
+    .pipe(take(1));
+  }
   save(data, entity: any){
     let params=  new HttpParams();
     params = params.set('entity', entity);
@@ -93,9 +114,10 @@ export class MaintenanceRepairService {
     })
     .pipe(take(1));
   }
-  assignTicket(data, ticketRecordId: any){
+  ticket(data, ticketRecordId: any, entity){
     let params=  new HttpParams();
     params = params.set('ticketRecordId', ticketRecordId);
+    params = params.set('entity', entity);
     return this.httpClient
     .patch<any>('http://localhost:7071/api/main_repair', data,{
       params

@@ -81,7 +81,7 @@ export class CreateRepairORMaintenancePage implements OnInit {
     });
 
     this.createTicket = this.formBuilder.group({
-      repairTicketId: ['1122333'],
+      repairTicketId: [Math.random().toString(16).slice(2)],
       assignedById: [''],
       assignedToId: [''],
       equipmentId: [''],
@@ -90,7 +90,7 @@ export class CreateRepairORMaintenancePage implements OnInit {
       issueCategory: ['', Validators.required],
       severityType: ['', Validators.required],
       status: ['', Validators.required],
-      summary: ['', Validators.required],
+      // summary: ['', Validators.required],
       description: ['', Validators.required],
       ticketType: [this.category],
       empId:[localStorage.getItem('employeeId')]
