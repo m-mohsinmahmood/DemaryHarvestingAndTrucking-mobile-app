@@ -138,7 +138,7 @@ export class StartJobPage implements OnInit {
       employeeId: ['']
     });
   }
-  
+
   initApis() {
     if (this.role === 'crew-chief') {
       this.harvestingService.getJobSetup('crew-chief', localStorage.getItem('employeeId'));
@@ -254,8 +254,15 @@ export class StartJobPage implements OnInit {
 
     // For Kart Operator
     if (localStorage.getItem('role') === 'kart-operator') {
+      let data = {
+        machineryId: this.startJobFormKart.get("machineryId").value,
+        employeeId: localStorage.getItem('employeeId'),
+        jobId: this.startJobFormKart.get("job_id").value,
+        beginningEngineHours: this.startJobFormKart.get("beginningEngineHours").value,
+      }
       // console.log('this.startJobFormKart.value', this.startJobFormKart.value);
-      this.harvestingService.createBeginingDay(this.startJobFormKart.value, 'harvesting')
+
+      this.harvestingService.createBeginingDay(data, 'harvesting')
         .subscribe(
           (res: any) => {
             // console.log('Response:', res);

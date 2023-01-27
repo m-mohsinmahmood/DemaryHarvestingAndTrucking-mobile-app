@@ -30,7 +30,7 @@ export class CloseJobPage implements OnInit {
     private harvestingService: HarvestingService,
     private toastService: ToastService,
     private activeRoute: ActivatedRoute
-  ) {}
+  ) { }
 
   ngOnInit() {
     // getting role
@@ -78,13 +78,16 @@ export class CloseJobPage implements OnInit {
 
   initObservables() {
     this.harvestingService.customer$.subscribe((res) => {
-      console.log('res',res)
+      console.log('res', res)
       if (res) {
         this.customerData = res;
-        // this.closeJobFormKart.patchValue({
-        //   // passing to pre-filled
-        //   workOrderId: this.customerData.customer_job[0]?.id,
-        // });
+
+        if (this.role === 'kart-operator') {
+          this.closeJobFormKart.patchValue({
+            // passing to pre-filled
+            workOrderId: this.customerData.workOrders[0].id,
+          });
+        }
       }
     });
 
@@ -146,9 +149,9 @@ export class CloseJobPage implements OnInit {
             // this.router.navigateByUrl('/tabs/home/farming');
           }
         },
-          (err) => {
-            this.toastService.presentToast(err, 'danger');
-          }
+        (err) => {
+          this.toastService.presentToast(err, 'danger');
+        }
       )
     }
     if (localStorage.getItem('role') === 'combine-operator') {
@@ -172,53 +175,54 @@ export class CloseJobPage implements OnInit {
             // this.router.navigateByUrl('/tabs/home/farming');
           }
         },
-          (err) => {
-            this.toastService.presentToast(err.message, 'danger');
-          }
+        (err) => {
+          this.toastService.presentToast(err.message, 'danger');
+        }
       )
     }
     if (localStorage.getItem('role') === 'kart-operator') {
       console.log('customerData', this.customerData);
       console.log('this.closeJobFormKart', this.closeJobFormKart.value);
-      //   this.harvestingService
-      //     .closeBeginningDay(this.closeJobFormKart.value)
-      //     .subscribe(
-      //       (res: any) => {
-      //         console.log(res);
-      //         if (res.status === 200) {
-      //           this.toastService.presentToast(
-      //             'Day has been closed successfully!',
-      //             'success'
-      //           );
-      //           // this.router.navigateByUrl('/tabs/home/farming');
-      //         }
-      //       },
-      //       (err) => {
-      //         this.toastService.presentToast(err, 'danger');
-      //       }
-      //     );
-      // }
-      if (localStorage.getItem('role') === 'truck-driver') {
-        console.log(this.closeJobFormTruck.value);
+      this.harvestingService
+        .closeBeginningDay(this.closeJobFormKart.value)
+        .subscribe(
+          (res: any) => {
+            console.log(res);
+            if (res.status === 200) {
+              this.toastService.presentToast(
+                'Day has been closed successfully!',
+                'success'
+              );
 
-        this.harvestingService
-          .closeBeginningDay(this.closeJobFormTruck.value)
-          .subscribe(
-            (res: any) => {
-              console.log(res);
-              if (res.status === 200) {
-                this.toastService.presentToast(
-                  'Day has been closed successfully!',
-                  'success'
-                );
-                // this.router.navigateByUrl('/tabs/home/farming');
-              }
-            },
-              (err) => {
-                this.toastService.presentToast(err, 'danger');
-              }
-          )
-      }
+              this.goBack();
+              // this.router.navigateByUrl('/tabs/home/farming');
+            }
+          },
+          (err) => {
+            this.toastService.presentToast(err, 'danger');
+          }
+        );
+    }
+    if (localStorage.getItem('role') === 'truck-driver') {
+      console.log(this.closeJobFormTruck.value);
+
+      this.harvestingService
+        .closeBeginningDay(this.closeJobFormTruck.value)
+        .subscribe(
+          (res: any) => {
+            console.log(res);
+            if (res.status === 200) {
+              this.toastService.presentToast(
+                'Day has been closed successfully!',
+                'success'
+              );
+              // this.router.navigateByUrl('/tabs/home/farming');
+            }
+          },
+          (err) => {
+            this.toastService.presentToast(err, 'danger');
+          }
+        )
     }
   }
 }

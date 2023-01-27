@@ -107,8 +107,6 @@ export class AssignRolesPage implements OnInit {
       console.log(this.activeJobData?.customer_job.length);
     });
 
-
-
     this.harvestingService.getRoles(111, 111, localStorage.getItem('employeeId'))
       .subscribe(
         (res: any) => {
