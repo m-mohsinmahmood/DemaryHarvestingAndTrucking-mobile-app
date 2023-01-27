@@ -1,5 +1,11 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  ElementRef,
+  Renderer2,
+} from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
 import { Observable, of, Subject } from 'rxjs';
@@ -32,8 +38,15 @@ export class DriverSetupPage implements OnInit {
   constructor(
     private location: Location,
     private formBuilder: FormBuilder,
+    private renderer: Renderer2,
     private harvestingService: HarvestingService
-  ) {}
+  ) {
+    this.renderer.listen('window', 'click', (e) => {
+      if (e.target !== this.driverInput.nativeElement) {
+        this.driverUL = false;
+      }
+    });
+  }
 
   ngOnInit() {
     this.driverSetupForm = this.formBuilder.group({
@@ -41,6 +54,8 @@ export class DriverSetupPage implements OnInit {
     });
 
     this.getKartOperatorTruckDrivers();
+
+    this.combineSearchSubscription();
   }
 
   async ionViewDidEnter() {
@@ -62,6 +77,44 @@ export class DriverSetupPage implements OnInit {
           console.log('Error:', err);
         }
       );
+  }
+
+  //#region comnine
+  combineSearchSubscription() {
+    this.truck_driver_search$
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        takeUntil(this._unsubscribeAll)
+      )
+      .subscribe((value: string) => {
+        // passing for renderer2
+        this.driverSearchValue = value;
+
+        // for asterik to look required
+        if (value === '') {
+          this.isTruckDriverSelected = true;
+        }
+
+        // calling API
+        this.allTruckDrivers =
+          this.harvestingService.getKartOperatorTruckDriversDropdown(
+            'truckDriversDropDown',
+            this.driverSearchValue
+          );
+
+        // subscribing to show/hide field UL
+        this.allTruckDrivers.subscribe((truckDrivers) => {
+          console.log('truckDrivers:', truckDrivers);
+
+          if (truckDrivers.length === 0) {
+            // hiding UL
+            this.driverUL = false;
+          } else {
+            this.driverUL = true;
+          }
+        });
+      });
   }
 
   goBack() {

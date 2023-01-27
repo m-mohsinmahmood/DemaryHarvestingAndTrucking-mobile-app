@@ -14,16 +14,16 @@
                 <input (keyup)="truck_driver_search$.next($event.target?.value)" (click)="clickedTruckDriverInput()" [value]="driver_name" #driverInput class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder:text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500" placeholder="Select Driver" role="" aria-expanded="false" aria-controls="options" />
               </div>
 
-              <div *ngIf="(allTruckDrivers | withLoading) as allTruckDriversObj">
+              <div *ngIf="(allTruckDrivers | withLoading | async) as allTruckDrivers">
                 <div class="flex items-center justify-center">
-                  <ion-spinner *ngIf="allTruckDriversObj?.loading" name="crescent" mode="indeterminate" color="primary"></ion-spinner>
+                  <ion-spinner *ngIf="allTruckDrivers?.loading" name="crescent" mode="indeterminate" color="primary"></ion-spinner>
                 </div>
-                <ul *ngIf="allTruckDriversObj.length && driverUL" class="absolute -mb-2 max-h-48 w-full scroll-py-2 overflow-y-auto bg-white py-2 text-sm text-gray-800" id="options" role="listbox">
-                  <li *ngFor="let driver of (allTruckDriversObj)" (click)="selectedDriver(driver)" class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200" role="option" tabindex="-1">
+                <ul *ngIf="allTruckDrivers?.value && driverUL" class="absolute -mb-2 max-h-48 w-full scroll-py-2 overflow-y-auto bg-white py-2 text-sm text-gray-800" id="options" role="listbox">
+                  <li *ngFor="let driver of (allTruckDrivers?.value)" (click)="selectedDriver(driver)" class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200" role="option" tabindex="-1">
                     <div class="flex items-center p-2">{{driver.name}}</div>
                   </li>
                 </ul>
-                <div *ngIf="allTruckDriversObj?.length === 0">
+                <div *ngIf="allTruckDrivers?.value?.length === 0">
                   <p disabled class="cursor-pointer select-none rounded-md px-4 py-2 text-gray-500 hover:bg-gray-200 hover:font-semibold hover:text-gray-700">No Drivers found!</p>
                 </div>
               </div>
@@ -47,11 +47,9 @@
       </ion-row>
 
       <ion-row class="m-1" *ngIf="getAllDrivers?.length > 0">
-        <div *ngFor="let driver of getAllDrivers">
-          <ion-col size="6" class="border-b-2 p-5">
+          <ion-col *ngFor="let driver of getAllDrivers" size="12" class="border-b-2 py-4">
             <div class="font-Lato font-semibold">{{driver.name}}</div>
           </ion-col>
-        </div>
       </ion-row>
     </ion-grid>
   </ion-card>
