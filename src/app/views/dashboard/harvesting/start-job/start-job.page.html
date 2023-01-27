@@ -283,16 +283,16 @@ role ==='truck-driver'? 'Enter Begining of Day Work Data' : ''" [color]="'harves
           <ion-row>
             <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Customer Name</ion-col>
             <ion-col size="6"
-              class="text-sm flex justify-end font-Lato">{{this.customerData.customer_job[0].customer_name}}</ion-col>
+              class="text-sm flex justify-end font-Lato">{{this.customerData.customer_job[0]?.customer_name}}</ion-col>
             <ion-col size="6" class="text-sm text-black font-Lato font-semibold">State</ion-col>
             <ion-col size="6"
-              class="text-sm flex justify-end font-Lato">{{this.customerData.customer_job[0].state}}</ion-col>
+              class="text-sm flex justify-end font-Lato">{{this.customerData.customer_job[0]?.state}}</ion-col>
             <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Farm</ion-col>
-            <ion-col size="6" class="text-sm flex justify-end font-Lato">{{this.customerData.customer_job[0].farm_name}}
+            <ion-col size="6" class="text-sm flex justify-end font-Lato">{{this.customerData.customer_job[0]?.farm_name}}
             </ion-col>
             <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Crop</ion-col>
             <ion-col size="6"
-              class="text-sm flex justify-end font-Lato">{{this.customerData.customer_job[0].crop_name}}</ion-col>
+              class="text-sm flex justify-end font-Lato">{{this.customerData.customer_job[0]?.crop}}</ion-col>
           </ion-row>
         </ion-grid>
       </ion-card-content>
@@ -353,7 +353,7 @@ role ==='truck-driver'? 'Enter Begining of Day Work Data' : ''" [color]="'harves
                     class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200" role="option"
                     tabindex="-1">
                     <div class="flex items-center p-2">
-                      {{machinery.name}}
+                      {{machinery.type}}
                     </div>
                   </li>
                 </ul>

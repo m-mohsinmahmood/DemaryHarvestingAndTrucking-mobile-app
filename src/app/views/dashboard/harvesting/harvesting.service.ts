@@ -168,28 +168,6 @@ export class HarvestingService {
       .pipe(take(1));
   }
 
-  updateJob(data: any) {
-    return this._httpClient
-      .patch(`http://localhost:7071/api/customer-job-setup`, data)
-      .pipe(take(1));
-  }
-
-  getJob() {
-    return this._httpClient
-      .get(`http://localhost:7071/api/customer-job-setup`)
-      .pipe(take(1))
-      .subscribe(
-        (res: any) => {
-          this.customerLoading.next(true);
-          this.customer.next(res);
-          this.customerLoading.next(false);
-        },
-        (err) => {
-          this.toastService.presentToast(err, 'danger');
-        }
-      );
-  }
-
   getJobSetup(entity, crew_chief_id?, employeeId?) {
     let params = new HttpParams();
 
@@ -258,18 +236,6 @@ export class HarvestingService {
       .pipe(take(1));
   }
 
-  startJob(data: any) {
-    return this._httpClient
-      .post(`http://localhost:7071/api/customer-job-start`, data)
-      .pipe(take(1));
-  }
-
-  closeJob(data: any) {
-    return this._httpClient
-      .post(`http://localhost:7071/api/customer-job-close`, data)
-      .pipe(take(1));
-  }
-
   closeOutJob(data: any) {
     return this._httpClient
       .patch(`http://localhost:7071/api/customer-job-setup`, data)
@@ -277,9 +243,6 @@ export class HarvestingService {
   }
 
   changeField(data: any) {
-    // return this._httpClient
-    //      .put(`http://localhost:7071/api/customer-job-setup`, data)
-    //      .pipe(take(1));
     return this._httpClient
       .post(`http://localhost:7071/api/customer-job-setup`, data)
       .pipe(take(1));
@@ -308,22 +271,6 @@ export class HarvestingService {
     return this._httpClient
       .post(`http://localhost:7071/api/harvesting-ticket`, data)
       .pipe(take(1));
-  }
-
-  getTickets() {
-    return this._httpClient
-      .get(`http://localhost:7071/api/harvesting-ticket`)
-      .pipe(take(1))
-      .subscribe(
-        (res: any) => {
-          this.ticketsLoading.next(true);
-          this.tickets.next(res);
-          this.ticketsLoading.next(false);
-        },
-        (err) => {
-          this.toastService.presentToast(err, 'danger');
-        }
-      );
   }
 
   getTicketById(id: any, entity: any) {
@@ -402,71 +349,6 @@ export class HarvestingService {
       );
   }
 
-  getCustomerFarm(
-    customerId: string,
-    page: number = 1,
-    limit: number = 10,
-    sort: string = '',
-    order: 'asc' | 'desc' | '' = '',
-    search: string = ''
-  ) {
-    let params = new HttpParams();
-    params = params.set('page', page);
-    params = params.set('limit', limit);
-    params = params.set('search', search);
-    params = params.set('sort', sort);
-    params = params.set('order', order);
-    return this._httpClient
-      .get<any>(`api-1/customer-farm?customerId=${customerId}`, {
-        params,
-      })
-      .pipe(take(1));
-    // .subscribe(
-    //     (res: any) => {
-    //         this.isLoadingCustomerFarmList.next(true);
-    //         this.customerFarmList.next(res);
-    //         this.isLoadingCustomerFarmList.next(false);
-    //     },
-    //     (err) => {
-    //         this.handleError(err);
-    //     }
-    // );
-  }
-
-  getCustomerCrops(
-    customer_id: string,
-    page: number = 1,
-    limit: number = 10,
-    sort: string = '',
-    order: 'asc' | 'desc' | '' = '',
-    search: string = '',
-    filters: any = { status: '', calendar_year: '' }
-  ) {
-    let params = new HttpParams();
-    params = params.set('page', page);
-    params = params.set('limit', limit);
-    params = params.set('search', search);
-    params = params.set('sort', sort);
-    params = params.set('order', order);
-    params = params.set('status', filters.status);
-    params = params.set('year', filters.calendar_year);
-    return this._httpClient
-      .get<any>(`api-1/customer-crop?customerId=${customer_id}`, {
-        params,
-      })
-      .pipe(take(1));
-    // .subscribe(
-    //     (res: any) => {
-    //         this.isLoadingCustomerCropList.next(true);
-    //         this.customerCropList.next(res);
-    //         this.isLoadingCustomerCropList.next(false);
-    //     },
-    //     (err) => {
-    //         this.handleError(err);
-    //     }
-    // );
-  }
-
   createBeginingDay(data: any, dwr_type: string): Observable<any> {
     data.dwr_type = dwr_type;
     return this._httpClient
@@ -519,10 +401,7 @@ export class HarvestingService {
 
   getDeliveryTickets(
     role: string,
-    // ticketStatus: string,
     employeeId?: string,
-    // truckingType?: string,
-    // isTicketInfoComplete?: boolean,
     isTicketActive?: boolean,
     isPreCHeckFilled?: boolean,
     entity?: string
@@ -530,12 +409,7 @@ export class HarvestingService {
     this._httpClient
     let params = new HttpParams();
     params = params.set('role', role);
-    // params = params.set('ticketStatus', ticketStatus);
     params = params.set('employeeId', employeeId);
-    // params = params.set('truckingType', truckingType);
-
-    // if (isTicketInfoComplete != null)
-    //   params = params.set('isTicketInfoComplete', isTicketInfoComplete);
 
     if (isTicketActive != null)
       params = params.set('isTicketActive', isTicketActive);
@@ -550,45 +424,6 @@ export class HarvestingService {
       .get<any>('http://localhost:7071/api/customer-job-setup', {
         params,
       })
-      .pipe(take(1));
-  }
-
-  getDropdownCustomerCrops(
-    customerId: string,
-    search: string
-  ): Observable<any> {
-    console.log('DropDownAPICropsCAlled');
-    console.log('dd');
-    let params = new HttpParams();
-    params = params.set('search', search);
-    return this._httpClient
-      .get<any>(
-        `api-1/dropdowns?entity=customerCrops&customerId=${customerId}`,
-        { params }
-      )
-      .pipe(take(1));
-  }
-
-  getDropdownCustomerFarms(
-    customerId: string,
-    search: string
-  ): Observable<any> {
-    console.log('DropDownAPIFarmsCAlled');
-    let params = new HttpParams();
-    params = params.set('search', search);
-    return this._httpClient
-      .get<any>(
-        `api-1/dropdowns?entity=customerFarms&customerId=${customerId}`,
-        { params }
-      )
-      .pipe(take(1));
-  }
-
-  getDropdownCustomerCropsAll(search: string = ''): Observable<any> {
-    let params = new HttpParams();
-    params = params.set('search', search);
-    return this._httpClient
-      .get<any>(`api-1/dropdowns?entity=allCrops`, { params })
       .pipe(take(1));
   }
 

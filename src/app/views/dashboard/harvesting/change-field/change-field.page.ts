@@ -130,14 +130,9 @@ export class ChangeFieldPage implements OnInit {
   initApis() {
     if (this.role === 'crew-chief') {
       this.harvestingService.getJobSetup('crew-chief', localStorage.getItem('employeeId'));
-    } else if (this.role === 'combine-operator') {
-      this.harvestingService.getJobTesting2('combine-operator', '3ac2db42-d0c1-4493-a0cf-b19deb834f46');
-    } else if (this.role === 'kart-operator') {
-      this.harvestingService.getJobTesting2('kart-operator', 'f4cfa75b-7c14-4b68-a192-00d56c9f2022');
-    } else if (this.role === 'truck-driver') {
-      this.harvestingService.getJobTesting2('truck-driver', 'edbce4de-bee6-40f9-b720-9ccf230bb3af');
     }
   }
+
   initObservables() {
     this.harvestingService.customer$.subscribe((res) => {
       console.log('res::', res);
@@ -290,32 +285,6 @@ export class ChangeFieldPage implements OnInit {
             console.log('Error:', err);
           },
         );
-
-      // submitting DWR
-      // this.harvestingService.createBeginingDay(this.changeFieldFormChief.value, 'harvesting')
-      //         .subscribe((res)=>{
-      //           console.log(res);
-      //           if(res.status === 200){
-      //             console.log('RES:',res);
-      //             this.toastService.presentToast('DWR has been created successfully','success');
-      //           }
-      //         },
-      //         (err)=>{
-      //           console.log('Something happened :)',err);
-      //         });
-      // this.harvestingService.closeBeginningDay(this.changeFieldFormChief.value)
-      // .subscribe(
-      //   (res: any) => {
-      //     console.log(res);
-      //     if (res.status === 200) {
-      //       this.toastService.presentToast('Day has been closed successfully!', 'success');
-      //       // this.router.navigateByUrl('/tabs/home/farming');
-      //     }
-      //   },
-      //   (err) => {
-      //     this.toastService.presentToast(err, 'danger');
-      //   },
-      // );
     }
     else if (this.role === 'kart-operator') {
       this.harvestingService.changeField(this.changeFieldFormKart.value)

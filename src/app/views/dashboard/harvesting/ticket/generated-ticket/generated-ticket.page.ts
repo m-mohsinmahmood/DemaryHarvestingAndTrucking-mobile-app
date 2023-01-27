@@ -38,7 +38,6 @@ export class GeneratedTicketPage implements OnInit {
     this._unsubscribeAll.complete();
   }
   initApis(){
-    // this.harvestingService.getTickets();
     this.harvestingService.getJob2();
     this.harvestingService.getTicketById(this.router.getCurrentNavigation().extras.state.ticketId,'ticket');
 

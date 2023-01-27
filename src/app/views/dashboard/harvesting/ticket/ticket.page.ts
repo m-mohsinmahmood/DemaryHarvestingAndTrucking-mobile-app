@@ -1,6 +1,3 @@
-/* eslint-disable @angular-eslint/use-lifecycle-interface */
-/* eslint-disable no-underscore-dangle */
-/* eslint-disable @typescript-eslint/naming-convention */
 import {
   Component,
   ElementRef,
@@ -120,25 +117,7 @@ export class TicketPage implements OnInit {
     });
     this.deliveryTicketReassignForm = this.formbuildr.group({
       truck_driver_id: ['', [Validators.required]],
-      // destination: ['', [Validators.required]],
-      // loaded_miles: ['', [Validators.required]],
-      // field: [''],
-      // split_load_check: [false, [Validators.required]],
-      // kart_scale_weight: ['', [Validators.required]],
-      // delivery_ticket_number: ['', [Validators.required]],
-      // kart_operator_id: ['', [Validators.required]],
-      // truck_driver_company: ['', [Validators.required]],
-      // truck_id: ['', [Validators.required]],
-      // split_load: ['', [Validators.required]],
-      // kart_scale_weight_split: ['', [Validators.required]],
-      // field_load_split: ['', [Validators.required]],
       status: ['sent'],
-      // working_status: ['pending'],
-      // customer_id: [''],
-      // state: [''],
-      // farm_id: [''],
-      // crop_id: [''],
-      // field_id: [''],
     });
     if (!this.isReassign) {
       this.truckDriverSearchSubscription();
@@ -211,11 +190,6 @@ this.deliveryTicketReassignForm.patchValue({
   }
   submit() {
     // navigating
-    // this.router.navigateByUrl('/tabs/home/harvesting/ticket/generated-ticket', {
-      //   state: {
-        //     ticketId: 56565656,
-        //   },
-        // });
         if (!this.isReassign) {
       console.log(this.deliveryTicketForm.value);
       this.harvestingService

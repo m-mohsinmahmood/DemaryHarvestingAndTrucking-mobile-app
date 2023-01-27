@@ -104,6 +104,7 @@ export class StartJobPage implements OnInit {
   goBack() {
     this.location.back();
   }
+
   initForms() {
     this.startJobFormCrew = this.formBuilder.group({
       machineryId: ['', [Validators.required]],
@@ -127,7 +128,7 @@ export class StartJobPage implements OnInit {
       machineryId: [''],
       job_id: [''],
       beginningEngineHours: ['', [Validators.required]],
-      employeeId: ['']
+      employeeId: [''],
     });
     this.startJobFormTruck = this.formBuilder.group({
       workOrderId: [''],
@@ -137,6 +138,7 @@ export class StartJobPage implements OnInit {
       employeeId: ['']
     });
   }
+
   initApis() {
     if (this.role === 'crew-chief') {
       this.harvestingService.getJobSetup('crew-chief', localStorage.getItem('employeeId'));
@@ -144,7 +146,11 @@ export class StartJobPage implements OnInit {
       console.log(localStorage.getItem('employeeId'));
       this.harvestingService.getJobSetup('combine-operator', '', localStorage.getItem('employeeId'));
     } else if (this.role === 'kart-operator') {
-      this.harvestingService.getJobTesting2('kart-operator', 'f4cfa75b-7c14-4b68-a192-00d56c9f2022');
+      this.harvestingService.getJobSetup(
+        'kart-operator',
+        '',
+        localStorage.getItem('employeeId')
+      );
     } else if (this.role === 'truck-driver') {
       this.harvestingService.getJobSetup('truck-driver', '', localStorage.getItem('employeeId'));
     }
@@ -153,43 +159,38 @@ export class StartJobPage implements OnInit {
     this.harvestingService.customer$.subscribe((res) => {
       if (res) {
         this.customerData = res;
-        console.log(this.customerData)
-
+        // console.log(this.customerData);
         // passing customer-id & farm-id to get the specific field
-        this.customerID = this.customerData.customer_job[0].customer_id;
-        this.farmID = this.customerData.customer_job[0].farm_id;
+        this.customerID = this.customerData.customer_job[0]?.customer_id;
+        this.farmID = this.customerData.customer_job[0]?.farm_id;
 
         // passing job id's conditionally for DWR
         if (this.role === 'crew-chief') {
           this.startJobFormCrew.patchValue({
-            job_id: this.customerData.customer_job[0].job_id,
-            field_id: this.customerData.customer_job[0].field_id, // passing to pre-filled
-            workOrderId: this.customerData.customer_job[0].id
+            job_id: this.customerData.customer_job[0]?.job_id,
+            field_id: this.customerData.customer_job[0]?.field_id, // passing to pre-filled
+            workOrderId: this.customerData.customer_job[0]?.id,
           });
-
           // passing field name for pre-filled
-          this.fieldName = this.customerData.customer_job[0].field_name;
-
+          this.fieldName = this.customerData.customer_job[0]?.field_name;
         } else if (this.role === 'kart-operator') {
           this.startJobFormKart.patchValue({
-            job_id: this.customerData.customer_job[0].job_id
+            job_id: this.customerData.customer_job[0]?.id,
+            employeeId: localStorage.getItem('employeeId'),
           });
-
-          this.fieldName = this.customerData.customer_job[0].field_name;
-          console.log('-', this.startJobFormKart.value);
-
+          this.fieldName = this.customerData.customer_job[0]?.field_name;
+          // console.log('-', this.startJobFormKart.value);
         } else if (this.role === 'combine-operator') {
           this.startJobFormCombine.patchValue({
-            field_name: this.customerData.customer_job[0].field_name,
-            field_acres: this.customerData.customer_job[0].field_acres,
-            workOrderId: this.customerData.customer_job[0].id
+            field_name: this.customerData.customer_job[0]?.field_name,
+            field_acres: this.customerData.customer_job[0]?.field_acres,
+            workOrderId: this.customerData.customer_job[0]?.id,
           });
-
         } else if (this.role === 'truck-driver') {
           this.startJobFormTruck.patchValue({
-            workOrderId: this.customerData.customer_job[0].id,
-            crew_chief_id: this.customerData.customer_job[0].crew_chief_name,
-            employeeId: localStorage.getItem("employeeId")
+            workOrderId: this.customerData.customer_job[0]?.id,
+            crew_chief_id: this.customerData.customer_job[0]?.crew_chief_name,
+            employeeId: localStorage.getItem('employeeId'),
           });
         }
       }
@@ -199,10 +200,6 @@ export class StartJobPage implements OnInit {
     this.isLoadingCustomer$ = this.harvestingService.customerLoading$;
   }
   submit() {
-    // console.log(this.startJobFormCrew.value);
-    // console.log(this.startJobFormCombine.value);
-    // console.log(this.startJobFormKart.value);
-    // console.log(this.startJobFormTruck.value);
     // For Crew Chief
     if (localStorage.getItem('role') === 'crew-chief') {
       let data = {
@@ -257,12 +254,21 @@ export class StartJobPage implements OnInit {
 
     // For Kart Operator
     if (localStorage.getItem('role') === 'kart-operator') {
-      this.harvestingService.createBeginingDay(this.startJobFormKart.value, 'harvesting')
+      let data = {
+        machineryId: this.startJobFormKart.get("machineryId").value,
+        employeeId: localStorage.getItem('employeeId'),
+        jobId: this.startJobFormKart.get("job_id").value,
+        beginningEngineHours: this.startJobFormKart.get("beginningEngineHours").value,
+      }
+      // console.log('this.startJobFormKart.value', this.startJobFormKart.value);
+
+      this.harvestingService.createBeginingDay(data, 'harvesting')
         .subscribe(
           (res: any) => {
-            console.log('Response:', res);
+            // console.log('Response:', res);
             if (res.status === 200) {
               this.startJobFormCombine.reset();
+              this.location.back();
               this.toastService.presentToast(res.message, 'success');
             } else {
               console.log('Something happened :)');
