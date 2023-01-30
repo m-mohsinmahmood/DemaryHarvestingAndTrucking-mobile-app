@@ -60,6 +60,26 @@ export class DWRService {
     })
     .pipe(take(1));
   }
+  getMainenanceRepairTicketById(main_repair_ticket_id: any){
+    let params = new HttpParams();
+    params = params.set('ticket_record_id',main_repair_ticket_id);
+    params = params.set('entity','completedTicket');
+
+    return this.httpClient
+    .get<any>('http://localhost:7071/api/main_repair', {
+      params,
+    })
+    .pipe(take(1));
+  }
+  gettrainingRecordById(training_record_id: any){
+    let params = new HttpParams();
+    params = params.set('record_id',training_record_id);
+    return this.httpClient
+    .get<any>('http://localhost:7071/api/training', {
+      params,
+    })
+    .pipe(take(1));
+  }
   getMonthDWR(employeeId: string, month: any, year: any) {
     let params = new HttpParams();
     params = params.set('employeeId', employeeId);

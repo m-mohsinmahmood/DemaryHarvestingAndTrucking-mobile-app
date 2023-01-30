@@ -54,12 +54,32 @@ export class DetailPage implements OnInit {
       });
   }
   getWordOrderById(work_order_id: any){
-    console.log('Work Order Called')
+    console.log('Work Order Called');
     this.dwrService
       .getWordOrderById(work_order_id)
       .subscribe((res) => {
         this.loaderModel.next(true);
         this.data = res;
+        this.loaderModel.next(false);
+      });
+  }
+  getMainenanceRepairTicketById(main_repair_ticket_id: any){
+    this.dwrService
+      .getMainenanceRepairTicketById(main_repair_ticket_id)
+      .subscribe((res) => {
+        console.log('res::',res);
+        this.loaderModel.next(true);
+        this.data = res[0];
+        this.loaderModel.next(false);
+      });
+  }
+  gettrainingRecordById(training_record_id: any){
+    this.dwrService
+      .gettrainingRecordById(training_record_id)
+      .subscribe((res) => {
+        console.log('res::',res);
+        this.loaderModel.next(true);
+        this.data = res[0];
         this.loaderModel.next(false);
       });
   }

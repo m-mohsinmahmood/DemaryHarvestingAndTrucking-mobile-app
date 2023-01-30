@@ -139,6 +139,8 @@
         <ion-text class="text-sm font-medium font-Lato  mt-2">Meeting with customer to plan upcoming job.</ion-text>
       </div>
     </ion-card-content>
+
+
     <ion-grid>
       <ion-row>
         <ion-col size="12">
@@ -760,7 +762,149 @@
           <ion-text class="text-636366 font-Lato font-medium text-base">Total Work Hours:</ion-text>
           <ion-text class="text-black font-Lato font-bold text-base">8</ion-text>
         </div>
+        <ion-button id="open-main-repair-modal" expand="block" class="text-white" (click)="getMainenanceRepairTicketById(workHistoryData.main_repair_ticket_id)">View Job</ion-button>
       </ion-card-content>
+       <!-- MAINTENANCE & REPAIR MODEL STARTS -->
+    <ion-modal #modal trigger="open-main-repair-modal" [initialBreakpoint]="0.75" [breakpoints]="[0, 0.25, 0.5, 0.75]">
+      <ng-template>
+        <ion-content>
+          <ion-card>
+            <ion-card-header class="bg-3D8AA4">
+              <ion-card-title class="flex justify-center text-2xl font-Lato text-white">Maintenence Job</ion-card-title>
+            </ion-card-header>
+            <ion-card-content *ngIf="(loaderModel | async) === false">
+              <ion-grid >
+                <ion-row>
+                  <ion-col size="12" class="flex justify-center font-Lato text-black font-bold font-14">
+                    Ticket Id
+                  </ion-col>
+                  <ion-col size="12" class="flex justify-center">
+                    <p>{{data?.repairTicketId}}</p>
+                  </ion-col>
+                </ion-row>
+                <!-- First Row -->
+                <ion-row class="mb-1 h-16">
+                  <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+                    <p class="font-Lato text-black font-bold font-14">Supervisor</p>
+                    <span class="font-Lato font-14 text-start">{{data?.assignedBy}}</span>
+                  </ion-col>
+                  <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+                    <p class="font-Lato text-black font-bold font-14">Assignee</p>
+                    <span class="font-Lato font-14 text-start">{{data?.assignedTo}}</span>
+                  </ion-col>
+                </ion-row>
+
+                <!-- Second Row -->
+                <ion-row class="mb-1 h-16">
+                  <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+                    <p class="font-Lato text-black font-bold font-14">Category</p>
+                    <span class="font-Lato font-14">{{data?.issueCategory}}</span>
+                  </ion-col>
+                  <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+                    <p class="font-Lato text-black font-bold font-14">Severity</p>
+                    <span class="font-Lato font-14 text-left">{{data?.severityType}}</span>
+                  </ion-col>
+                </ion-row>
+
+                  <!-- Third Row -->
+                  <ion-row class="mb-1 h-16">
+                    <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+                      <p class="font-Lato text-black font-bold font-14">City</p>
+                      <span class="font-Lato font-14">{{data?.city}}</span>
+                    </ion-col>
+                    <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+                      <p class="font-Lato text-black font-bold font-14">State</p>
+                      <span class="font-Lato font-14">{{data?.state}}</span>
+                    </ion-col>
+                  </ion-row>
+
+                  <!-- Fourth Row -->
+                  <ion-row class="mb-1 h-16">
+                    <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+                      <p class="font-Lato text-black font-bold font-14">Summary</p>
+                      <span class="font-Lato font-14">{{data?.summary}}</span>
+                    </ion-col>
+                    <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+                      <p class="font-Lato text-black font-bold font-14">Description</p>
+                      <span class="font-Lato font-14">{{data?.description}}</span>
+                    </ion-col>
+                  </ion-row>
+
+                  <!-- FifthRow -->
+                  <ion-row class="mb-1 h-16">
+                    <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+                      <p class="font-Lato text-black font-bold font-14">Ticket Type</p>
+                      <span class="font-Lato font-14">{{data?.ticketType}}</span>
+                    </ion-col>
+                    <!-- <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+                      <p class="font-Lato text-black font-bold font-14">Destination</p>
+                      <span class="font-Lato font-14">{{'ticketData.destination'}}</span>
+                    </ion-col> -->
+                  </ion-row>
+              </ion-grid>
+              <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="modal.dismiss()">Exit</ion-button>
+            </ion-card-content>
+            <ion-card-content *ngIf="(loaderModel | async) === true">
+              <ion-grid>
+                <ion-row>
+                  <ion-col size="12" class="flex justify-center font-Lato text-black font-bold font-14">
+                    Ticket Id
+                  </ion-col>
+                  <ion-col size="12" class="flex justify-center">
+                   <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+                  </ion-col>
+                </ion-row>
+                <!-- First Row -->
+                <ion-row class="mb-1 h-16">
+                  <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+                    <p class="font-Lato text-black font-bold font-14">Supervisor</p>
+                    <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+                  </ion-col>
+                  <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+                    <p class="font-Lato text-black font-bold font-14">Assigned To</p>
+                    <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+                  </ion-col>
+                </ion-row>
+
+                <!-- Second Row -->
+                <ion-row class="mb-1 h-16">
+                  <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+                    <p class="font-Lato text-black font-bold font-14">Category</p>
+                    <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+                  </ion-col>
+                  <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+                    <p class="font-Lato text-black font-bold font-14">Severity</p>
+                    <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+                  </ion-col>
+                </ion-row>
+
+                  <!-- Third Row -->
+                  <ion-row class="mb-1 h-16">
+                    <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+                      <p class="font-Lato text-black font-bold font-14">City</p>
+                      <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+                    </ion-col>
+                    <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+                      <p class="font-Lato text-black font-bold font-14">State</p>
+                      <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+                    </ion-col>
+                  </ion-row>
+
+                  <!-- Fourth Row -->
+                  <ion-row class="mb-1 h-16">
+                    <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+                      <p class="font-Lato text-black font-bold font-14">Ticket Type</p>
+                      <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+                    </ion-col>
+                  </ion-row>
+
+              </ion-grid>
+            </ion-card-content>
+          </ion-card>
+        </ion-content>
+      </ng-template>
+    </ion-modal>
+ <!-- MODEL ENDS -->
     </div>
 
     <!-- FARMING -->
@@ -946,6 +1090,190 @@
  <!-- MODEL ENDS -->
 </div>
     </div>
+        <!-- TRAINING -->
+        <div *ngIf="(loading | async) === false">
+          <ion-card-content class="flex flex-col justify-between" *ngIf="workHistoryData?.dwr_type === 'training'">
+            <div class="flex justify-start items-center my-1">
+              <ion-text
+                class="bg-81809F bg-opacity-20 text-81809F text-xs rounded-md ion-text-uppercase border-2 border-81809F px-2 py-1">Training</ion-text>
+            </div>
+            <div>
+              <ion-grid class="pl-0">
+                <ion-row>
+                  <ion-col size="6" class="flex flex-col items-start pl-0">
+                    <ion-text class="text-sm font-medium font-Lato">Login-In</ion-text>
+                    <ion-text class="text-sm font-semibold font-Lato text-black mt-2">08:00 AM</ion-text>
+                  </ion-col>
+                  <ion-col size="6" class="flex flex-col items-end pl-0">
+                    <ion-text class="text-sm font-medium font-Lato">Login-Out</ion-text>
+                    <ion-text class="text-sm font-semibold font-Lato text-black mt-2">04:00 AM</ion-text>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </div>
+            <div>
+              <ion-grid class="pl-0">
+                <ion-row>
+                  <ion-col size="6" class="flex flex-col items-start pl-0">
+                    <ion-text class="text-sm font-medium font-Lato">Total Hours</ion-text>
+                    <ion-text class="text-sm font-semibold font-Lato text-black mt-2">5</ion-text>
+                  </ion-col>
+                  <ion-col size="6" class="flex flex-col items-end pl-0">
+                    <ion-text class="text-sm font-medium font-Lato">State</ion-text>
+                    <ion-text class="text-sm font-semibold font-Lato text-black mt-2">Arizona</ion-text>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </div>
+            <div class="flex flex-col items-start ion-text-start ">
+              <ion-text class="text-sm font-semibold font-Lato text-black">Notes</ion-text>
+              <ion-text class="text-sm font-medium font-Lato  mt-2">Meeting with customer to plan upcoming job.</ion-text>
+            </div>
+            <div class="flex justify-between items-center bg-bec1be bg-opacity-20 py-5 px-3 mt-2">
+              <ion-text class="text-636366 font-Lato font-medium text-base">Total Work Hours:</ion-text>
+              <ion-text class="text-black font-Lato font-bold text-base">8</ion-text>
+            </div>
+            <ion-button id="open-training-modal" expand="block" class="text-white" (click)="gettrainingRecordById(workHistoryData.training_record_id)">View Job</ion-button>
+          </ion-card-content>
+           <!-- TRAINING MODEL STARTS -->
+        <ion-modal #modal trigger="open-training-modal" [initialBreakpoint]="0.75" [breakpoints]="[0, 0.25, 0.5, 0.75]">
+          <ng-template>
+            <ion-content>
+              <ion-card>
+                <ion-card-header class="bg-3D8AA4">
+                  <ion-card-title class="flex justify-center text-2xl font-Lato text-white">Training (Digital Form)</ion-card-title>
+                </ion-card-header>
+                <ion-card-content *ngIf="(loaderModel | async) === false">
+                  <ion-grid >
+                    <ion-row>
+                      <ion-col size="12" class="flex justify-center font-Lato text-black font-bold font-14">
+                        Training Record Id
+                      </ion-col>
+                      <ion-col size="12" class="flex justify-center">
+                        <p>{{data?.id}}</p>
+                      </ion-col>
+                    </ion-row>
+                    <!-- First Row -->
+                    <ion-row class="mb-1 h-16">
+                      <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+                        <p class="font-Lato text-black font-bold font-14">Engine/Compartment</p>
+                        <span class="font-Lato font-14 text-start">{{data?.percentageEngineCompartment}}%</span>
+                      </ion-col>
+                      <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+                        <p class="font-Lato text-black font-bold font-14">In Cab</p>
+                        <span class="font-Lato font-14 text-start">{{data?.percentageInCab}}%</span>
+                      </ion-col>
+                    </ion-row>
+
+                    <!-- Second Row -->
+                    <ion-row class="mb-1 h-16">
+                      <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+                        <p class="font-Lato text-black font-bold font-14">Vehicle/External</p>
+                        <span class="font-Lato font-14">{{data?.percentageVehicleExternal}}%</span>
+                      </ion-col>
+                      <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+                        <p class="font-Lato text-black font-bold font-14">Coupling</p>
+                        <span class="font-Lato font-14 text-left">{{data?.percentageCoupling}}%</span>
+                      </ion-col>
+                    </ion-row>
+
+                      <!-- Third Row -->
+                      <ion-row class="mb-1 h-16">
+                        <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+                          <p class="font-Lato text-black font-bold font-14">Suspension</p>
+                          <span class="font-Lato font-14">{{data?.percentageSuspension}}</span>
+                        </ion-col>
+                        <!-- <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+                          <p class="font-Lato text-black font-bold font-14">State</p>
+                          <span class="font-Lato font-14">{{data?.state}}</span>
+                        </ion-col> -->
+                      </ion-row>
+
+                      <!-- Fourth Row -->
+                      <!-- <ion-row class="mb-1 h-16">
+                        <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+                          <p class="font-Lato text-black font-bold font-14">Summary</p>
+                          <span class="font-Lato font-14">{{data?.summary}}</span>
+                        </ion-col>
+                        <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+                          <p class="font-Lato text-black font-bold font-14">Description</p>
+                          <span class="font-Lato font-14">{{data?.description}}</span>
+                        </ion-col>
+                      </ion-row> -->
+
+                      <!-- FifthRow -->
+                      <!-- <ion-row class="mb-1 h-16">
+                        <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+                          <p class="font-Lato text-black font-bold font-14">Ticket Type</p>
+                          <span class="font-Lato font-14">{{data?.ticketType}}</span>
+                        </ion-col>
+                      </ion-row> -->
+                  </ion-grid>
+                  <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="modal.dismiss()">Exit</ion-button>
+                </ion-card-content>
+                <ion-card-content *ngIf="(loaderModel | async) === true">
+                  <ion-grid>
+                    <ion-row>
+                      <ion-col size="12" class="flex justify-center font-Lato text-black font-bold font-14">
+                        Ticket Id
+                      </ion-col>
+                      <ion-col size="12" class="flex justify-center">
+                       <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+                      </ion-col>
+                    </ion-row>
+                    <!-- First Row -->
+                    <ion-row class="mb-1 h-16">
+                      <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+                        <p class="font-Lato text-black font-bold font-14">Supervisor</p>
+                        <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+                      </ion-col>
+                      <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+                        <p class="font-Lato text-black font-bold font-14">Assigned To</p>
+                        <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+                      </ion-col>
+                    </ion-row>
+
+                    <!-- Second Row -->
+                    <ion-row class="mb-1 h-16">
+                      <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+                        <p class="font-Lato text-black font-bold font-14">Category</p>
+                        <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+                      </ion-col>
+                      <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+                        <p class="font-Lato text-black font-bold font-14">Severity</p>
+                        <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+                      </ion-col>
+                    </ion-row>
+
+                      <!-- Third Row -->
+                      <ion-row class="mb-1 h-16">
+                        <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+                          <p class="font-Lato text-black font-bold font-14">City</p>
+                          <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+                        </ion-col>
+                        <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+                          <p class="font-Lato text-black font-bold font-14">State</p>
+                          <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+                        </ion-col>
+                      </ion-row>
+
+                      <!-- Fourth Row -->
+                      <ion-row class="mb-1 h-16">
+                        <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+                          <p class="font-Lato text-black font-bold font-14">Ticket Type</p>
+                          <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+                        </ion-col>
+                      </ion-row>
+
+                  </ion-grid>
+                </ion-card-content>
+              </ion-card>
+            </ion-content>
+          </ng-template>
+        </ion-modal>
+     <!-- MODEL ENDS -->
+        </div>
+
 
     <!-- <ion-grid>
       <ion-row>

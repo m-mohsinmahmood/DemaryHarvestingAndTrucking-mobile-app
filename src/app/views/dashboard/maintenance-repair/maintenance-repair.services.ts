@@ -124,6 +124,16 @@ export class MaintenanceRepairService {
     })
     .pipe(take(1));
   }
+  createDWR(employeeId: any, main_repair_ticket_id){
+    const data = {
+      dwr_type: 'main-repair',
+      main_repair_ticket_id,
+      employeeId
+    };
+    return this.httpClient
+      .post<any>(`http://localhost:7071/api/dwr`, data)
+      .pipe(take(1));
+  }
 
 
 }

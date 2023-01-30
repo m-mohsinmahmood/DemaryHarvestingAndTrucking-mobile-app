@@ -110,5 +110,17 @@ export class TrainingService {
     })
     .pipe(take(1));
   }
+  createDWR(employeeId: any, training_record_id: any,evaluation_type,evaluation_form){
+    const data = {
+      dwr_type: 'training',
+      training_record_id,
+      employeeId,
+      evaluation_type,
+      evaluation_form
+    };
+    return this.httpClient
+      .post<any>(`http://localhost:7071/api/dwr`, data)
+      .pipe(take(1));
+  }
 
 }

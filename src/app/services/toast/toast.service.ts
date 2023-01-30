@@ -14,11 +14,12 @@ export class ToastService {
     duration?: number
   ) {
     const toast = await this.toastController.create({
-      header: header,
+      header,
       message: msg,
-      position: position,
+      position,
       duration: duration ? duration : 5000,
-      color: color,
+      color,
+      cssClass:'custom-toast'
     });
     toast.present();
   }

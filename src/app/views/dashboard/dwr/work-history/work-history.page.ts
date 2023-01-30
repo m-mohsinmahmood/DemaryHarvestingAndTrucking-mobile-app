@@ -67,9 +67,9 @@ export class WorkHistoryPage implements OnInit {
     });
   }
   getDWRByDate(){
-    this.dwrs$ =this.dwrService.getDWR(this.kart_operator_id,this.date);
+    this.dwrs$ =this.dwrService.getDWR(localStorage.getItem('employeeId'),this.date);
   }
   getDWRByMonth(){
-    this.monthDWRS$ = this.dwrService.getMonthDWR(this.kart_operator_id,this.monthValue,this.yearValue);
+    this.monthDWRS$ = this.dwrService.getMonthDWR(localStorage.getItem('employeeId'),this.monthValue,this.yearValue);
   }
 }

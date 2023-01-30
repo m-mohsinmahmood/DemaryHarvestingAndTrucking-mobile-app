@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastService } from 'src/app/services/toast/toast.service';
 import { TrainingService } from '../../../../training.service';
 
@@ -15,6 +15,7 @@ export class InCabPage implements OnInit {
   buffer = 1;
   progress = 0.2;
   result: any = 0;
+  training_record_id: any;
 
   // trainer id
  trainer_id = '4b84234b-0b74-49a2-b3c7-d3884f5f6013';
@@ -23,7 +24,9 @@ export class InCabPage implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     private trainingService: TrainingService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private route: ActivatedRoute,
+
     ) {}
 
   ngOnInit() {
@@ -113,6 +116,10 @@ export class InCabPage implements OnInit {
       }
       this.result = Math.round((sum / 18) * 100);
     });
+
+    this.route.queryParams.subscribe((params)=>{
+      this.training_record_id = params.training_record_id;
+    });
   }
   submit(){
       //patching value
@@ -132,9 +139,11 @@ export class InCabPage implements OnInit {
           );
 
           // navigating
-          this.router.navigateByUrl(
-              '/tabs/home/training/trainer/pre-trip/digital-form/in-cab/vehicle-external'
-        );
+        this.router.navigate(['/tabs/home/training/trainer/pre-trip/digital-form/in-cab/vehicle-external'],{
+          queryParams:{
+            training_record_id: this.training_record_id
+          }
+        });
         } else {
           console.log('Something happened :)');
           this.toastService.presentToast(res.mssage, 'danger');

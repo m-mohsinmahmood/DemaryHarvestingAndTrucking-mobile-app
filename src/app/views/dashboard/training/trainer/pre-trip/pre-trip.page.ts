@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { ToastService } from 'src/app/services/toast/toast.service';
@@ -69,7 +69,9 @@ export class PreTripPage implements OnInit {
     private router: Router,
     private trainingService: TrainingService,
     private renderer: Renderer2,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private route: ActivatedRoute,
+
   ) {
     this.renderer.listen('window', 'click', (e) => {
       if (e.target !== this.traineeInput.nativeElement) {
@@ -192,9 +194,11 @@ export class PreTripPage implements OnInit {
           );
 
           // navigating
-          this.router.navigateByUrl(
-      '/tabs/home/training/trainer/pre-trip/digital-form'
-    );
+          this.router.navigate(['/tabs/home/training/trainer/pre-trip/digital-form'],{
+            queryParams:{
+              training_record_id: res.id.training_record_id
+            }
+          });
         } else {
           console.log('Something happened :)');
           this.toastService.presentToast(res.mssage, 'danger');
@@ -419,9 +423,14 @@ if (
   !this.data.is_coupling_started &&
   !this.data.is_vehicle_external_started
 ) {
-  this.router.navigateByUrl(
-    '/tabs/home/training/trainer/pre-trip/digital-form'
-  );
+  // this.router.navigateByUrl(
+  //   '/tabs/home/training/trainer/pre-trip/digital-form'
+  // );
+  this.router.navigate(['/tabs/home/training/trainer/pre-trip/digital-form'],{
+    queryParams:{
+      training_record_id: this.data.id
+    }
+  });
 }
 // In Cab
 else if (
@@ -432,9 +441,14 @@ else if (
   !this.data.is_coupling_started &&
   !this.data.is_vehicle_external_started
 ) {
-  this.router.navigateByUrl(
-    '/tabs/home/training/trainer/pre-trip/digital-form/in-cab'
-  );
+  // this.router.navigateByUrl(
+  //   '/tabs/home/training/trainer/pre-trip/digital-form/in-cab'
+  // );
+  this.router.navigate(['/tabs/home/training/trainer/pre-trip/digital-form/in-cab'],{
+    queryParams:{
+      training_record_id: this.data.id
+    }
+  });
 }
 // Vehicle/External
 else if (
@@ -446,9 +460,14 @@ else if (
   !this.data.is_vehicle_external_started
 ) {
   console.log('Vehicle/External');
-  this.router.navigateByUrl(
-    '/tabs/home/training/trainer/pre-trip/digital-form/in-cab/vehicle-external'
-  );
+  // this.router.navigateByUrl(
+  //   '/tabs/home/training/trainer/pre-trip/digital-form/in-cab/vehicle-external'
+  // );
+  this.router.navigate(['/tabs/home/training/trainer/pre-trip/digital-form/in-cab/vehicle-external'],{
+    queryParams:{
+      training_record_id: this.data.id
+    }
+  });
 }
 // Coupling
 else if (
@@ -459,9 +478,14 @@ else if (
   !this.data.is_coupling_started &&
   !this.data.is_suspension_brakes_started
 ) {
-  this.router.navigateByUrl(
-    '/tabs/home/training/trainer/pre-trip/digital-form/in-cab/vehicle-external/coupling'
-  );
+  // this.router.navigateByUrl(
+  //   '/tabs/home/training/trainer/pre-trip/digital-form/in-cab/vehicle-external/coupling'
+  // );
+  this.router.navigate(['/tabs/home/training/trainer/pre-trip/digital-form/in-cab/vehicle-external/coupling'],{
+    queryParams:{
+      training_record_id: this.data.id
+    }
+  });
 }
 // Suspension & Brakes
 else if (
@@ -472,9 +496,14 @@ else if (
   this.data.is_coupling_started &&
   !this.data.is_suspension_brakes_started
 ) {
-  this.router.navigateByUrl(
-    '/tabs/home/training/trainer/pre-trip/digital-form/in-cab/vehicle-external/coupling/suspension-brakes'
-  );
+  // this.router.navigateByUrl(
+  //   '/tabs/home/training/trainer/pre-trip/digital-form/in-cab/vehicle-external/coupling/suspension-brakes'
+  // );
+  this.router.navigate(['/tabs/home/training/trainer/pre-trip/digital-form/in-cab/vehicle-external/coupling/suspension-brakes'],{
+    queryParams:{
+      training_record_id: this.data.id
+    }
+  });
 }
   }
 }

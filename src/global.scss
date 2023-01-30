@@ -31,3 +31,6 @@ button {
   border-bottom-style: inherit !important;
   border-left-style: inherit !important;
 }
+ion-toast.custom-toast::part(message) {
+  color: rgb(255, 255, 255);
+}

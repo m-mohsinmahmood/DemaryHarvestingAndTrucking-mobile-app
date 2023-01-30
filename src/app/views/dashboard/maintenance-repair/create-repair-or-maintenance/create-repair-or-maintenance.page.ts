@@ -383,7 +383,7 @@ export class CreateRepairORMaintenancePage implements OnInit {
         (res) => {
           console.log('RES:', res);
           if (res.status === 200) {
-            // this.router.navigateByUrl('/tabs/home/training/trainer');
+            this.router.navigateByUrl('/tabs/home/maintenance-repair');
             this.toastService.presentToast(
               'Ticket has been generated',
               'success'

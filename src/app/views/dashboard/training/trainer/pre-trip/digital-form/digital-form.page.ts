@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Route, Router } from '@angular/router';
 import { TrainingService } from '../../../training.service';
 import { ToastService } from 'src/app/services/toast/toast.service';
 
@@ -16,30 +16,23 @@ export class DigitalFormPage implements OnInit {
   buffer = 1;
   progress = 0;
   result: any = 0;
-
+  training_record_id: any;
    // trainer id
  trainer_id = '4b84234b-0b74-49a2-b3c7-d3884f5f6013';
 
-  // selectAray: any[] = [
-  //   'engine/compartment',
-  //   'incab',
-  //   'vehicle/external',
-  //   'coupling',
-  //   'suspension/brakes',
-  // ];
-  // indexArray: any[] = [0.2, 0.4, 0.6, 0.8, 1];
-  // text=0;
-  // increment = 0;
-  // increment1 = 0;
-
   constructor(private formBuilder: FormBuilder,
     private router:  Router,
+    private route: ActivatedRoute,
     private trainingService: TrainingService,
     private toastService: ToastService) { }
 
   ngOnInit() {
      // passing the select value for Engine/Compartment to render when page loads
     this.value = 'engine/compartment';
+
+    this.route.queryParams.subscribe((params)=>{
+      this.training_record_id = params.training_record_id;
+    });
 
     this.preTripForm = this.formBuilder.group({
       //Engine/Compartment
@@ -141,9 +134,11 @@ export class DigitalFormPage implements OnInit {
           );
 
           // navigating
-          this.router.navigateByUrl(
-              '/tabs/home/training/trainer/pre-trip/digital-form/in-cab'
-        );
+        this.router.navigate([ '/tabs/home/training/trainer/pre-trip/digital-form/in-cab'],{
+          queryParams:{
+            training_record_id: this.training_record_id
+          }
+        });
         } else {
           console.log('Something happened :)');
           this.toastService.presentToast(res.mssage, 'danger');

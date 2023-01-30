@@ -401,7 +401,7 @@ export class TicketAssignedToPage implements OnInit {
         (res) => {
           console.log('RES:', res);
           if (res.status === 200) {
-            this.router.navigateByUrl('/tabs/home/maintenance-repair/assign-tickets');
+            // this.router.navigateByUrl('/tabs/home/maintenance-repair/assign-tickets');
             this.toastService.presentToast(
               'Ticket has been completed',
               'success'
@@ -416,6 +416,8 @@ export class TicketAssignedToPage implements OnInit {
           this.toastService.presentToast(err.mssage, 'danger');
         }
       );
+      // creating DWR
+      this.createDWR();
 
   }
   continue(){
@@ -441,6 +443,28 @@ export class TicketAssignedToPage implements OnInit {
           this.toastService.presentToast(err.mssage, 'danger');
         }
       );
-
   }
+  createDWR(){
+    this.maintenanceRepairService
+     .createDWR(localStorage.getItem('employeeId'), this.ticketRecordId)
+     .subscribe(
+       (res) => {
+         console.log('RES:', res);
+         if (res.status === 200) {
+          this.router.navigateByUrl('/tabs/home/maintenance-repair');
+           // this.toastService.presentToast(
+           //   'Ticket has been completed',
+           //   'success'
+           // );
+         } else {
+           console.log('Something happened :)');
+           this.toastService.presentToast(res.mssage, 'danger');
+         }
+       },
+       (err) => {
+         console.log('ERROR::', err);
+         this.toastService.presentToast(err.mssage, 'danger');
+       }
+     );
+ }
 }
