@@ -484,4 +484,42 @@ export class HarvestingService {
       .post(`http://localhost:7071/api/harvesting-ticket`, raw)
       .pipe(take(1));
   }
+
+  kartOperatorGetTickets(kartOperatorId, ticketStatus) {
+    let params = new HttpParams();
+    params = params.set('kartOperatorId', kartOperatorId);
+    params = params.set('ticketStatus', ticketStatus);
+
+    try {
+      return this._httpClient
+        .get<any>(`http://localhost:7071/api/harvesting-ticket`, {
+          params,
+        })
+        .pipe(take(1))
+        .subscribe((res) => {
+          if (ticketStatus == 'sent') {
+            console.log('res', res);
+            this.sentTicketLoading.next(true);
+            this.sentTicket.next(res);
+            this.sentTicketLoading.next(false);
+          } else if (ticketStatus == 'pending') {
+            this.pendingTicketLoading.next(true);
+            this.pendingTicket.next(res);
+            this.pendingTicketLoading.next(false);
+          } else {
+            this.verifiedTicketLoading.next(true);
+            this.verifiedTicket.next(res);
+            this.verifiedTicketLoading.next(false);
+          }
+        });
+    } catch (error) {
+      console.log('error', error);
+    }
+  }
+
+  kartOperatorVerifyTickets(payload) {
+    return this._httpClient
+      .patch(`http://localhost:7071/api/harvesting-ticket`, payload)
+      .pipe(take(1));
+  }
 }
