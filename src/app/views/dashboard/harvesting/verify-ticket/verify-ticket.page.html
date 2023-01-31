@@ -82,7 +82,7 @@
                       <span class="font-Lato bg-0165c31a ml-1 h-5 rounded-xl px-2 text-sm text-black"> {{pendingTicket.delivery_ticket_number}}</span>
                     </div>
                     <div class="flex justify-between">
-                      <button class="bg-FFCD29 font-Lato ml-2 mt-1 rounded-md px-2 py-0 text-sm text-white" (click)="navigate(pendingTicket.delivery_ticket_number)">Verify</button>
+                      <button class="bg-FFCD29 font-Lato ml-2 mt-1 rounded-md px-2 py-0 text-sm text-white" (click)="navigate(pendingTicket)">Verify</button>
                       <button class="bg-project-green font-Lato ml-2 mt-1 rounded-md px-2 py-0 text-sm text-white" (click)="reassignTicket(pendingTicket.delivery_ticket_number)">Reassign</button>
                     </div>
                   </div>

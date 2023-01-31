@@ -18,7 +18,7 @@
         </ion-col>
         <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
           <p class="font-Lato text-black font-bold font-14">Customer Name</p>
-          <span class="font-Lato font-14">{{ticketData.customer_name}}</span>
+          <span class="font-Lato font-14">{{ticket.customerName}}</span>
         </ion-col>
       </ion-row>
 
@@ -26,11 +26,11 @@
       <ion-row class="mb-1 h-16">
         <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
           <p class="font-Lato text-black font-bold font-14">Farm</p>
-          <span class="font-Lato font-14">{{ticketData.farm_name}}</span>
+          <span class="font-Lato font-14">{{ticket.farm_name}}</span>
         </ion-col>
         <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
           <p class="font-Lato text-black font-bold font-14">Crop</p>
-          <span class="font-Lato font-14 text-left">{{ticketData.crop_name}}</span>
+          <span class="font-Lato font-14 text-left">{{ticket.crop_name}}</span>
         </ion-col>
       </ion-row>
 
@@ -38,23 +38,23 @@
         <ion-row class="mb-1 h-16">
           <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
             <p class="font-Lato text-black font-bold font-14">Field</p>
-            <span class="font-Lato font-14">{{ticketData.field_name}}</span>
+            <span class="font-Lato font-14">{{ticket.field_name}}</span>
           </ion-col>
           <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
             <p class="font-Lato text-black font-bold font-14">Truck ID</p>
-            <span class="font-Lato font-14">{{ticketData.truck_id}}</span>
+            <span class="font-Lato font-14">{{ticket.truck_id}}</span>
           </ion-col>
         </ion-row>
 
         <!-- Fourth Row -->
         <ion-row class="mb-1 h-16">
           <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
-            <p class="font-Lato text-black font-bold font-14">Truck Company</p>
-            <span class="font-Lato font-14">{{ticketData.truck_driver_company}}</span>
+            <p class="font-Lato text-black font-bold font-14">Truck Driver Name</p>
+            <span class="font-Lato font-14">{{ticket.truck_driver_name}}</span>
           </ion-col>
           <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
             <p class="font-Lato text-black font-bold font-14">Destination</p>
-            <span class="font-Lato font-14">{{ticketData.destination}}</span>
+            <span class="font-Lato font-14">{{ticket.destination}}</span>
           </ion-col>
         </ion-row>
 
@@ -62,18 +62,18 @@
         <ion-row class="mb-1 h-16">
           <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
             <p class="font-Lato text-black font-bold font-14">Loaded Miles</p>
-            <span class="font-Lato font-14">{{ticketData.loaded_miles}}</span>
+            <span class="font-Lato font-14">{{ticket.loaded_miles}}</span>
           </ion-col>
           <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
             <p class="font-Lato text-black font-bold font-14">Kart Operator</p>
-            <span class="font-Lato font-14">{{ticketData.kart_first_name}} {{ticketData.kart_last_name}}</span>
+            <span class="font-Lato font-14">{{ticket.kart_operator_name}}</span>
           </ion-col>
         </ion-row>
 
         <ion-row class="mb-1 h-16">
           <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
             <p class="font-Lato text-black font-bold font-14">Driver</p>
-            <span class="font-Lato font-14">{{ticketData.first_name}} {{ticketData.last_name}}</span>
+            <span class="font-Lato font-14">{{ticket.truck_driver_name}}</span>
           </ion-col>
           <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
             <p class="font-Lato text-black font-bold font-14">Scale Ticket Weight</p>
@@ -93,7 +93,7 @@
         <ion-row class="mb-1 h-16">
           <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
             <p class="font-Lato text-black font-bold font-14">Kart Scale Weight</p>
-            <span class="font-Lato font-14">3422</span>
+            <span class="font-Lato font-14">{{ticket.kart_scale_weight}}</span>
           </ion-col>
 
         </ion-row>

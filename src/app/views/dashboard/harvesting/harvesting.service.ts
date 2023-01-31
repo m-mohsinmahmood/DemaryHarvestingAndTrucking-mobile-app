@@ -477,11 +477,9 @@ export class HarvestingService {
   }
 
   kartOperatorCreateDeliveryTicket(operation, raw) {
-    let params = new HttpParams();
-    params = params.set('operation', operation);
-
+    let appendedObject = { ...raw, operation: 'createDeliveryTicket' };
     return this._httpClient
-      .post(`http://localhost:7071/api/harvesting-ticket`, raw)
+      .post(`http://localhost:7071/api/havesting-kart-operator`, appendedObject)
       .pipe(take(1));
   }
 

@@ -94,11 +94,12 @@ export class VerifyTicketPage implements OnInit {
   }
 
   navigate(ticket) {
+    let stringifyTicket = JSON.stringify(ticket);
     this.router.navigateByUrl(
       '/tabs/home/harvesting/verify-ticket/generated-ticket',
       {
         state: {
-          ticketId: ticket,
+          ticket: stringifyTicket,
         },
       }
     );

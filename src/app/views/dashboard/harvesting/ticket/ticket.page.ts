@@ -239,11 +239,14 @@ export class TicketPage implements OnInit {
       console.log('deliveryTicketForm', this.deliveryTicketForm.value);
       this.harvestingService.kartOperatorCreateDeliveryTicket('createDeliveryTicket',this.deliveryTicketForm.value)
         .subscribe((response: any) => {
-            console.log('response', response);
+            // console.log('response', response);
             if (response?.status === 200) {
               // this.deliveryTicketForm.reset();
               this.trick_driver_name = '';
-              this.toastService.presentToast(response.message, 'success');
+              this.toastService.presentToast(
+                'Delivery Ticket has been created.',
+                'success'
+              );
               this.goBack();
             } else {
               console.log('Something happened :)');
