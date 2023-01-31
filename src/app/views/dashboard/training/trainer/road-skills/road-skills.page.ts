@@ -18,6 +18,7 @@ export class RoadSkillsPage implements OnInit {
 
   @ViewChild('traineeInput') traineeInput: ElementRef;
   @ViewChild('supervisorInput') supervisorInput: ElementRef;
+  @ViewChild('truckInput') truckInput: ElementRef;
 
   upload_1 = false;
   upload_2 = false;
@@ -59,6 +60,15 @@ export class RoadSkillsPage implements OnInit {
     isSupervisorSelected: any = true;
     //#endregion
 
+     //#region truck drop-down variables
+     allTrucks: Observable<any>;
+     truckSearch$ = new Subject();
+     truck_name: any = '';
+     truckSearchValue: any = '';
+     truckUL: any = false;
+     isTruckSelected: any = true;
+     //#endregion
+
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
   constructor(private formBuilder: FormBuilder,
@@ -75,14 +85,15 @@ export class RoadSkillsPage implements OnInit {
           this.allSupervisors = of([]);
           this.supervisorUL = false; // to hide the UL
         }
+        if (e.target !== this.truckInput.nativeElement) {
+          this.allTrucks = of([]);
+          this.truckUL = false; // to hide the UL
+        }
       });
      }
 
   ngOnInit() {
-     // passing the select value for Paper Form to render when page loads
-    //  this.value = 'paper-form';
 
-    // console.log('file:',file);
     this.roadTestForm = this.formBuilder.group({
       evaluation_form: ['',[Validators.required]],
       trainer_id: ['',[Validators.required]],
@@ -112,6 +123,8 @@ export class RoadSkillsPage implements OnInit {
      // supervisor subscription
      this.traineeSearchSubscription();
 
+      // truck subscription
+      this.truckSearchSubscription();
   }
   onSelectedFiles(file,name){
     console.log('file:',file);
@@ -398,6 +411,97 @@ export class RoadSkillsPage implements OnInit {
   }
   //#endregion
 
+   //#region Truck
+   truckSearchSubscription() {
+    this.truckSearch$
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        takeUntil(this._unsubscribeAll)
+      )
+      .subscribe((value: string) => {
+        // passing for renderer2
+        this.truckSearchValue = value;
+
+        // for asterik to look required
+        if (value === '') {
+          this.isTruckSelected = true;
+        }
+
+        // calling API
+        this.allTrucks = this.trainingService.getMachinery(
+          this.truckSearchValue,
+          'allMotorizedVehicles'
+        );
+
+        // subscribing to show/hide  UL
+        this.allTrucks.subscribe((truck) => {
+          console.log('truck:', truck);
+
+          if (truck.count === 0) {
+            // hiding UL
+            this.truckUL = false;
+          } else {
+            this.truckUL = true;
+          }
+        });
+      });
+  }
+  inputClickedTruck() {
+    // getting the serch value to check if there's a value in input
+    this.truckSearch$
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        takeUntil(this._unsubscribeAll)
+      )
+      .subscribe((v) => {
+        this.truckSearchValue = v;
+      });
+
+    const value =
+      this.truckSearchValue === undefined
+        ? this.truck_name
+        : this.truckSearchValue;
+
+    // calling API
+    this.allTrucks = this.trainingService.getMachinery(
+      this.truckSearchValue,
+      'allMotorizedVehicles'
+    );
+
+    // subscribing to show/hide field UL
+    this.allTrucks.subscribe((truck) => {
+      console.log('truck:', truck);
+      if (truck.count === 0) {
+        // hiding UL
+        this.truckUL = false;
+      } else {
+        // showing UL
+        this.truckUL = true;
+      }
+    });
+  }
+  listClickedTruck(truck) {
+    console.log('truck Object:', truck);
+    // hiding UL
+    this.truckUL = false;
+
+    // passing name in select's input
+    this.truck_name = truck.id;
+
+    // to enable submit button
+    this.isTruckSelected = false;
+
+    // assigning values in form
+    this.roadTestForm.patchValue({
+      truckId: truck.id,
+    });
+
+    // clearing array
+    this.allTrucks = of([]);
+  }
+  //#endregion
   completeEvaluation(){
     if(this.data.is_digital_form_started){
       this.router.navigateByUrl('/tabs/home/training/trainer/road-skills/evaluation-form');
