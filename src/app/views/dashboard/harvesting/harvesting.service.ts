@@ -356,12 +356,8 @@ export class HarvestingService {
       .pipe(take(1));
   }
 
-  getBeginningOfDay(
-    employeeId: string,
-    searchClause: string,
-    type: string
-  ) {
-    this._httpClient
+  getBeginningOfDay(employeeId: string, searchClause: string, type: string) {
+    this._httpClient;
     let params = new HttpParams();
     params = params.set('employeeId', employeeId);
     params = params.set('searchClause', searchClause);
@@ -406,7 +402,7 @@ export class HarvestingService {
     isPreCHeckFilled?: boolean,
     entity?: string
   ) {
-    this._httpClient
+    this._httpClient;
     let params = new HttpParams();
     params = params.set('role', role);
     params = params.set('employeeId', employeeId);
@@ -414,8 +410,7 @@ export class HarvestingService {
     if (isTicketActive != null)
       params = params.set('isTicketActive', isTicketActive);
 
-    if (entity != null)
-      params = params.set('entity', entity);
+    if (entity != null) params = params.set('entity', entity);
 
     if (isPreCHeckFilled != null)
       params = params.set('isPreCheckFilled', isPreCHeckFilled);
@@ -451,10 +446,16 @@ export class HarvestingService {
       .pipe(take(1));
   }
 
-  getKartOperatorTruckDrivers(operation, id): Observable<any> {
+  getKartOperatorTruckDrivers(
+    operation,
+    id,
+    search: string = ''
+  ): Observable<any> {
     let params = new HttpParams();
     params = params.set('operation', operation);
     params = params.set('id', id);
+    params = params.set('search', search);
+
     try {
       return this._httpClient
         .get<any>(`http://localhost:7071/api/havesting-kart-operator`, {
@@ -472,6 +473,51 @@ export class HarvestingService {
 
     return this._httpClient
       .patch(`http://localhost:7071/api/havesting-kart-operator`, raw)
+      .pipe(take(1));
+  }
+
+  kartOperatorCreateDeliveryTicket(operation, raw) {
+    let appendedObject = { ...raw, operation: 'createDeliveryTicket' };
+    return this._httpClient
+      .post(`http://localhost:7071/api/havesting-kart-operator`, appendedObject)
+      .pipe(take(1));
+  }
+
+  kartOperatorGetTickets(kartOperatorId, ticketStatus) {
+    let params = new HttpParams();
+    params = params.set('kartOperatorId', kartOperatorId);
+    params = params.set('ticketStatus', ticketStatus);
+
+    try {
+      return this._httpClient
+        .get<any>(`http://localhost:7071/api/harvesting-ticket`, {
+          params,
+        })
+        .pipe(take(1))
+        .subscribe((res) => {
+          if (ticketStatus == 'sent') {
+            console.log('res', res);
+            this.sentTicketLoading.next(true);
+            this.sentTicket.next(res);
+            this.sentTicketLoading.next(false);
+          } else if (ticketStatus == 'pending') {
+            this.pendingTicketLoading.next(true);
+            this.pendingTicket.next(res);
+            this.pendingTicketLoading.next(false);
+          } else {
+            this.verifiedTicketLoading.next(true);
+            this.verifiedTicket.next(res);
+            this.verifiedTicketLoading.next(false);
+          }
+        });
+    } catch (error) {
+      console.log('error', error);
+    }
+  }
+
+  kartOperatorVerifyTickets(payload) {
+    return this._httpClient
+      .patch(`http://localhost:7071/api/harvesting-ticket`, payload)
       .pipe(take(1));
   }
 }

@@ -1,6 +1,6 @@
 /* eslint-disable @angular-eslint/use-lifecycle-interface */
 /* eslint-disable no-underscore-dangle */
-import { Component, OnInit,ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Location } from '@angular/common';
 import { HarvestingService } from './../harvesting.service';
 import { Subject, Subscription } from 'rxjs';
@@ -35,7 +35,7 @@ export class VerifyTicketPage implements OnInit {
   constructor(
     private location: Location,
     private harvestingService: HarvestingService,
-    private router: Router,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -60,38 +60,51 @@ export class VerifyTicketPage implements OnInit {
   }
 
   initSentApis() {
-    this.harvestingService.getSentTicket('sent');
+    this.harvestingService.kartOperatorGetTickets(
+      'f4cfa75b-7c14-4b68-a192-00d56c9f2022',
+      'sent'
+    );
   }
   initSentObservables() {
-   this.sentTicketData$ =  this.harvestingService.sentTicket$;
-   this.sentTicketLoading$ = this.harvestingService.sentTicketLoading$;
-
+    this.sentTicketData$ = this.harvestingService.sentTicket$;
+    this.sentTicketLoading$ = this.harvestingService.sentTicketLoading$;
   }
+
   initPendingApis() {
-    this.harvestingService.getPendingTicket('pending');
+    this.harvestingService.kartOperatorGetTickets(
+      'f4cfa75b-7c14-4b68-a192-00d56c9f2022',
+      'pending'
+    );
   }
   initPendingObservables() {
     this.pendingTicketData$ = this.harvestingService.pendingTicket$;
     this.pendingTicketLoading$ = this.harvestingService.pendingTicketLoading$;
   }
+
   initVerifiedApis() {
-    this.harvestingService.getVerifiedTicket('verified');
+    this.harvestingService.kartOperatorGetTickets(
+      'f4cfa75b-7c14-4b68-a192-00d56c9f2022',
+      'verified'
+    );
   }
+
   initVerifiedObservables() {
     this.verifiedTicketData$ = this.harvestingService.verifiedTicket$;
     this.verifiedTicketLoading$ = this.harvestingService.verifiedTicketLoading$;
   }
 
   navigate(ticket) {
+    let stringifyTicket = JSON.stringify(ticket);
     this.router.navigateByUrl(
       '/tabs/home/harvesting/verify-ticket/generated-ticket',
       {
         state: {
-          ticketId: ticket,
+          ticket: stringifyTicket,
         },
       }
     );
   }
+
   reassignTicket(ticket) {
     this.router.navigateByUrl('/tabs/home/harvesting/ticket', {
       state: {
@@ -104,12 +117,11 @@ export class VerifyTicketPage implements OnInit {
   goBack() {
     this.location.back();
   }
+
   segmentChange(event) {
     if (event.target.value === 'pending') {
       this.initPendingApis();
       this.initPendingObservables();
-      // this.harvestingService.unsubscribeBehaviourSubject.next(0);
-
     }
     if (event.target.value === 'sent') {
       this.initSentApis();
@@ -120,6 +132,7 @@ export class VerifyTicketPage implements OnInit {
       this.initVerifiedObservables();
     }
   }
+
   segmentChangeTruck(event) {
     if (event.target.value === 'received') {
       this.initSentApis();
