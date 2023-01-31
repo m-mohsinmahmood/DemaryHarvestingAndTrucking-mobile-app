@@ -122,5 +122,17 @@ export class TrainingService {
       .post<any>(`http://localhost:7071/api/dwr`, data)
       .pipe(take(1));
   }
+  getMachinery(search: string = '', entity: string = '') {
+    let params = new HttpParams();
+    params = params.set('entity', entity);
+    params = params.set('search', search);
+    params = params.set('vehicleType', 'Truck');
+
+    return this.httpClient
+      .get<any>('http://localhost:7071/api/dropdowns', {
+        params,
+      })
+      .pipe(take(1));
+  }
 
 }

@@ -21,6 +21,7 @@ export class ViewRecordsPage implements OnInit {
   trainee_id: any;
   // to use in HTML
 moment: any = moment;
+math = Math;
 
   // behaviour subject
   public loading = new BehaviorSubject(true);
@@ -71,8 +72,9 @@ moment: any = moment;
   exit() {
     console.log(this.preCheckForm.value);
     console.log(this.roadskillsForm.value);
+    this.router.navigate(['/tabs/home/training/trainer']);
   }
-  
+
   initForms() {
     this.preCheckForm = this.fromBuilder.group({
       oilLevel: ['', [Validators.required]],

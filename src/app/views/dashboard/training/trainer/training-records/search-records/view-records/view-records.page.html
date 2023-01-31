@@ -13,13 +13,17 @@
     </div>
     <div class="flex justify-between items-center my-5">
       <ion-text class="font-Lato text-sm text-9B9BA4">Total Time</ion-text>
-      <ion-text class="font-Lato text-sm text-black font-semibold">{{moment().subtract(records?.endDatePreTrip,records?.created_at).format('HH:mm')}}</ion-text>
+      <!-- <ion-text class="font-Lato text-sm text-black font-semibold">{{moment().subtract(records?.endDatePreTrip,records?.created_at).format('HH:mm')}}</ion-text> -->
+      <ion-text class="font-Lato text-sm text-black font-semibold" *ngIf="(loading | async) === false">
+        {{moment(records?.endDatePreTrip).diff(records?.created_at,'hours')}}h:
+        {{moment(records?.endDatePreTrip).diff(records?.created_at,'minutes')}}m:
+        {{moment(records?.endDatePreTrip).diff(records?.created_at,'seconds')}}s
+      </ion-text>
 
     </div>
     <div class="my-3"><ion-text class="font-Lato text-xl font-semibold">Evaluation Results</ion-text></div>
     <form [formGroup]="preCheckForm">
       <div class="my-3"><ion-text class="font-Lato font-semibold">Engine Compartment</ion-text></div>
-
       <div class="my-3 flex items-center justify-between">
         <ion-text class="font-Lato font-medium">Oil Level</ion-text>
         <ion-checkbox disabled [checked]="records?.oilLevel" slot="start"></ion-checkbox>
@@ -443,8 +447,11 @@
     </div>
     <div class="flex justify-between items-center my-5">
       <ion-text class="font-Lato text-sm text-9B9BA4">Total Time</ion-text>
-      <ion-text class="font-Lato text-sm text-black font-semibold">{{moment().subtract(records?.endDateBasicSkill,records?.created_at).format('HH:mm')}}</ion-text>
-
+      <ion-text class="font-Lato text-sm text-black font-semibold" *ngIf="(loading | async) === false">
+        {{moment(records?.endDateBasicSkill).diff(records?.created_at,'hours')}}h:
+        {{moment(records?.endDateBasicSkill).diff(records?.created_at,'minutes')}}m:
+        {{moment(records?.endDateBasicSkill).diff(records?.created_at,'seconds')}}s
+      </ion-text>
     </div>
     <!-- LOADER -->
     <ion-grid *ngIf="(loading | async) === true">
@@ -465,26 +472,26 @@
       </ion-grid>
       <ion-row class="my-4">
         <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Straight Line Backing</ion-text></ion-col>
-        <ion-col *ngIf="records.straightLineBacking_slb" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
-        <ion-col *ngIf="!records.straightLineBacking_slb" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
+        <ion-col *ngIf="records.straightLineBakingInput_slb>=3" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="records.straightLineBakingInput_slb<3" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
         <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.straightLineBakingInput_slb}}</ion-text></ion-col>
       </ion-row>
       <ion-row class="my-4">
         <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Alley Docking (45/90)</ion-text></ion-col>
-        <ion-col *ngIf="records.alleyDocking_slb" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
-        <ion-col *ngIf="!records.alleyDocking_slb" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
+        <ion-col *ngIf="records.straightLineBakingInput_ad>=3" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="records.straightLineBakingInput_ad<3" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
         <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.straightLineBakingInput_ad}}</ion-text></ion-col>
       </ion-row>
       <ion-row class="my-4">
         <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Off Set Backing</ion-text></ion-col>
-        <ion-col *ngIf="records.offSetBacking_slb" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
-        <ion-col *ngIf="!records.offSetBacking_slb" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
+        <ion-col *ngIf="records.offSetBackingInput_slb>=3" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="records.offSetBackingInput_slb<3" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
         <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.offSetBackingInput_slb}}</ion-text></ion-col>
       </ion-row>
       <ion-row class="my-4">
         <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Parallel Parking Blind</ion-text></ion-col>
-        <ion-col *ngIf="records.parallelParkingBlind_slb" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
-        <ion-col *ngIf="!records.parallelParkingBlind_slb" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
+        <ion-col *ngIf="records.parallelParkingBlindInput_slb>=3" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="records.parallelParkingBlindInput_slb<3" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
         <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.parallelParkingBlindInput_slb}}</ion-text></ion-col>
       </ion-row>
       <!-- <ion-row class="my-4">
@@ -495,8 +502,8 @@
       </ion-row> -->
       <ion-row class="my-4">
         <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Coupling $ Uncoupling</ion-text></ion-col>
-        <ion-col *ngIf="records.coupUncoup_slb" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
-        <ion-col *ngIf="!records.coupUncoup_slb" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
+        <ion-col *ngIf="records.coupUncoupInput_slb>=3" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="records.coupUncoupInput_slb<3" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
         <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.coupUncoupInput_slb}}</ion-text></ion-col>
       </ion-row>
     </ion-grid>
@@ -512,26 +519,26 @@
       </ion-grid>
       <ion-row class="my-4">
         <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Straight Line Backing</ion-text></ion-col>
-        <ion-col *ngIf="records.straightLineBacking_ad" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
-        <ion-col *ngIf="!records.straightLineBacking_ad" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
+        <ion-col *ngIf="records.straightLineBakingInput_ad>=3" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="records.straightLineBakingInput_ad<3" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
         <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.straightLineBakingInput_ad}}</ion-text></ion-col>
       </ion-row>
       <ion-row class="my-4">
         <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Alley Docking (45/90)</ion-text></ion-col>
-        <ion-col *ngIf="records.alleyDocking_ad" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
-        <ion-col *ngIf="!records.alleyDocking_ad" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
+        <ion-col *ngIf="records.alleyDockingInput_ad>=3" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="records.alleyDockingInput_ad<3" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
         <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.alleyDockingInput_ad}}</ion-text></ion-col>
       </ion-row>
       <ion-row class="my-4">
         <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Off Set Backing</ion-text></ion-col>
-        <ion-col *ngIf="records.offSetBacking_ad" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
-        <ion-col *ngIf="!records.offSetBacking_ad" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
+        <ion-col *ngIf="records.offSetBackingInput_ad>=3" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="records.offSetBackingInput_ad<3" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
         <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.offSetBackingInput_ad}}</ion-text></ion-col>
       </ion-row>
       <ion-row class="my-4">
-        <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Parallel Parking Blind</ion-text></ion-col>
-        <ion-col *ngIf="records.parallelParkingBlind_ad" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
-        <ion-col *ngIf="!records.parallelParkingBlind_ad" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
+        <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Parallel Parkingg Blind</ion-text></ion-col>
+        <ion-col *ngIf="records.alleyDockingInput_pb>=3" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="records.alleyDockingInput_pb<3" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
         <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.alleyDockingInput_pb}}</ion-text></ion-col>
       </ion-row>
       <!-- <ion-row class="my-4">
@@ -542,8 +549,8 @@
           </ion-row> -->
       <ion-row class="my-4">
         <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Coupling $ Uncoupling</ion-text></ion-col>
-        <ion-col *ngIf="records.coupUncoup_ad" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
-        <ion-col *ngIf="!records.coupUncoup_ad" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
+        <ion-col *ngIf="records.coupUncoupInput_ad>=3" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="records.coupUncoupInput_ad<3" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
         <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.coupUncoupInput_ad}}</ion-text></ion-col>
       </ion-row>
     </ion-grid>
@@ -559,26 +566,26 @@
       </ion-grid>
       <ion-row class="my-4">
         <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Straight Line Backing</ion-text></ion-col>
-        <ion-col *ngIf="records.straightLineBaking_osb" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
-        <ion-col *ngIf="!records.straightLineBaking_osb" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
+        <ion-col *ngIf="records.coupUncoupInput_ad>=3" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="records.coupUncoupInput_ad<3" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
         <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.straightLineBakingInput_osb}}</ion-text></ion-col>
       </ion-row>
       <ion-row class="my-4">
         <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Alley Docking (45/90)</ion-text></ion-col>
-        <ion-col *ngIf="records.alleyDocking_osb" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
-        <ion-col *ngIf="!records.alleyDocking_osb" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
+        <ion-col *ngIf="records.alleyDockingInput_osb>=3" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="records.alleyDockingInput_osb<3" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
         <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.alleyDockingInput_osb}}</ion-text></ion-col>
       </ion-row>
       <ion-row class="my-4">
         <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Off Set Backing</ion-text></ion-col>
-        <ion-col *ngIf="records.offSetBacking_osb" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
-        <ion-col *ngIf="!records.offSetBacking_osb" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
+        <ion-col *ngIf="records.offSetBackingInput_osb>=3" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="records.offSetBackingInput_osb<3" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
         <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.offSetBackingInput_osb}}</ion-text></ion-col>
       </ion-row>
       <ion-row class="my-4">
         <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Parallel Parking Blind</ion-text></ion-col>
-        <ion-col *ngIf="records.parallelParkingBlind_osb" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
-        <ion-col *ngIf="!records.parallelParkingBlind_osb" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
+        <ion-col *ngIf="records.parallelParkingBlindInput_osb>=3" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="records.parallelParkingBlindInput_osb<3" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
         <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.parallelParkingBlindInput_osb}}</ion-text></ion-col>
       </ion-row>
       <!-- <ion-row class="my-4">
@@ -589,8 +596,8 @@
   </ion-row> -->
       <ion-row class="my-4">
         <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Coupling $ Uncoupling</ion-text></ion-col>
-        <ion-col *ngIf="records.coupUncoup_osb" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
-        <ion-col *ngIf="!records.coupUncoup_osb" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
+        <ion-col *ngIf="records.coupUncoupInput_osb>=3" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="records.coupUncoupInput_osb<3" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
         <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.coupUncoupInput_osb}}</ion-text></ion-col>
       </ion-row>
     </ion-grid>
@@ -606,26 +613,26 @@
       </ion-grid>
       <ion-row class="my-4">
         <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Straight Line Backing</ion-text></ion-col>
-        <ion-col *ngIf="records.straightLineBaking_pb" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
-        <ion-col *ngIf="!records.straightLineBaking_pb" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
+        <ion-col *ngIf="records.straightLineBakingInput_pb>=3" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="records.straightLineBakingInput_pb<3" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
         <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.straightLineBakingInput_pb}}</ion-text></ion-col>
       </ion-row>
       <ion-row class="my-4">
         <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Alley Docking (45/90)</ion-text></ion-col>
-        <ion-col *ngIf="records.alleyDocking_pb" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
-        <ion-col *ngIf="!records.alleyDocking_pb" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
+        <ion-col *ngIf="records.alleyDockingInput_pb>=3" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="records.alleyDockingInput_pb<3" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
         <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.alleyDockingInput_pb}}</ion-text></ion-col>
       </ion-row>
       <ion-row class="my-4">
         <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Off Set Backing</ion-text></ion-col>
-        <ion-col *ngIf="records.offSetBacking_pb" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
-        <ion-col *ngIf="!records.offSetBacking_pb" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
+        <ion-col *ngIf="records.offSetBackingInput_pb>=3" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="records.offSetBackingInput_pb<3" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
         <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.offSetBackingInput_pb}}</ion-text></ion-col>
       </ion-row>
       <ion-row class="my-4">
         <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Parallel Parking Blind</ion-text></ion-col>
-        <ion-col *ngIf="records.parallelParkingBlind_pb" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
-        <ion-col *ngIf="!records.parallelParkingBlind_pb" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
+        <ion-col *ngIf="records.parallelParkingBlindInput_pb>=3" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="records.parallelParkingBlindInput_pb<3" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
         <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.parallelParkingBlindInput_pb}}</ion-text></ion-col>
       </ion-row>
       <!-- <ion-row class="my-4">
@@ -636,8 +643,8 @@
   </ion-row> -->
       <ion-row class="my-4">
         <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Coupling $ Uncoupling</ion-text></ion-col>
-        <ion-col *ngIf="records.coupUncoup_pb" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
-        <ion-col *ngIf="!records.coupUncoup_pb" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
+        <ion-col *ngIf="records.coupUncoupInput_pb>=3" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="records.coupUncoupInput_pb<3" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
         <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.coupUncoupInput_pb}}</ion-text></ion-col>
       </ion-row>
     </ion-grid>
@@ -653,27 +660,27 @@
       </ion-grid>
       <ion-row class="my-4">
         <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Straight Line Backing</ion-text></ion-col>
-        <ion-col *ngIf="records.straightLineBaking_ps" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
-        <ion-col *ngIf="!records.straightLineBaking_ps" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
+        <ion-col *ngIf="records.straightLineBakingInput_ps>=3" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="records.straightLineBakingInput_ps<3" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
         <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.straightLineBakingInput_ps}}</ion-text></ion-col>
       </ion-row>
 
       <ion-row class="my-4">
         <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Alley Docking (45/90)</ion-text></ion-col>
-        <ion-col *ngIf="records.alleyDocking_ps" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
-        <ion-col *ngIf="!records.alleyDocking_ps" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
+        <ion-col *ngIf="records.alleyDockingInput_ps>=3" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="records.alleyDockingInput_ps<3" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
         <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.alleyDockingInput_ps}}</ion-text></ion-col>
       </ion-row>
       <ion-row class="my-4">
         <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Off Set Backing</ion-text></ion-col>
-        <ion-col *ngIf="records.offSetBacking_ps" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
-        <ion-col *ngIf="!records.offSetBacking_ps" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
+        <ion-col *ngIf="records.offSetBackingInput_ps>=3" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="records.offSetBackingInput_ps<3" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
         <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.offSetBackingInput_ps}}</ion-text></ion-col>
       </ion-row>
       <ion-row class="my-4">
         <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Parallel Parking Blind</ion-text></ion-col>
-        <ion-col *ngIf="records.parallelParkingBlind_ps" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
-        <ion-col *ngIf="!records.parallelParkingBlind_ps" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
+        <ion-col *ngIf="records.parallelParkingBlindInput_ps>=3" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="records.parallelParkingBlindInput_ps<3" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
         <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.parallelParkingBlindInput_ps}}</ion-text></ion-col>
       </ion-row>
       <!-- <ion-row class="my-4">
@@ -684,8 +691,8 @@
   </ion-row> -->
       <ion-row class="my-4">
         <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Coupling $ Uncoupling</ion-text></ion-col>
-        <ion-col *ngIf="records.coupUncoup_ps" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
-        <ion-col *ngIf="!records.coupUncoup_ps" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
+        <ion-col *ngIf="records.coupUncoupInput_ps>=3" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="records.coupUncoupInput_ps<3" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
         <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.coupUncoupInput_ps}}</ion-text></ion-col>
       </ion-row>
     </ion-grid>
@@ -701,27 +708,27 @@
       </ion-grid>
       <ion-row class="my-4">
         <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Straight Line Backing</ion-text></ion-col>
-        <ion-col *ngIf="records.straightLineBacking_cou" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
-        <ion-col *ngIf="!records.straightLineBacking_cou" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
+        <ion-col *ngIf="records.straightLineBackingInput_cou>=3" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="records.straightLineBackingInput_cou<3" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
         <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.straightLineBackingInput_cou}}</ion-text></ion-col>
       </ion-row>
 
       <ion-row class="my-4">
         <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Alley Docking (45/90)</ion-text></ion-col>
-        <ion-col *ngIf="records.alleyDocking_cou" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
-        <ion-col *ngIf="!records.alleyDocking_cou" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
+        <ion-col *ngIf="records.alleyDockingInput_cou>=3" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="records.alleyDockingInput_cou<3" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
         <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.alleyDockingInput_cou}}</ion-text></ion-col>
       </ion-row>
       <ion-row class="my-4">
         <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Off Set Backing</ion-text></ion-col>
-        <ion-col *ngIf="records.offSetBacking_cou" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
-        <ion-col *ngIf="!records.offSetBacking_cou" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
+        <ion-col *ngIf="records.offSetBackingInput_cou>=3" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="records.offSetBackingInput_cou<3" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
         <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.offSetBackingInput_cou}}</ion-text></ion-col>
       </ion-row>
       <ion-row class="my-4">
         <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Parallel Parking Blind</ion-text></ion-col>
-        <ion-col *ngIf="records.parallelParkingBlind_cou" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
-        <ion-col *ngIf="!records.parallelParkingBlind_cou" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
+        <ion-col *ngIf="records.parallelParkingBlindInput_cou>=3" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="records.parallelParkingBlindInput_cou<3" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
         <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.parallelParkingBlindInput_cou}}</ion-text></ion-col>
       </ion-row>
       <!-- <ion-row class="my-4">
@@ -731,22 +738,22 @@
     <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.parallelParkingBlindInput_ps}}</ion-text></ion-col>
   </ion-row> -->
       <ion-row class="my-4">
-        <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Coupling $ Uncoupling</ion-text></ion-col>
-        <ion-col *ngIf="records.coupUncoup_cou" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
-        <ion-col *ngIf="!records.coupUncoup_cou" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
+        <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Coupling & Uncoupling</ion-text></ion-col>
+        <ion-col *ngIf="records.coupUncoupInput_cou>=3" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="records.coupUncoupInput_cou<3" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
         <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.coupUncoupInput_cou}}</ion-text></ion-col>
       </ion-row>
     </ion-grid>
+    <!-- <ion-card-content *ngIf="(loading | async) === false">
+      <div class="mb-2 flex items-center justify-between">
+        <ion-text class="font-Lato font-semibold text-black">Total Attempts / Results</ion-text>
+        <ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text>
+      </div>
+      <ion-text class="font-Lato text-9B9BA4">Total Attempts: <span class="font-Lato text-black">15</span></ion-text>
+    </ion-card-content> -->
+    <ion-button *ngIf="(loading | async) === false" expand="block" class="close-out-button font-Lato mx-8 mb-8 mt-4 bg-opacity-10 text-white">Close</ion-button>
     <ion-card>
-      <ion-card-content>
-        <div class="mb-2 flex items-center justify-between">
-          <ion-text class="font-Lato font-semibold text-black">Total Attempts / Results</ion-text>
-          <ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text>
-        </div>
-        <ion-text class="font-Lato text-9B9BA4">Total Attempts: <span class="font-Lato text-black">15</span></ion-text>
-      </ion-card-content>
     </ion-card>
-    <ion-button expand="block" class="close-out-button font-Lato mx-8 mb-8 mt-4 bg-opacity-10 text-white">Close</ion-button>
   </div>
 </ion-content>
 
@@ -763,7 +770,13 @@
     </div>
     <div class="flex justify-between items-center my-5">
       <ion-text class="font-Lato text-sm text-9B9BA4">Total Time</ion-text>
-      <ion-text class="font-Lato text-sm text-black font-semibold">{{moment().subtract(records?.endDateRoadSkill,records?.created_at).format('HH:mm')}}</ion-text>
+      <!-- <ion-text class="font-Lato text-sm text-black font-semibold">{{moment(records?.endDateRoadSkill).subtract(records?.created_at).format('')}}</ion-text> -->
+      <ion-text class="font-Lato text-sm text-black font-semibold" *ngIf="(loading | async) === false">
+        {{moment(records?.endDateRoadSkill).diff(records?.created_at,'hours')}}h:
+        {{moment(records?.endDateRoadSkill).diff(records?.created_at,'minutes')}}m:
+        {{moment(records?.endDateRoadSkill).diff(records?.created_at,'seconds')}}s
+      </ion-text>
+      <!-- <ion-text class="font-Lato text-sm text-black font-semibold">{{math.abs(records?.endDateRoadSkill - records?.created_at)}}}</ion-text> -->
 
     </div>
     <!-- LOADER -->
@@ -863,7 +876,7 @@
     </ion-grid>
   </div>
     <ion-card>
-      <ion-card-content>
+      <ion-card-content *ngIf="(loading | async) === false">
         <div class="flex justify-between items-center mb-2">
           <ion-text class="font-Lato text-black font-semibold">Total Attempts / Results</ion-text>
           <ion-text *ngIf="+records?.leftTurnsInput + +records?.rightTurnsInput + +records?.intersectionStopInput + +records?.intersectionThruInput + +records?.interstateInput + +records?.urbanBusinessInput + +records?.lanceChangesInput + +records?.curveInput + +records?.roadsideInput + +records?.rrCrossingInput + +records?.signsInput+ +records?.generalDrivingInput + +records?.eLogPracticalInput > 32" class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">{{+records?.leftTurnsInput + +records?.rightTurnsInput + +records?.intersectionStopInput + +records?.intersectionThruInput + +records?.interstateInput + +records?.urbanBusinessInput + +records?.lanceChangesInput + +records?.curveInput + +records?.roadsideInput + +records?.rrCrossingInput + +records?.signsInput+ +records?.generalDrivingInput + +records?.eLogPracticalInput > 32 ? "Satisfactory":"Unsatisfactory"}}</ion-text>
@@ -874,8 +887,8 @@
           {{+records?.leftTurnsInput + +records?.rightTurnsInput + +records?.intersectionStopInput + +records?.intersectionThruInput + +records?.interstateInput + +records?.urbanBusinessInput + +records?.lanceChangesInput + +records?.curveInput + +records?.roadsideInput + +records?.rrCrossingInput + +records?.signsInput+ +records?.generalDrivingInput + +records?.eLogPracticalInput}}
         </span></ion-text>
       </ion-card-content>
+      <ion-button *ngIf="(loading | async) === false" expand="block" class="close-out-button font-Lato mx-8 mb-8 mt-4 bg-opacity-10 text-white" (click)="exit()">Exit</ion-button>
     </ion-card>
-    <ion-button expand="block" class="close-out-button font-Lato mx-8 mb-8 mt-4 bg-opacity-10 text-white" (click)="exit()">Exit</ion-button>
   </div>
 </ion-content>
 
@@ -931,14 +944,13 @@
         <ion-col size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">Unsatisfactory</ion-text></ion-col>
         <ion-col size="2" class="ion-text-center"><ion-text class="font-Lato font-semibold">4:22</ion-text></ion-col>
       </ion-row> -->
-      <div *ngFor="let record of records">
+      <!-- <div *ngFor="let record of records">
       <ion-row class="my-4" *ngIf="record.evaluation_type === 'pre-trip'">
           <ion-col size="4" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">CDL Pre-Trip Check</ion-text></ion-col>
-          <!-- <ion-col size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col> -->
           <ion-col size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">{{(((+record.percentageCoupling + +record.percentageEngineCompartment + +record.percentageInCab + +record.percentageSuspension + +record.percentageVehicleExternal)/600)*100) > 50 ? "Satisfactory" : "Unsatisfactory"}}</ion-text></ion-col>
           <ion-col size="3" class="ion-text-start"><ion-text class="font-Lato font-semibold">{{record.enddatepretrip?.hours?record.enddatepretrip.hours: '0'}}h:{{record.enddatepretrip?.minutes?record.enddatepretrip.minutes : '0'}}m</ion-text></ion-col>
         </ion-row>
-        </div>
+      </div> -->
       </ion-grid>
 
       <ion-grid *ngIf="records.length > 0">
@@ -950,12 +962,14 @@
           </ion-row>
           <ion-row class="my-4" *ngIf="record.evaluation_type === 'basic-skills'">
             <ion-col size="4" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">CDL Basic Skills</ion-text></ion-col>
-            <ion-col size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">{{(((+record.satisfactoryStraightLineBacking + +record.satisfactoryAlleyDocking + +record.satisfactoryOffSetBacking + +record.satisfactoryParkingBlind + +record.satisfactoryCoupUncoup)/600)*100) > 50 ? "Satisfactory" : "Unsatisfactory"}}</ion-text></ion-col>
+            <ion-col size="5" class="ion-text-start" *ngIf="(((+record.satisfactoryStraightLineBacking + +record.satisfactoryAlleyDocking + +record.satisfactoryOffSetBacking + +record.satisfactoryParkingBlind + +record.satisfactoryCoupUncoup)/600)*100) > 50"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
+            <ion-col size="5" class="ion-text-start" *ngIf="(((+record.satisfactoryStraightLineBacking + +record.satisfactoryAlleyDocking + +record.satisfactoryOffSetBacking + +record.satisfactoryParkingBlind + +record.satisfactoryCoupUncoup)/600)*100) < 50"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
             <ion-col size="3" class="ion-text-start"><ion-text class="font-Lato font-semibold">{{record.enddatebasicskill?.hours?record.enddatebasicskill.hours: '0'}}h:{{record.enddatebasicskill?.minutes?record.enddatebasicskill.minutes : '0'}}m</ion-text></ion-col>
           </ion-row>
           <ion-row class="my-4" *ngIf="record.evaluation_type === 'road-skills'">
             <ion-col size="4" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">CDL Road Trip Skills</ion-text></ion-col>
-            <ion-col size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">{{(((+record.satisfactoryRoadTesting)/100)*100) > 50 ? "Satisfactory" : "Unsatisfactory"}}</ion-text></ion-col>
+            <ion-col size="5" class="ion-text-start" *ngIf="(((+record.satisfactoryRoadTesting)/100)*100) > 50"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
+            <ion-col size="5" class="ion-text-start" *ngIf="(((+record.satisfactoryRoadTesting)/100)*100) < 50"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
             <ion-col size="3" class="ion-text-start"><ion-text class="font-Lato font-semibold">{{record.enddateroadskill?.hours?record.enddateroadskill.hours: '0'}}h:{{record.enddateroadskill?.minutes?record.enddateroadskill.minutes : '0'}}m</ion-text></ion-col>
           </ion-row>
         </div>

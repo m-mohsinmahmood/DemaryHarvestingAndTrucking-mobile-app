@@ -178,7 +178,7 @@ export class RoadSkillsPage implements OnInit {
         console.log('RES:', res);
         if (res.status === 200) {
           this.toastService.presentToast(
-            'Digital evaluation have been started',
+            'Digital evaluation has been started',
             'success'
           );
 

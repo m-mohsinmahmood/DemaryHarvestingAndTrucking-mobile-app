@@ -42,13 +42,13 @@ moment: any = moment;
     this.getRecords();
   }
   navigate(x: any,record: any){
-    console.log('form Type:',x);
+    console.log('form Type:',record);
     this.router.navigate(['/tabs/home/training/trainer/training-records/search-records/view-records'],
       {
         queryParams:{
           formType: x,
           recordId: record.record_id,
-          trainerName: record.trainer_name
+          trainerName: record.trainee_name
         }
       });
   }

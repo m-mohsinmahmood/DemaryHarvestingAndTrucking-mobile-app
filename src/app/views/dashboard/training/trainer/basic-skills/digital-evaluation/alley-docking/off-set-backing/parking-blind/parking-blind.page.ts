@@ -2,7 +2,7 @@
 /* eslint-disable max-len */
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastService } from 'src/app/services/toast/toast.service';
 import { TrainingService } from 'src/app/views/dashboard/training/training.service';
 
@@ -23,12 +23,15 @@ export class ParkingBlindPage implements OnInit {
   // trainer id
   trainer_id = '4b84234b-0b74-49a2-b3c7-d3884f5f6013';
   math = Math;
+  training_record_id: any;
 
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
     private trainingService: TrainingService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private route: ActivatedRoute
+
     ) { }
 
     ngOnInit() {
@@ -84,6 +87,9 @@ export class ParkingBlindPage implements OnInit {
         this.totalSatisfactory = sum;
           this.totalUnSatisfactory = unSatSum;
       });
+      this.route.queryParams.subscribe((params)=>{
+        this.training_record_id = params.training_record_id;
+      });
     }
     addFeedback(){
       this.feedbackValue = true;
@@ -105,8 +111,12 @@ export class ParkingBlindPage implements OnInit {
             );
 
             // navigating
-         this.router.navigateByUrl('/tabs/home/training/trainer/basic-skills/digital-evaluation/alley-docking/off-set-backing/parking-blind/parking-sight');
-
+        //  this.router.navigateByUrl('/tabs/home/training/trainer/basic-skills/digital-evaluation/alley-docking/off-set-backing/parking-blind/parking-sight');
+        this.router.navigate(['/tabs/home/training/trainer/basic-skills/digital-evaluation/alley-docking/off-set-backing/parking-blind/parking-sight'],{
+          queryParams:{
+            training_record_id: this.training_record_id
+          }
+        });
           } else {
             console.log('Something happened :)');
             this.toastService.presentToast(res.mssage, 'danger');

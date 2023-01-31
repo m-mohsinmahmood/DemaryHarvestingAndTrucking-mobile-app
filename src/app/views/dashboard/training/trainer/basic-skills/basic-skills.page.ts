@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { ToastService } from 'src/app/services/toast/toast.service';
 import { TrainingService } from '../../training.service';
@@ -18,24 +18,13 @@ import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 export class BasicSkillsPage implements OnInit {
   @ViewChild('traineeInput') traineeInput: ElementRef;
   @ViewChild('supervisorInput') supervisorInput: ElementRef;
+  @ViewChild('truckInput') truckInput: ElementRef;
 
   value = 'paper-form';
   buffer = 1;
   progress = 0;
-  // selectAray: any[] = [
-  //   'straight-line',
-  //   'alley-docking',
-  //   'offset',
-  //   'parking-blind',
-  //   'parking-sight',
-  //   'coup-uncoup'
-  // ];
-  // indexArray: any[] = [0.1666666666666667, 0.3333333333333334, 0.5000000000000001, 0.6666666666666668, 0.8333333333333335,1];
-  // indexArray: any[] = [0.2, 0.4, 0.6, 0.8, 1];
   text=0;
 
-  // increment = 0;
-  // increment1 = 0;
   basicSkillForm: FormGroup;
   upload_1 = false;
   upload_2 = false;
@@ -59,6 +48,8 @@ export class BasicSkillsPage implements OnInit {
   // behaviour subject for loader
   public loading = new BehaviorSubject(true);
 
+  training_record_id: any;
+
     //#region trainee drop-down variables
     allTrainees: Observable<any>;
     traineeSearch$ = new Subject();
@@ -77,13 +68,25 @@ export class BasicSkillsPage implements OnInit {
     isSupervisorSelected: any = true;
     //#endregion
 
+     //#region truck drop-down variables
+     allTrucks: Observable<any>;
+     truckSearch$ = new Subject();
+     truck_name: any = '';
+     truckSearchValue: any = '';
+     truckUL: any = false;
+     isTruckSelected: any = true;
+     //#endregion
+
+
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
   constructor( private formBuilder: FormBuilder,
     private router: Router,
     private trainingService: TrainingService,
     private renderer: Renderer2,
-    private toastService: ToastService) {
+    private toastService: ToastService,
+    private route: ActivatedRoute
+    ) {
       this.renderer.listen('window', 'click', (e) => {
         if (e.target !== this.traineeInput.nativeElement) {
           this.allTrainees = of([]);
@@ -92,6 +95,10 @@ export class BasicSkillsPage implements OnInit {
         if (e.target !== this.supervisorInput.nativeElement) {
           this.allSupervisors = of([]);
           this.supervisorUL = false; // to hide the UL
+        }
+        if (e.target !== this.truckInput.nativeElement) {
+          this.allTrucks = of([]);
+          this.truckUL = false; // to hide the UL
         }
       });
      }
@@ -106,7 +113,7 @@ export class BasicSkillsPage implements OnInit {
       trainee_id: [''],
       clp: [''], //<-
       supervisor_id: [''],
-      truckId: ['',[Validators.required]],
+      truckId: [''],
       odometerStartingMiles: ['',[Validators.required]],
       odometerEndingMiles: ['',[Validators.required]],
       is_completed_cdl_classroom: ['',[Validators.required]],
@@ -129,21 +136,11 @@ export class BasicSkillsPage implements OnInit {
 
      // supervisor subscription
      this.traineeSearchSubscription();
+
+     // truck subscription
+     this.truckSearchSubscription();
   };
-  // navigate() {
-  //   console.log(this.basicSkillForm.value);
-  //   this.increment1 = this.increment1 +1;
-  //   // console.log(this.increment1)
-  //   this.value = this.selectAray[this.increment1];
-  //   console.log(this.value);
 
-  //   // passing index to get progress
-  //   this.progress = this.indexArray[this.increment];
-
-  //   this.increment = this.increment +1;
-  //   console.log(this.increment);
-  //   this.text = this.increment;
-  // }
   onSelectedFiles(file,name){
     console.log('file:',file);
 
@@ -215,7 +212,7 @@ export class BasicSkillsPage implements OnInit {
         console.log('RES:', res);
         if (res.status === 200) {
           this.toastService.presentToast(
-            'Basic Skills evaluation started',
+            'Basic Skills evaluation has been started',
             'success'
           );
 
@@ -435,6 +432,98 @@ export class BasicSkillsPage implements OnInit {
   }
   //#endregion
 
+  //#region Truck
+  truckSearchSubscription() {
+    this.truckSearch$
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        takeUntil(this._unsubscribeAll)
+      )
+      .subscribe((value: string) => {
+        // passing for renderer2
+        this.truckSearchValue = value;
+
+        // for asterik to look required
+        if (value === '') {
+          this.isTruckSelected = true;
+        }
+
+        // calling API
+        this.allTrucks = this.trainingService.getMachinery(
+          this.truckSearchValue,
+          'allMotorizedVehicles'
+        );
+
+        // subscribing to show/hide  UL
+        this.allTrucks.subscribe((truck) => {
+          console.log('truck:', truck);
+
+          if (truck.count === 0) {
+            // hiding UL
+            this.truckUL = false;
+          } else {
+            this.truckUL = true;
+          }
+        });
+      });
+  }
+  inputClickedTruck() {
+    // getting the serch value to check if there's a value in input
+    this.truckSearch$
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        takeUntil(this._unsubscribeAll)
+      )
+      .subscribe((v) => {
+        this.truckSearchValue = v;
+      });
+
+    const value =
+      this.truckSearchValue === undefined
+        ? this.truck_name
+        : this.truckSearchValue;
+
+    // calling API
+    this.allTrucks = this.trainingService.getMachinery(
+      this.truckSearchValue,
+      'allMotorizedVehicles'
+    );
+
+    // subscribing to show/hide field UL
+    this.allTrucks.subscribe((truck) => {
+      console.log('truck:', truck);
+      if (truck.count === 0) {
+        // hiding UL
+        this.truckUL = false;
+      } else {
+        // showing UL
+        this.truckUL = true;
+      }
+    });
+  }
+  listClickedTruck(truck) {
+    console.log('truck Object:', truck);
+    // hiding UL
+    this.truckUL = false;
+
+    // passing name in select's input
+    this.truck_name = truck.id;
+
+    // to enable submit button
+    this.isTruckSelected = false;
+
+    // assigning values in form
+    this.basicSkillForm.patchValue({
+      truckId: truck.id,
+    });
+
+    // clearing array
+    this.allTrucks = of([]);
+  }
+  //#endregion
+
   completeEvaluation(){
     // Straight Line Baccking
     if (
@@ -446,9 +535,14 @@ export class BasicSkillsPage implements OnInit {
       !this.data.is_parking_sight_started &&
       !this.data.is_coup_uncoup_started
     ) {
-      this.router.navigateByUrl(
-        '/tabs/home/training/trainer/basic-skills/digital-evaluation'
-      );
+      // this.router.navigateByUrl(
+      //   '/tabs/home/training/trainer/basic-skills/digital-evaluation'
+      // );
+      this.router.navigate(['/tabs/home/training/trainer/basic-skills/digital-evaluation'],{
+        queryParams:{
+          training_record_id: this.data.id
+        }
+      });
     }
     // Alley Docking
     else if (
@@ -460,8 +554,12 @@ export class BasicSkillsPage implements OnInit {
       !this.data.is_parking_sight_started &&
       !this.data.is_coup_uncoup_started
     ) {
-      this.router.navigateByUrl('/tabs/home/training/trainer/basic-skills/digital-evaluation/alley-docking');
-
+      // this.router.navigateByUrl('/tabs/home/training/trainer/basic-skills/digital-evaluation/alley-docking');
+      this.router.navigate(['/tabs/home/training/trainer/basic-skills/digital-evaluation/alley-docking'],{
+        queryParams:{
+          training_record_id: this.data.id
+        }
+      });
     }
     // Off Set Backing
     else if (
@@ -473,10 +571,12 @@ export class BasicSkillsPage implements OnInit {
       !this.data.is_parking_sight_started &&
       !this.data.is_coup_uncoup_started
     ) {
-      console.log('PARKING BLIND!')
-
-      this.router.navigateByUrl('/tabs/home/training/trainer/basic-skills/digital-evaluation/alley-docking/off-set-backing');
-
+      // this.router.navigateByUrl('/tabs/home/training/trainer/basic-skills/digital-evaluation/alley-docking/off-set-backing');
+      this.router.navigate(['/tabs/home/training/trainer/basic-skills/digital-evaluation/alley-docking/off-set-backing'],{
+        queryParams:{
+          training_record_id: this.data.id
+        }
+      });
     }
     // Parallel Parking - Blind
     else if (
@@ -488,8 +588,12 @@ export class BasicSkillsPage implements OnInit {
       !this.data.is_parking_sight_started &&
       !this.data.is_coup_uncoup_started
     ) {
-      console.log('PARKING BLIND')
-      this.router.navigateByUrl('/tabs/home/training/trainer/basic-skills/digital-evaluation/alley-docking/off-set-backing/parking-blind');
+      // this.router.navigateByUrl('/tabs/home/training/trainer/basic-skills/digital-evaluation/alley-docking/off-set-backing/parking-blind');
+      this.router.navigate(['/tabs/home/training/trainer/basic-skills/digital-evaluation/alley-docking/off-set-backing/parking-blind'],{
+        queryParams:{
+          training_record_id: this.data.id
+        }
+      });
     }
      // Parallel Parking - Sight
     else if (
@@ -501,7 +605,12 @@ export class BasicSkillsPage implements OnInit {
       !this.data.is_parking_sight_started &&
       !this.data.is_coup_uncoup_started
     ) {
-      this.router.navigateByUrl('/tabs/home/training/trainer/basic-skills/digital-evaluation/alley-docking/off-set-backing/parking-blind/parking-sight');
+      // this.router.navigateByUrl('/tabs/home/training/trainer/basic-skills/digital-evaluation/alley-docking/off-set-backing/parking-blind/parking-sight');
+      this.router.navigate(['/tabs/home/training/trainer/basic-skills/digital-evaluation/alley-docking/off-set-backing/parking-blind/parking-sight'],{
+        queryParams:{
+          training_record_id: this.data.id
+        }
+      });
     }
     //Coupling & Uncoupling
     else if (
@@ -513,7 +622,12 @@ export class BasicSkillsPage implements OnInit {
       this.data.is_parking_sight_started &&
       !this.data.is_coup_uncoup_started
     ) {
-      this.router.navigateByUrl('/tabs/home/training/trainer/basic-skills/digital-evaluation/alley-docking/off-set-backing/parking-blind/parking-sight/coup-uncoup');
+      // this.router.navigateByUrl('/tabs/home/training/trainer/basic-skills/digital-evaluation/alley-docking/off-set-backing/parking-blind/parking-sight/coup-uncoup');
+      this.router.navigate(['/tabs/home/training/trainer/basic-skills/digital-evaluation/alley-docking/off-set-backing/parking-blind/parking-sight/coup-uncoup'],{
+        queryParams:{
+          training_record_id: this.data.id
+        }
+      });
     }
   }
 }
