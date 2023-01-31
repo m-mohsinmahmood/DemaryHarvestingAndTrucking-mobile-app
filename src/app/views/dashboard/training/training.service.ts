@@ -22,7 +22,7 @@ export class TrainingService {
     let params = new HttpParams();
     params = params.set('trainee_id',trainee_id);
     return this.httpClient
-    .get<any>('http://localhost:7071/api/training', {
+    .get<any>('api-1/training', {
       params,
     })
     .pipe(take(1));
@@ -31,7 +31,7 @@ export class TrainingService {
     let params = new HttpParams();
     params = params.set('trainer_id',trainer_id);
     return this.httpClient
-    .get<any>('http://localhost:7071/api/training', {
+    .get<any>('api-1/training', {
       params,
     })
     .pipe(take(1));
@@ -46,7 +46,7 @@ export class TrainingService {
     params = params.set('role', role);
     params = params.set('search', search);
     return this.httpClient
-      .get<any>('http://localhost:7071/api/dropdowns', {
+      .get<any>('api-1/dropdowns', {
         params,
       })
       .pipe(take(1));
@@ -55,7 +55,7 @@ export class TrainingService {
     let params=  new HttpParams();
     params = params.set('entity', entity);
     return this.httpClient
-    .post<any>('http://localhost:7071/api/training', data,{
+    .post<any>('api-1/training', data,{
       params
     })
     .pipe(take(1));
@@ -64,7 +64,7 @@ export class TrainingService {
     let params=  new HttpParams();
     params = params.set('entity', entity);
     return this.httpClient
-    .patch<any>('http://localhost:7071/api/training', data,{
+    .patch<any>('api-1/training', data,{
       params
     })
     .pipe(take(1));
@@ -74,7 +74,7 @@ export class TrainingService {
     params = params.set('entity', entity);
     params = params.set('trainer_pre_trip_id', trainer_id);
     return this.httpClient
-    .get<any>('http://localhost:7071/api/training',{
+    .get<any>('api-1/training',{
       params
     })
     .pipe(take(1));
@@ -85,7 +85,7 @@ export class TrainingService {
     params = params.set('evaluation_type',evaluation_type);
     params = params.set('evaluation_form',evaluation_form);
     return this.httpClient
-    .get<any>('http://localhost:7071/api/training', {
+    .get<any>('api-1/training', {
       params
     })
     .pipe(take(1));
@@ -94,7 +94,7 @@ export class TrainingService {
     let params = new HttpParams();
     params = params.set('record_id',record_id);
     return this.httpClient
-    .get<any>('http://localhost:7071/api/training', {
+    .get<any>('api-1/training', {
       params
     })
     .pipe(take(1));
@@ -105,7 +105,7 @@ export class TrainingService {
     params = params.set('trainer_id',trainer_id);
     params = params.set('evaluation_type',evaluation_type);
     return this.httpClient
-    .get<any>('http://localhost:7071/api/training', {
+    .get<any>('api-1/training', {
       params
     })
     .pipe(take(1));
@@ -119,7 +119,7 @@ export class TrainingService {
       evaluation_form
     };
     return this.httpClient
-      .post<any>(`http://localhost:7071/api/dwr`, data)
+      .post<any>(`api-1/dwr`, data)
       .pipe(take(1));
   }
   getMachinery(search: string = '', entity: string = '') {
@@ -129,7 +129,7 @@ export class TrainingService {
     params = params.set('vehicleType', 'Truck');
 
     return this.httpClient
-      .get<any>('http://localhost:7071/api/dropdowns', {
+      .get<any>('api-1/dropdowns', {
         params,
       })
       .pipe(take(1));

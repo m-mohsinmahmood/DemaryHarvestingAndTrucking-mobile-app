@@ -60,7 +60,7 @@ export class FarmingService {
     }
 
     return this._httpClient
-      .post(`http://localhost:7071/api/work-order-farming`, data)
+      .post(`api-1/work-order-farming`, data)
       .pipe(take(1));
   }
 
@@ -69,7 +69,7 @@ export class FarmingService {
     data.searchClause = searchClause;
 
     return this._httpClient
-      .patch(`http://localhost:7071/api/work-order-farming`, data)
+      .patch(`api-1/work-order-farming`, data)
       .pipe(take(1));
   }
 
@@ -77,7 +77,7 @@ export class FarmingService {
     data.dwr_type = dwr_type;
 
     return this._httpClient
-      .post(`http://localhost:7071/api/dwr`, data)
+      .post(`api-1/dwr`, data)
       .pipe(take(1));
   }
 
@@ -85,7 +85,7 @@ export class FarmingService {
     data.workOrderId = workOrder.work_order_id;
 
     return this._httpClient
-      .patch(`http://localhost:7071/api/dwr`, data)
+      .patch(`api-1/dwr`, data)
       .pipe(take(1));
   }
 
@@ -101,7 +101,7 @@ export class FarmingService {
     params = params.set('search', search);
 
     return this._httpClient
-      .get<any>('http://localhost:7071/api/dropdowns', {
+      .get<any>('api-1/dropdowns', {
         params,
       })
       .pipe(take(1));
@@ -115,7 +115,7 @@ export class FarmingService {
     params = params.set('id', id);
 
     return this._httpClient
-      .get<any>('http://localhost:7071/api/employee', {
+      .get<any>('api-1/employee', {
         params,
       })
       .pipe(take(1));
@@ -133,7 +133,7 @@ export class FarmingService {
     params = params.set('search', search);
 
     return this._httpClient
-      .get<any>('http://localhost:7071/api/dropdowns', {
+      .get<any>('api-1/dropdowns', {
         params,
       })
       .pipe(take(1));
@@ -151,7 +151,7 @@ export class FarmingService {
     params = params.set('search', search);
 
     return this._httpClient
-      .get<any>('http://localhost:7071/api/dropdowns', {
+      .get<any>('api-1/dropdowns', {
         params,
       })
       .pipe(take(1));
@@ -171,7 +171,7 @@ export class FarmingService {
     params = params.set('search', search);
 
     return this._httpClient
-      .get<any>('http://localhost:7071/api/dropdowns', {
+      .get<any>('api-1/dropdowns', {
         params,
       })
       .pipe(take(1));
@@ -189,7 +189,7 @@ export class FarmingService {
     params = params.set('search', search);
 
     return this._httpClient
-      .get<any>('http://localhost:7071/api/dropdowns', {
+      .get<any>('api-1/dropdowns', {
         params,
       })
       .pipe(take(1));
@@ -206,7 +206,7 @@ export class FarmingService {
     params = params.set('vehicleType', 'Tractor');
 
     return this._httpClient
-      .get<any>('http://localhost:7071/api/dropdowns', {
+      .get<any>('api-1/dropdowns', {
         params,
       })
       .pipe(take(1));
@@ -224,7 +224,7 @@ export class FarmingService {
     params = params.set('employeeId', employeeId);
 
     return this._httpClient
-      .get<any>('http://localhost:7071/api/work-order-farming', {
+      .get<any>('api-1/work-order-farming', {
         params,
       })
       .pipe(take(1));
@@ -242,7 +242,7 @@ export class FarmingService {
     params = params.set('type', type);
 
     return this._httpClient
-      .get<any>('http://localhost:7071/api/dwr', {
+      .get<any>('api-1/dwr', {
         params,
       })
       .pipe(take(1));
