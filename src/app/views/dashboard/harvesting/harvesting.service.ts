@@ -520,4 +520,43 @@ export class HarvestingService {
       .patch(`http://localhost:7071/api/harvesting-ticket`, payload)
       .pipe(take(1));
   }
+
+  truckDriverGetTickets(truckDriverId, ticketStatus) {
+    let params = new HttpParams();
+    params = params.set('truckDriverId', truckDriverId);
+    params = params.set('ticketStatus', ticketStatus);
+
+    try {
+      return this._httpClient
+        .get<any>(`http://localhost:7071/api/harvesting-ticket`, {
+          params,
+        })
+        .pipe(take(1))
+        .subscribe((res) => {
+          if (ticketStatus == 'sent') {
+            this.sentTicketLoading.next(true);
+            this.sentTicket.next(res);
+            this.sentTicketLoading.next(false);
+          } else if (ticketStatus == 'pending') {
+            this.pendingTicketLoading.next(true);
+            this.pendingTicket.next(res);
+            this.pendingTicketLoading.next(false);
+          }
+        });
+    } catch (error) {
+      console.log('error', error);
+    }
+  }
+
+  truckDriverCompleteTicket(operation, payload) {
+    let appendedObject = { ...payload, operation };
+    // console.log('appendedObject', appendedObject);
+    try {
+      return this._httpClient
+        .patch(`http://localhost:7071/api/harvesting-ticket`, appendedObject)
+        .pipe(take(1));
+    } catch (error) {
+      console.log('error', error);
+    }
+  }
 }

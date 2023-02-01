@@ -29,6 +29,7 @@ export class GeneratedTicketPage implements OnInit {
   upload_1 = false;
   upload_2 = false;
   upload_3 = false;
+
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
   constructor(
@@ -41,24 +42,42 @@ export class GeneratedTicketPage implements OnInit {
 
   ngOnInit() {
     this.role = localStorage.getItem('role');
+
     this.generateTicketFormTruck = this.formBuilder.group({
-      scale_ticket: ['', [Validators.required]],
-      scale_ticket_weight: ['', [Validators.required]],
-      test_weight: ['', [Validators.required]],
-      protein_content: ['', [Validators.required]],
-      moisture_content: ['', [Validators.required]],
+      scaleTicket: ['', [Validators.required]],
+      scaleTicketWeight: ['', [Validators.required]],
+      testWeight: ['', [Validators.required]],
+      proteinContent: ['', [Validators.required]],
+      moistureContent: ['', [Validators.required]],
+      ticketId: [''],
+      fieldId: [''],
+      destination: [''],
+      farmId: [''],
+      cropName: [''],
       scale_ticket_docs: [''],
       scale_ticket_weight_docs: [''],
-      status: ['pending'],
+      status: ['pending']
     });
+
     console.log(
       'Ticket',
-      JSON.parse(this.router.getCurrentNavigation().extras.state.ticket)
+      JSON.parse(this.router.getCurrentNavigation().extras.state?.ticket)
     );
     this.ticket = JSON.parse(
-      this.router.getCurrentNavigation().extras.state.ticket
+      this.router.getCurrentNavigation().extras.state?.ticket
     );
-    this.ticketID = this.router.getCurrentNavigation().extras.state.ticketId;
+    this.ticketID = this.ticket.id;
+
+    if (this.ticket) {
+      this.generateTicketFormTruck.patchValue({
+        ticketId: this.ticket.id,
+        fieldId: this.ticket.field_id,
+        destination: this.ticket.destination,
+        farmId: this.ticket.farm_id,
+        cropName: this.ticket.crop_name,
+      });
+    }
+
     if (this.role === 'truck-driver') {
       this.initApis();
       this.initObservables();
@@ -78,26 +97,29 @@ export class GeneratedTicketPage implements OnInit {
   }
 
   submit() {
-    console.log(this.generateTicketFormTruck.value);
+    // console.log(this.generateTicketFormTruck.value);
     if (this.role === 'truck-driver') {
-      this.harvestingService
-        .updateTicket(this.ticketID, this.generateTicketFormTruck.value)
-        .subscribe(
-          (res: any) => {
-            console.log('Response Ticket:', res);
-            if (res.status === 200) {
-              this.generateTicketFormTruck.reset();
-              this.toastService.presentToast(res.message, 'success');
-            } else {
-              console.log('Something happened :)');
-              this.toastService.presentToast(res.mssage, 'danger');
-            }
-          },
-          (err) => {
-            this.toastService.presentToast(err, 'danger');
-            console.log('Error:', err);
+      this.harvestingService.truckDriverCompleteTicket(
+        'completeTicket',
+        this.generateTicketFormTruck.value
+      )
+      .subscribe(
+        (response: any) => {
+          console.log('Response', response);
+          if (response.status === 200) {
+            this.generateTicketFormTruck.reset();
+            this.goBack();
+            this.toastService.presentToast(response.message, 'success');
+          } else {
+            console.log('Something happened :)');
+            this.toastService.presentToast(response.message, 'danger');
           }
-        );
+        },
+        (err) => {
+          this.toastService.presentToast(err, 'danger');
+          console.log('Error:', err);
+        }
+      );
     } else {
       let payload = { operation: 'verifyTicket', ticketId: this.ticket.id };
       this.harvestingService.kartOperatorVerifyTickets(payload).subscribe(
@@ -111,13 +133,14 @@ export class GeneratedTicketPage implements OnInit {
             this.toastService.presentToast(res.mssage, 'danger');
           }
         },
-          (err) => {
-            this.toastService.presentToast(err, 'danger');
-            console.log('Error:', err);
-          }
+        (err) => {
+          this.toastService.presentToast(err, 'danger');
+          console.log('Error:', err);
+        }
       );
     }
   }
+
   onSelectedFiles(file, name) {
     console.log('file:', file);
 
@@ -128,20 +151,24 @@ export class GeneratedTicketPage implements OnInit {
       this.upload_2 = !this.upload_2;
     }
   }
+
   initApis() {
     this.harvestingService.getTicketById(this.ticketID, 'verify-ticket-truck');
   }
+
   initObservables() {
     this.harvestingService.ticket$.subscribe((res) => {
-      console.log('Ticket Verify:', res);
+      // console.log('Ticket Verify:', res);
       this.ticketData = res;
     });
 
     this.isLoadingTicket$ = this.harvestingService.ticketLoading$;
   }
+
   initKartApis() {
     this.harvestingService.getTicketById(this.ticketID, 'verify-ticket-kart');
   }
+
   initKartObservables() {
     this.harvestingService.ticket$.subscribe((res) => {
       console.log('Ticket Kart Verify:', res);
@@ -149,5 +176,4 @@ export class GeneratedTicketPage implements OnInit {
     });
     this.isLoadingTicket$ = this.harvestingService.ticketLoading$;
   }
-  patchKartForm() {}
 }
