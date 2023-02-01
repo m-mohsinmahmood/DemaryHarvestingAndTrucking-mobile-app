@@ -139,7 +139,7 @@ export class CoupUncoupPage implements OnInit {
     }
     createDWR(){
       this.trainingService
-       .createDWR(localStorage.getItem('employeeId'), this.training_record_id,'basic-skills','digital-form')
+       .createDWR(localStorage.getItem('employeeId'), this.training_record_id,'basic-skills','digital-form','4543344b-0b74-49a2-b3c7-d388851f0013')
        .subscribe(
          (res) => {
            console.log('RES:', res);

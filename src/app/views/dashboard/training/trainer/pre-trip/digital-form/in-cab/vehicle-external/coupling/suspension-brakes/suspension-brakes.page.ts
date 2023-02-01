@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -135,7 +136,7 @@ export class SuspensionBrakesPage implements OnInit {
            this.createDWR();
 
           this.toastService.presentToast(
-            'Digital valuation completed',
+            'Digital evaluation completed',
             'success'
           );
 
@@ -155,7 +156,7 @@ export class SuspensionBrakesPage implements OnInit {
 
   createDWR(){
     this.trainingService
-     .createDWR(localStorage.getItem('employeeId'), this.training_record_id,'pre-trip','digital-form')
+     .createDWR(localStorage.getItem('employeeId'), this.training_record_id,'pre-trip','digital-form','4543344b-0b74-49a2-b3c7-d388851f0013')
      .subscribe(
        (res) => {
          console.log('RES:', res);

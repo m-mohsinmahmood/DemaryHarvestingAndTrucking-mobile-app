@@ -1,7 +1,10 @@
-import { HttpClient, HttpErrorResponse, HttpParams } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { take } from "rxjs/operators";
-import { AlertService } from "src/app/alert/alert.service";
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/ban-types */
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { take } from 'rxjs/operators';
+import { AlertService } from 'src/app/alert/alert.service';
 
 @Injectable({
   providedIn: 'root',
@@ -22,7 +25,7 @@ export class TruckingService {
     status: string = '',
     entity: string = '',
   ) {
-    this._httpClient
+    this._httpClient;
     let params = new HttpParams();
     params = params.set('entity', entity);
     params = params.set('status', status);
@@ -40,7 +43,7 @@ export class TruckingService {
     entity: string = '',
     role: string = '',
   ) {
-    this._httpClient
+    this._httpClient;
     let params = new HttpParams();
     params = params.set('entity', entity);
     params = params.set('role', role);
@@ -57,7 +60,7 @@ export class TruckingService {
     data.role = role;
 
     data.ticketStatus = ticketStatus;
-    data.truckingType = truckingType
+    data.truckingType = truckingType;
     data.isTicketInfoCompleted = isInfoCompleted;
 
     return this._httpClient
@@ -98,7 +101,7 @@ export class TruckingService {
     isTicketActive?: boolean,
     isPreCHeckFilled?: boolean
   ) {
-    this._httpClient
+    this._httpClient;
     let params = new HttpParams();
     params = params.set('role', role);
     params = params.set('ticketStatus', ticketStatus);
@@ -106,13 +109,13 @@ export class TruckingService {
     params = params.set('truckingType', truckingType);
 
     if (isTicketInfoComplete != null)
-      params = params.set('isTicketInfoComplete', isTicketInfoComplete);
+      {params = params.set('isTicketInfoComplete', isTicketInfoComplete);}
 
     if (isTicketActive != null)
-      params = params.set('isTicketActive', isTicketActive);
+      {params = params.set('isTicketActive', isTicketActive);}
 
     if (isPreCHeckFilled != null)
-      params = params.set('isPreCheckFilled', isPreCHeckFilled);
+      {params = params.set('isPreCheckFilled', isPreCHeckFilled);}
 
     return this._httpClient
       .get<any>('http://localhost:7071/api/delivery_ticket_trucking', {
@@ -125,7 +128,7 @@ export class TruckingService {
     entity: string,
     customerId?: string
   ) {
-    this._httpClient
+    this._httpClient;
     let params = new HttpParams();
     params = params.set('entity', entity);
     params = params.set('customerId', customerId);
@@ -141,7 +144,7 @@ export class TruckingService {
     search: string = '',
     entity: string = '',
   ) {
-    this._httpClient
+    this._httpClient;
     let params = new HttpParams();
     params = params.set('entity', entity);
     params = params.set('search', search);

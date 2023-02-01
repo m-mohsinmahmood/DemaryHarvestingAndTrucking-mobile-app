@@ -1,60 +1,5 @@
 
 <app-header [title]="'Verify DWRs'" [color]="'dwr'"></app-header>
-
-<!-- <ion-content>
-  <app-timer [value]="'21:22:23'"></app-timer>
-
-  <p class="font-semibold text-lg font-Lato ml-6 my-3">Outstanding DWRs</p>
-  <ion-grid>
-    <ion-row>
-      <ion-col size="12">
-        <ion-card class="card" [routerLink]="['verify-dwr']">
-          <ion-card-content>
-            <div class="flex justify-center items-center">
-              <p class="font-15px font-bold font-Lato">October 25th, 2022</p>
-              <span class="text-white font-semibold ml-2 bg-3D8AA4 w-7 h-7 rounded-full flex justify-center items-center">3</span>
-            </div>
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-      <ion-col size="12">
-        <ion-card class="card" [routerLink]="['']">
-          <ion-card-content>
-            <div class="flex justify-center items-center">
-              <p class="font-15px font-bold font-Lato">October 25th, 2022</p>
-              <span class="text-white font-semibold ml-2 bg-3D8AA4 w-7 h-7 rounded-full flex justify-center items-center">1</span>
-            </div>
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-      <ion-col size="12">
-        <ion-card class="card" [routerLink]="['']">
-          <ion-card-content class="flex justify-between items-center">
-            <div class="flex justify-center items-center">
-              <p class="font-15px font-bold font-Lato">October 25th, 2022</p>
-              <span class="text-white font-semibold ml-2 bg-E64646 w-7 h-7 rounded-full flex justify-center items-center">3</span>
-            </div>
-          <ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-20 rounded-full px-2 py-1">Overdue</ion-text>
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-      <ion-col size="12">
-        <ion-card class="card" [routerLink]="['']">
-          <ion-card-content class="flex justify-between items-center">
-            <div class="flex justify-center items-center">
-              <p class="font-15px font-bold font-Lato">October 26th, 2022</p>
-              <span class="text-white font-semibold ml-2 bg-E64646 w-7 h-7 rounded-full flex justify-center items-center">3</span>
-            </div>
-          <ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-20 rounded-full px-2 py-1">Overdue</ion-text>
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-
-  </ion-content> -->
-
-
   <ion-content>
     <app-timer [value]="'11:22:33'"></app-timer>
     <div class="p-2">
@@ -89,12 +34,33 @@
               </div>
               <div *ngIf="dwrs$.value.count !== 0">
                 <div *ngFor="let dwr of dwrs$?.value?.workOrders">
-                  <ion-card class="p-2 flex flex-col justify-between items-center" (click)="navigate('work-history',dwr.id)">
+                  <!-- <ion-card class="p-2 flex flex-col justify-between items-center" (click)="navigate('work-history',dwr.id)">
                     <ion-text class="font-Lato font-semibold text-lg text-3D8AA4">
                       {{moment(dwr.created_at).format('MMMM DD, YYYY')}}
                     </ion-text>
                     <ion-text class="font-Lato text-base mt-1">Total Hours: {{dwr.hours_worked}}</ion-text>
-                  </ion-card>
+                  </ion-card> -->
+                  <ion-grid>
+                    <ion-row>
+                      <ion-col size="12">
+                        <ion-card class="card">
+                          <ion-card-content class="flex flex-col justify-between h-28">
+                            <div class="flex justify-between items-center">
+                              <ion-text class="font-Leto text-base">Name: <span class="font-Lato text-black">{{''}}</span></ion-text>
+                              <ion-text class="font-Lato">Total Hours: <span class="font-Lato text-black">{{dwr.hours_worked?dwr.hours_worked : 0}} Hrs</span></ion-text>
+                            </div>
+                            <div class="flex justify-between items-center">
+                              <ion-text class="text-3D8AA4 font-Lato text-sm font-medium underline underline-offset-4" (click)="navigate('detail')">View Detail</ion-text>
+                              <div class="">
+                                <button class="bg-3D8AA4 text-3D8AA4 bg-opacity-20 rounded-md font-Lato text-sm px-4 py-2" (click)="navigate('send-back')">Send Back</button>
+                                <button class="bg-3D8AA4 text-white rounded-md font-Lato text-sm px-4 py-2 ml-2" (click)="navigate('verify')">Verify</button>
+                              </div>
+                            </div>
+                          </ion-card-content>
+                        </ion-card>
+                      </ion-col>
+                    </ion-row>
+                  </ion-grid>
                 </div>
               </div>
               <div *ngIf="dwrs$.value.count === 0">

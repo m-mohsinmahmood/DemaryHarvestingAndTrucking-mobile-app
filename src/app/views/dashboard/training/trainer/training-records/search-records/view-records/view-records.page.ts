@@ -37,8 +37,6 @@ math = Math;
   ) {}
 
   ngOnInit() {
-    // console.log(this.router.getCurrentNavigation().extras.state.formType);
-    // this.formType = this.router.getCurrentNavigation().extras.state.formType;
     this.route.queryParams.subscribe((params) => {
       console.log('PARAMS:', params);
       this.formType = params.formType;

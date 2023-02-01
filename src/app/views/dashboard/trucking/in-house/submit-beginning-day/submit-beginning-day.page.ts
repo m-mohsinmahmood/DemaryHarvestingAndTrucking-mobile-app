@@ -84,7 +84,7 @@ export class SubmitBeginningDayPage implements OnInit {
     console.log(this.submitBeginningDay.value);
 
     this.truckingService.updateDeliveryTicket({
-      ticketNo: this.submitBeginningDay.get("deliveryTicketId").value,
+      ticketNo: this.submitBeginningDay.get('deliveryTicketId').value,
       isTicketActive: true
     }, 'sent')
       .subscribe(
@@ -102,7 +102,7 @@ export class SubmitBeginningDayPage implements OnInit {
           console.log(res);
 
           if (res.status === 200) {
-            this.toast.presentToast("DWR has been created successfully!", 'success');
+            this.toast.presentToast('DWR has been created successfully!', 'success');
             this.router.navigateByUrl(nav);
           }
         },

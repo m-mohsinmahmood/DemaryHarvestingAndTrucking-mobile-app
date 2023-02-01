@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
@@ -67,9 +68,9 @@ export class WorkHistoryPage implements OnInit {
     });
   }
   getDWRByDate(){
-    this.dwrs$ =this.dwrService.getDWR(localStorage.getItem('employeeId'),this.date);
+    this.dwrs$ =this.dwrService.getDWR(localStorage.getItem('employeeId'),this.date,localStorage.getItem('role'));
   }
   getDWRByMonth(){
-    this.monthDWRS$ = this.dwrService.getMonthDWR(localStorage.getItem('employeeId'),this.monthValue,this.yearValue);
+    this.monthDWRS$ = this.dwrService.getMonthDWR(localStorage.getItem('employeeId'),this.monthValue,this.yearValue,localStorage.getItem('role'));
   }
 }

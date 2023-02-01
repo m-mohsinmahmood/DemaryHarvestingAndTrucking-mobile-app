@@ -21,11 +21,27 @@ export class DWRService {
     private alertSerice: AlertService
   ) {}
 
-  getDWR(employeeId: string, date: any) {
+  getDWR(employeeId: string, date: any,
+    role: any) {
     let params = new HttpParams();
     params = params.set('employeeId', employeeId);
     params = params.set('dateType', 'day');
     params = params.set('date', date);
+    params = params.set('role', role);
+
+    return this.httpClient
+      .get<any>('http://localhost:7071/api/dwr', {
+        params,
+      })
+      .pipe(take(1));
+  }
+  getMonthDWR(employeeId: string, month: any, year: any, role: any) {
+    let params = new HttpParams();
+    params = params.set('employeeId', employeeId);
+    params = params.set('dateType', 'month');
+    params = params.set('month', month);
+    params = params.set('year', year);
+    params = params.set('role', role);
 
     return this.httpClient
       .get<any>('http://localhost:7071/api/dwr', {
@@ -79,17 +95,5 @@ export class DWRService {
       params,
     })
     .pipe(take(1));
-  }
-  getMonthDWR(employeeId: string, month: any, year: any) {
-    let params = new HttpParams();
-    params = params.set('employeeId', employeeId);
-    params = params.set('dateType', 'month');
-    params = params.set('month', month);
-    params = params.set('year', year);
-    return this.httpClient
-      .get<any>('http://localhost:7071/api/dwr', {
-        params,
-      })
-      .pipe(take(1));
   }
 }

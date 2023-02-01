@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
@@ -28,8 +29,8 @@ export class VerifyDwrsPage implements OnInit {
 // to use in HTML
   moment: any = moment;
 
-    // crew chief id
-    crew_chief_id = '4b843edb-0b74-49a2-b3c7-d3884f5f6013';
+    // // crew chief id
+    // crew_chief_id = '4b843edb-0b74-49a2-b3c7-d3884f5f6013';
 
   constructor(
     private location: Location,
@@ -55,17 +56,24 @@ export class VerifyDwrsPage implements OnInit {
 
   }
   getDWRByDate(){
-    this.dwrs$ =this.dwrService.getDWR(this.crew_chief_id,this.date);
+    this.dwrs$ =this.dwrService.getDWR(localStorage.getItem('employeeId'),this.date,localStorage.getItem('role'));
   }
   getDWRByMonth(){
-    this.monthDWRS$ = this.dwrService.getMonthDWR(this.crew_chief_id,this.monthValue,this.yearValue);
+    this.monthDWRS$ = this.dwrService.getMonthDWR(localStorage.getItem('employeeId'),this.monthValue,this.yearValue,localStorage.getItem('role'));
   }
-  navigate(name: string,id: any) {
-    this.router.navigateByUrl('/tabs/home/dwr/verify-dwrs/verify-dwr', {
-      state: {
-        type: name,
-        id
-      },
+  // navigate(name: string,id: any) {
+  //   this.router.navigateByUrl('/tabs/home/dwr/verify-dwrs/verify-dwr', {
+  //     state: {
+  //       type: name,
+  //       id
+  //     },
+  //   });
+  // }
+  navigate(name: string){
+    this.router.navigateByUrl('/tabs/home/dwr/detail',{
+      state:{
+        type: name
+      }
     });
   }
 }
