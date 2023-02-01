@@ -14,6 +14,7 @@ export class FarmingPage implements OnInit {
   pendingOrdersCount = -1;
   sentOrdersCount = -1;
   workOrderCount: any;
+  isModalOpen = true;
 
   constructor(private farmingService: FarmingService) {
 
@@ -52,5 +53,9 @@ export class FarmingPage implements OnInit {
 
       })
     }
+  }
+
+  setOpen(state) {
+    this.isModalOpen = state;
   }
 }

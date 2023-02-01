@@ -2,7 +2,7 @@
 || role === 'tractor-driver'? 'Tractor Driver Tasks': ''" [color]="'farming'"></app-header>
 
 <!-- Role: Dispatcher-->
-<ion-content class="homeScreen" *ngIf="role === 'dispatcher'">
+<ion-content class="homeScreen" *ngIf="role === 'dispatcher' && !isModalOpen">
   <ion-grid>
     <ion-row>
       <ion-col size="12">
@@ -39,7 +39,7 @@
 </ion-content>
 
 <!-- Role: Tractor Driver-->
-<ion-content class="homeScreen" *ngIf="role === 'tractor-driver'">
+<ion-content class="homeScreen" *ngIf="role === 'tractor-driver' && !isModalOpen">
   <ion-grid>
     <ion-row>
       <ion-col size="12">
@@ -102,4 +102,35 @@
       </ion-col>
     </ion-row>
   </ion-grid>
+</ion-content>
+
+<ion-content class="homeScreen" *ngIf="isModalOpen">
+  <!-- <ion-header>
+    <ion-toolbar>
+      <ion-title>Check-In/Check-Out</ion-title>
+    </ion-toolbar>
+  </ion-header> -->
+
+  <!-- <ion-content class="ion-padding"> -->
+    <!-- <ion-button expand="block" (click)="setOpen(true)">Open</ion-button> -->
+    <ion-modal [isOpen]="isModalOpen">
+      <ng-template>
+        <ion-header>
+          <ion-toolbar>
+            <ion-title>Check-In/Check-Out</ion-title>
+            <ion-buttons slot="end">
+              <ion-button (click)="setOpen(false)">Close</ion-button>
+            </ion-buttons>
+          </ion-toolbar>
+        </ion-header>
+        <ion-content class="ion-padding">
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni illum quidem recusandae ducimus quos
+            reprehenderit. Veniam, molestias quos, dolorum consequuntur nisi deserunt omnis id illo sit cum qui. Eaque,
+            dicta.
+          </p>
+        </ion-content>
+      </ng-template>
+    </ion-modal>
+  <!-- </ion-content> -->
 </ion-content>
