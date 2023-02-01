@@ -52,6 +52,21 @@ export class VerifyTicketPage implements OnInit {
       this.initSentObservables();
     }
   }
+
+  async ionViewDidEnter() {
+    this.role = localStorage.getItem('role');
+
+    // passing the segment value conditionally
+    this.segment = this.role === 'kart-operator' ? 'sent' : 'received';
+    if (this.role === 'kart-operator') {
+      this.initSentApis();
+      this.initSentObservables();
+    }
+    if (this.role === 'truck-driver') {
+      this.initSentApis();
+      this.initSentObservables();
+    }
+  }
   ngOnDestroy(): void {
     this._unsubscribeAll.next(null);
     this._unsubscribeAll.complete();
@@ -60,22 +75,38 @@ export class VerifyTicketPage implements OnInit {
   }
 
   initSentApis() {
-    this.harvestingService.kartOperatorGetTickets(
-      'f4cfa75b-7c14-4b68-a192-00d56c9f2022',
-      'sent'
-    );
+    if (this.role === 'kart-operator') {
+      this.harvestingService.kartOperatorGetTickets(
+        'f4cfa75b-7c14-4b68-a192-00d56c9f2022',
+        'sent'
+      );
+    } else if (this.role === 'truck-driver') {
+      this.harvestingService.truckDriverGetTickets(
+        '00277ae0-9534-473a-afe8-c648aa0e6d9d',
+        'sent'
+      );
+    }
   }
+
   initSentObservables() {
     this.sentTicketData$ = this.harvestingService.sentTicket$;
     this.sentTicketLoading$ = this.harvestingService.sentTicketLoading$;
   }
 
   initPendingApis() {
-    this.harvestingService.kartOperatorGetTickets(
-      'f4cfa75b-7c14-4b68-a192-00d56c9f2022',
-      'pending'
-    );
+    if (this.role === 'kart-operator') {
+      this.harvestingService.kartOperatorGetTickets(
+        'f4cfa75b-7c14-4b68-a192-00d56c9f2022',
+        'pending'
+      );
+    } else if (this.role === 'truck-driver') {
+      this.harvestingService.truckDriverGetTickets(
+        '00277ae0-9534-473a-afe8-c648aa0e6d9d',
+        'pending'
+      );
+    }
   }
+
   initPendingObservables() {
     this.pendingTicketData$ = this.harvestingService.pendingTicket$;
     this.pendingTicketLoading$ = this.harvestingService.pendingTicketLoading$;
@@ -139,8 +170,9 @@ export class VerifyTicketPage implements OnInit {
       this.initSentObservables();
     }
     if (event.target.value === 'completed') {
-      this.initVerifiedApis();
-      this.initVerifiedObservables();
+      // console.log('event.target.value', event.target.value);
+      this.initPendingApis();
+      this.initPendingObservables();
     }
   }
 }
