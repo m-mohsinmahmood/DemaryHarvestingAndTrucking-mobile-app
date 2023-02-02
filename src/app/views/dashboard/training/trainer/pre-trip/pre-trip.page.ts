@@ -375,7 +375,7 @@ export class PreTripPage implements OnInit {
 
     // calling API
     this.allSupervisors = this.trainingService.getEmployees(
-      this.traineeSearchValue,
+      this.supervisorSearchValue,
       'allEmployees',
       'Supervisor'
     );

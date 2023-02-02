@@ -394,7 +394,7 @@ export class BasicSkillsPage implements OnInit {
 
     // calling API
     this.allSupervisors = this.trainingService.getEmployees(
-      this.traineeSearchValue,
+      this.supervisorSearchValue,
       'allEmployees',
       'Supervisor'
     );

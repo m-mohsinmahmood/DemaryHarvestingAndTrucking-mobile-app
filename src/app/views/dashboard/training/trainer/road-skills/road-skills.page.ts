@@ -373,7 +373,7 @@ export class RoadSkillsPage implements OnInit {
 
     // calling API
     this.allSupervisors = this.trainingService.getEmployees(
-      this.traineeSearchValue,
+      this.supervisorSearchValue,
       'allEmployees',
       'Supervisor'
     );
