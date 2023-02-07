@@ -1,7 +1,7 @@
 <app-header [title]="role ==='crew-chief'? 'Crew Tasks' : ''
 || role === 'combine-operator'? 'Combine Operator Tasks': ''
 || role ==='kart-operator'? 'Kart Operator Tasks' : ''
-|| role ==='truck-driver'? 'Truck Driver Tasks' : ''" [color]="'harvesting'"></app-header>
+|| role ==='truck-driver'? 'Truck Driver Tasks' : ''" [color]="'harvesting'" [routeValue]="'harvesting'"></app-header>
 
 <!-- Crew-Tasks -->
 <ion-content *ngIf="role === 'crew-chief'">

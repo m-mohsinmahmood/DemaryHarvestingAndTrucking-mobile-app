@@ -2,7 +2,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute, NavigationEnd, NavigationStart, Router, RouterEvent, RoutesRecognized } from '@angular/router';
-import { filter, map, pairwise } from 'rxjs/operators';
+import { filter, pairwise } from 'rxjs/operators';
+import { NavigationService } from './header.service';
 
 @Component({
   selector: 'app-header',
@@ -17,65 +18,24 @@ export class HeaderComponent implements OnInit {
    routeString: string;
    private previousURL: string;
    private currentURL: string;
+   private history = [];
+
+
   constructor(private location: Location,
     private router: Router,
-    private activatedRoute: ActivatedRoute) {
-      // this.previousUrl = this.router.getCurrentNavigation()?.previousNavigation?.finalUrl?.toString();
-      // localStorage.setItem('localRoute',this.router.getCurrentNavigation()?.previousNavigation?.finalUrl?.toString());
-      // console.log('---',location.getState());
+    private activatedRoute: ActivatedRoute,
+    private navigationService: NavigationService
+     ) {
       console.log('CHECK:',this.router.getCurrentNavigation()?.previousNavigation?.finalUrl?.toString());
-      this.routeString = this.router.getCurrentNavigation()?.previousNavigation?.finalUrl?.toString();
+      this.previousUrl = this.router.getCurrentNavigation()?.previousNavigation?.finalUrl?.toString();
+      const previousRoute = this.activatedRoute.snapshot.data.previousRoute;
 
-      // if(this.routeString === undefined){
-      //  console.log('==');
-      //  this.previousUrl = localStorage.getItem('localRoute');
-      // }
-      // else if((this.routeString !== undefined && this.routeString.includes('?'))){
-      //   console.log('===');
-      //   // console.log('===',this.routeString);
-      //   // console.log(this.routeString.indexOf('?'));
-      //   console.log('new route',this.routeString.slice(0,this.routeString.indexOf('?')));
-      //   // console.log('-------', this.routeString.includes('?'));
-      //   // if(this.routeString.contains('?')){
-      //   //   console.log('ubjnklm;jklm.')
-      //   // }
-      //   // localStorage.setItem('localRoute',this.routeString);
-      //   // this.previousUrl = localStorage.getItem('localRoute');
-      //   this.previousUrl = this.routeString.slice(0,this.routeString.indexOf('?'));
-      //   console.log('=======',this.previousUrl);
-      // }
-      // else if((this.routeString !== undefined && !this.routeString.includes('?'))){
-      //   console.log('====:');
-      //   localStorage.setItem('localRoute',this.routeString);
-      //   this.previousUrl = localStorage.getItem('localRoute');
-      // }
-      // console.log('====',this.previousUrl);
-
-      // localStorage.setItem('localRoute',this.router.getCurrentNavigation()?.previousNavigation?.finalUrl?.toString() === undefined? null:  this.router.getCurrentNavigation()?.previousNavigation?.finalUrl?.toString());
-      // this.currentURL = this.router.url;
-      // router.events.subscribe(event => {
-      //   if (event instanceof NavigationEnd) {
-      //     this.previousUrl = this.currentURL;
-      //     this.currentURL = event.url;
-      //     console.log('PRE:',this.previousUrl);
-      //     console.log('CURR:',this.currentURL);
-      //   };
-      // });
-
-      this.router.events
-      .pipe(
-        filter((event) => event instanceof RoutesRecognized),
-        map((event) => event as RoutesRecognized),
-        pairwise()
-      )
-      .subscribe((events: [RoutesRecognized, RoutesRecognized]) => {
-        // this.previousUrl = events[0].urlAfterRedirects;
-        console.log('---',events[0].urlAfterRedirects);
-      });
     }
-
   ngOnInit() {
   }
+
+
+
 
   goBack() {
     console.log('route-value',this.routeValue);
@@ -93,49 +53,25 @@ export class HeaderComponent implements OnInit {
       this.router.navigateByUrl('/tabs/home/harvesting');
     } else if (this.location.path() === '/tabs/home/harvesting') {
       this.router.navigateByUrl('/tabs/home');
-    } else {
-      if (
-        // this.location.path().includes('training/trainer/pre-trip/digital-form') ||
-        // this.location.path().includes('training/trainer/road-skills/evaluation-form') ||
-        // this.location.path().includes('training/trainer/basic-skills/digital-evaluation')
-        this.routeValue === 'pre-trip' || this.routeValue === 'basic-skills'
-      ) {
-        this.location.historyGo(-2);
-      }
-      // to navigate view-records & search-records page due to query-params
-      else if(this.routeValue === 'view-records' || this.routeValue === 'search-records'){
-        this.location.back();
-      }
-      // else if(this.routeValue === 'repair-maintenance'){
-      //   // this.router.navigate(['/tabs/home']);
-      //   this.location.historyGo(-1);
-
-      // }
-       else {
-        console.log('PRE:',this.previousUrl);
-        if(this.previousUrl === undefined){
-          console.log('If called');
-          this.location.historyGo(-1);
-          // console.log('history:',this.location);
-
-
-          // this.router.navigate([],{relativeTo: this.activatedRoute});
-          // this.location.back();
-          // this.location.historyGo();
-
-
-        }
-        else{
-          console.log('else called');
-          this.router.navigate([this.previousUrl]);
-          // this.location.historyGo(-1);
-          // this.router.navigate(['./'],{relativeTo: this.activatedRoute});
-
-          console.log('history:',this.location);
-
-
-        }
-      }
     }
+    else if(this.routeValue === 'pre-trip' || this.routeValue === 'basic-skills'){
+      this.location.historyGo(-2);
+    }
+    else if(this.routeValue === 'view-records' || this.routeValue === 'search-records'){
+      this.location.back();
+    }
+    else if(this.routeValue === 'training' || this.routeValue === 'trainer' || this.routeValue === 'maintenance-repair' || this.routeValue === 'harvesting'){
+      this.router.navigateByUrl('/tabs/home');
+    }
+    else if(this.routeValue === 'assign-ticket'){
+      this.router.navigateByUrl('/tabs/home/maintenance-repair/assign-tickets');
+    }
+    else if(this.routeValue === 'complete-maintenance-ticket'){
+      this.router.navigateByUrl('/tabs/home/maintenance-repair');
+    }
+    else{
+      this.location.back();
+    }
+
   }
 }

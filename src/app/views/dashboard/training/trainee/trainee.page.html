@@ -193,8 +193,9 @@
         <ion-button expand="block" class="mt-5 font-Lato text-white"
          (click)="submit()"
          [disabled]="traineeForm.invalid || isEmployeeSelected || (loadingSpinner | async)">
-         <div *ngIf="(loadingSpinner | async) === false">Save</div></ion-button>
+         <div *ngIf="(loadingSpinner | async) === false">Save</div>
          <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+        </ion-button>
       </div>
   </form>
 </ion-content>

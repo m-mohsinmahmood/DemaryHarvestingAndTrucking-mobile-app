@@ -1,6 +1,6 @@
-<app-header [title]="'Complete Existing Repair Ticket'" [color]="'maintenance-repair'" *ngIf="category === 'repair'">
+<app-header [title]="'Complete Existing Repair Ticket'" [color]="'maintenance-repair'" *ngIf="category === 'repair'" [routeValue]="'complete-maintenance-ticket'">
 </app-header>
-<app-header [title]="'Complete Existing Maintenance Ticket'" [color]="'maintenance-repair'"
+<app-header [title]="'Complete Existing Maintenance Ticket'" [color]="'maintenance-repair'" [routeValue]="'complete-maintenance-ticket'"
   *ngIf="category === 'maintenance'">
 </app-header>
 
