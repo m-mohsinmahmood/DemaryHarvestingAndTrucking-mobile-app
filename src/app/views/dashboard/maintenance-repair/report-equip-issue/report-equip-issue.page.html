@@ -145,9 +145,13 @@
         </div>
       </ion-list>
 
-      <ion-button [disabled]="this.reportNewEquipIssue.invalid" class="font-Lato text-white mt-8" expand="block"
-        (click)="submit()"> Save
-        and Submit </ion-button>
+      <ion-button
+      [disabled]="this.reportNewEquipIssue.invalid || (loadingSpinner | async)"
+      class="font-Lato text-white mt-8"
+      expand="block"
+        (click)="submit()">
+        <div *ngIf="(loadingSpinner | async) === false">Save and Submit</div>
+        <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner> </ion-button>
     </form>
 
   </div>

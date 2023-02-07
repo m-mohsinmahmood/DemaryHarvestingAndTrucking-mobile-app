@@ -41,13 +41,13 @@
      <div [ngClass]="'opacity-100 visible ease-in duration-200'" class="" role="dialog" aria-modal="true">
       <div [ngClass]="'opacity-100 visible scale-100 ease-in duration-200'" class="mb-4 relative z-20">
         <div class="mx-auto max-w-full transform rounded-xl px-0 transition-all">
-          <label class="block text-sm font-medium text-gray-700 mb-1">Trainee <span
+          <label class="block text-sm font-medium text-gray-700 mb-1">Trainee<span
               *ngIf="isTraineeSelected" class="text-red-400">*</span></label>
           <div class="flex items-center justify-between gap-x-2 rounded-md">
             <input (keyup)="traineeSearch$.next($event.target.value)" (click)="inputClickedTrainee()"
               [value]="trainee_name" #traineeInput
               class="{{isFieldDisabled? 'pointer-events-none bg-gray-200 w-full px-4 py-2 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500': 'w-full px-4 py-2 text-gray-900 placeholder:text-sm rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500'}}"
-              placeholder="Select Trainer" role="" aria-expanded="false" aria-controls="options">
+              placeholder="Select Trainee" role="" aria-expanded="false" aria-controls="options">
           </div>
 
           <div *ngIf="allTrainees | withLoading | async as allTrainees" class="">
@@ -272,18 +272,28 @@
       </ion-card>
     </div>
 </div>
-<ion-button expand="block" class="font-Lato text-white mb-4 mt-6 mx-8" (click)="submit()" [disabled]="preTrip.invalid || isTraineeSelected || isSupervisorSelected">Save</ion-button>
+<ion-button expand="block"
+class="font-Lato text-white mb-4 mt-6 mx-8"
+(click)="submit()"
+[disabled]="preTrip.invalid || isTraineeSelected || isSupervisorSelected || (loadingSpinner | async)">
+<div *ngIf="(loadingSpinner | async) === false">Save</div>
+<ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner></ion-button>
 </div>
 <!-- For Digital Form -->
 <div *ngIf="value === 'digital-form'">
-<ion-button expand="block" class="font-Lato text-white mb-4 mt-6 mx-8" (click)="continue()" [disabled]="preTrip.invalid || isTraineeSelected || isSupervisorSelected">Continue</ion-button>
+<ion-button expand="block"
+ class="font-Lato text-white mb-4 mt-6 mx-8"
+ (click)="continue()"
+ [disabled]="preTrip.invalid || isTraineeSelected || isSupervisorSelected || (loadingSpinner | async)">
+  <div *ngIf="(loadingSpinner | async) === false">Continue</div>
+  <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner></ion-button>
 </div>
 
   </div>
   </form>
 
   <!-- MODEL -->
-<ion-modal #modal [isOpen]="isModalOpen">
+<ion-modal #modal [isOpen]="isModalOpen" backdropDismiss="false">
   <ng-template>
     <ion-content class="ion-padding">
       <ion-text class="flex justify-center items-center ion-text-center">

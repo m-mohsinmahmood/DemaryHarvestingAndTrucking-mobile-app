@@ -17,7 +17,11 @@ export class TicketAssignedToPage implements OnInit {
   @ViewChild('employeeInput') employeeInput: ElementRef;
   @ViewChild('employeeInput2') employeeInput2: ElementRef;
   assignTicket: FormGroup;
+
+  // behaviour subject's for loader
   public loading = new BehaviorSubject(true);
+  public loadingSpinner = new BehaviorSubject(false);
+
   ticketData: any;
   ticketRecordId: any;
   value: any;
@@ -370,6 +374,8 @@ export class TicketAssignedToPage implements OnInit {
   // #endregion
 
   submit() {
+    this.loadingSpinner.next(true);
+
     console.log(this.assignTicket.value);
     this.maintenanceRepairService
       .ticket(this.assignTicket.value, this.ticketRecordId,'unassign')
@@ -377,6 +383,8 @@ export class TicketAssignedToPage implements OnInit {
         (res) => {
           console.log('RES:', res);
           if (res.status === 200) {
+            this.loadingSpinner.next(false);
+
             this.router.navigateByUrl('/tabs/home/maintenance-repair/assign-tickets');
             this.toastService.presentToast(
               'Ticket has been assigned',
@@ -395,12 +403,16 @@ export class TicketAssignedToPage implements OnInit {
   }
   completTicket(){
     console.log(this.assignTicket.value);
+    this.loadingSpinner.next(true);
+
     this.maintenanceRepairService
       .ticket(this.assignTicket.value, this.ticketRecordId,'complete')
       .subscribe(
         (res) => {
           console.log('RES:', res);
           if (res.status === 200) {
+            this.loadingSpinner.next(false);
+
             // this.router.navigateByUrl('/tabs/home/maintenance-repair/assign-tickets');
             this.toastService.presentToast(
               'Ticket has been completed',
@@ -422,12 +434,16 @@ export class TicketAssignedToPage implements OnInit {
   }
   continue(){
     console.log(this.assignTicket.value);
+    this.loadingSpinner.next(true);
+
     this.maintenanceRepairService
       .ticket(this.assignTicket.value, this.ticketRecordId,'continue')
       .subscribe(
         (res) => {
           console.log('RES:', res);
           if (res.status === 200) {
+            this.loadingSpinner.next(false);
+
             this.router.navigateByUrl('/tabs/home/maintenance-repair/assign-tickets');
             this.toastService.presentToast(
               'Ticket has been paused',

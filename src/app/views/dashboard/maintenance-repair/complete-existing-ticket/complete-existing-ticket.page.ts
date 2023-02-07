@@ -15,10 +15,14 @@ export class CompleteExistingTicketPage implements OnInit {
   category = '';
   completeExistingTicketForm: FormGroup;
   ticketRecordId: any;
-  public loading = new BehaviorSubject(true);
   ticketData: any;
   assignedBy: any;
   assignedTo: any;
+
+  // behaviour subject's for loader
+  public loading = new BehaviorSubject(true);
+  public loadingSpinner = new BehaviorSubject(false);
+
 
   constructor(private activeRoute: ActivatedRoute,
     private router: Router,
@@ -90,12 +94,16 @@ export class CompleteExistingTicketPage implements OnInit {
 
   completTicket(){
     console.log(this.completeExistingTicketForm.value);
+    this.loadingSpinner.next(true);
+
     this.maintenanceRepairService
       .ticket(this.completeExistingTicketForm.value, this.ticketRecordId,'complete')
       .subscribe(
         (res) => {
           console.log('RES:', res);
           if (res.status === 200) {
+            this.loadingSpinner.next(false);
+
             //     this.router.navigateByUrl('/tabs/home/maintenance-repair');
             this.toastService.presentToast(
               'Paused ticket has been completed',

@@ -2,6 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
 import { ToastService } from 'src/app/services/toast/toast.service';
 import { TrainingService } from '../../../../training.service';
 
@@ -23,6 +24,8 @@ export class AlleyDockingPage implements OnInit {
 
   // trainer id
   trainer_id = '4b84234b-0b74-49a2-b3c7-d3884f5f6013';
+
+  public loadingSpinner = new BehaviorSubject(false);
 
   constructor(
     private formBuilder: FormBuilder,
@@ -115,6 +118,9 @@ export class AlleyDockingPage implements OnInit {
     this.feedbackValue = true;
   }
   navigate() {
+    this.loadingSpinner.next(true);
+
+
     // patching sat & un-sat results
     this.basicSkillForm.patchValue({
       satisfactoryAlleyDocking: this.totalSatisfactory,
@@ -128,6 +134,8 @@ export class AlleyDockingPage implements OnInit {
         (res) => {
           console.log('RES:', res);
           if (res.status === 200) {
+            this.loadingSpinner.next(false);
+
             this.toastService.presentToast(
               'Alley Docking details have been submitted',
               'success'

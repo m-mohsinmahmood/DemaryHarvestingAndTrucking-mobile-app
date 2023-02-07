@@ -369,8 +369,13 @@
             </span>
           </ion-text>
         </div>
-        <ion-button expand="block" class="close-out-button font-Lato mb-4 mt-4 mx-8 bg-opacity-10 text-white"
-      (click)="endEvaluation()">End of Evaluation</ion-button>
+        <ion-button
+        expand="block"
+        [disabled]="loadingSpinner | async"
+        class="close-out-button font-Lato mb-4 mt-4 mx-8 bg-opacity-10 text-white"
+      (click)="endEvaluation()">
+      <div *ngIf="(loadingSpinner | async) === false">End of Evaluation</div>
+            <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner></ion-button>
       </ion-card-content>
     </ion-card>
   </div>

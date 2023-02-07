@@ -35,6 +35,8 @@ export class PreTripPage implements OnInit {
   data: any;
   // behaviour subject for loader
   public loading = new BehaviorSubject(true);
+  public loadingSpinner = new BehaviorSubject(false);
+
 
   // trainer id
   trainer_id = '4b84234b-0b74-49a2-b3c7-d3884f5f6013';
@@ -159,10 +161,12 @@ export class PreTripPage implements OnInit {
 
   submit() {
     console.log(this.preTrip.value);
+    this.loadingSpinner.next(true);
     this.trainingService.save(this.preTrip.value, 'pre-trip').subscribe(
       (res) => {
         console.log('RES:', res);
         if (res.status === 200) {
+          this.loadingSpinner.next(false);
           this.toastService.presentToast(
             'Your details have been submitted',
             'success'
@@ -305,7 +309,7 @@ export class PreTripPage implements OnInit {
 
     // passing name in select's input
     this.trainee_name = trainee.first_name + ' ' + trainee.last_name;
-
+    console.log('-',this.trainee_name);
     // to enable submit button
     this.isTraineeSelected = false;
 

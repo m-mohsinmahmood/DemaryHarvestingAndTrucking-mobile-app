@@ -45,8 +45,9 @@ export class BasicSkillsPage implements OnInit {
  // model
  isModalOpen = false;
 
-  // behaviour subject for loader
+  // behaviour subject's for loader
   public loading = new BehaviorSubject(true);
+  public loadingSpinner = new BehaviorSubject(false);
 
   training_record_id: any;
 
@@ -182,10 +183,14 @@ export class BasicSkillsPage implements OnInit {
   }
   submit() {
     console.log(this.basicSkillForm.value);
+    this.loadingSpinner.next(true);
+
     this.trainingService.save(this.basicSkillForm.value, 'basic-skills').subscribe(
       (res) => {
         console.log('RES:', res);
         if (res.status === 200) {
+          this.loadingSpinner.next(false);
+
           this.toastService.presentToast(
             'Your details have been submitted',
             'success'
@@ -204,13 +209,14 @@ export class BasicSkillsPage implements OnInit {
     );
   }
   continue(){
-    // console.log(this.preTrip.value);
-    // this.router.navigateByUrl('/tabs/home/training/trainer/basic-skills/digital-evaluation');
 
+    this.loadingSpinner.next(true);
     this.trainingService.save(this.basicSkillForm.value, 'basic-skills').subscribe(
       (res) => {
         console.log('RES:', res);
         if (res.status === 200) {
+          this.loadingSpinner.next(false);
+
           this.toastService.presentToast(
             'Basic Skills evaluation has been started',
             'success'

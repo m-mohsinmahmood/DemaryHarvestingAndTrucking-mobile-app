@@ -28,8 +28,9 @@ export class TraineePage implements OnInit {
   trainee_id = '4b29833b-0b74-49a2-b3c7-d3884f5f0013';
   trainee_name: any;
 
-  // behaviour subject for loader
+  // behaviour subject's for loader
   public loading = new BehaviorSubject(true);
+  public loadingSpinner = new BehaviorSubject(false);
 
   // employee drop-down variables
   allEmployees: Observable<any>;
@@ -114,9 +115,11 @@ export class TraineePage implements OnInit {
   }
   submit() {
     console.log(this.traineeForm.value);
+    this.loadingSpinner.next(true);
     this.trainingService.save(this.traineeForm.value,'trainee')
     .subscribe((res)=>{
       if(res.status === 200){
+        this.loadingSpinner.next(false);
         this.router.navigateByUrl('/tabs/home/training');
         this.toastService.presentToast(res.message,'success');
       }else{

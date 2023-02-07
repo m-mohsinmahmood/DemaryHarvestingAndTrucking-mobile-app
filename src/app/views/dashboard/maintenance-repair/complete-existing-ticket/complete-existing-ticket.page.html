@@ -114,9 +114,10 @@
         </div>
       </ion-list>
 
-      <ion-button [disabled]="this.completeExistingTicketForm.invalid" class="font-Lato text-white mt-8" expand="block"
+      <ion-button [disabled]="this.completeExistingTicketForm.invalid || (loadingSpinner | async)" class="font-Lato text-white mt-8" expand="block"
       (click)="completTicket()">
-        Repair Complete
+        <div *ngIf="(loadingSpinner | async) === false">Repair Complete</div>
+            <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
       </ion-button>
     </form>
   </div>
@@ -230,11 +231,11 @@
             formControlName="summary" placeholder="Enter Summary"></textarea>
         </div>
       </ion-list>
-      <ion-button [disabled]="this.completeExistingTicketForm.invalid" class="font-Lato text-white mt-8" expand="block"
+      <ion-button [disabled]="this.completeExistingTicketForm.invalid || (loadingSpinner | async)" class="font-Lato text-white mt-8" expand="block"
       (click)="completTicket()">
-        Maintenance Complete
+        <div *ngIf="(loadingSpinner | async) === false">Maintenance Complete</div>
+            <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
       </ion-button>
-
     </form>
   </div>
 </ion-content>

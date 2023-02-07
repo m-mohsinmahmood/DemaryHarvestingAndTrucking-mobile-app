@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { TrainingService } from '../../../training.service';
 import { ToastService } from 'src/app/services/toast/toast.service';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-digital-form',
@@ -19,6 +20,7 @@ export class DigitalFormPage implements OnInit {
   training_record_id: any;
    // trainer id
  trainer_id = '4b84234b-0b74-49a2-b3c7-d3884f5f6013';
+ public loadingSpinner = new BehaviorSubject(false);
 
   constructor(private formBuilder: FormBuilder,
     private router:  Router,
@@ -118,6 +120,8 @@ export class DigitalFormPage implements OnInit {
     });
   }
   submit(){
+    this.loadingSpinner.next(true);
+
     //patching value
     this.preTripForm.patchValue({
       percentageEngineCompartment: this.result
@@ -128,6 +132,7 @@ export class DigitalFormPage implements OnInit {
       (res) => {
         console.log('RES:', res);
         if (res.status === 200) {
+          this.loadingSpinner.next(false);
           this.toastService.presentToast(
             'Engine/Compartment details have been submitted',
             'success'

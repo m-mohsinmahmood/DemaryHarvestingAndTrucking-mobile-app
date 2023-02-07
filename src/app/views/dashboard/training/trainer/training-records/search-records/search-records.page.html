@@ -1,4 +1,4 @@
-<app-header [title]="'Training Records'" [color]="'training'"></app-header>
+<app-header [title]="'Training Records'" [color]="'training'" [routeValue]="'search-records'"></app-header>
 <ion-content>
   <app-timer [value]="'11:22:00'"></app-timer>
   <div class="mx-6 mt-6">
@@ -20,7 +20,7 @@
     </div> -->
     <div class="flex justify-between items-center my-3" *ngIf="(loading |async) === false">
       <ion-text class="font-Lato text-9B9BA4"> Evaluation Form</ion-text>
-      <ion-text class="font-Lato font-semibold"> {{records[0]?.evaluation_type?records[0]?.evaluation_type:"No Record"}}</ion-text>
+      <ion-text class="font-Lato font-semibold"> {{records[0]?.evaluation_type?(records[0]?.evaluation_type | titlecase ):"No Record"}}</ion-text>
     </div>
     <div class="flex justify-between items-center my-3" *ngIf="(loading |async) === true">
       <ion-text class="font-Lato text-9B9BA4"> Evaluation Form</ion-text>

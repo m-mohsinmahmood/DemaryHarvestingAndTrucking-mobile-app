@@ -1,4 +1,4 @@
-<app-header [title]="'Basic Skills Digital Evaluation Form'" [color]="'training'"></app-header>
+<app-header [title]="'Basic Skills Digital Evaluation Form'" [color]="'training'" [routeValue]="'basic-skills'"></app-header>
 <ion-content>
   <app-timer [value]="'23:00:00'"></app-timer>
   <div class="mx-4 my-2">
@@ -242,8 +242,13 @@
           </div>
         </ion-card-content>
       </ion-card>
-      <ion-button  expand="block"
-        class="close-out-button font-Lato mb-4 mt-0 mx-8 bg-opacity-10 text-white" (click)="navigate()">End Evaluation
+      <ion-button
+      expand="block"
+      [disabled]="loadingSpinner | async"
+        class="close-out-button font-Lato mb-4 mt-0 mx-8 bg-opacity-10 text-white"
+        (click)="navigate()">
+        <div *ngIf="(loadingSpinner | async) === false">End Evaluation</div>
+            <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
       </ion-button>
 
     </form>

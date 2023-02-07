@@ -2,6 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
 import { ToastService } from 'src/app/services/toast/toast.service';
 import { TrainingService } from '../../../training.service';
 
@@ -24,6 +25,8 @@ training_record_id: any;
 
  // trainer id
  trainer_id = '4b84234b-0b74-49a2-b3c7-d3884f5f6013';
+
+ public loadingSpinner = new BehaviorSubject(false);
 
   constructor(
     private formBuilder: FormBuilder,
@@ -94,7 +97,8 @@ training_record_id: any;
   }
   navigate() {
     console.log(this.basicSkillForm.value);
-    // this.router.navigateByUrl('/tabs/home/training/trainer/basic-skills/digital-evaluation/alley-docking');
+
+    this.loadingSpinner.next(true);
 
     // patching sat & un-sat results
   this.basicSkillForm.patchValue({
@@ -106,6 +110,8 @@ training_record_id: any;
       (res) => {
         console.log('RES:', res);
         if (res.status === 200) {
+          this.loadingSpinner.next(false);
+
           this.toastService.presentToast(
             'Straight Line Backing details have been submitted',
             'success'

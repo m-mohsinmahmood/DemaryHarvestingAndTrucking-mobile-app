@@ -3,7 +3,7 @@
 import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Observable, of, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { ToastService } from 'src/app/services/toast/toast.service';
 import { MaintenanceRepairService } from '../maintenance-repair.services';
 import { states } from 'src/JSON/state';
@@ -49,6 +49,9 @@ export class CreateRepairORMaintenancePage implements OnInit {
   isMachineSelected: any = true;
   //#endregion
   states: string[];
+
+  public loadingSpinner = new BehaviorSubject(false);
+
 
   private _unsubscribeAll: Subject<any> = new Subject<any>();
   constructor(
@@ -377,12 +380,15 @@ export class CreateRepairORMaintenancePage implements OnInit {
 
   submit() {
     console.log(this.createTicket.value);
+    this.loadingSpinner.next(true);
+
     this.maintenanceRepairService
       .save(this.createTicket.value, this.category)
       .subscribe(
         (res) => {
           console.log('RES:', res);
           if (res.status === 200) {
+            this.loadingSpinner.next(false);
             this.router.navigateByUrl('/tabs/home/maintenance-repair');
             this.toastService.presentToast(
               'Ticket has been generated',

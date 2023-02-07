@@ -3,6 +3,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
 import { ToastService } from 'src/app/services/toast/toast.service';
 import { TrainingService } from 'src/app/views/dashboard/training/training.service';
 
@@ -24,6 +25,8 @@ export class ParkingSightPage implements OnInit {
   trainer_id = '4b84234b-0b74-49a2-b3c7-d3884f5f6013';
   math = Math;
   training_record_id: any;
+  public loadingSpinner = new BehaviorSubject(false);
+
 
   constructor(
     private formBuilder: FormBuilder,
@@ -96,6 +99,8 @@ export class ParkingSightPage implements OnInit {
       this.feedbackValue = true;
     }
     navigate() {
+      this.loadingSpinner.next(true);
+
        // patching sat & un-sat results
   this.basicSkillForm.patchValue({
     satisfactoryParkingSight:this.totalSatisfactory,
@@ -107,6 +112,8 @@ export class ParkingSightPage implements OnInit {
         (res) => {
           console.log('RES:', res);
           if (res.status === 200) {
+            this.loadingSpinner.next(false);
+
             this.toastService.presentToast(
               'Parking Sight details have been submitted',
               'success'

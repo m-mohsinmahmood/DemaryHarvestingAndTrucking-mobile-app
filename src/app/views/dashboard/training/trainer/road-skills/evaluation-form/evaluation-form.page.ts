@@ -4,6 +4,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
 import { ToastService } from 'src/app/services/toast/toast.service';
 import { TrainingService } from '../../../training.service';
 
@@ -19,6 +20,7 @@ totalUnSatisfactory = 0;
 
  // trainer id
  trainer_id = '4b84234b-0b74-49a2-b3c7-d3884f5f6013';
+ public loadingSpinner = new BehaviorSubject(false);
 
   constructor(private formBuilder: FormBuilder,
     private router: Router,
@@ -137,6 +139,8 @@ totalUnSatisfactory = 0;
     });
   }
 endEvaluation(){
+  this.loadingSpinner.next(true);
+
   // patching sat & un-sat results
   this.evaluationFrom.patchValue({
     satisfactoryRoadTesting:this.totalSatisfactory,
@@ -147,6 +151,8 @@ endEvaluation(){
     (res) => {
       console.log('RES:', res);
       if (res.status === 200) {
+        this.loadingSpinner.next(false);
+
         this.toastService.presentToast(
           'Evaluation ended',
           'success'

@@ -1,5 +1,5 @@
 
-<app-header [title]="'Pre-Trip Check Digital Evaluation Form'" [color]="'training'"></app-header>
+<app-header [title]="'Pre-Trip Check Digital Evaluation Form'" [color]="'training'" [routeValue]="'pre-trip'"></app-header>
 
 <ion-content>
   <app-timer [value]="'01:23:45'"></app-timer>
@@ -90,7 +90,12 @@
       <div class="ion-text-center my-5">
         <ion-text class="bg-3D8AA4 bg-opacity-10 text-3D8AA4 font-medium font-Lato border-2 border-opacity-60 rounded-lg border-3D8AA4 px-5 py-2">Score = {{result}}%</ion-text>
        </div>
-      <ion-button expand="block" class="close-out-button font-Lato mb-4 mt-0 mx-8 bg-opacity-10 text-white" (click)="submit()">Next</ion-button>
+      <ion-button expand="block"
+      [disabled]="loadingSpinner | async"
+      class="close-out-button font-Lato mb-4 mt-0 mx-8 bg-opacity-10 text-white"
+      (click)="submit()">
+      <div *ngIf="(loadingSpinner | async) === false">Next</div>
+            <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner></ion-button>
 
   </form>
 </ion-content>

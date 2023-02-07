@@ -146,7 +146,7 @@
            <!-- Machinery -->
 
         <div class="col-span-12 mb-4">
-          <label class="block text-sm font-medium text-gray-700">Equipment Location (City)<span class="text-red-600"
+          <label class="block text-sm font-medium text-gray-700">City<span class="text-red-600"
               *ngIf="this.createTicket.get('city').hasError('required')">*</span></label>
           <input
             class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
@@ -155,7 +155,7 @@
 
         <div>
           <div class="col-span-12 mb-4">
-            <label class="block text-sm font-medium text-gray-700">Equipment Location (State) <span *ngIf="this.createTicket.get('state').hasError('required')" class="text-red-400" >*</span></label>
+            <label class="block text-sm font-medium text-gray-700">State<span *ngIf="this.createTicket.get('state').hasError('required')" class="text-red-400" >*</span></label>
             <ion-select
               class="mt-1 w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
               formControlName="state" placeholder="Select State">
@@ -215,9 +215,10 @@
 
       </ion-list>
 
-      <ion-button [disabled]="" class="font-Lato text-white mt-8" expand="block"
+      <ion-button [disabled]="loadingSpinner | async" class="font-Lato text-white mt-8" expand="block"
         (click)="submit()">
-        Save and Submit
+        <div *ngIf="(loadingSpinner | async) === false"> Save and Submit</div>
+            <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
       </ion-button>
     </form>
   </div>
@@ -364,7 +365,7 @@
            <!-- Machinery -->
 
         <div class="col-span-12 mb-4">
-          <label class="block text-sm font-medium text-gray-700">Equipment Location (City)<span class="text-red-600"
+          <label class="block text-sm font-medium text-gray-700">City <span class="text-red-600"
               *ngIf="this.createTicket.get('city').hasError('required')">*</span></label>
           <input
             class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
@@ -373,7 +374,7 @@
 
         <div>
           <div class="col-span-12 mb-4">
-            <label class="block text-sm font-medium text-gray-700">Equipment Location (State) <span *ngIf="this.createTicket.get('state').hasError('required')" class="text-red-400" >*</span></label>
+            <label class="block text-sm font-medium text-gray-700">State <span *ngIf="this.createTicket.get('state').hasError('required')" class="text-red-400" >*</span></label>
             <ion-select
               class="mt-1 w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
               formControlName="state" placeholder="Select State">
@@ -444,9 +445,10 @@
 
       </ion-list>
 
-      <ion-button [disabled]="" class="font-Lato text-white mt-8" expand="block"
+      <ion-button [disabled]="loadingSpinner | async" class="font-Lato text-white mt-8" expand="block"
         (click)="submit()">
-        Save and Submit
+        <div *ngIf="(loadingSpinner | async) === false"> Save and Submit</div>
+            <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
       </ion-button>
     </form>
   </div>

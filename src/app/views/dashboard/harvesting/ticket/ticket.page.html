@@ -16,13 +16,13 @@
         <ion-grid>
           <ion-row>
             <ion-col size="6" class="font-Lato text-sm font-semibold text-black">Customer Name</ion-col>
-            <ion-col size="6" class="font-Lato text-sm">{{customerData?.customer_job[0].customer_name}}</ion-col>
+            <ion-col size="6" class="font-Lato text-sm">{{customerData?.customer_job[0]?.customer_name}}</ion-col>
             <ion-col size="6" class="font-Lato text-sm font-semibold text-black">State</ion-col>
-            <ion-col size="6" class="font-Lato text-sm">{{customerData?.customer_job[0].state}} </ion-col>
+            <ion-col size="6" class="font-Lato text-sm">{{customerData?.customer_job[0]?.state}} </ion-col>
             <ion-col size="6" class="font-Lato text-sm font-semibold text-black">Farm</ion-col>
-            <ion-col size="6" class="font-Lato text-sm">{{customerData?.customer_job[0].farm_name}} </ion-col>
+            <ion-col size="6" class="font-Lato text-sm">{{customerData?.customer_job[0]?.farm_name}} </ion-col>
             <ion-col size="6" class="font-Lato text-sm font-semibold text-black">Crop</ion-col>
-            <ion-col size="6" class="font-Lato text-sm">{{customerData?.customer_job[0].crop}} </ion-col>
+            <ion-col size="6" class="font-Lato text-sm">{{customerData?.customer_job[0]?.crop}} </ion-col>
           </ion-row>
         </ion-grid>
       </ion-card-content>
@@ -163,7 +163,7 @@
               <div class="flex items-center justify-between gap-x-2 rounded-md">
                 <input (keyup)="machine_search$.next($event.target.value)" (click)="inputClickedMachinery()" [value]="machine_name" #machineryInput class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder:text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500" placeholder="Select Truck" role="" aria-expanded="false" aria-controls="options" />
               </div>
-        
+
               <div *ngIf="allMachinery | withLoading | async as allMachinery" class="">
                 <div class="flex items-center justify-center">
                   <ion-spinner *ngIf="allMachinery?.loading" name="crescent" mode="indeterminate" color="primary"></ion-spinner>
@@ -180,7 +180,7 @@
             </div>
           </div>
         </div>
-        
+
       </div>
       <ion-button expand="block" class="font-Lato mt-5 text-white" *ngIf="!isReassign && !isSplitTrue" (click)="submit()">Generate and Send</ion-button>
       <ion-button expand="block" class="font-Lato mt-5 text-white" *ngIf="!isReassign && isSplitTrue" (click)="submit()">Generate Duplicate Ticket</ion-button>

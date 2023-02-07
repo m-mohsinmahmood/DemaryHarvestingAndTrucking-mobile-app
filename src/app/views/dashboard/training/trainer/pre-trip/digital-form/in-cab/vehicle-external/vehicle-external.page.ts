@@ -2,6 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
 import { ToastService } from 'src/app/services/toast/toast.service';
 import { TrainingService } from 'src/app/views/dashboard/training/training.service';
 
@@ -20,6 +21,8 @@ export class VehicleExternalPage implements OnInit {
 
     // trainer id
  trainer_id = '4b84234b-0b74-49a2-b3c7-d3884f5f6013';
+ public loadingSpinner = new BehaviorSubject(false);
+
 
   constructor(
     private formBuilder: FormBuilder,
@@ -117,6 +120,8 @@ export class VehicleExternalPage implements OnInit {
     });
   }
   submit(){
+    this.loadingSpinner.next(true);
+
     //patching value
     this.preTripForm.patchValue({
       percentageVehicleExternal: this.result
@@ -127,6 +132,8 @@ export class VehicleExternalPage implements OnInit {
       (res) => {
         console.log('RES:', res);
         if (res.status === 200) {
+          this.loadingSpinner.next(false);
+
           this.toastService.presentToast(
             'Vehicle/External details have been submitted',
             'success'

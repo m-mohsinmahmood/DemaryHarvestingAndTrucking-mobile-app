@@ -1,6 +1,12 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable @typescript-eslint/naming-convention */
-import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnInit,
+  Renderer2,
+  ViewChild,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { states } from 'src/JSON/state';
@@ -25,9 +31,10 @@ export class TrainingTasksPage implements OnInit {
   states: string[];
 
   trainer_id = '4b84234b-0b74-49a2-b3c7-d3884f5f6013';
- profileData: any;
-  // behaviour subject for loader
+  profileData: any;
+  // behaviour subject's for loader
   public loading = new BehaviorSubject(true);
+  public loadingSpinner = new BehaviorSubject(false);
 
   //#region supervisor drop-down variables
   allEmployees: Observable<any>;
@@ -36,22 +43,23 @@ export class TrainingTasksPage implements OnInit {
   employeeSearchValue: any = '';
   employeeUL: any = false;
   isEmployeeSelected: any = true;
-//#endregion
+  //#endregion
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
-  constructor(private router: Router, private formBuilder: FormBuilder,
+  constructor(
+    private router: Router,
+    private formBuilder: FormBuilder,
     private trainingService: TrainingService,
     private renderer: Renderer2,
     private toastService: ToastService
-
-    ) {
-      this.renderer.listen('window', 'click', (e) => {
-        if (e.target !== this.employeeInput.nativeElement) {
-          this.allEmployees = of([]);
-          this.employeeUL = false; // to hide the UL
-        }
-      });
-    }
+  ) {
+    this.renderer.listen('window', 'click', (e) => {
+      if (e.target !== this.employeeInput.nativeElement) {
+        this.allEmployees = of([]);
+        this.employeeUL = false; // to hide the UL
+      }
+    });
+  }
 
   ngOnInit() {
     console.log(
@@ -63,7 +71,7 @@ export class TrainingTasksPage implements OnInit {
     this.trainingTasksForm = this.formBuilder.group({
       trainer_id: [''],
       supervisor_id: [''],
-      city: ['',],
+      city: [''],
       state: [''],
       training_type: [''],
       topic: ['', [Validators.required]],
@@ -74,32 +82,29 @@ export class TrainingTasksPage implements OnInit {
     });
 
     // passing value in training type
-    if(this.route === 'Company Training'){
+    if (this.route === 'Company Training') {
       this.trainingTasksForm.patchValue({
-        training_type: 'company-training'
+        training_type: 'company-training',
       });
-    }else if(this.route === 'Safety Training'){
+    } else if (this.route === 'Safety Training') {
       this.trainingTasksForm.patchValue({
-        training_type: 'safety-training'
+        training_type: 'safety-training',
       });
-    }else if(this.route === 'CDL Training'){
+    } else if (this.route === 'CDL Training') {
       this.trainingTasksForm.patchValue({
-        training_type: 'cdl-training'
+        training_type: 'cdl-training',
       });
     }
 
     // pasing states
     this.states = states;
 
-
     // getting Trainer profile data
     this.getTrainer();
 
     // supervisor subscription
     this.employeeSearchSubscription();
-
   }
-
 
   onSelectedFiles(file, name) {
     console.log('file:', file);
@@ -114,17 +119,16 @@ export class TrainingTasksPage implements OnInit {
       this.upload_3 = !this.upload_3;
     }
   }
-  getTrainer(){
-    this.trainingService.getTrainerById(this.trainer_id)
-    .subscribe((res)=>{
+  getTrainer() {
+    this.trainingService.getTrainerById(this.trainer_id).subscribe((res) => {
       this.loading.next(true);
-      console.log('Res:',res);
+      console.log('Res:', res);
       this.profileData = res[0];
 
       // patching values
       this.trainingTasksForm.patchValue({
         trainer_id: res[0].trainer_id,
-        city:  res[0].town_city,
+        city: res[0].town_city,
         state: res[0].state,
       });
       this.loading.next(false);
@@ -132,22 +136,30 @@ export class TrainingTasksPage implements OnInit {
   }
 
   submit() {
+    this.loadingSpinner.next(true);
     console.log(this.trainingTasksForm.value);
-    this.trainingService.save(this.trainingTasksForm.value,'trainer')
-    .subscribe((res)=>{
-      console.log('RES:',res);
-      if(res.status === 200){
-        this.router.navigateByUrl('/tabs/home/training/trainer');
-        this.toastService.presentToast('Your details have been submitted','success');
-      }else{
-        console.log('Something happened :)');
-        this.toastService.presentToast(res.mssage,'danger');
-      }
-    },(err)=>{
-console.log('ERROR::',err);
-this.toastService.presentToast(err.mssage,'danger');
-
-    });
+    this.trainingService
+      .save(this.trainingTasksForm.value, 'trainer')
+      .subscribe(
+        (res) => {
+          console.log('RES:', res);
+          if (res.status === 200) {
+            this.loadingSpinner.next(false);
+            this.router.navigateByUrl('/tabs/home/training/trainer');
+            this.toastService.presentToast(
+              'Your details have been submitted',
+              'success'
+            );
+          } else {
+            console.log('Something happened :)');
+            this.toastService.presentToast(res.mssage, 'danger');
+          }
+        },
+        (err) => {
+          console.log('ERROR::', err);
+          this.toastService.presentToast(err.mssage, 'danger');
+        }
+      );
   }
 
   //#region Supervisor
@@ -230,6 +242,9 @@ this.toastService.presentToast(err.mssage,'danger');
 
     // passing name in select's input
     this.employee_name = employee.first_name + ' ' + employee.last_name;
+
+    // passing in search
+    // this.employeeSearchValue = employee.first_name + ' ' + employee.last_name;
 
     // to enable submit button
     this.isEmployeeSelected = false;

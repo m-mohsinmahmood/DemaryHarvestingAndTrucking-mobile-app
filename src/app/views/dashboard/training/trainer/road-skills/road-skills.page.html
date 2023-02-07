@@ -215,13 +215,13 @@
     </ion-select>
   </div>
 
-  <ion-button class="upload-button" (click)="uploadClick()" *ngIf=" value === 'paper-form'">
+  <!-- <ion-button class="upload-button" (click)="uploadClick()" *ngIf=" value === 'paper-form'">
     <ion-icon name="add-outline"></ion-icon>
       Upload Form
-  </ion-button>
+  </ion-button> -->
   <!-- For Paper Form -->
-<div *ngIf="value === 'paper-form' && upload">
-    <div class="ml-1 mt-4">
+<div *ngIf="value === 'paper-form'">
+    <div class="ml-1 mt-4" >
       <ion-label class="font font-medium text-aaaaaa">Training docs (upload here)</ion-label>
     </div>
     <div class="flex px-2 py-2">
@@ -327,18 +327,31 @@
       </div>
   </div>
   <!-- <ion-button expand="block" class="font-Lato text-white mb-4 mt-6 mx-8" (click)="continue()">Continue</ion-button> -->
-  <ion-button expand="block" class="font-Lato text-white mb-4 mt-2 mx-8 bg-opacity-10" (click)="submit()" [disabled]="roadTestForm.invalid || isTraineeSelected || isSupervisorSelected">Save</ion-button>
+  <ion-button
+  expand="block"
+   class="font-Lato text-white mb-4 mt-2 mx-8 bg-opacity-10"
+    (click)="submit()"
+    [disabled]="roadTestForm.invalid || isTraineeSelected || isSupervisorSelected || (loadingSpinner | async)">
+    <div *ngIf="(loadingSpinner | async) === false">Save</div>
+    <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner></ion-button>
 </div>
 <!-- For Digital Form -->
 <div *ngIf="value === 'digital-form'">
-<ion-button expand="block" class="font-Lato text-white mb-4 mt-6 mx-8" (click)="continue()" [disabled]="roadTestForm.invalid || isTraineeSelected || isSupervisorSelected">Continue</ion-button>
+<ion-button
+expand="block"
+ class="font-Lato text-white mb-4 mt-6 mx-8"
+ (click)="continue()"
+ [disabled]="roadTestForm.invalid || isTraineeSelected || isSupervisorSelected || (loadingSpinner | async)">
+ <div *ngIf="(loadingSpinner | async) === false">Continue</div>
+ <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+</ion-button>
 <!-- <ion-button expand="block" class="close-out-button font-Lato mb-4 mt-0 mx-8 bg-opacity-10">Close-out</ion-button> -->
 </div>
 </div>
 </form>
 
   <!-- MODEL -->
-  <ion-modal #modal [isOpen]="isModalOpen">
+  <ion-modal #modal [isOpen]="isModalOpen" backdropDismiss="false">
     <ng-template>
       <ion-content class="ion-padding">
         <ion-text class="flex justify-center items-center ion-text-center">

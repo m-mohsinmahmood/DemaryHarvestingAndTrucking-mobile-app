@@ -32,8 +32,10 @@ states: string[];
 add_location_overlay = true;
 profileData: any;
 
-// behaviour subject for loader
+// behaviour subject's for loader
 public loading = new BehaviorSubject(true);
+public loadingSpinner = new BehaviorSubject(false);
+
 
 private _unsubscribeAll: Subject<any> = new Subject<any>();
 
@@ -102,10 +104,13 @@ private _unsubscribeAll: Subject<any> = new Subject<any>();
 
   submit() {
     console.log(this.reportNewEquipIssue.value);
+    this.loadingSpinner.next(true);
+
     this.maintenanceRepairService.save(this.reportNewEquipIssue.value,'report-issue')
     .subscribe((res)=>{
       console.log('RES:',res);
       if(res.status === 200){
+        this.loadingSpinner.next(false);
         this.toastService.presentToast('Issue has been reported','success');
         this.router.navigateByUrl('/tabs/home/maintenance-repair');
       }else{

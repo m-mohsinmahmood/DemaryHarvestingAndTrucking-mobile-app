@@ -336,18 +336,27 @@
       </div>
   </div>
   <ion-button expand="block" class="font-Lato text-white mb-4 mt-6 mx-8"
-  [disabled]="" (click)="submit()" [disabled]="basicSkillForm.invalid || isTraineeSelected || isSupervisorSelected || isTruckSelected">Save</ion-button>
+  [disabled]="" (click)="submit()" [disabled]="basicSkillForm.invalid || isTraineeSelected || isSupervisorSelected || isTruckSelected || (loadingSpinner | async)">
+  <div *ngIf="(loadingSpinner | async) === false">Save</div>
+  <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+</ion-button>
   </div>
   <!-- For Digital Form -->
   <div *ngIf="value === 'digital-form'">
-  <ion-button expand="block" class="font-Lato text-white mb-4 mt-6 mx-8" (click)="continue()">Continue</ion-button>
+  <ion-button expand="block"
+  class="font-Lato text-white mb-4 mt-6 mx-8"
+  [disabled]="loadingSpinner | async"
+   (click)="continue()">
+    <div *ngIf="(loadingSpinner | async) === false">Continue</div>
+    <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+  </ion-button>
   </div>
 
     </div>
     </form>
   </div>
     <!-- MODEL -->
-<ion-modal #modal [isOpen]="isModalOpen">
+<ion-modal #modal [isOpen]="isModalOpen" backdropDismiss="false">
   <ng-template>
     <ion-content class="ion-padding">
       <ion-text class="flex justify-center items-center ion-text-center">

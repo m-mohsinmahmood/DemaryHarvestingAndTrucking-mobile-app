@@ -190,7 +190,11 @@
             </ion-card>
           </div>
         </div>
-        <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="submit()" [disabled]="traineeForm.invalid || isEmployeeSelected">Save</ion-button>
+        <ion-button expand="block" class="mt-5 font-Lato text-white"
+         (click)="submit()"
+         [disabled]="traineeForm.invalid || isEmployeeSelected || (loadingSpinner | async)">
+         <div *ngIf="(loadingSpinner | async) === false">Save</div></ion-button>
+         <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
       </div>
   </form>
 </ion-content>

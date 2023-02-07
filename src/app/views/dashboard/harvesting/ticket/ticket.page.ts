@@ -189,13 +189,13 @@ export class TicketPage implements OnInit {
   patchForm() {
     this.deliveryTicketForm.patchValue({
       kartOperatorId: 'f4cfa75b-7c14-4b68-a192-00d56c9f2022',
-      customerId: this.customerData.customer_job[0].customer_id,
-      state: this.customerData.customer_job[0].state,
-      farmId: this.customerData.customer_job[0].farm_id,
-      cropId: this.customerData.customer_job[0].crop_id,
-      cropName: this.customerData.customer_job[0].crop,
-      fieldId: this.customerData.customer_job[0].field_id,
-      field: this.customerData.customer_job[0].field_name,
+      customerId: this.customerData.customer_job[0]?.customer_id,
+      state: this.customerData.customer_job[0]?.state,
+      farmId: this.customerData.customer_job[0]?.farm_id,
+      cropId: this.customerData.customer_job[0]?.crop_id,
+      cropName: this.customerData.customer_job[0]?.crop,
+      fieldId: this.customerData.customer_job[0]?.field_id,
+      field: this.customerData.customer_job[0]?.field_name,
     });
     console.log('patchForm', this.deliveryTicketForm.value);
   }

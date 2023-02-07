@@ -39,8 +39,10 @@ export class RoadSkillsPage implements OnInit {
  // trainer id
  trainer_id = '4b84234b-0b74-49a2-b3c7-d3884f5f6013';
 
-  // behaviour subject for loader
+  // behaviour subject's for loader
   public loading = new BehaviorSubject(true);
+  public loadingSpinner = new BehaviorSubject(false);
+
 
     //#region trainee drop-down variables
     allTrainees: Observable<any>;
@@ -141,6 +143,16 @@ export class RoadSkillsPage implements OnInit {
   }
   uploadClick(){
      this.upload = !this.upload;
+    //  window.scrollTo(20, document.body.scrollHeight);
+    // eslint-disable-next-line prefer-const
+    // let a = document.getElementById(el);
+
+    // a.scrollIntoView();
+//     window.scroll({
+//       top: -30,
+//       left: 0,
+//       behavior: 'smooth'
+// });
   }
   onSelect(e){
     if(e.target.value === 'paper-form'){
@@ -161,11 +173,15 @@ export class RoadSkillsPage implements OnInit {
     }
   }
   submit(){
+
     console.log(this.roadTestForm.value);
+    this.loadingSpinner.next(true);
     this.trainingService.save(this.roadTestForm.value, 'road-skills').subscribe(
       (res) => {
         console.log('RES:', res);
         if (res.status === 200) {
+          this.loadingSpinner.next(false);
+
           this.toastService.presentToast(
             'Your details have been submitted',
             'success'
