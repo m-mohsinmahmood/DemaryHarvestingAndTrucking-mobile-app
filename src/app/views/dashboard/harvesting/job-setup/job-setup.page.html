@@ -197,7 +197,11 @@
 
         <div class="fixed bottom-2 w-full p-5 -ml-5">
           <ion-button expand="block" class="mt-5 font-Lato text-white w-full" (click)="submit()"
-            [disabled]="jobSetupForm.invalid || isCustomerSelected || isFarmSelected || isCropSelected || isFieldDisabled">Save</ion-button>
+            [disabled]="jobSetupForm.invalid || isCustomerSelected || isFarmSelected || isCropSelected || isFieldDisabled || (loadingSpinner | async)">
+            <div *ngIf="(loadingSpinner | async) === false">Save</div>
+            <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+
+          </ion-button>
         </div>
       </form>
     </div>
