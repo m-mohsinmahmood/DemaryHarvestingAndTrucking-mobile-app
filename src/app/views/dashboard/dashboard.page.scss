@@ -1,5 +1,3 @@
-
-
 .size-32 {
   font-size: 32px;
   color: black;
@@ -36,6 +34,7 @@
     color: white;
   }
 }
+
 ion-select {
   --placeholder-color: #5BBE62;
   --placeholder-opacity: 1;
@@ -48,11 +47,31 @@ ion-select {
   // border-color: #5BBE62;
 
 }
+
 ion-select::part(placeholder) {
   font-weight: 500;
   color: #5BBE62;
 }
+
 ion-select::part(icon) {
   color: #5BBE62;
   opacity: 1;
+}
+
+// MODEL CSS
+ion-modal {
+  --height: 30%;
+  --width: 80%;
+  --border-radius: 16px;
+  --box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+// ion-modal::part(backdrop) {
+//   background: rgba(209, 213, 219);
+//   opacity: 1;
+// }
+
+ion-modal ion-toolbar {
+  --background: rgb(14 116 144);
+  --color: white;
 }

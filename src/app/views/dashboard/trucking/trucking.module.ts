@@ -6,6 +6,7 @@ import { TruckingPageRoutingModule } from './trucking-routing.module';
 import { TruckingPage } from './trucking.page';
 import { HeaderModule } from 'src/app/components/header/header.module';
 import { TimerModule } from 'src/app/components/timer/timer.module';
+import { CheckInOutModule } from './../../../components/check-in-out/check-in-out.module';
 
 @NgModule({
   imports: [
@@ -14,7 +15,8 @@ import { TimerModule } from 'src/app/components/timer/timer.module';
     IonicModule,
     TruckingPageRoutingModule,
     HeaderModule,
-    TimerModule
+    TimerModule,
+    CheckInOutModule
   ],
   declarations: [TruckingPage]
 })

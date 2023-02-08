@@ -140,7 +140,7 @@ export class CreateOrderPage implements OnInit {
   ngOnInit() {
     this.farmingService.getEmployeesById(localStorage.getItem('employeeId')).subscribe(param => {
       console.log(param);
-      this.employeeName = param.first_name + ' ' + param.last_name;
+      this.employeeName = param.employee_info.first_name + ' ' + param.employee_info.last_name;
     })
 
     this.dispatcherSearchSubscription();
