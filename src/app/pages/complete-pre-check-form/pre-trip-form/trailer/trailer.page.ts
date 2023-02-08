@@ -20,6 +20,7 @@ export class TrailerPage implements OnInit {
   data: Observable<any>;
   id;
   deliveryTicketId;
+  routeBack;
 
   constructor(private truckingService: TruckingService, private activeRoute: ActivatedRoute, private tripCheck: TripCheckService, private toast: ToastService, private router: Router, private formBuilder: FormBuilder) { }
 
@@ -34,6 +35,7 @@ export class TrailerPage implements OnInit {
   initDataFetch() {
     this.activeRoute.params.subscribe(params => {
       this.deliveryTicketId = params.deliveryTicketId;
+      this.routeBack = params.preRoute;
       console.log("Params:", params);
 
     })
@@ -91,6 +93,8 @@ export class TrailerPage implements OnInit {
 
   submitForm() {
     console.log(this.trailerCheckForm.value);
+    console.log(this.routeBack);
+
     this.trailerCheckForm.value.deliveryTicketId = this.deliveryTicketId;
     this.tripCheck.updatePreTripCheckForm(this.trailerCheckForm.value, 5, this.id)
       .subscribe(
@@ -99,7 +103,7 @@ export class TrailerPage implements OnInit {
 
           if (res.status === 200) {
             this.toast.presentToast("Pre Trip Check Form has updated successfully!", 'success');
-            this.router.navigateByUrl('/tabs/home/trucking/in-house');
+            this.router.navigateByUrl(this.routeBack);
           }
         },
         (err) => {

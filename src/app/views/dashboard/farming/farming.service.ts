@@ -17,34 +17,6 @@ export class FarmingService {
     private alertSerice: AlertService
   ) { }
 
-  handleError(error: HttpErrorResponse) {
-    let errorMessage = 'Unknown error!';
-    if (error.error instanceof ErrorEvent) {
-      // Client-side errors
-      errorMessage = `Error: ${error.error.message}`;
-      this.alertSerice.showAlert({
-        type: 'error',
-        shake: false,
-        slideRight: true,
-        title: 'Error',
-        message: error.error.message,
-        time: 6000,
-      });
-    } else {
-      // Server-side errors
-      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
-      this.alertSerice.showAlert({
-        type: 'error',
-        shake: false,
-        slideRight: true,
-        title: 'Error',
-        message: error.error.message,
-        time: 6000,
-      });
-    }
-  }
-
-
   createNewWorkOrder(data: any, role: string, completeInfo: boolean) {
     data.role = role;
     data.completeInfo = completeInfo;

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output } from '@angular/core';
 import { FarmingService } from './farming.service';
 import { Observable } from 'rxjs';
 
@@ -8,14 +8,11 @@ import { Observable } from 'rxjs';
   styleUrls: ['./farming.page.scss'],
 })
 export class FarmingPage implements OnInit {
-
   role = ""
   pendingWorkOrders: Observable<any>;
   pendingOrdersCount = -1;
   sentOrdersCount = -1;
-  workOrderCount: any;
-  isModalOpen = true;
-
+  workOrderCount: any
   constructor(private farmingService: FarmingService) {
 
   }
@@ -53,9 +50,5 @@ export class FarmingPage implements OnInit {
 
       })
     }
-  }
-
-  setOpen(state) {
-    this.isModalOpen = state;
   }
 }

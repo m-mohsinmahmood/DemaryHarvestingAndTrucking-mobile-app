@@ -31,22 +31,13 @@ export class HarvestingPage implements OnInit {
     // console.log('AAA',localStorage.getItem('role'));
     this.role = localStorage.getItem('role');
 
-    //     const many = range(1, 100);
-    //     console.log('first',range);
-    // const lastThree = many.pipe(takeLast(1));
-    // console.log(lastThree);
-    // lastThree.subscribe(x => console.log('ss',x));
-
-    // const source = interval(1000);
-    // const clicks = fromEvent(document, 'click');
-    // const result = source.pipe(takeUntil(clicks));
-    // result.subscribe(x => console.log(x));
-
     if (this.role === 'truck-driver') {
 
       this.activeWorkOrders = this.harvestingService.getDeliveryTickets(this.role, localStorage.getItem('employeeId'), true, false, 'truck-driver-active-tickets');
       this.activeWorkOrders.subscribe((workOrders) => {
         this.activeTicket = workOrders.customer_job[0];
+        if (this.activeTicket !== undefined && !this.activeTicket.hasOwnProperty('preRoute'))
+          this.activeTicket.preRoute = '/tabs/home/trucking/harvesting';
 
         // this.activeTicket.harvestingUrl = '/tabs/home/harvesting';
         // this.activeTicket.module = 'harvesting';

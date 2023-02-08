@@ -4,12 +4,10 @@ import {
   HttpEvent,
   HttpInterceptor,
   HttpHandler,
-  HttpRequest,
-  HttpHeaders,
+  HttpRequest
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import 'rxjs';
-import { environment } from '../../environments/environment';
 
 @Injectable()
 export class Interceptor implements HttpInterceptor {
@@ -18,7 +16,6 @@ export class Interceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    console.log("Interceptor");
 
     let requestUrl = request.url;
     if (requestUrl.indexOf('api-1') !== -1) {

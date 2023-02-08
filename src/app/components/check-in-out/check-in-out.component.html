@@ -1,0 +1,25 @@
+<ion-card-header class="mx-1 font-bold">Check-In/Check-Out</ion-card-header>
+
+<ion-row>
+  <ion-col size="12">
+    <ion-card class=" bg-greenBtn" (click)="checkIn()" [disabled]="activeDwr?.length > 0">
+      <ion-card-content>
+        <div class="flex justify-center items-center">
+          <p class="font-bold font-Lato font-15px text-white">Check In</p>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </ion-col>
+</ion-row>
+
+<ion-row>
+  <ion-col size="12">
+    <ion-card class=" bg-greenBtn" (click)="checkOut()" [disabled]="activeDwr?.length <= 0">
+      <ion-card-content>
+        <div class="flex justify-center items-center">
+          <p class="font-bold font-Lato font-15px text-white">Check Out</p>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </ion-col>
+</ion-row>
