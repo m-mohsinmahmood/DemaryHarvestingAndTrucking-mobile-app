@@ -8,9 +8,10 @@ import { Location } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { states } from 'src/JSON/state';
 import { HarvestingService } from './../harvesting.service';
-import { Observable, of, Subject, } from 'rxjs';
+import { BehaviorSubject, Observable, of, Subject, } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { ToastService } from 'src/app/services/toast/toast.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-job-setup',
@@ -76,6 +77,8 @@ export class JobSetupPage implements OnInit {
   states: string[];
   add_location_overlay = true;
 
+  public loadingSpinner = new BehaviorSubject(false);
+
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
   constructor(
@@ -83,7 +86,8 @@ export class JobSetupPage implements OnInit {
     private formBuilder: FormBuilder,
     private harvestingService: HarvestingService,
     private renderer: Renderer2,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private router: Router
 
   ) {
     this.renderer.listen('window', 'click', (e) => {
@@ -161,12 +165,14 @@ export class JobSetupPage implements OnInit {
     this.jobSetupForm.value.closeJob = true;
     this.jobSetupForm.value.newJobSetup = true;
 
+    this.loadingSpinner.next(true);
     console.log(this.jobSetupForm.value);
     this.harvestingService.createJob(this.jobSetupForm.value)
       .subscribe(
         (res: any) => {
           console.log('Response:', res);
           if (res.status === 200) {
+            this.loadingSpinner.next(false);
             this.jobSetupForm.reset();
             this.isDisabled = true;
             this.customer_name = '';
@@ -175,7 +181,7 @@ export class JobSetupPage implements OnInit {
             this.farm_name = '';
             this.field_name = '';
             this.toastService.presentToast(res.message, 'success');
-
+            this.router.navigate(['/tabs/home/harvesting']);
             console.log(res.message);
           } else {
             console.log('Something happened :)');
@@ -183,7 +189,6 @@ export class JobSetupPage implements OnInit {
         },
         (err) => {
           console.log('Error:', err);
-          // this.handleError(err);
         },
       );
   }

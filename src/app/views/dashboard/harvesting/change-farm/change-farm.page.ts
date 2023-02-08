@@ -8,9 +8,10 @@ import { Location } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { states } from 'src/JSON/state';
 import { HarvestingService } from './../harvesting.service';
-import { Observable, of, Subject, } from 'rxjs';
+import { BehaviorSubject, Observable, of, Subject, } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { ToastService } from 'src/app/services/toast/toast.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-change-farm',
@@ -81,6 +82,9 @@ export class ChangeFarmPage implements OnInit {
   customerData: any;
 
   data;
+
+  public loadingSpinner = new BehaviorSubject(false);
+
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
   constructor(
@@ -88,7 +92,8 @@ export class ChangeFarmPage implements OnInit {
     private formBuilder: FormBuilder,
     private harvestingService: HarvestingService,
     private renderer: Renderer2,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private router: Router
 
   ) {
     this.renderer.listen('window', 'click', (e) => {
@@ -195,12 +200,15 @@ export class ChangeFarmPage implements OnInit {
 
     console.log(this.jobUpdateForm.value);
 
+    this.loadingSpinner.next(true);
     this.harvestingService.createJob(this.jobUpdateForm.value)
       .subscribe(
         (res: any) => {
           console.log('Response:', res);
           if (res.status === 200) {
+            this.loadingSpinner.next(false);
             this.toastService.presentToast(res.message, 'success');
+            this.router.navigate(['/tabs/home/harvesting']);
 
             console.log(res.message);
           } else {

@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { Location } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Observable, of, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { HarvestingService } from './../harvesting.service';
 import { ToastService } from 'src/app/services/toast/toast.service';
@@ -59,6 +59,10 @@ export class AssignRolesPage implements OnInit {
   // data
   data: any;
   activeJobs: 0;
+
+  public loadingSpinner = new BehaviorSubject(false);
+  public loadingSpinner2 = new BehaviorSubject(false);
+
 
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
@@ -131,14 +135,18 @@ export class AssignRolesPage implements OnInit {
   addCombine() {
 
     this.assignFormCombine.value.job_id = this.activeJobData?.customer_job[0].id;
-    this.assignFormCombine.value.employee_id = this.assignFormCombine.get("combine_operator_id").value;
+    this.assignFormCombine.value.employee_id = this.assignFormCombine.get('combine_operator_id').value;
 
     console.log(this.assignFormCombine.value);
+    this.loadingSpinner.next(true);
+
     this.harvestingService.createJob(this.assignFormCombine.value)
       .subscribe(
         (res: any) => {
           console.log('Response:', res);
           if (res.status === 200) {
+            this.loadingSpinner.next(false);
+
             this.toastService.presentToast(res.message, 'success');
 
             console.log(res.message);
@@ -177,14 +185,16 @@ export class AssignRolesPage implements OnInit {
   addKart() {
 
     this.assignFormKart.value.job_id = this.activeJobData?.customer_job[0].id;
-    this.assignFormKart.value.employee_id = this.assignFormKart.get("cart_operator_id").value;
+    this.assignFormKart.value.employee_id = this.assignFormKart.get('cart_operator_id').value;
 
     console.log(this.assignFormKart.value);
+        this.loadingSpinner2.next(true);
     this.harvestingService.createJob(this.assignFormKart.value)
       .subscribe(
         (res: any) => {
           console.log('Response:', res);
           if (res.status === 200) {
+            this.loadingSpinner2.next(false);
             this.toastService.presentToast(res.message, 'success');
 
             console.log(res.message);
@@ -301,7 +311,7 @@ export class AssignRolesPage implements OnInit {
 
     // to enable submit button
     if (this.activeJobData?.customer_job.length > 0)
-      this.isCombineSelected = false;
+      {this.isCombineSelected = false;}
 
     // assigning values in form
     this.assignFormCombine.patchValue({
@@ -395,7 +405,7 @@ export class AssignRolesPage implements OnInit {
 
     // to enable submit button
     if (this.activeJobData?.customer_job.length > 0)
-      this.isCartSelected = false;
+      {this.isCartSelected = false;}
 
     // assigning values in form
     this.assignFormKart.patchValue({

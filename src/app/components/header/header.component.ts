@@ -54,14 +54,24 @@ export class HeaderComponent implements OnInit {
     } else if (this.location.path() === '/tabs/home/harvesting') {
       this.router.navigateByUrl('/tabs/home');
     }
-    else if(this.routeValue === 'pre-trip' || this.routeValue === 'basic-skills'){
+    else if(
+         this.location.path().includes('training/trainer/pre-trip/digital-form') ||
+        this.location.path().includes('training/trainer/road-skills/evaluation-form') ||
+        this.location.path().includes('training/trainer/basic-skills/digital-evaluation')
+        ){
       this.location.historyGo(-2);
+    }
+    else if(this.routeValue === 'pre-trip' || this.routeValue === 'basic-skills'){
+      this.router.navigateByUrl('/tabs/home/training/trainer');
     }
     else if(this.routeValue === 'view-records' || this.routeValue === 'search-records'){
       this.location.back();
     }
-    else if(this.routeValue === 'training' || this.routeValue === 'trainer' || this.routeValue === 'maintenance-repair' || this.routeValue === 'harvesting'){
+    else if(this.routeValue === 'training' || this.routeValue === 'maintenance-repair' || this.routeValue === 'harvesting'){
       this.router.navigateByUrl('/tabs/home');
+    }
+    else if(this.routeValue === 'trainer'){
+      this.router.navigateByUrl('/tabs/home/training');
     }
     else if(this.routeValue === 'assign-ticket'){
       this.router.navigateByUrl('/tabs/home/maintenance-repair/assign-tickets');

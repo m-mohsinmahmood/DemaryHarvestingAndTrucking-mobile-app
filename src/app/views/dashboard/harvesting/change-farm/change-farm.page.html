@@ -195,8 +195,12 @@
         <!-- Initial Field -->
 
         <div class="fixed bottom-2 w-full p-5 -ml-5">
-          <ion-button expand="block" class="mt-5 font-Lato text-white w-full" (click)="submit()"
-            [disabled]="isFarmSelected || isCropSelected">Save</ion-button>
+          <ion-button expand="block" class="mt-5 font-Lato text-white w-full"
+          (click)="submit()"
+            [disabled]="isFarmSelected || isCropSelected || (loadingSpinner | async)">
+            <div *ngIf="(loadingSpinner | async) === false">Save</div>
+            <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+         </ion-button>
         </div>
       </form>
     </div>
