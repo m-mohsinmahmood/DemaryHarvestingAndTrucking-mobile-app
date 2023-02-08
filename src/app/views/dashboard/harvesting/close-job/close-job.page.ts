@@ -36,9 +36,9 @@ export class CloseJobPage implements OnInit {
     // getting role
     this.role = localStorage.getItem('role');
     console.log('role', this.role);
-    this.initObservables();
     this.initForms();
     this.initApis();
+    this.initObservables();
   }
 
   initApis() {
@@ -78,14 +78,15 @@ export class CloseJobPage implements OnInit {
 
   initObservables() {
     this.harvestingService.customer$.subscribe((res) => {
-      console.log('res', res)
-      if (res) {
-        this.customerData = res;
+      console.log('res', res);
+      this.customerData = res;
+      if (this.customerData?.customer_job) {
+        // this.customerData = res;
 
         if (this.role === 'kart-operator') {
           this.closeJobFormKart.patchValue({
             // passing to pre-filled
-            workOrderId: this.customerData.workOrders[0].id,
+            workOrderId: this.customerData?.workOrders[0]?.id,
           });
         }
       }
@@ -130,7 +131,7 @@ export class CloseJobPage implements OnInit {
     // console.log(this.closeJobFormCombine.value);
 
     if (localStorage.getItem('role') === 'crew-chief') {
-      let dayClosed = {
+      const dayClosed = {
         workOrderId: this.customerData.workOrders[0].id,
         endingEngineHours: this.closeJobFormCrew.get('endingEngineHours').value,
         ending_separator_hours: this.closeJobFormCrew.get(
@@ -152,11 +153,11 @@ export class CloseJobPage implements OnInit {
         (err) => {
           this.toastService.presentToast(err, 'danger');
         }
-      )
+      );
     }
     if (localStorage.getItem('role') === 'combine-operator') {
       console.log(this.closeJobFormCombine.value);
-      let dayClosed = {
+      const dayClosed = {
         workOrderId: this.customerData.workOrders[0].id,
         endingEngineHours:
           this.closeJobFormCombine.get('endingEngineHours').value,
@@ -178,7 +179,7 @@ export class CloseJobPage implements OnInit {
         (err) => {
           this.toastService.presentToast(err.message, 'danger');
         }
-      )
+      );
     }
     if (localStorage.getItem('role') === 'kart-operator') {
       console.log('customerData', this.customerData);
@@ -222,7 +223,7 @@ export class CloseJobPage implements OnInit {
           (err) => {
             this.toastService.presentToast(err, 'danger');
           }
-        )
+        );
     }
   }
 }

@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
@@ -18,7 +19,7 @@ export class HarvestingPage implements OnInit {
   dataCount = {
     active: -1,
     preCheck: -1
-  }
+  };
 
   role: any;
   constructor(
@@ -43,7 +44,6 @@ export class HarvestingPage implements OnInit {
     // result.subscribe(x => console.log(x));
 
     if (this.role === 'truck-driver') {
-
       this.activeWorkOrders = this.harvestingService.getDeliveryTickets(this.role, localStorage.getItem('employeeId'), true, false, 'truck-driver-active-tickets');
       this.activeWorkOrders.subscribe((workOrders) => {
         this.activeTicket = workOrders.customer_job[0];
@@ -51,15 +51,37 @@ export class HarvestingPage implements OnInit {
         // this.activeTicket.harvestingUrl = '/tabs/home/harvesting';
         // this.activeTicket.module = 'harvesting';
 
-        console.log("Active: ", workOrders);
+        console.log('Active: ', workOrders);
       });
 
       this.preCheckFilled = this.harvestingService.getDeliveryTickets(this.role, localStorage.getItem('employeeId'), true, true, 'truck-driver-active-tickets');
       this.preCheckFilled.subscribe((workOrders) => {
         this.preCheck = workOrders.customer_job[0];
-        console.log("Pre Check Filled: ", workOrders);
+        console.log('Pre Check Filled: ', workOrders);
       });
     }
+  }
+
+  async ionViewDidEnter(){
+    this.role = localStorage.getItem('role');
+    if (this.role === 'truck-driver') {
+      this.activeWorkOrders = this.harvestingService.getDeliveryTickets(this.role, localStorage.getItem('employeeId'), true, false, 'truck-driver-active-tickets');
+      this.activeWorkOrders.subscribe((workOrders) => {
+        this.activeTicket = workOrders.customer_job[0];
+
+        // this.activeTicket.harvestingUrl = '/tabs/home/harvesting';
+        // this.activeTicket.module = 'harvesting';
+
+        console.log('Active: ', workOrders);
+      });
+
+      this.preCheckFilled = this.harvestingService.getDeliveryTickets(this.role, localStorage.getItem('employeeId'), true, true, 'truck-driver-active-tickets');
+      this.preCheckFilled.subscribe((workOrders) => {
+        this.preCheck = workOrders.customer_job[0];
+        console.log('Pre Check Filled: ', workOrders);
+      });
+    }
+
   }
   goBack() {
     this.location.back();

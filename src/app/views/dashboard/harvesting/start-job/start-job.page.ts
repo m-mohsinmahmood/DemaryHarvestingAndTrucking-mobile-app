@@ -159,10 +159,10 @@ export class StartJobPage implements OnInit {
     this.harvestingService.customer$.subscribe((res) => {
       if (res) {
         this.customerData = res;
-        // console.log(this.customerData);
+        console.log('-',this.customerData);
         // passing customer-id & farm-id to get the specific field
-        this.customerID = this.customerData.customer_job[0]?.customer_id;
-        this.farmID = this.customerData.customer_job[0]?.farm_id;
+        this.customerID = this.customerData?.customer_job[0]?.customer_id;
+        this.farmID = this.customerData?.customer_job[0]?.farm_id;
 
         // passing job id's conditionally for DWR
         if (this.role === 'crew-chief') {
@@ -202,13 +202,13 @@ export class StartJobPage implements OnInit {
   submit() {
     // For Crew Chief
     if (localStorage.getItem('role') === 'crew-chief') {
-      let data = {
-        machineryId: this.startJobFormCrew.get("machineryId").value,
+      const data = {
+        machineryId: this.startJobFormCrew.get('machineryId').value,
         employeeId: localStorage.getItem('employeeId'),
-        jobId: this.startJobFormCrew.get("workOrderId").value,
-        beginningEngineHours: this.startJobFormCrew.get("beginningEngineHours").value,
-        beginning_separator_hours: this.startJobFormCrew.get("beginning_separator_hours").value,
-      }
+        jobId: this.startJobFormCrew.get('workOrderId').value,
+        beginningEngineHours: this.startJobFormCrew.get('beginningEngineHours').value,
+        beginning_separator_hours: this.startJobFormCrew.get('beginning_separator_hours').value,
+      };
 
       this.harvestingService.createBeginingDay(data, 'harvesting')
         .subscribe((res) => {
@@ -225,13 +225,13 @@ export class StartJobPage implements OnInit {
 
     // For Combine Operator
     if (localStorage.getItem('role') === 'combine-operator') {
-      let data = {
-        machineryId: this.startJobFormCombine.get("machineryId").value,
+      const data = {
+        machineryId: this.startJobFormCombine.get('machineryId').value,
         employeeId: localStorage.getItem('employeeId'),
-        jobId: this.startJobFormCombine.get("workOrderId").value,
-        beginningEngineHours: this.startJobFormCombine.get("beginningEngineHours").value,
-        beginning_separator_hours: this.startJobFormCombine.get("beginning_separator_hours").value,
-      }
+        jobId: this.startJobFormCombine.get('workOrderId').value,
+        beginningEngineHours: this.startJobFormCombine.get('beginningEngineHours').value,
+        beginning_separator_hours: this.startJobFormCombine.get('beginning_separator_hours').value,
+      };
 
       this.harvestingService.createBeginingDay(data, 'harvesting')
         .subscribe(
@@ -254,12 +254,12 @@ export class StartJobPage implements OnInit {
 
     // For Kart Operator
     if (localStorage.getItem('role') === 'kart-operator') {
-      let data = {
-        machineryId: this.startJobFormKart.get("machineryId").value,
+      const data = {
+        machineryId: this.startJobFormKart.get('machineryId').value,
         employeeId: localStorage.getItem('employeeId'),
-        jobId: this.startJobFormKart.get("job_id").value,
-        beginningEngineHours: this.startJobFormKart.get("beginningEngineHours").value,
-      }
+        jobId: this.startJobFormKart.get('job_id').value,
+        beginningEngineHours: this.startJobFormKart.get('beginningEngineHours').value,
+      };
       // console.log('this.startJobFormKart.value', this.startJobFormKart.value);
 
       this.harvestingService.createBeginingDay(data, 'harvesting')
@@ -284,13 +284,13 @@ export class StartJobPage implements OnInit {
 
     // For Truck Driver
     if (localStorage.getItem('role') === 'truck-driver') {
-      let data = {
-        machineryId: this.startJobFormTruck.get("truck_id").value,
+      const data = {
+        machineryId: this.startJobFormTruck.get('truck_id').value,
         employeeId: localStorage.getItem('employeeId'),
-        jobId: this.startJobFormTruck.get("workOrderId").value,
-        begining_odometer_miles: this.startJobFormTruck.get("begining_odometer_miles").value
-      }
-      console.log("data: ", data);
+        jobId: this.startJobFormTruck.get('workOrderId').value,
+        begining_odometer_miles: this.startJobFormTruck.get('begining_odometer_miles').value
+      };
+      console.log('data: ', data);
 
       this.harvestingService.createBeginingDay(data, 'harvesting')
         .subscribe(
