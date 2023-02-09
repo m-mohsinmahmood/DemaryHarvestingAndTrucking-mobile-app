@@ -17,7 +17,7 @@ export class VehicleExternalPage implements OnInit {
   progress = 0.4;
   result: any = 0;
   training_record_id: any;
-
+  isModalOpen = false;
 
     // trainer id
  trainer_id = '4b84234b-0b74-49a2-b3c7-d3884f5f6013';
@@ -119,6 +119,12 @@ export class VehicleExternalPage implements OnInit {
       this.training_record_id = params.training_record_id;
     });
   }
+  next(){
+    this.isModalOpen = true;
+  }
+  edit(){
+    this.isModalOpen = false;
+  }
   submit(){
     this.loadingSpinner.next(true);
 
@@ -132,6 +138,10 @@ export class VehicleExternalPage implements OnInit {
       (res) => {
         console.log('RES:', res);
         if (res.status === 200) {
+          // closing modal
+          this.isModalOpen = false;
+
+          // spinner
           this.loadingSpinner.next(false);
 
           this.toastService.presentToast(
@@ -140,11 +150,15 @@ export class VehicleExternalPage implements OnInit {
           );
 
           // navigating
-        this.router.navigate(['/tabs/home/training/trainer/pre-trip/digital-form/in-cab/vehicle-external/coupling'],{
-          queryParams:{
-            training_record_id: this.training_record_id
-          }
-        });
+        if (this.isModalOpen === false) {
+          setTimeout(()=>{
+            this.router.navigate(['/tabs/home/training/trainer/pre-trip/digital-form/in-cab/vehicle-external/coupling'],{
+              queryParams:{
+                training_record_id: this.training_record_id
+              }
+            });
+          },500);
+        }
         } else {
           console.log('Something happened :)');
           this.toastService.presentToast(res.mssage, 'danger');
