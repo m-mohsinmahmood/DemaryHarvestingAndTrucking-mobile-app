@@ -468,8 +468,8 @@ export class HarvestingService {
   }
 
   kartOperatorAddTruckDriver(operation, raw) {
-    let params = new HttpParams();
-    params = params.set('operation', operation);
+    // let params = new HttpParams();
+    // params = params.set('operation', operation);
 
     return this._httpClient
       .patch(`http://localhost:7071/api/havesting-kart-operator`, raw)

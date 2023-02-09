@@ -124,8 +124,9 @@ export class DriverSetupPage implements OnInit {
 
   addTruckDriver() {
     let raw = JSON.stringify({
-      driverIds: [this.driverSetupForm.value],
+      driverIds: this.driverSetupForm.get('truck_driver').value,
       kartOperatorId: 'f4cfa75b-7c14-4b68-a192-00d56c9f2022',
+      operation: 'addTruckDrivers'
     });
 
     this.harvestingService
