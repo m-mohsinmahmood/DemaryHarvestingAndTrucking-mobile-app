@@ -8,11 +8,11 @@ import { Observable } from 'rxjs';
   styleUrls: ['./farming.page.scss'],
 })
 export class FarmingPage implements OnInit {
-  role = ""
+  role = '';
   pendingWorkOrders: Observable<any>;
   pendingOrdersCount = -1;
   sentOrdersCount = -1;
-  workOrderCount: any
+  workOrderCount: any;
   constructor(private farmingService: FarmingService) {
 
   }
@@ -35,20 +35,20 @@ export class FarmingPage implements OnInit {
     if (this.role === 'dispatcher') {
       this.farmingService.getAllWorkOrders('', 'pending_work_order', localStorage.getItem('employeeId')).subscribe(workOrder => {
         this.pendingOrdersCount = workOrder.count;
-      })
+      });
     }
     else {
       // console.log("Tractor Driver: ", localStorage.getItem('employeeId'));
       this.farmingService.getBeginningOfDay(localStorage.getItem('employeeId'), 'beginningOfDay', 'farming').subscribe(workOrder => {
         this.workOrderCount = workOrder.count;
-        console.log("Active DWR :", workOrder);
+        console.log('Active DWR :', workOrder);
       });
 
       this.farmingService.getAllWorkOrders('', 'existing_work_order', localStorage.getItem('employeeId')).subscribe(workOrder => {
         this.sentOrdersCount = workOrder.count;
-        console.log("Existing Work Orders: ", workOrder);
+        console.log('Existing Work Orders: ', workOrder);
 
-      })
+      });
     }
   }
 }

@@ -171,7 +171,7 @@ export class HarvestingService {
   getJobSetup(entity, crew_chief_id?, employeeId?) {
     let params = new HttpParams();
 
-    if (employeeId != null) params = params.set('employeeId', employeeId);
+    if (employeeId != null) {params = params.set('employeeId', employeeId);}
 
     return this._httpClient
 
@@ -408,12 +408,12 @@ export class HarvestingService {
     params = params.set('employeeId', employeeId);
 
     if (isTicketActive != null)
-      params = params.set('isTicketActive', isTicketActive);
+      {params = params.set('isTicketActive', isTicketActive);}
 
-    if (entity != null) params = params.set('entity', entity);
+    if (entity != null) {params = params.set('entity', entity);}
 
     if (isPreCHeckFilled != null)
-      params = params.set('isPreCheckFilled', isPreCHeckFilled);
+      {params = params.set('isPreCheckFilled', isPreCHeckFilled);}
 
     return this._httpClient
       .get<any>('http://localhost:7071/api/customer-job-setup', {
@@ -477,7 +477,7 @@ export class HarvestingService {
   }
 
   kartOperatorCreateDeliveryTicket(operation, raw) {
-    let appendedObject = { ...raw, operation: 'createDeliveryTicket' };
+    const appendedObject = { ...raw, operation: 'createDeliveryTicket' };
     return this._httpClient
       .post(`http://localhost:7071/api/havesting-kart-operator`, appendedObject)
       .pipe(take(1));
@@ -549,7 +549,7 @@ export class HarvestingService {
   }
 
   truckDriverCompleteTicket(operation, payload) {
-    let appendedObject = { ...payload, operation };
+    const appendedObject = { ...payload, operation };
     // console.log('appendedObject', appendedObject);
     try {
       return this._httpClient
@@ -558,5 +558,22 @@ export class HarvestingService {
     } catch (error) {
       console.log('error', error);
     }
+  }
+  getAllWorkOrders(
+    search: string,
+    searchClause: string,
+    employeeId?: string
+  ) {
+    this._httpClient
+    let params = new HttpParams();
+    params = params.set('search', search);
+    params = params.set('searchClause', searchClause);
+    params = params.set('employeeId', employeeId);
+
+    return this._httpClient
+      .get<any>('api-1/work-order-farming', {
+        params,
+      })
+      .pipe(take(1));
   }
 }

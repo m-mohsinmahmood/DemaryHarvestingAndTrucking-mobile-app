@@ -37,7 +37,7 @@ export class HarvestingPage implements OnInit {
       this.activeWorkOrders.subscribe((workOrders) => {
         this.activeTicket = workOrders.customer_job[0];
         if (this.activeTicket !== undefined && !this.activeTicket.hasOwnProperty('preRoute'))
-          this.activeTicket.preRoute = '/tabs/home/trucking/harvesting';
+          {this.activeTicket.preRoute = '/tabs/home/trucking/harvesting';}
 
         // this.activeTicket.harvestingUrl = '/tabs/home/harvesting';
         // this.activeTicket.module = 'harvesting';
@@ -60,7 +60,7 @@ export class HarvestingPage implements OnInit {
       this.activeWorkOrders.subscribe((workOrders) => {
         this.activeTicket = workOrders.customer_job[0];
         if (this.activeTicket !== undefined && !this.activeTicket.hasOwnProperty('preRoute'))
-          this.activeTicket.preRoute = '/tabs/home/trucking/harvesting';
+          {this.activeTicket.preRoute = '/tabs/home/trucking/harvesting';}
         // this.activeTicket.harvestingUrl = '/tabs/home/harvesting';
         // this.activeTicket.module = 'harvesting';
 
