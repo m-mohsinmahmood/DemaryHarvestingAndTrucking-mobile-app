@@ -80,7 +80,7 @@ export class CloseJobPage implements OnInit {
     this.harvestingService.customer$.subscribe((res) => {
       console.log('res', res);
       this.customerData = res;
-      if (this.customerData?.customer_job) {
+      if (this.customerData?.workOrders) {
         // this.customerData = res;
 
         if (this.role === 'kart-operator') {
@@ -88,6 +88,9 @@ export class CloseJobPage implements OnInit {
             // passing to pre-filled
             workOrderId: this.customerData?.workOrders[0]?.id,
           });
+
+          console.log(this.closeJobFormKart.value);
+
         }
       }
     });
