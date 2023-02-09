@@ -49,7 +49,7 @@ export class CloseJobPage implements OnInit {
         'harvesting'
       );
     }
-    if (this.role === 'combine-operator') {
+    else if (this.role === 'combine-operator') {
       this.harvestingService.getBeginningOfDay(
         localStorage.getItem('employeeId'),
         'beginningOfDayHarvesting',
@@ -57,7 +57,7 @@ export class CloseJobPage implements OnInit {
       );
     }
 
-    if (this.role === 'truck-driver') {
+    else if (this.role === 'truck-driver') {
       this.activeRoute.params.subscribe((param) => {
         this.closeJobFormTruck.patchValue({
           workOrderId: param.id,
@@ -67,7 +67,7 @@ export class CloseJobPage implements OnInit {
       });
     }
 
-    if (this.role === 'kart-operator') {
+    else if (this.role === 'kart-operator') {
       this.harvestingService.getBeginningOfDay(
         localStorage.getItem('employeeId'),
         'beginningOfDayHarvesting',
@@ -89,7 +89,7 @@ export class CloseJobPage implements OnInit {
             workOrderId: this.customerData?.workOrders[0]?.id,
           });
 
-          console.log(this.closeJobFormKart.value);
+          // console.log(this.closeJobFormKart.value);
 
         }
       }

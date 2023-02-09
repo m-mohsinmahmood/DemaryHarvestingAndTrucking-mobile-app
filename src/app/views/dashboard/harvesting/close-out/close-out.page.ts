@@ -69,7 +69,7 @@ export class CloseOutPage implements OnInit {
     }
   }
   initObservables() {
-    this.harvestingservice.customer$.subscribe((res) => {
+    this.harvestingservice.customerJobSetup$.subscribe((res) => {
       console.log(res);
       this.customerData = res;
       // For crew-chief
