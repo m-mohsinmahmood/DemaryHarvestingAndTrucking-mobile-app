@@ -48,8 +48,12 @@
         </div>
       </div>
 
-      <ion-button expand="block" [disabled]="isCombineSelected" class="font-Lato font-white text-white mt-4 mb-4"
-        (click)="addCombine()">Add Combine Operator</ion-button>
+      <ion-button expand="block" [disabled]="isCombineSelected || (loadingSpinner | async)" class="font-Lato font-white text-white mt-4 mb-4"
+        (click)="addCombine()">
+        <div *ngIf="(loadingSpinner | async) === false"> Add Combine Operator</div>
+            <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+
+      </ion-button>
     </form>
     <!-- Kart Operator -->
     <form [formGroup]="assignFormKart">
@@ -95,8 +99,11 @@
         </div>
 
       </div>
-      <ion-button expand="block" [disabled]="isCartSelected" class="font-Lato font-white text-white mt-4"
-        (click)="addKart()">Add Kart Operator</ion-button>
+      <ion-button expand="block" [disabled]="isCartSelected || (loadingSpinner2 | async)" class="font-Lato font-white text-white mt-4"
+        (click)="addKart()">
+        <div *ngIf="(loadingSpinner2 | async) === false">Add Kart Operator</div>
+            <ion-spinner name="crescent" *ngIf="(loadingSpinner2 | async)"></ion-spinner>
+      </ion-button>
     </form>
     <ion-card class="card">
       <ion-grid>
