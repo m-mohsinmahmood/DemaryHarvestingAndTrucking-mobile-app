@@ -78,8 +78,10 @@ export class CommercialPage implements OnInit {
 
       this.activeWorkOrders = this.truckingService.getDeliveryTickets(this.role, 'sent', localStorage.getItem('employeeId'), 'commercial', true, true, false);
       this.activeWorkOrders.subscribe((workOrders) => {
-        if (this.activeTicket !== undefined && !this.activeTicket.hasOwnProperty('preRoute'))
+        if (this.activeTicket !== undefined && !this.activeTicket.hasOwnProperty('preRoute')) {
           this.activeTicket.preRoute = '/tabs/home/trucking/commercial';
+          this.activeTicket.module = 'trucking';
+        }
         this.activeTicket = workOrders.workOrders[0];
         this.dataCount.active = workOrders.count;
         console.log("Active: ", workOrders);

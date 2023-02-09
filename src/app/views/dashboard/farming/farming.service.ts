@@ -36,6 +36,13 @@ export class FarmingService {
       .pipe(take(1));
   }
 
+  createNewJobResult(data: any) {
+
+    return this._httpClient
+      .post(`api-1/customer-job-result`, data)
+      .pipe(take(1));
+  }
+
   updateWorkOrder(data: any, role: string, searchClause?: string) {
     data.role = role;
     data.searchClause = searchClause;

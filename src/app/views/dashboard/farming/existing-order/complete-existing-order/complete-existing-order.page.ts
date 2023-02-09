@@ -81,7 +81,7 @@ export class CompleteExistingOrderPage implements OnInit {
 
   constructor(private toast: ToastService, private farmingService: FarmingService, private activeRoute: Router, private formBuilder: FormBuilder, private activatedR: ActivatedRoute, private renderer: Renderer2) {
     this.activatedR.params.subscribe(params => {
-      console.log(params);
+      console.log("Required Data: ", params);
 
       this.data = params;
       this.customerId = this.data.customer_id;
@@ -147,6 +147,18 @@ export class CompleteExistingOrderPage implements OnInit {
   }
 
   navigateTo(nav: string) {
+    // let jobResult = {
+    //   service?: this.data.service,
+    //   customer_id?: this.data.customer_id,
+    //   farm_id?: this.data.farm_id,
+    //   field_id?: this.data.field_id,
+    //   acres?: string;
+    //   gps_acres?: string;
+    //   engine_hours?: string;
+    //   job_type?: string;
+    //   dispatcher_id?: string;
+    // }
+
     this.completeExistingWorkOrder.value.completeInfo = true;
     console.log(this.completeExistingWorkOrder.value);
     this.farmingService.updateWorkOrder(this.completeExistingWorkOrder.value, 'tractor-driver', 'existingWorkOrder')
