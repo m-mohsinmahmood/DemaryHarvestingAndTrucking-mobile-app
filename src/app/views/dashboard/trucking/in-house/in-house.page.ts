@@ -79,8 +79,10 @@ export class InHousePage implements OnInit {
       this.activeWorkOrders = this.truckingService.getDeliveryTickets(this.role, 'sent', localStorage.getItem('employeeId'), 'home', true, true, false);
       this.activeWorkOrders.subscribe((workOrders) => {
         this.activeTicket = workOrders.workOrders[0];
-        if (this.activeTicket !== undefined && !this.activeTicket.hasOwnProperty('preRoute'))
+        if (this.activeTicket !== undefined && !this.activeTicket.hasOwnProperty('preRoute')) {
           this.activeTicket.preRoute = '/tabs/home/trucking/in-house';
+          this.activeTicket.module = 'trucking';
+        }
 
         this.dataCount.active = workOrders.count;
         console.log("Active: ", workOrders);

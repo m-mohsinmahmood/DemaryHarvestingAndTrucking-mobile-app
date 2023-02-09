@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { TripCheckService } from '../../trip-check-form.service';
 import { ToastService } from './../../../../services/toast/toast.service';
 import { TruckingService } from './../../../../views/dashboard/trucking/trucking.service';
+import { HarvestingService } from './../../../../views/dashboard/harvesting/harvesting.service';
 
 @Component({
   selector: 'app-trailer',
@@ -21,8 +22,10 @@ export class TrailerPage implements OnInit {
   id;
   deliveryTicketId;
   routeBack;
+  module;
+  harvestingTicket;
 
-  constructor(private truckingService: TruckingService, private activeRoute: ActivatedRoute, private tripCheck: TripCheckService, private toast: ToastService, private router: Router, private formBuilder: FormBuilder) { }
+  constructor(private harvestingService: HarvestingService, private truckingService: TruckingService, private activeRoute: ActivatedRoute, private tripCheck: TripCheckService, private toast: ToastService, private router: Router, private formBuilder: FormBuilder) { }
 
   ngOnInit() {
     this.initDataFetch();
@@ -36,6 +39,8 @@ export class TrailerPage implements OnInit {
     this.activeRoute.params.subscribe(params => {
       this.deliveryTicketId = params.deliveryTicketId;
       this.routeBack = params.preRoute;
+      this.module = params.module;
+      this.harvestingTicket = params.id;
       console.log("Params:", params);
 
     })
@@ -45,7 +50,6 @@ export class TrailerPage implements OnInit {
     this.data.subscribe((workOrders) => {
       this.id = workOrders.ticket[0].id;
       console.log(workOrders);
-
     });
 
     this.trailerCheckForm = this.formBuilder.group({
@@ -113,18 +117,32 @@ export class TrailerPage implements OnInit {
 
     console.log(this.deliveryTicketId);
 
-    this.truckingService.updateDeliveryTicket({
-      ticketNo: this.deliveryTicketId,
-      isTicketActive: true,
-      isTripCheckFilled: true
-    }, 'sent')
-      .subscribe(
-        (res: any) => {
-          console.log(res);
-        },
-        (err) => {
-          this.toast.presentToast(err, 'danger');
-        },
-      );
+    if (this.module === 'trucking') {
+      this.truckingService.updateDeliveryTicket({
+        ticketNo: this.deliveryTicketId,
+        isTicketActive: true,
+        isTripCheckFilled: true
+      }, 'sent')
+        .subscribe(
+          (res: any) => {
+            console.log(res);
+          },
+          (err) => {
+            this.toast.presentToast(err, 'danger');
+          },
+        );
+    }
+
+    else if (this.module === 'harvesting') {
+      this.harvestingService.updatePreTripCheckJob(this.harvestingTicket)
+        .subscribe(
+          (res: any) => {
+            console.log(res);
+          },
+          (err) => {
+            this.toast.presentToast(err, 'danger');
+          },
+        );
+    }
   }
 }

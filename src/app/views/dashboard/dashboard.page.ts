@@ -24,10 +24,13 @@ export class DashboardPage implements OnInit {
     private dwrServices: CheckInOutService,
     private nav: Router,
     private activatedRoute: ActivatedRoute,
-  ) { }
+  ) {
+    this.initDataRetrieval();
+
+  }
 
   ngOnInit() {
-    this.initDataRetrieval();
+    // this.initDataRetrieval();
   }
 
   async ionViewDidEnter() {

@@ -301,6 +301,15 @@ export class HarvestingService {
       .pipe(take(1));
   }
 
+  updatePreTripCheckJob(ticketID: any) {
+    return this._httpClient
+      .patch(
+        `http://localhost:7071/api/customer-job-setup?id=${ticketID}`,
+        {}
+      )
+      .pipe(take(1));
+  }
+
   getSentTicket(value: any) {
     return this._httpClient
       .get(`http://localhost:7071/api/harvesting-ticket?status=${value}`)

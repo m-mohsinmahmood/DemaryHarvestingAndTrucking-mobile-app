@@ -36,11 +36,10 @@ export class HarvestingPage implements OnInit {
       this.activeWorkOrders = this.harvestingService.getDeliveryTickets(this.role, localStorage.getItem('employeeId'), true, false, 'truck-driver-active-tickets');
       this.activeWorkOrders.subscribe((workOrders) => {
         this.activeTicket = workOrders.customer_job[0];
-        if (this.activeTicket !== undefined && !this.activeTicket.hasOwnProperty('preRoute'))
-          this.activeTicket.preRoute = '/tabs/home/trucking/harvesting';
-
-        // this.activeTicket.harvestingUrl = '/tabs/home/harvesting';
-        // this.activeTicket.module = 'harvesting';
+        if (this.activeTicket !== undefined && !this.activeTicket.hasOwnProperty('preRoute')) {
+          this.activeTicket.preRoute = '/tabs/home/harvesting';
+          this.activeTicket.module = 'harvesting';
+        }
 
         console.log('Active: ', workOrders);
       });
@@ -59,10 +58,10 @@ export class HarvestingPage implements OnInit {
       this.activeWorkOrders = this.harvestingService.getDeliveryTickets(this.role, localStorage.getItem('employeeId'), true, false, 'truck-driver-active-tickets');
       this.activeWorkOrders.subscribe((workOrders) => {
         this.activeTicket = workOrders.customer_job[0];
-        if (this.activeTicket !== undefined && !this.activeTicket.hasOwnProperty('preRoute'))
-          this.activeTicket.preRoute = '/tabs/home/trucking/harvesting';
-        // this.activeTicket.harvestingUrl = '/tabs/home/harvesting';
-        // this.activeTicket.module = 'harvesting';
+        if (this.activeTicket !== undefined && !this.activeTicket.hasOwnProperty('preRoute')) {
+          this.activeTicket.preRoute = '/tabs/home/harvesting';
+          this.activeTicket.module = 'harvesting';
+        }
 
         console.log('Active: ', workOrders);
       });
