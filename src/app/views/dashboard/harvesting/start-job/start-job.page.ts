@@ -10,6 +10,7 @@ import { Alert } from 'src/app/alert/alert.model';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { Observable, of, Subject } from 'rxjs';
 import { ToastService } from 'src/app/services/toast/toast.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-start-job',
@@ -68,7 +69,8 @@ export class StartJobPage implements OnInit {
     private harvestingService: HarvestingService,
     private alertService: AlertService,
     private toastService: ToastService,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private router: Router
   ) {
     if (localStorage.getItem('role') === 'crew-chief' || localStorage.getItem('role') === 'combine-operator') {
       this.renderer.listen('window', 'click', (e) => {
@@ -81,6 +83,8 @@ export class StartJobPage implements OnInit {
   }
 
   ngOnInit() {
+    console.log("Start Job Page 1");
+
     this.role = localStorage.getItem('role');
 
     this.initForms();
@@ -154,12 +158,18 @@ export class StartJobPage implements OnInit {
     } else if (this.role === 'truck-driver') {
       this.harvestingService.getJobSetup('truck-driver', '', localStorage.getItem('employeeId'));
     }
+
+    console.log("Start Job Page 2");
+
   }
+
   initObservables() {
-    this.harvestingService.customer$.subscribe((res) => {
+    this.harvestingService.customerJobSetup$.subscribe((res) => {
       if (res) {
+        console.log("Start Job Page 3");
+
         this.customerData = res;
-        console.log('-',this.customerData);
+        console.log('-', this.customerData);
         // passing customer-id & farm-id to get the specific field
         this.customerID = this.customerData?.customer_job[0]?.customer_id;
         this.farmID = this.customerData?.customer_job[0]?.farm_id;
@@ -224,7 +234,7 @@ export class StartJobPage implements OnInit {
     }
 
     // For Combine Operator
-    if (localStorage.getItem('role') === 'combine-operator') {
+    else if (localStorage.getItem('role') === 'combine-operator') {
       const data = {
         machineryId: this.startJobFormCombine.get('machineryId').value,
         employeeId: localStorage.getItem('employeeId'),
@@ -253,7 +263,7 @@ export class StartJobPage implements OnInit {
     }
 
     // For Kart Operator
-    if (localStorage.getItem('role') === 'kart-operator') {
+    else if (localStorage.getItem('role') === 'kart-operator') {
       const data = {
         machineryId: this.startJobFormKart.get('machineryId').value,
         employeeId: localStorage.getItem('employeeId'),
@@ -268,7 +278,8 @@ export class StartJobPage implements OnInit {
             // console.log('Response:', res);
             if (res.status === 200) {
               this.startJobFormCombine.reset();
-              this.location.back();
+              // this.location.back();
+              this.router.navigateByUrl('/tabs/home/harvesting');
               this.toastService.presentToast(res.message, 'success');
             } else {
               console.log('Something happened :)');
@@ -283,7 +294,7 @@ export class StartJobPage implements OnInit {
     }
 
     // For Truck Driver
-    if (localStorage.getItem('role') === 'truck-driver') {
+    else if (localStorage.getItem('role') === 'truck-driver') {
       const data = {
         machineryId: this.startJobFormTruck.get('truck_id').value,
         employeeId: localStorage.getItem('employeeId'),
@@ -529,5 +540,7 @@ export class StartJobPage implements OnInit {
     // clearing array
     this.allMachinery = of([]);
   }
+
   //#endregion
 }
+

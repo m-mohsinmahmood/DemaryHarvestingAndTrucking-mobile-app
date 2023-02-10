@@ -43,7 +43,7 @@ export class GeneratedTicketPage implements OnInit {
 
   }
   initObservables(){
-    this.harvestingService.customer$.subscribe((res)=>{
+    this.harvestingService.getjob2$.subscribe((res)=>{
       this.customerData = res;
       console.log('res::',res);
     });

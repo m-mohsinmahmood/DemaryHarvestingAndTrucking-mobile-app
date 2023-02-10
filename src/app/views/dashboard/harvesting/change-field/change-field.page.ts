@@ -134,7 +134,7 @@ export class ChangeFieldPage implements OnInit {
   }
 
   initObservables() {
-    this.harvestingService.customer$.subscribe((res) => {
+    this.harvestingService.customerJobSetup$.subscribe((res) => {
       console.log('res::', res);
       if (res) {
         this.customerData = res;

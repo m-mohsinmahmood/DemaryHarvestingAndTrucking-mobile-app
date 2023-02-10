@@ -150,7 +150,7 @@ export class ChangeFarmPage implements OnInit {
     this.harvestingService.getJobSetup('crew-chief', localStorage.getItem('employeeId'));
   }
   initObservables() {
-    this.harvestingService.customer$.subscribe((res) => {
+    this.harvestingService.customerJobSetup$.subscribe((res) => {
       // console.log('Response',res);
       this.customerData = res;
       // console.log(this.customerData?.customer_job[0]);

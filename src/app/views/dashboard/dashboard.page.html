@@ -11,6 +11,7 @@
           <ion-avatar>
             <img src="../../../assets/images//Oval.png" alt="">
           </ion-avatar>
+
           <div class="flex flex-col ml-2">
             <ion-text class="font-semibold font-Lato">Wade Warren</ion-text>
             <span class=" text-xs font-medium font-Lato text-gray-400" *ngIf="role ==='crew-chief'">Crew Chief</span>
@@ -20,6 +21,7 @@
               Operator</span>
             <span class="text-xs font-medium font-Lato text-gray-400" *ngIf="role ==='truck-driver'">Truck Driver</span>
           </div>
+
         </ion-col>
         <ion-col size="2" class="flex justify-center items-center">
           <ion-tab-button class="relative">
@@ -36,7 +38,7 @@
     </ion-grid>
     <div class="w-5/12 ml-4">
       <form [formGroup]="selectform">
-        <ion-select formControlName="select" placeholder="Select Role" class="border-2 border-project-green rounded-lg"
+        <ion-select [value]="this.selectform.get('select').value" placeholder="Select Role" class="border-2 border-project-green rounded-lg"
           (ionChange)="onSelect($event)">
           <ion-select-option value="crew-chief" class="font-Lato">Crew Chief</ion-select-option>
           <ion-select-option value="combine-operator" class="font-Lato">Combine Operator</ion-select-option>

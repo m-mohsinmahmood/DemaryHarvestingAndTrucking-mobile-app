@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { CheckInOutService } from './../../components/check-in-out/check-in-out.service';
@@ -24,13 +23,10 @@ export class DashboardPage implements OnInit {
     private dwrServices: CheckInOutService,
     private nav: Router,
     private activatedRoute: ActivatedRoute,
-  ) {
-    this.initDataRetrieval();
-
-  }
+  ) { }
 
   ngOnInit() {
-    // this.initDataRetrieval();
+    this.initDataRetrieval();
   }
 
   async ionViewDidEnter() {
@@ -43,8 +39,9 @@ export class DashboardPage implements OnInit {
     this.selectform = this.formbuilder.group({
       select: ['']
     });
-    this.selectform.get('select').setValue(this.roleOptions[0]);
-    console.log(localStorage.getItem('employeeId'));
+
+    this.selectform.patchValue({ select: this.roleOptions[0] });
+    console.log(localStorage.getItem("employeeId"));
 
     this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
       console.log(workOrder.dwr);
@@ -57,7 +54,7 @@ export class DashboardPage implements OnInit {
       else {
         this.isModalOpen = true;
       }
-    });
+    })
   }
 
   onSelect(e) {
@@ -81,7 +78,7 @@ export class DashboardPage implements OnInit {
     this.isOpen = true;
   }
   logout() {
-    console.log('LOGOUT');
+    console.log('LOGOUT')
 
     //to close pop-over
     this.isOpen = false;
@@ -92,17 +89,17 @@ export class DashboardPage implements OnInit {
     if (this.activeDwr[0].module === 'farming') {
       this.isModalOpen = false;
       console.log(this.isModalOpen);
-      this.nav.navigate(['farming'], { relativeTo: this.activatedRoute });
+      this.nav.navigate(['farming'], { relativeTo: this.activatedRoute })
     }
     else if (this.activeDwr[0].module === 'trucking') {
       this.isModalOpen = false;
       console.log(this.isModalOpen);
-      this.nav.navigate(['trucking'], { relativeTo: this.activatedRoute });
+      this.nav.navigate(['trucking'], { relativeTo: this.activatedRoute })
     }
     else if (this.activeDwr[0].module === 'harvesting') {
       this.isModalOpen = false;
       console.log(this.isModalOpen);
-      this.nav.navigate(['harvesting'], { relativeTo: this.activatedRoute });
+      this.nav.navigate(['harvesting'], { relativeTo: this.activatedRoute })
     }
   }
 }

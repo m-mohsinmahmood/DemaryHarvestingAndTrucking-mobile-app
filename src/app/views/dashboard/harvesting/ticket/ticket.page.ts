@@ -171,7 +171,7 @@ export class TicketPage implements OnInit {
   }
 
   initObservables() {
-    this.harvestingService.customer$.subscribe((response) => {
+    this.harvestingService.customerJobSetup2$.subscribe((response) => {
       if (response) {
         // Customer Data!
         this.customerData = response;

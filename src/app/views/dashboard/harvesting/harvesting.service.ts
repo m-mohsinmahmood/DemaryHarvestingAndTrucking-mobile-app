@@ -22,6 +22,12 @@ export class HarvestingService {
   //#region customers
   private customer: BehaviorSubject<any[] | null> = new BehaviorSubject(null);
   readonly customer$: Observable<any[] | null> = this.customer.asObservable();
+  private customerJobSetup: BehaviorSubject<any[] | null> = new BehaviorSubject(null);
+  readonly customerJobSetup$: Observable<any[] | null> = this.customerJobSetup.asObservable();
+  private customerJobSetup2: BehaviorSubject<any[] | null> = new BehaviorSubject(null);
+  readonly customerJobSetup2$: Observable<any[] | null> = this.customerJobSetup2.asObservable();
+  private getjob2: BehaviorSubject<any[] | null> = new BehaviorSubject(null);
+  readonly getjob2$: Observable<any[] | null> = this.getjob2.asObservable();
 
   private customerLoading: BehaviorSubject<boolean> =
     new BehaviorSubject<boolean>(true);
@@ -183,7 +189,7 @@ export class HarvestingService {
       .subscribe(
         (res: any) => {
           this.customerLoading.next(true);
-          this.customer.next(res);
+          this.customerJobSetup.next(res);
           this.customerLoading.next(false);
         },
         (err) => {
@@ -202,7 +208,7 @@ export class HarvestingService {
       .subscribe(
         (res: any) => {
           this.customerLoading.next(true);
-          this.customer.next(res);
+          this.customerJobSetup2.next(res);
           this.customerLoading.next(false);
         },
         (err) => {
@@ -219,7 +225,7 @@ export class HarvestingService {
       .subscribe(
         (res: any) => {
           this.customerLoading2.next(true);
-          this.customer.next(res);
+          this.getjob2.next(res);
           this.customerLoading2.next(false);
         },
         (err) => {
