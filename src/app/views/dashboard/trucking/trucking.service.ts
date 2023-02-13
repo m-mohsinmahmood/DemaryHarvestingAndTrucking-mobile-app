@@ -32,7 +32,7 @@ export class TruckingService {
     params = params.set('search', search);
 
     return this._httpClient
-      .get<any>('http://localhost:7071/api/dropdowns', {
+      .get<any>('api-1/dropdowns', {
         params,
       })
       .pipe(take(1));
@@ -50,7 +50,7 @@ export class TruckingService {
     params = params.set('search', search);
 
     return this._httpClient
-      .get<any>('http://localhost:7071/api/dropdowns', {
+      .get<any>('api-1/dropdowns', {
         params,
       })
       .pipe(take(1));
@@ -64,7 +64,7 @@ export class TruckingService {
     data.isTicketInfoCompleted = isInfoCompleted;
 
     return this._httpClient
-      .post(`http://localhost:7071/api/delivery_ticket_trucking`, data)
+      .post(`api-1/delivery_ticket_trucking`, data)
       .pipe(take(1));
   }
 
@@ -72,7 +72,7 @@ export class TruckingService {
     data.ticketStatus = ticketStatus;
 
     return this._httpClient
-      .patch(`http://localhost:7071/api/delivery_ticket_trucking`, data)
+      .patch(`api-1/delivery_ticket_trucking`, data)
       .pipe(take(1));
   }
 
@@ -80,7 +80,7 @@ export class TruckingService {
     data.dwr_type = dwr_type;
 
     return this._httpClient
-      .post(`http://localhost:7071/api/dwr`, data)
+      .post(`api-1/dwr`, data)
       .pipe(take(1));
   }
 
@@ -88,7 +88,7 @@ export class TruckingService {
     data.dwr_type = dwr_type;
 
     return this._httpClient
-      .patch(`http://localhost:7071/api/dwr`, data)
+      .patch(`api-1/dwr`, data)
       .pipe(take(1));
   }
 
@@ -118,7 +118,7 @@ export class TruckingService {
       {params = params.set('isPreCheckFilled', isPreCHeckFilled);}
 
     return this._httpClient
-      .get<any>('http://localhost:7071/api/delivery_ticket_trucking', {
+      .get<any>('api-1/delivery_ticket_trucking', {
         params,
       })
       .pipe(take(1));
@@ -134,7 +134,7 @@ export class TruckingService {
     params = params.set('customerId', customerId);
 
     return this._httpClient
-      .get<any>('http://localhost:7071/api/dropdowns', {
+      .get<any>('api-1/dropdowns', {
         params,
       })
       .pipe(take(1));
@@ -151,7 +151,7 @@ export class TruckingService {
     params = params.set('vehicleType', 'Truck');
 
     return this._httpClient
-      .get<any>('http://localhost:7071/api/dropdowns', {
+      .get<any>('api-1/dropdowns', {
         params,
       })
       .pipe(take(1));
