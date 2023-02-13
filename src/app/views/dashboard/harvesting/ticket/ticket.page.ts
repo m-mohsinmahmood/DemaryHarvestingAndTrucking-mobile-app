@@ -79,6 +79,8 @@ export class TicketPage implements OnInit {
   isMachineSelected: any = true;
 
   add_location_overlay = true;
+  sub;
+  subLoading;
 
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
@@ -107,6 +109,22 @@ export class TicketPage implements OnInit {
         }
       });
     }
+  }
+
+  ngOnDestroy(): void {
+    this.DataDestroy();
+  }
+
+  async ionViewDidLeave() {
+    this.DataDestroy();
+  }
+
+  DataDestroy() {
+    // Unsubscribe from all subscriptions
+    this._unsubscribeAll.next(null);
+    this._unsubscribeAll.complete();
+    this.sub.unsubscribe();
+    this.subLoading.unsubscribe();
   }
 
   ngOnInit() {
@@ -138,6 +156,7 @@ export class TicketPage implements OnInit {
       fieldId: [''],
     });
 
+
     this.deliveryTicketReassignForm = this.formbuildr.group({
       truck_driver_id: ['', [Validators.required]],
       status: ['sent'],
@@ -146,7 +165,6 @@ export class TicketPage implements OnInit {
     if (!this.isReassign) {
       // Search
       this.truckDriverSearchSubscription();
-      this.kartOperatorSearchSubscription();
       this.fieldSearchSubscription();
       this.machineSearchSubscription();
 
@@ -158,27 +176,22 @@ export class TicketPage implements OnInit {
     }
   }
 
-  ngOnDestroy(): void {
-    this._unsubscribeAll.next(null);
-    this._unsubscribeAll.complete();
-  }
-
   initApis() {
     this.harvestingService.getJobTesting2(
       'kart-operator',
-      'f4cfa75b-7c14-4b68-a192-00d56c9f2022'
+      localStorage.getItem('employeeId')
     );
   }
 
   initObservables() {
-    this.harvestingService.customerJobSetup2$.subscribe((response) => {
+    this.sub = this.harvestingService.customerJobSetup2$.subscribe((response) => {
       if (response) {
         // Customer Data!
         this.customerData = response;
       }
     });
 
-    this.harvestingService.customerLoading$.subscribe((val) => {
+    this.subLoading = this.harvestingService.customerJobSetupLoading2$.subscribe((val) => {
       this.isLoading = val;
       if (!val) {
         this.patchForm();
@@ -187,8 +200,10 @@ export class TicketPage implements OnInit {
   }
 
   patchForm() {
+    console.log('patchForm');
+
     this.deliveryTicketForm.patchValue({
-      kartOperatorId: 'f4cfa75b-7c14-4b68-a192-00d56c9f2022',
+      kartOperatorId: localStorage.getItem('employeeId'),
       customerId: this.customerData.customer_job[0]?.customer_id,
       state: this.customerData.customer_job[0]?.state,
       farmId: this.customerData.customer_job[0]?.farm_id,
@@ -197,7 +212,8 @@ export class TicketPage implements OnInit {
       fieldId: this.customerData.customer_job[0]?.field_id,
       field: this.customerData.customer_job[0]?.field_name,
     });
-    console.log('patchForm', this.deliveryTicketForm.value);
+    console.log('patched', this.deliveryTicketForm.value);
+
   }
 
   patchReassignForm() {
@@ -237,21 +253,22 @@ export class TicketPage implements OnInit {
     // navigating
     if (!this.isReassign) {
       console.log('deliveryTicketForm', this.deliveryTicketForm.value);
-      this.harvestingService.kartOperatorCreateDeliveryTicket('createDeliveryTicket',this.deliveryTicketForm.value)
+      this.harvestingService.kartOperatorCreateDeliveryTicket('createDeliveryTicket', this.deliveryTicketForm.value)
         .subscribe((response: any) => {
-            // console.log('response', response);
-            if (response?.status === 200) {
-              // this.deliveryTicketForm.reset();
-              this.trick_driver_name = '';
-              this.toastService.presentToast(
-                'Delivery Ticket has been created.',
-                'success'
-              );
-              this.goBack();
-            } else {
-              console.log('Something happened :)');
-            }},
-          (err) => {console.log('Error:', err); }
+          // console.log('response', response);
+          if (response?.status === 200) {
+            // this.deliveryTicketForm.reset();
+            this.trick_driver_name = '';
+            this.toastService.presentToast(
+              'Delivery Ticket has been created.',
+              'success'
+            );
+            this.goBack();
+          } else {
+            console.log('Something happened :)');
+          }
+        },
+          (err) => { console.log('Error:', err); }
         );
     } else {
       console.log(
@@ -267,16 +284,9 @@ export class TicketPage implements OnInit {
           (res: any) => {
             console.log('Response:', res);
             if (res.status === 200) {
-              // this.deliveryTicketForm.reset();
-              // this.trick_driver_name = '';
+
               this.toastService.presentToast(res.message, 'success');
 
-              // navigating
-              // this.router.navigateByUrl('/tabs/home/harvesting/ticket/generated-ticket',{
-              //   state:{
-              //     ticketId: this.deliveryTicketForm.get('delivery_ticket_number').value
-              //   }
-              // });
             } else {
               console.log('Something happened :)');
             }
@@ -307,11 +317,12 @@ export class TicketPage implements OnInit {
         : this.truckDriverSearchValue;
 
     // calling API
-    this.allTruckDrivers = this.getKartOperatorTruckDrivers(
-      this.truckDriverSearchValue
+    this.allTruckDrivers = this.harvestingService.getKartOperatorTruckDrivers(
+      'kartOperatorTruckDrivers',
+      localStorage.getItem('employeeId'),
+      ''
     );
 
-    // console.log('allTruckDrivers', this.allTruckDrivers);
     // subscribing to show/hide field UL
     this.allTruckDrivers.subscribe((truckDrivers) => {
       // console.log('truck-drivers:', truckDrivers);
@@ -323,6 +334,43 @@ export class TicketPage implements OnInit {
         this.truckDriverUL = true;
       }
     });
+  }
+
+  truckDriverSearchSubscription() {
+    this.trick_driver_search$
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        takeUntil(this._unsubscribeAll)
+      )
+      .subscribe((value: string) => {
+        // passing for renderer2
+        this.truckDriverSearchValue = value;
+
+        // for asterik to look required
+        if (value === '') {
+          this.isTruckDriverSelected = true;
+        }
+
+        // calling API
+        this.allTruckDrivers = this.harvestingService.getKartOperatorTruckDrivers(
+          'kartOperatorTruckDrivers',
+          localStorage.getItem('employeeId'),
+          ''
+        );
+
+        // subscribing to show/hide field UL
+        this.allTruckDrivers.subscribe((truckDrivers) => {
+          // console.log('Truck Drivers:', truckDrivers);
+
+          if (truckDrivers.length === 0) {
+            // hiding UL
+            this.truckDriverUL = false;
+          } else {
+            this.truckDriverUL = true;
+          }
+        });
+      });
   }
 
   listClickedTruckDriver(truckdriver) {
@@ -349,159 +397,8 @@ export class TicketPage implements OnInit {
     // this.allTruckDrivers = of([]);
   }
 
-  truckDriverSearchSubscription() {
-    this.trick_driver_search$
-      .pipe(
-        debounceTime(500),
-        distinctUntilChanged(),
-        takeUntil(this._unsubscribeAll)
-      )
-      .subscribe((value: string) => {
-        // passing for renderer2
-        this.truckDriverSearchValue = value;
-
-        // for asterik to look required
-        if (value === '') {
-          this.isTruckDriverSelected = true;
-        }
-
-        // calling API
-        this.allTruckDrivers = this.getKartOperatorTruckDrivers(
-          this.truckDriverSearchValue
-        );
-
-        // subscribing to show/hide field UL
-        this.allTruckDrivers.subscribe((truckDrivers) => {
-          // console.log('Truck Drivers:', truckDrivers);
-
-          if (truckDrivers.length === 0) {
-            // hiding UL
-            this.truckDriverUL = false;
-          } else {
-            this.truckDriverUL = true;
-          }
-        });
-      });
-  }
   //#endregion
 
-  //#region Kart Operator
-  getKartOperatorTruckDrivers(search) {
-    let drivers = new Subject<any>();
-    this.harvestingService
-      .getKartOperatorTruckDrivers(
-        'kartOperatorTruckDrivers',
-        'f4cfa75b-7c14-4b68-a192-00d56c9f2022',
-        search
-      )
-      .subscribe(
-        (res: any) => {
-          // console.log('response', res);
-          drivers.next(res);
-        },
-        (err) => {
-          console.log('Error:', err);
-        }
-      );
-
-    return drivers.asObservable();
-  }
-
-  inputClickedKartOperator() {
-    // getting the serch value to check if there's a value in input
-    this.kart_operator_search$
-      .pipe(
-        debounceTime(500),
-        distinctUntilChanged(),
-        takeUntil(this._unsubscribeAll)
-      )
-      .subscribe((v) => {
-        this.kartOperatorSearchValue = v;
-      });
-
-    const value =
-      this.kartOperatorSearchValue === undefined
-        ? this.kart_operator_name
-        : this.kartOperatorSearchValue;
-
-    // calling API
-    this.allKartOperators = this.harvestingService.getEmployees(
-      this.kartOperatorSearchValue,
-      'allEmployees',
-      'Cart Operator'
-    );
-
-    // subscribing to show/hide field UL
-    this.allKartOperators.subscribe((kartoperators) => {
-      console.log(kartoperators);
-      if (kartoperators.count === 0) {
-        // hiding UL
-        this.kartOperatorUL = false;
-      } else {
-        // showing UL
-        this.kartOperatorUL = true;
-      }
-    });
-  }
-
-  listClickedKartOperator(kartoperator) {
-    console.log('Kart Operator Object:', kartoperator);
-    // hiding UL
-    this.kartOperatorUL = false;
-
-    // passing name in select's input
-    this.kart_operator_name =
-      kartoperator.first_name + ' ' + kartoperator.last_name;
-
-    // to enable submit button
-    this.isTruckDriverSelected = false;
-
-    // assigning values in form
-    this.deliveryTicketForm.patchValue({
-      kartOperatorId: kartoperator.id,
-    });
-
-    // clearing array
-    // this.allTruckDrivers = of([]);
-  }
-
-  kartOperatorSearchSubscription() {
-    this.kart_operator_search$
-      .pipe(
-        debounceTime(500),
-        distinctUntilChanged(),
-        takeUntil(this._unsubscribeAll)
-      )
-      .subscribe((value: string) => {
-        // passing for renderer2
-        this.kartOperatorSearchValue = value;
-
-        // for asterik to look required
-        if (value === '') {
-          this.isKartOperatorSelected = true;
-        }
-
-        // calling API
-        this.allKartOperators = this.harvestingService.getEmployees(
-          this.kartOperatorSearchValue,
-          'allEmployees',
-          'Cart Operator'
-        );
-
-        // subscribing to show/hide field UL
-        this.allKartOperators.subscribe((kartoperaotrs) => {
-          console.log('Kart Operator:', kartoperaotrs);
-
-          if (kartoperaotrs.count === 0) {
-            // hiding UL
-            this.kartOperatorUL = false;
-          } else {
-            this.kartOperatorUL = true;
-          }
-        });
-      });
-  }
-  //#endregion
 
   //#region Field
   inputClickedField() {
@@ -620,13 +517,6 @@ export class TicketPage implements OnInit {
           this.isMachineSelected = true;
         }
 
-        // calling API
-        // this.allFields = this.harvestingService.getFields(
-        //   value,
-        //   'customerFields',
-        //   this.customerID,
-        //   this.farmID
-        // );
         this.allMachinery = this.harvestingService.getMachinery(
           value,
           'allMotorizedVehicles'

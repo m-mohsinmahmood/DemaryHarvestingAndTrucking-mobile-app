@@ -38,6 +38,11 @@ export class HarvestingService {
     new BehaviorSubject<boolean>(true);
   readonly customerLoading2$: Observable<boolean> =
     this.customerLoading2.asObservable();
+
+    private customerJobSetupLoading2: BehaviorSubject<boolean> =
+    new BehaviorSubject<boolean>(true);
+  readonly customerJobSetupLoading2$: Observable<boolean> =
+    this.customerJobSetupLoading2.asObservable();
   //#endregion
 
   //#region tickets
@@ -207,9 +212,9 @@ export class HarvestingService {
       .pipe(take(1))
       .subscribe(
         (res: any) => {
-          this.customerLoading.next(true);
+          this.customerJobSetupLoading2.next(true);
           this.customerJobSetup2.next(res);
-          this.customerLoading.next(false);
+          this.customerJobSetupLoading2.next(false);
         },
         (err) => {
           console.log('ERR:', err);
@@ -311,6 +316,15 @@ export class HarvestingService {
     return this._httpClient
       .patch(
         `http://localhost:7071/api/customer-job-setup?id=${ticketID}`,
+        {}
+      )
+      .pipe(take(1));
+  }
+
+  updateCustomerJob(ticketID: any) {
+    return this._httpClient
+      .patch(
+        `http://localhost:7071/api/customer-job-setup?ticketId=${ticketID}&operation=updateCustomerJob`,
         {}
       )
       .pipe(take(1));

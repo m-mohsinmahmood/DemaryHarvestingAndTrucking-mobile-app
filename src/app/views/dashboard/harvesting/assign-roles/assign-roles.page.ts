@@ -59,6 +59,7 @@ export class AssignRolesPage implements OnInit {
   // data
   data: any;
   activeJobs: 0;
+  sub;
 
   public loadingSpinner = new BehaviorSubject(false);
   public loadingSpinner2 = new BehaviorSubject(false);
@@ -87,6 +88,21 @@ export class AssignRolesPage implements OnInit {
     });
   }
 
+  ngOnDestroy(): void {
+    this.DataDestroy();
+  }
+
+  async ionViewDidLeave() {
+    this.DataDestroy();
+  }
+
+  DataDestroy() {
+    // Unsubscribe from all subscriptions
+    this._unsubscribeAll.next(null);
+    this._unsubscribeAll.complete();
+    this.sub.unsubscribe();
+  }
+
   ngOnInit() {
 
     this.assignFormCombine = this.formBuilder.group({
@@ -104,7 +120,7 @@ export class AssignRolesPage implements OnInit {
     //api call
 
     this.harvestingService.getJobSetup('crew-chief', localStorage.getItem('employeeId'), '');
-    this.harvestingService.customerJobSetup$.subscribe((res) => {
+    this.sub = this.harvestingService.customerJobSetup$.subscribe((res) => {
       console.log(res);
 
       this.activeJobData = res;
@@ -165,7 +181,6 @@ export class AssignRolesPage implements OnInit {
         (res: any) => {
           console.log('Combine Operators:', res);
           if (res.status === 200) {
-            // this.toastService.presentToast('', 'success');
             // console.log(res.message);
             console.log('Combine Operators:', res);
             this.data = res;
@@ -178,7 +193,6 @@ export class AssignRolesPage implements OnInit {
           console.log('Error:', err);
           this.toastService.presentToast(err, 'danger');
 
-          // this.handleError(err);
         },
       );
   }
@@ -188,7 +202,7 @@ export class AssignRolesPage implements OnInit {
     this.assignFormKart.value.employee_id = this.assignFormKart.get('cart_operator_id').value;
 
     console.log(this.assignFormKart.value);
-        this.loadingSpinner2.next(true);
+    this.loadingSpinner2.next(true);
     this.harvestingService.createJob(this.assignFormKart.value)
       .subscribe(
         (res: any) => {
@@ -310,8 +324,7 @@ export class AssignRolesPage implements OnInit {
     this.combine_name = combine.first_name + ' ' + combine.last_name;
 
     // to enable submit button
-    if (this.activeJobData?.customer_job.length > 0)
-      {this.isCombineSelected = false;}
+    if (this.activeJobData?.customer_job.length > 0) { this.isCombineSelected = false; }
 
     // assigning values in form
     this.assignFormCombine.patchValue({
@@ -404,8 +417,7 @@ export class AssignRolesPage implements OnInit {
     this.cart_name = cart.first_name + ' ' + cart.last_name;
 
     // to enable submit button
-    if (this.activeJobData?.customer_job.length > 0)
-      {this.isCartSelected = false;}
+    if (this.activeJobData?.customer_job.length > 0) { this.isCartSelected = false; }
 
     // assigning values in form
     this.assignFormKart.patchValue({

@@ -23,12 +23,13 @@ export class GeneratedTicketPage implements OnInit {
   ticketData: any;
 
   //loaders
-  isLoadingTicket$: Observable<any>;
+  isLoadingTicket$;
 
   // isLoadingKartTicket: boolean;
   upload_1 = false;
   upload_2 = false;
   upload_3 = false;
+  ticketSub;
 
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
@@ -38,7 +39,23 @@ export class GeneratedTicketPage implements OnInit {
     private router: Router,
     private harvestingService: HarvestingService,
     private toastService: ToastService
-  ) {}
+  ) { }
+
+  ngOnDestroy(): void {
+    this.DataDestroy();
+  }
+
+  async ionViewDidLeave() {
+    this.DataDestroy();
+  }
+
+  DataDestroy() {
+    // Unsubscribe from all subscriptions
+    this._unsubscribeAll.next(null);
+    this._unsubscribeAll.complete();
+    this.ticketSub.unsubscribe();
+    // this.isLoadingTicket$.unsubscribe();
+  }
 
   ngOnInit() {
     this.role = localStorage.getItem('role');
@@ -59,10 +76,6 @@ export class GeneratedTicketPage implements OnInit {
       status: ['pending']
     });
 
-    console.log(
-      'Ticket',
-      JSON.parse(this.router.getCurrentNavigation().extras.state?.ticket)
-    );
     this.ticket = JSON.parse(
       this.router.getCurrentNavigation().extras.state?.ticket
     );
@@ -87,11 +100,6 @@ export class GeneratedTicketPage implements OnInit {
     }
   }
 
-  ngOnDestroy(): void {
-    this._unsubscribeAll.next(null);
-    this._unsubscribeAll.complete();
-  }
-
   goBack() {
     this.location.back();
   }
@@ -103,29 +111,28 @@ export class GeneratedTicketPage implements OnInit {
         'completeTicket',
         this.generateTicketFormTruck.value
       )
-      .subscribe(
-        (response: any) => {
-          console.log('Response', response);
-          if (response.status === 200) {
-            this.generateTicketFormTruck.reset();
-            this.goBack();
-            this.toastService.presentToast(response.message, 'success');
-          } else {
-            console.log('Something happened :)');
-            this.toastService.presentToast(response.message, 'danger');
+        .subscribe(
+          (response: any) => {
+            console.log('Response', response);
+            if (response.status === 200) {
+              this.generateTicketFormTruck.reset();
+              this.goBack();
+              this.toastService.presentToast(response.message, 'success');
+            } else {
+              console.log('Something happened :)');
+              this.toastService.presentToast(response.message, 'danger');
+            }
+          },
+          (err) => {
+            this.toastService.presentToast(err, 'danger');
+            console.log('Error:', err);
           }
-        },
-        (err) => {
-          this.toastService.presentToast(err, 'danger');
-          console.log('Error:', err);
-        }
-      );
+        );
     } else {
       let payload = { operation: 'verifyTicket', ticketId: this.ticket.id };
       this.harvestingService.kartOperatorVerifyTickets(payload).subscribe(
         (res: any) => {
           if (res.status === 200) {
-            // this.generateTicketFormTruck.reset();
             this.toastService.presentToast(res.message, 'success');
             this.goBack();
           } else {
@@ -157,8 +164,7 @@ export class GeneratedTicketPage implements OnInit {
   }
 
   initObservables() {
-    this.harvestingService.ticket$.subscribe((res) => {
-      // console.log('Ticket Verify:', res);
+    this.ticketSub = this.harvestingService.ticket$.subscribe((res) => {
       this.ticketData = res;
     });
 
@@ -170,7 +176,7 @@ export class GeneratedTicketPage implements OnInit {
   }
 
   initKartObservables() {
-    this.harvestingService.ticket$.subscribe((res) => {
+    this.ticketSub = this.harvestingService.ticket$.subscribe((res) => {
       console.log('Ticket Kart Verify:', res);
       this.ticketData = res;
     });

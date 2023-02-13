@@ -83,6 +83,9 @@ export class ChangeFarmPage implements OnInit {
 
   data;
 
+  subscribe;
+  loadingSub;
+
   public loadingSpinner = new BehaviorSubject(false);
 
   private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -122,9 +125,21 @@ export class ChangeFarmPage implements OnInit {
   }
 
   ngOnDestroy(): void {
+    this.DataDestroy();
+  }
+
+  async ionViewDidLeave() {
+    this.DataDestroy();
+  }
+
+  DataDestroy() {
+    // Unsubscribe from all subscriptions
     this._unsubscribeAll.next(null);
     this._unsubscribeAll.complete();
+    this.subscribe.unsubscribe();
+    this.loadingSub.unsubscribe();
   }
+
   initForms() {
     this.jobSetupForm = this.formBuilder.group({
       // crew_chief_id: [localStorage.getItem('employeeId')],
@@ -150,7 +165,7 @@ export class ChangeFarmPage implements OnInit {
     this.harvestingService.getJobSetup('crew-chief', localStorage.getItem('employeeId'));
   }
   initObservables() {
-    this.harvestingService.customerJobSetup$.subscribe((res) => {
+    this.subscribe = this.harvestingService.customerJobSetup$.subscribe((res) => {
       // console.log('Response',res);
       this.customerData = res;
       // console.log(this.customerData?.customer_job[0]);
@@ -175,7 +190,8 @@ export class ChangeFarmPage implements OnInit {
       this.customerID = this.customerData?.customer_job[0].customer_id;
 
     });
-    this.harvestingService.customerLoading$.subscribe((val) => {
+
+    this.loadingSub = this.harvestingService.customerLoading$.subscribe((val) => {
       // console.log('Loading Value',val);
     });
   }

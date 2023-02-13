@@ -5,6 +5,7 @@ import * as moment from 'moment';
 // import * as moment from 'moment';
 import { HarvestingService } from './../harvesting.service';
 import { ToastService } from 'src/app/services/toast/toast.service';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-close-out',
@@ -19,11 +20,15 @@ export class CloseOutPage implements OnInit {
   customerData: any;
   isLoading: any;
   role: any;
+  sub;
+  loadingSub;
+
   constructor(
     private formBuilder: FormBuilder,
     private harvestingservice: HarvestingService,
     private toastService: ToastService
   ) { }
+  private _unsubscribeAll: Subject<any> = new Subject<any>();
 
   ngOnInit() {
     // getting role
@@ -33,10 +38,19 @@ export class CloseOutPage implements OnInit {
     this.initApis();
     this.initObservables();
   }
+
+  DataDestroy() {
+    // Unsubscribe from all subscriptions
+    this._unsubscribeAll.next(null);
+    this._unsubscribeAll.complete();
+    this.sub.unsubscribe();
+    this.loadingSub.unsubscribe();
+  }
+
   initForms() {
     this.closeJobFormCrew = this.formBuilder.group({
       customer_id: [],
-      crew_chief_id: [localStorage.getItem('employeeId')],
+      crew_chief_id: localStorage.getItem('employeeId'),
       is_close_crew: [true],
       total_acres: ['', [Validators.required]],
       total_gps_acres: ['', [Validators.required]],
@@ -47,14 +61,14 @@ export class CloseOutPage implements OnInit {
     });
     this.closeJobFormCombine = this.formBuilder.group({
       customer_id: [],
-      employee_id: ['4b843edb-0b74-49a2-b3c7-d3884f5f6012'],
+      employee_id: localStorage.getItem('employeeId'),
       is_close_combine: [true],
       total_acres: ['', [Validators.required]],
       total_gps_acres: ['', [Validators.required]],
     });
     this.closeJobFormKart = this.formBuilder.group({
       customer_id: [],
-      employee_id: ['2bf46542-d0bb-4ada-96e6-c103853c3f0d'],
+      employee_id: localStorage.getItem('employeeId'),
       is_close_kart: [true],
       total_acres: ['', [Validators.required]],
       total_gps_acres: ['', [Validators.required]],
@@ -69,7 +83,7 @@ export class CloseOutPage implements OnInit {
     }
   }
   initObservables() {
-    this.harvestingservice.customerJobSetup$.subscribe((res) => {
+    this.sub = this.harvestingservice.customerJobSetup$.subscribe((res) => {
       console.log(res);
       this.customerData = res;
       // For crew-chief
@@ -96,7 +110,7 @@ export class CloseOutPage implements OnInit {
       }
 
     });
-    this.harvestingservice.customerLoading$.subscribe((val) => {
+    this.loadingSub = this.harvestingservice.customerLoading$.subscribe((val) => {
       console.log('value', val);
       this.isLoading = val;
     });

@@ -57,6 +57,9 @@ export class ChangeFieldPage implements OnInit {
   // Profile variables
   customerData: any;
   isLoading: any;
+  sub;
+  loadingSub;
+
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
 
@@ -71,17 +74,27 @@ export class ChangeFieldPage implements OnInit {
 
   ngOnInit() {
     this.role = localStorage.getItem('role');
-
-
     this.initForms();
     this.initApis();
     this.initObservables();
   }
 
   ngOnDestroy(): void {
+    this.DataDestroy();
+  }
+
+  async ionViewDidLeave() {
+    this.DataDestroy();
+  }
+
+  DataDestroy() {
+    // Unsubscribe from all subscriptions
     this._unsubscribeAll.next(null);
     this._unsubscribeAll.complete();
+    this.sub.unsubscribe();
+    this.loadingSub.unsubscribe();
   }
+
   initForms() {
     this.changeFieldFormChief = this.formBuilder.group({
       crew_chief_id: [localStorage.getItem('employeeId')],
@@ -100,7 +113,7 @@ export class ChangeFieldPage implements OnInit {
 
     });
     this.changeFieldFormKart = this.formBuilder.group({
-      employeeId: ['f4cfa75b-7c14-4b68-a192-00d56c9f2022'],
+      employeeId: localStorage.getItem('employeeId'),
       customer_id: [''],
       state: [''],
       farm_id: [''],
@@ -134,7 +147,7 @@ export class ChangeFieldPage implements OnInit {
   }
 
   initObservables() {
-    this.harvestingService.customerJobSetup$.subscribe((res) => {
+    this.sub = this.harvestingService.customerJobSetup$.subscribe((res) => {
       console.log('res::', res);
       if (res) {
         this.customerData = res;
@@ -160,7 +173,8 @@ export class ChangeFieldPage implements OnInit {
         });
       }
     });
-    this.harvestingService.customerLoading$.subscribe((val) => {
+
+    this.loadingSub = this.harvestingService.customerLoading$.subscribe((val) => {
       this.isLoading = val;
     });
   }

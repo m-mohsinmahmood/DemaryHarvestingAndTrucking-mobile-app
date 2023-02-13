@@ -56,10 +56,10 @@ export class StartJobPage implements OnInit {
 
   customerData: any;
   add_location_overlay = true;
-
+  sub;
   //field name for pre-filled
   fieldName = '';
-  isLoadingCustomer$: Observable<any>;
+  isLoadingCustomer$;
 
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
@@ -67,7 +67,6 @@ export class StartJobPage implements OnInit {
     private location: Location,
     private formBuilder: FormBuilder,
     private harvestingService: HarvestingService,
-    private alertService: AlertService,
     private toastService: ToastService,
     private renderer: Renderer2,
     private router: Router
@@ -99,10 +98,22 @@ export class StartJobPage implements OnInit {
   // async ionViewDidEnter() {
   //   this.role = localStorage.getItem('role');
   // }
+
   ngOnDestroy(): void {
+    this.DataDestroy();
+  }
+
+  async ionViewDidLeave() {
+    this.DataDestroy();
+  }
+
+  DataDestroy() {
     // Unsubscribe from all subscriptions
     this._unsubscribeAll.next(null);
     this._unsubscribeAll.complete();
+    this.sub.unsubscribe();
+    // this.isLoadingCustomer$.unsubscribe();
+
   }
 
   goBack() {
@@ -164,7 +175,7 @@ export class StartJobPage implements OnInit {
   }
 
   initObservables() {
-    this.harvestingService.customerJobSetup$.subscribe((res) => {
+    this.sub = this.harvestingService.customerJobSetup$.subscribe((res) => {
       if (res) {
         console.log("Start Job Page 3");
 
@@ -270,7 +281,6 @@ export class StartJobPage implements OnInit {
         jobId: this.startJobFormKart.get('job_id').value,
         beginningEngineHours: this.startJobFormKart.get('beginningEngineHours').value,
       };
-      // console.log('this.startJobFormKart.value', this.startJobFormKart.value);
 
       this.harvestingService.createBeginingDay(data, 'harvesting')
         .subscribe(
@@ -410,14 +420,11 @@ export class StartJobPage implements OnInit {
       this.startJobFormCrew.patchValue({
         field_id: field.field_id,
       });
-    } else if (this.role === 'combine-operator') {
-      // this.startJobFormCombine.patchValue({
-      //   field_id: field.field_id,
-      // });
     }
+
     else if (this.role === 'kart-operator') {
       this.startJobFormKart.patchValue({
-        field_id: field.field_id,
+        field_id: field.field_id
       });
     }
     else if (this.role === 'truck-driver') {

@@ -4,7 +4,7 @@ import { Location } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HarvestingService } from './../harvesting.service';
 import { ToastService } from 'src/app/services/toast/toast.service';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -20,9 +20,10 @@ export class CloseJobPage implements OnInit {
   closeJobFormTruck: FormGroup;
 
   customerData: any;
-  isLoadingCustomer$: Observable<any>;
+  isLoadingCustomer$;
   dataDWR: any;
   job;
+  sub;
 
   constructor(
     private location: Location,
@@ -39,6 +40,24 @@ export class CloseJobPage implements OnInit {
     this.initForms();
     this.initApis();
     this.initObservables();
+  }
+
+  private _unsubscribeAll: Subject<any> = new Subject<any>();
+
+  ngOnDestroy(): void {
+    this.DataDestroy();
+  }
+
+  async ionViewDidLeave() {
+    this.DataDestroy();
+  }
+
+  DataDestroy() {
+    // Unsubscribe from all subscriptions
+    this._unsubscribeAll.next(null);
+    this._unsubscribeAll.complete();
+    this.sub.unsubscribe();
+    // this.isLoadingCustomer$.unsubscribe();
   }
 
   initApis() {
@@ -77,7 +96,7 @@ export class CloseJobPage implements OnInit {
   }
 
   initObservables() {
-    this.harvestingService.customer$.subscribe((res) => {
+    this.sub = this.harvestingService.customer$.subscribe((res) => {
       console.log('res', res);
       this.customerData = res;
       if (this.customerData?.workOrders) {
@@ -107,22 +126,22 @@ export class CloseJobPage implements OnInit {
     this.closeJobFormCrew = this.formBuilder.group({
       ending_separator_hours: ['', [Validators.required]],
       endingEngineHours: ['', [Validators.required]],
-      employeeId: ['8920a566-003c-47f0-82dc-21e74196bb98'],
+      employeeId: localStorage.getItem('employeeId')
     });
     this.closeJobFormCombine = this.formBuilder.group({
       ending_separator_hours: ['', [Validators.required]],
       endingEngineHours: ['', [Validators.required]],
-      employeeId: ['3ac2db42-d0c1-4493-a0cf-b19deb834f46'],
+      employeeId: localStorage.getItem('employeeId')
     });
 
     this.closeJobFormKart = this.formBuilder.group({
       endingEngineHours: ['', [Validators.required]],
-      employeeId: ['f4cfa75b-7c14-4b68-a192-00d56c9f2022'],
+      employeeId: localStorage.getItem('employeeId'),
       workOrderId: [''],
     });
     this.closeJobFormTruck = this.formBuilder.group({
       ending_odometer_miles: ['', [Validators.required]],
-      employeeId: [''],
+      employeeId: localStorage.getItem('employeeId'),
       workOrderId: [''],
     });
   }
@@ -227,6 +246,26 @@ export class CloseJobPage implements OnInit {
             this.toastService.presentToast(err, 'danger');
           }
         );
+
+      console.log("Id: ", this.closeJobFormTruck.get('workOrderId'));
+
+      // this.harvestingService
+      //   .updateCustomerJob(this.closeJobFormTruck.get('workOrderId').value)
+      //   .subscribe(
+      //     (res: any) => {
+      //       console.log(res);
+      //       if (res.status === 200) {
+      //         this.toastService.presentToast(
+      //           'Day has been closed successfully!',
+      //           'success'
+      //         );
+      //         // this.router.navigateByUrl('/tabs/home/farming');
+      //       }
+      //     },
+      //     (err) => {
+      //       this.toastService.presentToast(err, 'danger');
+      //     }
+      //   );
     }
   }
 }

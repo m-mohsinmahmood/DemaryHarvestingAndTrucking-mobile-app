@@ -66,7 +66,7 @@ export class DriverSetupPage implements OnInit {
     this.harvestingService
       .getKartOperatorTruckDrivers(
         'kartOperatorTruckDrivers',
-        'f4cfa75b-7c14-4b68-a192-00d56c9f2022',
+        localStorage.getItem('employeeId'),
         ''
       )
       .subscribe(
@@ -125,7 +125,7 @@ export class DriverSetupPage implements OnInit {
   addTruckDriver() {
     let raw = JSON.stringify({
       driverIds: this.driverSetupForm.get('truck_driver').value,
-      kartOperatorId: 'f4cfa75b-7c14-4b68-a192-00d56c9f2022',
+      kartOperatorId: localStorage.getItem('employeeId'),
       operation: 'addTruckDrivers'
     });
 
@@ -180,6 +180,5 @@ export class DriverSetupPage implements OnInit {
     this.driver_name = driver.name;
     this.isTruckDriverSelected = false;
     this.driverSetupForm.controls['truck_driver'].setValue(driver.id ?? '');
-    // this.allTruckDrivers = of([]);
   }
 }

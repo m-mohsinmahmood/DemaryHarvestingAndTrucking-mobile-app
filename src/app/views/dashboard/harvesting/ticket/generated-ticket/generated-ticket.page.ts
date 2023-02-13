@@ -4,7 +4,6 @@ import { Component, OnInit } from '@angular/core';
 import { HarvestingService } from '../../harvesting.service';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
-import { TicketDetailPage } from './../../../trucking/commercial/verify-ticket/ticket-detail/ticket-detail.page';
 
 @Component({
   selector: 'app-generated-ticket',
@@ -18,6 +17,10 @@ export class GeneratedTicketPage implements OnInit {
 
   isLoadingCustomer: boolean;
   isLoadingTicket: boolean;
+  jobSub;
+  ticketSub;
+  loadingSub;
+  ticketLoading;
 
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
@@ -27,40 +30,55 @@ export class GeneratedTicketPage implements OnInit {
 
   ) { }
 
+  ngOnDestroy(): void {
+    this.DataDestroy();
+  }
+
+  async ionViewDidLeave() {
+    this.DataDestroy();
+  }
+
+  DataDestroy() {
+    // Unsubscribe from all subscriptions
+    this._unsubscribeAll.next(null);
+    this._unsubscribeAll.complete();
+    this.jobSub.unsubscribe();
+    this.ticketSub.unsubscribe();
+    this.loadingSub.unsubscribe();
+    this.ticketLoading.unsubscribe();
+  }
+
   ngOnInit() {
     this.initApis();
     this.initObservables();
-    console.log('Ticket Id',this.router.getCurrentNavigation().extras.state.ticketId);
+    console.log('Ticket Id', this.router.getCurrentNavigation().extras.state.ticketId);
 
   }
-  ngOnDestroy(): void {
-    this._unsubscribeAll.next(null);
-    this._unsubscribeAll.complete();
-  }
-  initApis(){
+
+  initApis() {
     this.harvestingService.getJob2();
-    this.harvestingService.getTicketById(this.router.getCurrentNavigation().extras.state.ticketId,'ticket');
+    this.harvestingService.getTicketById(this.router.getCurrentNavigation().extras.state.ticketId, 'ticket');
 
   }
-  initObservables(){
-    this.harvestingService.getjob2$.subscribe((res)=>{
+  initObservables() {
+    this.jobSub = this.harvestingService.getjob2$.subscribe((res) => {
       this.customerData = res;
-      console.log('res::',res);
+      console.log('res::', res);
     });
 
-    this.harvestingService.ticket$.subscribe((res)=>{
-      console.log('Ticket:',res);
+    this.ticketSub = this.harvestingService.ticket$.subscribe((res) => {
+      console.log('Ticket:', res);
       this.ticketData = res;
     });
 
-    this.harvestingService.customerLoading2$.subscribe((val)=>{
-      console.log('Customer Value',val);
+    this.loadingSub = this.harvestingService.customerLoading2$.subscribe((val) => {
+      console.log('Customer Value', val);
       this.isLoadingCustomer = val;
     });
 
 
-    this.harvestingService.ticketLoading$.subscribe((val)=>{
-      console.log('Ticket Value',val);
+    this.ticketLoading = this.harvestingService.ticketLoading$.subscribe((val) => {
+      console.log('Ticket Value', val);
       this.isLoadingTicket = val;
     });
   }

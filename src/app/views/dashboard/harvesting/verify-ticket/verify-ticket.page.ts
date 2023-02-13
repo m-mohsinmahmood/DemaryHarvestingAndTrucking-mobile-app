@@ -5,9 +5,7 @@ import { Location } from '@angular/common';
 import { HarvestingService } from './../harvesting.service';
 import { Subject, Subscription } from 'rxjs';
 import { Router } from '@angular/router';
-import { takeUntil } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { of } from 'rxjs';
 
 @Component({
   selector: 'app-verify-ticket',
@@ -18,25 +16,45 @@ export class VerifyTicketPage implements OnInit {
   segment: any;
   role: any;
   // Data
-  sentTicketData$: Observable<any>;
-  pendingTicketData$: Observable<any>;
-  verifiedTicketData$: Observable<any>;
+  sentTicketData$;
+  pendingTicketData$;
+  verifiedTicketData$;
 
   // subscriptions
   sentTicketDataSub: Subscription;
   sentTicketLoadiingSub: Subscription;
 
   // Loaders
-  sentTicketLoading$: Observable<any>;
-  pendingTicketLoading$: Observable<any>;
-  verifiedTicketLoading$: Observable<any>;
+  sentTicketLoading$;
+  pendingTicketLoading$;
+  verifiedTicketLoading$;
 
   private _unsubscribeAll: Subject<any> = new Subject<any>();
   constructor(
     private location: Location,
     private harvestingService: HarvestingService,
     private router: Router
-  ) {}
+  ) { }
+
+  ngOnDestroy(): void {
+    this.DataDestroy();
+  }
+
+  async ionViewDidLeave() {
+    this.DataDestroy();
+  }
+
+  DataDestroy() {
+    // Unsubscribe from all subscriptions
+    this._unsubscribeAll.next(null);
+    this._unsubscribeAll.complete();
+    // this.sentTicketData$.unsubscribe();
+    // this.pendingTicketData$.unsubscribe();
+    // this.verifiedTicketData$.unsubscribe();
+    // this.sentTicketLoading$.unsubscribe();
+    // this.pendingTicketLoading$.unsubscribe();
+    // this.verifiedTicketLoading$.unsubscribe();
+  }
 
   ngOnInit() {
     this.role = localStorage.getItem('role');
@@ -67,22 +85,16 @@ export class VerifyTicketPage implements OnInit {
       this.initSentObservables();
     }
   }
-  ngOnDestroy(): void {
-    this._unsubscribeAll.next(null);
-    this._unsubscribeAll.complete();
-
-    // console.log('NG-DESTROY');
-  }
 
   initSentApis() {
     if (this.role === 'kart-operator') {
       this.harvestingService.kartOperatorGetTickets(
-        'f4cfa75b-7c14-4b68-a192-00d56c9f2022',
+        localStorage.getItem('employeeId'),
         'sent'
       );
     } else if (this.role === 'truck-driver') {
       this.harvestingService.truckDriverGetTickets(
-        '00277ae0-9534-473a-afe8-c648aa0e6d9d',
+        localStorage.getItem('employeeId'),
         'sent'
       );
     }
@@ -96,12 +108,12 @@ export class VerifyTicketPage implements OnInit {
   initPendingApis() {
     if (this.role === 'kart-operator') {
       this.harvestingService.kartOperatorGetTickets(
-        'f4cfa75b-7c14-4b68-a192-00d56c9f2022',
+        localStorage.getItem('employeeId'),
         'pending'
       );
     } else if (this.role === 'truck-driver') {
       this.harvestingService.truckDriverGetTickets(
-        '00277ae0-9534-473a-afe8-c648aa0e6d9d',
+        localStorage.getItem('employeeId'),
         'pending'
       );
     }
@@ -114,7 +126,7 @@ export class VerifyTicketPage implements OnInit {
 
   initVerifiedApis() {
     this.harvestingService.kartOperatorGetTickets(
-      'f4cfa75b-7c14-4b68-a192-00d56c9f2022',
+      localStorage.getItem('employeeId'),
       'verified'
     );
   }
@@ -170,7 +182,6 @@ export class VerifyTicketPage implements OnInit {
       this.initSentObservables();
     }
     if (event.target.value === 'completed') {
-      // console.log('event.target.value', event.target.value);
       this.initPendingApis();
       this.initPendingObservables();
     }
