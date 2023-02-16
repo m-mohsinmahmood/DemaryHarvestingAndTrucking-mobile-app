@@ -505,10 +505,15 @@
         <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.straightLineBakingInput_ps}}</ion-text></ion-col>
       </ion-row> -->
       <ion-row class="my-4">
-        <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Coupling $ Uncoupling</ion-text></ion-col>
+        <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Coupling & Uncoupling</ion-text></ion-col>
         <ion-col *ngIf="records.straightLineBacking_cou === 'true'" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
         <ion-col *ngIf="records.straightLineBacking_cou === 'false'" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
         <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.coupUncoupInput_slb}}</ion-text></ion-col>
+      </ion-row>
+      <ion-row class="my-4">
+        <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Status:</ion-text></ion-col>
+        <ion-col *ngIf="records.goal_slb === 'true' && records.finalPosition_slb === 'true' && records.unSatisfactoryStraightLineBacking <=12" size="6" class="ion-text-start "><ion-text class="font-Lato font-semibold text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-base uppercase">Passed</ion-text></ion-col>
+        <ion-col *ngIf="records.goal_slb === 'false' || records.finalPosition_slb === 'false' || records.unSatisfactoryStraightLineBacking >=12" size="6" class="ion-text-start"><ion-text class="font-Lato font-semibold text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-base uppercase">Failed</ion-text></ion-col>
       </ion-row>
     </ion-grid>
     <!-- ALLEY DOCKING -->
@@ -552,10 +557,15 @@
             <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.alleyDockingInput_ps}}</ion-text></ion-col>
           </ion-row> -->
       <ion-row class="my-4">
-        <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Coupling $ Uncoupling</ion-text></ion-col>
+        <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Coupling & Uncoupling</ion-text></ion-col>
         <ion-col *ngIf="records.alleyDocking_cou === 'true'" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
         <ion-col *ngIf="records.alleyDocking_cou === 'false'" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
         <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.coupUncoupInput_ad}}</ion-text></ion-col>
+      </ion-row>
+      <ion-row class="my-4">
+        <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Status:</ion-text></ion-col>
+        <ion-col *ngIf="records.goal_ad === 'true' && records.finalPosition_ad === 'true' && records.unSatisfactoryAlleyDocking <=12" size="6" class="ion-text-start "><ion-text class="font-Lato font-semibold text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-base uppercase">Passed</ion-text></ion-col>
+        <ion-col *ngIf="records.goal_ad === 'false' || records.finalPosition_ad === 'false' || records.unSatisfactoryAlleyDocking >=12" size="6" class="ion-text-start"><ion-text class="font-Lato font-semibold text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-base uppercase">Failed</ion-text></ion-col>
       </ion-row>
     </ion-grid>
     <!-- OFF SET BACKING -->
@@ -604,6 +614,11 @@
         <ion-col *ngIf="records.offSetBacking_osb === 'false'" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
         <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.coupUncoupInput_osb}}</ion-text></ion-col>
       </ion-row>
+      <ion-row class="my-4">
+        <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Status:</ion-text></ion-col>
+        <ion-col *ngIf="records.goal_osb === 'true' && records.finalPosition_osb === 'true' && records.unSatisfactoryOffSetBacking <=12" size="6" class="ion-text-start "><ion-text class="font-Lato font-semibold text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-base uppercase">Passed</ion-text></ion-col>
+        <ion-col *ngIf="records.goal_osb === 'false' || records.finalPosition_osb === 'false' || records.unSatisfactoryOffSetBacking >=12" size="6" class="ion-text-start"><ion-text class="font-Lato font-semibold text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-base uppercase">Failed</ion-text></ion-col>
+      </ion-row>
     </ion-grid>
     <!-- PARALLEL PARKING BLIND -->
     <ion-grid *ngIf="(loading | async) === false">
@@ -646,10 +661,15 @@
     <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.parallelParkingBlindInput_ps}}</ion-text></ion-col>
   </ion-row> -->
       <ion-row class="my-4">
-        <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Coupling $ Uncoupling</ion-text></ion-col>
+        <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Coupling & Uncoupling</ion-text></ion-col>
         <ion-col *ngIf="records.parallelParkingBlind_cou === 'true'" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
         <ion-col *ngIf="records.parallelParkingBlind_cou === 'false'" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
         <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.coupUncoupInput_pb}}</ion-text></ion-col>
+      </ion-row>
+      <ion-row class="my-4">
+        <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Status:</ion-text></ion-col>
+        <ion-col *ngIf="records.goal_pb === 'true' && records.finalPosition_pb === 'true' && records.unSatisfactoryParkingBlind <=12" size="6" class="ion-text-start "><ion-text class="font-Lato font-semibold text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-base uppercase">Passed</ion-text></ion-col>
+        <ion-col *ngIf="records.goal_pb === 'false' || records.finalPosition_pb === 'false' || records.unSatisfactoryParkingBlind >=12" size="6" class="ion-text-start"><ion-text class="font-Lato font-semibold text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-base uppercase">Failed</ion-text></ion-col>
       </ion-row>
     </ion-grid>
     <!-- PARALLEL PARKING SIGHT -->
@@ -694,10 +714,15 @@
     <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.parallelParkingBlindInput_ps}}</ion-text></ion-col>
   </ion-row> -->
       <ion-row class="my-4">
-        <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Coupling $ Uncoupling</ion-text></ion-col>
+        <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Coupling & Uncoupling</ion-text></ion-col>
         <ion-col *ngIf="records.coupUncoup_ps === 'true'" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
         <ion-col *ngIf="records.coupUncoup_ps === 'false'" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
         <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.coupUncoupInput_ps}}</ion-text></ion-col>
+      </ion-row>
+      <ion-row class="my-4">
+        <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Status:</ion-text></ion-col>
+        <ion-col *ngIf="records.goal_ps === 'true' && records.finalPosition_ps === 'true' && records.unSatisfactoryParkingSight <=12" size="6" class="ion-text-start "><ion-text class="font-Lato font-semibold text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-base uppercase">Passed</ion-text></ion-col>
+        <ion-col *ngIf="records.goal_ps === 'false' || records.finalPosition_ps === 'false' || records.unSatisfactoryParkingSight >=12" size="6" class="ion-text-start"><ion-text class="font-Lato font-semibold text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-base uppercase">Failed</ion-text></ion-col>
       </ion-row>
     </ion-grid>
     <!-- COUP & UNCOUP -->
@@ -747,6 +772,11 @@
         <ion-col *ngIf="records.coupUncoup_cou === 'false'" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
         <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.coupUncoupInput_cou}}</ion-text></ion-col>
       </ion-row>
+      <ion-row class="my-4">
+        <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Status:</ion-text></ion-col>
+        <ion-col *ngIf="records.goal_cou === 'true' && records.finalPosition_cou === 'true' && records.unSatisfactoryCoupUncoup <=12" size="6" class="ion-text-start "><ion-text class="font-Lato font-semibold text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-base uppercase">Passed</ion-text></ion-col>
+        <ion-col *ngIf="records.goal_cou === 'false' || records.finalPosition_cou === 'false' || records.unSatisfactoryCoupUncoup >=12" size="6" class="ion-text-start"><ion-text class="font-Lato font-semibold text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-base uppercase">Failed</ion-text></ion-col>
+      </ion-row>
     </ion-grid>
     <ion-card-content *ngIf="(loading | async) === false">
       <div class="mb-2 flex items-center justify-between">
@@ -760,7 +790,7 @@
           {{+records.straightLineBakingInput_slb + +records.straightLineBakingInput_ad + +records.offSetBackingInput_slb + +records.coupUncoupInput_slb + +records.straightLineBakingInput_ad + +records.alleyDockingInput_ad + +records.offSetBackingInput_ad + +records.alleyDockingInput_pb + +records.coupUncoupInput_ad + +records.straightLineBakingInput_osb + +records.alleyDockingInput_osb + +records.offSetBackingInput_osb + +records.parallelParkingBlindInput_osb + +records.coupUncoupInput_osb + +records.straightLineBakingInput_pb + +records.alleyDockingInput_pb + +records.offSetBackingInput_pb + +records.parallelParkingBlindInput_pb + +records.coupUncoupInput_pb + +records.straightLineBakingInput_ps + +records.alleyDockingInput_ps + +records.offSetBackingInput_ps + +records.parallelParkingBlindInput_ps + +records.coupUncoupInput_ps + +records.straightLineBackingInput_cou + +records.alleyDockingInput_cou + +records.offSetBackingInput_cou + +records.parallelParkingBlindInput_cou + +records.coupUncoupInput_cou}}
         </span></ion-text>
     </ion-card-content>
-    <ion-button *ngIf="(loading | async) === false" expand="block" class="close-out-button font-Lato mx-8 mb-8 mt-4 bg-opacity-10 text-white">Close</ion-button>
+    <ion-button *ngIf="(loading | async) === false" expand="block" class="close-out-button font-Lato mx-8 mb-8 mt-4 bg-opacity-10 text-white" (click)="exit()">Close</ion-button>
     <ion-card>
     </ion-card>
   </div>

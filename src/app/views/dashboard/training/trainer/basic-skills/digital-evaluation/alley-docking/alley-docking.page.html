@@ -43,7 +43,7 @@
         </div>
         <div class="my-9">
           <div class="flex justify-between items-center">
-            <ion-text class="font-semibold">G.O.A.L</ion-text>
+            <ion-text class="font-semibold">G.O.A.L Protocol</ion-text>
             <div class="flex justify-center items-center">
               <ion-radio-group formControlName="goal_ad" class="radio flex justify-center items-center">
                 <div class="flex justify-center items-center  mr-2">
@@ -253,7 +253,7 @@
         </ion-card-content>
       </ion-card>
       <ion-button  expand="block"
-      [disabled]="loadingSpinner | async"
+      [disabled]="(loadingSpinner | async) || basicSkillForm.invalid"
         class="close-out-button font-Lato mb-4 mt-0 mx-8 bg-opacity-10 text-white" (click)="navigate()">
         <div *ngIf="(loadingSpinner | async) === false">Next</div>
         <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>

@@ -46,6 +46,7 @@ export class GeneratedTicketPage implements OnInit {
     this.generateTicketFormTruck = this.formBuilder.group({
       scaleTicket: ['', [Validators.required]],
       scaleTicketWeight: ['', [Validators.required]],
+      scaleTicketWeight2: ['', [Validators.required]],
       testWeight: ['', [Validators.required]],
       proteinContent: ['', [Validators.required]],
       moistureContent: ['', [Validators.required]],
@@ -58,11 +59,22 @@ export class GeneratedTicketPage implements OnInit {
       scale_ticket_weight_docs: [''],
       status: ['pending']
     });
+    this.generateTicketFormTruck.valueChanges.subscribe((value)=>{
+      if(value.scaleTicketWeight !== value.scaleTicketWeight2){
+        this.generateTicketFormTruck.get('scaleTicketWeight').setErrors({ mustMatch: true });
+        this.generateTicketFormTruck.get('scaleTicketWeight2').setErrors({ mustMatch: true });
+      }else{
+        this.generateTicketFormTruck.get('scaleTicketWeight').setErrors(null);
+        this.generateTicketFormTruck.get('scaleTicketWeight2').setErrors(null);
 
-    console.log(
-      'Ticket',
-      JSON.parse(this.router.getCurrentNavigation().extras.state?.ticket)
-    );
+
+      }
+    });
+
+    // console.log(
+    //   'Ticket',
+    //   JSON.parse(this.router.getCurrentNavigation().extras.state?.ticket)
+    // );
     this.ticket = JSON.parse(
       this.router.getCurrentNavigation().extras.state?.ticket
     );

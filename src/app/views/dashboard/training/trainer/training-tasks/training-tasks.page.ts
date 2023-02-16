@@ -1,3 +1,5 @@
+/* eslint-disable no-debugger */
+/* eslint-disable no-var */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable @typescript-eslint/naming-convention */
 import {
@@ -32,6 +34,7 @@ export class TrainingTasksPage implements OnInit {
 
   trainer_id = '4b84234b-0b74-49a2-b3c7-d3884f5f6013';
   profileData: any;
+
   // behaviour subject's for loader
   public loading = new BehaviorSubject(true);
   public loadingSpinner = new BehaviorSubject(false);
@@ -44,6 +47,9 @@ export class TrainingTasksPage implements OnInit {
   employeeUL: any = false;
   isEmployeeSelected: any = true;
   //#endregion
+
+  // eslint-disable-next-line @typescript-eslint/no-inferrable-types
+  docPreview: string = '';
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
   constructor(
@@ -75,9 +81,9 @@ export class TrainingTasksPage implements OnInit {
       state: [''],
       training_type: [''],
       topic: ['', [Validators.required]],
-      uploadDocs1: [''],
-      uploadDocs2: [''],
-      uploadDocs3: [''],
+      image_1: [''],
+      image_2: [''],
+      image_3: [''],
       notes: [''],
     });
 
@@ -107,16 +113,43 @@ export class TrainingTasksPage implements OnInit {
   }
 
   onSelectedFiles(file, name) {
-    console.log('file:', file);
+    console.log('file:', file.target.files);
 
     if (name === 'upload_1') {
       this.upload_1 = !this.upload_1;
+      if ( file.target.files &&file.target.files[0]) {
+        const reader = new FileReader();
+        reader.onload = (_event: any) => {
+          this.trainingTasksForm.controls.image_1?.setValue(file.target.files[0]);
+      };
+      reader.readAsDataURL(file.target.files[0]);
+      } else {
+
+      }
     }
     if (name === 'upload_2') {
       this.upload_2 = !this.upload_2;
+        if ( file.target.files &&file.target.files[0]) {
+          const reader = new FileReader();
+          reader.onload = (_event: any) => {
+            this.trainingTasksForm.controls.image_2?.setValue(file.target.files[0]);
+        };
+        reader.readAsDataURL(file.target.files[0]);
+        } else {
+
+        }
     }
     if (name === 'upload_3') {
       this.upload_3 = !this.upload_3;
+      if ( file.target.files &&file.target.files[0]) {
+        const reader = new FileReader();
+        reader.onload = (_event: any) => {
+          this.trainingTasksForm.controls.image_3?.setValue(file.target.files[0]);
+      };
+      reader.readAsDataURL(file.target.files[0]);
+      } else {
+
+      }
     }
   }
   getTrainer() {
@@ -137,9 +170,16 @@ export class TrainingTasksPage implements OnInit {
 
   submit() {
     this.loadingSpinner.next(true);
-    console.log(this.trainingTasksForm.value);
+    // eslint-disable-next-line no-var
+    // Form Data
+    var formData: FormData = new FormData();
+    formData.append('trainingTasksForm',JSON.stringify(this.trainingTasksForm.value));
+    formData.append('image_1', this.trainingTasksForm.get('image_1').value);
+    formData.append('image_2', this.trainingTasksForm.get('image_2').value);
+    formData.append('image_3', this.trainingTasksForm.get('image_3').value);
+
     this.trainingService
-      .save(this.trainingTasksForm.value, 'trainer')
+      .save(formData, 'trainer')
       .subscribe(
         (res) => {
           console.log('RES:', res);

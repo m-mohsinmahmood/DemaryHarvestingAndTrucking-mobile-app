@@ -1,3 +1,4 @@
+/* eslint-disable no-var */
 /* eslint-disable max-len */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable @typescript-eslint/naming-convention */
@@ -29,7 +30,7 @@ export class BasicSkillsPage implements OnInit {
   upload_1 = false;
   upload_2 = false;
   upload_3 = false;
- upload = false;
+ upload = true;
 
  // states
  states: string[];
@@ -106,7 +107,8 @@ export class BasicSkillsPage implements OnInit {
 
   ngOnInit() {
     // this.value = 'straight-line';
-    this.value = '1';
+    this.value = 'paper-form';
+    // this.upload = true;
 
     this.basicSkillForm = this.formBuilder.group({
       evaluation_form: ['',[Validators.required]],
@@ -121,9 +123,9 @@ export class BasicSkillsPage implements OnInit {
       is_completed_group_practical: ['',[Validators.required]],
       city: ['',[Validators.required]],
       state: ['',[Validators.required]],
-      uploadDocs1: [''],
-      uploadDocs2: [''],
-      uploadDocs3: [''],
+      image_1: [''],
+      image_2: [''],
+      image_3: [''],
     });
 
      // pasing states
@@ -142,18 +144,43 @@ export class BasicSkillsPage implements OnInit {
      this.truckSearchSubscription();
   };
 
-  onSelectedFiles(file,name){
-    console.log('file:',file);
-
-    if(name === 'upload_1'){
+  onSelectedFiles(file, name) {
+    if (name === 'upload_1') {
       this.upload_1 = !this.upload_1;
-    }
-    if(name === 'upload_2'){
-      this.upload_2 = !this.upload_2;
-    }if(name === 'upload_3'){
-      this.upload_3 = !this.upload_3;
-    }
+      if ( file.target.files &&file.target.files[0]) {
+        const reader = new FileReader();
+        reader.onload = (_event: any) => {
+          this.basicSkillForm.controls.image_1?.setValue(file.target.files[0]);
+      };
+      reader.readAsDataURL(file.target.files[0]);
+      } else {
 
+      }
+    }
+    if (name === 'upload_2') {
+      this.upload_2 = !this.upload_2;
+        if ( file.target.files &&file.target.files[0]) {
+          const reader = new FileReader();
+          reader.onload = (_event: any) => {
+            this.basicSkillForm.controls.image_2?.setValue(file.target.files[0]);
+        };
+        reader.readAsDataURL(file.target.files[0]);
+        } else {
+
+        }
+    }
+    if (name === 'upload_3') {
+      this.upload_3 = !this.upload_3;
+      if ( file.target.files &&file.target.files[0]) {
+        const reader = new FileReader();
+        reader.onload = (_event: any) => {
+          this.basicSkillForm.controls.image_3?.setValue(file.target.files[0]);
+      };
+      reader.readAsDataURL(file.target.files[0]);
+      } else {
+
+      }
+    }
   }
   uploadClick(){
      this.upload = !this.upload;
@@ -185,7 +212,15 @@ export class BasicSkillsPage implements OnInit {
     console.log(this.basicSkillForm.value);
     this.loadingSpinner.next(true);
 
-    this.trainingService.save(this.basicSkillForm.value, 'basic-skills').subscribe(
+    // Form Data
+    var formData: FormData = new FormData();
+    formData.append('basicSkillForm',JSON.stringify(this.basicSkillForm.value));
+    formData.append('image_1', this.basicSkillForm.get('image_1').value);
+    formData.append('image_2', this.basicSkillForm.get('image_2').value);
+    formData.append('image_3', this.basicSkillForm.get('image_3').value);
+
+
+    this.trainingService.save(formData, 'basic-skills').subscribe(
       (res) => {
         console.log('RES:', res);
         if (res.status === 200) {

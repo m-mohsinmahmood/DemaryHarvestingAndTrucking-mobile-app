@@ -146,7 +146,6 @@
                     #upload__1
                     type="file"
                     class=" invisible hidden"
-                    formControlName="uploadDocs1"
                     (change)="onSelectedFiles($event, 'upload_1')"
                   />
                 </ion-segment>
@@ -179,7 +178,6 @@
                     #upload__2
                     type="file"
                     class=" invisible hidden"
-                    formControlName="uploadDocs2"
                     (change)="onSelectedFiles($event, 'upload_2')"
                   />
                 </ion-segment>
@@ -212,7 +210,6 @@
                     #upload__3
                     type="file"
                     class=" invisible hidden"
-                    formControlName="uploadDocs2"
                     (change)="onSelectedFiles($event, 'upload_3')"
 
                   />
@@ -385,7 +382,6 @@
                     #upload__1
                     type="file"
                     class=" invisible hidden"
-                    formControlName="uploadDocs1"
                     (change)="onSelectedFiles($event, 'upload_1')"
                   />
                 </ion-segment>
@@ -418,7 +414,6 @@
                     #upload__2
                     type="file"
                     class=" invisible hidden"
-                    formControlName="uploadDocs2"
                     (change)="onSelectedFiles($event, 'upload_2')"
                   />
                 </ion-segment>
@@ -451,7 +446,6 @@
                     #upload__3
                     type="file"
                     class=" invisible hidden"
-                    formControlName="uploadDocs2"
                     (change)="onSelectedFiles($event, 'upload_3')"
 
                   />
@@ -615,7 +609,7 @@
 
                   <ion-segment-button value="done" *ngIf="upload_1">
                     <ion-icon
-                      [ngStyle]="{'color' : upload_1 ? '#59C64F' : ''}"
+                      [ngStyle]="{'color' : upload_1 ? '#3D8AA4' : ''}"
                       name="cloud-done-outline"
                     >
                     </ion-icon>
@@ -624,7 +618,6 @@
                     #upload__1
                     type="file"
                     class=" invisible hidden"
-                    formControlName="uploadDocs1"
                     (change)="onSelectedFiles($event, 'upload_1')"
                   />
                 </ion-segment>
@@ -648,7 +641,7 @@
 
                   <ion-segment-button value="done" *ngIf="upload_2">
                     <ion-icon
-                      [ngStyle]="{'color' : upload_2 ? '#59C64F' : ''}"
+                      [ngStyle]="{'color' : upload_2 ? '#3D8AA4' : ''}"
                       name="cloud-done-outline"
                     >
                     </ion-icon>
@@ -657,7 +650,6 @@
                     #upload__2
                     type="file"
                     class=" invisible hidden"
-                    formControlName="uploadDocs2"
                     (change)="onSelectedFiles($event, 'upload_2')"
                   />
                 </ion-segment>
@@ -681,7 +673,7 @@
 
                   <ion-segment-button value="done" *ngIf="upload_3">
                     <ion-icon
-                      [ngStyle]="{'color' : upload_3 ? '#59C64F' : ''}"
+                      [ngStyle]="{'color' : upload_3 ? '#3D8AA4' : ''}"
                       name="cloud-done-outline"
                     >
                     </ion-icon>
@@ -690,7 +682,6 @@
                     #upload__3
                     type="file"
                     class=" invisible hidden"
-                    formControlName="uploadDocs2"
                     (change)="onSelectedFiles($event, 'upload_3')"
 
                   />

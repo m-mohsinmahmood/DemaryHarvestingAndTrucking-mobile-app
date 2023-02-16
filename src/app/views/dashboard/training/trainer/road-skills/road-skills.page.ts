@@ -1,3 +1,4 @@
+/* eslint-disable no-var */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
@@ -108,9 +109,9 @@ export class RoadSkillsPage implements OnInit {
       is_completed_group_practical: ['',[Validators.required]],
       city: ['',[Validators.required]],
       state: ['',[Validators.required]],
-      uploadDocs1: [''],
-      uploadDocs2: [''],
-      uploadDocs3: [''],
+      image_1: [''],
+      image_2: [''],
+      image_3: [''],
     });
 
     // pasing states
@@ -128,31 +129,46 @@ export class RoadSkillsPage implements OnInit {
       // truck subscription
       this.truckSearchSubscription();
   }
-  onSelectedFiles(file,name){
-    console.log('file:',file);
-
-    if(name === 'upload_1'){
+  onSelectedFiles(file, name) {
+    if (name === 'upload_1') {
       this.upload_1 = !this.upload_1;
-    }
-    if(name === 'upload_2'){
-      this.upload_2 = !this.upload_2;
-    }if(name === 'upload_3'){
-      this.upload_3 = !this.upload_3;
-    }
+      if ( file.target.files &&file.target.files[0]) {
+        const reader = new FileReader();
+        reader.onload = (_event: any) => {
+          this.roadTestForm.controls.image_1?.setValue(file.target.files[0]);
+      };
+      reader.readAsDataURL(file.target.files[0]);
+      } else {
 
+      }
+    }
+    if (name === 'upload_2') {
+      this.upload_2 = !this.upload_2;
+        if ( file.target.files &&file.target.files[0]) {
+          const reader = new FileReader();
+          reader.onload = (_event: any) => {
+            this.roadTestForm.controls.image_2?.setValue(file.target.files[0]);
+        };
+        reader.readAsDataURL(file.target.files[0]);
+        } else {
+
+        }
+    }
+    if (name === 'upload_3') {
+      this.upload_3 = !this.upload_3;
+      if ( file.target.files &&file.target.files[0]) {
+        const reader = new FileReader();
+        reader.onload = (_event: any) => {
+          this.roadTestForm.controls.image_3?.setValue(file.target.files[0]);
+      };
+      reader.readAsDataURL(file.target.files[0]);
+      } else {
+
+      }
+    }
   }
   uploadClick(){
      this.upload = !this.upload;
-    //  window.scrollTo(20, document.body.scrollHeight);
-    // eslint-disable-next-line prefer-const
-    // let a = document.getElementById(el);
-
-    // a.scrollIntoView();
-//     window.scroll({
-//       top: -30,
-//       left: 0,
-//       behavior: 'smooth'
-// });
   }
   onSelect(e){
     if(e.target.value === 'paper-form'){
@@ -176,7 +192,15 @@ export class RoadSkillsPage implements OnInit {
 
     console.log(this.roadTestForm.value);
     this.loadingSpinner.next(true);
-    this.trainingService.save(this.roadTestForm.value, 'road-skills').subscribe(
+
+      // Form Data
+      var formData: FormData = new FormData();
+      formData.append('roadTestForm',JSON.stringify(this.roadTestForm.value));
+      formData.append('image_1', this.roadTestForm.get('image_1').value);
+      formData.append('image_2', this.roadTestForm.get('image_2').value);
+      formData.append('image_3', this.roadTestForm.get('image_3').value);
+
+    this.trainingService.save(formData, 'road-skills').subscribe(
       (res) => {
         console.log('RES:', res);
         if (res.status === 200) {

@@ -1,3 +1,4 @@
+/* eslint-disable no-var */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
@@ -66,9 +67,9 @@ export class TraineePage implements OnInit {
       training_type: ['', [Validators.required]],
       topic: [''],
       detail: [''],
-      uploadDocs1: [''],
-      uploadDocs2: [''],
-      uploadDocs3: [''],
+      image_1: [''],
+      image_2: [''],
+      image_3: [''],
     });
     console.log(this.traineeForm.value);
 
@@ -81,17 +82,57 @@ export class TraineePage implements OnInit {
     // employee/trainer subscription
     this.employeeSearchSubscription();
   }
+  // onSelectedFiles(file, name) {
+  //   console.log('file:', file);
+
+  //   if (name === 'upload_1') {
+  //     this.upload_1 = !this.upload_1;
+  //   }
+  //   if (name === 'upload_2') {
+  //     this.upload_2 = !this.upload_2;
+  //   }
+  //   if (name === 'upload_3') {
+  //     this.upload_3 = !this.upload_3;
+  //   }
+  // }
   onSelectedFiles(file, name) {
-    console.log('file:', file);
+    console.log('file:', file.target.files);
 
     if (name === 'upload_1') {
       this.upload_1 = !this.upload_1;
+      if ( file.target.files &&file.target.files[0]) {
+        const reader = new FileReader();
+        reader.onload = (_event: any) => {
+          this.traineeForm.controls.image_1?.setValue(file.target.files[0]);
+      };
+      reader.readAsDataURL(file.target.files[0]);
+      } else {
+
+      }
     }
     if (name === 'upload_2') {
       this.upload_2 = !this.upload_2;
+        if ( file.target.files &&file.target.files[0]) {
+          const reader = new FileReader();
+          reader.onload = (_event: any) => {
+            this.traineeForm.controls.image_2?.setValue(file.target.files[0]);
+        };
+        reader.readAsDataURL(file.target.files[0]);
+        } else {
+
+        }
     }
     if (name === 'upload_3') {
       this.upload_3 = !this.upload_3;
+      if ( file.target.files &&file.target.files[0]) {
+        const reader = new FileReader();
+        reader.onload = (_event: any) => {
+          this.traineeForm.controls.image_3?.setValue(file.target.files[0]);
+      };
+      reader.readAsDataURL(file.target.files[0]);
+      } else {
+
+      }
     }
   }
   getTrainee() {
@@ -116,7 +157,14 @@ export class TraineePage implements OnInit {
   submit() {
     console.log(this.traineeForm.value);
     this.loadingSpinner.next(true);
-    this.trainingService.save(this.traineeForm.value,'trainee')
+    // Form Data
+    var formData: FormData = new FormData();
+    formData.append('traineeForm',JSON.stringify(this.traineeForm.value));
+    formData.append('image_1', this.traineeForm.get('image_1').value);
+    formData.append('image_2', this.traineeForm.get('image_2').value);
+    formData.append('image_3', this.traineeForm.get('image_3').value);
+
+    this.trainingService.save(formData,'trainee')
     .subscribe((res)=>{
       if(res.status === 200){
         this.loadingSpinner.next(false);

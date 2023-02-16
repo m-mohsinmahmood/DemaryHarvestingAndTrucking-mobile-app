@@ -20,6 +20,7 @@ export class SuspensionBrakesPage implements OnInit {
   result: any = 0;
   training_record_id: any;
 
+  isModalOpen = false;
   // trainer id
   trainer_id = '4b84234b-0b74-49a2-b3c7-d3884f5f6013';
   public loadingSpinner = new BehaviorSubject(false);
@@ -122,6 +123,12 @@ export class SuspensionBrakesPage implements OnInit {
       this.training_record_id = params.training_record_id;
     });
   }
+  next(){
+    this.isModalOpen = true;
+  }
+  edit(){
+    this.isModalOpen = false;
+  }
   exit(){
     this.loadingSpinner.next(true);
 
@@ -135,11 +142,16 @@ export class SuspensionBrakesPage implements OnInit {
       (res) => {
         console.log('RES:', res);
         if (res.status === 200) {
+          // closing modal
+          this.isModalOpen = false;
+
+             // spinner
           this.loadingSpinner.next(false);
 
            // creating DWR
            this.createDWR();
 
+           // tooltip
           this.toastService.presentToast(
             'Digital evaluation completed',
             'success'
@@ -147,6 +159,11 @@ export class SuspensionBrakesPage implements OnInit {
 
           // navigating
         // this.router.navigate(['/tabs/home/training/trainer']);
+        if (this.isModalOpen === false) {
+          setTimeout(()=>{
+            this.router.navigate(['/tabs/home/training/trainer']);
+          },500);
+        }
         } else {
           console.log('Something happened :)');
           this.toastService.presentToast(res.mssage, 'danger');

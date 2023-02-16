@@ -17,7 +17,7 @@ export class CouplingPage implements OnInit {
   progress = 0.6;
   result: any = 0;
   training_record_id: any;
-
+  isModalOpen = false;
     // trainer id
     trainer_id = '4b84234b-0b74-49a2-b3c7-d3884f5f6013';
     public loadingSpinner = new BehaviorSubject(false);
@@ -115,6 +115,12 @@ export class CouplingPage implements OnInit {
       this.training_record_id = params.training_record_id;
     });
   }
+  next(){
+    this.isModalOpen = true;
+  }
+  edit(){
+    this.isModalOpen = false;
+  }
   submit(){
     this.loadingSpinner.next(true);
 
@@ -128,19 +134,29 @@ export class CouplingPage implements OnInit {
       (res) => {
         console.log('RES:', res);
         if (res.status === 200) {
+          // closing modal
+          this.isModalOpen = false;
+
+           // spinner
           this.loadingSpinner.next(false);
 
+          // tooltip
           this.toastService.presentToast(
             'Coupling details have been submitted',
             'success'
           );
 
           // navigating
-        this.router.navigate(['/tabs/home/training/trainer/pre-trip/digital-form/in-cab/vehicle-external/coupling/suspension-brakes'],{
+        if (this.isModalOpen === false) {
+          setTimeout(()=>{
+            // navigating
+            this.router.navigate(['/tabs/home/training/trainer/pre-trip/digital-form/in-cab/vehicle-external/coupling/suspension-brakes'],{
           queryParams:{
             training_record_id: this.training_record_id
           }
         });
+          },500);
+        }
         } else {
           console.log('Something happened :)');
           this.toastService.presentToast(res.mssage, 'danger');

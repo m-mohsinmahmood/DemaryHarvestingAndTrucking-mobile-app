@@ -1,3 +1,4 @@
+/* eslint-disable no-var */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
@@ -108,9 +109,9 @@ export class PreTripPage implements OnInit {
       is_completed_group_practical: ['', [Validators.required]],
       city: ['', [Validators.required]],
       state: ['', [Validators.required]],
-      uploadDocs1: [''],
-      uploadDocs2: [''],
-      uploadDocs3: [''],
+      image_1: [''],
+      image_2: [''],
+      image_3: [''],
     });
 
     // trainee subscription
@@ -120,17 +121,43 @@ export class PreTripPage implements OnInit {
     this.traineeSearchSubscription();
   }
 
-  onSelectedFiles(file, name) {
-    console.log('file:', file);
 
+  onSelectedFiles(file, name) {
     if (name === 'upload_1') {
       this.upload_1 = !this.upload_1;
+      if ( file.target.files &&file.target.files[0]) {
+        const reader = new FileReader();
+        reader.onload = (_event: any) => {
+          this.preTrip.controls.image_1?.setValue(file.target.files[0]);
+      };
+      reader.readAsDataURL(file.target.files[0]);
+      } else {
+
+      }
     }
     if (name === 'upload_2') {
       this.upload_2 = !this.upload_2;
+        if ( file.target.files &&file.target.files[0]) {
+          const reader = new FileReader();
+          reader.onload = (_event: any) => {
+            this.preTrip.controls.image_2?.setValue(file.target.files[0]);
+        };
+        reader.readAsDataURL(file.target.files[0]);
+        } else {
+
+        }
     }
     if (name === 'upload_3') {
       this.upload_3 = !this.upload_3;
+      if ( file.target.files &&file.target.files[0]) {
+        const reader = new FileReader();
+        reader.onload = (_event: any) => {
+          this.preTrip.controls.image_3?.setValue(file.target.files[0]);
+      };
+      reader.readAsDataURL(file.target.files[0]);
+      } else {
+
+      }
     }
   }
   uploadClick() {
@@ -162,7 +189,14 @@ export class PreTripPage implements OnInit {
   submit() {
     console.log(this.preTrip.value);
     this.loadingSpinner.next(true);
-    this.trainingService.save(this.preTrip.value, 'pre-trip').subscribe(
+    // Form Data
+    var formData: FormData = new FormData();
+    formData.append('preTrip',JSON.stringify(this.preTrip.value));
+    formData.append('image_1', this.preTrip.get('image_1').value);
+    formData.append('image_2', this.preTrip.get('image_2').value);
+    formData.append('image_3', this.preTrip.get('image_3').value);
+
+    this.trainingService.save(formData, 'pre-trip').subscribe(
       (res) => {
         console.log('RES:', res);
         if (res.status === 200) {
@@ -185,13 +219,14 @@ export class PreTripPage implements OnInit {
   }
   continue() {
     console.log(this.preTrip.value);
-    // this.router.navigateByUrl(
-    //   '/tabs/home/training/trainer/pre-trip/digital-form'
-    // );
+        this.loadingSpinner.next(true);
     this.trainingService.save(this.preTrip.value, 'pre-trip').subscribe(
       (res) => {
         console.log('RES:', res);
         if (res.status === 200) {
+                    this.loadingSpinner.next(false);
+
+
           this.toastService.presentToast(
             'Digital evaluation has been started',
             'success'

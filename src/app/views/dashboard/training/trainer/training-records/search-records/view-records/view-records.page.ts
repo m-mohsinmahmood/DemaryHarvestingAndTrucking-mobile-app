@@ -70,7 +70,7 @@ math = Math;
   exit() {
     console.log(this.preCheckForm.value);
     console.log(this.roadskillsForm.value);
-    this.router.navigate(['/tabs/home/training/trainer']);
+    this.router.navigateByUrl('/tabs/home/training/trainer');
   }
 
   initForms() {
