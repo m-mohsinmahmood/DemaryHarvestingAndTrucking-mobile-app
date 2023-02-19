@@ -20,12 +20,14 @@ export class AlleyDockingPage implements OnInit {
   totalUnSatisfactory = 0;
   math = Math;
   training_record_id: any;
-
-
+  training_record: any;
   // trainer id
   trainer_id = '4b84234b-0b74-49a2-b3c7-d3884f5f6013';
 
+  // behaviour subject's
   public loadingSpinner = new BehaviorSubject(false);
+  // public loading = new BehaviorSubject(true);
+  checkValue: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -33,46 +35,41 @@ export class AlleyDockingPage implements OnInit {
     private trainingService: TrainingService,
     private toastService: ToastService,
     private route: ActivatedRoute
-
   ) {}
 
   ngOnInit() {
+    this.initForms();
+
+    // query params
+    this.route.queryParams.subscribe((params) => {
+      this.training_record_id = params.training_record_id;
+    });
+
+    // getting training record by id
+    this.getRecord();
+  }
+  initForms() {
     this.basicSkillForm = this.formBuilder.group({
       pullUpsInput_ad: [
-        '',
-        [Validators.required, Validators.pattern('^([1-5])$')],
+        null,
+        [Validators.required, Validators.pattern('^([0-5])$')],
       ],
       encroachInput_ad: [
-        '',
-        [Validators.required, Validators.pattern('^([1-5])$')],
+        null,
+        [Validators.required, Validators.pattern('^([0-5])$')],
       ],
       goal_ad: ['', [Validators.required]],
       finalPosition_ad: ['', [Validators.required]],
-      straightLineBacking_ad: ['', [Validators.required]],
-      straightLineBakingInput_ad: [
-        '',
-        [Validators.required, Validators.pattern('^([1-5])$')],
-      ], //<-
-      alleyDocking_ad: ['', [Validators.required]],
-      alleyDockingInput_ad: [
-        '',
-        [Validators.required, Validators.pattern('^([1-5])$')],
-      ],
-      offSetBacking_ad: ['', [Validators.required]],
-      offSetBackingInput_ad: [
-        '',
-        [Validators.required, Validators.pattern('^([1-5])$')],
-      ],
-      parallelParkingBlind_ad: ['', [Validators.required]],
-      parallelParkingBlindInput_ad: [
-        '',
-        [Validators.required, Validators.pattern('^([1-5])$')],
-      ],
-      coupUncoup_ad: ['', [Validators.required]],
-      coupUncoupInput_ad: [
-        '',
-        [Validators.required, Validators.pattern('^([1-5])$')],
-      ],
+      straightLineBacking_ad: [''],
+      straightLineBakingInput_ad: [''], //<-
+      alleyDocking_ad: [''],
+      alleyDockingInput_ad: [''],
+      offSetBacking_ad: [''],
+      offSetBackingInput_ad: [''],
+      parallelParkingBlind_ad: [''],
+      parallelParkingBlindInput_ad: [''],
+      coupUncoup_ad: [''],
+      coupUncoupInput_ad: [''],
       comments_ad: [''],
       category: ['alley-docking'],
       satisfactoryAlleyDocking: [],
@@ -81,37 +78,22 @@ export class AlleyDockingPage implements OnInit {
     });
     this.basicSkillForm.valueChanges.subscribe((value) => {
       let sum = 0;
-      let unSatSum = 0;
-      if (value.straightLineBacking_ad === 'true') {
-        sum = +value.straightLineBakingInput_ad + sum;
-      } else {
-        unSatSum = +value.straightLineBakingInput_ad + unSatSum;
-      }
-      if (value.alleyDocking_ad === 'true') {
-        sum = +value.alleyDockingInput_ad + sum;
-      } else {
-        unSatSum = +value.alleyDockingInput_ad + unSatSum;
-      }
-      if (value.offSetBacking_ad === 'true') {
-        sum = +value.offSetBackingInput_ad + sum;
-      } else {
-        unSatSum = +value.offSetBackingInput_ad + unSatSum;
-      }
-      if (value.parallelParkingBlind_ad === 'true') {
-        sum = +value.parallelParkingBlindInput_ad + sum;
-      } else {
-        unSatSum = +value.parallelParkingBlindInput_ad + unSatSum;
-      }
-      if (value.coupUncoup_ad === 'true') {
-        sum = +value.coupUncoupInput_ad + sum;
-      } else {
-        unSatSum = +value.coupUncoupInput_ad + unSatSum;
-      }
-      this.totalSatisfactory = sum;
-      this.totalUnSatisfactory = unSatSum;
-    });
-    this.route.queryParams.subscribe((params)=>{
-      this.training_record_id = params.training_record_id;
+        // for input fields
+        sum = +value.pullUpsInput_ad +value.encroachInput_ad + +sum;
+        this.totalSatisfactory = sum;
+
+         // for checkboxes
+         if(value.goal_ad === 'true'){
+          this.checkValue = (value.goal_ad === 'true' && value.finalPosition_ad === 'true' && (+value.pullUpsInput_ad +value.encroachInput_ad  <= 1) === true? 'true': 'false')
+        }else{
+          this.checkValue = 'false'
+        }
+        if(value.finalPosition_ad === 'true'){
+          this.checkValue = (value.goal_ad === 'true' && value.finalPosition_ad === 'true' && (+value.pullUpsInput_ad +value.encroachInput_ad  <= 1) === true? 'true': 'false')
+        }else{
+          this.checkValue = 'false'
+        }
+
     });
   }
   addFeedback() {
@@ -119,7 +101,6 @@ export class AlleyDockingPage implements OnInit {
   }
   navigate() {
     this.loadingSpinner.next(true);
-
 
     // patching sat & un-sat results
     this.basicSkillForm.patchValue({
@@ -145,11 +126,16 @@ export class AlleyDockingPage implements OnInit {
             // this.router.navigateByUrl(
             //   '/tabs/home/training/trainer/basic-skills/digital-evaluation/alley-docking/off-set-backing'
             // );
-            this.router.navigate(['/tabs/home/training/trainer/basic-skills/digital-evaluation/alley-docking/off-set-backing'],{
-              queryParams:{
-                training_record_id: this.training_record_id
+            this.router.navigate(
+              [
+                '/tabs/home/training/trainer/basic-skills/digital-evaluation/alley-docking/off-set-backing',
+              ],
+              {
+                queryParams: {
+                  training_record_id: this.training_record_id,
+                },
               }
-            });
+            );
           } else {
             console.log('Something happened :)');
             this.toastService.presentToast(res.mssage, 'danger');
@@ -160,5 +146,18 @@ export class AlleyDockingPage implements OnInit {
           this.toastService.presentToast(err.mssage, 'danger');
         }
       );
+  }
+  getRecord() {
+    this.trainingService
+      .getRecordById(this.training_record_id)
+      .subscribe((record) => {
+        this.training_record = record[0];
+
+        // patching
+        this.basicSkillForm.patchValue({
+          straightLineBacking_ad: (+this.training_record.pullUpsInput_slb + +this.training_record.encroachInput_slb >= 2) && (this.training_record.goal_slb === 'false') && (this.training_record.finalPosition_slb === 'false') === false? 'false': 'true',
+          straightLineBakingInput_ad: +this.training_record.pullUpsInput_slb + +this.training_record.encroachInput_slb
+        })
+      });
   }
 }

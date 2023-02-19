@@ -214,18 +214,25 @@ export class PreTripPage implements OnInit {
       (err) => {
         console.log('ERROR::', err);
         this.toastService.presentToast(err.mssage, 'danger');
+        this.loadingSpinner.next(true);
+
       }
     );
   }
   continue() {
     console.log(this.preTrip.value);
         this.loadingSpinner.next(true);
-    this.trainingService.save(this.preTrip.value, 'pre-trip').subscribe(
+
+         // Form Data
+        var formData: FormData = new FormData();
+        formData.append('preTrip',JSON.stringify(this.preTrip.value));
+
+        // api call
+       this.trainingService.save(formData, 'pre-trip').subscribe(
       (res) => {
         console.log('RES:', res);
         if (res.status === 200) {
-                    this.loadingSpinner.next(false);
-
+        this.loadingSpinner.next(false);
 
           this.toastService.presentToast(
             'Digital evaluation has been started',
@@ -246,6 +253,8 @@ export class PreTripPage implements OnInit {
       (err) => {
         console.log('ERROR::', err);
         this.toastService.presentToast(err.mssage, 'danger');
+        this.loadingSpinner.next(false);
+
       }
     );
   }

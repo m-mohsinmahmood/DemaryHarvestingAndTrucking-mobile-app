@@ -38,21 +38,30 @@ training_record_id: any;
     ) { }
 
   ngOnInit() {
+    this.initForms()
+
+    // query params
+    this.route.queryParams.subscribe((params)=>{
+      console.log('object',params);
+      this.training_record_id = params.training_record_id;
+    });
+  }
+  initForms(){
     this.basicSkillForm = this.formBuilder.group({
       pullUpsInput_slb: ['',[Validators.required,Validators.pattern('^([1-5])$')]],
       encroachInput_slb: ['',[Validators.required,Validators.pattern('^([1-5])$')]],
       goal_slb: ['',[Validators.required]],
       finalPosition_slb: ['',[Validators.required]],
-      straightLineBacking_slb: ['',[Validators.required]],
-      straightLineBakingInput_slb: ['',[Validators.required,Validators.pattern('^([1-5])$')]], //<-
-      alleyDocking_slb: ['',[Validators.required]],
-      alleyDockingInput_slb: ['',[Validators.required,Validators.pattern('^([1-5])$')]],
-      offSetBacking_slb: ['',[Validators.required]],
-      offSetBackingInput_slb: ['',[Validators.required,Validators.pattern('^([1-5])$')]],
-      parallelParkingBlind_slb: ['',[Validators.required]],
-      parallelParkingBlindInput_slb: ['',[Validators.required,Validators.pattern('^([1-5])$')]],
-      coupUncoup_slb: ['',[Validators.required]],
-      coupUncoupInput_slb: ['',[Validators.required,Validators.pattern('^([1-5])$')]],
+      straightLineBacking_slb: [''],
+      straightLineBakingInput_slb: [''], //<-
+      alleyDocking_slb: [''],
+      alleyDockingInput_slb: [''],
+      offSetBacking_slb: [''],
+      offSetBackingInput_slb: [''],
+      parallelParkingBlind_slb: [''],
+      parallelParkingBlindInput_slb: [''],
+      coupUncoup_slb: [''],
+      coupUncoupInput_slb: [''],
       comments_slb: [''],
       category:['straight-line-backing'],
       satisfactoryStraightLineBacking:[],
@@ -61,38 +70,9 @@ training_record_id: any;
     });
     this.basicSkillForm.valueChanges.subscribe((value)=>{
       let sum = 0;
-      let unSatSum = 0;
-      if(value.straightLineBacking_slb === 'true'){
-        sum = +value.straightLineBakingInput_slb + sum;
-      }else{
-        unSatSum = +value.straightLineBakingInput_slb + unSatSum;
-      }
-      if(value.alleyDocking_slb === 'true'){
-        sum = +value.alleyDockingInput_slb + sum;
-      }else{
-        unSatSum = +value.alleyDockingInput_slb + unSatSum;
-      }
-      if(value.offSetBacking_slb === 'true'){
-        sum = +value.offSetBackingInput_slb + sum;
-      }else{
-        unSatSum = +value.offSetBackingInput_slb + unSatSum;
-      }
-      if(value.parallelParkingBlind_slb === 'true'){
-        sum = +value.parallelParkingBlindInput_slb + sum;
-      }else{
-        unSatSum = +value.parallelParkingBlindInput_slb + unSatSum;
-      }
-      if(value.coupUncoup_slb === 'true'){
-        sum = +value.coupUncoupInput_slb + sum;
-      }else{
-        unSatSum = +value.coupUncoupInput_slb + unSatSum;
-      }
-      this.totalSatisfactory = sum;
-      this.totalUnSatisfactory = unSatSum;
-    });
+        sum = +value.pullUpsInput_slb +value.encroachInput_slb + +sum;
+        this.totalSatisfactory = sum;
 
-    this.route.queryParams.subscribe((params)=>{
-      this.training_record_id = params.training_record_id;
     });
   }
   navigate() {

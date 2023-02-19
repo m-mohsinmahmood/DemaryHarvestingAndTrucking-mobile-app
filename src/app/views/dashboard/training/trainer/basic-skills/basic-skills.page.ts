@@ -195,9 +195,6 @@ export class BasicSkillsPage implements OnInit {
       this.value = e.target.value;
       this.trainingService.getData('basic-skills',this.trainer_id).subscribe((res) => {
         console.log('RES::', res);
-        // this.data = res;
-
-        //  this.navigateToForms();
         if (res.message === 'No Records Found.') {
           // nothing
           }
@@ -246,7 +243,13 @@ export class BasicSkillsPage implements OnInit {
   continue(){
 
     this.loadingSpinner.next(true);
-    this.trainingService.save(this.basicSkillForm.value, 'basic-skills').subscribe(
+
+    // Form Data
+    var formData: FormData = new FormData();
+    formData.append('preTrip',JSON.stringify(this.basicSkillForm.value));
+
+    // api call
+    this.trainingService.save(formData, 'basic-skills').subscribe(
       (res) => {
         console.log('RES:', res);
         if (res.status === 200) {
@@ -258,7 +261,11 @@ export class BasicSkillsPage implements OnInit {
           );
 
           // navigating
-          this.router.navigateByUrl('/tabs/home/training/trainer/basic-skills/digital-evaluation');
+          this.router.navigate(['/tabs/home/training/trainer/basic-skills/digital-evaluation'],{
+            queryParams:{
+              training_record_id: res.id.training_record_id
+            }
+          });
 
         } else {
           console.log('Something happened :)');
@@ -267,6 +274,7 @@ export class BasicSkillsPage implements OnInit {
       },
       (err) => {
         console.log('ERROR::', err);
+        this.loadingSpinner.next(false);
         this.toastService.presentToast(err.mssage, 'danger');
       }
     );
@@ -576,9 +584,6 @@ export class BasicSkillsPage implements OnInit {
       !this.data.is_parking_sight_started &&
       !this.data.is_coup_uncoup_started
     ) {
-      // this.router.navigateByUrl(
-      //   '/tabs/home/training/trainer/basic-skills/digital-evaluation'
-      // );
       this.router.navigate(['/tabs/home/training/trainer/basic-skills/digital-evaluation'],{
         queryParams:{
           training_record_id: this.data.id

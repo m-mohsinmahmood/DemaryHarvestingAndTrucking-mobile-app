@@ -24,6 +24,10 @@ export class OffSetBackingPage implements OnInit {
   trainer_id = '4b84234b-0b74-49a2-b3c7-d3884f5f6013';
   math = Math;
   training_record_id: any;
+  training_record: any;
+  checkValue: any;
+
+
   public loadingSpinner = new BehaviorSubject(false);
 
   constructor(
@@ -36,21 +40,33 @@ export class OffSetBackingPage implements OnInit {
     ) { }
 
     ngOnInit() {
+      this.initForm()
+
+      // query params
+      this.route.queryParams.subscribe((params)=>{
+        console.log(params);
+        this.training_record_id = params.training_record_id;
+      });
+
+      // getting training record by id
+    this.getRecord();
+    }
+    initForm(){
       this.basicSkillForm = this.formBuilder.group({
-        pullUps_osb: ['',[Validators.required,Validators.pattern(('^([1-5])$'))]],
-        encroach_osb: ['',[Validators.required,Validators.pattern(('^([1-5])$'))]],
+        pullUps_osb: [null,[Validators.required,Validators.pattern(('^([0-5])$'))]],
+        encroach_osb: [null,[Validators.required,Validators.pattern(('^([0-5])$'))]],
         goal_osb: ['',[Validators.required]],
         finalPosition_osb: ['',[Validators.required]],
-        straightLineBaking_osb: ['',[Validators.required]],
-        straightLineBakingInput_osb: ['',[Validators.required,Validators.pattern(('^([1-5])$'))]],
-        alleyDocking_osb: ['',[Validators.required]],
-        alleyDockingInput_osb: ['',[Validators.required,Validators.pattern(('^([1-5])$'))]],
-        offSetBacking_osb: ['',[Validators.required]],
-        offSetBackingInput_osb: ['',[Validators.required,Validators.pattern(('^([1-5])$'))]],
-        parallelParkingBlind_osb: ['',[Validators.required]],
-        parallelParkingBlindInput_osb: ['',[Validators.required,Validators.pattern(('^([1-5])$'))]],
-        coupUncoup_osb: ['',[Validators.required]],
-        coupUncoupInput_osb: ['',[Validators.required,Validators.pattern(('^([1-5])$'))]],
+        straightLineBaking_osb: [''],
+        straightLineBakingInput_osb: [''],
+        alleyDocking_osb: [''],
+        alleyDockingInput_osb: [''],
+        offSetBacking_osb: [''],
+        offSetBackingInput_osb: [''],
+        parallelParkingBlind_osb: [''],
+        parallelParkingBlindInput_osb: [''],
+        coupUncoup_osb: [''],
+        coupUncoupInput_osb: [''],
         comments_osb:[''],
         category:['off-set-backing'],
         satisfactoryOffSetBacking:[],
@@ -59,37 +75,21 @@ export class OffSetBackingPage implements OnInit {
       });
       this.basicSkillForm.valueChanges.subscribe((value)=>{
         let sum = 0;
-        let unSatSum = 0;
-        if(value.straightLineBaking_osb === 'true'){
-          sum = +value.straightLineBakingInput_osb + sum;
-        }else{
-          unSatSum = +value.straightLineBakingInput_osb + unSatSum;
-        }
-        if(value.alleyDocking_osb === 'true'){
-          sum = +value.alleyDockingInput_osb + sum;
-        }else{
-          unSatSum = +value.alleyDockingInput_osb + unSatSum;
-        }
-        if(value.offSetBacking_osb === 'true'){
-          sum = +value.offSetBackingInput_osb + sum;
-        }else{
-          unSatSum = +value.offSetBackingInput_osb + unSatSum;
-        }
-        if(value.parallelParkingBlind_osb === 'true'){
-          sum = +value.parallelParkingBlindInput_osb + sum;
-        }else{
-          unSatSum = +value.parallelParkingBlindInput_osb + unSatSum;
-        }
-        if(value.coupUncoup_osb === 'true'){
-          sum = +value.coupUncoupInput_osb + sum;
-        }else{
-          unSatSum = +value.coupUncoupInput_osb + unSatSum;
-        }
+        // for input fields
+        sum = +value.pullUps_osb +value.encroach_osb + +sum;
         this.totalSatisfactory = sum;
-          this.totalUnSatisfactory = unSatSum;
-      });
-      this.route.queryParams.subscribe((params)=>{
-        this.training_record_id = params.training_record_id;
+
+         // for checkboxes
+         if(value.goal_osb === 'true'){
+          this.checkValue = (value.goal_osb === 'true' && value.finalPosition_osb === 'true' && (+value.pullUps_osb +value.encroach_osb  <= 1) === true? 'true': 'false')
+        }else{
+          this.checkValue = 'false'
+        }
+        if(value.finalPosition_osb === 'true'){
+          this.checkValue = (value.goal_osb === 'true' && value.finalPosition_osb === 'true' && (+value.pullUps_osb +value.encroach_osb  <= 1) === true? 'true': 'false')
+        }else{
+          this.checkValue = 'false'
+        }
       });
     }
     addFeedback(){
@@ -131,6 +131,21 @@ export class OffSetBackingPage implements OnInit {
           this.toastService.presentToast(err.mssage, 'danger');
         }
       );
+    }
+    getRecord() {
+      this.trainingService
+        .getRecordById(this.training_record_id)
+        .subscribe((record) => {
+          this.training_record = record[0];
+
+          // patching
+          this.basicSkillForm.patchValue({
+            straightLineBaking_osb: (+this.training_record.pullUpsInput_slb + +this.training_record.encroachInput_slb >= 2) && (this.training_record.goal_slb === 'false') && (this.training_record.finalPosition_slb === 'false') === false? 'false': 'true',
+            straightLineBakingInput_osb: +this.training_record.pullUpsInput_slb + +this.training_record.encroachInput_slb,
+            alleyDocking_osb: (+this.training_record.pullUpsInput_ad + +this.training_record.encroachInput_ad >= 2) && (this.training_record.goal_ad === 'false') && (this.training_record.finalPosition_ad === 'false') === false? 'false': 'true',
+            alleyDockingInput_osb: +this.training_record.pullUpsInput_ad + +this.training_record.encroachInput_ad,
+          })
+        });
     }
 
 }

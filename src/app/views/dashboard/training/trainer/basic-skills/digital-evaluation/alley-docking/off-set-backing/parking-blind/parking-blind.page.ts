@@ -25,6 +25,8 @@ export class ParkingBlindPage implements OnInit {
   trainer_id = '4b84234b-0b74-49a2-b3c7-d3884f5f6013';
   math = Math;
   training_record_id: any;
+  training_record: any;
+  checkValue: any;
   public loadingSpinner = new BehaviorSubject(false);
 
   constructor(
@@ -37,21 +39,32 @@ export class ParkingBlindPage implements OnInit {
     ) { }
 
     ngOnInit() {
+      this.initForm()
+
+      //query params
+      this.route.queryParams.subscribe((params)=>{
+        this.training_record_id = params.training_record_id;
+      });
+
+    // getting training record by id
+    this.getRecord();
+    }
+    initForm(){
       this.basicSkillForm = this.formBuilder.group({
-        pullUps_pb: ['',[Validators.required,Validators.pattern(('^([1-5])$'))]],
-        encroach_pb: ['',[Validators.required,Validators.pattern(('^([1-5])$'))]],
+        pullUps_pb: [null,[Validators.required,Validators.pattern(('^([0-5])$'))]],
+        encroach_pb: [null,[Validators.required,Validators.pattern(('^([0-5])$'))]],
         goal_pb: ['',[Validators.required]],
         finalPosition_pb: ['',[Validators.required]],
-        straightLineBaking_pb: ['',[Validators.required]],
-        straightLineBakingInput_pb: ['',[Validators.required,Validators.pattern(('^([1-5])$'))]],
-        alleyDocking_pb: ['',[Validators.required]],
-        alleyDockingInput_pb: ['',[Validators.required,Validators.pattern(('^([1-5])$'))]],
-        offSetBacking_pb: ['',[Validators.required]],
-        offSetBackingInput_pb: ['',[Validators.required,Validators.pattern(('^([1-5])$'))]],
-        parallelParkingBlind_pb: ['',[Validators.required]],
-        parallelParkingBlindInput_pb: ['',[Validators.required,Validators.pattern(('^([1-5])$'))]],
-        coupUncoup_pb: ['',[Validators.required]],
-        coupUncoupInput_pb: ['',[Validators.required,Validators.pattern(('^([1-5])$'))]],
+        straightLineBaking_pb: [''],
+        straightLineBakingInput_pb: [''],
+        alleyDocking_pb: [''],
+        alleyDockingInput_pb: [''],
+        offSetBacking_pb: [''],
+        offSetBackingInput_pb: [''],
+        parallelParkingBlind_pb: [''],
+        parallelParkingBlindInput_pb: [''],
+        coupUncoup_pb: [''],
+        coupUncoupInput_pb: [''],
         comments_pb:[''],
         category:['parking-blind'],
         satisfactoryParkingBlind:[],
@@ -60,37 +73,22 @@ export class ParkingBlindPage implements OnInit {
       });
       this.basicSkillForm.valueChanges.subscribe((value)=>{
         let sum = 0;
-        let unSatSum = 0;
-        if(value.straightLineBaking_pb === 'true'){
-          sum = +value.straightLineBakingInput_pb + sum;
-        }else{
-          unSatSum = +value.straightLineBakingInput_pb + unSatSum;
-        }
-        if(value.alleyDocking_pb === 'true'){
-          sum = +value.alleyDockingInput_pb + sum;
-        }else{
-          unSatSum = +value.alleyDockingInput_pb + unSatSum;
-        }
-        if(value.offSetBacking_pb === 'true'){
-          sum = +value.offSetBackingInput_pb + sum;
-        }else{
-          unSatSum = +value.offSetBackingInput_pb + unSatSum;
-        }
-        if(value.parallelParkingBlind_pb === 'true'){
-          sum = +value.parallelParkingBlindInput_pb + sum;
-        }else{
-          unSatSum = +value.parallelParkingBlindInput_pb + unSatSum;
-        }
-        if(value.coupUncoup_pb === 'true'){
-          sum = +value.coupUncoupInput_pb + sum;
-        }else{
-          unSatSum = +value.coupUncoupInput_pb + unSatSum;
-        }
+        console.log('value:',value);
+        // for input fields
+        sum = +value.pullUps_pb +value.encroach_pb + +sum;
         this.totalSatisfactory = sum;
-          this.totalUnSatisfactory = unSatSum;
-      });
-      this.route.queryParams.subscribe((params)=>{
-        this.training_record_id = params.training_record_id;
+
+        // for checkboxes
+        if(value.goal_pb === 'true'){
+          this.checkValue = (value.goal_pb === 'true' && value.finalPosition_pb === 'true' && (+value.pullUps_pb +value.encroach_pb  <= 1) === true? 'true': 'false')
+        }else{
+          this.checkValue = 'false'
+        }
+        if(value.finalPosition_pb === 'true'){
+          this.checkValue = (value.goal_pb === 'true' && value.finalPosition_pb === 'true' && (+value.pullUps_pb +value.encroach_pb  <= 1) === true? 'true': 'false')
+        }else{
+          this.checkValue = 'false'
+        }
       });
     }
     addFeedback(){
@@ -132,6 +130,23 @@ export class ParkingBlindPage implements OnInit {
           this.toastService.presentToast(err.mssage, 'danger');
         }
       );
+    }
+    getRecord() {
+      this.trainingService
+        .getRecordById(this.training_record_id)
+        .subscribe((record) => {
+          this.training_record = record[0];
+          console.log('Record::', this.training_record);
+          // patching
+          this.basicSkillForm.patchValue({
+            straightLineBaking_pb: (+this.training_record.pullUpsInput_slb + +this.training_record.encroachInput_slb >= 2) && (this.training_record.goal_slb === 'false') && (this.training_record.finalPosition_slb === 'false') === false? 'false': 'true',
+            straightLineBakingInput_pb: +this.training_record.pullUpsInput_slb + +this.training_record.encroachInput_slb,
+            alleyDocking_pb: (+this.training_record.pullUpsInput_ad + +this.training_record.encroachInput_ad >= 2) && (this.training_record.goal_ad === 'false') && (this.training_record.finalPosition_ad === 'false') === false? 'false': 'true',
+            alleyDockingInput_pb: +this.training_record.pullUpsInput_ad + +this.training_record.encroachInput_ad,
+            offSetBacking_pb: (+this.training_record.pullUps_osb + +this.training_record.encroach_osb >= 2) && (this.training_record.goal_osb === 'false') && (this.training_record.finalPosition_osb === 'false') === false? 'false': 'true',
+            offSetBackingInput_pb: +this.training_record.pullUps_osb + +this.training_record.encroach_osb,
+          })
+        });
     }
 
 }

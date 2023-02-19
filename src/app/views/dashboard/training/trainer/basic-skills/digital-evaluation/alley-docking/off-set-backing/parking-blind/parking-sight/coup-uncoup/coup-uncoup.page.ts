@@ -26,6 +26,10 @@ export class CoupUncoupPage implements OnInit {
   trainer_id = '4b84234b-0b74-49a2-b3c7-d3884f5f6013';
   math = Math;
   training_record_id: any;
+  training_record: any;
+  checkValue: any;
+
+
   public loadingSpinner = new BehaviorSubject(false);
 
   constructor(
@@ -38,21 +42,34 @@ export class CoupUncoupPage implements OnInit {
     ) { }
 
     ngOnInit() {
+      this.initForm()
+
+      //query params
+      this.route.queryParams.subscribe((params)=>{
+        this.training_record_id = params.training_record_id;
+      });
+
+    // getting training record by id
+    this.getRecord();
+    }
+    initForm(){
       this.basicSkillForm = this.formBuilder.group({
-        pullUps_cou: ['',[Validators.required,Validators.pattern(('^([1-5])$'))]],
-        encroach_cou: ['',[Validators.required,Validators.pattern(('^([1-5])$'))]],
+        pullUps_cou: [null,[Validators.required,Validators.pattern(('^([0-5])$'))]],
+        encroach_cou: [null,[Validators.required,Validators.pattern(('^([0-5])$'))]],
         goal_cou: ['',[Validators.required]],
         finalPosition_cou: ['',[Validators.required]],
-        straightLineBacking_cou: ['',[Validators.required]],
-        straightLineBackingInput_cou: ['',[Validators.required,Validators.pattern(('^([1-5])$'))]],
-        alleyDocking_cou: ['',[Validators.required]],
-        alleyDockingInput_cou: ['',[Validators.required,Validators.pattern(('^([1-5])$'))]],
-        offSetBacking_cou: ['',[Validators.required]],
-        offSetBackingInput_cou: ['',[Validators.required,Validators.pattern(('^([1-5])$'))]],
-        parallelParkingBlind_cou: ['',[Validators.required]],
-        parallelParkingBlindInput_cou: ['',[Validators.required,Validators.pattern(('^([1-5])$'))]],
-        coupUncoup_cou: ['',[Validators.required]],
-        coupUncoupInput_cou: ['',[Validators.required,Validators.pattern(('^([1-5])$'))]],
+        straightLineBacking_cou: [''],
+        straightLineBackingInput_cou: [''],
+        alleyDocking_cou: [''],
+        alleyDockingInput_cou: [''],
+        offSetBacking_cou: [''],
+        offSetBackingInput_cou: [''],
+        parallelParkingBlind_cou: [''],
+        parallelParkingBlindInput_cou: [''],
+        parallelParkingSight_cou: [''],
+        parallelParkingSightInput_cou: [''],
+        coupUncoup_cou: [''],
+        coupUncoupInput_cou: [''],
         comments_cou:[''],
         category:['coup-uncoup'],
         satisfactoryCoupUncoup:[],
@@ -62,38 +79,21 @@ export class CoupUncoupPage implements OnInit {
       });
       this.basicSkillForm.valueChanges.subscribe((value)=>{
         let sum = 0;
-        let unSatSum = 0;
-        if(value.straightLineBacking_cou === 'true'){
-          sum = +value.straightLineBackingInput_cou + sum;
-        }else{
-          unSatSum = +value.straightLineBackingInput_cou + unSatSum;
-        }
-        if(value.alleyDocking_cou === 'true'){
-          sum = +value.alleyDockingInput_cou + sum;
-        }else{
-          unSatSum = +value.alleyDockingInput_cou + unSatSum;
-        }
-        if(value.offSetBacking_cou === 'true'){
-          sum = +value.offSetBackingInput_cou + sum;
-        }else{
-          unSatSum = +value.offSetBackingInput_cou + unSatSum;
-        }
-        if(value.parallelParkingBlind_cou === 'true'){
-          sum = +value.parallelParkingBlindInput_cou + sum;
-        }else{
-          unSatSum = +value.parallelParkingBlindInput_cou + unSatSum;
-        }
-        if(value.coupUncoup_cou === 'true'){
-          sum = +value.coupUncoupInput_cou + sum;
-        }else{
-          unSatSum = +value.coupUncoupInput_cou + unSatSum;
-        }
+        // for input fields
+        sum = +value.pullUps_cou +value.encroach_cou + +sum;
         this.totalSatisfactory = sum;
-        console.log('--',unSatSum);
-          this.totalUnSatisfactory = unSatSum;
-      });
-      this.route.queryParams.subscribe((params)=>{
-        this.training_record_id = params.training_record_id;
+
+        // for checkboxes
+        if(value.goal_cou === 'true'){
+          this.checkValue = (value.goal_cou === 'true' && value.finalPosition_cou === 'true' && (+value.pullUps_cou +value.encroach_cou  <= 1) === true? 'true': 'false')
+        }else{
+          this.checkValue = 'false'
+        }
+        if(value.finalPosition_cou === 'true'){
+          this.checkValue = (value.goal_cou === 'true' && value.finalPosition_cou === 'true' && (+value.pullUps_cou +value.encroach_cou  <= 1) === true? 'true': 'false')
+        }else{
+          this.checkValue = 'false'
+        }
       });
     }
     addFeedback(){
@@ -141,6 +141,28 @@ export class CoupUncoupPage implements OnInit {
           this.toastService.presentToast(err.mssage, 'danger');
         }
       );
+    }
+    getRecord() {
+      this.trainingService
+        .getRecordById(this.training_record_id)
+        .subscribe((record) => {
+          this.training_record = record[0];
+          console.log('Record::', this.training_record);
+          // patching
+          this.basicSkillForm.patchValue({
+            straightLineBacking_cou: (+this.training_record.pullUpsInput_slb + +this.training_record.encroachInput_slb >= 2) && (this.training_record.goal_slb === 'false') && (this.training_record.finalPosition_slb === 'false') === false? 'false': 'true',
+            straightLineBackingInput_cou: +this.training_record.pullUpsInput_slb + +this.training_record.encroachInput_slb,
+            alleyDocking_cou: (+this.training_record.pullUpsInput_ad + +this.training_record.encroachInput_ad >= 2) && (this.training_record.goal_ad === 'false') && (this.training_record.finalPosition_ad === 'false') === false? 'false': 'true',
+            alleyDockingInput_cou: +this.training_record.pullUpsInput_ad + +this.training_record.encroachInput_ad,
+            offSetBacking_cou: (+this.training_record.encroach_osb + +this.training_record.encroach_osb >= 2) && (this.training_record.goal_osb === 'false') && (this.training_record.finalPosition_osb === 'false') === false? 'false': 'true',
+            offSetBackingInput_cou: +this.training_record.pullUps_osb + +this.training_record.encroach_osb,
+            parallelParkingBlind_cou: (+this.training_record.pullUps_pb + +this.training_record.encroach_pb >= 2) && (this.training_record.goal_pb === 'false') && (this.training_record.finalPosition_pb === 'false') === false? 'false': 'true',
+            parallelParkingBlindInput_cou: +this.training_record.pullUps_pb + +this.training_record.encroach_pb,
+            // parallelParkingBlind_cou: (+this.training_record.pullUps_pb + +this.training_record.encroach_pb >= 2) && (this.training_record.goal_pb === 'false') && (this.training_record.finalPosition_pb === 'false') === false? 'false': 'true',
+            // parallelParkingBlindInput_cou: +this.training_record.pullUps_pb + +this.training_record.encroach_pb,
+
+          })
+        });
     }
     createDWR(){
       this.trainingService
