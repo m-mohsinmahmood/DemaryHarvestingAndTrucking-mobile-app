@@ -151,9 +151,9 @@ export class DigitalFormPage implements OnInit {
             'success'
           );
 
+          // navigating
           if (this.isModalOpen === false) {
             setTimeout(()=>{
-              // navigating
               this.router.navigate([ '/tabs/home/training/trainer/pre-trip/digital-form/in-cab'],{
                 queryParams:{
                   training_record_id: this.training_record_id

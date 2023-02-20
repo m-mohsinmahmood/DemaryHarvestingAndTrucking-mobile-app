@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
@@ -26,6 +27,7 @@ checkValue: any;
 
  // trainer id
  trainer_id = '4b84234b-0b74-49a2-b3c7-d3884f5f6013';
+ isModalOpen = false;
 
  public loadingSpinner = new BehaviorSubject(false);
 
@@ -39,7 +41,7 @@ checkValue: any;
     ) { }
 
   ngOnInit() {
-    this.initForms()
+    this.initForms();
 
     // query params
     this.route.queryParams.subscribe((params)=>{
@@ -69,12 +71,7 @@ checkValue: any;
       unSatisfactoryStraightLineBacking:[],
       trainer_id: [this.trainer_id]
     });
-    // this.basicSkillForm.valueChanges.subscribe((value)=>{
-    //   let sum = 0;
-    //     sum = +value.pullUpsInput_slb +value.encroachInput_slb + +sum;
-    //     this.totalSatisfactory = sum;
 
-    // });
     this.basicSkillForm.valueChanges.subscribe((value)=>{
       let sum = 0;
       // for input fields
@@ -83,14 +80,14 @@ checkValue: any;
 
        // for checkboxes
        if(value.goal_slb === 'true'){
-        this.checkValue = (value.goal_slb === 'true' && value.finalPosition_slb === 'true' && (+value.pullUpsInput_slb +value.encroachInput_slb  <= 1) === true? 'true': 'false')
+        this.checkValue = (value.goal_slb === 'true' && value.finalPosition_slb === 'true' && (+value.pullUpsInput_slb +value.encroachInput_slb  <= 2) === true? 'true': 'false');
       }else{
-        this.checkValue = 'false'
+        this.checkValue = 'false';
       }
       if(value.finalPosition_slb === 'true'){
-        this.checkValue = (value.goal_slb === 'true' && value.finalPosition_slb === 'true' && (+value.pullUpsInput_slb +value.encroachInput_slb  <= 1) === true? 'true': 'false')
+        this.checkValue = (value.goal_slb === 'true' && value.finalPosition_slb === 'true' && (+value.pullUpsInput_slb +value.encroachInput_slb  <= 2) === true? 'true': 'false');
       }else{
-        this.checkValue = 'false'
+        this.checkValue = 'false';
       }
     });
   }
@@ -109,20 +106,28 @@ checkValue: any;
       (res) => {
         console.log('RES:', res);
         if (res.status === 200) {
+          // closing modal
+          this.isModalOpen = false;
+
+          // spinner
           this.loadingSpinner.next(false);
 
+          // tooltip
           this.toastService.presentToast(
             'Straight Line Backing details have been submitted',
             'success'
           );
 
-          // navigating
-        //  this.router.navigateByUrl('/tabs/home/training/trainer/basic-skills/digital-evaluation/alley-docking');
-        this.router.navigate(['/tabs/home/training/trainer/basic-skills/digital-evaluation/alley-docking'],{
-          queryParams:{
-            training_record_id: this.training_record_id
-          }
-        });
+        if (this.isModalOpen === false) {
+          setTimeout(()=>{
+            // navigating
+            this.router.navigate(['/tabs/home/training/trainer/basic-skills/digital-evaluation/alley-docking'],{
+              queryParams:{
+                training_record_id: this.training_record_id
+              }
+            });
+          },500);
+        }
         } else {
           console.log('Something happened :)');
           this.toastService.presentToast(res.mssage, 'danger');
@@ -139,5 +144,11 @@ checkValue: any;
   }
   submit(){
     console.log(this.basicSkillForm.value);
+  }
+  next(){
+    this.isModalOpen = true;
+  }
+  edit(){
+    this.isModalOpen = false;
   }
 }

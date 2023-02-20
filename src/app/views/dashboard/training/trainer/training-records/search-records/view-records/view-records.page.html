@@ -1,9 +1,15 @@
 <app-header [title]="'Training Records'" [color]="'training'" [routeValue]="'view-records'"></app-header>
-
+ <!-- COMMON LOADER -->
+ <ion-grid *ngIf="(loading | async) === true">
+  <div class="flex h-64 w-full items-center justify-center">
+    <ion-spinner name="crescent" class="h-10 w-10"></ion-spinner>
+  </div>
+</ion-grid>
 <!-- CHECKBOXES BLOCK -->
-<ion-content *ngIf="formType === 'pre-trip'">
+<ion-content *ngIf="records?.evaluation_type === 'pre-trip'">
   <app-timer [value]="'33:222:11'"></app-timer>
-  <div class="mx-4">
+<!-- DIGITAL FORM -->
+  <div class="mx-4"  *ngIf="records?.evaluation_form === 'digital-form' && records?.evaluation_type === 'pre-trip'">
     <div class="mt-2 border-b-2 py-2">
       <ion-text class="font-Lato font-semibold">{{moment(records?.created_at).format('MMMM DD, YYYY')}}
       </ion-text>
@@ -436,14 +442,41 @@
     </form>
     <ion-button expand="block" class="close-out-button font-Lato mx-8 mb-8 mt-4 bg-opacity-10 text-white" (click)="exit()">Exit</ion-button>
   </div>
+  <!-- PAPER FORM -->
+  <div class="mx-4" *ngIf="records?.evaluation_form === 'paper-form' && records?.evaluation_type === 'pre-trip'">
+    <div class="mt-2 border-b-2 py-2">
+      <ion-text class="font-Lato font-semibold">
+        {{moment(records.created_at).format('MMMM DD, YYYY')}}
+      </ion-text>
+    </div>
+    <div class="my-5 flex items-center justify-between">
+      <ion-text class="font-Lato text-9B9BA4 text-sm">Trainee</ion-text>
+      <ion-text class="font-Lato text-sm font-semibold text-black">{{trainerName}}</ion-text>
+    </div>
+    <ion-card class="p-3">
+      <ion-card-content class="m-0 p-0">
+        <div class="mt-4">
+          <img [src]="records.image_1"alt="" class="h-48 w-full object-contain">
+        </div>
+        <div class="mt-4">
+          <img [src]="records.image_2"alt="" class="h-48 w-full object-contain">
+        </div>
+        <div class="mt-4">
+          <img [src]="records.image_3"alt="" class="h-48 w-full object-contain">
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
 </ion-content>
 
 <!-- SATISFACTORY & UNSATISFACTORY BLOCK FOR BASIC SKILLS -->
-<ion-content *ngIf="formType === 'basic-skills'">
-  <app-timer [value]="'33:222:11'"></app-timer>
-  <div class="mx-4">
+<ion-content *ngIf="records?.evaluation_type === 'basic-skills'">
+  <app-timer [value]="'33:222:e11'"></app-timer>
+
+  <!-- DIGITAL FORM -->
+  <div class="mx-4" *ngIf="records?.evaluation_form === 'digital-form' && records?.evaluation_type === 'basic-skills'">
     <div class="mt-2 border-b-2 py-2">
-      <ion-text class="font-Lato font-semibold">October 21st, 2020</ion-text>
+      <ion-text class="font-Lato font-semibold">{{moment(records.created_at).format('MMMM DD, YYYY')}}</ion-text>
     </div>
     <div class="my-5 flex items-center justify-between">
       <ion-text class="font-Lato text-9B9BA4 text-sm">Trainer</ion-text>
@@ -458,14 +491,14 @@
       </ion-text>
     </div>
     <!-- LOADER -->
-    <ion-grid *ngIf="(loading | async) === true">
+    <!-- <ion-grid *ngIf="(loading | async) === true">
       <div class="flex h-64 w-full items-center justify-center">
         <ion-spinner name="crescent" class="h-10 w-10"></ion-spinner>
       </div>
-    </ion-grid>
+    </ion-grid> -->
     <!-- COUP & UNCOUP -->
     <ion-grid *ngIf="(loading | async) === false">
-      <div class="my-3"><ion-text class="font-Lato font-semibold">Evaluation Results (Coup & Uncoup)</ion-text></div>
+      <div class="my-3"><ion-text class="font-Lato font-semibold">Evaluation Results</ion-text></div>
       <ion-grid>
         <ion-row class="bg-d9d9d95c py-2 px-2">
           <ion-col size="5" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Skill</ion-text></ion-col>
@@ -510,15 +543,15 @@
         <ion-col *ngIf="!((+records.pullUps_cou + +records.encroach_cou <= 1) && (records.goal_cou === 'true') && (records.finalPosition_cou === 'true'))"  size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
         <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{+records.pullUps_cou + +records.encroach_cou}}</ion-text></ion-col>
       </ion-row>
-      <ion-row class="my-4">
+      <!-- <ion-row class="my-4">
         <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Status:</ion-text></ion-col>
         <ion-col *ngIf="records.goal_cou === 'true' && records.finalPosition_cou === 'true' && records.unSatisfactoryCoupUncoup <=12" size="6" class="ion-text-start "><ion-text class="font-Lato font-semibold text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-base uppercase">Passed</ion-text></ion-col>
         <ion-col *ngIf="records.goal_cou === 'false' || records.finalPosition_cou === 'false' || records.unSatisfactoryCoupUncoup >=12" size="6" class="ion-text-start"><ion-text class="font-Lato font-semibold text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-base uppercase">Failed</ion-text></ion-col>
-      </ion-row>
+      </ion-row> -->
     </ion-grid>
     <ion-card-content *ngIf="(loading | async) === false">
       <div class="mb-2 flex items-center justify-between">
-        <ion-text class="font-Lato font-semibold text-black">Total Attempts / Results</ion-text>
+        <ion-text class="font-Lato font-semibold text-black">Final Results:</ion-text>
         <ion-text
         *ngIf="((+records.pullUpsInput_slb + +records.encroachInput_slb <= 1) && (records.goal_slb === 'true') && (records.finalPosition_slb === 'true')) &&
         ((+records.pullUpsInput_ad + +records.encroachInput_ad <= 1) && (records.goal_ad === 'true') && (records.finalPosition_ad === 'true'))  &&
@@ -546,12 +579,38 @@
     <ion-card>
     </ion-card>
   </div>
+  <!-- PAPER FORM -->
+  <div class="mx-4" *ngIf="records?.evaluation_form === 'paper-form' && records?.evaluation_type === 'basic-skills'">
+    <div class="mt-2 border-b-2 py-2">
+      <ion-text class="font-Lato font-semibold">
+        {{moment(records.created_at).format('MMMM DD, YYYY')}}
+      </ion-text>
+    </div>
+    <div class="my-5 flex items-center justify-between">
+      <ion-text class="font-Lato text-9B9BA4 text-sm">Trainee</ion-text>
+      <ion-text class="font-Lato text-sm font-semibold text-black">{{trainerName}}</ion-text>
+    </div>
+    <ion-card class="p-3">
+      <ion-card-content class="m-0 p-0">
+        <div class="mt-4">
+          <img [src]="records.image_1"alt="" class="h-48 w-full object-contain">
+        </div>
+        <div class="mt-4">
+          <img [src]="records.image_2"alt="" class="h-48 w-full object-contain">
+        </div>
+        <div class="mt-4">
+          <img [src]="records.image_3"alt="" class="h-48 w-full object-contain">
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
 </ion-content>
 
 <!-- SATISFACTORY & UNSATISFACTORY BLOCK FOR ROAD SKILLS-->
-<ion-content *ngIf="formType === 'road-skills'">
+<ion-content *ngIf="records?.evaluation_type === 'road-skills'">
   <app-timer [value]="'33:222:11'"></app-timer>
-  <div class="mx-4">
+   <!-- DIGITAL FORM -->
+  <div class="mx-4" *ngIf="records?.evaluation_form === 'digital-form' && records?.evaluation_type === 'road-skills'">
     <div class="mt-2 border-b-2 py-2">
       <ion-text class="font-Lato font-semibold">October 21st, 2020</ion-text>
     </div>
@@ -669,7 +728,7 @@
     <ion-card>
       <ion-card-content *ngIf="(loading | async) === false">
         <div class="flex justify-between items-center mb-2">
-          <ion-text class="font-Lato text-black font-semibold">Total Attempts / Results</ion-text>
+          <ion-text class="font-Lato text-black font-semibold">Final Results:</ion-text>
           <ion-text *ngIf="+records?.leftTurnsInput + +records?.rightTurnsInput + +records?.intersectionStopInput + +records?.intersectionThruInput + +records?.interstateInput + +records?.urbanBusinessInput + +records?.lanceChangesInput + +records?.curveInput + +records?.roadsideInput + +records?.rrCrossingInput + +records?.signsInput+ +records?.generalDrivingInput + +records?.eLogPracticalInput > 32" class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">{{+records?.leftTurnsInput + +records?.rightTurnsInput + +records?.intersectionStopInput + +records?.intersectionThruInput + +records?.interstateInput + +records?.urbanBusinessInput + +records?.lanceChangesInput + +records?.curveInput + +records?.roadsideInput + +records?.rrCrossingInput + +records?.signsInput+ +records?.generalDrivingInput + +records?.eLogPracticalInput > 32 ? "Satisfactory":"Unsatisfactory"}}</ion-text>
           <ion-text *ngIf="+records?.leftTurnsInput + +records?.rightTurnsInput + +records?.intersectionStopInput + +records?.intersectionThruInput + +records?.interstateInput + +records?.urbanBusinessInput + +records?.lanceChangesInput + +records?.curveInput + +records?.roadsideInput + +records?.rrCrossingInput + +records?.signsInput+ +records?.generalDrivingInput + +records?.eLogPracticalInput < 32" class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">{{+records?.leftTurnsInput + +records?.rightTurnsInput + +records?.intersectionStopInput + +records?.intersectionThruInput + +records?.interstateInput + +records?.urbanBusinessInput + +records?.lanceChangesInput + +records?.curveInput + +records?.roadsideInput + +records?.rrCrossingInput + +records?.signsInput+ +records?.generalDrivingInput + +records?.eLogPracticalInput > 32 ? "Satisfactory":"Unsatisfactory"}}</ion-text>
         </div>
@@ -678,6 +737,31 @@
         </span></ion-text>
       </ion-card-content>
       <ion-button *ngIf="(loading | async) === false" expand="block" class="close-out-button font-Lato mx-8 mb-8 mt-4 bg-opacity-10 text-white" (click)="exit()">Exit</ion-button>
+    </ion-card>
+  </div>
+  <!-- PAPER FORM -->
+  <div class="mx-4" *ngIf="records?.evaluation_form === 'paper-form' && records?.evaluation_type === 'road-skills'">
+    <div class="mt-2 border-b-2 py-2">
+      <ion-text class="font-Lato font-semibold">
+        {{moment(records.created_at).format('MMMM DD, YYYY')}}
+      </ion-text>
+    </div>
+    <div class="my-5 flex items-center justify-between">
+      <ion-text class="font-Lato text-9B9BA4 text-sm">Trainee</ion-text>
+      <ion-text class="font-Lato text-sm font-semibold text-black">{{trainerName}}</ion-text>
+    </div>
+    <ion-card class="p-3">
+      <ion-card-content class="m-0 p-0">
+        <div class="mt-4">
+          <img [src]="records.image_1"alt="" class="h-48 w-full object-contain">
+        </div>
+        <div class="mt-4">
+          <img [src]="records.image_2"alt="" class="h-48 w-full object-contain">
+        </div>
+        <div class="mt-4">
+          <img [src]="records.image_3"alt="" class="h-48 w-full object-contain">
+        </div>
+      </ion-card-content>
     </ion-card>
   </div>
 </ion-content>

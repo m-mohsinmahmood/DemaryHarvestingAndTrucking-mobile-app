@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -23,6 +24,7 @@ export class AlleyDockingPage implements OnInit {
   training_record: any;
   // trainer id
   trainer_id = '4b84234b-0b74-49a2-b3c7-d3884f5f6013';
+  isModalOpen = false;
 
   // behaviour subject's
   public loadingSpinner = new BehaviorSubject(false);
@@ -84,20 +86,26 @@ export class AlleyDockingPage implements OnInit {
 
          // for checkboxes
          if(value.goal_ad === 'true'){
-          this.checkValue = (value.goal_ad === 'true' && value.finalPosition_ad === 'true' && (+value.pullUpsInput_ad +value.encroachInput_ad  <= 1) === true? 'true': 'false')
+          this.checkValue = (value.goal_ad === 'true' && value.finalPosition_ad === 'true' && (+value.pullUpsInput_ad +value.encroachInput_ad  <= 2) === true? 'true': 'false');
         }else{
-          this.checkValue = 'false'
+          this.checkValue = 'false';
         }
         if(value.finalPosition_ad === 'true'){
-          this.checkValue = (value.goal_ad === 'true' && value.finalPosition_ad === 'true' && (+value.pullUpsInput_ad +value.encroachInput_ad  <= 1) === true? 'true': 'false')
+          this.checkValue = (value.goal_ad === 'true' && value.finalPosition_ad === 'true' && (+value.pullUpsInput_ad +value.encroachInput_ad  <= 2) === true? 'true': 'false');
         }else{
-          this.checkValue = 'false'
+          this.checkValue = 'false';
         }
 
     });
   }
   addFeedback() {
     this.feedbackValue = true;
+  }
+  next(){
+    this.isModalOpen = true;
+  }
+  edit(){
+    this.isModalOpen = false;
   }
   navigate() {
     this.loadingSpinner.next(true);
@@ -115,27 +123,33 @@ export class AlleyDockingPage implements OnInit {
         (res) => {
           console.log('RES:', res);
           if (res.status === 200) {
+            // closing modal
+          this.isModalOpen = false;
+
+           // spinner
             this.loadingSpinner.next(false);
 
+            // tooltip
             this.toastService.presentToast(
               'Alley Docking details have been submitted',
               'success'
             );
 
             // navigating
-            // this.router.navigateByUrl(
-            //   '/tabs/home/training/trainer/basic-skills/digital-evaluation/alley-docking/off-set-backing'
-            // );
-            this.router.navigate(
-              [
-                '/tabs/home/training/trainer/basic-skills/digital-evaluation/alley-docking/off-set-backing',
-              ],
-              {
-                queryParams: {
-                  training_record_id: this.training_record_id,
-                },
-              }
-            );
+            if (this.isModalOpen === false) {
+              setTimeout(()=>{
+                this.router.navigate(
+                  [
+                    '/tabs/home/training/trainer/basic-skills/digital-evaluation/alley-docking/off-set-backing',
+                  ],
+                  {
+                    queryParams: {
+                      training_record_id: this.training_record_id,
+                    },
+                  }
+                );
+              },500);
+            }
           } else {
             console.log('Something happened :)');
             this.toastService.presentToast(res.mssage, 'danger');
@@ -155,9 +169,9 @@ export class AlleyDockingPage implements OnInit {
 
         // patching
         this.basicSkillForm.patchValue({
-          straightLineBacking_ad: (+this.training_record.pullUpsInput_slb + +this.training_record.encroachInput_slb >= 2) && (this.training_record.goal_slb === 'false') && (this.training_record.finalPosition_slb === 'false') === false? 'false': 'true',
+          straightLineBacking_ad: (+this.training_record.pullUpsInput_slb + +this.training_record.encroachInput_slb >= 3) || (this.training_record.goal_slb === 'false') || (this.training_record.finalPosition_slb === 'false') === false? 'false': 'true',
           straightLineBakingInput_ad: +this.training_record.pullUpsInput_slb + +this.training_record.encroachInput_slb
-        })
+        });
       });
   }
 }

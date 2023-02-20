@@ -85,36 +85,21 @@
 </div>
   <div *ngIf="(loading |async) === false">
     <div *ngIf="evaluationType === 'paper-form'">
-      <ion-card class="p-3">
-      <ion-card-header class="border-b-2 m-0 p-2">
-        <ion-text class="font-Lato text-base font-semibold text-black">October 21st, 2021</ion-text>
-      </ion-card-header>
-      <ion-card-content class="m-0 p-0">
-        <div class="mt-4">
-          <img src="../../../../../../.././assets/images/record.png" alt="" >
-        </div>
-      </ion-card-content>
-    </ion-card>
-    <ion-card class="p-3">
-      <ion-card-header class="border-b-2 m-0 p-2">
-        <ion-text class="font-Lato text-base font-semibold text-black">October 21st, 2021</ion-text>
-      </ion-card-header>
-      <ion-card-content class="m-0 p-0">
-        <div class="mt-4">
-          <img src="../../../../../../.././assets/images/record.png" alt="" >
-        </div>
-      </ion-card-content>
-    </ion-card>
-    <ion-card class="p-3">
-      <ion-card-header class="border-b-2 m-0 p-2">
-        <ion-text class="font-Lato text-base font-semibold text-black">October 21st, 2021</ion-text>
-      </ion-card-header>
-      <ion-card-content class="m-0 p-0">
-        <div class="mt-4">
-          <img src="../../../../../../.././assets/images/record.png" alt="" >
-        </div>
-      </ion-card-content>
-    </ion-card>
+    <div *ngIf="records.message">
+      <ion-text class="h-64 flex justify-center items-center font-Lato text-lg font-semibold">{{records.message}}</ion-text>
+    </div>
+    <div *ngIf="!records.message">
+      <ion-card (click)="navigate(formType,record)" *ngFor="let record of records">
+        <ion-card-content>
+          <div class="flex justify-between items-center mb-2">
+            <ion-text class="font-Lato text-black font-semibold text-lg">
+               {{moment(record.created_at).format('MMMM DD, YYYY')}}
+            </ion-text>
+            <ion-icon name="arrow-forward-outline" [ngStyle]="{'color': '#0CA3C7'}" class="w-10 h-7"></ion-icon>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
     <ion-button expand="block" class="close-out-button font-Lato mb-4 mt-0 mx-8 bg-opacity-10 text-white">Exit</ion-button>
   </div>
 
@@ -129,9 +114,8 @@
               <ion-text class="font-Lato text-black font-semibold text-lg">
                  {{moment(record.created_at).format('MMMM DD, YYYY')}}
               </ion-text>
-              <ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-20 rounded-full px-2 py-1">Overdue</ion-text>
+              <ion-icon name="arrow-forward-outline" [ngStyle]="{'color': '#0CA3C7'}" class="w-10 h-7"></ion-icon>
             </div>
-            <!-- <ion-text>Score: <span class="font-Lato text-black font-semibold">82%</span></ion-text> -->
           </ion-card-content>
         </ion-card>
       </div>

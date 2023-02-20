@@ -1,3 +1,4 @@
+/* eslint-disable @angular-eslint/use-lifecycle-interface */
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -62,10 +63,15 @@ math = Math;
       this.trainingService.getRecordById(this.recordId).subscribe((record) => {
         this.loading.next(true);
         this.records = record[0];
+        console.log('RECORD:',this.records);
         this.loading.next(false);
 });
     }
   }
+  ngOnDestroy(){
+    // this.loading.unsubscribe();
+  }
+
   exit() {
     console.log(this.preCheckForm.value);
     console.log(this.roadskillsForm.value);

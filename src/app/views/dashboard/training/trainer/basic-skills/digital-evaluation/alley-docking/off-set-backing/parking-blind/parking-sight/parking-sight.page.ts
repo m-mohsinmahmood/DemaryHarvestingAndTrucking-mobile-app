@@ -28,6 +28,7 @@ export class ParkingSightPage implements OnInit {
   training_record: any;
 
   checkValue: any;
+  isModalOpen = false;
 
   public loadingSpinner = new BehaviorSubject(false);
 
@@ -42,7 +43,7 @@ export class ParkingSightPage implements OnInit {
     ) { }
 
     ngOnInit() {
-      this.initForm()
+      this.initForm();
 
       //query params
       this.route.queryParams.subscribe((params)=>{
@@ -85,19 +86,25 @@ export class ParkingSightPage implements OnInit {
 
         // for checkboxes
         if(value.goal_ps === 'true'){
-          this.checkValue = (value.goal_ps === 'true' && value.finalPosition_ps === 'true' && (+value.pullUps_ps +value.encroach_ps  <= 1) === true? 'true': 'false')
+          this.checkValue = (value.goal_ps === 'true' && value.finalPosition_ps === 'true' && (+value.pullUps_ps +value.encroach_ps  <= 2) === true? 'true': 'false');
         }else{
-          this.checkValue = 'false'
+          this.checkValue = 'false';
         }
         if(value.finalPosition_ps === 'true'){
-          this.checkValue = (value.goal_ps === 'true' && value.finalPosition_ps === 'true' && (+value.pullUps_ps +value.encroach_ps  <= 1) === true? 'true': 'false')
+          this.checkValue = (value.goal_ps === 'true' && value.finalPosition_ps === 'true' && (+value.pullUps_ps +value.encroach_ps  <= 2) === true? 'true': 'false');
         }else{
-          this.checkValue = 'false'
+          this.checkValue = 'false';
         }
       });
     }
     addFeedback(){
       this.feedbackValue = true;
+    }
+    next(){
+      this.isModalOpen = true;
+    }
+    edit(){
+      this.isModalOpen = false;
     }
     navigate() {
       this.loadingSpinner.next(true);
@@ -113,19 +120,28 @@ export class ParkingSightPage implements OnInit {
         (res) => {
           console.log('RES:', res);
           if (res.status === 200) {
-            this.loadingSpinner.next(false);
+            // closing modal
+          this.isModalOpen = false;
 
+          // spinner
+          this.loadingSpinner.next(false);
+
+          // tooltip
             this.toastService.presentToast(
               'Parking Sight details have been submitted',
               'success'
             );
 
-            // navigating
-            this.router.navigate(['/tabs/home/training/trainer/basic-skills/digital-evaluation/alley-docking/off-set-backing/parking-blind/parking-sight/coup-uncoup'],{
-              queryParams:{
-                training_record_id: this.training_record_id
-              }
-            });
+             // navigating
+          if (this.isModalOpen === false) {
+            setTimeout(()=>{
+              this.router.navigate(['/tabs/home/training/trainer/basic-skills/digital-evaluation/alley-docking/off-set-backing/parking-blind/parking-sight/coup-uncoup'],{
+                queryParams:{
+                  training_record_id: this.training_record_id
+                }
+              });
+            },500);
+          }
           } else {
             console.log('Something happened :)');
             this.toastService.presentToast(res.mssage, 'danger');
@@ -145,15 +161,15 @@ export class ParkingSightPage implements OnInit {
           console.log('Record::', this.training_record);
           // patching
           this.basicSkillForm.patchValue({
-            straightLineBaking_ps: (+this.training_record.pullUpsInput_slb + +this.training_record.encroachInput_slb >= 2) && (this.training_record.goal_slb === 'false') && (this.training_record.finalPosition_slb === 'false') === false? 'false': 'true',
+            straightLineBaking_ps: (+this.training_record.pullUpsInput_slb + +this.training_record.encroachInput_slb >= 3) || (this.training_record.goal_slb === 'false') || (this.training_record.finalPosition_slb === 'false') === false? 'false': 'true',
             straightLineBakingInput_ps: +this.training_record.pullUpsInput_slb + +this.training_record.encroachInput_slb,
-            alleyDocking_ps: (+this.training_record.pullUpsInput_ad + +this.training_record.encroachInput_ad >= 2) && (this.training_record.goal_ad === 'false') && (this.training_record.finalPosition_ad === 'false') === false? 'false': 'true',
+            alleyDocking_ps: (+this.training_record.pullUpsInput_ad + +this.training_record.encroachInput_ad >= 3) || (this.training_record.goal_ad === 'false') || (this.training_record.finalPosition_ad === 'false') === false? 'false': 'true',
             alleyDockingInput_ps: +this.training_record.pullUpsInput_ad + +this.training_record.encroachInput_ad,
-            offSetBacking_ps: (+this.training_record.encroach_osb + +this.training_record.encroach_osb >= 2) && (this.training_record.goal_osb === 'false') && (this.training_record.finalPosition_osb === 'false') === false? 'false': 'true',
+            offSetBacking_ps: (+this.training_record.encroach_osb + +this.training_record.encroach_osb >= 3) || (this.training_record.goal_osb === 'false') || (this.training_record.finalPosition_osb === 'false') === false? 'false': 'true',
             offSetBackingInput_ps: +this.training_record.pullUps_osb + +this.training_record.encroach_osb,
-            parallelParkingBlind_pb: (+this.training_record.pullUps_pb + +this.training_record.encroach_pb >= 2) && (this.training_record.goal_pb === 'false') && (this.training_record.finalPosition_pb === 'false') === false? 'false': 'true',
+            parallelParkingBlind_pb: (+this.training_record.pullUps_pb + +this.training_record.encroach_pb >= 3) || (this.training_record.goal_pb === 'false') || (this.training_record.finalPosition_pb === 'false') === false? 'false': 'true',
             parallelParkingBlindInput_pb: +this.training_record.pullUps_pb + +this.training_record.encroach_pb,
-          })
+          });
         });
     }
 
