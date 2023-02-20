@@ -22,6 +22,7 @@ export class DigitalEvaluationPage implements OnInit {
   totalSatisfactory = 0;
 totalUnSatisfactory = 0;
 training_record_id: any;
+checkValue: any;
 
  // trainer id
  trainer_id = '4b84234b-0b74-49a2-b3c7-d3884f5f6013';
@@ -48,8 +49,8 @@ training_record_id: any;
   }
   initForms(){
     this.basicSkillForm = this.formBuilder.group({
-      pullUpsInput_slb: ['',[Validators.required,Validators.pattern('^([1-5])$')]],
-      encroachInput_slb: ['',[Validators.required,Validators.pattern('^([1-5])$')]],
+      pullUpsInput_slb: [null,[Validators.required,Validators.pattern('^([0-5])$')]],
+      encroachInput_slb: [null,[Validators.required,Validators.pattern('^([0-5])$')]],
       goal_slb: ['',[Validators.required]],
       finalPosition_slb: ['',[Validators.required]],
       straightLineBacking_slb: [''],
@@ -68,11 +69,29 @@ training_record_id: any;
       unSatisfactoryStraightLineBacking:[],
       trainer_id: [this.trainer_id]
     });
+    // this.basicSkillForm.valueChanges.subscribe((value)=>{
+    //   let sum = 0;
+    //     sum = +value.pullUpsInput_slb +value.encroachInput_slb + +sum;
+    //     this.totalSatisfactory = sum;
+
+    // });
     this.basicSkillForm.valueChanges.subscribe((value)=>{
       let sum = 0;
-        sum = +value.pullUpsInput_slb +value.encroachInput_slb + +sum;
-        this.totalSatisfactory = sum;
+      // for input fields
+      sum = +value.pullUpsInput_slb +value.encroachInput_slb + +sum;
+      this.totalSatisfactory = sum;
 
+       // for checkboxes
+       if(value.goal_slb === 'true'){
+        this.checkValue = (value.goal_slb === 'true' && value.finalPosition_slb === 'true' && (+value.pullUpsInput_slb +value.encroachInput_slb  <= 1) === true? 'true': 'false')
+      }else{
+        this.checkValue = 'false'
+      }
+      if(value.finalPosition_slb === 'true'){
+        this.checkValue = (value.goal_slb === 'true' && value.finalPosition_slb === 'true' && (+value.pullUpsInput_slb +value.encroachInput_slb  <= 1) === true? 'true': 'false')
+      }else{
+        this.checkValue = 'false'
+      }
     });
   }
   navigate() {

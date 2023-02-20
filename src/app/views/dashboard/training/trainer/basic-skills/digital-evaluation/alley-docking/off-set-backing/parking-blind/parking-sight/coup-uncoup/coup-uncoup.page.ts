@@ -124,7 +124,6 @@ export class CoupUncoupPage implements OnInit {
             );
 
             // navigating
-            // this.router.navigateByUrl('/tabs/home/training/trainer');
             this.router.navigate(['/tabs/home/training/trainer'],{
               queryParams:{
                 training_record_id: this.training_record_id
@@ -158,8 +157,8 @@ export class CoupUncoupPage implements OnInit {
             offSetBackingInput_cou: +this.training_record.pullUps_osb + +this.training_record.encroach_osb,
             parallelParkingBlind_cou: (+this.training_record.pullUps_pb + +this.training_record.encroach_pb >= 2) && (this.training_record.goal_pb === 'false') && (this.training_record.finalPosition_pb === 'false') === false? 'false': 'true',
             parallelParkingBlindInput_cou: +this.training_record.pullUps_pb + +this.training_record.encroach_pb,
-            // parallelParkingBlind_cou: (+this.training_record.pullUps_pb + +this.training_record.encroach_pb >= 2) && (this.training_record.goal_pb === 'false') && (this.training_record.finalPosition_pb === 'false') === false? 'false': 'true',
-            // parallelParkingBlindInput_cou: +this.training_record.pullUps_pb + +this.training_record.encroach_pb,
+            parallelParkingSight_cou: (+this.training_record.pullUps_ps + +this.training_record.encroach_ps >= 2) && (this.training_record.goal_ps === 'false') && (this.training_record.finalPosition_ps === 'false') === false? 'false': 'true',
+            parallelParkingSightInput_cou: +this.training_record.pullUps_ps + +this.training_record.encroach_ps,
 
           })
         });
@@ -172,10 +171,6 @@ export class CoupUncoupPage implements OnInit {
            console.log('RES:', res);
            if (res.status === 200) {
              this.router.navigateByUrl('/tabs/home/training/trainer');
-             // this.toastService.presentToast(
-             //   'Ticket has been completed',
-             //   'success'
-             // );
            } else {
              console.log('Something happened :)');
              this.toastService.presentToast(res.mssage, 'danger');

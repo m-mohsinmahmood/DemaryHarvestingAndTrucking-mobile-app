@@ -92,7 +92,6 @@ export class JobSetupPage implements OnInit {
   ) {
     this.renderer.listen('window', 'click', (e) => {
       if (e.target !== this.customerInput.nativeElement) {
-        // console.log('Customer');
         if (this.customerSearchValue === '') {
           this.isDisabled = true;
           this.farm_name = '';
@@ -111,17 +110,21 @@ export class JobSetupPage implements OnInit {
       }
 
       if (e.target !== this.farmInput.nativeElement) {
-        // console.log('Farm');
-        this.allFarmsClicked = of([]);
-        this.farmUL = false; // to hide the UL
+        if (this.farmSearchValue === '') {
+          this.isFieldDisabled = true;
+          this.field_name = ''
+        } else {
+          this.isFieldDisabled = false;
+          this.allFarmsClicked = of([]);
+          this.farmUL = false; // to hide the UL
+        }
+
       }
       if (e.target !== this.cropInput.nativeElement) {
-        // console.log('Crop');
         this.allCropsClicked = of([]);
         this.cropUL = false; // to hide the UL
       }
       if (e.target !== this.fieldInput.nativeElement) {
-        // console.log('Field');
         this.allFields = of([]);
         this.fieldUL = false; // to hide the UL
       }
@@ -318,7 +321,7 @@ export class JobSetupPage implements OnInit {
     // passing name in select's input
     this.customer_name = customer.customer_name;
 
-    // passing name in customer-search-value in Rendered2 to checks
+    // passing name in customer-search-value in Rendered2 for checks
     this.customerSearchValue = customer.customer_name;
 
     // to enable submit button
@@ -341,6 +344,8 @@ export class JobSetupPage implements OnInit {
         takeUntil(this._unsubscribeAll)
       )
       .subscribe((value: string) => {
+        // passing for renderer2
+        this.farmSearchValue = value;
         // for asterik to look required
         if (value === '') { this.isFarmSelected = true; }
 
@@ -420,6 +425,9 @@ export class JobSetupPage implements OnInit {
     // clearing array
     this.allFarms = of([]);
     this.allFarmsClicked = of([]);
+
+    // passing name in farm-search-value in Rendered2 for checks
+    this.farmSearchValue = farm.name;
 
     // to enable submit button
     this.isFarmSelected = false;

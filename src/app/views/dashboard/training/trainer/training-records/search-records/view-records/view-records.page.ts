@@ -63,8 +63,7 @@ math = Math;
         this.loading.next(true);
         this.records = record[0];
         this.loading.next(false);
-        console.log('Record:', record);
-      });
+});
     }
   }
   exit() {

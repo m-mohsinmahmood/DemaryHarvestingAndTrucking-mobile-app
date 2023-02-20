@@ -64,10 +64,10 @@ export class ParkingSightPage implements OnInit {
         alleyDockingInput_ps: [''],
         offSetBacking_ps: [''],
         offSetBackingInput_ps: [''],
-        parallelParkingBlind_pb: [''],
-        parallelParkingBlindInput_pb: [''],
         parallelParkingBlind_ps: [''],
         parallelParkingBlindInput_ps: [''],
+        parallelParkingBlind_pb: [''],
+        parallelParkingBlindInput_pb: [''],
         coupUncoup_ps: [''],
         coupUncoupInput_ps: [''],
         comments_ps:[''],
@@ -121,7 +121,6 @@ export class ParkingSightPage implements OnInit {
             );
 
             // navigating
-            // this.router.navigateByUrl('/tabs/home/training/trainer/basic-skills/digital-evaluation/alley-docking/off-set-backing/parking-blind/parking-sight/coup-uncoup');
             this.router.navigate(['/tabs/home/training/trainer/basic-skills/digital-evaluation/alley-docking/off-set-backing/parking-blind/parking-sight/coup-uncoup'],{
               queryParams:{
                 training_record_id: this.training_record_id

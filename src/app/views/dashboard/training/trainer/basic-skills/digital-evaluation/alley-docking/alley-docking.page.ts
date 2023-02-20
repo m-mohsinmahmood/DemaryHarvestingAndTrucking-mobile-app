@@ -58,8 +58,8 @@ export class AlleyDockingPage implements OnInit {
         null,
         [Validators.required, Validators.pattern('^([0-5])$')],
       ],
-      goal_ad: ['', [Validators.required]],
-      finalPosition_ad: ['', [Validators.required]],
+      goal_ad: [null, [Validators.required]],
+      finalPosition_ad: [null, [Validators.required]],
       straightLineBacking_ad: [''],
       straightLineBakingInput_ad: [''], //<-
       alleyDocking_ad: [''],
