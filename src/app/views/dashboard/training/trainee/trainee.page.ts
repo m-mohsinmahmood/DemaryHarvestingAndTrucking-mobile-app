@@ -82,19 +82,6 @@ export class TraineePage implements OnInit {
     // employee/trainer subscription
     this.employeeSearchSubscription();
   }
-  // onSelectedFiles(file, name) {
-  //   console.log('file:', file);
-
-  //   if (name === 'upload_1') {
-  //     this.upload_1 = !this.upload_1;
-  //   }
-  //   if (name === 'upload_2') {
-  //     this.upload_2 = !this.upload_2;
-  //   }
-  //   if (name === 'upload_3') {
-  //     this.upload_3 = !this.upload_3;
-  //   }
-  // }
   onSelectedFiles(file, name) {
     console.log('file:', file.target.files);
 

@@ -563,12 +563,14 @@ export class HarvestingService {
     }
   }
 
-  truckDriverCompleteTicket(operation, payload) {
-    const appendedObject = { ...payload, operation };
+  truckDriverCompleteTicket(data) {
+    // console.log(payload);
+    // const appendedObject = { ...payload, operation };
     // console.log('appendedObject', appendedObject);
+    // console.log(appendedObject);
     try {
       return this._httpClient
-        .patch(`http://localhost:7071/api/harvesting-ticket`, appendedObject)
+        .patch(`http://localhost:7071/api/harvesting-ticket`, data)
         .pipe(take(1));
     } catch (error) {
       console.log('error', error);

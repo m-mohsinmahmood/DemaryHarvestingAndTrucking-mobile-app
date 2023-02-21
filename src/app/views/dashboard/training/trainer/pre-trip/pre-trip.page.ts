@@ -195,7 +195,7 @@ export class PreTripPage implements OnInit {
     formData.append('image_1', this.preTrip.get('image_1').value);
     formData.append('image_2', this.preTrip.get('image_2').value);
     formData.append('image_3', this.preTrip.get('image_3').value);
-
+console.log('FormData:',formData);
     this.trainingService.save(formData, 'pre-trip').subscribe(
       (res) => {
         console.log('RES:', res);

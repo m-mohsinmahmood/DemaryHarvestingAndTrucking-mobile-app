@@ -1,3 +1,4 @@
+/* eslint-disable @angular-eslint/use-lifecycle-interface */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Component, OnInit } from '@angular/core';
@@ -43,38 +44,8 @@ export class GeneratedTicketPage implements OnInit {
   ngOnInit() {
     this.role = localStorage.getItem('role');
 
-    this.generateTicketFormTruck = this.formBuilder.group({
-      scaleTicket: ['', [Validators.required]],
-      scaleTicketWeight: ['', [Validators.required]],
-      scaleTicketWeight2: ['', [Validators.required]],
-      testWeight: ['', [Validators.required]],
-      proteinContent: ['', [Validators.required]],
-      moistureContent: ['', [Validators.required]],
-      ticketId: [''],
-      fieldId: [''],
-      destination: [''],
-      farmId: [''],
-      cropName: [''],
-      scale_ticket_docs: [''],
-      scale_ticket_weight_docs: [''],
-      status: ['pending']
-    });
-    this.generateTicketFormTruck.valueChanges.subscribe((value)=>{
-      if(value.scaleTicketWeight !== value.scaleTicketWeight2){
-        this.generateTicketFormTruck.get('scaleTicketWeight').setErrors({ mustMatch: true });
-        this.generateTicketFormTruck.get('scaleTicketWeight2').setErrors({ mustMatch: true });
-      }else{
-        this.generateTicketFormTruck.get('scaleTicketWeight').setErrors(null);
-        this.generateTicketFormTruck.get('scaleTicketWeight2').setErrors(null);
+    this.initForm();
 
-
-      }
-    });
-
-    // console.log(
-    //   'Ticket',
-    //   JSON.parse(this.router.getCurrentNavigation().extras.state?.ticket)
-    // );
     this.ticket = JSON.parse(
       this.router.getCurrentNavigation().extras.state?.ticket
     );
@@ -103,17 +74,108 @@ export class GeneratedTicketPage implements OnInit {
     this._unsubscribeAll.next(null);
     this._unsubscribeAll.complete();
   }
+  initForm(){
+    this.generateTicketFormTruck = this.formBuilder.group({
+      scaleTicket: ['', [Validators.required]],
+      scaleTicketWeight: ['', [Validators.required]],
+      scaleTicketWeight2: ['', [Validators.required]],
+      testWeight: ['', [Validators.required]],
+      proteinContent: ['', [Validators.required]],
+      moistureContent: ['', [Validators.required]],
+      ticketId: [''],
+      fieldId: [''],
+      destination: [''],
+      farmId: [''],
+      cropName: [''],
+      scale_ticket_docs: [''],
+      scale_ticket_weight_docs: [''],
+      status: ['pending'],
+      image_1: [''],
+      image_2: [''],
+    });
+    this.generateTicketFormTruck.valueChanges.subscribe((value)=>{
+      if(value.scaleTicketWeight !== value.scaleTicketWeight2){
+        this.generateTicketFormTruck.get('scaleTicketWeight').setErrors({ mustMatch: true });
+        this.generateTicketFormTruck.get('scaleTicketWeight2').setErrors({ mustMatch: true });
+      }else{
+        this.generateTicketFormTruck.get('scaleTicketWeight').setErrors(null);
+        this.generateTicketFormTruck.get('scaleTicketWeight2').setErrors(null);
+
+
+      }
+    });
+  }
 
   goBack() {
     this.location.back();
   }
 
+  onSelectedFiles(file, name) {
+
+    if (name === 'upload_1') {
+      this.upload_1 = !this.upload_1;
+      if ( file.target.files &&file.target.files[0]) {
+        const reader = new FileReader();
+        reader.onload = (_event: any) => {
+          this.generateTicketFormTruck.controls.image_1?.setValue(file.target.files[0]);
+      };
+      reader.readAsDataURL(file.target.files[0]);
+      } else {
+
+      }
+    }
+    if (name === 'upload_2') {
+      this.upload_2 = !this.upload_2;
+      if ( file.target.files &&file.target.files[0]) {
+        const reader = new FileReader();
+        reader.onload = (_event: any) => {
+          this.generateTicketFormTruck.controls.image_2?.setValue(file.target.files[0]);
+      };
+      reader.readAsDataURL(file.target.files[0]);
+      } else {
+
+      }
+    }
+  }
+
+  initApis() {
+    this.harvestingService.getTicketById(this.ticketID, 'verify-ticket-truck');
+  }
+
+  initObservables() {
+    this.harvestingService.ticket$.subscribe((res) => {
+      console.log('Res:', res);
+      this.ticketData = res;
+    });
+
+    this.isLoadingTicket$ = this.harvestingService.ticketLoading$;
+  }
+
+  initKartApis() {
+    this.harvestingService.getTicketById(this.ticketID, 'verify-ticket-kart');
+  }
+
+  initKartObservables() {
+    this.harvestingService.ticket$.subscribe((res) => {
+      console.log('Ticket Kart Verify:', res);
+      this.ticketData = res;
+    });
+    this.isLoadingTicket$ = this.harvestingService.ticketLoading$;
+  }
   submit() {
-    // console.log(this.generateTicketFormTruck.value);
     if (this.role === 'truck-driver') {
+
+      // Form Data
+    const formData: FormData = new FormData();
+    formData.append('generateTicketFormTruck',JSON.stringify(this.generateTicketFormTruck.value));
+    formData.append('operation', 'completeTicket');
+    formData.append('image_1', this.generateTicketFormTruck.get('image_1').value);
+    formData.append('image_2', this.generateTicketFormTruck.get('image_2').value);
+    console.log(this.generateTicketFormTruck.value);
+    console.log(formData);
+
       this.harvestingService.truckDriverCompleteTicket(
-        'completeTicket',
-        this.generateTicketFormTruck.value
+        formData
       )
       .subscribe(
         (response: any) => {
@@ -133,8 +195,12 @@ export class GeneratedTicketPage implements OnInit {
         }
       );
     } else {
-      let payload = { operation: 'verifyTicket', ticketId: this.ticket.id };
-      this.harvestingService.kartOperatorVerifyTickets(payload).subscribe(
+      // const payload = { operation: 'verifyTicket', ticketId: this.ticket.id };
+      const formData: FormData = new FormData();
+      formData.append('generateTicketFormTruck',JSON.stringify(this.generateTicketFormTruck.value));
+      formData.append('operation', 'verifyTicket');
+      formData.append('ticketId',this.ticket.id);
+      this.harvestingService.kartOperatorVerifyTickets(formData).subscribe(
         (res: any) => {
           if (res.status === 200) {
             // this.generateTicketFormTruck.reset();
@@ -151,41 +217,5 @@ export class GeneratedTicketPage implements OnInit {
         }
       );
     }
-  }
-
-  onSelectedFiles(file, name) {
-    console.log('file:', file);
-
-    if (name === 'upload_1') {
-      this.upload_1 = !this.upload_1;
-    }
-    if (name === 'upload_2') {
-      this.upload_2 = !this.upload_2;
-    }
-  }
-
-  initApis() {
-    this.harvestingService.getTicketById(this.ticketID, 'verify-ticket-truck');
-  }
-
-  initObservables() {
-    this.harvestingService.ticket$.subscribe((res) => {
-      // console.log('Ticket Verify:', res);
-      this.ticketData = res;
-    });
-
-    this.isLoadingTicket$ = this.harvestingService.ticketLoading$;
-  }
-
-  initKartApis() {
-    this.harvestingService.getTicketById(this.ticketID, 'verify-ticket-kart');
-  }
-
-  initKartObservables() {
-    this.harvestingService.ticket$.subscribe((res) => {
-      console.log('Ticket Kart Verify:', res);
-      this.ticketData = res;
-    });
-    this.isLoadingTicket$ = this.harvestingService.ticketLoading$;
   }
 }

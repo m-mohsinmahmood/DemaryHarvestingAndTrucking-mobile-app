@@ -242,6 +242,13 @@ export class CreateTicketPage implements OnInit {
       );
   }
   navigateTruckDriver() {
+
+      // // Form Data
+      // var formData: FormData = new FormData();
+      // formData.append('traineeForm',JSON.stringify(this.traineeForm.value));
+      // formData.append('image_1', this.traineeForm.get('image_1').value);
+      // formData.append('image_2', this.traineeForm.get('image_2').value);
+      // formData.append('image_3', this.traineeForm.get('image_3').value);
     console.log(this.createTicketFormTruckDriver.value);
     this.truckingService.createNewDeliveryTicket(this.createTicketFormTruckDriver.value, 'truck-driver', 'commercial', 'sent', true)
       .subscribe(
