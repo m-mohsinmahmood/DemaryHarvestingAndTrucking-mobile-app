@@ -33,7 +33,20 @@
           <ion-tab-button id="click-trigger" class="relative" (click)="presentPopover($event)">
             <ion-icon name="log-out-outline" size="large"></ion-icon>
           </ion-tab-button>
+
         </ion-col>
+
+ <!-- POP-OVER -->
+
+  <ion-popover #popover [isOpen]="isOpen" (didDismiss)="isOpen = false">
+
+    <ng-template>
+
+      <ion-content class="ion-padding" (click)="logout()">Logout</ion-content>
+
+    </ng-template>
+
+  </ion-popover>
       </ion-row>
     </ion-grid>
     <div class="w-5/12 ml-4">

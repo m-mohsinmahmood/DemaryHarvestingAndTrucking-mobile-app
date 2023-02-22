@@ -1,7 +1,9 @@
+/* eslint-disable max-len */
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { CheckInOutService } from './../../components/check-in-out/check-in-out.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -23,6 +25,7 @@ export class DashboardPage implements OnInit {
     private dwrServices: CheckInOutService,
     private nav: Router,
     private activatedRoute: ActivatedRoute,
+    private auth: AuthService
   ) { }
 
   ngOnInit() {
@@ -37,10 +40,11 @@ export class DashboardPage implements OnInit {
     // assigning role & employeeId
     this.isModalOpen = false;
     this.selectform = this.formbuilder.group({
-      select: ['']
+      select: [''],
     });
 
     this.selectform.patchValue({ select: this.roleOptions[0] });
+    // eslint-disable-next-line @typescript-eslint/quotes
     console.log(localStorage.getItem("employeeId"));
 
     this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
@@ -56,6 +60,11 @@ export class DashboardPage implements OnInit {
       }
     })
   }
+
+async logout() {
+  await this.auth.logout();
+  this.isOpen = false;
+}
 
   onSelect(e) {
     console.log(e.target.value);
@@ -76,12 +85,6 @@ export class DashboardPage implements OnInit {
   presentPopover(e: Event) {
     this.popover.event = e;
     this.isOpen = true;
-  }
-  logout() {
-    console.log('LOGOUT')
-
-    //to close pop-over
-    this.isOpen = false;
   }
 
   setOpen() {
