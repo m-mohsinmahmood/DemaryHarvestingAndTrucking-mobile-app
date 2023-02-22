@@ -551,7 +551,7 @@
     </ion-grid>
     <ion-card-content *ngIf="(loading | async) === false">
       <div class="mb-2 flex items-center justify-between">
-        <ion-text class="font-Lato font-semibold text-black">Final Results:</ion-text>
+        <ion-text class="font-Lato font-semibold text-black">Final Result:</ion-text>
         <ion-text
         *ngIf="((+records.pullUpsInput_slb + +records.encroachInput_slb <= 1) && (records.goal_slb === 'true') && (records.finalPosition_slb === 'true')) &&
         ((+records.pullUpsInput_ad + +records.encroachInput_ad <= 1) && (records.goal_ad === 'true') && (records.finalPosition_ad === 'true'))  &&
@@ -570,10 +570,10 @@
          class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text>
 
       </div>
-      <ion-text class="font-Lato text-9B9BA4">Total Attempts:
+      <!-- <ion-text class="font-Lato text-9B9BA4">Total Attempts:
         <span class="font-Lato text-black">
      {{+records.pullUpsInput_slb + +records.encroachInput_slb + +records.pullUpsInput_ad + +records.encroachInput_ad + +records.pullUps_osb + +records.encroach_osb + +records.pullUps_pb + +records.encroach_pb + +records.pullUps_ps + +records.encroach_ps + +records.pullUps_cou + +records.encroach_cou}}
-        </span></ion-text>
+        </span></ion-text> -->
     </ion-card-content>
     <ion-button *ngIf="(loading | async) === false" expand="block" class="close-out-button font-Lato mx-8 mb-8 mt-4 bg-opacity-10 text-white" (click)="exit()">Close</ion-button>
     <ion-card>
@@ -767,7 +767,7 @@
 </ion-content>
 
 <!-- SATISFACTORY & UNSATISFACTORY BLOCK FOR SUMMARY -->
-<ion-content *ngIf="formType === 'summary'">
+<ion-content *ngIf="formType === 'summary' && records">
   <app-timer [value]="'33:222:11'"></app-timer>
   <div class="mx-4">
     <div class="mt-2 border-b-2 py-2">
