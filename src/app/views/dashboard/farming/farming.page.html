@@ -37,7 +37,7 @@
 
 
     <!-- MODEL -->
-    <app-check-in-out [module]="'farming'">
+    <app-check-in-out [isModalOpen]="isModalOpen" [data]="activeDwr" *ngIf="activeDwr" [module]="'farming'">
     </app-check-in-out>
 
   </ion-grid>
@@ -89,7 +89,7 @@
 
     <ion-row>
       <ion-col size="12">
-        <ion-card class="card" [disabled]="workOrderCount <= 0" [routerLink]="['submit-end-day']">
+        <ion-card class="card" [disabled]="workOrderCount <= 0" [routerLink]="['submit-end-day', data]">
           <ion-card-content>
             <p class="font-bold font-Lato font-15px">Submit End of Day Work Data</p>
           </ion-card-content>
@@ -108,7 +108,7 @@
     </ion-row>
 
     <!-- MODEL -->
-    <app-check-in-out [module]="'farming'">
+    <app-check-in-out [isModalOpen]="isModalOpen" [data]="activeDwr" *ngIf="activeDwr" [module]="'farming'">
     </app-check-in-out>
 
   </ion-grid>

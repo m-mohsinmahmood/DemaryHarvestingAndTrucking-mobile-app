@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Observable, of, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { FarmingService } from './../farming.service';
 import { ToastService } from 'src/app/services/toast/toast.service';
 
@@ -18,12 +18,23 @@ export class CloseOutOrderPage implements OnInit {
   data: Observable<any>;
   dataLoaded = false;
   workOrderCount = 0;
+  public loadingSpinner = new BehaviorSubject(false);
 
   constructor(private toast: ToastService, private formBuilder: FormBuilder, private router: Router, private farmingService: FarmingService, private renderer: Renderer2) {
 
   }
 
   ngOnInit() {
+    this.initDataRetrieval();
+  }
+
+  async ionViewDidEnter() {
+    this.initDataRetrieval();
+  }
+
+  initDataRetrieval() {
+    this.dataLoaded = false;
+    this.workOrderCount = 0;
 
     this.data = this.farmingService.getAllWorkOrders('', 'close_out_work_order', localStorage.getItem('employeeId'));
 
@@ -45,13 +56,14 @@ export class CloseOutOrderPage implements OnInit {
       acresCompleted: ['', [Validators.required]],
       endingEngineHours: ['', [Validators.required]],
       gpsAcresByService: ['', [Validators.required]],
-      // gpsAcres: ['', [Validators.required]],
       hoursWorked: ['', [Validators.required]],
       notes: ['', [Validators.required]]
     });
   }
 
   navigateTo() {
+    this.loadingSpinner.next(true)
+
     this.closeOutWorkOrder.patchValue({
       workOrderId: this.workOrderId
     })
@@ -59,6 +71,14 @@ export class CloseOutOrderPage implements OnInit {
     this.closeOutWorkOrder.value.machineryID = this.machineryID;
 
     console.log(this.closeOutWorkOrder.value);
+
+    this.farmingService.updateEndingEngineHours(
+      {
+        id: this.machineryID,
+        endingEngineHours: this.closeOutWorkOrder.get("endingEngineHours").value
+      }
+    );
+
     this.farmingService.updateWorkOrder(this.closeOutWorkOrder.value, 'tractor-driver', 'closeOutWorkOrder')
       .subscribe(
         (res: any) => {
@@ -67,10 +87,12 @@ export class CloseOutOrderPage implements OnInit {
           if (res.status === 200) {
             this.toast.presentToast("Work Order has been closed successfully!", 'success');
             this.router.navigateByUrl('/tabs/home/farming');
+            this.loadingSpinner.next(false)
           }
         },
         (err) => {
           this.toast.presentToast(err, 'danger');
+          this.loadingSpinner.next(false)
         },
       );
   }

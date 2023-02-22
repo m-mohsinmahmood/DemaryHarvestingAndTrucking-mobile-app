@@ -2,7 +2,7 @@
 <app-header [title]="'Verify Commercial Ticket'" [color]="'trucking'" *ngIf="role === 'dispatcher'"></app-header>
 
 <ion-content *ngIf="role === 'dispatcher'">
-  <app-timer [value]="'22-22-2022'"></app-timer>
+  <!-- <app-timer [value]="'22-22-2022'"></app-timer> -->
 
   <!--------Role Dispatcher ------------->
   <ion-grid>
@@ -185,7 +185,7 @@
 <app-header [title]="'Existing Delivery Ticket'" [color]="'trucking'" *ngIf="role === 'truck-driver'"></app-header>
 
 <ion-content *ngIf="role === 'truck-driver'">
-  <app-timer [value]="'22-22-2022'"></app-timer>
+  <!-- <app-timer [value]="'22-22-2022'"></app-timer> -->
   <form class="p-4" [formGroup]="createFormTruckCommercial">
 
     <ion-list>

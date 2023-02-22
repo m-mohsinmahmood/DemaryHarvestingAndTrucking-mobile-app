@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Observable, of, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { FarmingService } from './../farming.service';
 import { ToastService } from './../../../../services/toast/toast.service';
@@ -63,6 +63,7 @@ export class CreateOrderPage implements OnInit {
   allMachinery: Observable<any>;
   allServices: Observable<any>;
   isDisabled: any = true;
+  isFieldDisabled: any = true;
 
   // to show UL's
   dispatcherUL: any = false;
@@ -78,6 +79,8 @@ export class CreateOrderPage implements OnInit {
   farmId: any;
   employeeName: any;
 
+  public loadingSpinner = new BehaviorSubject(false);
+
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
   constructor(private toast: ToastService, private formBuilder: FormBuilder, private router: Router, private farmingService: FarmingService, private renderer: Renderer2) {
@@ -88,51 +91,103 @@ export class CreateOrderPage implements OnInit {
           this.dispatcherUL = false; // to hide the UL
         }
         if (e.target !== this.customerInput.nativeElement) {
-          this.allCustomers = of([]); // to clear array
-          this.customerUL = false; // to hide the UL
-          this.isDisabled = this.createOrderTDriver.controls['customerId'].value === '' ? true : false;
+          if (this.customerSearchValue === '' || this.customerSearchValue === undefined) {
+            this.isDisabled = true;
+            this.farm_name = '';
+            this.customerUL = false; // to hide the UL
+            this.isCustomerSelected = true;
+            this.isFarmSelected = true;
+            this.isFieldDisabled = true;
+          }
+          else {
+            this.isDisabled = false;
+            this.allCustomers = of([]); // to clear array     
+            this.customerUL = false; // to hide the UL
+          }
         }
         if (e.target !== this.farmsInput.nativeElement) {
-          this.allFarms = of([]); // to clear array
-          this.farmUL = false; // to hide the UL
+          if (this.farmSearchValue === '' || this.farmSearchValue === undefined) {
+            this.isFieldDisabled = true;
+            this.field_name = '';
+            this.farmUL = false;
+          } else {
+            this.isFieldDisabled = false;
+            this.allFarms = of([]);
+          }
         }
         if (e.target !== this.fieldsInput.nativeElement) {
-          this.allFields = of([]); // to clear array
-          this.fieldUL = false; // to hide the UL
+          if (this.fieldSearchValue === '' || this.farmSearchValue === undefined) {
+            this.createOrderDispatcher.patchValue({
+              totalAcres: null
+            });
+            this.allFields = of([]); // to clear array
+            this.fieldUL = false; // to hide the UL
+
+          } else {
+            this.allFields = of([]); // to clear array
+            this.fieldUL = false; // to hide the UL
+          }
         }
         if (e.target !== this.machineryInput.nativeElement) {
           this.allMachinery = of([]); // to clear array
           this.machineryUL = false; // to hide the UL
-        }
-        if (e.target !== this.serviceInput.nativeElement) {
-          this.allServices = of([]); // to clear array
-          this.serviceUL = false; // to hide the UL
         }
       });
     }
     if (localStorage.getItem('role') === 'dispatcher') {
       this.renderer.listen('window', 'click', (e) => {
         if (e.target !== this.customerInput.nativeElement) {
-          this.allCustomers = of([]); // to clear array
-          this.customerUL = false; // to hide the UL
-          this.isDisabled = this.createOrderTDriver.controls['customerId'].value === '' ? true : false;
+          console.log('----', this.customerSearchValue);
+          if (this.customerSearchValue === '' || this.customerSearchValue === undefined) {
+            this.isDisabled = true;
+            this.farm_name = '';
+            this.customerUL = false; // to hide the UL
+            this.isCustomerSelected = true;
+            this.isFarmSelected = true;
+            this.isFieldDisabled = true;
+          }
+          else {
+            this.isDisabled = false;
+            this.allCustomers = of([]); // to clear array     
+            this.customerUL = false; // to hide the UL
+          }
         }
         if (e.target !== this.farmsInput.nativeElement) {
-          this.allFarms = of([]); // to clear array
-          this.farmUL = false; // to hide the UL
+          if (this.farmSearchValue === '' || this.farmSearchValue === undefined) {
+            this.isFieldDisabled = true;
+            this.field_name = '';
+            this.farmUL = false;
+          } else {
+            this.isFieldDisabled = false;
+            this.allFarms = of([]);
+            // this.farmUL = false; // to hide the UL
+          }
         }
+
         if (e.target !== this.fieldsInput.nativeElement) {
-          this.allFields = of([]); // to clear array
-          this.fieldUL = false; // to hide the UL
+          // this.allFields = of([]); // to clear array
+          // this.fieldUL = false; // to hide the UL
+          if (this.fieldSearchValue === '' || this.farmSearchValue === undefined) {
+            // this.createOrderDispatcher.controls.totalAcres.setValue('');
+            this.createOrderDispatcher.patchValue({
+              totalAcres: null
+            });
+            this.allFields = of([]); // to clear array
+            this.fieldUL = false; // to hide the UL
+
+          } else {
+            this.allFields = of([]); // to clear array
+            this.fieldUL = false; // to hide the UL
+          }
         }
         if (e.target !== this.dispatcherInput.nativeElement) {
           this.allDispatchers = of([]); // to clear array
           this.dispatcherUL = false; // to hide the UL
         }
-        if (e.target !== this.serviceInput.nativeElement) {
-          this.allServices = of([]); // to clear array
-          this.serviceUL = false; // to hide the UL
-        }
+        // if (e.target !== this.serviceInput.nativeElement) {
+        //   this.allServices = of([]); // to clear array
+        //   this.serviceUL = false; // to hide the UL
+        // }
       });
     }
   }
@@ -148,7 +203,7 @@ export class CreateOrderPage implements OnInit {
     this.farmSearchSubscription();
     this.fieldSearchSubscription();
     this.machinerySearchSubscription();
-    this.serviceSearchSubscription();
+    // this.serviceSearchSubscription();
 
     this.role = localStorage.getItem('role');
 
@@ -191,18 +246,20 @@ export class CreateOrderPage implements OnInit {
   }
 
   createWorkOrder(workOrder: any, role: string, nav: string, completeInfo: boolean): void {
+    this.loadingSpinner.next(true)
     this.farmingService.createNewWorkOrder(workOrder, role, completeInfo)
       .subscribe(
         (res: any) => {
           console.log(res);
-
           if (res.status === 200) {
+            this.loadingSpinner.next(false)
             this.toast.presentToast("Work Order has been created successfully!", 'success');
             this.router.navigateByUrl(nav);
           }
         },
         (err) => {
           this.toast.presentToast(err, 'danger');
+          this.loadingSpinner.next(false)
         },
       );
   }
@@ -338,9 +395,11 @@ export class CreateOrderPage implements OnInit {
         takeUntil(this._unsubscribeAll)
       )
       .subscribe((value: string) => {
+        // passing for renderer2       
+        this.customerSearchValue = value;
+
         // for asterik to look required
         if (value === '') { this.isCustomerSelected = true; }
-
 
         this.allCustomers = this.farmingService.getCustomers(
           value,
@@ -353,10 +412,13 @@ export class CreateOrderPage implements OnInit {
         // subscribing to disable & enable farm, crop inputs
         this.allCustomers.subscribe((customers) => {
           if (customers.count === 0) {
+            console.log('customers:', customers.count);
             this.isDisabled = true;
+            this.isFieldDisabled = true
 
             // clearing the input values in farm, crop after getting disabled
             this.farm_name = '';
+            this.field_name = ''
             // this.crop_name = '';
 
             // hiding UL
@@ -444,6 +506,8 @@ export class CreateOrderPage implements OnInit {
     // passing name in select's input
     this.customer_name = customer.customer_name;
 
+    // passing name in customer-search-value in Rendered2 for checks 
+    this.customerSearchValue = customer.customer_name;
     // to enable submit button
     this.isCustomerSelected = false;
 
@@ -464,6 +528,8 @@ export class CreateOrderPage implements OnInit {
         takeUntil(this._unsubscribeAll)
       )
       .subscribe((value: string) => {
+        // passing for renderer2       
+        this.farmSearchValue = value;
         // for asterik to look required
         if (value === '') { this.isFarmSelected = true; }
         this.allFarms = this.farmingService.getFarms(
@@ -477,9 +543,11 @@ export class CreateOrderPage implements OnInit {
           if (farms.count === 0) {
             // hiding UL
             this.farmUL = false;
+            this.isFieldDisabled = true;
           } else {
             // showing UL
             this.farmUL = true;
+            this.isFieldDisabled = false;
           }
         });
       });
@@ -514,9 +582,11 @@ export class CreateOrderPage implements OnInit {
       if (farms.count === 0) {
         // hiding UL
         this.farmUL = false;
+        this.isFieldDisabled = true;
       } else {
         // showing UL
         this.farmUL = true;
+        this.isFieldDisabled = false;
       }
     });
   }
@@ -536,7 +606,8 @@ export class CreateOrderPage implements OnInit {
     }
     // clearing array
     this.allFarms = of([]);
-
+    // passing name in farm-search-value in Rendered2 for checks 
+    this.farmSearchValue = farm.name;
     // For Specific Fields
     this.farmId = farm.id;
 
@@ -558,6 +629,9 @@ export class CreateOrderPage implements OnInit {
         takeUntil(this._unsubscribeAll)
       )
       .subscribe((value: string) => {
+        // passing for renderer2       
+        this.fieldSearchValue = value;
+
         // for asterik to look required
         if (value === '') { this.isFieldSelected = true; }
         this.allFields = this.farmingService.getFields(
@@ -572,6 +646,10 @@ export class CreateOrderPage implements OnInit {
           if (fields.count === 0) {
             // hiding UL
             this.fieldUL = false;
+            this.createOrderDispatcher.patchValue({
+              totalAcres: null
+            });
+
           } else {
             // showing UL
             this.fieldUL = true;
@@ -611,6 +689,10 @@ export class CreateOrderPage implements OnInit {
       if (fields.count === 0) {
         // hiding UL
         this.fieldUL = false;
+
+        this.createOrderDispatcher.patchValue({
+          totalAcres: null
+        });
       } else {
         // showing UL
         this.fieldUL = true;
@@ -646,6 +728,9 @@ export class CreateOrderPage implements OnInit {
 
     // passing name in select's input
     this.field_name = field.field_name;
+
+    // passing name in customer-search-value in Rendered2 for checks 
+    this.fieldSearchValue = field.field_name;
 
     // to enable submit button
     this.isFieldSelected = false;

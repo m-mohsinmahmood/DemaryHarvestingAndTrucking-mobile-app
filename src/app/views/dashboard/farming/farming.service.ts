@@ -36,10 +36,9 @@ export class FarmingService {
       .pipe(take(1));
   }
 
-  createNewJobResult(data: any) {
-
+  createFarmingInvoice(data: any) {
     return this._httpClient
-      .post(`api-1/customer-job-result`, data)
+      .post(`api-1/customer-invoices`, data)
       .pipe(take(1));
   }
 
@@ -47,6 +46,12 @@ export class FarmingService {
     data.role = role;
     data.searchClause = searchClause;
 
+    return this._httpClient
+      .patch(`api-1/work-order-farming`, data)
+      .pipe(take(1));
+  }
+
+  updateEndingEngineHours(data: any) {
     return this._httpClient
       .patch(`api-1/work-order-farming`, data)
       .pipe(take(1));

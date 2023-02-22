@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CheckInOutService } from './check-in-out.service';
 import { ToastService } from 'src/app/services/toast/toast.service';
 import { Router } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-check-in-out',
@@ -10,27 +11,19 @@ import { Router } from '@angular/router';
 })
 export class CheckInOutComponent implements OnInit {
   @Input() module: any;
+  @Input() data: any;
+  @Input() isModalOpen: any;
+  public loadingSpinner = new BehaviorSubject(false);
 
-  activeDwr: any;
-
-  constructor(private router: Router, private dwrServices: CheckInOutService, private toast: ToastService) { }
+  constructor(private router: Router, private dwrServices: CheckInOutService, private toast: ToastService) {
+  }
 
   ngOnInit() {
-    this.initDataRetrieval();
-  }
-
-  async ionViewDidEnter() {
-    this.initDataRetrieval();
-  }
-
-  initDataRetrieval() {
-    this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
-      console.log("Active Check In ", workOrder.dwr);
-      this.activeDwr = workOrder.dwr;
-    })
   }
 
   checkIn() {
+    this.loadingSpinner.next(true)
+
     let data = {
       employeeId: localStorage.getItem("employeeId"),
       role: localStorage.getItem("role"),
@@ -41,18 +34,27 @@ export class CheckInOutComponent implements OnInit {
       .subscribe(
         (res: any) => {
           if (res.status === 200) {
-            this.initDataRetrieval();
+            this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
+              console.log("Active Check In ", workOrder.dwr);
+              this.data = workOrder.dwr;
+              this.loadingSpinner.next(false)
+            })
             this.toast.presentToast("User has checked-In " + this.module + " module", 'success');
           }
         },
         (err) => {
           this.toast.presentToast(err, 'danger');
+          this.loadingSpinner.next(false)
         },
       );
+    this.isModalOpen = false;
   }
 
   checkOut() {
-    let data = { id: this.activeDwr[0].id }
+    console.log(this.data);
+    this.loadingSpinner.next(true)
+
+    let data = { id: this.data[0].id }
     this.dwrServices.updateDWR(data)
       .subscribe(
         (res: any) => {
@@ -61,11 +63,14 @@ export class CheckInOutComponent implements OnInit {
           if (res.status === 200) {
             this.toast.presentToast("Checked Out from last module successfully!", 'success');
             this.router.navigateByUrl('/tabs/home');
+            this.loadingSpinner.next(false)
           }
         },
         (err) => {
           this.toast.presentToast(err, 'danger');
+          this.loadingSpinner.next(false)
         },
       );
   }
+
 }

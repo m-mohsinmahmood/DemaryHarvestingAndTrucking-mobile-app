@@ -27,6 +27,23 @@ export class ExistingOrderPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.initDataRetrieval();
+  }
+
+  async ionViewDidEnter() {
+    this.initDataRetrieval();
+  }
+
+  initDataRetrieval() {
+    this.segment = 'existing'; // For Segment
+    this.completeOrdersCount = 0;
+    this.existingOrdersCount = 0;
+
+    this.dataLoaded = {
+      completedList: false,
+      existingList: false
+    }
+
     this.completedWorkOrders = this.farmingService.getAllWorkOrders('', 'completed_work_order', localStorage.getItem('employeeId'));
 
     this.completedWorkOrders.subscribe((customers) => {
@@ -43,4 +60,5 @@ export class ExistingOrderPage implements OnInit {
       console.log(customers);
     });
   }
+
 }

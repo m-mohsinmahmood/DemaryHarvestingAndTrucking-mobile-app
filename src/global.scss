@@ -34,3 +34,8 @@ button {
 ion-toast.custom-toast::part(message) {
   color: rgb(255, 255, 255);
 }
+
+ion-spinner {
+  --color: #ffffff
+}
+

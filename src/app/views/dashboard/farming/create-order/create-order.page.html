@@ -1,5 +1,5 @@
 <app-header [title]="'Create New Work Order'" [color]="'farming'"></app-header>
-<app-timer [value]="'12-10-2022'"> </app-timer>
+<!-- <app-timer [value]="'12-10-2022'"> </app-timer> -->
 <ion-content>
   <!--------- Role Dispatcher --------------->
   <div class="p-4" *ngIf="role === 'dispatcher'">
@@ -61,7 +61,7 @@
               <div class="flex items-center justify-between gap-x-2 rounded-md">
                 <input (keyup)="farm_search$.next($event.target.value)" [value]="farm_name" (click)="inputClickedFarm()"
                   #farmsInput
-                  class="w-full px-4 py-2.5 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
+                  class="{{isDisabled? 'pointer-events-none bg-gray-200 w-full px-4 py-2.5 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500': 'w-full px-4 py-2.5 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500'}}"
                   placeholder="Select Farm" role="" aria-expanded="false" aria-controls="options">
               </div>
 
@@ -100,7 +100,7 @@
               <div class="flex items-center justify-between gap-x-2 rounded-md">
                 <input (keyup)="field_search$.next($event.target.value)" [value]="field_name"
                   (click)="inputClickedField()" #fieldsInput
-                  class="w-full px-4 py-2.5 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
+                  class="{{isFieldDisabled? 'pointer-events-none bg-gray-200 w-full px-4 py-2.5 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500': 'w-full px-4 py-2.5 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500'}}"
                   placeholder="Select Field" role="" aria-expanded="false" aria-controls="options">
               </div>
 
@@ -138,7 +138,7 @@
         </div>
 
         <!--Service-->
-        <div role="dialog" aria-modal="true">
+        <!-- <div role="dialog" aria-modal="true">
           <div class="mb-4 relative z-60">
             <div class="mx-auto max-w-full transform rounded-xl px-0  transition-all">
               <label class="block text-sm font-medium text-gray-700 mb-1">Service <span *ngIf="isServiceSelected"
@@ -174,6 +174,23 @@
               </div>
             </div>
           </div>
+        </div> -->
+        <div class=" mb-4">
+          <form [formGroup]="createOrderDispatcher">
+            <label class="block text-sm font-medium text-gray-700">Service/Equipment Type</label>
+            <ion-select formControlName="service" placeholder="Select Service" class="border-2 rounded-lg">
+              <ion-select-option value="Ripper" class="font-Lato">Ripper</ion-select-option>
+              <ion-select-option value="Offset Disking" class="font-Lato">Offset Disking</ion-select-option>
+              <ion-select-option value="Drilling" class="font-Lato">Drilling</ion-select-option>
+              <ion-select-option value="Offset Disking & Crumbler" class="font-Lato">Offset Disking & Crumbler</ion-select-option>
+              <ion-select-option value="Listing" class="font-Lato">Listing</ion-select-option>
+              <ion-select-option value="Tiger" class="font-Lato">Tiger</ion-select-option>
+              <ion-select-option value="Swathing - 35' Draper" class="font-Lato">Swathing - 35' Draper</ion-select-option>
+              <ion-select-option value="Swathing - 15' Draper" class="font-Lato">Swathing - 15' Draper</ion-select-option>
+              <ion-select-option value="Tilling" class="font-Lato">Tilling</ion-select-option>
+              <ion-select-option value="Seeding" class="font-Lato">Seeding</ion-select-option>
+            </ion-select>
+          </form>
         </div>
 
         <!-- Tractor Driver -->
@@ -233,9 +250,10 @@
         </div>
 
       </div>
-      <ion-button [disabled]="this.createOrderDispatcher.invalid" expand="block" class="mt-5 font-Lato text-white"
-        (click)="navigateTo('/tabs/home/farming')">Create New
-        Work Order
+      <ion-button [disabled]="this.createOrderDispatcher.invalid || (loadingSpinner | async)" expand="block"
+        class="mt-5 font-Lato text-white" (click)="navigateTo('/tabs/home/farming')">
+        <div *ngIf="(loadingSpinner | async) === false">Create New Work Order</div>
+        <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
       </ion-button>
     </form>
   </div>
@@ -387,7 +405,7 @@
               <div class="flex items-center justify-between gap-x-2 rounded-md">
                 <input (keyup)="farm_search$.next($event.target.value)" [value]="farm_name" (click)="inputClickedFarm()"
                   #farmsInput
-                  class="{{isDisabled? 'pointer-events-none bg-gray-200 w-full px-4 py-2.5 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500': 'w-full px-4 py-2.5 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500'}}"
+                  class="{{isDisabled? 'pointer-events-none bg-gray-200 w-full px-4 py-2.5 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500': 'w-full px-4 py-2.5 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500'}}"
                   placeholder="Select Farm" role="" aria-expanded="false" aria-controls="options">
               </div>
 
@@ -426,7 +444,7 @@
               <div class="flex items-center justify-between gap-x-2 rounded-md">
                 <input (keyup)="field_search$.next($event.target.value)" [value]="field_name"
                   (click)="inputClickedField()" #fieldsInput
-                  class="{{isDisabled? 'pointer-events-none bg-gray-200 w-full px-4 py-2.5 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500': 'w-full px-4 py-2.5 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500'}}"
+                  class="{{isFieldDisabled? 'pointer-events-none bg-gray-200 w-full px-4 py-2.5 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500': 'w-full px-4 py-2.5 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500'}}"
                   placeholder="Select Field" role="" aria-expanded="false" aria-controls="options">
               </div>
 
@@ -464,7 +482,7 @@
         </div>
 
         <!--Service-->
-        <div role="dialog" aria-modal="true">
+        <!-- <div role="dialog" aria-modal="true">
           <div class="mb-4 relative z-10">
             <div class="mx-auto max-w-full transform rounded-xl px-0  transition-all">
               <label class="block text-sm font-medium text-gray-700 mb-1">Service <span *ngIf="isServiceSelected"
@@ -500,6 +518,23 @@
               </div>
             </div>
           </div>
+        </div> -->
+        <div class=" mb-4">
+          <form [formGroup]="createOrderTDriver">
+            <label class="block text-sm font-medium text-gray-700">Service/Equipment Type</label>
+            <ion-select formControlName="service" placeholder="Select Service" class="border-2 rounded-lg">
+              <ion-select-option value="Ripper" class="font-Lato">Ripper</ion-select-option>
+              <ion-select-option value="Offset Disking" class="font-Lato">Offset Disking</ion-select-option>
+              <ion-select-option value="Drilling" class="font-Lato">Drilling</ion-select-option>
+              <ion-select-option value="Offset Disking & Crumbler" class="font-Lato">Offset Disking & Crumbler</ion-select-option>
+              <ion-select-option value="Listing" class="font-Lato">Listing</ion-select-option>
+              <ion-select-option value="Tiger" class="font-Lato">Tiger</ion-select-option>
+              <ion-select-option value="Swathing - 35' Draper" class="font-Lato">Swathing - 35' Draper</ion-select-option>
+              <ion-select-option value="Swathing - 15' Draper" class="font-Lato">Swathing - 15' Draper</ion-select-option>
+              <ion-select-option value="Tilling" class="font-Lato">Tilling</ion-select-option>
+              <ion-select-option value="Seeding" class="font-Lato">Seeding</ion-select-option>
+            </ion-select>
+          </form>
         </div>
 
         <div class="col-span-12 mb-4">
@@ -518,11 +553,11 @@
             class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
             formControlName="phone" placeholder="Enter Customer Phone" readonly>
         </div>
-
       </div>
-      <ion-button [disabled]="this.createOrderTDriver.invalid" expand="block" class="mt-5 font-Lato text-white"
-        (click)="navigateTo('/tabs/home/farming')">Generate
-        Ticket
+      <ion-button [disabled]="this.createOrderTDriver.invalid || (loadingSpinner | async)" expand="block"
+        class="mt-5 font-Lato text-white" (click)="navigateTo('/tabs/home/farming')">
+        <div *ngIf="(loadingSpinner | async) === false">Generate Ticket</div>
+        <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
       </ion-button>
     </form>
   </div>

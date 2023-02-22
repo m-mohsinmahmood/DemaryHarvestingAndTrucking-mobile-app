@@ -92,6 +92,20 @@ export class TruckingService {
       .pipe(take(1));
   }
 
+  getMotorizedVehicles(
+    id: string
+  ) {
+    this._httpClient;
+    let params = new HttpParams();
+    params = params.set('id', id);
+
+    return this._httpClient
+      .get<any>('api-1/motorized-vehicles', {
+        params,
+      })
+      .pipe(take(1));
+  }
+
   getDeliveryTickets(
     role: string,
     ticketStatus: string,
@@ -108,14 +122,11 @@ export class TruckingService {
     params = params.set('employeeId', employeeId);
     params = params.set('truckingType', truckingType);
 
-    if (isTicketInfoComplete != null)
-      {params = params.set('isTicketInfoComplete', isTicketInfoComplete);}
+    if (isTicketInfoComplete != null) { params = params.set('isTicketInfoComplete', isTicketInfoComplete); }
 
-    if (isTicketActive != null)
-      {params = params.set('isTicketActive', isTicketActive);}
+    if (isTicketActive != null) { params = params.set('isTicketActive', isTicketActive); }
 
-    if (isPreCHeckFilled != null)
-      {params = params.set('isPreCheckFilled', isPreCHeckFilled);}
+    if (isPreCHeckFilled != null) { params = params.set('isPreCheckFilled', isPreCHeckFilled); }
 
     return this._httpClient
       .get<any>('api-1/delivery_ticket_trucking', {

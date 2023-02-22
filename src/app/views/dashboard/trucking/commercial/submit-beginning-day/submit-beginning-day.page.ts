@@ -32,6 +32,7 @@ export class SubmitBeginningDayPage implements OnInit {
   isDisabled: any = true;
   private _unsubscribeAll: Subject<any> = new Subject<any>();
   data: Observable<any>;
+  allMotorizedVehicle: Observable<any>;
   workOrderCount = -1;
   dataLoaded = false;
   role;
@@ -39,11 +40,10 @@ export class SubmitBeginningDayPage implements OnInit {
   constructor(private toast: ToastService, private formBuilder: FormBuilder, private router: Router, private truckingService: TruckingService, private renderer: Renderer2) {
     // if (localStorage.getItem('role') === 'tractor-driver') {
     this.renderer.listen('window', 'click', (e) => {
-      if (e.target !== this.machineryInput.nativeElement) {
-        this.allMachinery = of([]); // to clear array
-        this.machineryUL = false; // to hide the UL
-      }
-      console.log(this.workOrderCount);
+      // if (e.target !== this.machineryInput.nativeElement) {
+      //   this.allMachinery = of([]); // to clear array
+      //   this.machineryUL = false; // to hide the UL
+      // }
 
       if (this.workOrderCount >= 0) {
         if (e.target !== this.workOrderInput.nativeElement) {
@@ -58,7 +58,7 @@ export class SubmitBeginningDayPage implements OnInit {
   ngOnInit() {
     this.role = localStorage.getItem('role');
 
-    this.machinerySearchSubscription();
+    // this.machinerySearchSubscription();
     this.workOrderSearchSubscription();
 
     // this.farmingService.getBeginningOfDay(localStorage.getItem('employeeId'), 'beginningOfDay').subscribe(workOrder => {
@@ -266,8 +266,17 @@ export class SubmitBeginningDayPage implements OnInit {
 
     // assigning values in form
     this.submitBeginningDay.patchValue({
-      deliveryTicketId: workOrder.id
+      deliveryTicketId: workOrder.id,
+      machineryId: workOrder.truck_id
     });
+
+    this.allMotorizedVehicle = this.truckingService.getMotorizedVehicles(this.submitBeginningDay.get('machineryId').value);
+    this.allMotorizedVehicle.subscribe(param => {
+      console.log(param);
+      this.submitBeginningDay.patchValue({
+        begining_odometer_miles: param.odometer_reading_end
+      });
+    })
 
     // clearing array
     this.allWorkOrder = of([]);

@@ -66,7 +66,7 @@
   </ion-grid>
 
   <!-- MODEL -->
-  <app-check-in-out [module]="'harvesting'">
+  <app-check-in-out [isModalOpen]="isModalOpen" [data]="activeDwr" *ngIf="activeDwr" [module]="'harvesting'">
   </app-check-in-out>
 </ion-content>
 
@@ -99,7 +99,7 @@
     </ion-row>
 
     <!-- MODEL -->
-    <app-check-in-out [module]="'harvesting'">
+    <app-check-in-out [isModalOpen]="isModalOpen" [data]="activeDwr" *ngIf="activeDwr" [module]="'harvesting'">
     </app-check-in-out>
   </ion-grid>
 </ion-content>
@@ -178,7 +178,7 @@
     </ion-row>
 
     <!-- MODEL -->
-    <app-check-in-out [module]="'harvesting'">
+    <app-check-in-out [isModalOpen]="isModalOpen" [data]="activeDwr" *ngIf="activeDwr" [module]="'harvesting'">
     </app-check-in-out>
   </ion-grid>
 </ion-content>
@@ -206,8 +206,8 @@
           <ion-card-content>
             <div class="flex justify-center items-center">
               <p class="font-15px font-bold font-Lato">Complete Delivery Tickets</p>
-              <span
-                class="text-white font-semibold ml-2 bg-project-green w-7 h-7 rounded-full flex justify-center items-center">6</span>
+              <!-- <span -->
+              <!-- class="text-white font-semibold ml-2 bg-project-green w-7 h-7 rounded-full flex justify-center items-center">6</span> -->
             </div>
           </ion-card-content>
         </ion-card>
@@ -222,7 +222,7 @@
     </ion-row>
 
     <!-- MODEL -->
-    <app-check-in-out [module]="'harvesting'">
+    <app-check-in-out [isModalOpen]="isModalOpen" [data]="activeDwr" *ngIf="activeDwr" [module]="'harvesting'">
     </app-check-in-out>
   </ion-grid>
 

@@ -29,6 +29,14 @@ export class VerifyOrdersPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.initDataRetrieval();
+  }
+
+  async ionViewDidEnter() {
+    this.initDataRetrieval();
+  }
+
+  initDataRetrieval() {
     this.sentCount = 0;
     this.pendingCount = 0;
     this.verifiedCount = 0;

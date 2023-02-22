@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Subject, Observable, of } from 'rxjs';
+import { Subject, Observable, of, BehaviorSubject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { FarmingService } from '../farming.service';
 import { ToastService } from 'src/app/services/toast/toast.service';
@@ -35,6 +35,7 @@ export class SubmitBeginningDayPage implements OnInit {
   data: Observable<any>;
   workOrderCount = -1;
   dataLoaded = false;
+  public loadingSpinner = new BehaviorSubject(false);
 
   constructor(private toast: ToastService, private formBuilder: FormBuilder, private router: Router, private farmingService: FarmingService, private renderer: Renderer2) {
     if (localStorage.getItem('role') === 'tractor-driver') {
@@ -56,6 +57,14 @@ export class SubmitBeginningDayPage implements OnInit {
   }
 
   ngOnInit() {
+    this.initDataRetrieval();
+  }
+
+  async ionViewDidEnter() {
+    this.initDataRetrieval();
+  }
+
+  initDataRetrieval() {
     this.machinerySearchSubscription();
     this.workOrderSearchSubscription();
 
@@ -77,6 +86,7 @@ export class SubmitBeginningDayPage implements OnInit {
   }
 
   navigateTo(nav: string) {
+    this.loadingSpinner.next(true)
     console.log(this.submitBeginningDay.value);
 
     this.farmingService.updateWorkOrder(this.submitBeginningDay.value, 'tractor-driver', 'submitBeginningDay')
@@ -97,10 +107,12 @@ export class SubmitBeginningDayPage implements OnInit {
           if (res.status === 200) {
             this.toast.presentToast("DWR has been created successfully!", 'success');
             this.router.navigateByUrl(nav);
+            this.loadingSpinner.next(false)
           }
         },
         (err) => {
           this.toast.presentToast(err, 'danger');
+          this.loadingSpinner.next(false)
         },
       );
   }

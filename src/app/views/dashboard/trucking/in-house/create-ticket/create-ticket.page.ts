@@ -5,6 +5,7 @@ import { Subject, Observable, of } from 'rxjs';
 import { ToastService } from 'src/app/services/toast/toast.service';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { TruckingService } from '../../trucking.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-create-ticket',
@@ -122,11 +123,12 @@ export class CreateTicketPage implements OnInit {
       dispatcherNotes: [''],
       customerId: ['', [Validators.required]],
     });
+
     this.createTicketFormTruckDriverInHouse = this.formBuilder.group({
       dispatcherId: ['', [Validators.required]],
       driverId: [localStorage.getItem('employeeId')],
       load: ['', [Validators.required]],
-      loadDate: ['', [Validators.required]],
+      loadDate: [moment().format("MM-DD-YYYY"), [Validators.required]],
       cargo: ['', [Validators.required]],
       originCity: ['', [Validators.required]],
       destinationCity: ['', [Validators.required]],
@@ -136,10 +138,10 @@ export class CreateTicketPage implements OnInit {
       originBeginingOdometerReading: ['', [Validators.required]],
       destinationEndingnOdometerReading: ['', [Validators.required]],
       customerId: ['', [Validators.required]],
-      deadHeadMiles: ['12345'],
-      totalJobMiles: ['12345'],
-      totalTripMiles: ['12345'],
-      truckDriverNotes: ['12345']
+      deadHeadMiles: [''],
+      totalJobMiles: [''],
+      totalTripMiles: [''],
+      truckDriverNotes: ['']
     });
   }
 

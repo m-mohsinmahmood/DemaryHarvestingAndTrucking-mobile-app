@@ -57,7 +57,6 @@ export class CommercialPage implements OnInit {
     console.log(localStorage.getItem('role'));
     console.log(localStorage.getItem('employeeId'));
 
-
     if (this.role === 'dispatcher') {
       // If Dispatcher Logs In
       this.pendingWorkOrders = this.truckingService.getDeliveryTickets(this.role, 'pending', localStorage.getItem('employeeId'), 'commercial');
@@ -78,11 +77,12 @@ export class CommercialPage implements OnInit {
 
       this.activeWorkOrders = this.truckingService.getDeliveryTickets(this.role, 'sent', localStorage.getItem('employeeId'), 'commercial', true, true, false);
       this.activeWorkOrders.subscribe((workOrders) => {
+        this.activeTicket = workOrders.workOrders[0];
         if (this.activeTicket !== undefined && !this.activeTicket.hasOwnProperty('preRoute')) {
           this.activeTicket.preRoute = '/tabs/home/trucking/commercial';
           this.activeTicket.module = 'trucking';
         }
-        this.activeTicket = workOrders.workOrders[0];
+
         this.dataCount.active = workOrders.count;
         console.log("Active: ", workOrders);
       });

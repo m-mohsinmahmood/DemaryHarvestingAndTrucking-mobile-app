@@ -1,7 +1,7 @@
 <app-header [title]="'Verify Delivery Ticket'" [color]="'harvesting'"></app-header>
 <!-- Kart Operator -->
 <ion-content *ngIf="role === 'kart-operator'">
-  <app-timer [value]="'09:12:14'"></app-timer>
+  <!-- <app-timer [value]="'09:12:14'"></app-timer> -->
   <div class="p-2">
     <div class="segment-style">
       <ion-segment [(ngModel)]="segment" scrollable (ionChange)="segmentChange($event)">

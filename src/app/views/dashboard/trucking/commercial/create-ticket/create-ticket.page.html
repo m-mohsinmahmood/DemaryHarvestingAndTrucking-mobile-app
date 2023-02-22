@@ -3,7 +3,7 @@
 </app-header>
 
 <ion-content *ngIf="role === 'dispatcher'">
-  <app-timer [value]="'22-22-2022'"></app-timer>
+  <!-- <app-timer [value]="'22-22-2022'"></app-timer> -->
   <div class="p-4">
 
     <!-------- Role Dispatcher ------------>
@@ -75,7 +75,7 @@
                 *ngIf="this.createTicketFormDispatcher.get('loadDate').hasError('required')">*</span></label>
             <input
               class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-              formControlName="loadDate" placeholder="Load Date" value="Confusion">
+              formControlName="loadDate" placeholder="Load Date" readonly>
           </div>
 
           <!-- Truck Driver -->
@@ -219,7 +219,7 @@
 </app-header>
 
 <ion-content *ngIf="role === 'truck-driver'">
-  <app-timer [value]="'22-22-2022'"></app-timer>
+  <!-- <app-timer [value]="'22-22-2022'"></app-timer> -->
   <div class="p-4">
     <div>
       <form [formGroup]="createTicketFormTruckDriver">
@@ -592,21 +592,21 @@
             <label class="block text-sm font-medium text-gray-700">Total Trip Miles</label>
             <input
               class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-              readonly formControlName="totalTripMiles" placeholder="12345">
+              formControlName="totalTripMiles" placeholder="Total Trip Miles">
           </div>
 
           <div class="col-span-12 mb-4">
             <label class="block text-sm font-medium text-gray-700">Dead-Head Miles</label>
             <input
               class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-              readonly formControlName="deadHeadMiles" placeholder="12345">
+              formControlName="deadHeadMiles" placeholder="Dead-Head Miles">
           </div>
 
           <div class="col-span-12 mb-4">
             <label class="block text-sm font-medium text-gray-700">Total Job Miles</label>
             <input
               class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-              readonly formControlName="totalJobMiles" placeholder="12345">
+              formControlName="totalJobMiles" placeholder="Total Job Miles">
           </div>
 
           <div class="col-span-12 mb-4">
@@ -618,8 +618,7 @@
               formControlName="truckDriverNotes" placeholder="Driver Notes">
           </div>
 
-          <ion-button expand="block" class="mt-5 font-Lato text-white"
-         (click)="navigateTruckDriver()">Save and
+          <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="navigateTruckDriver()">Save and
             Submit
           </ion-button>
         </ion-list>

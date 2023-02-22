@@ -8,7 +8,7 @@ role ==='truck-driver'? 'Submit End of Day Work Data' : ''"
 
 <!-- Crew Chief -->
 <ion-content *ngIf="role === 'crew-chief'">
-  <app-timer [value]="'22:32:43'"></app-timer>
+  <!-- <app-timer [value]="'22:32:43'"></app-timer> -->
   <div class="p-4">
     <div>
       <form [formGroup]="closeJobFormCrew">
@@ -42,7 +42,7 @@ role ==='truck-driver'? 'Submit End of Day Work Data' : ''"
 
 <!-- Combine-Operator -->
 <ion-content *ngIf="role === 'combine-operator'">
-  <app-timer [value]="'22:32:43'"></app-timer>
+  <!-- <app-timer [value]="'22:32:43'"></app-timer> -->
   <div class="p-4">
 
     <ion-card class="m-0 mb-2">
@@ -113,7 +113,7 @@ role ==='truck-driver'? 'Submit End of Day Work Data' : ''"
 
 <!-- Kart-Operator -->
 <ion-content *ngIf="role === 'kart-operator'">
-  <app-timer [value]="'23:22:01'"></app-timer>
+  <!-- <app-timer [value]="'23:22:01'"></app-timer> -->
   <div class="p-4">
     <form [formGroup]="closeJobFormKart">
       <div class="px-2">
@@ -135,7 +135,7 @@ role ==='truck-driver'? 'Submit End of Day Work Data' : ''"
 
 <!-- Truck Driver -->
 <ion-content *ngIf="role === 'truck-driver'">
-  <app-timer [value]="'23:14:12'"></app-timer>
+  <!-- <app-timer [value]="'23:14:12'"></app-timer> -->
   <div class="p-4">
     <form [formGroup]="closeJobFormTruck">
       <div class="px-2">

@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Subject, Observable, of } from 'rxjs';
+import { Subject, Observable, of, BehaviorSubject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { FarmingService } from './../../farming.service';
 import { ToastService } from 'src/app/services/toast/toast.service';
@@ -75,7 +75,9 @@ export class CompleteExistingOrderPage implements OnInit {
   serviceUL: any = false;
   service_name: any = '';
 
+  isFieldDisabled: any = true;
   isDisabled: any = true;
+  public loadingSpinner = new BehaviorSubject(false);
 
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
@@ -92,15 +94,47 @@ export class CompleteExistingOrderPage implements OnInit {
           this.dispatcherUL = false; // to hide the UL
         }
         if (e.target !== this.customerInput.nativeElement) {
+          // if (this.customerSearchValue === '' || this.customerSearchValue === undefined) {
+          //   this.isDisabled = true;
+          //   this.farm_name = '';
+          //   this.customerUL = false; // to hide the UL
+          //   this.isCustomerSelected = true;
+          //   this.isFarmSelected = true;
+          //   this.isFieldDisabled = true;
+          // }
+          // else {
+          //   this.isDisabled = false;
+          //   this.allCustomers = of([]); // to clear array     
+          //   this.customerUL = false; // to hide the UL
+          // }
           this.allCustomers = of([]); // to clear array
           this.customerUL = false; // to hide the UL
-          // this.isDisabled = this.completeExistingWorkOrder.controls['customerId'].value === '' ? true : false;
+          this.isDisabled = this.completeExistingWorkOrder.controls['customerId'].value === '' ? true : false;
         }
         if (e.target !== this.farmsInput.nativeElement) {
+          // if (this.farmSearchValue === '' || this.farmSearchValue === undefined) {
+          //   this.isFieldDisabled = true;
+          //   this.field_name = '';
+          //   this.farmUL = false;
+          // } else {
+          //   this.isFieldDisabled = false;
+          //   this.allFarms = of([]);
+          // }
           this.allFarms = of([]); // to clear array
           this.farmUL = false; // to hide the UL
         }
         if (e.target !== this.fieldsInput.nativeElement) {
+          // if (this.fieldSearchValue === '' || this.farmSearchValue === undefined) {
+          //   this.completeExistingWorkOrder.patchValue({
+          //     totalAcres: null
+          //   });
+          //   this.allFields = of([]); // to clear array
+          //   this.fieldUL = false; // to hide the UL
+
+          // } else {
+          //   this.allFields = of([]); // to clear array
+          //   this.fieldUL = false; // to hide the UL
+          // }
           this.allFields = of([]); // to clear array
           this.fieldUL = false; // to hide the UL
         }
@@ -108,21 +142,25 @@ export class CompleteExistingOrderPage implements OnInit {
           this.allMachinery = of([]); // to clear array
           this.machineryUL = false; // to hide the UL
         }
-        if (e.target !== this.serviceInput.nativeElement) {
-          this.allServices = of([]); // to clear array
-          this.serviceUL = false; // to hide the UL
-        }
+        // if (e.target !== this.serviceInput.nativeElement) {
+        //   this.allServices = of([]); // to clear array
+        //   this.serviceUL = false; // to hide the UL
+        // }
       });
     })
   }
 
   ngOnInit() {
+    this.isCustomerSelected = false;
+    this.isFarmSelected = false;
+    this.isFieldSelected = false;
+
     this.machinerySearchSubscription();
     this.dispatcherSearchSubscription();
     this.customerSearchSubscription();
     this.farmSearchSubscription();
     this.fieldSearchSubscription();
-    this.serviceSearchSubscription();
+    // this.serviceSearchSubscription();
 
     this.completeExistingWorkOrder = this.formBuilder.group({
       workOrderId: [this.data.work_order_id],
@@ -147,17 +185,7 @@ export class CompleteExistingOrderPage implements OnInit {
   }
 
   navigateTo(nav: string) {
-    // let jobResult = {
-    //   service?: this.data.service,
-    //   customer_id?: this.data.customer_id,
-    //   farm_id?: this.data.farm_id,
-    //   field_id?: this.data.field_id,
-    //   acres?: string;
-    //   gps_acres?: string;
-    //   engine_hours?: string;
-    //   job_type?: string;
-    //   dispatcher_id?: string;
-    // }
+    this.loadingSpinner.next(true)
 
     this.completeExistingWorkOrder.value.completeInfo = true;
     console.log(this.completeExistingWorkOrder.value);
@@ -169,10 +197,14 @@ export class CompleteExistingOrderPage implements OnInit {
           if (res.status === 200) {
             this.toast.presentToast("Work Order has been updated successfully!", 'success');
             this.activeRoute.navigateByUrl(nav);
+            this.loadingSpinner.next(false)
+
           }
         },
         (err) => {
           this.toast.presentToast(err, 'danger');
+          this.loadingSpinner.next(false)
+
         },
       );
   }
@@ -388,9 +420,11 @@ export class CompleteExistingOrderPage implements OnInit {
         takeUntil(this._unsubscribeAll)
       )
       .subscribe((value: string) => {
+        // passing for renderer2       
+        this.customerSearchValue = value;
+
         // for asterik to look required
         if (value === '') { this.isCustomerSelected = true; }
-
 
         this.allCustomers = this.farmingService.getCustomers(
           value,
@@ -404,10 +438,11 @@ export class CompleteExistingOrderPage implements OnInit {
         this.allCustomers.subscribe((customers) => {
           if (customers.count === 0) {
             this.isDisabled = true;
+            this.isFieldDisabled = true
 
             // clearing the input values in farm, crop after getting disabled
             this.farm_name = '';
-            // this.crop_name = '';
+            this.field_name = ''
 
             // hiding UL
             this.customerUL = false;
@@ -486,6 +521,9 @@ export class CompleteExistingOrderPage implements OnInit {
     // passing name in select's input
     this.customer_name = customer.customer_name;
 
+    // passing name in customer-search-value in Rendered2 for checks 
+    this.customerSearchValue = customer.customer_name;
+
     // to enable submit button
     this.isCustomerSelected = false;
 
@@ -506,6 +544,9 @@ export class CompleteExistingOrderPage implements OnInit {
         takeUntil(this._unsubscribeAll)
       )
       .subscribe((value: string) => {
+        // passing for renderer2       
+        this.farmSearchValue = value;
+
         // for asterik to look required
         if (value === '') { this.isFarmSelected = true; }
         this.allFarms = this.farmingService.getFarms(
@@ -519,9 +560,11 @@ export class CompleteExistingOrderPage implements OnInit {
           if (farms.count === 0) {
             // hiding UL
             this.farmUL = false;
+            this.isFieldDisabled = true;
           } else {
             // showing UL
             this.farmUL = true;
+            this.isFieldDisabled = false;
           }
         });
       });
@@ -556,9 +599,11 @@ export class CompleteExistingOrderPage implements OnInit {
       if (farms.count === 0) {
         // hiding UL
         this.farmUL = false;
+        this.isFieldDisabled = true;
       } else {
         // showing UL
         this.farmUL = true;
+        this.isFieldDisabled = false;
       }
     });
   }
@@ -572,6 +617,9 @@ export class CompleteExistingOrderPage implements OnInit {
     });
     // clearing array
     this.allFarms = of([]);
+
+    // passing name in farm-search-value in Rendered2 for checks 
+  this.farmSearchValue = farm.name;
 
     // For Specific Fields
     this.farmId = farm.id;
@@ -594,6 +642,9 @@ export class CompleteExistingOrderPage implements OnInit {
         takeUntil(this._unsubscribeAll)
       )
       .subscribe((value: string) => {
+        // passing for renderer2       
+        this.fieldSearchValue = value;
+
         // for asterik to look required
         if (value === '') { this.isFieldSelected = true; }
         this.allFields = this.farmingService.getFields(
@@ -608,6 +659,9 @@ export class CompleteExistingOrderPage implements OnInit {
           if (fields.count === 0) {
             // hiding UL
             this.fieldUL = false;
+            this.completeExistingWorkOrder.patchValue({
+              totalAcres: null
+            });
           } else {
             // showing UL
             this.fieldUL = true;
@@ -647,6 +701,9 @@ export class CompleteExistingOrderPage implements OnInit {
       if (fields.count === 0) {
         // hiding UL
         this.fieldUL = false;
+        this.completeExistingWorkOrder.patchValue({
+          totalAcres: null
+        });
       } else {
         // showing UL
         this.fieldUL = true;
@@ -674,6 +731,9 @@ export class CompleteExistingOrderPage implements OnInit {
 
     // passing name in select's input
     this.field_name = field.field_name;
+
+    // passing name in customer-search-value in Rendered2 for checks 
+    this.fieldSearchValue = field.field_name;
 
     // to enable submit button
     this.isFieldSelected = false;

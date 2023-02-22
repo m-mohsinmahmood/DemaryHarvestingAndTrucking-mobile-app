@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { FarmingService } from './../farming.service';
 import { ToastService } from 'src/app/services/toast/toast.service';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-submit-end-day',
@@ -14,11 +15,26 @@ export class SubmitEndDayPage implements OnInit {
   submitEndDayWorkOrder: FormGroup;
   workOrderCount: any;
   workOrder: any;
+  checkInData;
+  public loadingSpinner = new BehaviorSubject(false);
 
-  constructor(private toast: ToastService, private router: Router, private formBuilder: FormBuilder, private farmingService: FarmingService) {
+  constructor(private activeRoute: ActivatedRoute, private toast: ToastService, private router: Router, private formBuilder: FormBuilder, private farmingService: FarmingService) {
   }
 
   ngOnInit() {
+    this.initDataRetrieval();
+  }
+
+  async ionViewDidEnter() {
+    this.initDataRetrieval();
+  }
+
+  initDataRetrieval() {
+    this.activeRoute.params.subscribe(param => {
+      console.log("Check In: ", param);
+
+      this.checkInData = param;
+    })
 
     this.farmingService.getBeginningOfDay(localStorage.getItem('employeeId'), 'beginningOfDay', 'farming').subscribe(workOrder => {
       this.workOrderCount = workOrder.count;
@@ -30,17 +46,28 @@ export class SubmitEndDayPage implements OnInit {
     this.submitEndDayWorkOrder = this.formBuilder.group({
       employeeId: [localStorage.getItem('employeeId')],
       acresCompleted: ['', [Validators.required]],
-      // gpsAcres: ['', [Validators.required]],
       endingEngineHours: ['', [Validators.required]],
       hoursWorked: ['', [Validators.required]],
-      notes: ['', [Validators.required]]
+      notes: ['', [Validators.required]],
+      module:[this.checkInData.module],
+      dwrId:[this.checkInData.id]
     });
   }
 
   navigateTo() {
+    this.loadingSpinner.next(true)
+
     this.submitEndDayWorkOrder.value.machineryID = this.workOrder[0].machinery_id;
 
     console.log(this.submitEndDayWorkOrder.value);
+
+    this.farmingService.updateEndingEngineHours(
+      {
+        id: this.workOrder.machinery_id,
+        endingEngineHours: this.submitEndDayWorkOrder.get("endingEngineHours").value
+      }
+    );
+
     this.farmingService.closeBeginningDay(this.submitEndDayWorkOrder.value, this.workOrder[0])
       .subscribe(
         (res: any) => {
@@ -49,10 +76,13 @@ export class SubmitEndDayPage implements OnInit {
           if (res.status === 200) {
             this.toast.presentToast("Day has been closed successfully!", 'success');
             this.router.navigateByUrl('/tabs/home/farming');
+            this.loadingSpinner.next(false)
+
           }
         },
         (err) => {
           this.toast.presentToast(err, 'danger');
+          this.loadingSpinner.next(false)
         },
       );
 

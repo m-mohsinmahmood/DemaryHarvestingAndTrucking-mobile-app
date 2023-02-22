@@ -1,6 +1,6 @@
 <app-header [title]="'Verify Work Order'" [color]="'farming'"></app-header>
 <ion-content>
-  <app-timer [value]="'12-10-2022'"> </app-timer>
+  <!-- <app-timer [value]="'12-10-2022'"> </app-timer> -->
 
   <ion-card>
     <ion-card-header>
@@ -161,7 +161,7 @@
           </ion-col>
           <ion-col size="6" class="flex flex-col ">
             <p class="font-Lato text-black font-bold font-14">Tractor Driver</p>
-            <span class="font-Lato font-14">{{tractorDriver}}</span>
+            <span class="font-Lato font-14">{{data.tractor_driver_name}}</span>
           </ion-col>
         </ion-row>
 
@@ -194,19 +194,21 @@
           </ion-col>
           <ion-col size="6" class="flex flex-col ">
             <p class="font-Lato text-black font-bold font-14">Hours Worked</p>
-            <span class="font-Lato font-14"></span>
+            <span class="font-Lato font-14">{{data.hours_worked}}</span>
           </ion-col>
         </ion-row>
 
         <ion-row class="h-20 flex content-center pl-4">
-          <ion-col size="6" class="flex flex-col ">
+          <ion-col size="6" class="flex flex-col">
             <p class="font-Lato text-black font-bold font-14">Notes</p>
             <span class="font-Lato font-14">{{data.notes}}</span>
           </ion-col>
         </ion-row>
       </ion-grid>
-      <ion-button expand="block" class="w-10/12 flex mx-auto mt-5 font-Lato  text-white"
-        (click)="navigateTo('/tabs/home/farming')">Verify
+      <ion-button [disabled]="(loadingSpinner | async)" expand="block"
+        class="w-10/12 flex mx-auto mt-5 font-Lato  text-white" (click)="navigateTo('/tabs/home/farming')">
+        <div *ngIf="(loadingSpinner | async) === false">Verify</div>
+        <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
       </ion-button>
 
     </ion-card-content>

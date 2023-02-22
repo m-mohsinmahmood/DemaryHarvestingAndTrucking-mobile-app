@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import * as moment from 'moment';
 import { Subject, Observable, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { ToastService } from 'src/app/services/toast/toast.service';
@@ -149,7 +150,7 @@ export class CreateTicketPage implements OnInit {
       dispatcherId: [localStorage.getItem('employeeId')],
       customerId: ['', [Validators.required]],
       uploadFile: ['', []],
-      loadDate: ['', [Validators.required]],
+      loadDate: [moment().format("MM-DD-YYYY"), [Validators.required]],
       driverId: ['', [Validators.required]],
       load: ['', [Validators.required]],
       rateType: ['', [Validators.required]],
@@ -187,9 +188,9 @@ export class CreateTicketPage implements OnInit {
       destinationDeliveryLoad: ['', [Validators.required]],
       documentsUpload: ['', [Validators.required]],
       truckDriverNotes: ['', [Validators.required]],
-      deadHeadMiles: ['12345'],
-      totalJobMiles: ['12345'],
-      totalTripMiles: ['12345'],
+      deadHeadMiles: ['', [Validators.required]],
+      totalJobMiles: ['', [Validators.required]],
+      totalTripMiles: ['', [Validators.required]],
     });
   }
 
@@ -223,7 +224,7 @@ export class CreateTicketPage implements OnInit {
               uploadFile: this.rateSheetImg,
               loadDate: this.createTicketFormDispatcher.get('loadDate').value,
               driverId: this.tDriver_name,
-              load: this.createTicketFormDispatcher.get('loadDate').value,
+              load: this.createTicketFormDispatcher.get('load').value,
               rateType: this.rate_name,
               cargo: this.createTicketFormDispatcher.get('cargo').value,
               originCity: this.createTicketFormDispatcher.get('originCity').value,

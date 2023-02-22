@@ -1,7 +1,7 @@
 <app-header [title]="'Trucking'" [color]="'trucking'"></app-header>
 
 <ion-content>
-  <app-timer [value]="'12:12:21'"></app-timer>
+  <!-- <app-timer [value]="'12:12:21'"></app-timer> -->
   <ion-grid class="p-2.5">
     <ion-row>
 
@@ -25,7 +25,7 @@
     </ion-row>
 
     <!-- MODEL -->
-    <app-check-in-out [module]="'trucking'">
+    <app-check-in-out [isModalOpen]="isModalOpen" [data]="activeDwr" *ngIf="activeDwr" [module]="'trucking'">
     </app-check-in-out>
   </ion-grid>
 

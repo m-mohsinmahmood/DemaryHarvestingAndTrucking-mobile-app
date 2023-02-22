@@ -38,7 +38,7 @@
     </ion-grid>
     <div class="w-5/12 ml-4">
       <form [formGroup]="selectform">
-        <ion-select [value]="this.selectform.get('select').value" placeholder="Select Role" class="border-2 border-project-green rounded-lg"
+        <ion-select formControlName="select" placeholder="Select Role" class="border-2 border-project-green rounded-lg"
           (ionChange)="onSelect($event)">
           <ion-select-option value="crew-chief" class="font-Lato">Crew Chief</ion-select-option>
           <ion-select-option value="combine-operator" class="font-Lato">Combine Operator</ion-select-option>
