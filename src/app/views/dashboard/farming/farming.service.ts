@@ -199,10 +199,15 @@ export class FarmingService {
   getAllWorkOrders(
     search: string,
     searchClause: string,
-    employeeId?: string
+    employeeId?: string,
+    fieldId?: string,
   ) {
     this._httpClient
     let params = new HttpParams();
+
+    if (fieldId != null)
+      params = params.set('fieldId', fieldId);
+
     params = params.set('search', search);
     params = params.set('searchClause', searchClause);
     params = params.set('employeeId', employeeId);
@@ -227,6 +232,20 @@ export class FarmingService {
 
     return this._httpClient
       .get<any>('api-1/dwr', {
+        params,
+      })
+      .pipe(take(1));
+  }
+
+  getWorkOrderById(
+    workOrderId: string
+  ) {
+    this._httpClient
+    let params = new HttpParams();
+    params = params.set('work_order_id', workOrderId);
+
+    return this._httpClient
+      .get<any>('api-1/work-order-farming', {
         params,
       })
       .pipe(take(1));
