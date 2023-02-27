@@ -44,7 +44,7 @@
             <input (keyup)="traineeSearch$.next($event.target.value)" (click)="inputClickedTrainee()"
               [value]="trainee_name" #traineeInput
               class="{{isFieldDisabled? 'pointer-events-none bg-gray-200 w-full px-4 py-2 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500': 'w-full px-4 py-2 text-gray-900 placeholder:text-sm rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500'}}"
-              placeholder="Select Trainer" role="" aria-expanded="false" aria-controls="options">
+              placeholder="Select Trainee" role="" aria-expanded="false" aria-controls="options">
           </div>
 
           <div *ngIf="allTrainees | withLoading | async as allTrainees" class="">
@@ -260,7 +260,6 @@
                   #upload__1
                   type="file"
                   class=" invisible hidden"
-                  formControlName="uploadDocs1"
                   (change)="onSelectedFiles($event, 'upload_1')"
                 />
               </ion-segment>
@@ -293,7 +292,6 @@
                   #upload__2
                   type="file"
                   class=" invisible hidden"
-                  formControlName="uploadDocs2"
                   (change)="onSelectedFiles($event, 'upload_2')"
                 />
               </ion-segment>
@@ -326,7 +324,6 @@
                   #upload__3
                   type="file"
                   class=" invisible hidden"
-                  formControlName="uploadDocs3"
                   (change)="onSelectedFiles($event, 'upload_3')"
 
                 />

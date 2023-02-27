@@ -21,7 +21,7 @@ export class AppComponent {
 
   checkDevicePlatform(){
     if(this.isMobileDevice){
-      this.router.navigate(['tabs/home']);
+      this.router.navigate(['login']);
     } ;
   }
 

@@ -66,7 +66,7 @@ private _unsubscribeAll: Subject<any> = new Subject<any>();
 
      // getting Employee profile data
     this.getEmployee();
-    console.log('id:::',Math.random().toString(16).slice(2));
+    console.log('id:::',Math.random().toString(16).slice(9));
 
   }
   initForms(){
@@ -76,7 +76,7 @@ private _unsubscribeAll: Subject<any> = new Subject<any>();
       city: ['', Validators.required],
       state: ['', Validators.required],
       ticketType: ['', Validators.required],
-      repairTicketId: [Math.random().toString(16).slice(2)],
+      repairTicketId: [Math.random().toString(16).slice(9)],
       issueCategory: ['', Validators.required],
       severityType: ['', Validators.required],
       status: ['', Validators.required],

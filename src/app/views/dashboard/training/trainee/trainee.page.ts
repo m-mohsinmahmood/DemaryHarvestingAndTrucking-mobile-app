@@ -1,3 +1,4 @@
+/* eslint-disable no-var */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
@@ -18,27 +19,28 @@ import { Router } from '@angular/router';
 export class TraineePage implements OnInit {
   @ViewChild('employeeInput') employeeInput: ElementRef;
 
-  // cardClicked_3 = false;
   upload_1 = false;
   upload_2 = false;
   upload_3 = false;
   traineeForm: FormGroup;
   states: string[];
-  // 4b29833b-0b74-49a2-b3c7-d3884f5f0013
-  trainee_id = '4b29833b-0b74-49a2-b3c7-d3884f5f0013';
+  trainee_id;
   trainee_name: any;
 
-  // behaviour subject's for loader
+  //#region loaders
   public loading = new BehaviorSubject(true);
   public loadingSpinner = new BehaviorSubject(false);
+ //#endregion
 
-  // employee drop-down variables
+  //#region employee variables
   allEmployees: Observable<any>;
   employeesearch$ = new Subject();
   employee_name: any = '';
   employeeSearchValue: any = '';
   employeeUL: any = false;
   isEmployeeSelected: any = true;
+  role: any;
+  //#endregion
 
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
@@ -58,6 +60,29 @@ export class TraineePage implements OnInit {
   }
 
   ngOnInit() {
+   this.initForm();
+
+   // getting id & role
+   this.getRoleAndID();
+
+    // pasing states
+    this.states = states;
+
+    // getting trainee details
+    this.getTrainee();
+
+    // employee/trainer subscription
+    this.employeeSearchSubscription();
+  }
+  async ionViewDidEnter() {
+    this.getRoleAndID();
+  }
+  getRoleAndID(){
+    this.role = localStorage.getItem('role');
+    this.trainee_id = localStorage.getItem('employeeId');
+
+  }
+  initForm(){
     this.traineeForm = this.formBuilder.group({
       trainee_id: [''],
       trainer_id: [''],
@@ -66,32 +91,50 @@ export class TraineePage implements OnInit {
       training_type: ['', [Validators.required]],
       topic: [''],
       detail: [''],
-      uploadDocs1: [''],
-      uploadDocs2: [''],
-      uploadDocs3: [''],
+      image_1: [''],
+      image_2: [''],
+      image_3: [''],
     });
-    console.log(this.traineeForm.value);
-
-    // pasing states
-    this.states = states;
-
-    // getting trainee
-    this.getTrainee();
-
-    // employee/trainer subscription
-    this.employeeSearchSubscription();
   }
+
   onSelectedFiles(file, name) {
-    console.log('file:', file);
+    console.log('file:', file.target.files);
 
     if (name === 'upload_1') {
       this.upload_1 = !this.upload_1;
+      if ( file.target.files &&file.target.files[0]) {
+        const reader = new FileReader();
+        reader.onload = (_event: any) => {
+          this.traineeForm.controls.image_1?.setValue(file.target.files[0]);
+      };
+      reader.readAsDataURL(file.target.files[0]);
+      } else {
+
+      }
     }
     if (name === 'upload_2') {
       this.upload_2 = !this.upload_2;
+        if ( file.target.files &&file.target.files[0]) {
+          const reader = new FileReader();
+          reader.onload = (_event: any) => {
+            this.traineeForm.controls.image_2?.setValue(file.target.files[0]);
+        };
+        reader.readAsDataURL(file.target.files[0]);
+        } else {
+
+        }
     }
     if (name === 'upload_3') {
       this.upload_3 = !this.upload_3;
+      if ( file.target.files &&file.target.files[0]) {
+        const reader = new FileReader();
+        reader.onload = (_event: any) => {
+          this.traineeForm.controls.image_3?.setValue(file.target.files[0]);
+      };
+      reader.readAsDataURL(file.target.files[0]);
+      } else {
+
+      }
     }
   }
   getTrainee() {
@@ -116,7 +159,14 @@ export class TraineePage implements OnInit {
   submit() {
     console.log(this.traineeForm.value);
     this.loadingSpinner.next(true);
-    this.trainingService.save(this.traineeForm.value,'trainee')
+    // Form Data
+    var formData: FormData = new FormData();
+    formData.append('traineeForm',JSON.stringify(this.traineeForm.value));
+    formData.append('image_1', this.traineeForm.get('image_1').value);
+    formData.append('image_2', this.traineeForm.get('image_2').value);
+    formData.append('image_3', this.traineeForm.get('image_3').value);
+
+    this.trainingService.save(formData,'trainee')
     .subscribe((res)=>{
       if(res.status === 200){
         this.loadingSpinner.next(false);

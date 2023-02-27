@@ -9,6 +9,7 @@ import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { ToastService } from 'src/app/services/toast/toast.service';
 import { TrainingService } from '../../training.service';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-training-records',
@@ -21,7 +22,8 @@ export class TrainingRecordsPage implements OnInit {
   formType;
   evaluationType;
   recordsFrom: FormGroup;
-
+  date: any = moment(new Date()).format('YYYY-MM-DD');
+  public loading = new BehaviorSubject(false);
   //#region trainee drop-down variables
   allTrainees: Observable<any>;
   traineeSearch$ = new Subject();
@@ -53,17 +55,24 @@ export class TrainingRecordsPage implements OnInit {
       trainee_id: [''],
       evaluation_type: ['', [Validators.required]],
       evaluation_form: ['', [Validators.required]],
-    },
-    );
+      date: [moment(new Date()).format('YYYY-MM-DD'), [Validators.required]],
+    });
     // checking required value
-    this.recordsFrom.valueChanges.subscribe((value)=>{
-     if(value.evaluation_type === 'summary'){
-      this.recordsFrom.get('evaluation_form').setValidators(null);
-     this.recordsFrom.get('evaluation_form').setErrors(null);
-     }else{
-      this.recordsFrom.get('evaluation_type').setValidators([Validators.required]);
-      this.recordsFrom.get('evaluation_form').setValidators([Validators.required]);
-     }
+    this.recordsFrom.valueChanges.subscribe((value) => {
+      if (value.evaluation_type === 'summary') {
+        this.recordsFrom.get('evaluation_form').setValidators(null);
+        this.recordsFrom.get('evaluation_form').setErrors(null);
+      } else {
+        this.recordsFrom
+          .get('evaluation_type')
+          .setValidators([Validators.required]);
+        this.recordsFrom
+          .get('evaluation_form')
+          .setValidators([Validators.required]);
+
+          this.recordsFrom.get('date').setValidators(null);
+          this.recordsFrom.get('date').setErrors(null)
+      }
     });
 
     // trainee subscription
@@ -75,31 +84,46 @@ export class TrainingRecordsPage implements OnInit {
   onSelectEvaluation(e) {
     this.evaluationType = e.target.value;
   }
+  getDate(e) {
+    this.date = moment(e.detail.value).format('YYYY-MM-DD');
+    console.log(this.date);
+    this.recordsFrom.patchValue({
+      date: this.date
+    })
+  }
 
   navigate() {
-    console.log('Evaluation type', this.evaluationType);
-    console.log('Evaluation Form', this.formType);
     console.log(this.recordsFrom.value);
+    this.loading.next(true);
     if (this.formType === 'summary') {
-      this.router.navigate(['/tabs/home/training/trainer/training-records/search-records/view-records'],
-      {
-        queryParams:{
+      this.loading.next(false)
+      this.router.navigate(
+        [
+          '/tabs/home/training/trainer/training-records/search-records/view-records',
+        ],
+        {
+          queryParams: {
             formType: this.formType,
             evaluationType: 'summary',
-            trainee_id: this.recordsFrom.get('trainee_id').value
+            trainee_id: this.recordsFrom.get('trainee_id').value,
+            date: this.recordsFrom.get('date').value,
+          },
         }
-      });
+      );
     } else {
-      this.router.navigate(['/tabs/home/training/trainer/training-records/search-records'],
-      {
-        queryParams:{
+      this.router.navigate(
+        ['/tabs/home/training/trainer/training-records/search-records'],
+        {
+          queryParams: {
             formType: this.formType,
             evaluationType: this.evaluationType,
-            trainee_id: this.recordsFrom.get('trainee_id').value
+            trainee_id: this.recordsFrom.get('trainee_id').value,
+          },
         }
-      });
+      );
     }
   }
+
 
   //#region Trainee
   traineeSearchSubscription() {

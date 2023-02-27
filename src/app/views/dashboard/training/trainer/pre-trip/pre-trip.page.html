@@ -2,15 +2,7 @@
 <app-header [title]="'CDL Training Pre-Trip Check'" [color]="'training'"></app-header>
 <ion-content>
   <!-- <app-timer [value]="'01:23:45'"></app-timer> -->
-  <!-- <div *ngIf="showModel">
-  <ion-backdrop [visible]="backDropValue"></ion-backdrop>
-  <div id="box">
-    <ion-text>You need to first complete your evaluation form.</ion-text>
-    <ion-button>Okie</ion-button>
-  </div>
-</div> -->
   <form class="mx-4" [formGroup]="preTrip">
-
     <div class="col-span-12 mb-4 mt-2">
       <label class="block text-sm font-medium text-gray-700">Type of Evaluation Form</label>
       <ion-select
@@ -188,7 +180,7 @@
 
               <ion-segment-button value="done" *ngIf="upload_1">
                 <ion-icon
-                  [ngStyle]="{'color' : upload_1 ? '#59C64F' : ''}"
+                  [ngStyle]="{'color' : upload_1 ? '#3D8AA4' : ''}"
                   name="cloud-done-outline"
                 >
                 </ion-icon>
@@ -197,7 +189,6 @@
                 #upload__1
                 type="file"
                 class=" invisible hidden"
-                formControlName="uploadDocs1"
                 (change)="onSelectedFiles($event, 'upload_1')"
               />
             </ion-segment>
@@ -221,7 +212,7 @@
 
               <ion-segment-button value="done" *ngIf="upload_2">
                 <ion-icon
-                  [ngStyle]="{'color' : upload_2 ? '#59C64F' : ''}"
+                  [ngStyle]="{'color' : upload_2 ? '#3D8AA4' : ''}"
                   name="cloud-done-outline"
                 >
                 </ion-icon>
@@ -230,7 +221,6 @@
                 #upload__2
                 type="file"
                 class=" invisible hidden"
-                formControlName="uploadDocs2"
                 (change)="onSelectedFiles($event, 'upload_2')"
               />
             </ion-segment>
@@ -254,7 +244,7 @@
 
               <ion-segment-button value="done" *ngIf="upload_3">
                 <ion-icon
-                  [ngStyle]="{'color' : upload_3 ? '#59C64F' : ''}"
+                  [ngStyle]="{'color' : upload_3 ? '#3D8AA4' : ''}"
                   name="cloud-done-outline"
                 >
                 </ion-icon>
@@ -263,7 +253,6 @@
                 #upload__3
                 type="file"
                 class=" invisible hidden"
-                formControlName="uploadDocs3"
                 (change)="onSelectedFiles($event, 'upload_3')"
 
               />
