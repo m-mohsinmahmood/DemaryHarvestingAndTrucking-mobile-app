@@ -1,3 +1,7 @@
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable max-len */
+/* eslint-disable @typescript-eslint/member-ordering */
+/* eslint-disable @typescript-eslint/naming-convention */
 import { Injectable, Optional } from '@angular/core';
 import { Auth, signInWithEmailAndPassword, signOut } from '@angular/fire/auth';
 import { FirebaseError } from 'firebase/app';
@@ -8,6 +12,7 @@ import { Router } from '@angular/router';
 import { ToastService } from 'src/app/services/toast/toast.service';
 
 import { PlatformService } from '../../services/platform/platform.service';
+import { HarvestingService } from './../../views/dashboard/harvesting/harvesting.service';
 
 const initialAuthState: AuthState = {
   isLoggedIn: false,
@@ -43,7 +48,8 @@ export class AuthService {
     @Optional() private auth: Auth,
     private toast: ToastService,
     private router: Router,
-    private platform: PlatformService
+    private platform: PlatformService,
+    private harvestingService: HarvestingService
   ) {
     this.isMobileDevice = this.platform.isMobile();
     this.auth.onIdTokenChanged((user) => {
@@ -100,6 +106,7 @@ export class AuthService {
     signInWithEmailAndPassword(this.auth, email, password)
       .then((user) => {
         console.log('user', user);
+        this.getEmployeeDetailsByFirbaseId('X2lR84eu0EOfEXxVJHndgCQXEs62');
         this.isLoading.next(false);
         this.router.navigate(['tabs'], { replaceUrl: true });
       })
@@ -139,7 +146,19 @@ export class AuthService {
     await signOut(this.auth);
     this.router.navigate(['login'], { replaceUrl: true });
   }
+getEmployeeDetailsByFirbaseId(fb_id){
+  this.harvestingService.getEmployeeByFirebaseId(fb_id).subscribe((res)=>{
+    console.log('Employee Details:',res);
 
+    // setting in local storage
+    // localStorage.setItem('employeeId',res.id);
+    // localStorage.setItem('role',res.role);
+
+    // for manual
+    // localStorage.setItem('role','dispatcher');
+    // localStorage.setItem('employeeId', '5254e1f7-bedf-4166-bba7-8a64892dc28e');
+  });
+}
   async refreshToken() {
     const user = this.auth.currentUser;
     const token = await user.getIdToken(true);

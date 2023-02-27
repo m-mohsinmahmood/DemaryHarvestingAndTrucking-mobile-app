@@ -593,4 +593,13 @@ export class HarvestingService {
       })
       .pipe(take(1));
   }
+  getEmployeeByFirebaseId(fb_id){
+    let params = new HttpParams();
+    params = params.set('fb_id',fb_id)
+    return this._httpClient
+      .get<any>('api-1/employee', {
+        params,
+      })
+      .pipe(take(1));
+  }
 }

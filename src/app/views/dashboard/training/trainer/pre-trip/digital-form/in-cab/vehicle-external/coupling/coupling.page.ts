@@ -18,8 +18,8 @@ export class CouplingPage implements OnInit {
   result: any = 0;
   training_record_id: any;
   isModalOpen = false;
-    // trainer id
-    trainer_id = '4b84234b-0b74-49a2-b3c7-d3884f5f6013';
+    trainer_id;
+    supervisor_id;
     public loadingSpinner = new BehaviorSubject(false);
 
   constructor(private formBuilder: FormBuilder,
@@ -30,90 +30,104 @@ export class CouplingPage implements OnInit {
     ) { }
 
   ngOnInit() {
-    this.preTripForm = this.formBuilder.group({
-         //Coupling
-         airConditioners: [false,[Validators.required]],
-         electricConnectors: [false,[Validators.required]],
-         mountingBolts: [false,[Validators.required]],
-         platformBase: [false,[Validators.required]],
-         lockingJaws: [false,[Validators.required]],
-         grease: [false,[Validators.required]],
-         releaseArm: [false,[Validators.required]],
-         skidPlate: [false,[Validators.required]],
-         slidingPins: [false,[Validators.required]],
-         kingPin: [false,[Validators.required]],
-         apron: [false,[Validators.required]],
-         gap: [false,[Validators.required]],
-         airLine: [false,[Validators.required]],
-         location: [false,[Validators.required]],
-         safetyDevices: [false,[Validators.required]],
-         print: [false,[Validators.required]],
-         drawBar: [false,[Validators.required]],
-         commentsCoupling: ['',[Validators.required]],
-         category:['coupling'],
-         percentageCoupling:[],
-      trainer_id:[this.trainer_id]
+     // getting id & role
+   this.getRoleAndID();
 
-    });
-    this.preTripForm.valueChanges.subscribe((value)=>{
-      let sum = 0;
-      if(value.airConditioners){
-        sum = 1 + sum;
-      }
-      if(value.electricConnectors){
-        sum = 1 + sum;
-      }
-      if(value.mountingBolts){
-        sum = 1 + sum;
-      }
-      if(value.platformBase){
-        sum = 1 + sum;
-      }
-      if(value.lockingJaws){
-        sum = 1 + sum;
-      }
-      if(value.grease){
-        sum = 1 + sum;
-      }
-      if(value.releaseArm){
-        sum = 1 + sum;
-      }
-      if(value.skidPlate){
-        sum = 1 + sum;
-      }
-      if(value.slidingPins){
-        sum = 1 + sum;
-      }
-      if(value.kingPin){
-        sum = 1 + sum;
-      }
-       if(value.apron){
-        sum = 1 + sum;
-      }
-       if(value.gap){
-        sum = 1 + sum;
-      }
-      if(value.airLine){
-        sum = 1 + sum;
-      }
-      if(value.location){
-        sum = 1 + sum;
-      }
-      if(value.safetyDevices){
-        sum = 1 + sum;
-      }
-      if(value.print){
-        sum = 1 + sum;
-      }
-      if(value.drawBar){
-        sum = 1 + sum;
-      }
-      console.log('Sum:',sum);
-      this.result = Math.round((sum / 17) * 100);
-    });
+   this.initForm();
+
     this.route.queryParams.subscribe((params)=>{
       this.training_record_id = params.training_record_id;
+      this.supervisor_id = params.supervisor_id;
     });
+  }
+  initForm(){
+    this.preTripForm = this.formBuilder.group({
+      //Coupling
+      airConditioners: [false,[Validators.required]],
+      electricConnectors: [false,[Validators.required]],
+      mountingBolts: [false,[Validators.required]],
+      platformBase: [false,[Validators.required]],
+      lockingJaws: [false,[Validators.required]],
+      grease: [false,[Validators.required]],
+      releaseArm: [false,[Validators.required]],
+      skidPlate: [false,[Validators.required]],
+      slidingPins: [false,[Validators.required]],
+      kingPin: [false,[Validators.required]],
+      apron: [false,[Validators.required]],
+      gap: [false,[Validators.required]],
+      airLine: [false,[Validators.required]],
+      location: [false,[Validators.required]],
+      safetyDevices: [false,[Validators.required]],
+      print: [false,[Validators.required]],
+      drawBar: [false,[Validators.required]],
+      commentsCoupling: ['',[Validators.required]],
+      category:['coupling'],
+      percentageCoupling:[],
+   trainer_id:[this.trainer_id]
+
+ });
+ this.preTripForm.valueChanges.subscribe((value)=>{
+   let sum = 0;
+   if(value.airConditioners){
+     sum = 1 + sum;
+   }
+   if(value.electricConnectors){
+     sum = 1 + sum;
+   }
+   if(value.mountingBolts){
+     sum = 1 + sum;
+   }
+   if(value.platformBase){
+     sum = 1 + sum;
+   }
+   if(value.lockingJaws){
+     sum = 1 + sum;
+   }
+   if(value.grease){
+     sum = 1 + sum;
+   }
+   if(value.releaseArm){
+     sum = 1 + sum;
+   }
+   if(value.skidPlate){
+     sum = 1 + sum;
+   }
+   if(value.slidingPins){
+     sum = 1 + sum;
+   }
+   if(value.kingPin){
+     sum = 1 + sum;
+   }
+    if(value.apron){
+     sum = 1 + sum;
+   }
+    if(value.gap){
+     sum = 1 + sum;
+   }
+   if(value.airLine){
+     sum = 1 + sum;
+   }
+   if(value.location){
+     sum = 1 + sum;
+   }
+   if(value.safetyDevices){
+     sum = 1 + sum;
+   }
+   if(value.print){
+     sum = 1 + sum;
+   }
+   if(value.drawBar){
+     sum = 1 + sum;
+   }
+   console.log('Sum:',sum);
+   this.result = Math.round((sum / 17) * 100);
+ });
+  }
+  async ionViewDidEnter() {
+    this.getRoleAndID();
+  }
+  getRoleAndID(){
+    this.trainer_id = localStorage.getItem('employeeId');
   }
   next(){
     this.isModalOpen = true;
@@ -152,7 +166,8 @@ export class CouplingPage implements OnInit {
             // navigating
             this.router.navigate(['/tabs/home/training/trainer/pre-trip/digital-form/in-cab/vehicle-external/coupling/suspension-brakes'],{
           queryParams:{
-            training_record_id: this.training_record_id
+            training_record_id: this.training_record_id,
+            supervisor_id: this.supervisor_id
           }
         });
           },500);

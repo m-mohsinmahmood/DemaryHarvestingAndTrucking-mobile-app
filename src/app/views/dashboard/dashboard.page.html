@@ -14,12 +14,13 @@
 
           <div class="flex flex-col ml-2">
             <ion-text class="font-semibold font-Lato">Wade Warren</ion-text>
-            <span class=" text-xs font-medium font-Lato text-gray-400" *ngIf="role ==='crew-chief'">Crew Chief</span>
+            <!-- <span class=" text-xs font-medium font-Lato text-gray-400" *ngIf="role ==='crew-chief'">Crew Chief</span>
             <span class="text-xs font-medium font-Lato text-gray-400" *ngIf="role ==='combine-operator'">Combine
               Operator</span>
             <span class="text-xs font-medium font-Lato text-gray-400" *ngIf="role ==='kart-operator'">Kart
               Operator</span>
-            <span class="text-xs font-medium font-Lato text-gray-400" *ngIf="role ==='truck-driver'">Truck Driver</span>
+            <span class="text-xs font-medium font-Lato text-gray-400" *ngIf="role ==='truck-driver'">Truck Driver</span> -->
+            <span class="text-xs font-medium font-Lato text-gray-400" >{{role | titlecase }}</span>
           </div>
 
         </ion-col>
@@ -37,15 +38,10 @@
         </ion-col>
 
  <!-- POP-OVER -->
-
   <ion-popover #popover [isOpen]="isOpen" (didDismiss)="isOpen = false">
-
     <ng-template>
-
       <ion-content class="ion-padding" (click)="logout()">Logout</ion-content>
-
     </ng-template>
-
   </ion-popover>
       </ion-row>
     </ion-grid>
@@ -65,12 +61,6 @@
       </form>
     </div>
   </div>
-  <!-- POP-OVER -->
-  <ion-popover #popover [isOpen]="isOpen" (didDismiss)="isOpen = false">
-    <ng-template>
-      <ion-content class="ion-padding" (click)="logout()">Logout</ion-content>
-    </ng-template>
-  </ion-popover>
 
   <!-- =============================== Top Cards =============================== -->
   <ion-grid class="p-2.5">
@@ -105,7 +95,8 @@
 
 
       <ion-col size="4" *ngIf="role === 'dispatcher' || role === 'truck-driver'" class="flex flex-col">
-        <div class="h-28 flex justify-center items-center">
+        <!-- <ion-col size="4" class="flex flex-col"> -->
+          <div class="h-28 flex justify-center items-center">
           <ion-card class="card" [routerLink]="['trucking']" [ngStyle]="{'background-color':'#4256F9'}">
             <ion-card-content>
               <img src="../../../assets/images/truck.png" alt="" class="w-12 h-12 object-contain">

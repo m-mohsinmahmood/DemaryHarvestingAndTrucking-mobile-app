@@ -22,8 +22,8 @@ export class AlleyDockingPage implements OnInit {
   math = Math;
   training_record_id: any;
   training_record: any;
-  // trainer id
-  trainer_id = '4b84234b-0b74-49a2-b3c7-d3884f5f6013';
+  trainer_id;
+ supervisor_id;
   isModalOpen = false;
 
   // behaviour subject's
@@ -40,15 +40,26 @@ export class AlleyDockingPage implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.initForms();
+     // getting id & role
+     this.getRoleAndID();
+
+     this.initForms();
 
     // query params
     this.route.queryParams.subscribe((params) => {
       this.training_record_id = params.training_record_id;
+      this.supervisor_id = params.supervisor_id;
+
     });
 
     // getting training record by id
     this.getRecord();
+  }
+  async ionViewDidEnter() {
+    this.getRoleAndID();
+  }
+  getRoleAndID(){
+    this.trainer_id = localStorage.getItem('employeeId');
   }
   initForms() {
     this.basicSkillForm = this.formBuilder.group({
@@ -145,6 +156,7 @@ export class AlleyDockingPage implements OnInit {
                   {
                     queryParams: {
                       training_record_id: this.training_record_id,
+                      supervisor_id: this.supervisor_id
                     },
                   }
                 );
@@ -169,7 +181,7 @@ export class AlleyDockingPage implements OnInit {
 
         // patching
         this.basicSkillForm.patchValue({
-          straightLineBacking_ad: (+this.training_record.pullUpsInput_slb + +this.training_record.encroachInput_slb >= 3) || (this.training_record.goal_slb === 'false') || (this.training_record.finalPosition_slb === 'false') === false? 'false': 'true',
+          straightLineBacking_ad: (+this.training_record.pullUpsInput_slb + +this.training_record.encroachInput_slb < 3) && (this.training_record.goal_slb === 'true') && (this.training_record.finalPosition_slb === 'true') === true? 'true': 'false',
           straightLineBakingInput_ad: +this.training_record.pullUpsInput_slb + +this.training_record.encroachInput_slb
         });
       });

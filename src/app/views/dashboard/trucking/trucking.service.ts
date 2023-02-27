@@ -58,7 +58,6 @@ export class TruckingService {
 
   createNewDeliveryTicket(data: any, role: string, truckingType: string, ticketStatus: string, isInfoCompleted: boolean) {
     data.role = role;
-
     data.ticketStatus = ticketStatus;
     data.truckingType = truckingType;
     data.isTicketInfoCompleted = isInfoCompleted;

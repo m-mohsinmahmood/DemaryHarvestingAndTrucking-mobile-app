@@ -41,7 +41,7 @@ export class BasicSkillsPage implements OnInit {
  data: any;
 
  // trainer id
- trainer_id = '4b84234b-0b74-49a2-b3c7-d3884f5f6013';
+ trainer_id;
 
  // model
  isModalOpen = false;
@@ -106,10 +106,35 @@ export class BasicSkillsPage implements OnInit {
      }
 
   ngOnInit() {
-    // this.value = 'straight-line';
     this.value = 'paper-form';
-    // this.upload = true;
 
+    this.initForms();
+
+   // getting id & role
+   this.getRoleAndID();
+
+     // pasing states
+     this.states = states;
+
+    // getting Trainer profile data
+    this.getTrainer();
+
+     // trainee subscription
+     this.traineeSearchSubscription();
+
+     // supervisor subscription
+     this.traineeSearchSubscription();
+
+     // truck subscription
+     this.truckSearchSubscription();
+  };
+  async ionViewDidEnter() {
+    this.getRoleAndID();
+  }
+  getRoleAndID(){
+    this.trainer_id = localStorage.getItem('employeeId');
+  }
+  initForms(){
     this.basicSkillForm = this.formBuilder.group({
       evaluation_form: ['',[Validators.required]],
       trainer_id: [''],
@@ -127,23 +152,7 @@ export class BasicSkillsPage implements OnInit {
       image_2: [''],
       image_3: [''],
     });
-
-     // pasing states
-     this.states = states;
-
-    // getting Trainer profile data
-    this.getTrainer();
-
-     // trainee subscription
-     this.traineeSearchSubscription();
-
-     // supervisor subscription
-     this.traineeSearchSubscription();
-
-     // truck subscription
-     this.truckSearchSubscription();
-  };
-
+  }
   onSelectedFiles(file, name) {
     if (name === 'upload_1') {
       this.upload_1 = !this.upload_1;
@@ -241,7 +250,6 @@ export class BasicSkillsPage implements OnInit {
     );
   }
   continue(){
-
     this.loadingSpinner.next(true);
 
     // Form Data
@@ -263,8 +271,10 @@ export class BasicSkillsPage implements OnInit {
           // navigating
           this.router.navigate(['/tabs/home/training/trainer/basic-skills/digital-evaluation'],{
             queryParams:{
-              training_record_id: res.id.training_record_id
-            }
+              training_record_id: res.id.training_record_id,
+              supervisor_id: this.data?.supervisor_id? this.data.supervisor_id : this.basicSkillForm.get('supervisor_id').value
+
+             }
           });
 
         } else {
@@ -586,7 +596,9 @@ export class BasicSkillsPage implements OnInit {
     ) {
       this.router.navigate(['/tabs/home/training/trainer/basic-skills/digital-evaluation'],{
         queryParams:{
-          training_record_id: this.data.id
+          training_record_id: this.data.id,
+          supervisor_id: this.data.supervisor_id
+
         }
       });
     }
@@ -600,10 +612,11 @@ export class BasicSkillsPage implements OnInit {
       !this.data.is_parking_sight_started &&
       !this.data.is_coup_uncoup_started
     ) {
-      // this.router.navigateByUrl('/tabs/home/training/trainer/basic-skills/digital-evaluation/alley-docking');
       this.router.navigate(['/tabs/home/training/trainer/basic-skills/digital-evaluation/alley-docking'],{
         queryParams:{
-          training_record_id: this.data.id
+          training_record_id: this.data.id,
+          supervisor_id: this.data.supervisor_id,
+
         }
       });
     }
@@ -617,10 +630,11 @@ export class BasicSkillsPage implements OnInit {
       !this.data.is_parking_sight_started &&
       !this.data.is_coup_uncoup_started
     ) {
-      // this.router.navigateByUrl('/tabs/home/training/trainer/basic-skills/digital-evaluation/alley-docking/off-set-backing');
       this.router.navigate(['/tabs/home/training/trainer/basic-skills/digital-evaluation/alley-docking/off-set-backing'],{
         queryParams:{
-          training_record_id: this.data.id
+          training_record_id: this.data.id,
+          supervisor_id: this.data.supervisor_id
+
         }
       });
     }
@@ -634,10 +648,11 @@ export class BasicSkillsPage implements OnInit {
       !this.data.is_parking_sight_started &&
       !this.data.is_coup_uncoup_started
     ) {
-      // this.router.navigateByUrl('/tabs/home/training/trainer/basic-skills/digital-evaluation/alley-docking/off-set-backing/parking-blind');
       this.router.navigate(['/tabs/home/training/trainer/basic-skills/digital-evaluation/alley-docking/off-set-backing/parking-blind'],{
         queryParams:{
-          training_record_id: this.data.id
+          training_record_id: this.data.id,
+          supervisor_id: this.data.supervisor_id
+
         }
       });
     }
@@ -651,10 +666,11 @@ export class BasicSkillsPage implements OnInit {
       !this.data.is_parking_sight_started &&
       !this.data.is_coup_uncoup_started
     ) {
-      // this.router.navigateByUrl('/tabs/home/training/trainer/basic-skills/digital-evaluation/alley-docking/off-set-backing/parking-blind/parking-sight');
       this.router.navigate(['/tabs/home/training/trainer/basic-skills/digital-evaluation/alley-docking/off-set-backing/parking-blind/parking-sight'],{
         queryParams:{
-          training_record_id: this.data.id
+          training_record_id: this.data.id,
+          supervisor_id: this.data.supervisor_id
+
         }
       });
     }
@@ -668,10 +684,11 @@ export class BasicSkillsPage implements OnInit {
       this.data.is_parking_sight_started &&
       !this.data.is_coup_uncoup_started
     ) {
-      // this.router.navigateByUrl('/tabs/home/training/trainer/basic-skills/digital-evaluation/alley-docking/off-set-backing/parking-blind/parking-sight/coup-uncoup');
       this.router.navigate(['/tabs/home/training/trainer/basic-skills/digital-evaluation/alley-docking/off-set-backing/parking-blind/parking-sight/coup-uncoup'],{
         queryParams:{
-          training_record_id: this.data.id
+          training_record_id: this.data.id,
+          supervisor_id: this.data.supervisor_id
+
         }
       });
     }

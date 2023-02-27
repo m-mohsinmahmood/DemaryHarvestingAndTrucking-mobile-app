@@ -490,15 +490,9 @@
         {{moment(records?.endDateBasicSkill).diff(records?.created_at,'seconds')}}s
       </ion-text>
     </div>
-    <!-- LOADER -->
-    <!-- <ion-grid *ngIf="(loading | async) === true">
-      <div class="flex h-64 w-full items-center justify-center">
-        <ion-spinner name="crescent" class="h-10 w-10"></ion-spinner>
-      </div>
-    </ion-grid> -->
-    <!-- COUP & UNCOUP -->
+
     <ion-grid *ngIf="(loading | async) === false">
-      <div class="my-3"><ion-text class="font-Lato font-semibold">Evaluation Results</ion-text></div>
+      <div class="my-1"><ion-text class="font-Lato font-semibold">Evaluation Results</ion-text></div>
       <ion-grid>
         <ion-row class="bg-d9d9d95c py-2 px-2">
           <ion-col size="5" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Skill</ion-text></ion-col>
@@ -508,74 +502,65 @@
       </ion-grid>
       <ion-row class="my-4">
         <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Straight Line Backing</ion-text></ion-col>
-        <ion-col *ngIf=" (+records.pullUpsInput_slb + +records.encroachInput_slb <= 1) && (records.goal_slb === 'true') && (records.finalPosition_slb === 'true')" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
-        <ion-col *ngIf=" !((+records.pullUpsInput_slb + +records.encroachInput_slb <= 1) && (records.goal_slb === 'true') && (records.finalPosition_slb === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
+        <ion-col *ngIf=" (+records.pullUpsInput_slb + +records.encroachInput_slb < 3) && (records.goal_slb === 'true') && (records.finalPosition_slb === 'true')" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf=" !((+records.pullUpsInput_slb + +records.encroachInput_slb < 3) && (records.goal_slb === 'true') && (records.finalPosition_slb === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
         <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{+records.pullUpsInput_slb + +records.encroachInput_slb}}</ion-text></ion-col>
       </ion-row>
 
       <ion-row class="my-4">
         <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Alley Docking (45/90)</ion-text></ion-col>
-        <ion-col *ngIf="(+records.pullUpsInput_ad + +records.encroachInput_ad <= 1) && (records.goal_ad === 'true') && (records.finalPosition_ad === 'true')" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
-        <ion-col *ngIf="!((+records.pullUpsInput_ad + +records.encroachInput_ad <= 1) && (records.goal_ad === 'true') && (records.finalPosition_ad === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
+        <ion-col *ngIf="(+records.pullUpsInput_ad + +records.encroachInput_ad < 3) && (records.goal_ad === 'true') && (records.finalPosition_ad === 'true')" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="!((+records.pullUpsInput_ad + +records.encroachInput_ad < 3) && (records.goal_ad === 'true') && (records.finalPosition_ad === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
         <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{+records.pullUpsInput_ad + +records.encroachInput_ad}}</ion-text></ion-col>
       </ion-row>
       <ion-row class="my-4">
         <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Off Set Backing</ion-text></ion-col>
-        <ion-col *ngIf="(+records.encroach_osb + +records.encroach_osb <= 1) && (records.goal_osb === 'true') && (records.finalPosition_osb === 'true')" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
-        <ion-col *ngIf="!((+records.encroach_osb + +records.encroach_osb <= 1) && (records.goal_osb === 'true') && (records.finalPosition_osb === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
+        <ion-col *ngIf="(+records.encroach_osb + +records.encroach_osb < 3) && (records.goal_osb === 'true') && (records.finalPosition_osb === 'true')" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="!((+records.encroach_osb + +records.encroach_osb < 3) && (records.goal_osb === 'true') && (records.finalPosition_osb === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
         <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{+records.pullUps_osb + +records.encroach_osb}}</ion-text></ion-col>
       </ion-row>
       <ion-row class="my-4">
         <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Parallel Parking Blind</ion-text></ion-col>
-        <ion-col *ngIf="(+records.pullUps_pb + +records.encroach_pb <= 1) && (records.goal_pb === 'true') && (records.finalPosition_pb === 'true')" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
-        <ion-col *ngIf="!((+records.pullUps_pb + +records.encroach_pb <= 1) && (records.goal_pb === 'true') && (records.finalPosition_pb === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
+        <ion-col *ngIf="(+records.pullUps_pb + +records.encroach_pb < 3) && (records.goal_pb === 'true') && (records.finalPosition_pb === 'true')" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="!((+records.pullUps_pb + +records.encroach_pb < 3) && (records.goal_pb === 'true') && (records.finalPosition_pb === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
         <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{+records.pullUps_pb + +records.encroach_pb}}</ion-text></ion-col>
       </ion-row>
       <ion-row class="my-4">
     <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">Parallel Parking Sight</ion-text></ion-col>
-    <ion-col *ngIf="(+records.pullUps_ps + +records.encroach_ps <= 1) && (records.goal_ps === 'true') && (records.finalPosition_ps === 'true')" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
-    <ion-col *ngIf="!((+records.pullUps_ps + +records.encroach_ps <= 1) && (records.goal_ps === 'true') && (records.finalPosition_ps === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">Unsatisfactory</ion-text></ion-col>
+    <ion-col *ngIf="(+records.pullUps_ps + +records.encroach_ps < 3) && (records.goal_ps === 'true') && (records.finalPosition_ps === 'true')" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
+    <ion-col *ngIf="!((+records.pullUps_ps + +records.encroach_ps < 3) && (records.goal_ps === 'true') && (records.finalPosition_ps === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">Unsatisfactory</ion-text></ion-col>
     <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{+records.pullUps_ps + +records.encroach_ps}}</ion-text></ion-col>
   </ion-row>
       <ion-row class="my-4">
         <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Coupling & Uncoupling</ion-text></ion-col>
-        <ion-col *ngIf="(+records.pullUps_cou + +records.encroach_cou <= 1) && (records.goal_cou === 'true') && (records.finalPosition_cou === 'true')" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
-        <ion-col *ngIf="!((+records.pullUps_cou + +records.encroach_cou <= 1) && (records.goal_cou === 'true') && (records.finalPosition_cou === 'true'))"  size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
+        <ion-col *ngIf="(+records.pullUps_cou + +records.encroach_cou < 3) && (records.goal_cou === 'true') && (records.finalPosition_cou === 'true')" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="!((+records.pullUps_cou + +records.encroach_cou < 3) && (records.goal_cou === 'true') && (records.finalPosition_cou === 'true'))"  size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
         <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{+records.pullUps_cou + +records.encroach_cou}}</ion-text></ion-col>
       </ion-row>
-      <!-- <ion-row class="my-4">
-        <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Status:</ion-text></ion-col>
-        <ion-col *ngIf="records.goal_cou === 'true' && records.finalPosition_cou === 'true' && records.unSatisfactoryCoupUncoup <=12" size="6" class="ion-text-start "><ion-text class="font-Lato font-semibold text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-base uppercase">Passed</ion-text></ion-col>
-        <ion-col *ngIf="records.goal_cou === 'false' || records.finalPosition_cou === 'false' || records.unSatisfactoryCoupUncoup >=12" size="6" class="ion-text-start"><ion-text class="font-Lato font-semibold text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-base uppercase">Failed</ion-text></ion-col>
-      </ion-row> -->
+
     </ion-grid>
     <ion-card-content *ngIf="(loading | async) === false">
-      <div class="mb-2 flex items-center justify-between">
+      <div class="mb-0 flex items-center justify-between">
         <ion-text class="font-Lato font-semibold text-black">Final Result:</ion-text>
         <ion-text
-        *ngIf="((+records.pullUpsInput_slb + +records.encroachInput_slb <= 1) && (records.goal_slb === 'true') && (records.finalPosition_slb === 'true')) &&
-        ((+records.pullUpsInput_ad + +records.encroachInput_ad <= 1) && (records.goal_ad === 'true') && (records.finalPosition_ad === 'true'))  &&
-        ((+records.encroach_osb + +records.encroach_osb <= 1) && (records.goal_osb === 'true') && (records.finalPosition_osb === 'true')) &&
-        ((+records.pullUps_pb + +records.encroach_pb <= 1) && (records.goal_pb === 'true') && (records.finalPosition_pb === 'true')) &&
-        ((+records.pullUps_ps + +records.encroach_ps <= 1) && (records.goal_ps === 'true') && (records.finalPosition_ps === 'true')) &&
-        ((+records.pullUps_cou + +records.encroach_cou <= 1) && (records.goal_cou === 'true') && (records.finalPosition_cou === 'true'))"
+        *ngIf="((+records.pullUpsInput_slb + +records.encroachInput_slb < 3) && (records.goal_slb === 'true') && (records.finalPosition_slb === 'true')) &&
+        ((+records.pullUpsInput_ad + +records.encroachInput_ad < 3) && (records.goal_ad === 'true') && (records.finalPosition_ad === 'true'))  &&
+        ((+records.encroach_osb + +records.encroach_osb < 3) && (records.goal_osb === 'true') && (records.finalPosition_osb === 'true')) &&
+        ((+records.pullUps_pb + +records.encroach_pb < 3) && (records.goal_pb === 'true') && (records.finalPosition_pb === 'true')) &&
+        ((+records.pullUps_ps + +records.encroach_ps < 3) && (records.goal_ps === 'true') && (records.finalPosition_ps === 'true')) &&
+        ((+records.pullUps_cou + +records.encroach_cou < 3) && (records.goal_cou === 'true') && (records.finalPosition_cou === 'true'))"
         class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text>
         <ion-text
-        *ngIf="(!(+records.pullUpsInput_slb + +records.encroachInput_slb <= 1) && (records.goal_slb === 'true') && (records.finalPosition_slb === 'true')) ||
-        (!(+records.pullUpsInput_ad + +records.encroachInput_ad <= 1) && (records.goal_ad === 'true') && (records.finalPosition_ad === 'true'))  ||
-        (!(+records.encroach_osb + +records.encroach_osb <= 1) && (records.goal_osb === 'true') && (records.finalPosition_osb === 'true')) ||
-        (!(+records.pullUps_pb + +records.encroach_pb <= 1) && (records.goal_pb === 'true') && (records.finalPosition_pb === 'true')) ||
-        (!(+records.pullUps_ps + +records.encroach_ps <= 1) && (records.goal_ps === 'true') && (records.finalPosition_ps === 'true')) ||
-        (!(+records.pullUps_cou + +records.encroach_cou <= 1) && (records.goal_cou === 'true') && (records.finalPosition_cou === 'true'))"
+        *ngIf="(!(+records.pullUpsInput_slb + +records.encroachInput_slb < 3) && (records.goal_slb === 'true') && (records.finalPosition_slb === 'true')) ||
+        (!(+records.pullUpsInput_ad + +records.encroachInput_ad < 3) && (records.goal_ad === 'true') && (records.finalPosition_ad === 'true'))  ||
+        (!(+records.encroach_osb + +records.encroach_osb < 3) && (records.goal_osb === 'true') && (records.finalPosition_osb === 'true')) ||
+        (!(+records.pullUps_pb + +records.encroach_pb < 3) && (records.goal_pb === 'true') && (records.finalPosition_pb === 'true')) ||
+        (!(+records.pullUps_ps + +records.encroach_ps < 3) && (records.goal_ps === 'true') && (records.finalPosition_ps === 'true')) ||
+        (!(+records.pullUps_cou + +records.encroach_cou < 3) && (records.goal_cou === 'true') && (records.finalPosition_cou === 'true'))"
          class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text>
-
       </div>
-      <!-- <ion-text class="font-Lato text-9B9BA4">Total Attempts:
-        <span class="font-Lato text-black">
-     {{+records.pullUpsInput_slb + +records.encroachInput_slb + +records.pullUpsInput_ad + +records.encroachInput_ad + +records.pullUps_osb + +records.encroach_osb + +records.pullUps_pb + +records.encroach_pb + +records.pullUps_ps + +records.encroach_ps + +records.pullUps_cou + +records.encroach_cou}}
-        </span></ion-text> -->
     </ion-card-content>
-    <ion-button *ngIf="(loading | async) === false" expand="block" class="close-out-button font-Lato mx-8 mb-8 mt-4 bg-opacity-10 text-white" (click)="exit()">Close</ion-button>
+    <ion-button *ngIf="(loading | async) === false" expand="block" class="close-out-button font-Lato mx-8 mb-2 mt-2 bg-opacity-10 text-white" (click)="exit()">Close</ion-button>
     <ion-card>
     </ion-card>
   </div>
@@ -647,80 +632,80 @@
     <ion-grid>
       <ion-row class="my-4">
         <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">Left Turns</ion-text></ion-col>
-        <ion-col *ngIf="records.leftTurnsInput>=3" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
-        <ion-col *ngIf="records.leftTurnsInput<3" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">Unsatisfactory</ion-text></ion-col>
+        <ion-col *ngIf="((records.leftTurnsInput < 3) && (records.leftTurns === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="!((records.leftTurnsInput < 3) && (records.leftTurns === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">Unsatisfactory</ion-text></ion-col>
         <ion-col  size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.leftTurnsInput}}</ion-text></ion-col>
       </ion-row>
       <ion-row class="my-4">
         <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">Right Turns</ion-text></ion-col>
-        <ion-col *ngIf="records.rightTurnsInput>=3" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
-        <ion-col *ngIf="records.rightTurnsInput<3" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">Unsatisfactory</ion-text></ion-col>
+        <ion-col *ngIf="((records.rightTurnsInput < 3) && (records.rightTurns === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="!((records.rightTurnsInput < 3) && (records.rightTurns === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">Unsatisfactory</ion-text></ion-col>
         <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.rightTurnsInput}}</ion-text></ion-col>
       </ion-row>
       <ion-row class="my-4">
         <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">Intersection Stop</ion-text></ion-col>
-        <ion-col *ngIf="records.intersectionStopInput>=3" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
-        <ion-col *ngIf="records.intersectionStopInput<3" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">Unsatisfactory</ion-text></ion-col>
+        <ion-col *ngIf="((records.intersectionStopInput < 3) && (records.intersectionStop === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="!((records.intersectionStopInput < 3) && (records.intersectionStop === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">Unsatisfactory</ion-text></ion-col>
         <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.intersectionStopInput}}</ion-text></ion-col>
       </ion-row>
       <ion-row class="my-4">
         <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">Intersection Thru</ion-text></ion-col>
-        <ion-col *ngIf="records.intersectionThruInput>=3" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
-        <ion-col *ngIf="records.intersectionThruInput<3" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">Unsatisfactory</ion-text></ion-col>
+        <ion-col *ngIf="((records.intersectionThruInput < 3) && (records.intersectionThru === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="!((records.intersectionThruInput < 3) && (records.intersectionThru === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">Unsatisfactory</ion-text></ion-col>
         <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.intersectionThruInput}}</ion-text></ion-col>
       </ion-row>
       <ion-row class="my-4">
         <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">Interstate</ion-text></ion-col>
-        <ion-col *ngIf="records.interstateInput>=3" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
-        <ion-col *ngIf="records.interstateInput<3" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">Unsatisfactory</ion-text></ion-col>
+        <ion-col *ngIf="((records.interstateInput < 3) && (records.interstate === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="!((records.interstateInput < 3) && (records.interstate === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">Unsatisfactory</ion-text></ion-col>
         <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.interstateInput}}</ion-text></ion-col>
       </ion-row>
       <ion-row class="my-4">
         <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">Urban Business</ion-text></ion-col>
-        <ion-col *ngIf="records.urbanBusinessInput>=3" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
-        <ion-col *ngIf="records.urbanBusinessInput<3" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">Unsatisfactory</ion-text></ion-col>
+        <ion-col *ngIf="((records.urbanBusinessInput < 3) && (records.urbanBusiness === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="!((records.urbanBusinessInput < 3) && (records.urbanBusiness === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">Unsatisfactory</ion-text></ion-col>
         <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.urbanBusinessInput}}</ion-text></ion-col>
       </ion-row>
       <ion-row class="my-4">
         <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">Lance Changes</ion-text></ion-col>
-        <ion-col *ngIf="records.lanceChangesInput>=3" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
-        <ion-col *ngIf="records.lanceChangesInput<3" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">Unsatisfactory</ion-text></ion-col>
+        <ion-col *ngIf="((records.lanceChangesInput < 3) && (records.lanceChanges === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="!((records.lanceChangesInput < 3) && (records.lanceChanges === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">Unsatisfactory</ion-text></ion-col>
         <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.lanceChangesInput}}</ion-text></ion-col>
       </ion-row>
       <ion-row class="my-4">
         <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">Curve</ion-text></ion-col>
-        <ion-col *ngIf="records.curveInput>=3" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
-        <ion-col *ngIf="records.curveInput<3" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">Unsatisfactory</ion-text></ion-col>
+        <ion-col *ngIf="((records.curveInput < 3) && (records.curve === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="!((records.curveInput < 3) && (records.curve === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">Unsatisfactory</ion-text></ion-col>
         <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.curveInput}}</ion-text></ion-col>
       </ion-row>
       <ion-row class="my-4">
         <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">Roadside Start/Stop</ion-text></ion-col>
-        <ion-col *ngIf="records.roadsideInput>=3" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
-        <ion-col *ngIf="records.roadsideInput<3" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">Unsatisfactory</ion-text></ion-col>
+        <ion-col *ngIf="((records.roadsideInput < 3) && (records.roadside === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="!((records.roadsideInput < 3) && (records.roadside === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">Unsatisfactory</ion-text></ion-col>
         <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.roadsideInput}}</ion-text></ion-col>
       </ion-row>
       <ion-row class="my-4">
         <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">RR Crodsing</ion-text></ion-col>
-        <ion-col *ngIf="records.rrCrossingInput>=3" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
-        <ion-col *ngIf="records.rrCrossingInput<3" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">Unsatisfactory</ion-text></ion-col>
+        <ion-col *ngIf="((records.rrCrossingInput < 3) && (records.rrCrossing === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="!((records.rrCrossingInput < 3) && (records.rrCrossing === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">Unsatisfactory</ion-text></ion-col>
         <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.rrCrossingInput}}</ion-text></ion-col>
       </ion-row>
       <ion-row class="my-4">
         <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">Signs</ion-text></ion-col>
-        <ion-col *ngIf="records.signsInput>=3" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
-        <ion-col *ngIf="records.signsInput<3" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">Unsatisfactory</ion-text></ion-col>
+        <ion-col *ngIf="((records.signsInput < 3) && (records.signs === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="!((records.signsInput < 3) && (records.signs === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">Unsatisfactory</ion-text></ion-col>
         <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.signsInput}}</ion-text></ion-col>
       </ion-row>
       <ion-row class="my-4">
         <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">General Driving</ion-text></ion-col>
-        <ion-col *ngIf="records.generalDrivingInput>=3" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
-        <ion-col *ngIf="records.generalDrivingInput<3" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">Unsatisfactory</ion-text></ion-col>
+        <ion-col *ngIf="((records.generalDrivingInput < 3) && (records.generalDriving === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="!((records.generalDrivingInput < 3) && (records.generalDriving === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">Unsatisfactory</ion-text></ion-col>
         <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.generalDrivingInput}}</ion-text></ion-col>
       </ion-row>
       <ion-row class="my-4">
         <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">eLog Practical</ion-text></ion-col>
-        <ion-col *ngIf="records.eLogPracticalInput>=3" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
-        <ion-col *ngIf="records.eLogPracticalInput<3" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">Unsatisfactory</ion-text></ion-col>
+        <ion-col *ngIf="((records.eLogPracticalInput < 3) && (records.eLogPractical === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="!((records.eLogPracticalInput < 3) && (records.eLogPractical === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">Unsatisfactory</ion-text></ion-col>
         <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.eLogPracticalInput}}</ion-text></ion-col>
       </ion-row>
     </ion-grid>
@@ -729,12 +714,45 @@
       <ion-card-content *ngIf="(loading | async) === false">
         <div class="flex justify-between items-center mb-2">
           <ion-text class="font-Lato text-black font-semibold">Final Results:</ion-text>
-          <ion-text *ngIf="+records?.leftTurnsInput + +records?.rightTurnsInput + +records?.intersectionStopInput + +records?.intersectionThruInput + +records?.interstateInput + +records?.urbanBusinessInput + +records?.lanceChangesInput + +records?.curveInput + +records?.roadsideInput + +records?.rrCrossingInput + +records?.signsInput+ +records?.generalDrivingInput + +records?.eLogPracticalInput > 32" class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">{{+records?.leftTurnsInput + +records?.rightTurnsInput + +records?.intersectionStopInput + +records?.intersectionThruInput + +records?.interstateInput + +records?.urbanBusinessInput + +records?.lanceChangesInput + +records?.curveInput + +records?.roadsideInput + +records?.rrCrossingInput + +records?.signsInput+ +records?.generalDrivingInput + +records?.eLogPracticalInput > 32 ? "Satisfactory":"Unsatisfactory"}}</ion-text>
-          <ion-text *ngIf="+records?.leftTurnsInput + +records?.rightTurnsInput + +records?.intersectionStopInput + +records?.intersectionThruInput + +records?.interstateInput + +records?.urbanBusinessInput + +records?.lanceChangesInput + +records?.curveInput + +records?.roadsideInput + +records?.rrCrossingInput + +records?.signsInput+ +records?.generalDrivingInput + +records?.eLogPracticalInput < 32" class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">{{+records?.leftTurnsInput + +records?.rightTurnsInput + +records?.intersectionStopInput + +records?.intersectionThruInput + +records?.interstateInput + +records?.urbanBusinessInput + +records?.lanceChangesInput + +records?.curveInput + +records?.roadsideInput + +records?.rrCrossingInput + +records?.signsInput+ +records?.generalDrivingInput + +records?.eLogPracticalInput > 32 ? "Satisfactory":"Unsatisfactory"}}</ion-text>
+          <!-- <ion-text *ngIf="+records?.leftTurnsInput + +records?.rightTurnsInput + +records?.intersectionStopInput + +records?.intersectionThruInput + +records?.interstateInput + +records?.urbanBusinessInput + +records?.lanceChangesInput + +records?.curveInput + +records?.roadsideInput + +records?.rrCrossingInput + +records?.signsInput+ +records?.generalDrivingInput + +records?.eLogPracticalInput > 32" class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">{{+records?.leftTurnsInput + +records?.rightTurnsInput + +records?.intersectionStopInput + +records?.intersectionThruInput + +records?.interstateInput + +records?.urbanBusinessInput + +records?.lanceChangesInput + +records?.curveInput + +records?.roadsideInput + +records?.rrCrossingInput + +records?.signsInput+ +records?.generalDrivingInput + +records?.eLogPracticalInput > 32 ? "Satisfactory":"Unsatisfactory"}}</ion-text> -->
+          <!-- <ion-text *ngIf="+records?.leftTurnsInput + +records?.rightTurnsInput + +records?.intersectionStopInput + +records?.intersectionThruInput + +records?.interstateInput + +records?.urbanBusinessInput + +records?.lanceChangesInput + +records?.curveInput + +records?.roadsideInput + +records?.rrCrossingInput + +records?.signsInput+ +records?.generalDrivingInput + +records?.eLogPracticalInput < 32" class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">{{+records?.leftTurnsInput + +records?.rightTurnsInput + +records?.intersectionStopInput + +records?.intersectionThruInput + +records?.interstateInput + +records?.urbanBusinessInput + +records?.lanceChangesInput + +records?.curveInput + +records?.roadsideInput + +records?.rrCrossingInput + +records?.signsInput+ +records?.generalDrivingInput + +records?.eLogPracticalInput > 32 ? "Satisfactory":"Unsatisfactory"}}</ion-text> -->
+       <ion-text
+          *ngIf="((records.leftTurnsInput < 3) && (records.leftTurns === 'true')) &&
+          ((records.rightTurnsInput < 3) && (records.rightTurns === 'true'))  &&
+          ((records.intersectionStopInput < 3) && (records.intersectionStop === 'true')) &&
+          ((records.intersectionThruInput < 3) && (records.intersectionThru === 'true')) &&
+          ((records.interstateInput < 3) && (records.interstate === 'true')) &&
+          ((records.urbanBusinessInput < 3) && (records.urbanBusiness === 'true')) &&
+          ((records.lanceChangesInput < 3) && (records.lanceChanges === 'true')) &&
+          ((records.curveInput < 3) && (records.curve === 'true')) &&
+          ((records.roadsideInput < 3) && (records.roadside === 'true')) &&
+          ((records.rrCrossingInput < 3) && (records.rrCrossing === 'true')) &&
+          ((records.signsInput < 3) && (records.signs === 'true')) &&
+          ((records.eLogPracticalInput < 3) && (records.generalDriving === 'true')) &&
+          ((records.generalDrivingInput < 3) && (records.eLogPractical === 'true'))
+          "
+          class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text>
+          <ion-text
+          *ngIf="!((records.leftTurnsInput < 3) && (records.leftTurns === 'true')) ||
+          !((records.rightTurnsInput < 3) && (records.rightTurns === 'true'))  ||
+          !((records.intersectionStopInput < 3) && (records.intersectionStop === 'true')) ||
+          !((records.intersectionThruInput < 3) && (records.intersectionThru === 'true')) ||
+          !((records.interstateInput < 3) && (records.interstate === 'true')) ||
+          !((records.urbanBusinessInput < 3) && (records.urbanBusiness === 'true')) ||
+          !((records.lanceChangesInput < 3) && (records.lanceChanges === 'true')) ||
+          !((records.curveInput < 3) && (records.curve === 'true')) ||
+          !((records.roadsideInput < 3) && (records.roadside === 'true')) ||
+          !((records.rrCrossingInput < 3) && (records.rrCrossing === 'true')) ||
+          !((records.signsInput < 3) && (records.signs === 'true')) ||
+          !((records.eLogPracticalInput < 3) && (records.generalDriving === 'true')) ||
+          !((records.generalDrivingInput < 3) && (records.eLogPractical === 'true'))
+          "
+          class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text>
         </div>
-        <ion-text class="font-Lato text-9B9BA4">Total Attempts: <span class="font-Lato text-black">
+
+        <!-- <ion-text class="font-Lato text-9B9BA4">Total Attempts: <span class="font-Lato text-black">
           {{+records?.leftTurnsInput + +records?.rightTurnsInput + +records?.intersectionStopInput + +records?.intersectionThruInput + +records?.interstateInput + +records?.urbanBusinessInput + +records?.lanceChangesInput + +records?.curveInput + +records?.roadsideInput + +records?.rrCrossingInput + +records?.signsInput+ +records?.generalDrivingInput + +records?.eLogPracticalInput}}
-        </span></ion-text>
+        </span></ion-text> -->
       </ion-card-content>
       <ion-button *ngIf="(loading | async) === false" expand="block" class="close-out-button font-Lato mx-8 mb-8 mt-4 bg-opacity-10 text-white" (click)="exit()">Exit</ion-button>
     </ion-card>
@@ -808,23 +826,6 @@
       </ion-row>
     </ion-grid>
     <ion-grid>
-      <!-- <ion-row class="my-4">
-        <ion-col size="5" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">CDL Classroom</ion-text></ion-col>
-        <ion-col size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
-        <ion-col size="2" class="ion-text-center"><ion-text class="font-Lato font-semibold">4.35</ion-text></ion-col>
-      </ion-row>
-      <ion-row class="my-4">
-        <ion-col size="5" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">CDL Group Practicum</ion-text></ion-col>
-        <ion-col size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">Unsatisfactory</ion-text></ion-col>
-        <ion-col size="2" class="ion-text-center"><ion-text class="font-Lato font-semibold">4:22</ion-text></ion-col>
-      </ion-row> -->
-      <!-- <div *ngFor="let record of records">
-      <ion-row class="my-4" *ngIf="record.evaluation_type === 'pre-trip'">
-          <ion-col size="4" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">CDL Pre-Trip Check</ion-text></ion-col>
-          <ion-col size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">{{(((+record.percentageCoupling + +record.percentageEngineCompartment + +record.percentageInCab + +record.percentageSuspension + +record.percentageVehicleExternal)/600)*100) > 50 ? "Satisfactory" : "Unsatisfactory"}}</ion-text></ion-col>
-          <ion-col size="3" class="ion-text-start"><ion-text class="font-Lato font-semibold">{{record.enddatepretrip?.hours?record.enddatepretrip.hours: '0'}}h:{{record.enddatepretrip?.minutes?record.enddatepretrip.minutes : '0'}}m</ion-text></ion-col>
-        </ion-row>
-      </div> -->
       </ion-grid>
 
       <ion-grid *ngIf="records.length > 0">
@@ -850,15 +851,15 @@
       </ion-grid>
 
       <ion-card>
-        <ion-card-content>
-          <div class="mb-2 flex items-center justify-between">
+        <ion-card-content class="">
+          <div class="mb-0 flex items-center justify-between">
             <ion-text class="font-Lato font-semibold">Total Training Time:</ion-text>
-            <ion-text class="font-Lato px-3 py-1 text-sm font-semibold text-black"> {{getTotalTrainingHoursTime(records, 'hours')}}h:{{getTotalTrainingHoursTime(records, 'minutes')}}m </ion-text>
+            <ion-text class="font-Lato px-3 py-1 text-sm font-semibold text-black"> {{getTotalTrainingHoursTime(records)}} </ion-text>
           </div>
         </ion-card-content>
       </ion-card>
 
-      <ion-button expand="block" class="close-out-button font-Lato mx-8 mb-8 mt-4 bg-opacity-10 text-white" (click)="exit()">Close</ion-button>
+      <ion-button expand="block" class="close-out-button font-Lato mx-8 mb-2 mt-2 bg-opacity-10 text-white" (click)="exit()">Close</ion-button>
     </div>
   </div>
 </ion-content>

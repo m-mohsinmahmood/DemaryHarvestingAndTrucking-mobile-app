@@ -31,8 +31,8 @@ export class TrainingTasksPage implements OnInit {
   route;
   trainingTasksForm: FormGroup;
   states: string[];
-
-  trainer_id = '4b84234b-0b74-49a2-b3c7-d3884f5f6013';
+  role;
+  trainer_id;
   profileData: any;
 
   // behaviour subject's for loader
@@ -74,18 +74,10 @@ export class TrainingTasksPage implements OnInit {
     );
     this.route = this.router.getCurrentNavigation().extras.state.routeName;
 
-    this.trainingTasksForm = this.formBuilder.group({
-      trainer_id: [''],
-      supervisor_id: [''],
-      city: [''],
-      state: [''],
-      training_type: [''],
-      topic: ['', [Validators.required]],
-      image_1: [''],
-      image_2: [''],
-      image_3: [''],
-      notes: [''],
-    });
+    this.initForm();
+
+     // getting id & role
+   this.getRoleAndID();
 
     // passing value in training type
     if (this.route === 'Company Training') {
@@ -110,6 +102,27 @@ export class TrainingTasksPage implements OnInit {
 
     // supervisor subscription
     this.employeeSearchSubscription();
+  }
+  initForm(){
+    this.trainingTasksForm = this.formBuilder.group({
+      trainer_id: [''],
+      supervisor_id: [''],
+      city: [''],
+      state: [''],
+      training_type: [''],
+      topic: ['', [Validators.required]],
+      image_1: [''],
+      image_2: [''],
+      image_3: [''],
+      notes: [''],
+    });
+  }
+  async ionViewDidEnter() {
+    this.getRoleAndID();
+  }
+  getRoleAndID(){
+    this.role = localStorage.getItem('role');
+    this.trainer_id = localStorage.getItem('employeeId');
   }
 
   onSelectedFiles(file, name) {
@@ -155,7 +168,6 @@ export class TrainingTasksPage implements OnInit {
   getTrainer() {
     this.trainingService.getTrainerById(this.trainer_id).subscribe((res) => {
       this.loading.next(true);
-      console.log('Res:', res);
       this.profileData = res[0];
 
       // patching values

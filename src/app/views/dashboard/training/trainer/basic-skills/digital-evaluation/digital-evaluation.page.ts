@@ -24,9 +24,8 @@ export class DigitalEvaluationPage implements OnInit {
 totalUnSatisfactory = 0;
 training_record_id: any;
 checkValue: any;
-
- // trainer id
- trainer_id = '4b84234b-0b74-49a2-b3c7-d3884f5f6013';
+ trainer_id;
+ supervisor_id;
  isModalOpen = false;
 
  public loadingSpinner = new BehaviorSubject(false);
@@ -41,13 +40,24 @@ checkValue: any;
     ) { }
 
   ngOnInit() {
+    // getting id & role
+   this.getRoleAndID();
+
     this.initForms();
 
     // query params
     this.route.queryParams.subscribe((params)=>{
       console.log('object',params);
       this.training_record_id = params.training_record_id;
+      this.supervisor_id = params.supervisor_id;
+
     });
+  }
+  async ionViewDidEnter() {
+    this.getRoleAndID();
+  }
+  getRoleAndID(){
+    this.trainer_id = localStorage.getItem('employeeId');
   }
   initForms(){
     this.basicSkillForm = this.formBuilder.group({
@@ -123,7 +133,9 @@ checkValue: any;
             // navigating
             this.router.navigate(['/tabs/home/training/trainer/basic-skills/digital-evaluation/alley-docking'],{
               queryParams:{
-                training_record_id: this.training_record_id
+                training_record_id: this.training_record_id,
+                supervisor_id: this.supervisor_id
+
               }
             });
           },500);

@@ -38,7 +38,8 @@ export class RoadSkillsPage implements OnInit {
  data: any;
 
  // trainer id
- trainer_id = '4b84234b-0b74-49a2-b3c7-d3884f5f6013';
+ trainer_id;
+ training_record_id;
 
   // behaviour subject's for loader
   public loading = new BehaviorSubject(true);
@@ -96,7 +97,34 @@ export class RoadSkillsPage implements OnInit {
      }
 
   ngOnInit() {
+       // getting id & role
+   this.getRoleAndID();
 
+    this.initForm();
+
+    // pasing states
+    this.states = states;
+
+    // getting Trainer profile data
+    this.getTrainer();
+
+     // trainee subscription
+     this.traineeSearchSubscription();
+
+     // supervisor subscription
+     this.traineeSearchSubscription();
+
+      // truck subscription
+      this.truckSearchSubscription();
+  }
+  async ionViewDidEnter() {
+    this.getRoleAndID();
+  }
+  getRoleAndID(){
+    this.trainer_id = localStorage.getItem('employeeId');
+
+  }
+  initForm(){
     this.roadTestForm = this.formBuilder.group({
       evaluation_form: ['',[Validators.required]],
       trainer_id: ['',[Validators.required]],
@@ -113,21 +141,6 @@ export class RoadSkillsPage implements OnInit {
       image_2: [''],
       image_3: [''],
     });
-
-    // pasing states
-    this.states = states;
-
-    // getting Trainer profile data
-    this.getTrainer();
-
-     // trainee subscription
-     this.traineeSearchSubscription();
-
-     // supervisor subscription
-     this.traineeSearchSubscription();
-
-      // truck subscription
-      this.truckSearchSubscription();
   }
   onSelectedFiles(file, name) {
     if (name === 'upload_1') {
@@ -210,7 +223,7 @@ export class RoadSkillsPage implements OnInit {
             'Your details have been submitted',
             'success'
           );
-          this.router.navigateByUrl('/tabs/home/training/trainer');
+          // this.router.navigateByUrl('/tabs/home/training/trainer');
 
         } else {
           console.log('Something happened :)');
@@ -225,10 +238,14 @@ export class RoadSkillsPage implements OnInit {
   }
   continue(){
     console.log(this.roadTestForm.value);
-    this.router.navigateByUrl('/tabs/home/training/trainer/road-skills/evaluation-form');
-    this.trainingService.save(this.roadTestForm.value, 'road-skills').subscribe(
+    // Form Data
+    var formData: FormData = new FormData();
+    formData.append('roadTestForm',JSON.stringify(this.roadTestForm.value));
+
+    this.trainingService.save(formData, 'road-skills').subscribe(
       (res) => {
         console.log('RES:', res);
+
         if (res.status === 200) {
           this.toastService.presentToast(
             'Digital evaluation has been started',
@@ -236,7 +253,12 @@ export class RoadSkillsPage implements OnInit {
           );
 
           // navigating
-          this.router.navigateByUrl('/tabs/home/training/trainer/road-skills/evaluation-form');
+          this.router.navigate(['/tabs/home/training/trainer/road-skills/evaluation-form'],{
+            queryParams:{
+              training_record_id: res.id.training_record_id,
+              supervisor_id: this.data?.supervisor_id? this.data.supervisor_id : this.roadTestForm.get('supervisor_id').value
+            }
+          });
 
         } else {
           console.log('Something happened :)');
@@ -542,9 +564,15 @@ export class RoadSkillsPage implements OnInit {
     this.allTrucks = of([]);
   }
   //#endregion
+
   completeEvaluation(){
     if(this.data.is_digital_form_started){
-      this.router.navigateByUrl('/tabs/home/training/trainer/road-skills/evaluation-form');
+      this.router.navigate(['/tabs/home/training/trainer/road-skills/evaluation-form'],{
+        queryParams:{
+          training_record_id: this.data.id,
+          supervisor_id: this.data.supervisor_id
+        }
+      });
     }
   }
 }

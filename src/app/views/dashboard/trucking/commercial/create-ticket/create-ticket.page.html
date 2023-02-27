@@ -50,7 +50,7 @@
             </div>
           </div>
 
-          <div class="custom-file-upload">
+          <!-- <div class="custom-file-upload">
             <label>
               <input
                 class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
@@ -58,6 +58,74 @@
                 accept="image/png, image/jpeg" />
               Upload Rate Sheet
             </label>
+          </div> -->
+          <div class="ml-2 mt-4">
+            <ion-label class="font font-medium text-aaaaaa">Training docs (upload here)</ion-label>
+          </div>
+          <div class="flex px-2 py-2">
+            <div class="w-16 h-16 mr-2">
+              <ion-card
+              [ngClass]="!upload_1 ? ' shadow-none m-0 border-2 border-aaaaaa bg-e9e6e6' : 'shadow-none m-0 border-2 border-3D8AA4 bg-white'"
+              (click)="upload__1.click()">
+                <ion-card-content class="p-0 w-16 h-16 flex justify-center items-center">
+                  <ion-segment scrollable value="done" class="bg-none">
+                    <ion-segment-button value="upload" *ngIf="!upload_1">
+                      <ion-icon [ngStyle]="{'color' : !upload_1 ? '#aaaaaa' : ''}" name="cloud-upload-outline">
+                      </ion-icon>
+                    </ion-segment-button>
+
+                    <ion-segment-button value="done" *ngIf="upload_1">
+                      <ion-icon [ngStyle]="{'color' : upload_1 ? '#3D8AA4' : ''}" name="cloud-done-outline">
+                      </ion-icon>
+                    </ion-segment-button>
+                    <input #upload__1 type="file" class=" invisible hidden"
+                      (change)="onSelectedFiles($event, 'upload_1')" />
+                  </ion-segment>
+                </ion-card-content>
+              </ion-card>
+            </div>
+            <div class="w-16 h-16 mr-2">
+              <ion-card
+              [ngClass]="!upload_2 ? ' shadow-none m-0 border-2 border-aaaaaa bg-e9e6e6' : 'shadow-none m-0 border-2 border-3D8AA4 bg-white'"
+              (click)="upload__2.click()">
+                <ion-card-content class="p-0 w-16 h-16 flex justify-center items-center">
+                  <ion-segment scrollable value="done" class="bg-none">
+                    <ion-segment-button value="upload" *ngIf="!upload_2">
+                      <ion-icon [ngStyle]="{'color' : !upload_2 ? '#aaaaaa' : ''}" name="cloud-upload-outline">
+                      </ion-icon>
+                    </ion-segment-button>
+
+                    <ion-segment-button value="done" *ngIf="upload_2">
+                      <ion-icon [ngStyle]="{'color' : upload_2 ? '#3D8AA4' : ''}" name="cloud-done-outline">
+                      </ion-icon>
+                    </ion-segment-button>
+                    <input #upload__2 type="file" class=" invisible hidden"
+                      (change)="onSelectedFiles($event, 'upload_2')" />
+                  </ion-segment>
+                </ion-card-content>
+              </ion-card>
+            </div>
+            <div class="w-16 h-16 mr-2">
+              <ion-card
+              [ngClass]="!upload_3 ? 'shadow-none m-0 border-2 border-aaaaaa bg-e9e6e6' : 'shadow-none m-0 border-2 border-3D8AA4 bg-white'"
+              (click)="upload__3.click()">
+                <ion-card-content class="p-0 w-16 h-16 flex justify-center items-center">
+                  <ion-segment scrollable value="done" class="bg-none">
+                    <ion-segment-button value="upload" *ngIf="!upload_3">
+                      <ion-icon [ngStyle]="{'color' : !upload_3 ? '#aaaaaa' : ''}" name="cloud-upload-outline">
+                      </ion-icon>
+                    </ion-segment-button>
+
+                    <ion-segment-button value="done" *ngIf="upload_3">
+                      <ion-icon [ngStyle]="{'color' : upload_3 ? '#3D8AA4' : ''}" name="cloud-done-outline">
+                      </ion-icon>
+                    </ion-segment-button>
+                    <input #upload__3 type="file" class=" invisible hidden"
+                      (change)="onSelectedFiles($event, 'upload_3')" />
+                  </ion-segment>
+                </ion-card-content>
+              </ion-card>
+            </div>
           </div>
 
           <ion-card class="mb-1" *ngIf="rateSheetImg.length > 0">

@@ -21,8 +21,8 @@ export class ParkingBlindPage implements OnInit {
 
   totalSatisfactory = 0;
   totalUnSatisfactory = 0;
-  // trainer id
-  trainer_id = '4b84234b-0b74-49a2-b3c7-d3884f5f6013';
+  trainer_id;
+  supervisor_id;
   math = Math;
   training_record_id: any;
   training_record: any;
@@ -41,15 +41,26 @@ export class ParkingBlindPage implements OnInit {
     ) { }
 
     ngOnInit() {
-      this.initForm();
+       // getting id & role
+     this.getRoleAndID();
+
+     this.initForm();
 
       //query params
       this.route.queryParams.subscribe((params)=>{
         this.training_record_id = params.training_record_id;
+        this.supervisor_id = params.supervisor_id;
+
       });
 
     // getting training record by id
     this.getRecord();
+    }
+    async ionViewDidEnter() {
+      this.getRoleAndID();
+    }
+    getRoleAndID(){
+      this.trainer_id = localStorage.getItem('employeeId');
     }
     initForm(){
       this.basicSkillForm = this.formBuilder.group({
@@ -132,7 +143,9 @@ export class ParkingBlindPage implements OnInit {
           setTimeout(()=>{
             this.router.navigate(['/tabs/home/training/trainer/basic-skills/digital-evaluation/alley-docking/off-set-backing/parking-blind/parking-sight'],{
               queryParams:{
-                training_record_id: this.training_record_id
+                training_record_id: this.training_record_id,
+                supervisor_id: this.supervisor_id
+
               }
             });
           },500);
@@ -156,11 +169,11 @@ export class ParkingBlindPage implements OnInit {
           console.log('Record::', this.training_record);
           // patching
           this.basicSkillForm.patchValue({
-            straightLineBaking_pb: (+this.training_record.pullUpsInput_slb + +this.training_record.encroachInput_slb >= 3) || (this.training_record.goal_slb === 'false') || (this.training_record.finalPosition_slb === 'false') === false? 'false': 'true',
+            straightLineBaking_pb: (+this.training_record.pullUpsInput_slb + +this.training_record.encroachInput_slb < 3) && (this.training_record.goal_slb === 'true') && (this.training_record.finalPosition_slb === 'true') === true? 'true': 'false',
             straightLineBakingInput_pb: +this.training_record.pullUpsInput_slb + +this.training_record.encroachInput_slb,
-            alleyDocking_pb: (+this.training_record.pullUpsInput_ad + +this.training_record.encroachInput_ad >= 3) || (this.training_record.goal_ad === 'false') || (this.training_record.finalPosition_ad === 'false') === false? 'false': 'true',
+            alleyDocking_pb: (+this.training_record.pullUpsInput_ad + +this.training_record.encroachInput_ad < 3) && (this.training_record.goal_ad === 'true') && (this.training_record.finalPosition_ad === 'true') === true? 'true': 'false',
             alleyDockingInput_pb: +this.training_record.pullUpsInput_ad + +this.training_record.encroachInput_ad,
-            offSetBacking_pb: (+this.training_record.pullUps_osb + +this.training_record.encroach_osb >= 3) || (this.training_record.goal_osb === 'false') || (this.training_record.finalPosition_osb === 'false') === false? 'false': 'true',
+            offSetBacking_pb: (+this.training_record.pullUps_osb + +this.training_record.encroach_osb < 3) && (this.training_record.goal_osb === 'true') && (this.training_record.finalPosition_osb === 'true') === true? 'true': 'false',
             offSetBackingInput_pb: +this.training_record.pullUps_osb + +this.training_record.encroach_osb,
           });
         });

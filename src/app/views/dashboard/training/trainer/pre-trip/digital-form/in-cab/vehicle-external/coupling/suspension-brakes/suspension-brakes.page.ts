@@ -21,8 +21,8 @@ export class SuspensionBrakesPage implements OnInit {
   training_record_id: any;
 
   isModalOpen = false;
-  // trainer id
-  trainer_id = '4b84234b-0b74-49a2-b3c7-d3884f5f6013';
+  trainer_id;
+  supervisor_id;
   public loadingSpinner = new BehaviorSubject(false);
 
   constructor(private formBuilder: FormBuilder,
@@ -33,95 +33,110 @@ export class SuspensionBrakesPage implements OnInit {
     ) { }
 
   ngOnInit() {
-    this.preTripForm = this.formBuilder.group({
-       //Suspension/Brakes
-      springs: [false,[Validators.required]],
-      airBags: [false,[Validators.required]],
-      shocks: [false,[Validators.required]],
-      vBolts: [false,[Validators.required]],
-      mounts: [false,[Validators.required]],
-      bushings: [false,[Validators.required]],
-      leafSprings: [false,[Validators.required]],
-      slackAdjusters: [false,[Validators.required]],
-      crackChammber: [false,[Validators.required]],
-      pushRod: [false,[Validators.required]],
-      drums: [false,[Validators.required]],
-      linings: [false,[Validators.required]],
-      rotor: [false,[Validators.required]],
-      discPads: [false,[Validators.required]],
-      brakeHoses: [false,[Validators.required]],
-      cams: [false,[Validators.required]],
-      torqueArm: [false,[Validators.required]],
-      wheelSeals: [false,[Validators.required]],
-      commentsSuspension: ['',[Validators.required]],
-      category:['suspension-brakes'],
-      percentageSuspension:[],
-      trainer_id:[this.trainer_id],
-      endDate:[Date.now()]
-    });
-    this.preTripForm.valueChanges.subscribe((value)=>{
-      let sum = 0;
-      if(value.springs){
-        sum = 1 + sum;
-      }
-      if(value.airBags){
-        sum = 1 + sum;
-      }
-      if(value.shocks){
-        sum = 1 + sum;
-      }
-      if(value.vBolts){
-        sum = 1 + sum;
-      }
-      if(value.mounts){
-        sum = 1 + sum;
-      }
-      if(value.bushings){
-        sum = 1 + sum;
-      }
-      if(value.leafSprings){
-        sum = 1 + sum;
-      }
-      if(value.slackAdjusters){
-        sum = 1 + sum;
-      }
-      if(value.crackChammber){
-        sum = 1 + sum;
-      }
-      if(value.pushRod){
-        sum = 1 + sum;
-      }
-      if(value.drums){
-        sum = 1 + sum;
-      }
-      if(value.linings){
-        sum = 1 + sum;
-      }
-      if(value.rotor){
-        sum = 1 + sum;
-      }
-      if(value.discPads){
-        sum = 1 + sum;
-      }
-      if(value.brakeHoses){
-        sum = 1 + sum;
-      }
-      if(value.cams){
-        sum = 1 + sum;
-      }
-      if(value.torqueArm){
-        sum = 1 + sum;
-      }
-      if(value.wheelSeals){
-        sum = 1 + sum;
-      }
-      console.log('Sum:',sum);
-      this.result = Math.round((sum / 18) * 100);
+     // getting id & role
+   this.getRoleAndID();
 
-    });
+   this.initForm();
+
     this.route.queryParams.subscribe((params)=>{
+      console.log('params',params);
       this.training_record_id = params.training_record_id;
+      this.supervisor_id = params.supervisor_id;
     });
+  }
+  initForm(){
+    this.preTripForm = this.formBuilder.group({
+      //Suspension/Brakes
+     springs: [false,[Validators.required]],
+     airBags: [false,[Validators.required]],
+     shocks: [false,[Validators.required]],
+     vBolts: [false,[Validators.required]],
+     mounts: [false,[Validators.required]],
+     bushings: [false,[Validators.required]],
+     leafSprings: [false,[Validators.required]],
+     slackAdjusters: [false,[Validators.required]],
+     crackChammber: [false,[Validators.required]],
+     pushRod: [false,[Validators.required]],
+     drums: [false,[Validators.required]],
+     linings: [false,[Validators.required]],
+     rotor: [false,[Validators.required]],
+     discPads: [false,[Validators.required]],
+     brakeHoses: [false,[Validators.required]],
+     cams: [false,[Validators.required]],
+     torqueArm: [false,[Validators.required]],
+     wheelSeals: [false,[Validators.required]],
+     commentsSuspension: ['',[Validators.required]],
+     category:['suspension-brakes'],
+     percentageSuspension:[],
+     trainer_id:[this.trainer_id],
+     endDate:[Date.now()]
+   });
+   this.preTripForm.valueChanges.subscribe((value)=>{
+     let sum = 0;
+     if(value.springs){
+       sum = 1 + sum;
+     }
+     if(value.airBags){
+       sum = 1 + sum;
+     }
+     if(value.shocks){
+       sum = 1 + sum;
+     }
+     if(value.vBolts){
+       sum = 1 + sum;
+     }
+     if(value.mounts){
+       sum = 1 + sum;
+     }
+     if(value.bushings){
+       sum = 1 + sum;
+     }
+     if(value.leafSprings){
+       sum = 1 + sum;
+     }
+     if(value.slackAdjusters){
+       sum = 1 + sum;
+     }
+     if(value.crackChammber){
+       sum = 1 + sum;
+     }
+     if(value.pushRod){
+       sum = 1 + sum;
+     }
+     if(value.drums){
+       sum = 1 + sum;
+     }
+     if(value.linings){
+       sum = 1 + sum;
+     }
+     if(value.rotor){
+       sum = 1 + sum;
+     }
+     if(value.discPads){
+       sum = 1 + sum;
+     }
+     if(value.brakeHoses){
+       sum = 1 + sum;
+     }
+     if(value.cams){
+       sum = 1 + sum;
+     }
+     if(value.torqueArm){
+       sum = 1 + sum;
+     }
+     if(value.wheelSeals){
+       sum = 1 + sum;
+     }
+     console.log('Sum:',sum);
+     this.result = Math.round((sum / 18) * 100);
+
+   });
+  }
+  async ionViewDidEnter() {
+    this.getRoleAndID();
+  }
+  getRoleAndID(){
+    this.trainer_id = localStorage.getItem('employeeId');
   }
   next(){
     this.isModalOpen = true;
@@ -158,7 +173,6 @@ export class SuspensionBrakesPage implements OnInit {
           );
 
           // navigating
-        // this.router.navigate(['/tabs/home/training/trainer']);
         if (this.isModalOpen === false) {
           setTimeout(()=>{
             this.router.navigate(['/tabs/home/training/trainer']);
@@ -178,16 +192,12 @@ export class SuspensionBrakesPage implements OnInit {
 
   createDWR(){
     this.trainingService
-     .createDWR(localStorage.getItem('employeeId'), this.training_record_id,'pre-trip','digital-form','4543344b-0b74-49a2-b3c7-d388851f0013')
+     .createDWR(this.trainer_id, this.training_record_id,'pre-trip','digital-form',this.supervisor_id)
      .subscribe(
        (res) => {
          console.log('RES:', res);
          if (res.status === 200) {
            this.router.navigateByUrl('/tabs/home/training/trainer');
-           // this.toastService.presentToast(
-           //   'Ticket has been completed',
-           //   'success'
-           // );
          } else {
            console.log('Something happened :)');
            this.toastService.presentToast(res.mssage, 'danger');

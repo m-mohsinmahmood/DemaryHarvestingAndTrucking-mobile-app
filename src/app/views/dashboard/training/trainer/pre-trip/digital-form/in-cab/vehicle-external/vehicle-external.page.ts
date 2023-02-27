@@ -19,8 +19,8 @@ export class VehicleExternalPage implements OnInit {
   training_record_id: any;
   isModalOpen = false;
 
-    // trainer id
- trainer_id = '4b84234b-0b74-49a2-b3c7-d3884f5f6013';
+    trainer_id;
+    supervisor_id
  public loadingSpinner = new BehaviorSubject(false);
 
 
@@ -34,6 +34,18 @@ export class VehicleExternalPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    // getting id & role
+   this.getRoleAndID();
+
+   this.initForm();
+
+    this.route.queryParams.subscribe((params)=>{
+      this.training_record_id = params.training_record_id;
+      this.supervisor_id = params.supervisor_id;
+
+    });
+  }
+  initForm(){
     this.preTripForm = this.formBuilder.group({
       lightFunctionVehicle: [false,[Validators.required]],
       lensReflector: [false,[Validators.required]],
@@ -115,10 +127,14 @@ export class VehicleExternalPage implements OnInit {
       this.result = Math.round((sum / 17) * 100);
 
     });
-    this.route.queryParams.subscribe((params)=>{
-      this.training_record_id = params.training_record_id;
-    });
   }
+  async ionViewDidEnter() {
+    this.getRoleAndID();
+  }
+  getRoleAndID(){
+    this.trainer_id = localStorage.getItem('employeeId');
+  }
+
   next(){
     this.isModalOpen = true;
   }
@@ -154,7 +170,8 @@ export class VehicleExternalPage implements OnInit {
           setTimeout(()=>{
             this.router.navigate(['/tabs/home/training/trainer/pre-trip/digital-form/in-cab/vehicle-external/coupling'],{
               queryParams:{
-                training_record_id: this.training_record_id
+                training_record_id: this.training_record_id,
+                supervisor_id: this.supervisor_id
               }
             });
           },500);

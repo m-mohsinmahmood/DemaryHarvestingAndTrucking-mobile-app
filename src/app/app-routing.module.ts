@@ -8,32 +8,39 @@ import {
   redirectLoggedInTo,
 } from '@angular/fire/auth-guard';
 
-const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['login']);
-const redirectAuthorizedToHome = () => {
-  return redirectLoggedInTo(['tabs']);
-};
+// const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['login']);
+const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['tabs']);
+const redirectAuthorizedToHome = () => redirectLoggedInTo(['tabs']);
 
 const routes: Routes = [
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: '', redirectTo: '/tabs/home', pathMatch: 'full' },
   {
     path: 'login',
+    // loadChildren: () =>
+    //   import('./views/login/login.module').then((m) => m.LoginPageModule),
+    // ...canActivate(redirectAuthorizedToHome),
     loadChildren: () =>
       import('./views/login/login.module').then((m) => m.LoginPageModule),
-    ...canActivate(redirectAuthorizedToHome),
   },
   {
     path: 'tabs',
+    // loadChildren: () =>
+    //   import('./views/tabs/tabs.module').then((m) => m.TabsPageModule),
+    // ...canActivate(redirectUnauthorizedToLogin),
     loadChildren: () =>
-      import('./views/tabs/tabs.module').then((m) => m.TabsPageModule),
-    ...canActivate(redirectUnauthorizedToLogin),
+    import('./views/tabs/tabs.module').then((m) => m.TabsPageModule),
   },
   {
     path: 'complete-pre-check-form',
+    // loadChildren: () =>
+    //   import(
+    //     './pages/complete-pre-check-form/complete-pre-check-form.module'
+    //   ).then((m) => m.CompletePreCheckFormPageModule),
+    // ...canActivate(redirectUnauthorizedToLogin),
     loadChildren: () =>
-      import(
-        './pages/complete-pre-check-form/complete-pre-check-form.module'
-      ).then((m) => m.CompletePreCheckFormPageModule),
-    ...canActivate(redirectUnauthorizedToLogin),
+    import(
+      './pages/complete-pre-check-form/complete-pre-check-form.module'
+    ).then((m) => m.CompletePreCheckFormPageModule)
   },
 ];
 

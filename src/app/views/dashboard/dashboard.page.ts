@@ -16,6 +16,7 @@ export class DashboardPage implements OnInit {
 
   roleOptions = ['crew-chief', 'kart-operator', 'combine-operator', 'truck-driver', 'tractor-driver', 'dispatcher'];
   role = this.roleOptions[0];
+  // role;
   selectform: FormGroup;
   activeDwr: any;
   isModalOpen = false;
@@ -30,10 +31,16 @@ export class DashboardPage implements OnInit {
 
   ngOnInit() {
     this.initDataRetrieval();
+    console.log('On-INIT');
   }
 
   async ionViewDidEnter() {
     this.initDataRetrieval();
+    console.log('ionViewDidEnter');
+  }
+  async ionViewWillEnter(){
+    this.initDataRetrieval();
+    console.log('ionViewWillEnter');
   }
 
   initDataRetrieval() {
@@ -45,25 +52,41 @@ export class DashboardPage implements OnInit {
 
     this.selectform.patchValue({ select: this.roleOptions[0] });
     // eslint-disable-next-line @typescript-eslint/quotes
-    console.log(localStorage.getItem("employeeId"));
+    // console.log('-',localStorage.getItem("employeeId"));
+    // console.log('--',localStorage.getItem('emp_id'));
+    // console.log('---',localStorage.getItem('emp_role'));
+    // console.log('-------',localStorage.getItem('emp_role').includes('Crew Chief'));
+    // const role = localStorage.getItem('emp_role');
+    // console.log(role.includes('Crew Chief'));
+    // console.log(role.includes('Combine Operator'));
+    // console.log(role.includes('Crew Chief') || role.includes('Combine Operator'));
+
+    // assigning role
+    // this.role = localStorage.getItem('role');
 
     this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
       console.log(workOrder.dwr);
       this.activeDwr = workOrder.dwr;
 
       if (this.activeDwr.length <= 0) {
-        localStorage.setItem('role', this.role);
-        localStorage.setItem('employeeId', '8920a566-453c-47f0-82dc-21e74196bb98');
+        // localStorage.setItem('role', this.role);
+        // localStorage.setItem('employeeId', '8920a566-453c-47f0-82dc-21e74196bb98');
+        // localStorage.setItem('role', localStorage.getItem('role'));
+        // localStorage.setItem('employeeId', localStorage.getItem('employeeId'));
+
       }
       else {
         this.isModalOpen = true;
       }
-    })
+    });
   }
 
 async logout() {
   await this.auth.logout();
   this.isOpen = false;
+
+  localStorage.removeItem('employeeId');
+  localStorage.removeItem('role');
 }
 
   onSelect(e) {
@@ -92,17 +115,17 @@ async logout() {
     if (this.activeDwr[0].module === 'farming') {
       this.isModalOpen = false;
       console.log(this.isModalOpen);
-      this.nav.navigate(['farming'], { relativeTo: this.activatedRoute })
+      this.nav.navigate(['farming'], { relativeTo: this.activatedRoute });
     }
     else if (this.activeDwr[0].module === 'trucking') {
       this.isModalOpen = false;
       console.log(this.isModalOpen);
-      this.nav.navigate(['trucking'], { relativeTo: this.activatedRoute })
+      this.nav.navigate(['trucking'], { relativeTo: this.activatedRoute });
     }
     else if (this.activeDwr[0].module === 'harvesting') {
       this.isModalOpen = false;
       console.log(this.isModalOpen);
-      this.nav.navigate(['harvesting'], { relativeTo: this.activatedRoute })
+      this.nav.navigate(['harvesting'], { relativeTo: this.activatedRoute });
     }
   }
 }
