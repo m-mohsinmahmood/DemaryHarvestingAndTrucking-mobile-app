@@ -5,7 +5,7 @@ import { Location } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HarvestingService } from './../../harvesting.service';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { ToastService } from 'src/app/services/toast/toast.service';
 import { Observable } from 'rxjs';
 
@@ -30,6 +30,7 @@ export class GeneratedTicketPage implements OnInit {
   upload_2 = false;
   upload_3 = false;
   ticketSub;
+  public loadingSpinner = new BehaviorSubject(false);
 
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
@@ -107,6 +108,7 @@ export class GeneratedTicketPage implements OnInit {
   submit() {
     // console.log(this.generateTicketFormTruck.value);
     if (this.role === 'truck-driver') {
+      this.loadingSpinner.next(true);
       this.harvestingService.truckDriverCompleteTicket(
         'completeTicket',
         this.generateTicketFormTruck.value
@@ -115,9 +117,13 @@ export class GeneratedTicketPage implements OnInit {
           (response: any) => {
             console.log('Response', response);
             if (response.status === 200) {
+              this.loadingSpinner.next(false);
+
               this.generateTicketFormTruck.reset();
-              this.goBack();
               this.toastService.presentToast(response.message, 'success');
+
+              // navigating
+            this.router.navigateByUrl('/tabs/home/harvesting/verify-ticket/generated');
             } else {
               console.log('Something happened :)');
               this.toastService.presentToast(response.message, 'danger');
@@ -126,15 +132,22 @@ export class GeneratedTicketPage implements OnInit {
           (err) => {
             this.toastService.presentToast(err, 'danger');
             console.log('Error:', err);
+            this.loadingSpinner.next(false);
+
           }
         );
     } else {
       let payload = { operation: 'verifyTicket', ticketId: this.ticket.id };
+      this.loadingSpinner.next(true);
       this.harvestingService.kartOperatorVerifyTickets(payload).subscribe(
         (res: any) => {
           if (res.status === 200) {
+            this.loadingSpinner.next(false);
+
             this.toastService.presentToast(res.message, 'success');
-            this.goBack();
+
+            // navigating
+            this.router.navigateByUrl('/tabs/home/harvesting/verify-ticket/generated');
           } else {
             console.log('Something happened :)');
             this.toastService.presentToast(res.mssage, 'danger');
@@ -143,6 +156,8 @@ export class GeneratedTicketPage implements OnInit {
         (err) => {
           this.toastService.presentToast(err, 'danger');
           console.log('Error:', err);
+          this.loadingSpinner.next(false);
+
         }
       );
     }

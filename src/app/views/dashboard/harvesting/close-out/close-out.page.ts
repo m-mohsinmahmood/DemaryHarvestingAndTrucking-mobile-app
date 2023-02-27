@@ -5,7 +5,8 @@ import * as moment from 'moment';
 // import * as moment from 'moment';
 import { HarvestingService } from './../harvesting.service';
 import { ToastService } from 'src/app/services/toast/toast.service';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-close-out',
@@ -22,11 +23,13 @@ export class CloseOutPage implements OnInit {
   role: any;
   sub;
   loadingSub;
+  public loadingSpinner = new BehaviorSubject(false);
 
   constructor(
     private formBuilder: FormBuilder,
     private harvestingservice: HarvestingService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private router: Router
   ) { }
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
@@ -89,23 +92,23 @@ export class CloseOutPage implements OnInit {
       // For crew-chief
       if (this.role === 'crew-chief') {
         this.closeJobFormCrew.patchValue({
-          customer_id: this.customerData?.customer_job[0].customer_id,
-          state: this.customerData?.customer_job[0].state,
-          farm_id: this.customerData?.customer_job[0].farm_id,
-          crop_id: this.customerData?.customer_job[0].crop_id,
-          field_id: this.customerData?.customer_job[0].field_id
+          customer_id: this.customerData?.customer_job[0]?.customer_id,
+          state: this.customerData?.customer_job[0]?.state,
+          farm_id: this.customerData?.customer_job[0]?.farm_id,
+          crop_id: this.customerData?.customer_job[0]?.crop_id,
+          field_id: this.customerData?.customer_job[0]?.field_id
         });
       }
       // For combine operator
       else if (this.role === 'combine-operator') {
         this.closeJobFormCombine.patchValue({
-          customer_id: this.customerData?.customer_job[0].customer_id
+          customer_id: this.customerData?.customer_job[0]?.customer_id
         });
       }
       // For kart operator
       else if (this.role === 'kart-operator') {
         this.closeJobFormKart.patchValue({
-          customer_id: this.customerData?.customer_job[0].customer_id
+          customer_id: this.customerData?.customer_job[0]?.customer_id
         });
       }
 
@@ -125,12 +128,18 @@ export class CloseOutPage implements OnInit {
     console.log(this.closeJobFormCrew.value);
 
     if (this.role === 'crew-chief') {
+      this.loadingSpinner.next(true);
       this.harvestingservice.createJob(this.closeJobFormCrew.value).subscribe(
         (res: any) => {
           console.log('Response of Close-Out Job:', res);
           if (res.status === 200) {
+            this.loadingSpinner.next(false);
+
             this.closeJobFormCrew.reset();
             this.toastService.presentToast(res.message, 'success');
+
+            // navigating
+            this.router.navigateByUrl('/tabs/home/harvesting');
           } else {
             console.log('Something happened :)');
           }
@@ -140,12 +149,17 @@ export class CloseOutPage implements OnInit {
         },
       );
     } else if (this.role === 'combine-operator') {
+      this.loadingSpinner.next(true);
       this.harvestingservice.closeOutJob(this.closeJobFormCombine.value).subscribe(
         (res: any) => {
           console.log('Response of Close-Out Job:', res);
           if (res.status === 200) {
+            this.loadingSpinner.next(false);
             this.closeJobFormCrew.reset();
             this.toastService.presentToast(res.message, 'success');
+
+             // navigating
+             this.router.navigateByUrl('/tabs/home/harvesting');
           } else {
             console.log('Something happened :)');
           }
@@ -155,10 +169,16 @@ export class CloseOutPage implements OnInit {
         },
       );
     } else if (this.role === 'kart-operator') {
+      this.loadingSpinner.next(true);
       this.harvestingservice.closeOutJob(this.closeJobFormKart.value).subscribe(
         (res: any) => {
           console.log('Response of Close-Out Job:', res);
           if (res.status === 200) {
+            this.loadingSpinner.next(false);
+
+              // navigating
+              this.router.navigateByUrl('/tabs/home/harvesting');
+
             this.closeJobFormCrew.reset();
             this.toastService.presentToast(res.message, 'success');
           } else {

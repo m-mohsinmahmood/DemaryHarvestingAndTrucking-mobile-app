@@ -127,8 +127,12 @@ role ==='truck-driver'? 'Enter Begining of Day Work Data' : ''" [color]="'harves
                 placeholder="">
             </div>
 
-            <ion-button expand="block" class="mt-5 font-Lato text-white" [disabled]="startJobFormCrew.invalid"
-              (click)="submit()">Save </ion-button>
+            <ion-button expand="block" class="mt-5 font-Lato text-white"
+             [disabled]="startJobFormCrew.invalid || (loadingSpinner | async)"
+              (click)="submit()">
+              <div *ngIf="(loadingSpinner | async) === false">Save</div>
+              <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+   </ion-button>
           </div>
         </ion-list>
       </form>
@@ -149,13 +153,13 @@ role ==='truck-driver'? 'Enter Begining of Day Work Data' : ''" [color]="'harves
           <ion-row>
             <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Customer Name</ion-col>
             <ion-col size="6"
-              class="text-sm flex font-Lato ">{{this.customerData.customer_job[0].customer_name}}</ion-col>
+              class="text-sm flex font-Lato ">{{this.customerData.customer_job[0]?.customer_name}}</ion-col>
             <ion-col size="6" class="text-sm text-black font-Lato font-semibold">State</ion-col>
-            <ion-col size="6" class="text-sm flex font-Lato">{{this.customerData.customer_job[0].state}}</ion-col>
+            <ion-col size="6" class="text-sm flex font-Lato">{{this.customerData.customer_job[0]?.state}}</ion-col>
             <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Farm</ion-col>
-            <ion-col size="6" class="text-sm flex font-Lato">{{this.customerData.customer_job[0].farm_name}} </ion-col>
+            <ion-col size="6" class="text-sm flex font-Lato">{{this.customerData.customer_job[0]?.farm_name}} </ion-col>
             <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Crop</ion-col>
-            <ion-col size="6" class="text-sm flex font-Lato">{{this.customerData.customer_job[0].crop}}</ion-col>
+            <ion-col size="6" class="text-sm flex font-Lato">{{this.customerData.customer_job[0]?.crop}}</ion-col>
           </ion-row>
         </ion-grid>
       </ion-card-content>
@@ -263,8 +267,12 @@ role ==='truck-driver'? 'Enter Begining of Day Work Data' : ''" [color]="'harves
             class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
             formControlName="field_acres" placeholder="Enter Field Acres" readonly>
         </div>
-        <ion-button expand="block" class="mt-5 font-Lato text-white" [disabled]="startJobFormCombine.invalid "
-          (click)="submit()">Save </ion-button>
+        <ion-button expand="block" class="mt-5 font-Lato text-white"
+        [disabled]="startJobFormCombine.invalid || (loadingSpinner | async)"
+          (click)="submit()">
+          <div *ngIf="(loadingSpinner | async) === false">Save</div>
+          <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+         </ion-button>
       </div>
     </form>
   </div>
@@ -376,7 +384,10 @@ role ==='truck-driver'? 'Enter Begining of Day Work Data' : ''" [color]="'harves
             formControlName="beginningEngineHours" placeholder="Confirm Begining Engine Hours">
         </div>
         <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="submit()"
-          [disabled]="startJobFormKart.invalid">Save</ion-button>
+          [disabled]="startJobFormKart.invalid || (loadingSpinner | async)">
+          <div *ngIf="(loadingSpinner | async) === false">Save</div>
+          <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+</ion-button>
       </div>
     </form>
   </div>
@@ -462,8 +473,12 @@ role ==='truck-driver'? 'Enter Begining of Day Work Data' : ''" [color]="'harves
             class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
             formControlName="begining_odometer_miles" placeholder="Confirm Begining Odometer Miles">
         </div>
-        <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="submit()"
-          [disabled]="startJobFormTruck.invalid">Save</ion-button>
+        <ion-button expand="block" class="mt-5 font-Lato text-white"
+        (click)="submit()"
+          [disabled]="startJobFormTruck.invalid || (loadingSpinner | async)">
+          <div *ngIf="(loadingSpinner | async) === false">Save</div>
+          <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+        </ion-button>
       </div>
     </form>
   </div>

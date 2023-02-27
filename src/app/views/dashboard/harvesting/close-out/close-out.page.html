@@ -12,15 +12,15 @@
     <ion-grid>
       <ion-row >
         <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Customer Name</ion-col>
-        <ion-col size="6" class="text-sm font-Lato">{{customerData?.customer_job[0].customer_name}}</ion-col>
+        <ion-col size="6" class="text-sm font-Lato">{{customerData?.customer_job[0]?.customer_name}}</ion-col>
         <ion-col size="6" class="text-sm text-black font-Lato font-semibold">State</ion-col>
-        <ion-col size="6" class="text-sm font-Lato">{{customerData?.customer_job[0].state}} </ion-col>
+        <ion-col size="6" class="text-sm font-Lato">{{customerData?.customer_job[0]?.state}} </ion-col>
         <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Farm</ion-col>
-        <ion-col size="6" class="text-sm font-Lato">{{customerData?.customer_job[0].farm_name}} </ion-col>
+        <ion-col size="6" class="text-sm font-Lato">{{customerData?.customer_job[0]?.farm_name}} </ion-col>
         <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Crop</ion-col>
-        <ion-col size="6" class="text-sm font-Lato">{{customerData?.customer_job[0].crop}} </ion-col>
+        <ion-col size="6" class="text-sm font-Lato">{{customerData?.customer_job[0]?.crop}} </ion-col>
         <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Current Field</ion-col>
-        <ion-col size="6" class="text-sm font-Lato">{{customerData?.customer_job[0].field_name}} </ion-col>
+        <ion-col size="6" class="text-sm font-Lato">{{customerData?.customer_job[0]?.field_name}} </ion-col>
       </ion-row>
     </ion-grid>
   </ion-card-content>
@@ -68,7 +68,11 @@
       formControlName="total_gps_acres" placeholder="Total GPS Acres">
   </div>
 </div>
-<ion-button expand="block" class="mt-5 font-Lato text-white" [disabled]="closeJobFormCrew.invalid" (click)="submit()">Save</ion-button>
+<ion-button expand="block" class="mt-5 font-Lato text-white"
+[disabled]="closeJobFormCrew.invalid || (loadingSpinner | async)"
+ (click)="submit()">
+ <div *ngIf="(loadingSpinner | async) === false">Save</div>
+ <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner></ion-button>
 </form>
 </div>
 </ion-content>
@@ -140,7 +144,12 @@
       formControlName="total_gps_acres" placeholder="Total GPS Acres">
   </div>
 </div>
-<ion-button expand="block" class="mt-5 font-Lato text-white" [disabled]="closeJobFormCombine.invalid" (click)="submit()">Save</ion-button>
+<ion-button expand="block" class="mt-5 font-Lato text-white"
+ [disabled]="closeJobFormCombine.invalid || (loadingSpinner | async)"
+ (click)="submit()">
+ <div *ngIf="(loadingSpinner | async) === false">Save</div>
+ <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+</ion-button>
 </form>
 </div>
 </ion-content>
@@ -212,7 +221,12 @@
       formControlName="total_gps_acres" placeholder="Total GPS Acres">
   </div>
 </div>
-<ion-button expand="block" class="mt-5 font-Lato text-white" [disabled]="closeJobFormKart.invalid" (click)="submit()">Save</ion-button>
+<ion-button expand="block" class="mt-5 font-Lato text-white"
+ [disabled]="closeJobFormKart.invalid || (loadingSpinner | async)"
+ (click)="submit()">
+ <div *ngIf="(loadingSpinner | async) === false">Save</div>
+ <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+</ion-button>
 </form>
 </div>
 </ion-content>

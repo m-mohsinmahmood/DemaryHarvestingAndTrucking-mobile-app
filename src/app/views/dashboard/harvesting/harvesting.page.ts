@@ -24,6 +24,7 @@ export class HarvestingPage implements OnInit {
   };
 
   role: any;
+  workOrderCount;
   constructor(
     private location: Location,
     private router: Router,
@@ -36,14 +37,17 @@ export class HarvestingPage implements OnInit {
     this.role = localStorage.getItem('role');
 
     this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
-      console.log("Active Check In ", workOrder.dwr);
+      console.log('Active Check In ', workOrder.dwr);
       this.activeDwr = workOrder.dwr;
 
       if (workOrder.dwr.length > 0)
-        this.isModalOpen = false;
+        {this.isModalOpen = false;}
       else
-        this.isModalOpen = true;
-    })
+        {this.isModalOpen = true;}
+    });
+
+    //call for dwr
+    this.getDWRCount();
 
     if (this.role === 'truck-driver') {
       this.activeWorkOrders = this.harvestingService.getDeliveryTickets(this.role, localStorage.getItem('employeeId'), true, false, 'truck-driver-active-tickets');
@@ -68,15 +72,18 @@ export class HarvestingPage implements OnInit {
 
   async ionViewDidEnter() {
 
+    //call for dwr
+    this.getDWRCount();
+
     this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
-      console.log("Active Check In ", workOrder.dwr);
+      console.log('Active Check In ', workOrder.dwr);
       this.activeDwr = workOrder.dwr;
 
       if (workOrder.dwr.length > 0)
-        this.isModalOpen = false;
+        {this.isModalOpen = false;}
       else
-        this.isModalOpen = true;
-    })
+        {this.isModalOpen = true;}
+    });
 
     this.role = localStorage.getItem('role');
     if (this.role === 'truck-driver') {
@@ -99,7 +106,13 @@ export class HarvestingPage implements OnInit {
     }
 
   }
-
+getDWRCount(){
+  this.harvestingService.getBeginningOfDay2(localStorage.getItem('employeeId'), 'beginningOfDay', 'harvesting')
+     .subscribe((workOrder)=>{
+      this.workOrderCount = workOrder.count;
+      console.log('WorkOrder :', workOrder);
+    });
+}
   goBack() {
     this.location.back();
   }

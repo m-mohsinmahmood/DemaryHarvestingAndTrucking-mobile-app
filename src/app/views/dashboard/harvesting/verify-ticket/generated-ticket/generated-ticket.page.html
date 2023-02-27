@@ -98,7 +98,11 @@
 
         </ion-row>
     </ion-grid>
-    <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="submit()">Verify</ion-button>
+    <ion-button expand="block" class="mt-5 font-Lato text-white"
+     (click)="submit()">
+      <div *ngIf="(loadingSpinner | async) === false">Verify</div>
+          <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+    </ion-button>
   </ion-card-content>
   <ion-card-content *ngIf="(isLoadingTicket$ | async) === true">
     <ion-grid>

@@ -4,8 +4,9 @@ import { Location } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HarvestingService } from './../harvesting.service';
 import { ToastService } from 'src/app/services/toast/toast.service';
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-close-job',
@@ -25,12 +26,15 @@ export class CloseJobPage implements OnInit {
   job;
   sub;
 
+  public loadingSpinner = new BehaviorSubject(false);
+
   constructor(
     private location: Location,
     private formBuilder: FormBuilder,
     private harvestingService: HarvestingService,
     private toastService: ToastService,
-    private activeRoute: ActivatedRoute
+    private activeRoute: ActivatedRoute,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -161,16 +165,23 @@ export class CloseJobPage implements OnInit {
         ).value,
       };
 
+      this.loadingSpinner.next(true);
       this.harvestingService.closeBeginningDay(dayClosed).subscribe(
         (res: any) => {
           console.log(res);
           if (res.status === 200) {
+            this.loadingSpinner.next(false);
+
+            //tooltip
             this.toastService.presentToast(
               'Day has been closed successfully!',
               'success'
             );
-            // this.router.navigateByUrl('/tabs/home/farming');
-          }
+
+         // navigating
+        this.router.navigateByUrl('/tabs/home/harvesting');
+
+      }
         },
         (err) => {
           this.toastService.presentToast(err, 'danger');
@@ -187,15 +198,20 @@ export class CloseJobPage implements OnInit {
           'ending_separator_hours'
         ).value,
       };
+      this.loadingSpinner.next(true);
       this.harvestingService.closeBeginningDay(dayClosed).subscribe(
         (res: any) => {
           console.log(res);
           if (res.status === 200) {
+            this.loadingSpinner.next(false);
+
             this.toastService.presentToast(
               'Day has been closed successfully!',
               'success'
             );
-            // this.router.navigateByUrl('/tabs/home/farming');
+
+            // navigating
+            this.router.navigateByUrl('/tabs/home/harvesting');
           }
         },
         (err) => {
@@ -206,16 +222,22 @@ export class CloseJobPage implements OnInit {
     if (localStorage.getItem('role') === 'kart-operator') {
       console.log('customerData', this.customerData);
       console.log('this.closeJobFormKart', this.closeJobFormKart.value);
+      this.loadingSpinner.next(true);
       this.harvestingService
         .closeBeginningDay(this.closeJobFormKart.value)
         .subscribe(
           (res: any) => {
             console.log(res);
             if (res.status === 200) {
+              this.loadingSpinner.next(false);
+
               this.toastService.presentToast(
                 'Day has been closed successfully!',
                 'success'
               );
+
+               // navigating
+            this.router.navigateByUrl('/tabs/home/harvesting');
 
               this.goBack();
               // this.router.navigateByUrl('/tabs/home/farming');
@@ -229,18 +251,21 @@ export class CloseJobPage implements OnInit {
     if (localStorage.getItem('role') === 'truck-driver') {
       console.log(this.closeJobFormTruck.value);
 
+      this.loadingSpinner.next(true);
       this.harvestingService
         .closeBeginningDay(this.closeJobFormTruck.value)
         .subscribe(
           (res: any) => {
             console.log(res);
             if (res.status === 200) {
+              this.loadingSpinner.next(false);
               this.toastService.presentToast(
                 'Day has been closed successfully!',
                 'success'
               );
-              // this.router.navigateByUrl('/tabs/home/farming');
-            }
+
+ // navigating
+ this.router.navigateByUrl('/tabs/home/harvesting');            }
           },
           (err) => {
             this.toastService.presentToast(err, 'danger');

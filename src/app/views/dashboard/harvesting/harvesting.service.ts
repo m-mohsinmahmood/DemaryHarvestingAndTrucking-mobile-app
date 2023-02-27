@@ -409,6 +409,14 @@ export class HarvestingService {
         }
       );
   }
+    getBeginningOfDay2(employeeId: string,searchClause: string,type: string) {
+    let params = new HttpParams();
+    params = params.set('employeeId', employeeId);
+    params = params.set('searchClause', searchClause);
+    params = params.set('type', type);
+    return this._httpClient.get<any>('api-1/dwr', {
+      params,}) .pipe(take(1));
+    }
 
   getMachinery(search: string = '', entity: string = '') {
     this._httpClient;

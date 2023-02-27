@@ -182,8 +182,18 @@
         </div>
 
       </div>
-      <ion-button expand="block" class="font-Lato mt-5 text-white" *ngIf="!isReassign && !isSplitTrue" (click)="submit()">Generate and Send</ion-button>
-      <ion-button expand="block" class="font-Lato mt-5 text-white" *ngIf="!isReassign && isSplitTrue" (click)="submit()">Generate Duplicate Ticket</ion-button>
+      <ion-button expand="block" class="font-Lato mt-5 text-white"
+      *ngIf="!isReassign && !isSplitTrue" (click)="submit()"
+      >
+        <div *ngIf="(loadingSpinner | async) === false">Generate and Send</div>
+        <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+      </ion-button>
+      <ion-button expand="block" class="font-Lato mt-5 text-white"
+      *ngIf="!isReassign && isSplitTrue"
+       (click)="submit()">
+        <div *ngIf="(loadingSpinner | async) === false">Generate Duplicate Ticket</div>
+        <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+      </ion-button>
       <ion-button expand="block" class="font-Lato mt-5 text-white" *ngIf="isReassign" (click)="submit()">Reassign Delivery Ticket</ion-button>
     </form>
   </div>

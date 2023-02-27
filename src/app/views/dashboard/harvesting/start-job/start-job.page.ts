@@ -8,7 +8,7 @@ import { HarvestingService } from './../harvesting.service';
 import { AlertService } from 'src/app/alert/alert.service';
 import { Alert } from 'src/app/alert/alert.model';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
-import { Observable, of, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { ToastService } from 'src/app/services/toast/toast.service';
 import { Router } from '@angular/router';
 
@@ -61,6 +61,7 @@ export class StartJobPage implements OnInit {
   fieldName = '';
   isLoadingCustomer$;
 
+  public loadingSpinner = new BehaviorSubject(false);
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
   constructor(
@@ -230,13 +231,17 @@ export class StartJobPage implements OnInit {
         beginningEngineHours: this.startJobFormCrew.get('beginningEngineHours').value,
         beginning_separator_hours: this.startJobFormCrew.get('beginning_separator_hours').value,
       };
-
+      this.loadingSpinner.next(true);
       this.harvestingService.createBeginingDay(data, 'harvesting')
         .subscribe((res) => {
           console.log(res);
           if (res.status === 200) {
+            this.loadingSpinner.next(false);
             console.log('RES:', res);
             this.toastService.presentToast('DWR has been created successfully', 'success');
+
+            // navigating
+            this.router.navigateByUrl('/tabs/home/harvesting');
           }
         },
           (err) => {
@@ -253,14 +258,18 @@ export class StartJobPage implements OnInit {
         beginningEngineHours: this.startJobFormCombine.get('beginningEngineHours').value,
         beginning_separator_hours: this.startJobFormCombine.get('beginning_separator_hours').value,
       };
-
+      this.loadingSpinner.next(true);
       this.harvestingService.createBeginingDay(data, 'harvesting')
         .subscribe(
           (res: any) => {
             console.log('Response:', res);
             if (res.status === 200) {
+              this.loadingSpinner.next(false);
               this.startJobFormCombine.reset();
               this.toastService.presentToast(res.message, 'success');
+
+               // navigating
+            this.router.navigateByUrl('/tabs/home/harvesting');
             } else {
               console.log('Something happened :)');
               this.toastService.presentToast('DWR has been created successfully', 'success');
@@ -282,15 +291,20 @@ export class StartJobPage implements OnInit {
         beginningEngineHours: this.startJobFormKart.get('beginningEngineHours').value,
       };
 
+      this.loadingSpinner.next(true);
       this.harvestingService.createBeginingDay(data, 'harvesting')
         .subscribe(
           (res: any) => {
             // console.log('Response:', res);
             if (res.status === 200) {
+              this.loadingSpinner.next(false);
               this.startJobFormCombine.reset();
               // this.location.back();
               this.router.navigateByUrl('/tabs/home/harvesting');
               this.toastService.presentToast(res.message, 'success');
+
+               // navigating
+            this.router.navigateByUrl('/tabs/home/harvesting');
             } else {
               console.log('Something happened :)');
               this.toastService.presentToast('DWR has been created successfully', 'success');
@@ -312,14 +326,19 @@ export class StartJobPage implements OnInit {
         begining_odometer_miles: this.startJobFormTruck.get('begining_odometer_miles').value
       };
       console.log('data: ', data);
-
+      this.loadingSpinner.next(true);
       this.harvestingService.createBeginingDay(data, 'harvesting')
         .subscribe(
           (res: any) => {
             console.log('Response:', res);
             if (res.status === 200) {
+              this.loadingSpinner.next(false);
+
               this.startJobFormCombine.reset();
               this.toastService.presentToast(res.message, 'success');
+
+               // navigating
+            this.router.navigateByUrl('/tabs/home/harvesting');
             } else {
               console.log('Something happened :)');
               this.toastService.presentToast('DWR has been created successfully', 'success');

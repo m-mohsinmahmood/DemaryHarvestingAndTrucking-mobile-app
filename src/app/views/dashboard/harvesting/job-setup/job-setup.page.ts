@@ -92,7 +92,7 @@ export class JobSetupPage implements OnInit {
   ) {
     this.renderer.listen('window', 'click', (e) => {
       if (e.target !== this.customerInput.nativeElement) {
-        // console.log('Customer');
+        console.log('Customer',this.customerSearchValue);
         if (this.customerSearchValue === '') {
           this.isDisabled = true;
           this.farm_name = '';
@@ -102,6 +102,7 @@ export class JobSetupPage implements OnInit {
           this.isFarmSelected = true;
           this.isCropSelected = true;
           this.isFieldDisabled = true;
+          this.farmSearchValue = ''; // to disable field
 
         } else {
           this.isDisabled = false;
@@ -111,9 +112,17 @@ export class JobSetupPage implements OnInit {
       }
 
       if (e.target !== this.farmInput.nativeElement) {
-        // console.log('Farm');
-        this.allFarmsClicked = of([]);
-        this.farmUL = false; // to hide the UL
+        // // console.log('Farm');
+        // this.allFarmsClicked = of([]);
+        // this.farmUL = false; // to hide the UL
+        if (this.farmSearchValue === '' || this.farmSearchValue === undefined) {
+          this.isFieldDisabled = true;
+          this.field_name = '';
+          this.farmUL = false;
+        } else {
+          this.isFieldDisabled = false;
+          this.allFarms = of([]);
+        }
       }
       if (e.target !== this.cropInput.nativeElement) {
         // console.log('Crop');
@@ -121,9 +130,20 @@ export class JobSetupPage implements OnInit {
         this.cropUL = false; // to hide the UL
       }
       if (e.target !== this.fieldInput.nativeElement) {
-        // console.log('Field');
-        this.allFields = of([]);
-        this.fieldUL = false; // to hide the UL
+        // // console.log('Field');
+        // this.allFields = of([]);
+        // this.fieldUL = false; // to hide the UL
+        if (this.fieldSearchValue === '' || this.farmSearchValue === undefined) {
+          // this.createOrderDispatcher.patchValue({
+          //   totalAcres: null
+          // });
+          this.allFields = of([]); // to clear array
+          this.fieldUL = false; // to hide the UL
+
+        } else {
+          this.allFields = of([]); // to clear array
+          this.fieldUL = false; // to hide the UL
+        }
       }
     });
   }
@@ -220,10 +240,13 @@ export class JobSetupPage implements OnInit {
           // this.isDisabled = customers.count === 0 ? true : false;
           if (customers.count === 0) {
             this.isDisabled = true;
+            this.isFieldDisabled = true
+
 
             // clearing the input values in farm, crop after getting disabled
             this.farm_name = '';
             this.crop_name = '';
+            this.field_name = '';
 
             // hiding UL
             this.customerUL = false;
@@ -264,6 +287,7 @@ export class JobSetupPage implements OnInit {
         // clearing the input values in farm, crop after getting disabled
         this.farm_name = '';
         this.crop_name = '';
+        this.field_name = '';
 
         // hiding UL
         this.customerUL = false;
@@ -333,6 +357,7 @@ export class JobSetupPage implements OnInit {
         this.allFarmsClicked.subscribe((farms) => {
           if (farms.count === 0) {
             this.isFieldDisabled = true;
+            this.field_name = '';
             // hiding UL
             this.farmUL = false;
           } else {
@@ -397,6 +422,9 @@ export class JobSetupPage implements OnInit {
     // clearing array
     this.allFarms = of([]);
     this.allFarmsClicked = of([]);
+
+        // passing name in farm-search-value in Rendered2 for checks 
+        this.farmSearchValue = farm.name;
 
     // to enable submit button
     this.isFarmSelected = false;
@@ -553,6 +581,9 @@ export class JobSetupPage implements OnInit {
 
     // passing name in select's input
     this.field_name = field.field_name;
+
+        // passing name in customer-search-value in Rendered2 for checks 
+        this.fieldSearchValue = field.field_name;
 
     // to enable submit button
     this.isFieldSelected = false;

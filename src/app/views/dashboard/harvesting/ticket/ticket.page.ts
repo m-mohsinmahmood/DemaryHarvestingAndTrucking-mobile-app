@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HarvestingService } from './../harvesting.service';
 import { ToastService } from 'src/app/services/toast/toast.service';
-import { Observable, of, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 
 @Component({
@@ -81,6 +81,7 @@ export class TicketPage implements OnInit {
   add_location_overlay = true;
   sub;
   subLoading;
+  public loadingSpinner = new BehaviorSubject(false);
 
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
@@ -133,15 +134,15 @@ export class TicketPage implements OnInit {
       this.router.getCurrentNavigation().extras?.state?.reassign;
 
     this.deliveryTicketForm = this.formbuildr.group({
-      truckDriverId: ['', [Validators.required]],
+      truckDriverId: [''],
       destination: ['', [Validators.required]],
       loadedMiles: ['', [Validators.required]],
       field: [''],
-      split_load_check: [false, [Validators.required]],
+      split_load_check: [false,],
       delivery_ticket_number: ['', [Validators.required]],
       kartOperatorId: ['', [Validators.required]],
       truck_driver_company: ['', [Validators.required]],
-      truckId: ['', [Validators.required]],
+      truckId: [''],
       splitLoad: ['', [Validators.required]],
       kartScaleWeight: ['', [Validators.required]],
       kart_scale_weight_split: ['', [Validators.required]],
@@ -253,17 +254,20 @@ export class TicketPage implements OnInit {
     // navigating
     if (!this.isReassign) {
       console.log('deliveryTicketForm', this.deliveryTicketForm.value);
+      this.loadingSpinner.next(true);
       this.harvestingService.kartOperatorCreateDeliveryTicket('createDeliveryTicket', this.deliveryTicketForm.value)
         .subscribe((response: any) => {
           // console.log('response', response);
           if (response?.status === 200) {
+            this.loadingSpinner.next(false);
             // this.deliveryTicketForm.reset();
             this.trick_driver_name = '';
             this.toastService.presentToast(
               'Delivery Ticket has been created.',
               'success'
             );
-            this.goBack();
+                      // navigating
+                      this.router.navigateByUrl('/tabs/home/harvesting');
           } else {
             console.log('Something happened :)');
           }
@@ -275,6 +279,8 @@ export class TicketPage implements OnInit {
         'deliveryTicketReassignForm',
         this.deliveryTicketReassignForm.value
       );
+      this.loadingSpinner.next(true);
+
       this.harvestingService
         .updateTicket(
           this.reassignTicketData.delivery_ticket_number,
@@ -284,8 +290,11 @@ export class TicketPage implements OnInit {
           (res: any) => {
             console.log('Response:', res);
             if (res.status === 200) {
+              this.loadingSpinner.next(false);
 
               this.toastService.presentToast(res.message, 'success');
+              // navigating
+              this.router.navigateByUrl('/tabs/home/harvesting');
 
             } else {
               console.log('Something happened :)');
