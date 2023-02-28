@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
@@ -22,9 +23,10 @@ export class DigitalEvaluationPage implements OnInit {
   totalSatisfactory = 0;
 totalUnSatisfactory = 0;
 training_record_id: any;
-
- // trainer id
- trainer_id = '4b84234b-0b74-49a2-b3c7-d3884f5f6013';
+checkValue: any;
+ trainer_id;
+ supervisor_id;
+ isModalOpen = false;
 
  public loadingSpinner = new BehaviorSubject(false);
 
@@ -38,61 +40,65 @@ training_record_id: any;
     ) { }
 
   ngOnInit() {
+    // getting id & role
+   this.getRoleAndID();
+
+    this.initForms();
+
+    // query params
+    this.route.queryParams.subscribe((params)=>{
+      console.log('object',params);
+      this.training_record_id = params.training_record_id;
+      this.supervisor_id = params.supervisor_id;
+
+    });
+  }
+  async ionViewDidEnter() {
+    this.getRoleAndID();
+  }
+  getRoleAndID(){
+    this.trainer_id = localStorage.getItem('employeeId');
+  }
+  initForms(){
     this.basicSkillForm = this.formBuilder.group({
-      pullUpsInput_slb: ['',[Validators.required,Validators.pattern('^([1-5])$')]],
-      encroachInput_slb: ['',[Validators.required,Validators.pattern('^([1-5])$')]],
+      pullUpsInput_slb: [null,[Validators.required,Validators.pattern('^([0-5])$')]],
+      encroachInput_slb: [null,[Validators.required,Validators.pattern('^([0-5])$')]],
       goal_slb: ['',[Validators.required]],
       finalPosition_slb: ['',[Validators.required]],
-      straightLineBacking_slb: ['',[Validators.required]],
-      straightLineBakingInput_slb: ['',[Validators.required,Validators.pattern('^([1-5])$')]], //<-
-      alleyDocking_slb: ['',[Validators.required]],
-      alleyDockingInput_slb: ['',[Validators.required,Validators.pattern('^([1-5])$')]],
-      offSetBacking_slb: ['',[Validators.required]],
-      offSetBackingInput_slb: ['',[Validators.required,Validators.pattern('^([1-5])$')]],
-      parallelParkingBlind_slb: ['',[Validators.required]],
-      parallelParkingBlindInput_slb: ['',[Validators.required,Validators.pattern('^([1-5])$')]],
-      coupUncoup_slb: ['',[Validators.required]],
-      coupUncoupInput_slb: ['',[Validators.required,Validators.pattern('^([1-5])$')]],
+      straightLineBacking_slb: [''],
+      straightLineBakingInput_slb: [''], //<-
+      alleyDocking_slb: [''],
+      alleyDockingInput_slb: [''],
+      offSetBacking_slb: [''],
+      offSetBackingInput_slb: [''],
+      parallelParkingBlind_slb: [''],
+      parallelParkingBlindInput_slb: [''],
+      coupUncoup_slb: [''],
+      coupUncoupInput_slb: [''],
       comments_slb: [''],
       category:['straight-line-backing'],
       satisfactoryStraightLineBacking:[],
       unSatisfactoryStraightLineBacking:[],
       trainer_id: [this.trainer_id]
     });
+
     this.basicSkillForm.valueChanges.subscribe((value)=>{
       let sum = 0;
-      let unSatSum = 0;
-      if(value.straightLineBacking_slb === 'true'){
-        sum = +value.straightLineBakingInput_slb + sum;
-      }else{
-        unSatSum = +value.straightLineBakingInput_slb + unSatSum;
-      }
-      if(value.alleyDocking_slb === 'true'){
-        sum = +value.alleyDockingInput_slb + sum;
-      }else{
-        unSatSum = +value.alleyDockingInput_slb + unSatSum;
-      }
-      if(value.offSetBacking_slb === 'true'){
-        sum = +value.offSetBackingInput_slb + sum;
-      }else{
-        unSatSum = +value.offSetBackingInput_slb + unSatSum;
-      }
-      if(value.parallelParkingBlind_slb === 'true'){
-        sum = +value.parallelParkingBlindInput_slb + sum;
-      }else{
-        unSatSum = +value.parallelParkingBlindInput_slb + unSatSum;
-      }
-      if(value.coupUncoup_slb === 'true'){
-        sum = +value.coupUncoupInput_slb + sum;
-      }else{
-        unSatSum = +value.coupUncoupInput_slb + unSatSum;
-      }
+      // for input fields
+      sum = +value.pullUpsInput_slb +value.encroachInput_slb + +sum;
       this.totalSatisfactory = sum;
-      this.totalUnSatisfactory = unSatSum;
-    });
 
-    this.route.queryParams.subscribe((params)=>{
-      this.training_record_id = params.training_record_id;
+       // for checkboxes
+       if(value.goal_slb === 'true'){
+        this.checkValue = (value.goal_slb === 'true' && value.finalPosition_slb === 'true' && (+value.pullUpsInput_slb +value.encroachInput_slb  <= 2) === true? 'true': 'false');
+      }else{
+        this.checkValue = 'false';
+      }
+      if(value.finalPosition_slb === 'true'){
+        this.checkValue = (value.goal_slb === 'true' && value.finalPosition_slb === 'true' && (+value.pullUpsInput_slb +value.encroachInput_slb  <= 2) === true? 'true': 'false');
+      }else{
+        this.checkValue = 'false';
+      }
     });
   }
   navigate() {
@@ -110,20 +116,30 @@ training_record_id: any;
       (res) => {
         console.log('RES:', res);
         if (res.status === 200) {
+          // closing modal
+          this.isModalOpen = false;
+
+          // spinner
           this.loadingSpinner.next(false);
 
+          // tooltip
           this.toastService.presentToast(
             'Straight Line Backing details have been submitted',
             'success'
           );
 
-          // navigating
-        //  this.router.navigateByUrl('/tabs/home/training/trainer/basic-skills/digital-evaluation/alley-docking');
-        this.router.navigate(['/tabs/home/training/trainer/basic-skills/digital-evaluation/alley-docking'],{
-          queryParams:{
-            training_record_id: this.training_record_id
-          }
-        });
+        if (this.isModalOpen === false) {
+          setTimeout(()=>{
+            // navigating
+            this.router.navigate(['/tabs/home/training/trainer/basic-skills/digital-evaluation/alley-docking'],{
+              queryParams:{
+                training_record_id: this.training_record_id,
+                supervisor_id: this.supervisor_id
+
+              }
+            });
+          },500);
+        }
         } else {
           console.log('Something happened :)');
           this.toastService.presentToast(res.mssage, 'danger');
@@ -140,5 +156,11 @@ training_record_id: any;
   }
   submit(){
     console.log(this.basicSkillForm.value);
+  }
+  next(){
+    this.isModalOpen = true;
+  }
+  edit(){
+    this.isModalOpen = false;
   }
 }

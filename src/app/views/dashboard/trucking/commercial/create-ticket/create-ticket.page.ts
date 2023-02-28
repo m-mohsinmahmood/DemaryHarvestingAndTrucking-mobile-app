@@ -1,3 +1,6 @@
+/* eslint-disable no-var */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/member-ordering */
 import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -83,6 +86,10 @@ export class CreateTicketPage implements OnInit {
     dispatcherNotes: '',
   }
 
+  upload_1 = false;
+  upload_2 = false;
+  upload_3 = false;
+
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
   constructor(
@@ -159,10 +166,14 @@ export class CreateTicketPage implements OnInit {
       destinationCity: ['', [Validators.required]],
       destinationState: ['', [Validators.required]],
       dispatcherNotes: ['', [Validators.required]],
+      image_1: [''],
+      image_2: [''],
+      image_3: [''],
     });
 
     this.createTicketFormTruckDriver = this.formBuilder.group({
       dispatcherId: ['', [Validators.required]],
+      loadDate: [moment().format("MM-DD-YYYY"), [Validators.required]],
       driverId: [[localStorage.getItem('employeeId')]],
       customerId: ['', [Validators.required]],
       rateSheetUpload: ['', [Validators.required]],
@@ -191,6 +202,8 @@ export class CreateTicketPage implements OnInit {
       deadHeadMiles: ['', [Validators.required]],
       totalJobMiles: ['', [Validators.required]],
       totalTripMiles: ['', [Validators.required]],
+      cropId:['5e708ba7-9255-4143-b6c9-8e201f49a4bc'],
+      hoursWorked:['20']
     });
   }
 
@@ -211,8 +224,53 @@ export class CreateTicketPage implements OnInit {
       }
     }
   }
+  onSelectedFiles(file, name) {
+    if (name === 'upload_1') {
+      this.upload_1 = !this.upload_1;
+      if (file.target.files && file.target.files[0]) {
+        const reader = new FileReader();
+        reader.onload = (_event: any) => {
+          this.createTicketFormDispatcher.controls.image_1?.setValue(file.target.files[0]);
+        };
+        reader.readAsDataURL(file.target.files[0]);
+      } else {
+
+      }
+    }
+    if (name === 'upload_2') {
+      this.upload_2 = !this.upload_2;
+      if (file.target.files && file.target.files[0]) {
+        const reader = new FileReader();
+        reader.onload = (_event: any) => {
+          this.createTicketFormDispatcher.controls.image_2?.setValue(file.target.files[0]);
+        };
+        reader.readAsDataURL(file.target.files[0]);
+      } else {
+
+      }
+    }
+    if (name === 'upload_3') {
+      this.upload_3 = !this.upload_3;
+      if (file.target.files && file.target.files[0]) {
+        const reader = new FileReader();
+        reader.onload = (_event: any) => {
+          this.createTicketFormDispatcher.controls.image_3?.setValue(file.target.files[0]);
+        };
+        reader.readAsDataURL(file.target.files[0]);
+      } else {
+
+      }
+    }
+  }
   navigateDispatcher() {
     console.log(this.createTicketFormDispatcher.value);
+    // Form Data
+    // var formData: FormData = new FormData();
+    // formData.append('traineeForm',JSON.stringify(this.createTicketFormDispatcher.value));
+    // formData.append('image_1', this.createTicketFormDispatcher.get('image_1').value);
+    // formData.append('image_2', this.createTicketFormDispatcher.get('image_2').value);
+    // formData.append('image_3', this.createTicketFormDispatcher.get('image_3').value);
+
     this.truckingService.createNewDeliveryTicket(this.createTicketFormDispatcher.value, 'dispatcher', 'commercial', 'sent', false)
       .subscribe(
         (res: any) => {
@@ -243,6 +301,13 @@ export class CreateTicketPage implements OnInit {
       );
   }
   navigateTruckDriver() {
+
+    // // Form Data
+    // var formData: FormData = new FormData();
+    // formData.append('traineeForm',JSON.stringify(this.traineeForm.value));
+    // formData.append('image_1', this.traineeForm.get('image_1').value);
+    // formData.append('image_2', this.traineeForm.get('image_2').value);
+    // formData.append('image_3', this.traineeForm.get('image_3').value);
     console.log(this.createTicketFormTruckDriver.value);
     this.truckingService.createNewDeliveryTicket(this.createTicketFormTruckDriver.value, 'truck-driver', 'commercial', 'sent', true)
       .subscribe(
@@ -258,6 +323,7 @@ export class CreateTicketPage implements OnInit {
         },
       );
   }
+
 
 
   // Public Methods of Drop Down Lists

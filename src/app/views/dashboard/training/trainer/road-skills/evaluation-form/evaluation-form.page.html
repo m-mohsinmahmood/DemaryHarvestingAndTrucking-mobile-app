@@ -28,7 +28,7 @@
               </div>
               <ion-text *ngIf="this.evaluationFrom.get('leftTurnsInput').hasError('pattern')"
                 class=" text-sm text-red-500">
-                Enter between 1-5
+                Enter between 0-5
               </ion-text>
             </div>
           </div>
@@ -54,7 +54,7 @@
               </div>
               <ion-text *ngIf="this.evaluationFrom.get('rightTurnsInput').hasError('pattern')"
                 class=" text-sm text-red-500">
-                Enter between 1-5
+                Enter between 0-5
               </ion-text>
             </div>
           </div>
@@ -81,7 +81,7 @@
               </div>
               <ion-text *ngIf="this.evaluationFrom.get('intersectionStopInput').hasError('pattern')"
                 class=" text-sm text-red-500">
-                Enter between 1-5
+                Enter between 0-5
               </ion-text>
             </div>
           </div>
@@ -108,7 +108,7 @@
               </div>
               <ion-text *ngIf="this.evaluationFrom.get('intersectionThruInput').hasError('pattern')"
                 class=" text-sm text-red-500">
-                Enter between 1-5
+                Enter between 0-5
               </ion-text>
             </div>
           </div>
@@ -134,7 +134,7 @@
               </div>
               <ion-text *ngIf="this.evaluationFrom.get('interstateInput').hasError('pattern')"
                 class=" text-sm text-red-500">
-                Enter between 1-5
+                Enter between 0-5
               </ion-text>
             </div>
           </div>
@@ -161,7 +161,7 @@
               </div>
               <ion-text *ngIf="this.evaluationFrom.get('urbanBusinessInput').hasError('pattern')"
                 class=" text-sm text-red-500">
-                Enter between 1-5
+                Enter between 0-5
               </ion-text>
             </div>
           </div>
@@ -187,7 +187,7 @@
               </div>
               <ion-text *ngIf="this.evaluationFrom.get('lanceChangesInput').hasError('pattern')"
                 class=" text-sm text-red-500">
-                Enter between 1-5
+                Enter between 0-5
               </ion-text>
             </div>
           </div>
@@ -212,7 +212,7 @@
                 <ion-input formControlName="curveInput" placeholder="Enter Value" type="number"></ion-input>
               </div>
               <ion-text *ngIf="this.evaluationFrom.get('curveInput').hasError('pattern')" class=" text-sm text-red-500">
-                Enter between 1-5
+                Enter between 0-5
               </ion-text>
             </div>
           </div>
@@ -239,7 +239,7 @@
               </div>
               <ion-text *ngIf="this.evaluationFrom.get('roadsideInput').hasError('pattern')"
                 class=" text-sm text-red-500">
-                Enter between 1-5
+                Enter between 0-5
               </ion-text>
             </div>
           </div>
@@ -265,7 +265,7 @@
               </div>
               <ion-text *ngIf="this.evaluationFrom.get('rrCrossingInput').hasError('pattern')"
                 class=" text-sm text-red-500">
-                Enter between 1-5
+                Enter between 0-5
               </ion-text>
             </div>
           </div>
@@ -290,7 +290,7 @@
                 <ion-input formControlName="signsInput" placeholder="Enter Value" type="number"></ion-input>
               </div>
               <ion-text *ngIf="this.evaluationFrom.get('signsInput').hasError('pattern')" class=" text-sm text-red-500">
-                Enter between 1-5
+                Enter between 0-5
               </ion-text>
             </div>
           </div>
@@ -317,7 +317,7 @@
               </div>
               <ion-text *ngIf="this.evaluationFrom.get('generalDrivingInput').hasError('pattern')"
                 class=" text-sm text-red-500">
-                Enter between 1-5
+                Enter between 0-5
               </ion-text>
             </div>
           </div>
@@ -344,7 +344,7 @@
               </div>
               <ion-text *ngIf="this.evaluationFrom.get('eLogPracticalInput').hasError('pattern')"
                 class=" text-sm text-red-500">
-                Enter between 1-5
+                Enter between 0-5
               </ion-text>
             </div>
           </div>
@@ -352,7 +352,7 @@
       </div>
     </form>
     <ion-card>
-      <ion-card-content>
+      <!-- <ion-card-content>
         <div class="flex justify-between items-center mb-2">
           <ion-text class="font-Lato text-9B9BA4">Total Satisfactory:
             <span class="font-Lato text-black">
@@ -376,6 +376,58 @@
       (click)="endEvaluation()">
       <div *ngIf="(loadingSpinner | async) === false">End of Evaluation</div>
             <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner></ion-button>
+      </ion-card-content> -->
+      <ion-card-content>
+        <div class="mb-2 flex items-center justify-between">
+          <ion-text class="font-Lato font-semibold text-black">Final Result:</ion-text>
+          <ion-text
+          *ngIf="((evaluationFrom.get('leftTurnsInput').value < 3) && (evaluationFrom.get('leftTurns').value === 'true')) &&
+          ((evaluationFrom.get('rightTurnsInput').value < 3) && (evaluationFrom.get('rightTurns').value === 'true'))  &&
+          ((evaluationFrom.get('intersectionStopInput').value < 3) && (evaluationFrom.get('intersectionStop').value === 'true')) &&
+          ((evaluationFrom.get('intersectionThruInput').value < 3) && (evaluationFrom.get('intersectionThru').value === 'true')) &&
+          ((evaluationFrom.get('interstateInput').value < 3) && (evaluationFrom.get('interstate').value === 'true')) &&
+          ((evaluationFrom.get('urbanBusinessInput').value < 3) && (evaluationFrom.get('urbanBusiness').value === 'true')) &&
+          ((evaluationFrom.get('lanceChangesInput').value < 3) && (evaluationFrom.get('lanceChanges').value === 'true')) &&
+          ((evaluationFrom.get('curveInput').value < 3) && (evaluationFrom.get('curve').value === 'true')) &&
+          ((evaluationFrom.get('roadsideInput').value < 3) && (evaluationFrom.get('roadside').value === 'true')) &&
+          ((evaluationFrom.get('rrCrossingInput').value < 3) && (evaluationFrom.get('rrCrossing').value === 'true')) &&
+          ((evaluationFrom.get('signsInput').value < 3) && (evaluationFrom.get('signs').value === 'true')) &&
+          ((evaluationFrom.get('eLogPracticalInput').value < 3) && (evaluationFrom.get('generalDriving').value === 'true')) &&
+          ((evaluationFrom.get('generalDrivingInput').value < 3) && (evaluationFrom.get('eLogPractical').value === 'true'))
+          "
+          class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text>
+          <!-- <ion-text
+          *ngIf="(!(+records.pullUpsInput_slb + +records.encroachInput_slb < 3) && (records.goal_slb === 'true') && (records.finalPosition_slb === 'true')) ||
+          (!(+records.pullUpsInput_ad + +records.encroachInput_ad < 3) && (records.goal_ad === 'true') && (records.finalPosition_ad === 'true'))  ||
+          (!(+records.encroach_osb + +records.encroach_osb < 3) && (records.goal_osb === 'true') && (records.finalPosition_osb === 'true')) ||
+          (!(+records.pullUps_pb + +records.encroach_pb < 3) && (records.goal_pb === 'true') && (records.finalPosition_pb === 'true')) ||
+          (!(+records.pullUps_ps + +records.encroach_ps < 3) && (records.goal_ps === 'true') && (records.finalPosition_ps === 'true')) ||
+          (!(+records.pullUps_cou + +records.encroach_cou < 3) && (records.goal_cou === 'true') && (records.finalPosition_cou === 'true'))"
+           class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text> -->
+           <ion-text
+           *ngIf="!((evaluationFrom.get('leftTurnsInput').value < 3) && (evaluationFrom.get('leftTurns').value === 'true')) ||
+           !((evaluationFrom.get('rightTurnsInput').value < 3) && (evaluationFrom.get('rightTurns').value === 'true'))  ||
+           !((evaluationFrom.get('intersectionStopInput').value < 3) && (evaluationFrom.get('intersectionStop').value === 'true')) ||
+           !((evaluationFrom.get('intersectionThruInput').value < 3) && (evaluationFrom.get('intersectionThru').value === 'true')) ||
+           !((evaluationFrom.get('interstateInput').value < 3) && (evaluationFrom.get('interstate').value === 'true')) ||
+           !((evaluationFrom.get('urbanBusinessInput').value < 3) && (evaluationFrom.get('urbanBusiness').value === 'true')) ||
+           !((evaluationFrom.get('lanceChangesInput').value < 3) && (evaluationFrom.get('lanceChanges').value === 'true')) ||
+           !((evaluationFrom.get('curveInput').value < 3) && (evaluationFrom.get('curve').value === 'true')) ||
+           !((evaluationFrom.get('roadsideInput').value < 3) && (evaluationFrom.get('roadside').value === 'true')) ||
+           !((evaluationFrom.get('rrCrossingInput').value < 3) && (evaluationFrom.get('rrCrossing').value === 'true')) ||
+           !((evaluationFrom.get('signsInput').value < 3) && (evaluationFrom.get('signs').value === 'true')) ||
+           !((evaluationFrom.get('eLogPracticalInput').value < 3) && (evaluationFrom.get('generalDriving').value === 'true')) ||
+           !((evaluationFrom.get('generalDrivingInput').value < 3) && (evaluationFrom.get('eLogPractical').value === 'true'))
+           "
+           class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text>
+          </div>
+          <ion-button
+          expand="block"
+          [disabled]="(loadingSpinner | async) || evaluationFrom.invalid"
+          class="close-out-button font-Lato mb-4 mt-4 mx-8 bg-opacity-10 text-white"
+        (click)="endEvaluation()">
+        <div *ngIf="(loadingSpinner | async) === false">End of Evaluation</div>
+              <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner></ion-button>
       </ion-card-content>
     </ion-card>
   </div>

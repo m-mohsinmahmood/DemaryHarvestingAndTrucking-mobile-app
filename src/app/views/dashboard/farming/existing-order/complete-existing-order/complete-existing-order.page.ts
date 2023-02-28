@@ -142,10 +142,10 @@ export class CompleteExistingOrderPage implements OnInit {
           this.allMachinery = of([]); // to clear array
           this.machineryUL = false; // to hide the UL
         }
-        // if (e.target !== this.serviceInput.nativeElement) {
-        //   this.allServices = of([]); // to clear array
-        //   this.serviceUL = false; // to hide the UL
-        // }
+        if (e.target !== this.serviceInput.nativeElement) {
+          this.allServices = of([]); // to clear array
+          this.serviceUL = false; // to hide the UL
+        }
       });
     })
   }
@@ -154,6 +154,7 @@ export class CompleteExistingOrderPage implements OnInit {
     this.isCustomerSelected = false;
     this.isFarmSelected = false;
     this.isFieldSelected = false;
+    this.isServiceSelected = false;
 
     this.machinerySearchSubscription();
     this.dispatcherSearchSubscription();
@@ -754,7 +755,7 @@ export class CompleteExistingOrderPage implements OnInit {
         this.allServices = this.farmingService.getServices(
           value,
           this.customerId,
-          'customerServices'
+          'getFarmingServices'
         );
 
         // subscribing to show/hide Field UL
@@ -791,7 +792,7 @@ export class CompleteExistingOrderPage implements OnInit {
     this.allServices = this.farmingService.getServices(
       value,
       this.customerId,
-      'customerServices'
+      'getFarmingServices'
     );
 
     // subscribing to show/hide farm UL

@@ -18,9 +18,10 @@ export class DigitalFormPage implements OnInit {
   progress = 0;
   result: any = 0;
   training_record_id: any;
+  supervisor_id: any;
   isModalOpen = false;
    // trainer id
- trainer_id = '4b84234b-0b74-49a2-b3c7-d3884f5f6013';
+ trainer_id;
  public loadingSpinner = new BehaviorSubject(false);
 
   constructor(private formBuilder: FormBuilder,
@@ -33,10 +34,17 @@ export class DigitalFormPage implements OnInit {
      // passing the select value for Engine/Compartment to render when page loads
     this.value = 'engine/compartment';
 
+     // getting id & role
+   this.getRoleAndID();
+
+    this.initForm();
+
     this.route.queryParams.subscribe((params)=>{
       this.training_record_id = params.training_record_id;
+      this.supervisor_id = params.supervisor_id;
     });
-
+  }
+  initForm(){
     this.preTripForm = this.formBuilder.group({
       //Engine/Compartment
       oilLevel: [false,[Validators.required]],
@@ -120,6 +128,13 @@ export class DigitalFormPage implements OnInit {
       console.log('Percentage:',this.result);
     });
   }
+  async ionViewDidEnter() {
+    this.getRoleAndID();
+  }
+  getRoleAndID(){
+    this.trainer_id = localStorage.getItem('employeeId');
+
+  }
   next(){
     this.isModalOpen = true;
   }
@@ -151,12 +166,13 @@ export class DigitalFormPage implements OnInit {
             'success'
           );
 
+          // navigating
           if (this.isModalOpen === false) {
             setTimeout(()=>{
-              // navigating
               this.router.navigate([ '/tabs/home/training/trainer/pre-trip/digital-form/in-cab'],{
                 queryParams:{
-                  training_record_id: this.training_record_id
+                  training_record_id: this.training_record_id,
+                  supervisor_id: this.supervisor_id
                 }
               });
             },500);

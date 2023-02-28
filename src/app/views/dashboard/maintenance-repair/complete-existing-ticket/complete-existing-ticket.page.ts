@@ -126,7 +126,7 @@ export class CompleteExistingTicketPage implements OnInit {
   }
   createDWR(){
     this.maintenanceRepairService
-     .createDWR(localStorage.getItem('employeeId'), this.ticketRecordId,'4543344b-0b74-49a2-b3c7-d388851f0013')
+     .createDWR(localStorage.getItem('employeeId'), this.ticketRecordId,this.completeExistingTicketForm.get('assignedById').value)
      .subscribe(
        (res) => {
          console.log('RES:', res);

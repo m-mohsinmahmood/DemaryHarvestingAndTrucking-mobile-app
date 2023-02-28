@@ -141,7 +141,9 @@ export class CreateTicketPage implements OnInit {
       deadHeadMiles: [''],
       totalJobMiles: [''],
       totalTripMiles: [''],
-      truckDriverNotes: ['']
+      truckDriverNotes: [''],
+      cropId: ['5e708ba7-9255-4143-b6c9-8e201f49a4bc'],
+      hoursWorked:['20']
     });
   }
 

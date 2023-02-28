@@ -1,3 +1,4 @@
+/* eslint-disable no-var */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
@@ -33,13 +34,15 @@ export class PreTripPage implements OnInit {
 
   // Data
   data: any;
+
+  role: any;
   // behaviour subject for loader
   public loading = new BehaviorSubject(true);
   public loadingSpinner = new BehaviorSubject(false);
 
 
   // trainer id
-  trainer_id = '4b84234b-0b74-49a2-b3c7-d3884f5f6013';
+  trainer_id;
 
   backDropValue: any = false; // Bacck-Drop Value
   showModel: any= false;
@@ -91,12 +94,23 @@ export class PreTripPage implements OnInit {
     // pasing states
     this.states = states;
 
+     // getting id & role
+   this.getRoleAndID();
+
+
     this.initForms();
 
     // getting Trainer profile data
     this.getTrainer();
   }
+ async ionViewDidEnter() {
+    this.getRoleAndID();
+  }
+  getRoleAndID(){
+    this.role = localStorage.getItem('role');
+    this.trainer_id = localStorage.getItem('employeeId');
 
+  }
   initForms() {
 
     this.preTrip = this.formBuilder.group({
@@ -108,9 +122,9 @@ export class PreTripPage implements OnInit {
       is_completed_group_practical: ['', [Validators.required]],
       city: ['', [Validators.required]],
       state: ['', [Validators.required]],
-      uploadDocs1: [''],
-      uploadDocs2: [''],
-      uploadDocs3: [''],
+      image_1: [''],
+      image_2: [''],
+      image_3: [''],
     });
 
     // trainee subscription
@@ -120,17 +134,43 @@ export class PreTripPage implements OnInit {
     this.traineeSearchSubscription();
   }
 
-  onSelectedFiles(file, name) {
-    console.log('file:', file);
 
+  onSelectedFiles(file, name) {
     if (name === 'upload_1') {
       this.upload_1 = !this.upload_1;
+      if ( file.target.files &&file.target.files[0]) {
+        const reader = new FileReader();
+        reader.onload = (_event: any) => {
+          this.preTrip.controls.image_1?.setValue(file.target.files[0]);
+      };
+      reader.readAsDataURL(file.target.files[0]);
+      } else {
+
+      }
     }
     if (name === 'upload_2') {
       this.upload_2 = !this.upload_2;
+        if ( file.target.files &&file.target.files[0]) {
+          const reader = new FileReader();
+          reader.onload = (_event: any) => {
+            this.preTrip.controls.image_2?.setValue(file.target.files[0]);
+        };
+        reader.readAsDataURL(file.target.files[0]);
+        } else {
+
+        }
     }
     if (name === 'upload_3') {
       this.upload_3 = !this.upload_3;
+      if ( file.target.files &&file.target.files[0]) {
+        const reader = new FileReader();
+        reader.onload = (_event: any) => {
+          this.preTrip.controls.image_3?.setValue(file.target.files[0]);
+      };
+      reader.readAsDataURL(file.target.files[0]);
+      } else {
+
+      }
     }
   }
   uploadClick() {
@@ -146,7 +186,7 @@ export class PreTripPage implements OnInit {
       this.value = e.target.value;
 
       this.trainingService.getData('pre-trip',this.trainer_id).subscribe((res) => {
-        console.log('RES::', res);
+        console.log('RES:::', res);
         this.data = res;
         if (res.message === 'No Records Found.') {
         // nothing
@@ -162,7 +202,13 @@ export class PreTripPage implements OnInit {
   submit() {
     console.log(this.preTrip.value);
     this.loadingSpinner.next(true);
-    this.trainingService.save(this.preTrip.value, 'pre-trip').subscribe(
+    // Form Data
+    var formData: FormData = new FormData();
+    formData.append('preTrip',JSON.stringify(this.preTrip.value));
+    formData.append('image_1', this.preTrip.get('image_1').value);
+    formData.append('image_2', this.preTrip.get('image_2').value);
+    formData.append('image_3', this.preTrip.get('image_3').value);
+    this.trainingService.save(formData, 'pre-trip').subscribe(
       (res) => {
         console.log('RES:', res);
         if (res.status === 200) {
@@ -180,18 +226,26 @@ export class PreTripPage implements OnInit {
       (err) => {
         console.log('ERROR::', err);
         this.toastService.presentToast(err.mssage, 'danger');
+        this.loadingSpinner.next(true);
+
       }
     );
   }
   continue() {
     console.log(this.preTrip.value);
-    // this.router.navigateByUrl(
-    //   '/tabs/home/training/trainer/pre-trip/digital-form'
-    // );
-    this.trainingService.save(this.preTrip.value, 'pre-trip').subscribe(
+        this.loadingSpinner.next(true);
+
+         // Form Data
+        var formData: FormData = new FormData();
+        formData.append('preTrip',JSON.stringify(this.preTrip.value));
+
+        // api call
+       this.trainingService.save(formData, 'pre-trip').subscribe(
       (res) => {
         console.log('RES:', res);
         if (res.status === 200) {
+        this.loadingSpinner.next(false);
+
           this.toastService.presentToast(
             'Digital evaluation has been started',
             'success'
@@ -200,7 +254,8 @@ export class PreTripPage implements OnInit {
           // navigating
           this.router.navigate(['/tabs/home/training/trainer/pre-trip/digital-form'],{
             queryParams:{
-              training_record_id: res.id.training_record_id
+              training_record_id: res.id.training_record_id,
+              supervisor_id: this.data?.supervisor_id? this.data.supervisor_id : this.preTrip.get('supervisor_id').value
             }
           });
         } else {
@@ -211,6 +266,7 @@ export class PreTripPage implements OnInit {
       (err) => {
         console.log('ERROR::', err);
         this.toastService.presentToast(err.mssage, 'danger');
+        this.loadingSpinner.next(false);
       }
     );
   }
@@ -427,12 +483,12 @@ if (
   !this.data.is_coupling_started &&
   !this.data.is_vehicle_external_started
 ) {
-  // this.router.navigateByUrl(
-  //   '/tabs/home/training/trainer/pre-trip/digital-form'
-  // );
+
   this.router.navigate(['/tabs/home/training/trainer/pre-trip/digital-form'],{
     queryParams:{
-      training_record_id: this.data.id
+      training_record_id: this.data.id,
+      supervisor_id: this.data.supervisor_id
+
     }
   });
 }
@@ -445,12 +501,12 @@ else if (
   !this.data.is_coupling_started &&
   !this.data.is_vehicle_external_started
 ) {
-  // this.router.navigateByUrl(
-  //   '/tabs/home/training/trainer/pre-trip/digital-form/in-cab'
-  // );
+
   this.router.navigate(['/tabs/home/training/trainer/pre-trip/digital-form/in-cab'],{
     queryParams:{
-      training_record_id: this.data.id
+      training_record_id: this.data.id,
+      supervisor_id: this.data.supervisor_id
+
     }
   });
 }
@@ -463,13 +519,12 @@ else if (
   !this.data.is_coupling_started &&
   !this.data.is_vehicle_external_started
 ) {
-  console.log('Vehicle/External');
-  // this.router.navigateByUrl(
-  //   '/tabs/home/training/trainer/pre-trip/digital-form/in-cab/vehicle-external'
-  // );
+
   this.router.navigate(['/tabs/home/training/trainer/pre-trip/digital-form/in-cab/vehicle-external'],{
     queryParams:{
-      training_record_id: this.data.id
+      training_record_id: this.data.id,
+      supervisor_id: this.data.supervisor_id
+
     }
   });
 }
@@ -482,12 +537,11 @@ else if (
   !this.data.is_coupling_started &&
   !this.data.is_suspension_brakes_started
 ) {
-  // this.router.navigateByUrl(
-  //   '/tabs/home/training/trainer/pre-trip/digital-form/in-cab/vehicle-external/coupling'
-  // );
   this.router.navigate(['/tabs/home/training/trainer/pre-trip/digital-form/in-cab/vehicle-external/coupling'],{
     queryParams:{
-      training_record_id: this.data.id
+      training_record_id: this.data.id,
+      supervisor_id: this.data.supervisor_id
+
     }
   });
 }
@@ -500,12 +554,11 @@ else if (
   this.data.is_coupling_started &&
   !this.data.is_suspension_brakes_started
 ) {
-  // this.router.navigateByUrl(
-  //   '/tabs/home/training/trainer/pre-trip/digital-form/in-cab/vehicle-external/coupling/suspension-brakes'
-  // );
+
   this.router.navigate(['/tabs/home/training/trainer/pre-trip/digital-form/in-cab/vehicle-external/coupling/suspension-brakes'],{
     queryParams:{
-      training_record_id: this.data.id
+      training_record_id: this.data.id,
+      supervisor_id: this.data.supervisor_id
     }
   });
 }

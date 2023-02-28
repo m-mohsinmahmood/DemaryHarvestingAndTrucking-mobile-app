@@ -3,7 +3,6 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute, NavigationEnd, NavigationStart, Router, RouterEvent, RoutesRecognized } from '@angular/router';
 import { filter, pairwise } from 'rxjs/operators';
-import { NavigationService } from './header.service';
 
 @Component({
   selector: 'app-header',
@@ -24,7 +23,6 @@ export class HeaderComponent implements OnInit {
   constructor(private location: Location,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private navigationService: NavigationService
      ) {
       console.log('CHECK:',this.router.getCurrentNavigation()?.previousNavigation?.finalUrl?.toString());
       this.previousUrl = this.router.getCurrentNavigation()?.previousNavigation?.finalUrl?.toString();

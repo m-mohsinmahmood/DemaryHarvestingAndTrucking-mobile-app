@@ -84,7 +84,7 @@ export class CreateRepairORMaintenancePage implements OnInit {
     });
 
     this.createTicket = this.formBuilder.group({
-      repairTicketId: [Math.random().toString(16).slice(2)],
+      repairTicketId: [Math.random().toString(16).slice(9)],
       assignedById: [''],
       assignedToId: [''],
       equipmentId: [''],

@@ -24,7 +24,7 @@
               </div>
               <ion-text *ngIf="this.basicSkillForm.get('pullUps_pb').hasError('pattern')"
               class=" text-sm text-red-500">
-              Enter between 1-5
+              Enter between 0-5
             </ion-text>
             </div>
           </div>
@@ -36,14 +36,14 @@
               </div>
               <ion-text *ngIf="this.basicSkillForm.get('encroach_pb').hasError('pattern')"
                 class=" text-sm text-red-500">
-                Enter between 1-5
+                Enter between 0-5
               </ion-text>
             </div>
           </div>
         </div>
         <div class="my-9">
           <div class="flex justify-between items-center">
-            <ion-text class="font-semibold">G.O.A.L</ion-text>
+            <ion-text class="font-semibold">G.O.A.L Protocol</ion-text>
             <div class="flex justify-center items-center">
               <ion-radio-group formControlName="goal_pb" class="radio flex justify-center items-center">
                 <div class="flex justify-center items-center  mr-2">
@@ -62,11 +62,11 @@
             <ion-radio-group formControlName="finalPosition_pb"
               class="radio flex justify-center items-center">
               <div class="flex justify-center items-center  mr-2">
-                <ion-radio mode="md" value="false"></ion-radio>
+                <ion-radio mode="md" value="true"></ion-radio>
                 <ion-label class="font-Lato ml-1 text-sm">Satisfactory</ion-label>
               </div>
               <div class="flex justify-center items-center">
-                <ion-radio mode="md" class="unsatisfactory" value="true"></ion-radio>
+                <ion-radio mode="md" class="unsatisfactory" value="false"></ion-radio>
                 <ion-label class="font-Lato ml-1 text-sm">Unsatisfactory</ion-label>
               </div>
             </ion-radio-group>
@@ -86,7 +86,35 @@
           <ion-text class="text-base font-semibold font-Lato">All Basic Skills</ion-text>
           <ion-text class="text-base font-Lato text-9B9BA4">Total Attempts</ion-text>
         </div>
-        <div class="border-b-4 py-4">
+        <div class="border-b-4 py-4 pointer-events-none">
+          <div class="flex flex-col justify-center">
+            <ion-text class="font-Lato font-semibold">Parallel Paking Blind</ion-text>
+            <div class="flex justify-between items-center mt-3">
+              <ion-radio-group [value]="checkValue" formControlName="parallelParkingBlind_pb"
+                class="radio flex justify-center items-center">
+                <div class="flex justify-center items-center  mr-2">
+                  <ion-radio mode="md" value="true"></ion-radio>
+                  <ion-label class="font-Lato ml-1 text-sm">Satisfactory</ion-label>
+                </div>
+                <div class="flex justify-center items-center">
+                  <ion-radio mode="md" class="unsatisfactory" value="false"></ion-radio>
+                  <ion-label class="font-Lato ml-1 text-sm">Unsatisfactory</ion-label>
+                </div>
+              </ion-radio-group>
+              <div class="flex-col">
+                <div class="flex justify-center items-center w-28 border-2  rounded-lg px-2">
+                  <ion-input [value]="totalSatisfactory" placeholder="Enter Value" type="number" formControlName="parallelParkingBlindInput_pb">
+                  </ion-input>
+                  <ion-text *ngIf="this.basicSkillForm.get('parallelParkingBlindInput_pb').hasError('pattern')"
+                  class=" text-sm text-red-500">
+                  Enter between 1-5
+                </ion-text>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="border-b-4 py-4 pointer-events-none">
           <div class="flex flex-col justify-center">
             <ion-text class="font-Lato font-semibold">Straight Line Backing</ion-text>
             <div class="flex justify-between items-center mt-3">
@@ -114,7 +142,7 @@
             </div>
           </div>
         </div>
-        <div class="border-b-4 py-4">
+        <div class="border-b-4 py-4 pointer-events-none">
           <div class="flex flex-col justify-center">
             <ion-text class="font-Lato font-semibold">Alley Docking (45/90)</ion-text>
             <div class="flex justify-between items-center mt-3">
@@ -141,7 +169,7 @@
             </div>
           </div>
         </div>
-        <div class="border-b-4 py-4">
+        <div class="border-b-4 py-4 pointer-events-none">
           <div class="flex flex-col justify-center">
             <ion-text class="font-Lato font-semibold">Off Set Backing</ion-text>
             <div class="flex justify-between items-center mt-3">
@@ -160,17 +188,16 @@
                 <div class="flex justify-center items-center w-28 border-2  rounded-lg px-2">
                   <ion-input placeholder="Enter Value" type="number" formControlName="offSetBackingInput_pb"></ion-input>
                 </div>
-
-
               </div>
             </div>
           </div>
         </div>
-        <div class="border-b-4 py-4">
+
+        <div class="border-b-4 py-4 pointer-events-none">
           <div class="flex flex-col justify-center">
-            <ion-text class="font-Lato font-semibold">Parallel Paking Blind</ion-text>
+            <ion-text class="font-Lato font-semibold">Parallel Paking sight</ion-text>
             <div class="flex justify-between items-center mt-3">
-              <ion-radio-group formControlName="parallelParkingBlind_pb"
+              <ion-radio-group
                 class="radio flex justify-center items-center">
                 <div class="flex justify-center items-center  mr-2">
                   <ion-radio mode="md" value="true"></ion-radio>
@@ -183,18 +210,14 @@
               </ion-radio-group>
               <div class="flex-col">
                 <div class="flex justify-center items-center w-28 border-2  rounded-lg px-2">
-                  <ion-input placeholder="Enter Value" type="number" formControlName="parallelParkingBlindInput_pb">
+                  <ion-input placeholder="Enter Value" type="number">
                   </ion-input>
-                  <ion-text *ngIf="this.basicSkillForm.get('parallelParkingBlindInput_pb').hasError('pattern')"
-                  class=" text-sm text-red-500">
-                  Enter between 1-5
-                </ion-text>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="border-b-4 py-4">
+        <div class="border-b-4 py-4 pointer-events-none">
           <div class="flex flex-col justify-center">
             <ion-text class="font-Lato font-semibold">Coupling & Uncoupling</ion-text>
             <div class="flex justify-between items-center mt-3">
@@ -221,33 +244,33 @@
           </div>
         </div>
       </div>
-      <ion-card>
-        <ion-card-content>
-          <div class="flex justify-between items-center mb-2">
-            <ion-text class="font-Lato text-9B9BA4">Total Satisfactory:
-              <span class="font-Lato text-black">
-                {{totalSatisfactory}}
-                <div>
-                </div>
-              </span>
-            </ion-text>
-          </div>
-          <div class="flex justify-between items-center mb-2">
-            <ion-text class="font-Lato text-9B9BA4">Total Unsatisfactory:
-              <span class="font-Lato text-black">
-                {{totalUnSatisfactory}}
-              </span>
-            </ion-text>
-          </div>
-        </ion-card-content>
-      </ion-card>
-      <ion-button  expand="block"
-      [disabled]="loadingSpinner | async"
-        class="close-out-button font-Lato mb-4 mt-0 mx-8 bg-opacity-10 text-white"
-         (click)="navigate()">
-         <div *ngIf="(loadingSpinner | async) === false">Next</div>
-         <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
-      </ion-button>
+      <ion-button
+      expand="block"
+      [disabled]="basicSkillForm.invalid"
+      class="close-out-button font-Lato mb-4 mt-0 mx-8 bg-opacity-10 text-white"
+      (click)="next()">
+      <div>Next</div>
+    </ion-button>
 
     </form>
+      <!-- MODEL -->
+  <ion-modal #modal [isOpen]="isModalOpen" backdropDismiss="false">
+    <ng-template>
+      <ion-content class="ion-padding">
+        <ion-text class="flex justify-center items-center ion-text-center">
+          This is a one-time fill form. Please verify your readings before going to the next page.
+        </ion-text>
+        <div class="flex flex-col justify-center items-center mt-3">
+          <ion-button class="text-white w-full" expand="block" (click)="navigate()">
+            <div *ngIf="(loadingSpinner | async) === false">Next</div>
+            <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+          </ion-button>
+          <ion-button class="text-white w-full" expand="block" (click)="edit()">
+            Edit
+          </ion-button>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+  <!-- MODEL -->
 </ion-content>

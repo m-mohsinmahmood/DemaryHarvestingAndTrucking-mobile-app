@@ -1,3 +1,4 @@
+
 /* eslint-disable @angular-eslint/use-lifecycle-interface */
 /* eslint-disable @typescript-eslint/dot-notation */
 /* eslint-disable @typescript-eslint/naming-convention */
@@ -125,7 +126,6 @@ export class JobSetupPage implements OnInit {
         }
       }
       if (e.target !== this.cropInput.nativeElement) {
-        // console.log('Crop');
         this.allCropsClicked = of([]);
         this.cropUL = false; // to hide the UL
       }
@@ -323,7 +323,7 @@ export class JobSetupPage implements OnInit {
     // passing name in select's input
     this.customer_name = customer.customer_name;
 
-    // passing name in customer-search-value in Rendered2 to checks
+    // passing name in customer-search-value in Rendered2 for checks
     this.customerSearchValue = customer.customer_name;
 
     // to enable submit button
@@ -346,6 +346,8 @@ export class JobSetupPage implements OnInit {
         takeUntil(this._unsubscribeAll)
       )
       .subscribe((value: string) => {
+        // passing for renderer2
+        this.farmSearchValue = value;
         // for asterik to look required
         if (value === '') { this.isFarmSelected = true; }
 

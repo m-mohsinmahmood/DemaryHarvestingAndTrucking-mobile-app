@@ -1,3 +1,4 @@
+/* eslint-disable no-var */
 /* eslint-disable max-len */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable @typescript-eslint/naming-convention */
@@ -29,7 +30,7 @@ export class BasicSkillsPage implements OnInit {
   upload_1 = false;
   upload_2 = false;
   upload_3 = false;
- upload = false;
+ upload = true;
 
  // states
  states: string[];
@@ -40,7 +41,7 @@ export class BasicSkillsPage implements OnInit {
  data: any;
 
  // trainer id
- trainer_id = '4b84234b-0b74-49a2-b3c7-d3884f5f6013';
+ trainer_id;
 
  // model
  isModalOpen = false;
@@ -105,26 +106,12 @@ export class BasicSkillsPage implements OnInit {
      }
 
   ngOnInit() {
-    // this.value = 'straight-line';
-    this.value = '1';
+    this.value = 'paper-form';
 
-    this.basicSkillForm = this.formBuilder.group({
-      evaluation_form: ['',[Validators.required]],
-      trainer_id: [''],
-      trainee_id: [''],
-      clp: [''], //<-
-      supervisor_id: [''],
-      truckId: [''],
-      odometerStartingMiles: ['',[Validators.required]],
-      odometerEndingMiles: ['',[Validators.required]],
-      is_completed_cdl_classroom: ['',[Validators.required]],
-      is_completed_group_practical: ['',[Validators.required]],
-      city: ['',[Validators.required]],
-      state: ['',[Validators.required]],
-      uploadDocs1: [''],
-      uploadDocs2: [''],
-      uploadDocs3: [''],
-    });
+    this.initForms();
+
+   // getting id & role
+   this.getRoleAndID();
 
      // pasing states
      this.states = states;
@@ -141,19 +128,68 @@ export class BasicSkillsPage implements OnInit {
      // truck subscription
      this.truckSearchSubscription();
   };
-
-  onSelectedFiles(file,name){
-    console.log('file:',file);
-
-    if(name === 'upload_1'){
+  async ionViewDidEnter() {
+    this.getRoleAndID();
+  }
+  getRoleAndID(){
+    this.trainer_id = localStorage.getItem('employeeId');
+  }
+  initForms(){
+    this.basicSkillForm = this.formBuilder.group({
+      evaluation_form: ['',[Validators.required]],
+      trainer_id: [''],
+      trainee_id: [''],
+      clp: [''], //<-
+      supervisor_id: [''],
+      truckId: [''],
+      odometerStartingMiles: ['',[Validators.required]],
+      odometerEndingMiles: ['',[Validators.required]],
+      is_completed_cdl_classroom: ['',[Validators.required]],
+      is_completed_group_practical: ['',[Validators.required]],
+      city: ['',[Validators.required]],
+      state: ['',[Validators.required]],
+      image_1: [''],
+      image_2: [''],
+      image_3: [''],
+    });
+  }
+  onSelectedFiles(file, name) {
+    if (name === 'upload_1') {
       this.upload_1 = !this.upload_1;
-    }
-    if(name === 'upload_2'){
-      this.upload_2 = !this.upload_2;
-    }if(name === 'upload_3'){
-      this.upload_3 = !this.upload_3;
-    }
+      if ( file.target.files &&file.target.files[0]) {
+        const reader = new FileReader();
+        reader.onload = (_event: any) => {
+          this.basicSkillForm.controls.image_1?.setValue(file.target.files[0]);
+      };
+      reader.readAsDataURL(file.target.files[0]);
+      } else {
 
+      }
+    }
+    if (name === 'upload_2') {
+      this.upload_2 = !this.upload_2;
+        if ( file.target.files &&file.target.files[0]) {
+          const reader = new FileReader();
+          reader.onload = (_event: any) => {
+            this.basicSkillForm.controls.image_2?.setValue(file.target.files[0]);
+        };
+        reader.readAsDataURL(file.target.files[0]);
+        } else {
+
+        }
+    }
+    if (name === 'upload_3') {
+      this.upload_3 = !this.upload_3;
+      if ( file.target.files &&file.target.files[0]) {
+        const reader = new FileReader();
+        reader.onload = (_event: any) => {
+          this.basicSkillForm.controls.image_3?.setValue(file.target.files[0]);
+      };
+      reader.readAsDataURL(file.target.files[0]);
+      } else {
+
+      }
+    }
   }
   uploadClick(){
      this.upload = !this.upload;
@@ -168,9 +204,6 @@ export class BasicSkillsPage implements OnInit {
       this.value = e.target.value;
       this.trainingService.getData('basic-skills',this.trainer_id).subscribe((res) => {
         console.log('RES::', res);
-        // this.data = res;
-
-        //  this.navigateToForms();
         if (res.message === 'No Records Found.') {
           // nothing
           }
@@ -185,7 +218,15 @@ export class BasicSkillsPage implements OnInit {
     console.log(this.basicSkillForm.value);
     this.loadingSpinner.next(true);
 
-    this.trainingService.save(this.basicSkillForm.value, 'basic-skills').subscribe(
+    // Form Data
+    var formData: FormData = new FormData();
+    formData.append('basicSkillForm',JSON.stringify(this.basicSkillForm.value));
+    formData.append('image_1', this.basicSkillForm.get('image_1').value);
+    formData.append('image_2', this.basicSkillForm.get('image_2').value);
+    formData.append('image_3', this.basicSkillForm.get('image_3').value);
+
+
+    this.trainingService.save(formData, 'basic-skills').subscribe(
       (res) => {
         console.log('RES:', res);
         if (res.status === 200) {
@@ -209,9 +250,14 @@ export class BasicSkillsPage implements OnInit {
     );
   }
   continue(){
-
     this.loadingSpinner.next(true);
-    this.trainingService.save(this.basicSkillForm.value, 'basic-skills').subscribe(
+
+    // Form Data
+    var formData: FormData = new FormData();
+    formData.append('preTrip',JSON.stringify(this.basicSkillForm.value));
+
+    // api call
+    this.trainingService.save(formData, 'basic-skills').subscribe(
       (res) => {
         console.log('RES:', res);
         if (res.status === 200) {
@@ -223,7 +269,13 @@ export class BasicSkillsPage implements OnInit {
           );
 
           // navigating
-          this.router.navigateByUrl('/tabs/home/training/trainer/basic-skills/digital-evaluation');
+          this.router.navigate(['/tabs/home/training/trainer/basic-skills/digital-evaluation'],{
+            queryParams:{
+              training_record_id: res.id.training_record_id,
+              supervisor_id: this.data?.supervisor_id? this.data.supervisor_id : this.basicSkillForm.get('supervisor_id').value
+
+             }
+          });
 
         } else {
           console.log('Something happened :)');
@@ -232,6 +284,7 @@ export class BasicSkillsPage implements OnInit {
       },
       (err) => {
         console.log('ERROR::', err);
+        this.loadingSpinner.next(false);
         this.toastService.presentToast(err.mssage, 'danger');
       }
     );
@@ -541,12 +594,11 @@ export class BasicSkillsPage implements OnInit {
       !this.data.is_parking_sight_started &&
       !this.data.is_coup_uncoup_started
     ) {
-      // this.router.navigateByUrl(
-      //   '/tabs/home/training/trainer/basic-skills/digital-evaluation'
-      // );
       this.router.navigate(['/tabs/home/training/trainer/basic-skills/digital-evaluation'],{
         queryParams:{
-          training_record_id: this.data.id
+          training_record_id: this.data.id,
+          supervisor_id: this.data.supervisor_id
+
         }
       });
     }
@@ -560,10 +612,11 @@ export class BasicSkillsPage implements OnInit {
       !this.data.is_parking_sight_started &&
       !this.data.is_coup_uncoup_started
     ) {
-      // this.router.navigateByUrl('/tabs/home/training/trainer/basic-skills/digital-evaluation/alley-docking');
       this.router.navigate(['/tabs/home/training/trainer/basic-skills/digital-evaluation/alley-docking'],{
         queryParams:{
-          training_record_id: this.data.id
+          training_record_id: this.data.id,
+          supervisor_id: this.data.supervisor_id,
+
         }
       });
     }
@@ -577,10 +630,11 @@ export class BasicSkillsPage implements OnInit {
       !this.data.is_parking_sight_started &&
       !this.data.is_coup_uncoup_started
     ) {
-      // this.router.navigateByUrl('/tabs/home/training/trainer/basic-skills/digital-evaluation/alley-docking/off-set-backing');
       this.router.navigate(['/tabs/home/training/trainer/basic-skills/digital-evaluation/alley-docking/off-set-backing'],{
         queryParams:{
-          training_record_id: this.data.id
+          training_record_id: this.data.id,
+          supervisor_id: this.data.supervisor_id
+
         }
       });
     }
@@ -594,10 +648,11 @@ export class BasicSkillsPage implements OnInit {
       !this.data.is_parking_sight_started &&
       !this.data.is_coup_uncoup_started
     ) {
-      // this.router.navigateByUrl('/tabs/home/training/trainer/basic-skills/digital-evaluation/alley-docking/off-set-backing/parking-blind');
       this.router.navigate(['/tabs/home/training/trainer/basic-skills/digital-evaluation/alley-docking/off-set-backing/parking-blind'],{
         queryParams:{
-          training_record_id: this.data.id
+          training_record_id: this.data.id,
+          supervisor_id: this.data.supervisor_id
+
         }
       });
     }
@@ -611,10 +666,11 @@ export class BasicSkillsPage implements OnInit {
       !this.data.is_parking_sight_started &&
       !this.data.is_coup_uncoup_started
     ) {
-      // this.router.navigateByUrl('/tabs/home/training/trainer/basic-skills/digital-evaluation/alley-docking/off-set-backing/parking-blind/parking-sight');
       this.router.navigate(['/tabs/home/training/trainer/basic-skills/digital-evaluation/alley-docking/off-set-backing/parking-blind/parking-sight'],{
         queryParams:{
-          training_record_id: this.data.id
+          training_record_id: this.data.id,
+          supervisor_id: this.data.supervisor_id
+
         }
       });
     }
@@ -628,10 +684,11 @@ export class BasicSkillsPage implements OnInit {
       this.data.is_parking_sight_started &&
       !this.data.is_coup_uncoup_started
     ) {
-      // this.router.navigateByUrl('/tabs/home/training/trainer/basic-skills/digital-evaluation/alley-docking/off-set-backing/parking-blind/parking-sight/coup-uncoup');
       this.router.navigate(['/tabs/home/training/trainer/basic-skills/digital-evaluation/alley-docking/off-set-backing/parking-blind/parking-sight/coup-uncoup'],{
         queryParams:{
-          training_record_id: this.data.id
+          training_record_id: this.data.id,
+          supervisor_id: this.data.supervisor_id
+
         }
       });
     }

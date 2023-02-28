@@ -20,7 +20,7 @@
         <div class="col-span-12 mb-4" *ngIf="(loading | async)=== true">
           <label class="block text-sm font-medium text-gray-700">Trainer
             </label>
-             <ion-skeleton-text  [animated]="true" style="width: 100%; height: 39px; border-radius: 5px;"></ion-skeleton-text>
+             <ion-skeleton-text [animated]="true" style="width: 100%; height: 39px; border-radius: 5px;"></ion-skeleton-text>
         </div>
 
         <!-- SUPERVISOR DROPDOWN -->
@@ -122,22 +122,22 @@
         <div class="flex px-4 py-2">
           <div class="w-16 h-16 mr-2">
           <ion-card
-            [ngClass]="!upload_1 ? ' shadow-none m-0 border-2 border-aaaaaa bg-e9e6e6' : 'shadow-none m-0 border-2 border-project-green bg-white'"
-            (click)="upload__1.click()"
+          [ngClass]="!upload_1 ? 'shadow-none m-0 border-2 border-aaaaaa bg-e9e6e6' : 'shadow-none m-0 border-2 border-3D8AA4 bg-white'"
+          (click)="upload__1.click()"
           >
             <ion-card-content class="p-0 w-16 h-16 flex justify-center items-center">
                 <ion-segment scrollable value="done" class="bg-none">
                   <ion-segment-button value="upload" *ngIf="!upload_1">
                     <ion-icon
-                      [ngStyle]="{'color' : !upload_1 ? '#aaaaaa' : ''}"
-                      name="cloud-upload-outline"
+                    [ngStyle]="{'color' : upload_1 ? '#3D8AA4' : ''}"
+                    name="cloud-upload-outline"
                     >
                     </ion-icon>
                   </ion-segment-button>
 
                   <ion-segment-button value="done" *ngIf="upload_1">
                     <ion-icon
-                      [ngStyle]="{'color' : upload_1 ? '#59C64F' : ''}"
+                      [ngStyle]="{'color' : upload_1 ? '#3D8AA4' : ''}"
                       name="cloud-done-outline"
                     >
                     </ion-icon>
@@ -146,7 +146,6 @@
                     #upload__1
                     type="file"
                     class=" invisible hidden"
-                    formControlName="uploadDocs1"
                     (change)="onSelectedFiles($event, 'upload_1')"
                   />
                 </ion-segment>
@@ -155,8 +154,8 @@
         </div>
         <div class="w-16 h-16 mr-2">
           <ion-card
-            [ngClass]="!upload_2 ? ' shadow-none m-0 border-2 border-aaaaaa bg-e9e6e6' : 'shadow-none m-0 border-2 border-project-green bg-white'"
-            (click)="upload__2.click()"
+          [ngClass]="!upload_2 ? ' shadow-none m-0 border-2 border-aaaaaa bg-e9e6e6' : 'shadow-none m-0 border-2 border-3D8AA4 bg-white'"
+          (click)="upload__2.click()"
           >
             <ion-card-content class="p-0 w-16 h-16 flex justify-center items-center">
                 <ion-segment scrollable value="done" class="bg-none">
@@ -170,7 +169,7 @@
 
                   <ion-segment-button value="done" *ngIf="upload_2">
                     <ion-icon
-                      [ngStyle]="{'color' : upload_2 ? '#59C64F' : ''}"
+                      [ngStyle]="{'color' : upload_2 ? '#3D8AA4' : ''}"
                       name="cloud-done-outline"
                     >
                     </ion-icon>
@@ -179,7 +178,6 @@
                     #upload__2
                     type="file"
                     class=" invisible hidden"
-                    formControlName="uploadDocs2"
                     (change)="onSelectedFiles($event, 'upload_2')"
                   />
                 </ion-segment>
@@ -188,8 +186,8 @@
         </div>
         <div class="w-16 h-16 mr-2 mb-3">
           <ion-card
-            [ngClass]="!upload_3 ? ' shadow-none m-0 border-2 border-aaaaaa bg-e9e6e6' : 'shadow-none m-0 border-2 border-project-green bg-white'"
-            (click)="upload__3.click()"
+          [ngClass]="!upload_3 ? ' shadow-none m-0 border-2 border-aaaaaa bg-e9e6e6' : 'shadow-none m-0 border-2 border-3D8AA4 bg-white'"
+          (click)="upload__3.click()"
           >
             <ion-card-content class="p-0 w-16 h-16 flex justify-center items-center">
                 <ion-segment scrollable value="done" class="bg-none">
@@ -203,7 +201,7 @@
 
                   <ion-segment-button value="done" *ngIf="upload_3">
                     <ion-icon
-                      [ngStyle]="{'color' : upload_3 ? '#59C64F' : ''}"
+                      [ngStyle]="{'color' : upload_3 ? '#3D8AA4' : ''}"
                       name="cloud-done-outline"
                     >
                     </ion-icon>
@@ -212,7 +210,6 @@
                     #upload__3
                     type="file"
                     class=" invisible hidden"
-                    formControlName="uploadDocs2"
                     (change)="onSelectedFiles($event, 'upload_3')"
 
                   />
@@ -361,8 +358,8 @@
         <div class="flex px-4 py-2">
           <div class="w-16 h-16 mr-2">
           <ion-card
-            [ngClass]="!upload_1 ? ' shadow-none m-0 border-2 border-aaaaaa bg-e9e6e6' : 'shadow-none m-0 border-2 border-project-green bg-white'"
-            (click)="upload__1.click()"
+          [ngClass]="!upload_1 ? ' shadow-none m-0 border-2 border-aaaaaa bg-e9e6e6' : 'shadow-none m-0 border-2 border-3D8AA4 bg-white'"
+          (click)="upload__1.click()"
           >
             <ion-card-content class="p-0 w-16 h-16 flex justify-center items-center">
                 <ion-segment scrollable value="done" class="bg-none">
@@ -376,7 +373,7 @@
 
                   <ion-segment-button value="done" *ngIf="upload_1">
                     <ion-icon
-                      [ngStyle]="{'color' : upload_1 ? '#59C64F' : ''}"
+                      [ngStyle]="{'color' : upload_1 ? '#3D8AA4' : ''}"
                       name="cloud-done-outline"
                     >
                     </ion-icon>
@@ -385,7 +382,6 @@
                     #upload__1
                     type="file"
                     class=" invisible hidden"
-                    formControlName="uploadDocs1"
                     (change)="onSelectedFiles($event, 'upload_1')"
                   />
                 </ion-segment>
@@ -394,8 +390,8 @@
         </div>
         <div class="w-16 h-16 mr-2">
           <ion-card
-            [ngClass]="!upload_2 ? ' shadow-none m-0 border-2 border-aaaaaa bg-e9e6e6' : 'shadow-none m-0 border-2 border-project-green bg-white'"
-            (click)="upload__2.click()"
+          [ngClass]="!upload_2 ? ' shadow-none m-0 border-2 border-aaaaaa bg-e9e6e6' : 'shadow-none m-0 border-2 border-3D8AA4 bg-white'"
+          (click)="upload__2.click()"
           >
             <ion-card-content class="p-0 w-16 h-16 flex justify-center items-center">
                 <ion-segment scrollable value="done" class="bg-none">
@@ -409,7 +405,7 @@
 
                   <ion-segment-button value="done" *ngIf="upload_2">
                     <ion-icon
-                      [ngStyle]="{'color' : upload_2 ? '#59C64F' : ''}"
+                      [ngStyle]="{'color' : upload_2 ? '#3D8AA4' : ''}"
                       name="cloud-done-outline"
                     >
                     </ion-icon>
@@ -418,7 +414,6 @@
                     #upload__2
                     type="file"
                     class=" invisible hidden"
-                    formControlName="uploadDocs2"
                     (change)="onSelectedFiles($event, 'upload_2')"
                   />
                 </ion-segment>
@@ -427,8 +422,8 @@
         </div>
         <div class="w-16 h-16 mr-2 mb-3">
           <ion-card
-            [ngClass]="!upload_3 ? ' shadow-none m-0 border-2 border-aaaaaa bg-e9e6e6' : 'shadow-none m-0 border-2 border-project-green bg-white'"
-            (click)="upload__3.click()"
+          [ngClass]="!upload_3 ? ' shadow-none m-0 border-2 border-aaaaaa bg-e9e6e6' : 'shadow-none m-0 border-2 border-3D8AA4 bg-white'"
+          (click)="upload__3.click()"
           >
             <ion-card-content class="p-0 w-16 h-16 flex justify-center items-center">
                 <ion-segment scrollable value="done" class="bg-none">
@@ -442,7 +437,7 @@
 
                   <ion-segment-button value="done" *ngIf="upload_3">
                     <ion-icon
-                      [ngStyle]="{'color' : upload_3 ? '#59C64F' : ''}"
+                      [ngStyle]="{'color' : upload_3 ? '#3D8AA4' : ''}"
                       name="cloud-done-outline"
                     >
                     </ion-icon>
@@ -451,7 +446,6 @@
                     #upload__3
                     type="file"
                     class=" invisible hidden"
-                    formControlName="uploadDocs2"
                     (change)="onSelectedFiles($event, 'upload_3')"
 
                   />
@@ -600,8 +594,8 @@
         <div class="flex px-4 py-2">
           <div class="w-16 h-16 mr-2">
           <ion-card
-            [ngClass]="!upload_1 ? ' shadow-none m-0 border-2 border-aaaaaa bg-e9e6e6' : 'shadow-none m-0 border-2 border-project-green bg-white'"
-            (click)="upload__1.click()"
+          [ngClass]="!upload_1 ? ' shadow-none m-0 border-2 border-aaaaaa bg-e9e6e6' : 'shadow-none m-0 border-2 border-3D8AA4 bg-white'"
+          (click)="upload__1.click()"
           >
             <ion-card-content class="p-0 w-16 h-16 flex justify-center items-center">
                 <ion-segment scrollable value="done" class="bg-none">
@@ -615,7 +609,7 @@
 
                   <ion-segment-button value="done" *ngIf="upload_1">
                     <ion-icon
-                      [ngStyle]="{'color' : upload_1 ? '#59C64F' : ''}"
+                      [ngStyle]="{'color' : upload_1 ? '#3D8AA4' : ''}"
                       name="cloud-done-outline"
                     >
                     </ion-icon>
@@ -624,7 +618,6 @@
                     #upload__1
                     type="file"
                     class=" invisible hidden"
-                    formControlName="uploadDocs1"
                     (change)="onSelectedFiles($event, 'upload_1')"
                   />
                 </ion-segment>
@@ -633,8 +626,8 @@
         </div>
         <div class="w-16 h-16 mr-2">
           <ion-card
-            [ngClass]="!upload_2 ? ' shadow-none m-0 border-2 border-aaaaaa bg-e9e6e6' : 'shadow-none m-0 border-2 border-project-green bg-white'"
-            (click)="upload__2.click()"
+          [ngClass]="!upload_2 ? ' shadow-none m-0 border-2 border-aaaaaa bg-e9e6e6' : 'shadow-none m-0 border-2 border-3D8AA4 bg-white'"
+          (click)="upload__2.click()"
           >
             <ion-card-content class="p-0 w-16 h-16 flex justify-center items-center">
                 <ion-segment scrollable value="done" class="bg-none">
@@ -648,7 +641,7 @@
 
                   <ion-segment-button value="done" *ngIf="upload_2">
                     <ion-icon
-                      [ngStyle]="{'color' : upload_2 ? '#59C64F' : ''}"
+                      [ngStyle]="{'color' : upload_2 ? '#3D8AA4' : ''}"
                       name="cloud-done-outline"
                     >
                     </ion-icon>
@@ -657,7 +650,6 @@
                     #upload__2
                     type="file"
                     class=" invisible hidden"
-                    formControlName="uploadDocs2"
                     (change)="onSelectedFiles($event, 'upload_2')"
                   />
                 </ion-segment>
@@ -666,8 +658,8 @@
         </div>
         <div class="w-16 h-16 mr-2 mb-3">
           <ion-card
-            [ngClass]="!upload_3 ? ' shadow-none m-0 border-2 border-aaaaaa bg-e9e6e6' : 'shadow-none m-0 border-2 border-project-green bg-white'"
-            (click)="upload__3.click()"
+          [ngClass]="!upload_3 ? ' shadow-none m-0 border-2 border-aaaaaa bg-e9e6e6' : 'shadow-none m-0 border-2 border-3D8AA4 bg-white'"
+          (click)="upload__3.click()"
           >
             <ion-card-content class="p-0 w-16 h-16 flex justify-center items-center">
                 <ion-segment scrollable value="done" class="bg-none">
@@ -681,7 +673,7 @@
 
                   <ion-segment-button value="done" *ngIf="upload_3">
                     <ion-icon
-                      [ngStyle]="{'color' : upload_3 ? '#59C64F' : ''}"
+                      [ngStyle]="{'color' : upload_3 ? '#3D8AA4' : ''}"
                       name="cloud-done-outline"
                     >
                     </ion-icon>
@@ -690,7 +682,6 @@
                     #upload__3
                     type="file"
                     class=" invisible hidden"
-                    formControlName="uploadDocs2"
                     (change)="onSelectedFiles($event, 'upload_3')"
 
                   />

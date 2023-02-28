@@ -43,7 +43,7 @@
           <input (keyup)="traineeSearch$.next($event.target.value)" (click)="inputClickedTrainee()"
             [value]="trainee_name" #traineeInput
             class="{{isFieldDisabled? 'pointer-events-none bg-gray-200 w-full px-4 py-2 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500': 'w-full px-4 py-2 text-gray-900 placeholder:text-sm rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500'}}"
-            placeholder="Select Trainer" role="" aria-expanded="false" aria-controls="options">
+            placeholder="Select Trainee" role="" aria-expanded="false" aria-controls="options">
         </div>
 
         <div *ngIf="allTrainees | withLoading | async as allTrainees" class="">
@@ -126,7 +126,7 @@
     [ngClass]="'opacity-100 visible scale-100 ease-in duration-200'"
      class="mb-4 relative z-10">
       <div class="mx-auto max-w-full transform rounded-xl px-0 transition-all">
-        <label class="block text-sm font-medium text-gray-700 mb-1">Truckk ID: <span
+        <label class="block text-sm font-medium text-gray-700 mb-1">Truck ID: <span
             *ngIf="isTruckSelected" class="text-red-400">*</span></label>
         <div class="flex items-center justify-between gap-x-2 rounded-md">
           <input (keyup)="truckSearch$.next($event.target.value)" (click)="inputClickedTruck()"
@@ -242,7 +242,7 @@
 
                 <ion-segment-button value="done" *ngIf="upload_1">
                   <ion-icon
-                    [ngStyle]="{'color' : upload_1 ? '#59C64F' : ''}"
+                    [ngStyle]="{'color' : upload_1 ? '#3D8AA4' : ''}"
                     name="cloud-done-outline"
                   >
                   </ion-icon>
@@ -251,7 +251,6 @@
                   #upload__1
                   type="file"
                   class=" invisible hidden"
-                  formControlName="uploadDocs1"
                   (change)="onSelectedFiles($event, 'upload_1')"
                 />
               </ion-segment>
@@ -275,7 +274,7 @@
 
                 <ion-segment-button value="done" *ngIf="upload_2">
                   <ion-icon
-                    [ngStyle]="{'color' : upload_2 ? '#59C64F' : ''}"
+                    [ngStyle]="{'color' : upload_2 ? '#3D8AA4' : ''}"
                     name="cloud-done-outline"
                   >
                   </ion-icon>
@@ -284,7 +283,6 @@
                   #upload__2
                   type="file"
                   class=" invisible hidden"
-                  formControlName="uploadDocs2"
                   (change)="onSelectedFiles($event, 'upload_2')"
                 />
               </ion-segment>
@@ -308,7 +306,7 @@
 
                 <ion-segment-button value="done" *ngIf="upload_3">
                   <ion-icon
-                    [ngStyle]="{'color' : upload_3 ? '#59C64F' : ''}"
+                    [ngStyle]="{'color' : upload_3 ? '#3D8AA4' : ''}"
                     name="cloud-done-outline"
                   >
                   </ion-icon>
@@ -317,7 +315,6 @@
                   #upload__3
                   type="file"
                   class=" invisible hidden"
-                  formControlName="uploadDocs3"
                   (change)="onSelectedFiles($event, 'upload_3')"
 
                 />

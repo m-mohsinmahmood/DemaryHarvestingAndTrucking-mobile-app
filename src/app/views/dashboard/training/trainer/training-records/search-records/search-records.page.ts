@@ -42,7 +42,8 @@ moment: any = moment;
     this.getRecords();
   }
   navigate(x: any,record: any){
-    console.log('form Type:',record);
+    console.log('form Type:',x);
+    console.log('Record:',record);
     this.router.navigate(['/tabs/home/training/trainer/training-records/search-records/view-records'],
       {
         queryParams:{

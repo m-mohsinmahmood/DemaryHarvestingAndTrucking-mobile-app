@@ -99,11 +99,12 @@ export class TrainingService {
     })
     .pipe(take(1));
   }
-  getSummary(trainee_id,trainer_id,evaluation_type){
+  getSummary(trainee_id,trainer_id,evaluation_type, date){
     let params = new HttpParams();
     params = params.set('trainee_id',trainee_id);
     params = params.set('trainer_id',trainer_id);
     params = params.set('evaluation_type',evaluation_type);
+    params = params.set('date',date);
     return this.httpClient
     .get<any>('api-1/training', {
       params

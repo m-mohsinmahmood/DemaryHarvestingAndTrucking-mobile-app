@@ -45,7 +45,8 @@ export class VerifyDwrsPage implements OnInit {
     this.location.back();
   }
   getDate(e) {
-    this.date = moment(e.detail.value).format('YYYY-MM-DD');  }
+    this.date = moment(e.detail.value).format('YYYY-MM-DD');
+    }
   getMonth(e) {
     // passing month & year values
     this.monthValue = moment(e.detail.value).month() +1;
