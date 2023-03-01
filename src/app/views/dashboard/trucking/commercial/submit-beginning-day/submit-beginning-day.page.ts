@@ -193,7 +193,7 @@ export class SubmitBeginningDayPage implements OnInit {
     // this.fieldId = field.id;
 
     // passing name in select's input
-    this.machinery_name = machinery.type;
+    this.machineryInput.nativeElement.value = machinery.type;
     console.log(this.machinery_name);
 
     // to enable submit button
@@ -285,7 +285,7 @@ export class SubmitBeginningDayPage implements OnInit {
     // this.fieldId = field.id;
 
     // passing name in select's input
-    this.workOrder_name = workOrder.id;
+    this.workOrderInput.nativeElement.value = workOrder.id;
 
     // to enable submit button
     this.isWorkOrderSelected = false;

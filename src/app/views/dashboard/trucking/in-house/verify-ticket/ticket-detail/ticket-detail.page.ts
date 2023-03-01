@@ -175,7 +175,7 @@ export class TicketDetailPage implements OnInit {
     // For Specific Fields
 
     // passing name in select's input
-    this.machinery_name = machinery.id;
+    this.machineryInput.nativeElement.value = machinery.id;
 
     // to enable submit button
     this.isMachinerySelected = false;
