@@ -260,7 +260,7 @@ export class TraineePage implements OnInit {
     this.employeeUL = false;
 
     // passing name in select's input
-    this.employee_name = employee.first_name + ' ' + employee.last_name;
+    this.employeeInput.nativeElement.value = employee.first_name + ' ' + employee.last_name;
 
     // to enable submit button
     this.isEmployeeSelected = false;

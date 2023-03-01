@@ -382,7 +382,7 @@ export class BasicSkillsPage implements OnInit {
     this.traineeUL = false;
 
     // passing name in select's input
-    this.trainee_name = trainee.first_name + ' ' + trainee.last_name;
+    this.traineeInput.nativeElement.value = trainee.first_name + ' ' + trainee.last_name;
 
     // to enable submit button
     this.isTraineeSelected = false;
@@ -476,7 +476,7 @@ export class BasicSkillsPage implements OnInit {
     this.supervisorUL = false;
 
     // passing name in select's input
-    this.supervisor_name = supervisor.first_name + ' ' + supervisor.last_name;
+    this.supervisorInput.nativeElement.value = supervisor.first_name + ' ' + supervisor.last_name;
 
     // to enable submit button
     this.isSupervisorSelected = false;
@@ -568,7 +568,7 @@ export class BasicSkillsPage implements OnInit {
     this.truckUL = false;
 
     // passing name in select's input
-    this.truck_name = truck.id;
+    this.truckInput.nativeElement.value = truck.id;
 
     // to enable submit button
     this.isTruckSelected = false;
