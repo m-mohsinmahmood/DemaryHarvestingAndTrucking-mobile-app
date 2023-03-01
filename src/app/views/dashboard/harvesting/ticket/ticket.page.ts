@@ -22,6 +22,7 @@ export class TicketPage implements OnInit {
   @ViewChild('truckInput') truckInput: ElementRef;
   @ViewChild('kartInput') kartInput: ElementRef;
   @ViewChild('fieldInput') fieldInput: ElementRef;
+  @ViewChild('machineryInput') machineryInput: ElementRef;
 
   role: any;
   isReassign: boolean;
@@ -392,7 +393,7 @@ export class TicketPage implements OnInit {
     this.truckDriverUL = false;
 
     // passing name in select's input
-    this.trick_driver_name = truckdriver.name;
+    this.truckInput.nativeElement.value = truckdriver.name;
 
     // to enable submit button
     this.isTruckDriverSelected = false;
@@ -457,7 +458,7 @@ export class TicketPage implements OnInit {
     this.fieldUL = false;
 
     // passing name in select's input
-    this.field_name = field.field_name;
+    this.fieldInput.nativeElement.value = field.field_name;
 
     // to enable submit button
     this.isFieldSelected = false;
@@ -584,7 +585,7 @@ export class TicketPage implements OnInit {
     this.machineUL = false;
 
     // passing name in select's input
-    this.machine_name = machinery.type;
+    this.machineryInput.nativeElement.value = machinery.type;
 
     // to enable submit button
     this.isMachineSelected = false;

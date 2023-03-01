@@ -321,7 +321,8 @@ export class JobSetupPage implements OnInit {
     });
 
     // passing name in select's input
-    this.customer_name = customer.customer_name;
+    this.customerInput.nativeElement.value = customer.customer_name;
+
 
     // passing name in customer-search-value in Rendered2 for checks
     this.customerSearchValue = customer.customer_name;
@@ -426,7 +427,7 @@ export class JobSetupPage implements OnInit {
     this.allFarmsClicked = of([]);
 
         // passing name in farm-search-value in Rendered2 for checks 
-        this.farmSearchValue = farm.name;
+        this.farmInput.nativeElement.value = farm.customer_name;
 
     // to enable submit button
     this.isFarmSelected = false;
@@ -501,7 +502,7 @@ export class JobSetupPage implements OnInit {
     this.cropUL = false;
 
     // passing name in select's input
-    this.crop_name = crop.name;
+    this.cropInput.nativeElement.value = crop.name;
 
     // to enable submit button
     this.isCropSelected = false;
@@ -585,7 +586,7 @@ export class JobSetupPage implements OnInit {
     this.field_name = field.field_name;
 
         // passing name in customer-search-value in Rendered2 for checks 
-        this.fieldSearchValue = field.field_name;
+        this.fieldInput.nativeElement.value = field.field_name;
 
     // to enable submit button
     this.isFieldSelected = false;

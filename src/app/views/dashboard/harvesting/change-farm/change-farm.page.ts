@@ -316,7 +316,7 @@ export class ChangeFarmPage implements OnInit {
     });
 
     // passing name in select's input
-    this.farm_name = farm.name;
+    this.farmInput.nativeElement.value = farm.name;
 
     // clearing array
     this.allFarms = of([]);
@@ -395,7 +395,7 @@ export class ChangeFarmPage implements OnInit {
     this.cropUL = false;
 
     // passing name in select's input
-    this.crop_name = crop.name;
+    this.cropInput.nativeElement.value = crop.name;
 
     // to enable submit button
     this.isCropSelected = false;
@@ -475,7 +475,7 @@ export class ChangeFarmPage implements OnInit {
     this.fieldUL = false;
 
     // passing name in select's input
-    this.field_name = field.field_name;
+    this.fieldInput.nativeElement.value = field.field_name;
 
     // to enable submit button
     this.isFieldSelected = false;
