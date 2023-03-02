@@ -87,7 +87,7 @@ export class CouplingPage implements OnInit {
           console.log(res);
 
           if (res.status === 200) {
-            this.toast.presentToast("Pre Trip Check Form has updated successfully!", 'success');
+            // this.toast.presentToast("Pre Trip Check Form has updated successfully!", 'success');
             this.router.navigate(['trailer', { deliveryTicketId: this.deliveryTicketId }], { relativeTo: this.activeRoute });
           }
         },

@@ -25,6 +25,7 @@ export class CloseJobPage implements OnInit {
   dataDWR: any;
   job;
   sub;
+  truckId;
 
   public loadingSpinner = new BehaviorSubject(false);
 
@@ -35,7 +36,9 @@ export class CloseJobPage implements OnInit {
     private toastService: ToastService,
     private activeRoute: ActivatedRoute,
     private router: Router
-  ) { }
+  ) {
+
+  }
 
   ngOnInit() {
     // getting role
@@ -66,6 +69,11 @@ export class CloseJobPage implements OnInit {
 
   initApis() {
     if (this.role === 'crew-chief') {
+      this.activeRoute.params.subscribe((param) => {
+        console.log("Kart Operator Data: ", param);
+        this.truckId = param.machinery_id;
+      });
+
       this.harvestingService.getBeginningOfDay(
         localStorage.getItem('employeeId'),
         'beginningOfDayHarvesting',
@@ -73,6 +81,11 @@ export class CloseJobPage implements OnInit {
       );
     }
     else if (this.role === 'combine-operator') {
+      this.activeRoute.params.subscribe((param) => {
+        console.log("Kart Operator Data: ", param);
+        this.truckId = param.machinery_id;
+      });
+
       this.harvestingService.getBeginningOfDay(
         localStorage.getItem('employeeId'),
         'beginningOfDayHarvesting',
@@ -87,10 +100,16 @@ export class CloseJobPage implements OnInit {
           employeeId: localStorage.getItem('employeeId'),
         });
         console.log(param);
+        this.truckId = param.truck_id;
       });
     }
 
     else if (this.role === 'kart-operator') {
+      this.activeRoute.params.subscribe((param) => {
+        console.log("Kart Operator Data: ", param);
+        this.truckId = param.machinery_id;
+      });
+
       this.harvestingService.getBeginningOfDay(
         localStorage.getItem('employeeId'),
         'beginningOfDayHarvesting',
@@ -111,8 +130,6 @@ export class CloseJobPage implements OnInit {
             // passing to pre-filled
             workOrderId: this.customerData?.workOrders[0]?.id,
           });
-
-          // console.log(this.closeJobFormKart.value);
 
         }
       }
@@ -157,6 +174,24 @@ export class CloseJobPage implements OnInit {
     // console.log(this.closeJobFormCombine.value);
 
     if (localStorage.getItem('role') === 'crew-chief') {
+      this.harvestingService
+        .updateEndingOfDayJobSetup({
+          operation: 'endingOfDay',
+          jobId: this.truckId,
+          role: 'crew-chief',
+          endingEngineHours: this.closeJobFormCrew.get('endingEngineHours').value
+        })
+        .subscribe(
+          (res: any) => {
+            console.log(res);
+            if (res.status === 200) {
+            }
+          },
+          (err) => {
+            this.toastService.presentToast(err, 'danger');
+          }
+        );
+
       const dayClosed = {
         workOrderId: this.customerData.workOrders[0].id,
         endingEngineHours: this.closeJobFormCrew.get('endingEngineHours').value,
@@ -178,22 +213,40 @@ export class CloseJobPage implements OnInit {
               'success'
             );
 
-         // navigating
-        this.router.navigateByUrl('/tabs/home/harvesting');
+            // navigating
+            this.router.navigateByUrl('/tabs/home/harvesting');
 
-      }
+          }
         },
         (err) => {
           this.toastService.presentToast(err, 'danger');
         }
       );
     }
+
     if (localStorage.getItem('role') === 'combine-operator') {
+      this.harvestingService
+        .updateEndingOfDayJobSetup({
+          operation: 'endingOfDay',
+          jobId: this.truckId,
+          role: 'combine-operator',
+          endingEngineHours: this.closeJobFormCombine.get('endingEngineHours').value
+        })
+        .subscribe(
+          (res: any) => {
+            console.log(res);
+            if (res.status === 200) {
+            }
+          },
+          (err) => {
+            this.toastService.presentToast(err, 'danger');
+          }
+        );
+
       console.log(this.closeJobFormCombine.value);
       const dayClosed = {
         workOrderId: this.customerData.workOrders[0].id,
-        endingEngineHours:
-          this.closeJobFormCombine.get('endingEngineHours').value,
+        endingEngineHours:this.closeJobFormCombine.get('endingEngineHours').value,
         ending_separator_hours: this.closeJobFormCombine.get(
           'ending_separator_hours'
         ).value,
@@ -219,10 +272,30 @@ export class CloseJobPage implements OnInit {
         }
       );
     }
+
     if (localStorage.getItem('role') === 'kart-operator') {
       console.log('customerData', this.customerData);
       console.log('this.closeJobFormKart', this.closeJobFormKart.value);
       this.loadingSpinner.next(true);
+
+      this.harvestingService
+        .updateEndingOfDayJobSetup({
+          operation: 'endingOfDay',
+          jobId: this.truckId,
+          role: 'kart-operator',
+          endingEngineHours: this.closeJobFormKart.get('endingEngineHours').value
+        })
+        .subscribe(
+          (res: any) => {
+            console.log(res);
+            if (res.status === 200) {
+            }
+          },
+          (err) => {
+            this.toastService.presentToast(err, 'danger');
+          }
+        );
+
       this.harvestingService
         .closeBeginningDay(this.closeJobFormKart.value)
         .subscribe(
@@ -236,8 +309,8 @@ export class CloseJobPage implements OnInit {
                 'success'
               );
 
-               // navigating
-            this.router.navigateByUrl('/tabs/home/harvesting');
+              // navigating
+              this.router.navigateByUrl('/tabs/home/harvesting');
 
               this.goBack();
               // this.router.navigateByUrl('/tabs/home/farming');
@@ -252,6 +325,43 @@ export class CloseJobPage implements OnInit {
       console.log(this.closeJobFormTruck.value);
 
       this.loadingSpinner.next(true);
+
+      this.harvestingService
+        .updateCustomerJob(this.closeJobFormTruck.get('workOrderId').value)
+        .subscribe(
+          (res: any) => {
+            console.log(res);
+            if (res.status === 200) {
+              this.toastService.presentToast(
+                'Day has been closed successfully!',
+                'success'
+              );
+              // this.router.navigateByUrl('/tabs/home/farming');
+            }
+          },
+          (err) => {
+            this.toastService.presentToast(err, 'danger');
+          }
+        );
+
+      this.harvestingService
+        .updateEndingOfDayJobSetup({
+          operation: 'endingOfDay',
+          jobId: this.truckId,
+          role: 'truck-driver',
+          endingEngineHours: this.closeJobFormTruck.get('ending_odometer_miles').value
+        })
+        .subscribe(
+          (res: any) => {
+            console.log(res);
+            if (res.status === 200) {
+            }
+          },
+          (err) => {
+            this.toastService.presentToast(err, 'danger');
+          }
+        );
+
       this.harvestingService
         .closeBeginningDay(this.closeJobFormTruck.value)
         .subscribe(
@@ -264,8 +374,9 @@ export class CloseJobPage implements OnInit {
                 'success'
               );
 
- // navigating
- this.router.navigateByUrl('/tabs/home/harvesting');            }
+              // navigating
+              this.router.navigateByUrl('/tabs/home/harvesting');
+            }
           },
           (err) => {
             this.toastService.presentToast(err, 'danger');
@@ -274,23 +385,7 @@ export class CloseJobPage implements OnInit {
 
       console.log("Id: ", this.closeJobFormTruck.get('workOrderId'));
 
-      // this.harvestingService
-      //   .updateCustomerJob(this.closeJobFormTruck.get('workOrderId').value)
-      //   .subscribe(
-      //     (res: any) => {
-      //       console.log(res);
-      //       if (res.status === 200) {
-      //         this.toastService.presentToast(
-      //           'Day has been closed successfully!',
-      //           'success'
-      //         );
-      //         // this.router.navigateByUrl('/tabs/home/farming');
-      //       }
-      //     },
-      //     (err) => {
-      //       this.toastService.presentToast(err, 'danger');
-      //     }
-      //   );
+
     }
   }
 }

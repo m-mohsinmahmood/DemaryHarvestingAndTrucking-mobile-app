@@ -39,7 +39,7 @@ export class HarvestingService {
   readonly customerLoading2$: Observable<boolean> =
     this.customerLoading2.asObservable();
 
-    private customerJobSetupLoading2: BehaviorSubject<boolean> =
+  private customerJobSetupLoading2: BehaviorSubject<boolean> =
     new BehaviorSubject<boolean>(true);
   readonly customerJobSetupLoading2$: Observable<boolean> =
     this.customerJobSetupLoading2.asObservable();
@@ -115,6 +115,18 @@ export class HarvestingService {
     // console.log('UnSUBSCRIBE:',this.unsubscribeBehaviourSubject.value);
   }
 
+  updateBeginningOfDayJobSetup(data: any) {
+    return this._httpClient
+      .patch(`api-1/customer-job-setup`, data)
+      .pipe(take(1));
+  }
+
+  updateEndingOfDayJobSetup(data: any) {
+    return this._httpClient
+      .patch(`api-1/customer-job-setup`, data)
+      .pipe(take(1));
+  }
+
   getCustomers(search: string = '', entity: string = '', role: string = '') {
     let params = new HttpParams();
     params = params.set('entity', entity);
@@ -179,10 +191,28 @@ export class HarvestingService {
       .pipe(take(1));
   }
 
+  getBeginningOfDayHarvesting(
+    employeeId: string,
+    searchClause: string,
+    type: string
+  ) {
+    this._httpClient
+    let params = new HttpParams();
+    params = params.set('employeeId', employeeId);
+    params = params.set('searchClause', searchClause);
+    params = params.set('type', type);
+
+    return this._httpClient
+      .get<any>('api-1/dwr', {
+        params,
+      })
+      .pipe(take(1));
+  }
+
   getJobSetup(entity, crew_chief_id?, employeeId?) {
     let params = new HttpParams();
 
-    if (employeeId != null) {params = params.set('employeeId', employeeId);}
+    if (employeeId != null) { params = params.set('employeeId', employeeId); }
 
     return this._httpClient
 
@@ -409,14 +439,15 @@ export class HarvestingService {
         }
       );
   }
-    getBeginningOfDay2(employeeId: string,searchClause: string,type: string) {
+  getBeginningOfDay2(employeeId: string, searchClause: string, type: string) {
     let params = new HttpParams();
     params = params.set('employeeId', employeeId);
     params = params.set('searchClause', searchClause);
     params = params.set('type', type);
     return this._httpClient.get<any>('api-1/dwr', {
-      params,}) .pipe(take(1));
-    }
+      params,
+    }).pipe(take(1));
+  }
 
   getMachinery(search: string = '', entity: string = '') {
     this._httpClient;
@@ -444,13 +475,11 @@ export class HarvestingService {
     params = params.set('role', role);
     params = params.set('employeeId', employeeId);
 
-    if (isTicketActive != null)
-      {params = params.set('isTicketActive', isTicketActive);}
+    if (isTicketActive != null) { params = params.set('isTicketActive', isTicketActive); }
 
-    if (entity != null) {params = params.set('entity', entity);}
+    if (entity != null) { params = params.set('entity', entity); }
 
-    if (isPreCHeckFilled != null)
-      {params = params.set('isPreCheckFilled', isPreCHeckFilled);}
+    if (isPreCHeckFilled != null) { params = params.set('isPreCheckFilled', isPreCHeckFilled); }
 
     return this._httpClient
       .get<any>('http://localhost:7071/api/customer-job-setup', {
@@ -615,9 +644,9 @@ export class HarvestingService {
       })
       .pipe(take(1));
   }
-  getEmployeeByFirebaseId(fb_id){
+  getEmployeeByFirebaseId(fb_id) {
     let params = new HttpParams();
-    params = params.set('fb_id',fb_id)
+    params = params.set('fb_id', fb_id)
     return this._httpClient
       .get<any>('api-1/employee', {
         params,

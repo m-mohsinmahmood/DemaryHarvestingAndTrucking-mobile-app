@@ -56,7 +56,7 @@
     <form [formGroup]="deliveryTicketForm">
       <div class="px-2">
         <!-- Truck Driver -->
-        <div [ngClass]="'opacity-100 visible ease-in duration-200'" class="" role="dialog" aria-modal="true">
+        <div [ngClass]="'opacity-100 visible ease-in duration-200'"  role="dialog" aria-modal="true">
           <div [ngClass]="'opacity-100 visible scale-100 ease-in duration-200'" class="relative z-20 mb-4">
             <div class="mx-auto max-w-full transform rounded-xl px-0 transition-all">
               <label class="mb-1 block text-sm font-medium text-gray-700">Truck Driver Name <span *ngIf="isTruckDriverSelected" class="text-red-400">*</span></label>
@@ -64,7 +64,7 @@
                 <input (keyup)="trick_driver_search$.next($event.target.value)" (click)="inputClickedTruckDriver()" [value]="trick_driver_name" #truckInput class="{{isFieldDisabled? 'pointer-events-none bg-gray-200 w-full px-4 py-2 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500': 'w-full px-4 py-2 text-gray-900 placeholder:text-sm rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500'}}" placeholder="Select Driver" role="" aria-expanded="false" aria-controls="options" />
               </div>
 
-              <div *ngIf="allTruckDrivers | withLoading | async as allTruckDrivers" class="">
+              <div *ngIf="allTruckDrivers | withLoading | async as allTruckDrivers" >
                 <div class="flex items-center justify-center">
                   <ion-spinner *ngIf="allTruckDrivers?.loading" name="crescent" mode="indeterminate" color="primary"></ion-spinner>
                 </div>
@@ -89,22 +89,24 @@
 
         <div class="col-span-12 mb-4">
           <label class="block text-sm font-medium text-gray-700">Loaded Miles <span *ngIf="this.deliveryTicketForm.get('loadedMiles').hasError('required')" class="text-red-400">*</span></label>
-          <input class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" formControlName="loadedMiles" placeholder="Loaded Miles" />
+          <input type="number" class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" formControlName="loadedMiles" placeholder="Loaded Miles" />
         </div>
 
-        <div [ngClass]="'opacity-100 visible ease-in duration-200'" class="" role="dialog" aria-modal="true">
-          <div [ngClass]="'opacity-100 visible scale-100 ease-in duration-200'" class="relative z-20 mb-4">
+        <div [ngClass]="'opacity-100 visible ease-in duration-200'"  role="dialog" aria-modal="true">
+          <div [ngClass]="'opacity-100 visible scale-100 ease-in duration-200'" class="relative z-50 mb-4">
             <div class="mx-auto max-w-full transform rounded-xl px-0 transition-all">
               <label class="mb-1 block text-sm font-medium text-gray-700">Field Name <span *ngIf="isFieldSelected" class="text-red-400">*</span></label>
               <div class="flex items-center justify-between gap-x-2 rounded-md">
                 <input (keyup)="field_search$.next($event.target.value)" (click)="inputClickedField()" [value]="field_name" #fieldInput class="{{isFieldDisabled? 'pointer-events-none bg-gray-200 w-full px-4 py-2.5 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500': 'w-full px-4 py-2.5 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500'}}" placeholder="Select Field" role="" aria-expanded="false" aria-controls="options" />
               </div>
 
-              <div *ngIf="allFields | withLoading | async as allFields" class="">
+              <div *ngIf="allFields | withLoading | async as allFields" >
                 <div class="flex items-center justify-center">
                   <ion-spinner *ngIf="allFields?.loading" name="crescent" mode="indeterminate" color="primary"></ion-spinner>
                 </div>
-                <ul *ngIf="allFields?.value && fieldUL" class="absolute -mb-2 max-h-44 w-full scroll-py-2 overflow-y-auto bg-white py-2 text-sm text-gray-800" id="options" role="listbox">
+                <ul *ngIf="allFields?.value && fieldUL"
+                class="-mb-2 max-h-44 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800 bg-white drop-shadow-lg absolute w-full"
+                >
                   <li *ngFor="let field of (allFields?.value.customer_fields)" (click)="listClickedField(field)" class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200" role="option" tabindex="-1">
                     <div class="flex items-center p-2">{{field.field_name}}</div>
                   </li>
@@ -125,38 +127,28 @@
         <div *ngIf="!isSplitTrue">
           <div class="col-span-12 mb-4">
             <label class="block text-sm font-medium text-gray-700">Kart Scale Weight (optional) <span *ngIf="this.deliveryTicketForm.get('kartScaleWeight').hasError('required')" class="text-red-400">*</span></label>
-            <input class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" formControlName="kartScaleWeight" placeholder="Kart Scale Weight (optional)" />
+            <input type="number" class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" formControlName="kartScaleWeight" placeholder="Kart Scale Weight (optional)" />
           </div>
         </div>
 
         <div *ngIf="isSplitTrue">
           <div class="col-span-12 mb-4">
             <label class="block text-sm font-medium text-gray-700">Split Load <span *ngIf="this.deliveryTicketForm.get('splitLoad')?.hasError('required')" class="text-red-400">*</span></label>
-            <input class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" formControlName="splitLoad" placeholder="Split Load" />
+            <input type="number" class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" formControlName="splitLoad" placeholder="Split Load" />
           </div>
 
           <div class="col-span-12 mb-4">
             <label class="block text-sm font-medium text-gray-700">Kart Scale Weight (Split Load) <span *ngIf="this.deliveryTicketForm.get('kart_scale_weight_split')?.hasError('required')" class="text-red-400">*</span></label>
-            <input class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" formControlName="kart_scale_weight_split" placeholder="Kart Scale Weight (Split Load)" />
+            <input type="number" class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" formControlName="kart_scale_weight_split" placeholder="Kart Scale Weight (Split Load)" />
           </div>
-
-          <!-- <div class="col-span-12 mb-4">
-            <label class="block text-sm font-medium text-gray-700">Kart Scale Weight (optional) <span *ngIf="this.deliveryTicketForm.get('kartScaleWeight').hasError('required')" class="text-red-400">*</span></label>
-            <input class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" formControlName="kartScaleWeight" placeholder="Kart Scale Weight (optional)" />
-          </div> -->
 
           <div class="col-span-12 mb-4">
             <label class="block text-sm font-medium text-gray-700">Field (Split Load) <span *ngIf="this.deliveryTicketForm.get('field_load_split')?.hasError('required')" class="text-red-400">*</span></label>
-            <input class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" formControlName="field_load_split" placeholder="Field (Split Load)" />
+            <input type="number" class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" formControlName="field_load_split" placeholder="Field (Split Load)" />
           </div>
         </div>
 
-        <!-- <div class="col-span-12 mb-4">
-          <label class="block text-sm font-medium text-gray-700">Truck# <span *ngIf="this.deliveryTicketForm.get('truckId')?.hasError('required')" class="text-red-400">*</span></label>
-          <input class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" formControlName="truckId" placeholder="Truck#" />
-        </div> -->
-
-        <div [ngClass]="add_location_overlay ? 'opacity-100 visible ease-in duration-200' : 'opacity-0 invisible ease-out duration-300'" class="" role="dialog" aria-modal="true">
+        <div [ngClass]="add_location_overlay ? 'opacity-100 visible ease-in duration-200' : 'opacity-0 invisible ease-out duration-300'"  role="dialog" aria-modal="true">
           <div [ngClass]="add_location_overlay ? 'opacity-100 visible scale-100 ease-in duration-200' : 'opacity-0 invisible scale-95 ease-out duration-300'" class="relative z-30 mb-4">
             <div class="mx-auto max-w-full transform rounded-xl px-0 transition-all">
               <label class="mb-1 block text-sm font-medium text-gray-700">Truck ID: <span *ngIf="isMachineSelected" class="text-red-400">*</span></label>
@@ -164,7 +156,7 @@
                 <input (keyup)="machine_search$.next($event.target.value)" (click)="inputClickedMachinery()" [value]="machine_name" #machineryInput class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder:text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500" placeholder="Select Truck" role="" aria-expanded="false" aria-controls="options" />
               </div>
 
-              <div *ngIf="allMachinery | withLoading | async as allMachinery" class="">
+              <div *ngIf="allMachinery | withLoading | async as allMachinery" >
                 <div class="flex items-center justify-center">
                   <ion-spinner *ngIf="allMachinery?.loading" name="crescent" mode="indeterminate" color="primary"></ion-spinner>
                 </div>
@@ -259,7 +251,7 @@
             placeholder="Truck Driver">
         </div> -->
         <!-- Truck Driver -->
-        <div [ngClass]="'opacity-100 visible ease-in duration-200'" class="" role="dialog" aria-modal="true">
+        <div [ngClass]="'opacity-100 visible ease-in duration-200'"  role="dialog" aria-modal="true">
           <div [ngClass]="'opacity-100 visible scale-100 ease-in duration-200'" class="relative z-20 mb-4">
             <div class="mx-auto max-w-full transform rounded-xl px-0 transition-all">
               <label class="mb-1 block text-sm font-medium text-gray-700">Truck Driver Name <span *ngIf="isTruckDriverSelected" class="text-red-400">*</span></label>
@@ -267,7 +259,7 @@
                 <input (keyup)="trick_driver_search$.next($event.target.value)" (click)="inputClickedTruckDriver()" [value]="trick_driver_name?trick_driver_name :  reassignTicketData.name" #truckInput class="{{isFieldDisabled? 'pointer-events-none bg-gray-200 w-full px-4 py-2 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500': 'w-full px-4 py-2 text-gray-900 placeholder:text-sm rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500'}}" placeholder="Select Driver" role="" aria-expanded="false" aria-controls="options" />
               </div>
 
-              <div *ngIf="allTruckDrivers | withLoading | async as allTruckDrivers" class="">
+              <div *ngIf="allTruckDrivers | withLoading | async as allTruckDrivers" >
                 <div class="flex items-center justify-center">
                   <ion-spinner *ngIf="allTruckDrivers?.loading" name="crescent" mode="indeterminate" color="primary"></ion-spinner>
                 </div>

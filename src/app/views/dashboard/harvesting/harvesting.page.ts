@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { HarvestingService } from './harvesting.service';
 import { Observable } from 'rxjs';
 import { CheckInOutService } from './../../../components/check-in-out/check-in-out.service';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-harvesting',
@@ -12,6 +13,8 @@ import { CheckInOutService } from './../../../components/check-in-out/check-in-o
   styleUrls: ['./harvesting.page.scss'],
 })
 export class HarvestingPage implements OnInit {
+  pendingTicketData$;
+  pendingTicketLoading$;
   isModalOpen;
   activeDwr: any;
   preCheckFilled;
@@ -33,21 +36,55 @@ export class HarvestingPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    // console.log('AAA',localStorage.getItem('role'));
     this.role = localStorage.getItem('role');
 
     this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
       console.log('Active Check In ', workOrder.dwr);
       this.activeDwr = workOrder.dwr;
 
-      if (workOrder.dwr.length > 0)
-        {this.isModalOpen = false;}
-      else
-        {this.isModalOpen = true;}
+      if (workOrder.dwr.length > 0) { this.isModalOpen = false; }
+      else { this.isModalOpen = true; }
     });
 
     //call for dwr
-    this.getDWRCount();
+
+    if (this.role === 'crew-chief') {
+      //call for dwr
+      this.harvestingService.getBeginningOfDay2(localStorage.getItem('employeeId'), 'beginningOfDay', 'harvesting')
+        .subscribe((workOrder) => {
+          this.activeTicket = workOrder;
+          this.workOrderCount = workOrder.count;
+          console.log('Current DWR :', workOrder);
+        });
+    }
+
+    if (this.role === 'combine-operator') {
+      this.harvestingService.getBeginningOfDay2(localStorage.getItem('employeeId'), 'beginningOfDay', 'harvesting')
+        .subscribe((workOrder) => {
+          this.activeTicket = workOrder;
+          this.workOrderCount = workOrder.count;
+          console.log('Current DWR :', workOrder);
+        });
+    }
+
+    if (this.role === 'kart-operator') {
+      // Call to get pending tickets
+      this.harvestingService.kartOperatorGetTickets(
+        localStorage.getItem('employeeId'),
+        'pending'
+      );
+
+      this.pendingTicketData$ = this.harvestingService.pendingTicket$;
+      this.pendingTicketLoading$ = this.harvestingService.pendingTicketLoading$;
+
+      //call for dwr
+      this.harvestingService.getBeginningOfDay2(localStorage.getItem('employeeId'), 'beginningOfDay', 'harvesting')
+        .subscribe((workOrder) => {
+          this.activeTicket = workOrder;
+          this.workOrderCount = workOrder.count;
+          console.log('Current DWR of Kart Operator :', workOrder);
+        });
+    }
 
     if (this.role === 'truck-driver') {
       this.activeWorkOrders = this.harvestingService.getDeliveryTickets(this.role, localStorage.getItem('employeeId'), true, false, 'truck-driver-active-tickets');
@@ -58,12 +95,15 @@ export class HarvestingPage implements OnInit {
           this.activeTicket.module = 'harvesting';
         }
 
+        this.dataCount.active = workOrders.customer_job.length
+
         console.log('Active: ', workOrders);
       });
 
       this.preCheckFilled = this.harvestingService.getDeliveryTickets(this.role, localStorage.getItem('employeeId'), true, true, 'truck-driver-active-tickets');
       this.preCheckFilled.subscribe((workOrders) => {
         this.preCheck = workOrders.customer_job[0];
+        this.dataCount.preCheck = workOrders.customer_job.length
         console.log('Pre Check Filled: ', workOrders);
       });
     }
@@ -72,20 +112,45 @@ export class HarvestingPage implements OnInit {
 
   async ionViewDidEnter() {
 
-    //call for dwr
-    this.getDWRCount();
+    this.role = localStorage.getItem('role');
 
     this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
       console.log('Active Check In ', workOrder.dwr);
       this.activeDwr = workOrder.dwr;
 
-      if (workOrder.dwr.length > 0)
-        {this.isModalOpen = false;}
-      else
-        {this.isModalOpen = true;}
+      if (workOrder.dwr.length > 0) { this.isModalOpen = false; }
+      else { this.isModalOpen = true; }
     });
 
-    this.role = localStorage.getItem('role');
+    if (this.role === 'crew-chief') {
+      //call for dwr
+      this.harvestingService.getBeginningOfDay2(localStorage.getItem('employeeId'), 'beginningOfDay', 'harvesting')
+        .subscribe((workOrder) => {
+          this.activeTicket = workOrder;
+          this.workOrderCount = workOrder.count;
+          console.log('Current DWR :', workOrder);
+        });
+    }
+
+    if (this.role === 'combine-operator') {
+      this.harvestingService.getBeginningOfDay2(localStorage.getItem('employeeId'), 'beginningOfDay', 'harvesting')
+        .subscribe((workOrder) => {
+          this.activeTicket = workOrder;
+          this.workOrderCount = workOrder.count;
+          console.log('Current DWR :', workOrder);
+        });
+    }
+
+    if (this.role === 'kart-operator') {
+      //call for dwr
+      this.harvestingService.getBeginningOfDay2(localStorage.getItem('employeeId'), 'beginningOfDay', 'harvesting')
+        .subscribe((workOrder) => {
+          this.activeTicket = workOrder;
+          this.workOrderCount = workOrder.count;
+          console.log('Current DWR of Kart Operator :', workOrder);
+        });
+    }
+
     if (this.role === 'truck-driver') {
       this.activeWorkOrders = this.harvestingService.getDeliveryTickets(this.role, localStorage.getItem('employeeId'), true, false, 'truck-driver-active-tickets');
       this.activeWorkOrders.subscribe((workOrders) => {
@@ -95,27 +160,21 @@ export class HarvestingPage implements OnInit {
           this.activeTicket.module = 'harvesting';
         }
 
+        this.dataCount.active = workOrders.customer_job.length
+
         console.log('Active: ', workOrders);
       });
 
       this.preCheckFilled = this.harvestingService.getDeliveryTickets(this.role, localStorage.getItem('employeeId'), true, true, 'truck-driver-active-tickets');
       this.preCheckFilled.subscribe((workOrders) => {
         this.preCheck = workOrders.customer_job[0];
+        this.dataCount.preCheck = workOrders.customer_job.length
         console.log('Pre Check Filled: ', workOrders);
       });
     }
 
   }
-getDWRCount(){
-  this.harvestingService.getBeginningOfDay2(localStorage.getItem('employeeId'), 'beginningOfDay', 'harvesting')
-     .subscribe((workOrder)=>{
-      this.workOrderCount = workOrder.count;
-      console.log('WorkOrder :', workOrder);
-    });
-}
-  goBack() {
-    this.location.back();
-  }
+
   navigate(route) {
     if (route === 'ticket') {
       this.router.navigateByUrl('tabs/home/harvesting/ticket', {
@@ -130,6 +189,5 @@ getDWRCount(){
         }
       });
     }
-
   }
 }

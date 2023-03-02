@@ -17,7 +17,7 @@
           </div>
         </div>
         <!-- Customer -->
-        <div class="" role="dialog" aria-modal="true">
+        <div  role="dialog" aria-modal="true">
           <div class="mb-4 relative z-50">
             <div class="mx-auto max-w-full transform rounded-xl px-0  transition-all">
               <label class="block text-sm font-medium text-gray-700 mb-1">Customer Name <span *ngIf="isCustomerSelected"
@@ -29,7 +29,7 @@
                   placeholder="Select Customer" role="" aria-expanded="false" aria-controls="options">
               </div>
 
-              <div *ngIf="allCustomers | withLoading | async as allCustomers" class="">
+              <div *ngIf="allCustomers | withLoading | async as allCustomers" >
                 <div class="flex justify-center items-center">
                   <ion-spinner *ngIf="allCustomers?.loading" name="crescent" mode="indeterminate"
                     color="primary"></ion-spinner>
@@ -58,7 +58,7 @@
         <!-- FARM -->
         <div
           [ngClass]="add_location_overlay ? 'opacity-100 visible ease-in duration-200' : 'opacity-0 invisible ease-out duration-300'"
-          class="" role="dialog" aria-modal="true">
+           role="dialog" aria-modal="true">
 
           <div
             [ngClass]="add_location_overlay ? 'opacity-100 visible scale-100 ease-in duration-200' : 'opacity-0 invisible scale-95 ease-out duration-300'"
@@ -73,7 +73,7 @@
                   placeholder="Select Farm" role="" aria-expanded="false" aria-controls="options">
               </div>
 
-              <div *ngIf="allFarmsClicked | withLoading | async as allFarmsClicked" class="">
+              <div *ngIf="allFarmsClicked | withLoading | async as allFarmsClicked" >
                 <div class="flex justify-center items-center">
                   <ion-spinner *ngIf="allFarmsClicked?.loading" name="crescent" mode="indeterminate"
                     color="primary"></ion-spinner>
@@ -102,7 +102,7 @@
         <!-- Initial Field -->
         <div
           [ngClass]="add_location_overlay ? 'opacity-100 visible ease-in duration-200' : 'opacity-0 invisible ease-out duration-300'"
-          class="" role="dialog" aria-modal="true">
+           role="dialog" aria-modal="true">
 
           <div
             [ngClass]="add_location_overlay ? 'opacity-100 visible scale-100 ease-in duration-200' : 'opacity-0 invisible scale-95 ease-out duration-300'"
@@ -117,7 +117,7 @@
                   placeholder="Select Field" role="" aria-expanded="false" aria-controls="options">
               </div>
 
-              <div *ngIf="allFields | withLoading | async as allFields" class="">
+              <div *ngIf="allFields | withLoading | async as allFields" >
                 <div class="flex justify-center items-center">
                   <ion-spinner *ngIf="allFields?.loading" name="crescent" mode="indeterminate"
                     color="primary"></ion-spinner>
@@ -147,7 +147,7 @@
         <!-- CROP -->
         <div
           [ngClass]="add_location_overlay ? 'opacity-100 visible ease-in duration-200' : 'opacity-0 invisible ease-out duration-300'"
-          class="" role="dialog" aria-modal="true">
+           role="dialog" aria-modal="true">
 
           <div
             [ngClass]="add_location_overlay ? 'opacity-100 visible scale-100 ease-in duration-200' : 'opacity-0 invisible scale-95 ease-out duration-300'"
@@ -162,7 +162,7 @@
                   placeholder="Select Crop" role="" aria-expanded="false" aria-controls="options">
               </div>
 
-              <div *ngIf="allCropsClicked | withLoading | async as allCropsClicked" class="">
+              <div *ngIf="allCropsClicked | withLoading | async as allCropsClicked" >
                 <div class="flex justify-center items-center">
                   <ion-spinner *ngIf="allCropsClicked?.loading" name="crescent" mode="indeterminate"
                     color="primary"></ion-spinner>
