@@ -204,7 +204,7 @@ export class TrainingRecordsPage implements OnInit {
     this.traineeUL = false;
 
     // passing name in select's input
-    this.trainee_name = trainee.first_name + ' ' + trainee.last_name;
+    this.traineeInput.nativeElement.value = trainee.first_name + ' ' + trainee.last_name;
 
     // to enable submit button
     this.isTraineeSelected = false;

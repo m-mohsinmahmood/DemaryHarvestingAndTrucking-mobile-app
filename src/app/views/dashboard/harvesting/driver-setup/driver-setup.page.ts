@@ -177,7 +177,7 @@ export class DriverSetupPage implements OnInit {
 
   selectedDriver(driver) {
     this.driverUL = false;
-    this.driver_name = driver.name;
+    this.driverInput.nativeElement.value = driver.name;
     this.isTruckDriverSelected = false;
     this.driverSetupForm.controls['truck_driver'].setValue(driver.id ?? '');
   }

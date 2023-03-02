@@ -189,7 +189,7 @@ export class OthersPage implements OnInit {
     this.employeeUL = false;
 
     // passing name in select's input
-    this.employee_name =
+    this.employeeInput.nativeElement.value =
     employee.first_name + ' ' + employee.last_name;
 
     // to enable submit button
@@ -281,7 +281,7 @@ export class OthersPage implements OnInit {
     // hiding UL
     this.supervisorUL = false;
 // passing name in select's input
-this.supervisor_name = supervisor.supervisor;
+this.supervisorInput.nativeElement.value = supervisor.supervisor;
 
     // to enable submit button
     this.isSupervisorSelected = false;

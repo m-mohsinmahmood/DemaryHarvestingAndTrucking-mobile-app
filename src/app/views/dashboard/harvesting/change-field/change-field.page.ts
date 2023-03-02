@@ -2,7 +2,7 @@
 /* eslint-disable @angular-eslint/use-lifecycle-interface */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable @typescript-eslint/naming-convention */
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Location } from '@angular/common';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { HarvestingService } from './../harvesting.service';
@@ -17,6 +17,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./change-field.page.scss'],
 })
 export class ChangeFieldPage implements OnInit {
+  @ViewChild('fieldInput') fieldInput: ElementRef;
+
   role: any;
   changeFieldFormChief: FormGroup;
   changeFieldFormKart: FormGroup;
@@ -253,7 +255,7 @@ export class ChangeFieldPage implements OnInit {
     this.fieldUL = false;
 
     // passing name in select's input
-    this.field_name = field.field_name;
+    this.fieldInput.nativeElement.value = field.field_name;
 
     // to enable submit button
     this.isFieldSelected = false;

@@ -286,7 +286,7 @@ export class AssignRolesPage implements OnInit {
     this.combineUL = false;
 
     // passing name in select's input
-    this.combine_name = combine.first_name + ' ' + combine.last_name;
+    this.combineInput.nativeElement.value = combine.first_name + ' ' + combine.last_name;
 
     // to enable submit button
     if (this.activeJobData?.customer_job.length > 0) { this.isCombineSelected = false; }
@@ -379,7 +379,7 @@ export class AssignRolesPage implements OnInit {
     this.cartUL = false;
 
     // passing name in select's input
-    this.cart_name = cart.first_name + ' ' + cart.last_name;
+    this.cartInput.nativeElement.value = cart.first_name + ' ' + cart.last_name;
 
     // to enable submit button
     if (this.activeJobData?.customer_job.length > 0) { this.isCartSelected = false; }

@@ -292,7 +292,7 @@ export class CompleteExistingOrderPage implements OnInit {
     // this.fieldId = field.id;
 
     // passing name in select's input
-    this.machinery_name = machinery.type;
+    this.machineryInput.nativeElement.value = machinery.type;
 
     // to enable submit button
     this.isMachinerySelected = false;
@@ -402,7 +402,7 @@ export class CompleteExistingOrderPage implements OnInit {
     // this.fieldId = field.id;
 
     // passing name in select's input
-    this.dispatcher_name = dispatcher.first_name;
+    this.dispatcherInput.nativeElement.value = dispatcher.first_name;
 
     // to enable submit button
     this.isDispatcherSelected = false;
@@ -520,7 +520,7 @@ export class CompleteExistingOrderPage implements OnInit {
       phone: customer.phone_number
     });
     // passing name in select's input
-    this.customer_name = customer.customer_name;
+    this.customerInput.nativeElement.value = customer.customer_name;
 
     // passing name in customer-search-value in Rendered2 for checks 
     this.customerSearchValue = customer.customer_name;
@@ -626,7 +626,7 @@ export class CompleteExistingOrderPage implements OnInit {
     this.farmId = farm.id;
 
     // passing name in select's input
-    this.farm_name = farm.name;
+    this.farmsInput.nativeElement.value = farm.name;
 
     // to enable submit button
     this.isFarmSelected = false;
@@ -731,7 +731,7 @@ export class CompleteExistingOrderPage implements OnInit {
     // this.fieldId = field.id;
 
     // passing name in select's input
-    this.field_name = field.field_name;
+    this.fieldsInput.nativeElement.value = field.field_name;
 
     // passing name in customer-search-value in Rendered2 for checks 
     this.fieldSearchValue = field.field_name;
@@ -827,7 +827,7 @@ export class CompleteExistingOrderPage implements OnInit {
     // this.fieldId = field.id;
 
     // passing name in select's input
-    this.service_name = service;
+    this.serviceInput.nativeElement.value = service;
 
     // to enable submit button
     this.isServiceSelected = false;
