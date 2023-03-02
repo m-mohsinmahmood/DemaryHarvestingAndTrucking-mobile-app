@@ -24,7 +24,7 @@ export class TripCheckService {
     data.employeeId = employeeId;
 
     return this._httpClient
-      .post(`http://localhost:7071/api/trip_check_form`, data)
+      .post(`http://api-1/trip_check_form`, data)
       .pipe(take(1));
   }
 
@@ -33,7 +33,7 @@ export class TripCheckService {
     data.ticketId = id;
 
     return this._httpClient
-      .patch(`http://localhost:7071/api/trip_check_form`, data)
+      .patch(`http://api-1/trip_check_form`, data)
       .pipe(take(1));
   }
 
@@ -48,7 +48,7 @@ export class TripCheckService {
     params = params.set('vehicleType', 'Trailer');
 
     return this._httpClient
-      .get<any>('http://localhost:7071/api/dropdowns', {
+      .get<any>('http://api-1/dropdowns', {
         params,
       })
       .pipe(take(1));
@@ -62,7 +62,7 @@ export class TripCheckService {
     params = params.set('id', id);
 
     return this._httpClient
-      .get<any>('http://localhost:7071/api/trip_check_form', {
+      .get<any>('http://api-1/trip_check_form', {
         params,
       })
       .pipe(take(1));
@@ -76,7 +76,7 @@ export class TripCheckService {
     params = params.set('requestType', requestType);
 
     return this._httpClient
-      .get<any>('http://localhost:7071/api/trip_check_form', {
+      .get<any>('http://api-1/trip_check_form', {
         params,
       })
       .pipe(take(1));
@@ -91,7 +91,7 @@ export class TripCheckService {
     params = params.set('date', date);
 
     return this._httpClient
-      .get<any>('http://localhost:7071/api/trip_check_form', {
+      .get<any>('http://api-1/trip_check_form', {
         params,
       })
       .pipe(take(1));
@@ -107,7 +107,7 @@ export class TripCheckService {
     params = params.set('year', year);
 
     return this._httpClient
-      .get<any>('http://localhost:7071/api/trip_check_form', {
+      .get<any>('http://api-1/trip_check_form', {
         params,
       })
       .pipe(take(1));
@@ -122,7 +122,7 @@ export class TripCheckService {
     params = params.set('year', year);
 
     return this._httpClient
-      .get<any>('http://localhost:7071/api/trip_check_form', {
+      .get<any>('http://api-1/trip_check_form', {
         params,
       })
       .pipe(take(1));

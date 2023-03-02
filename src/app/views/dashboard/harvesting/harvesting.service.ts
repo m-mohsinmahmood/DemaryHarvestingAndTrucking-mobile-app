@@ -134,7 +134,7 @@ export class HarvestingService {
     params = params.set('search', search);
 
     return this._httpClient
-      .get(`http://localhost:7071/api/dropdowns`, {
+      .get(`http://api-1/dropdowns`, {
         params,
       })
       .pipe(take(1));
@@ -147,7 +147,7 @@ export class HarvestingService {
     params = params.set('search', search);
 
     return this._httpClient
-      .get(`http://localhost:7071/api/dropdowns`, {
+      .get(`http://api-1/dropdowns`, {
         params,
       })
       .pipe(take(1));
@@ -160,7 +160,7 @@ export class HarvestingService {
     params = params.set('search', search);
 
     return this._httpClient
-      .get(`http://localhost:7071/api/dropdowns`, {
+      .get(`http://api-1/dropdowns`, {
         params,
       })
       .pipe(take(1));
@@ -179,7 +179,7 @@ export class HarvestingService {
     params = params.set('farmId', farmId);
 
     return this._httpClient
-      .get(`http://localhost:7071/api/dropdowns`, {
+      .get(`http://api-1/dropdowns`, {
         params,
       })
       .pipe(take(1));
@@ -187,7 +187,7 @@ export class HarvestingService {
 
   createJob(data: any) {
     return this._httpClient
-      .post(`http://localhost:7071/api/customer-job-setup`, data)
+      .post(`http://api-1/customer-job-setup`, data)
       .pipe(take(1));
   }
 
@@ -217,7 +217,7 @@ export class HarvestingService {
     return this._httpClient
 
       .get(
-        `http://localhost:7071/api/customer-job-setup?entity=${entity}&crew_chief_id=${crew_chief_id}`,
+        `http://api-1/customer-job-setup?entity=${entity}&crew_chief_id=${crew_chief_id}`,
         { params }
       )
       .pipe(take(1))
@@ -237,7 +237,7 @@ export class HarvestingService {
   getJobTesting2(entity, employeeId) {
     return this._httpClient
       .get(
-        `http://localhost:7071/api/customer-job-setup?entity=${entity}&employeeId=${employeeId}`
+        `http://api-1/customer-job-setup?entity=${entity}&employeeId=${employeeId}`
       )
       .pipe(take(1))
       .subscribe(
@@ -255,7 +255,7 @@ export class HarvestingService {
 
   getJob2() {
     return this._httpClient
-      .get(`http://localhost:7071/api/customer-job-setup`)
+      .get(`http://api-1/customer-job-setup`)
       .pipe(take(1))
       .subscribe(
         (res: any) => {
@@ -272,26 +272,26 @@ export class HarvestingService {
   getDWR(employeeId, searchClause) {
     return this._httpClient
       .get(
-        `http://localhost:7071/api/dwr?employeeId=${employeeId}&searchClause=${searchClause}`
+        `http://api-1/dwr?employeeId=${employeeId}&searchClause=${searchClause}`
       )
       .pipe(take(1));
   }
 
   closeOutJob(data: any) {
     return this._httpClient
-      .patch(`http://localhost:7071/api/customer-job-setup`, data)
+      .patch(`http://api-1/customer-job-setup`, data)
       .pipe(take(1));
   }
 
   changeField(data: any) {
     return this._httpClient
-      .post(`http://localhost:7071/api/customer-job-setup`, data)
+      .post(`http://api-1/customer-job-setup`, data)
       .pipe(take(1));
   }
 
   closeBeginningDay(data: any) {
     return this._httpClient
-      .patch(`http://localhost:7071/api/dwr`, data)
+      .patch(`http://api-1/dwr`, data)
       .pipe(take(1));
   }
 
@@ -302,7 +302,7 @@ export class HarvestingService {
     params = params.set('role', role);
     params = params.set('search', search);
     return this._httpClient
-      .get<any>('http://localhost:7071/api/dropdowns', {
+      .get<any>('http://api-1/dropdowns', {
         params,
       })
       .pipe(take(1));
@@ -310,14 +310,14 @@ export class HarvestingService {
 
   createTicket(data: any) {
     return this._httpClient
-      .post(`http://localhost:7071/api/harvesting-ticket`, data)
+      .post(`http://api-1/harvesting-ticket`, data)
       .pipe(take(1));
   }
 
   getTicketById(id: any, entity: any) {
     return this._httpClient
       .get(
-        `http://localhost:7071/api/harvesting-ticket?id=${id}&entity=${entity}`
+        `http://api-1/harvesting-ticket?id=${id}&entity=${entity}`
       )
       .pipe(take(1))
       .subscribe(
@@ -336,7 +336,7 @@ export class HarvestingService {
   updateTicket(ticketID: any, data: any) {
     return this._httpClient
       .patch(
-        `http://localhost:7071/api/harvesting-ticket?ticket_id=${ticketID}`,
+        `http://api-1/harvesting-ticket?ticket_id=${ticketID}`,
         data
       )
       .pipe(take(1));
@@ -345,7 +345,7 @@ export class HarvestingService {
   updatePreTripCheckJob(ticketID: any) {
     return this._httpClient
       .patch(
-        `http://localhost:7071/api/customer-job-setup?id=${ticketID}`,
+        `http://api-1/customer-job-setup?id=${ticketID}`,
         {}
       )
       .pipe(take(1));
@@ -354,7 +354,7 @@ export class HarvestingService {
   updateCustomerJob(ticketID: any) {
     return this._httpClient
       .patch(
-        `http://localhost:7071/api/customer-job-setup?ticketId=${ticketID}&operation=updateCustomerJob`,
+        `http://api-1/customer-job-setup?ticketId=${ticketID}&operation=updateCustomerJob`,
         {}
       )
       .pipe(take(1));
@@ -362,7 +362,7 @@ export class HarvestingService {
 
   getSentTicket(value: any) {
     return this._httpClient
-      .get(`http://localhost:7071/api/harvesting-ticket?status=${value}`)
+      .get(`http://api-1/harvesting-ticket?status=${value}`)
       .pipe(take(1))
       .subscribe(
         (res: any) => {
@@ -378,7 +378,7 @@ export class HarvestingService {
 
   getPendingTicket(value: any) {
     return this._httpClient
-      .get(`http://localhost:7071/api/harvesting-ticket?status=${value}`)
+      .get(`http://api-1/harvesting-ticket?status=${value}`)
       .pipe(take(1))
       .subscribe(
         (res: any) => {
@@ -394,7 +394,7 @@ export class HarvestingService {
 
   getVerifiedTicket(value: any) {
     return this._httpClient
-      .get(`http://localhost:7071/api/harvesting-ticket?status=${value}`)
+      .get(`http://api-1/harvesting-ticket?status=${value}`)
       .pipe(take(1))
       .subscribe(
         (res: any) => {
@@ -411,7 +411,7 @@ export class HarvestingService {
   createBeginingDay(data: any, dwr_type: string): Observable<any> {
     data.dwr_type = dwr_type;
     return this._httpClient
-      .post<any>(`http://localhost:7071/api/dwr`, data)
+      .post<any>(`http://api-1/dwr`, data)
       .pipe(take(1));
   }
 
@@ -423,7 +423,7 @@ export class HarvestingService {
     params = params.set('type', type);
 
     return this._httpClient
-      .get<any>('http://localhost:7071/api/dwr', {
+      .get<any>('http://api-1/dwr', {
         params,
       })
       .pipe(take(1))
@@ -457,7 +457,7 @@ export class HarvestingService {
     params = params.set('vehicleType', 'Truck');
 
     return this._httpClient
-      .get<any>('http://localhost:7071/api/dropdowns', {
+      .get<any>('http://api-1/dropdowns', {
         params,
       })
       .pipe(take(1));
@@ -482,7 +482,7 @@ export class HarvestingService {
     if (isPreCHeckFilled != null) { params = params.set('isPreCheckFilled', isPreCHeckFilled); }
 
     return this._httpClient
-      .get<any>('http://localhost:7071/api/customer-job-setup', {
+      .get<any>('http://api-1/customer-job-setup', {
         params,
       })
       .pipe(take(1));
@@ -494,7 +494,7 @@ export class HarvestingService {
     params = params.set('cart_operator_id', cart_operator_id);
     params = params.set('crew_chief_id', crew_chief_id);
     return this._httpClient
-      .get<any>(`http://localhost:7071/api/customer-job-setup`, {
+      .get<any>(`http://api-1/customer-job-setup`, {
         params,
       })
       .pipe(take(1));
@@ -506,7 +506,7 @@ export class HarvestingService {
     params = params.set('operation', operation);
     params = params.set('search', search);
     return this._httpClient
-      .get<any>(`http://localhost:7071/api/havesting-kart-operator`, {
+      .get<any>(`http://api-1/havesting-kart-operator`, {
         params,
       })
       .pipe(take(1));
@@ -524,7 +524,7 @@ export class HarvestingService {
 
     try {
       return this._httpClient
-        .get<any>(`http://localhost:7071/api/havesting-kart-operator`, {
+        .get<any>(`http://api-1/havesting-kart-operator`, {
           params,
         })
         .pipe(take(1));
@@ -538,14 +538,14 @@ export class HarvestingService {
     // params = params.set('operation', operation);
 
     return this._httpClient
-      .patch(`http://localhost:7071/api/havesting-kart-operator`, raw)
+      .patch(`http://api-1/havesting-kart-operator`, raw)
       .pipe(take(1));
   }
 
   kartOperatorCreateDeliveryTicket(operation, raw) {
     const appendedObject = { ...raw, operation: 'createDeliveryTicket' };
     return this._httpClient
-      .post(`http://localhost:7071/api/havesting-kart-operator`, appendedObject)
+      .post(`http://api-1/havesting-kart-operator`, appendedObject)
       .pipe(take(1));
   }
 
@@ -556,7 +556,7 @@ export class HarvestingService {
 
     try {
       return this._httpClient
-        .get<any>(`http://localhost:7071/api/harvesting-ticket`, {
+        .get<any>(`http://api-1/harvesting-ticket`, {
           params,
         })
         .pipe(take(1))
@@ -583,7 +583,7 @@ export class HarvestingService {
 
   kartOperatorVerifyTickets(payload) {
     return this._httpClient
-      .patch(`http://localhost:7071/api/harvesting-ticket`, payload)
+      .patch(`http://api-1/harvesting-ticket`, payload)
       .pipe(take(1));
   }
 
@@ -594,7 +594,7 @@ export class HarvestingService {
 
     try {
       return this._httpClient
-        .get<any>(`http://localhost:7071/api/harvesting-ticket`, {
+        .get<any>(`http://api-1/harvesting-ticket`, {
           params,
         })
         .pipe(take(1))
@@ -621,7 +621,7 @@ export class HarvestingService {
     // console.log(appendedObject);
     try {
       return this._httpClient
-        .patch(`http://localhost:7071/api/harvesting-ticket`, data)
+        .patch(`http://api-1/harvesting-ticket`, data)
         .pipe(take(1));
     } catch (error) {
       console.log('error', error);
