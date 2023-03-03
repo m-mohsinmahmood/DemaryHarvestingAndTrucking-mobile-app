@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/member-ordering */
 import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { Subject, Observable, of } from 'rxjs';
@@ -84,7 +84,7 @@ export class CreateTicketPage implements OnInit {
     destinationCity: '',
     destinationState: '',
     dispatcherNotes: '',
-  }
+  };
 
   upload_1 = false;
   upload_2 = false;
@@ -157,7 +157,7 @@ export class CreateTicketPage implements OnInit {
       dispatcherId: [localStorage.getItem('employeeId')],
       customerId: ['', [Validators.required]],
       uploadFile: ['', []],
-      loadDate: [moment().format("MM-DD-YYYY"), [Validators.required]],
+      loadDate: [moment().format('MM-DD-YYYY'), [Validators.required]],
       driverId: ['', [Validators.required]],
       load: ['', [Validators.required]],
       rateType: ['', [Validators.required]],
@@ -169,11 +169,15 @@ export class CreateTicketPage implements OnInit {
       image_1: [''],
       image_2: [''],
       image_3: [''],
+      role: [''],
+      truckingType: [''],
+      ticketStatus:[''],
+      isTicketInfoCompleted: ['']
     });
 
     this.createTicketFormTruckDriver = this.formBuilder.group({
       dispatcherId: ['', [Validators.required]],
-      loadDate: [moment().format("MM-DD-YYYY"), [Validators.required]],
+      loadDate: [moment().format('MM-DD-YYYY'), [Validators.required]],
       driverId: [[localStorage.getItem('employeeId')]],
       customerId: ['', [Validators.required]],
       rateSheetUpload: ['', [Validators.required]],
@@ -203,8 +207,30 @@ export class CreateTicketPage implements OnInit {
       totalJobMiles: ['', [Validators.required]],
       totalTripMiles: ['', [Validators.required]],
       cropId:['5e708ba7-9255-4143-b6c9-8e201f49a4bc'],
-      hoursWorked:['20']
+      hoursWorked:['20'],
+      // image_1: [new File(null,null)],
+      // image_2: [new File(null,null)],
+      // image_3: [new File(null,null)],
+      image_1: [''],
+      image_2: [''],
+      image_3: [''],
+      role: [''],
+      truckingType: [''],
+      ticketStatus:[''],
+      isTicketInfoCompleted: ['']
     });
+
+    // this.createTicketFormTruckDriver.patchValue({
+    //   image_1: {
+    //     name: null,
+    //   },
+    //   image_2: {
+    //     name: null,
+    //   },
+    //   image_3: {
+    //     name: null,
+    //   },
+    // });
   }
 
   chooseImage(event) {
@@ -225,6 +251,7 @@ export class CreateTicketPage implements OnInit {
     }
   }
   onSelectedFiles(file, name) {
+    if(this.role === 'dispatcher'){
     if (name === 'upload_1') {
       this.upload_1 = !this.upload_1;
       if (file.target.files && file.target.files[0]) {
@@ -262,16 +289,65 @@ export class CreateTicketPage implements OnInit {
       }
     }
   }
-  navigateDispatcher() {
-    console.log(this.createTicketFormDispatcher.value);
-    // Form Data
-    // var formData: FormData = new FormData();
-    // formData.append('traineeForm',JSON.stringify(this.createTicketFormDispatcher.value));
-    // formData.append('image_1', this.createTicketFormDispatcher.get('image_1').value);
-    // formData.append('image_2', this.createTicketFormDispatcher.get('image_2').value);
-    // formData.append('image_3', this.createTicketFormDispatcher.get('image_3').value);
+  // for truck driver
+  else{
+    if (name === 'upload_1') {
+      this.upload_1 = !this.upload_1;
+      if (file.target.files && file.target.files[0]) {
+        const reader = new FileReader();
+        reader.onload = (_event: any) => {
+          this.createTicketFormTruckDriver.controls.image_1?.setValue(file.target.files[0]);
+        };
+        reader.readAsDataURL(file.target.files[0]);
+      } else {
 
-    this.truckingService.createNewDeliveryTicket(this.createTicketFormDispatcher.value, 'dispatcher', 'commercial', 'sent', false)
+      }
+    }
+    if (name === 'upload_2') {
+      this.upload_2 = !this.upload_2;
+      if (file.target.files && file.target.files[0]) {
+        const reader = new FileReader();
+        reader.onload = (_event: any) => {
+          this.createTicketFormTruckDriver.controls.image_2?.setValue(file.target.files[0]);
+        };
+        reader.readAsDataURL(file.target.files[0]);
+      } else {
+
+      }
+    }
+    if (name === 'upload_3') {
+      this.upload_3 = !this.upload_3;
+      if (file.target.files && file.target.files[0]) {
+        const reader = new FileReader();
+        reader.onload = (_event: any) => {
+          this.createTicketFormTruckDriver.controls.image_3?.setValue(file.target.files[0]);
+        };
+        reader.readAsDataURL(file.target.files[0]);
+      } else {
+
+      }
+    }
+  }
+  }
+  navigateDispatcher() {
+    console.log('---',this.createTicketFormDispatcher.value);
+
+    // patching
+    this.createTicketFormDispatcher.patchValue({
+      role: 'dispatcher',
+      truckingType: 'commercial',
+      ticketStatus:'sent',
+      isTicketInfoCompleted: 'false'
+    });
+
+    // Form Data
+    var formData: FormData = new FormData();
+    formData.append('traineeForm',JSON.stringify(this.createTicketFormDispatcher.value));
+    formData.append('image_1', this.createTicketFormDispatcher.get('image_1').value);
+    formData.append('image_2', this.createTicketFormDispatcher.get('image_2').value);
+    formData.append('image_3', this.createTicketFormDispatcher.get('image_3').value);
+
+    this.truckingService.createNewDeliveryTicket(formData)
       .subscribe(
         (res: any) => {
           console.log(res);
@@ -289,9 +365,9 @@ export class CreateTicketPage implements OnInit {
               destinationCity: this.createTicketFormDispatcher.get('destinationCity').value,
               destinationState: this.createTicketFormDispatcher.get('destinationState').value,
               dispatcherNotes: this.createTicketFormDispatcher.get('dispatcherNotes').value,
-            }
+            };
 
-            this.toast.presentToast("Delivery ticket has been created successfully!", 'success');
+            this.toast.presentToast('Delivery ticket has been created successfully!', 'success');
             this.router.navigate(['/tabs/home/trucking/commercial/create-ticket/ticket-generated', this.ticketGeneratedDispatcher]);
           }
         },
@@ -302,19 +378,31 @@ export class CreateTicketPage implements OnInit {
   }
   navigateTruckDriver() {
 
+    // patching
+    this.createTicketFormTruckDriver.patchValue({
+      role: 'truck-driver',
+      truckingType: 'commercial',
+      ticketStatus:'sent',
+      isTicketInfoCompleted: true
+    });
+
     // // Form Data
-    // var formData: FormData = new FormData();
-    // formData.append('traineeForm',JSON.stringify(this.traineeForm.value));
-    // formData.append('image_1', this.traineeForm.get('image_1').value);
-    // formData.append('image_2', this.traineeForm.get('image_2').value);
-    // formData.append('image_3', this.traineeForm.get('image_3').value);
+    var formData: FormData = new FormData();
+    formData.append('createTicketFormTruckDriver',JSON.stringify(this.createTicketFormTruckDriver.value));
+    formData.append('image_1', this.createTicketFormTruckDriver.get('image_1').value);
+    formData.append('image_2', this.createTicketFormTruckDriver.get('image_2').value);
+    formData.append('image_3', this.createTicketFormTruckDriver.get('image_3').value);
     console.log(this.createTicketFormTruckDriver.value);
-    this.truckingService.createNewDeliveryTicket(this.createTicketFormTruckDriver.value, 'truck-driver', 'commercial', 'sent', true)
+    console.log('--',formData.get('image_1'));
+    console.log('--',formData.get('image_2'));
+    console.log('--',formData.get('image_3'));
+
+    this.truckingService.createNewDeliveryTicket(formData)
       .subscribe(
         (res: any) => {
           console.log(res);
           if (res.status === 200) {
-            this.toast.presentToast("Delivery ticket has been created successfully!", 'success');
+            this.toast.presentToast('Delivery ticket has been created successfully!', 'success');
             this.router.navigateByUrl('/tabs/home/trucking/commercial');
           }
         },

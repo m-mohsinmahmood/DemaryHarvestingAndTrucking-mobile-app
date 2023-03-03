@@ -147,40 +147,41 @@ export class CreateTicketPage implements OnInit {
     });
   }
 
-  navigatedispatcher() {
-    console.log(this.createTicketFormDispatcherInHouse.value);
+  // navigatedispatcher() {
+  //   console.log(this.createTicketFormDispatcherInHouse.value);
 
-    this.truckingService.createNewDeliveryTicket(this.createTicketFormDispatcherInHouse.value, 'dispatcher', 'home', 'sent', false)
-      .subscribe(
-        (res: any) => {
-          console.log(res);
-          if (res.status === 200) {
-            this.toast.presentToast("Delivery ticket has been created successfully!", 'success');
-            this.router.navigateByUrl('/tabs/home/trucking/in-house');
-          }
-        },
-        (err) => {
-          this.toast.presentToast(err, 'danger');
-        },
-      );
-  }
-  navigateTruckDriver() {
-    console.log(this.createTicketFormTruckDriverInHouse.value);
+  //   this.truckingService.createNewDeliveryTicket(this.createTicketFormDispatcherInHouse.value, 'dispatcher', 'home', 'sent', false)
+  //     .subscribe(
+  //       (res: any) => {
+  //         console.log(res);
+  //         if (res.status === 200) {
+  //           this.toast.presentToast("Delivery ticket has been created successfully!", 'success');
+  //           this.router.navigateByUrl('/tabs/home/trucking/in-house');
+  //         }
+  //       },
+  //       (err) => {
+  //         this.toast.presentToast(err, 'danger');
+  //       },
+  //     );
+  // }
 
-    this.truckingService.createNewDeliveryTicket(this.createTicketFormTruckDriverInHouse.value, 'truck-driver', 'home', 'sent', true)
-      .subscribe(
-        (res: any) => {
-          console.log(res);
-          if (res.status === 200) {
-            this.toast.presentToast("Delivery ticket has been created successfully!", 'success');
-            this.router.navigateByUrl('/tabs/home/trucking/in-house');
-          }
-        },
-        (err) => {
-          this.toast.presentToast(err, 'danger');
-        },
-      );
-  }
+  // navigateTruckDriver() {
+  //   console.log(this.createTicketFormTruckDriverInHouse.value);
+
+  //   this.truckingService.createNewDeliveryTicket(this.createTicketFormTruckDriverInHouse.value, 'truck-driver', 'home', 'sent', true)
+  //     .subscribe(
+  //       (res: any) => {
+  //         console.log(res);
+  //         if (res.status === 200) {
+  //           this.toast.presentToast("Delivery ticket has been created successfully!", 'success');
+  //           this.router.navigateByUrl('/tabs/home/trucking/in-house');
+  //         }
+  //       },
+  //       (err) => {
+  //         this.toast.presentToast(err, 'danger');
+  //       },
+  //     );
+  // }
 
   //  #region Customer
   customerSearchSubscription() {

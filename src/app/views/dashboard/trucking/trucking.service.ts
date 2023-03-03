@@ -56,11 +56,21 @@ export class TruckingService {
       .pipe(take(1));
   }
 
-  createNewDeliveryTicket(data: any, role: string, truckingType: string, ticketStatus: string, isInfoCompleted: boolean) {
-    data.role = role;
-    data.ticketStatus = ticketStatus;
-    data.truckingType = truckingType;
-    data.isTicketInfoCompleted = isInfoCompleted;
+  // createNewDeliveryTicket(data: any, role: string, truckingType: string, ticketStatus: string, isInfoCompleted: boolean) {
+  //   data.role = role;
+  //   data.ticketStatus = ticketStatus;
+  //   data.truckingType = truckingType;
+  //   data.isTicketInfoCompleted = isInfoCompleted;
+
+  //   return this._httpClient
+  //     .post(`api-1/delivery_ticket_trucking`, data)
+  //     .pipe(take(1));
+  // }
+  createNewDeliveryTicket(data: any) {
+    // data.role = role;
+    // data.ticketStatus = ticketStatus;
+    // data.truckingType = truckingType;
+    // data.isTicketInfoCompleted = isInfoCompleted;
 
     return this._httpClient
       .post(`api-1/delivery_ticket_trucking`, data)
