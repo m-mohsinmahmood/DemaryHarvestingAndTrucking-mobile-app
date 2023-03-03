@@ -17,6 +17,7 @@ role ==='truck-driver'? 'Submit End of Day Work Data' : ''"
             <div class="col-span-12 mb-4">
               <label class="block text-sm font-medium text-gray-700">Separator Hours (Ending) <span *ngIf="this.closeJobFormCrew.get('ending_separator_hours').hasError('required')" class="text-red-400">*</span></label>
               <input
+                type="number"
                 class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                 formControlName="ending_separator_hours" placeholder="Separator Hours(Ending)">
             </div>
@@ -25,13 +26,17 @@ role ==='truck-driver'? 'Submit End of Day Work Data' : ''"
             <div class="col-span-12 mb-4">
               <label class="block text-sm font-medium text-gray-700">Engine Hours (Ending) <span *ngIf="this.closeJobFormCrew.get('endingEngineHours').hasError('required')" class="text-red-400">*</span></label>
               <input
+                type="number"
                 class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                 formControlName="endingEngineHours" placeholder="Engine Hours(Ending)">
             </div>
             <ion-button expand="block" class="mt-5 font-Lato text-white"
-            [disabled]="closeJobFormCrew.invalid"
+            [disabled]="closeJobFormCrew.invalid || (loadingSpinner | async)"
             (click)="submit()"
-              >Save</ion-button
+              >
+              <div *ngIf="(loadingSpinner | async) === false">Save</div>
+          <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+          </ion-button
             >
           </div>
         </ion-list>
@@ -53,13 +58,13 @@ role ==='truck-driver'? 'Submit End of Day Work Data' : ''"
         <ion-grid>
           <ion-row>
             <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Customer Name</ion-col>
-            <ion-col size="6" class="text-sm flex font-Lato ">{{this.customerData.workOrders[0].customer_name}}</ion-col>
+            <ion-col size="6" class="text-sm flex font-Lato ">{{this?.customerData?.workOrders[0]?.customer_name}}</ion-col>
             <ion-col size="6" class="text-sm text-black font-Lato font-semibold">State</ion-col>
-            <ion-col size="6" class="text-sm flex font-Lato">{{this.customerData.workOrders[0].state}}</ion-col>
+            <ion-col size="6" class="text-sm flex font-Lato">{{this?.customerData?.workOrders[0]?.state}}</ion-col>
             <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Farm</ion-col>
-            <ion-col size="6" class="text-sm flex font-Lato">{{this.customerData.workOrders[0].farm_name}} </ion-col>
+            <ion-col size="6" class="text-sm flex font-Lato">{{this?.customerData?.workOrders[0]?.farm_name}} </ion-col>
             <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Crop</ion-col>
-            <ion-col size="6" class="text-sm flex font-Lato">{{this.customerData.workOrders[0].crop_name}}</ion-col>
+            <ion-col size="6" class="text-sm flex font-Lato">{{this?.customerData?.workOrders[0]?.crop_name}}</ion-col>
           </ion-row>
         </ion-grid>
       </ion-card-content>
@@ -102,9 +107,12 @@ role ==='truck-driver'? 'Submit End of Day Work Data' : ''"
           formControlName="endingEngineHours" placeholder="Ending Engine Hours">
       </div>
       <ion-button expand="block" class="mt-5 font-Lato text-white"
-      [disabled]="closeJobFormCombine.invalid"
+      [disabled]="closeJobFormCombine.invalid || (loadingSpinner | async)"
       (click)="submit()"
-      >Save and Close-out Job</ion-button
+      >
+      <div *ngIf="(loadingSpinner | async) === false">Save and Close-out Job</div>
+      <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+      </ion-button
       >
     </div>
   </form>
@@ -122,12 +130,15 @@ role ==='truck-driver'? 'Submit End of Day Work Data' : ''"
           <label class="block text-sm font-medium text-gray-700">Enter Ending Engine Hours <span *ngIf="this.closeJobFormKart.get('endingEngineHours').hasError('required')" class="text-red-400">*</span></label>
           <input
             class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-            formControlName="endingEngineHours" placeholder="Enter Ending Engine Hours">
+            type="number" formControlName="endingEngineHours" placeholder="Enter Ending Engine Hours" >
         </div>
 
         <ion-button expand="block" class="mt-5 font-Lato text-white"
-        [disabled]="closeJobFormKart.invalid"
-         (click)="submit()">Save and Close-out Job</ion-button>
+        [disabled]="closeJobFormKart.invalid || (loadingSpinner | async)"
+         (click)="submit()">
+         <div *ngIf="(loadingSpinner | async) === false">Save and Close-out Job</div>
+         <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+        </ion-button>
       </div>
     </form>
   </div>
@@ -147,7 +158,12 @@ role ==='truck-driver'? 'Submit End of Day Work Data' : ''"
             formControlName="ending_odometer_miles" placeholder="Enter Ending Odometer Miles">
         </div>
 
-        <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="submit()" [disabled]="closeJobFormTruck.invalid">Save</ion-button
+        <ion-button expand="block" class="mt-5 font-Lato text-white"
+         (click)="submit()"
+        [disabled]="closeJobFormTruck.invalid || (loadingSpinner | async)">
+        <div *ngIf="(loadingSpinner | async) === false">Save</div>
+          <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+          </ion-button
         >
       </div>
     </form>

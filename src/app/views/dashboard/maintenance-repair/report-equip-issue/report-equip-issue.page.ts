@@ -205,7 +205,7 @@ this.toastService.presentToast(err.mssage,'danger');
     this.machineUL = false;
 
     // passing name in select's input
-    this.machine_name = machinery.name;
+    this.machineryInput.nativeElement.value = machinery.name;
 
     // to enable submit button
     this.isMachineSelected = false;

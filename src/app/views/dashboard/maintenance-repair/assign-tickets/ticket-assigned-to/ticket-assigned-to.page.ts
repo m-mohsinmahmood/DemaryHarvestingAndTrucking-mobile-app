@@ -264,7 +264,7 @@ export class TicketAssignedToPage implements OnInit {
     this.employeeUL = false;
 
     // passing name in select's input
-    this.employee_name = employee.first_name + ' ' + employee.last_name;
+    this.employeeInput.nativeElement.value = employee.first_name + ' ' + employee.last_name;
 
     // to enable submit button
     this.isEmployeeSelected = false;
@@ -358,7 +358,7 @@ export class TicketAssignedToPage implements OnInit {
     this.employeeUL_2 = false;
 
     // passing name in select's input
-    this.employee_name_2 = employee.first_name + ' ' + employee.last_name;
+    this.employeeInput2.nativeElement.value = employee.first_name + ' ' + employee.last_name;
 
     // to enable submit button
     this.isEmployeeSelected_2 = false;

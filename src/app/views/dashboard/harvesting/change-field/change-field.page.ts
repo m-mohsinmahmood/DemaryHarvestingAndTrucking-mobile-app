@@ -2,13 +2,14 @@
 /* eslint-disable @angular-eslint/use-lifecycle-interface */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable @typescript-eslint/naming-convention */
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Location } from '@angular/common';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { HarvestingService } from './../harvesting.service';
 import { ToastService } from 'src/app/services/toast/toast.service';
 import { Observable, of, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-change-field',
@@ -16,6 +17,8 @@ import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
   styleUrls: ['./change-field.page.scss'],
 })
 export class ChangeFieldPage implements OnInit {
+  @ViewChild('fieldInput') fieldInput: ElementRef;
+
   role: any;
   changeFieldFormChief: FormGroup;
   changeFieldFormKart: FormGroup;
@@ -67,9 +70,8 @@ export class ChangeFieldPage implements OnInit {
     private formBuilder: FormBuilder,
     private location: Location,
     private harvestingService: HarvestingService,
-    private toastService: ToastService
-
-
+    private toastService: ToastService,
+    private router:Router
   ) { }
 
   ngOnInit() {
@@ -213,6 +215,7 @@ export class ChangeFieldPage implements OnInit {
         });
       });
   }
+
   inputClickedField() {
     // getting the serch value to check if there's a value in input
     this.field_search$
@@ -245,13 +248,14 @@ export class ChangeFieldPage implements OnInit {
       }
     });
   }
+
   listClickedField(field) {
     console.log('Field Object:', field);
     // hiding UL
     this.fieldUL = false;
 
     // passing name in select's input
-    this.field_name = field.field_name;
+    this.fieldInput.nativeElement.value = field.field_name;
 
     // to enable submit button
     this.isFieldSelected = false;
@@ -271,6 +275,7 @@ export class ChangeFieldPage implements OnInit {
     this.allFields = of([]);
   }
   //#endregion
+
   submit() {
     this.changeFieldFormChief.value.changeFarmFieldCrop = true;
     this.changeFieldFormChief.value.closeJob = true;
@@ -289,6 +294,7 @@ export class ChangeFieldPage implements OnInit {
             if (res.status === 200) {
               this.changeFieldFormChief.reset();
               this.toastService.presentToast(res.message, 'success');
+              this.router.navigateByUrl('/tabs/home/harvesting');
             } else {
               console.log('Something happened :)');
               this.toastService.presentToast(res.mssage, 'danger');
@@ -300,6 +306,7 @@ export class ChangeFieldPage implements OnInit {
           },
         );
     }
+
     else if (this.role === 'kart-operator') {
       this.harvestingService.changeField(this.changeFieldFormKart.value)
         .subscribe(
@@ -320,7 +327,5 @@ export class ChangeFieldPage implements OnInit {
         );
     }
 
-
   }
-
 }

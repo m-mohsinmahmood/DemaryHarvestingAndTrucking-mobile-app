@@ -24,7 +24,7 @@
          <!-- Machinery -->
          <div
          [ngClass]="add_location_overlay ? 'opacity-100 visible ease-in duration-200' : 'opacity-0 invisible ease-out duration-300'"
-         class="" role="dialog" aria-modal="true">
+          role="dialog" aria-modal="true">
 
          <div
            [ngClass]="add_location_overlay ? 'opacity-100 visible scale-100 ease-in duration-200' : 'opacity-0 invisible scale-95 ease-out duration-300'"
@@ -41,7 +41,7 @@
                 placeholder="Select Machiery" role="" aria-expanded="false" aria-controls="options">
              </div>
 
-             <div *ngIf="allMachinery | withLoading | async as allMachinery" class="">
+             <div *ngIf="allMachinery | withLoading | async as allMachinery" >
                <div class="flex justify-center items-center">
                  <ion-spinner *ngIf="allMachinery?.loading" name="crescent" mode="indeterminate"
                    color="primary"></ion-spinner>

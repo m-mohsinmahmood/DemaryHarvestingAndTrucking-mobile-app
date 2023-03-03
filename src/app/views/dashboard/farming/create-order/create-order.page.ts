@@ -132,7 +132,12 @@ export class CreateOrderPage implements OnInit {
           this.allMachinery = of([]); // to clear array
           this.machineryUL = false; // to hide the UL
         }
+        if (e.target !== this.serviceInput.nativeElement) {
+          this.allServices = of([]); // to clear array
+          this.serviceUL = false; // to hide the UL
+        }
       });
+
     }
     if (localStorage.getItem('role') === 'dispatcher') {
       this.renderer.listen('window', 'click', (e) => {
@@ -184,10 +189,10 @@ export class CreateOrderPage implements OnInit {
           this.allDispatchers = of([]); // to clear array
           this.dispatcherUL = false; // to hide the UL
         }
-        // if (e.target !== this.serviceInput.nativeElement) {
-        //   this.allServices = of([]); // to clear array
-        //   this.serviceUL = false; // to hide the UL
-        // }
+        if (e.target !== this.serviceInput.nativeElement) {
+          this.allServices = of([]); // to clear array
+          this.serviceUL = false; // to hide the UL
+        }
       });
     }
   }
@@ -203,7 +208,7 @@ export class CreateOrderPage implements OnInit {
     this.farmSearchSubscription();
     this.fieldSearchSubscription();
     this.machinerySearchSubscription();
-    // this.serviceSearchSubscription();
+    this.serviceSearchSubscription();
 
     this.role = localStorage.getItem('role');
 
@@ -376,7 +381,7 @@ export class CreateOrderPage implements OnInit {
     // this.fieldId = field.id;
 
     // passing name in select's input
-    this.dispatcher_name = dispatcher.first_name;
+    this.dispatcherInput.nativeElement.value = dispatcher.first_name;
 
     // to enable submit button
     this.isDispatcherSelected = false;
@@ -504,7 +509,7 @@ export class CreateOrderPage implements OnInit {
       });
     }
     // passing name in select's input
-    this.customer_name = customer.customer_name;
+    this.customerInput.nativeElement.value = customer.customer_name;
 
     // passing name in customer-search-value in Rendered2 for checks 
     this.customerSearchValue = customer.customer_name;
@@ -612,7 +617,7 @@ export class CreateOrderPage implements OnInit {
     this.farmId = farm.id;
 
     // passing name in select's input
-    this.farm_name = farm.name;
+    this.farmsInput.nativeElement.value = farm.name;
 
     // to enable submit button
     this.isFarmSelected = false;
@@ -727,7 +732,7 @@ export class CreateOrderPage implements OnInit {
     // this.fieldId = field.id;
 
     // passing name in select's input
-    this.field_name = field.field_name;
+    this.fieldsInput.nativeElement.value = field.field_name;
 
     // passing name in customer-search-value in Rendered2 for checks 
     this.fieldSearchValue = field.field_name;
@@ -821,7 +826,7 @@ export class CreateOrderPage implements OnInit {
     // this.fieldId = field.id;
 
     // passing name in select's input
-    this.machinery_name = machinery.type;
+    this.machineryInput.nativeElement.value = machinery.type;
 
     // to enable submit button
     this.isMachinerySelected = false;
@@ -842,7 +847,7 @@ export class CreateOrderPage implements OnInit {
         this.allServices = this.farmingService.getServices(
           value,
           this.customerId,
-          'customerServices'
+          'getFarmingServices'
         );
 
         // subscribing to show/hide Field UL
@@ -879,7 +884,7 @@ export class CreateOrderPage implements OnInit {
     this.allServices = this.farmingService.getServices(
       value,
       this.customerId,
-      'customerServices'
+      'getFarmingServices'
     );
 
     // subscribing to show/hide farm UL
@@ -906,12 +911,12 @@ export class CreateOrderPage implements OnInit {
     // assigning values in form
     if (localStorage.getItem('role') === 'dispatcher') {
       this.createOrderDispatcher.patchValue({
-        service: service,
+        service: service.service
       })
     }
     else {
       this.createOrderTDriver.patchValue({
-        service: service,
+        service: service.service
       });
     }
     // clearing array
@@ -921,7 +926,7 @@ export class CreateOrderPage implements OnInit {
     // this.fieldId = field.id;
 
     // passing name in select's input
-    this.service_name = service;
+    this.serviceInput.nativeElement.value = service.service;
 
     // to enable submit button
     this.isServiceSelected = false;

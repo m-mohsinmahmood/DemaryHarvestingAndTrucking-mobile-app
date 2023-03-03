@@ -293,7 +293,7 @@ export class TrainingTasksPage implements OnInit {
     this.employeeUL = false;
 
     // passing name in select's input
-    this.employee_name = employee.first_name + ' ' + employee.last_name;
+    this.employeeInput.nativeElement.value = employee.first_name + ' ' + employee.last_name;
 
     // passing in search
     // this.employeeSearchValue = employee.first_name + ' ' + employee.last_name;

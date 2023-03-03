@@ -22,7 +22,7 @@
                   </div>
                   <div class="flex w-4/12 justify-end">
                     <span class="font-Lato text-sm">Ticket#: </span>
-                    <span class="font-Lato bg-0165c31a ml-1 h-5 rounded-xl px-2 text-sm text-black"> {{sentTicket.delivery_ticket_number || 99 }}</span>
+                    <span class="font-Lato bg-0165c31a ml-1 h-5 rounded-xl px-2 text-sm text-black"> {{sentTicket.id | slice:0-5 }}</span>
                   </div>
                 </div>
                 <div class="flex justify-between p-0">
@@ -79,11 +79,11 @@
                   <div class="flex w-5/12 flex-col items-end">
                     <div>
                       <span class="font-Lato text-sm">Ticket#: </span>
-                      <span class="font-Lato bg-0165c31a ml-1 h-5 rounded-xl px-2 text-sm text-black"> {{pendingTicket.delivery_ticket_number}}</span>
+                      <span class="font-Lato bg-0165c31a ml-1 h-5 rounded-xl px-2 text-sm text-black"> {{pendingTicket.id | slice:0-5}}</span>
                     </div>
                     <div class="flex justify-between">
                       <button class="bg-FFCD29 font-Lato ml-2 mt-1 rounded-md px-2 py-0 text-sm text-white" (click)="navigate(pendingTicket)">Verify</button>
-                      <button class="bg-project-green font-Lato ml-2 mt-1 rounded-md px-2 py-0 text-sm text-white" (click)="reassignTicket(pendingTicket.delivery_ticket_number)">Reassign</button>
+                      <!-- <button class="bg-project-green font-Lato ml-2 mt-1 rounded-md px-2 py-0 text-sm text-white" (click)="reassignTicket(pendingTicket.delivery_ticket_number)">Reassign</button> -->
                     </div>
                   </div>
                 </div>
@@ -141,7 +141,7 @@
                   <div class="flex w-5/12 flex-col items-end">
                     <div>
                       <span class="font-Lato text-sm">Ticket#: </span>
-                      <span class="font-Lato bg-0165c31a ml-1 h-5 rounded-xl px-2 text-sm text-black"> {{verifiedTicketData.delivery_ticket_number}}</span>
+                      <span class="font-Lato bg-0165c31a ml-1 h-5 rounded-xl px-2 text-sm text-black"> {{verifiedTicketData.id | slice:0-5}}</span>
                     </div>
                     <div>
                       <!-- <button class="bg-project-green text-white rounded-md font-Lato text-sm px-2 py-0 ml-2 mt-1" (click)="reassignTicket(verifiedTicketData.delivery_ticket_number)">Reassign</button> -->

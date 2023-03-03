@@ -141,7 +141,9 @@ export class CreateTicketPage implements OnInit {
       deadHeadMiles: [''],
       totalJobMiles: [''],
       totalTripMiles: [''],
-      truckDriverNotes: ['']
+      truckDriverNotes: [''],
+      cropId: ['5e708ba7-9255-4143-b6c9-8e201f49a4bc'],
+      hoursWorked:['20']
     });
   }
 
@@ -276,7 +278,7 @@ export class CreateTicketPage implements OnInit {
       });
     }
     // passing name in select's input
-    this.customer_name = customer.customer_name;
+    this.customerInput.nativeElement.value = customer.customer_name;
 
     // to enable submit button
     this.isCustomerSelected = false;
@@ -405,7 +407,7 @@ export class CreateTicketPage implements OnInit {
     this.alltDrivers = of([]);
 
     // passing name in select's input
-    this.tDriver_name = tDriver.first_name;
+    this.tDriverInput.nativeElement.value = tDriver.first_name;
 
     // to enable submit button
     this.istDriverSelected = false;
@@ -530,7 +532,7 @@ export class CreateTicketPage implements OnInit {
     this.allDispatchers = of([]);
 
     // passing name in select's input
-    this.dispatcher_name = dispatcher.first_name;
+    this.dispatcherInput.nativeElement.value = dispatcher.first_name;
 
     // to enable submit button
     this.isDispatcherSelected = false;
@@ -617,7 +619,7 @@ export class CreateTicketPage implements OnInit {
     // For Specific Fields
 
     // passing name in select's input
-    this.machinery_name = machinery.id;
+    this.machineryInput.nativeElement.value = machinery.id;
 
     // to enable submit button
     this.isMachinerySelected = false;

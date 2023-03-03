@@ -173,6 +173,7 @@ export class CreateTicketPage implements OnInit {
 
     this.createTicketFormTruckDriver = this.formBuilder.group({
       dispatcherId: ['', [Validators.required]],
+      loadDate: [moment().format("MM-DD-YYYY"), [Validators.required]],
       driverId: [[localStorage.getItem('employeeId')]],
       customerId: ['', [Validators.required]],
       rateSheetUpload: ['', [Validators.required]],
@@ -201,6 +202,8 @@ export class CreateTicketPage implements OnInit {
       deadHeadMiles: ['', [Validators.required]],
       totalJobMiles: ['', [Validators.required]],
       totalTripMiles: ['', [Validators.required]],
+      cropId:['5e708ba7-9255-4143-b6c9-8e201f49a4bc'],
+      hoursWorked:['20']
     });
   }
 
@@ -224,36 +227,36 @@ export class CreateTicketPage implements OnInit {
   onSelectedFiles(file, name) {
     if (name === 'upload_1') {
       this.upload_1 = !this.upload_1;
-      if ( file.target.files &&file.target.files[0]) {
+      if (file.target.files && file.target.files[0]) {
         const reader = new FileReader();
         reader.onload = (_event: any) => {
           this.createTicketFormDispatcher.controls.image_1?.setValue(file.target.files[0]);
-      };
-      reader.readAsDataURL(file.target.files[0]);
+        };
+        reader.readAsDataURL(file.target.files[0]);
       } else {
 
       }
     }
     if (name === 'upload_2') {
       this.upload_2 = !this.upload_2;
-        if ( file.target.files &&file.target.files[0]) {
-          const reader = new FileReader();
-          reader.onload = (_event: any) => {
-            this.createTicketFormDispatcher.controls.image_2?.setValue(file.target.files[0]);
+      if (file.target.files && file.target.files[0]) {
+        const reader = new FileReader();
+        reader.onload = (_event: any) => {
+          this.createTicketFormDispatcher.controls.image_2?.setValue(file.target.files[0]);
         };
         reader.readAsDataURL(file.target.files[0]);
-        } else {
+      } else {
 
-        }
+      }
     }
     if (name === 'upload_3') {
       this.upload_3 = !this.upload_3;
-      if ( file.target.files &&file.target.files[0]) {
+      if (file.target.files && file.target.files[0]) {
         const reader = new FileReader();
         reader.onload = (_event: any) => {
           this.createTicketFormDispatcher.controls.image_3?.setValue(file.target.files[0]);
-      };
-      reader.readAsDataURL(file.target.files[0]);
+        };
+        reader.readAsDataURL(file.target.files[0]);
       } else {
 
       }
@@ -299,12 +302,12 @@ export class CreateTicketPage implements OnInit {
   }
   navigateTruckDriver() {
 
-      // // Form Data
-      // var formData: FormData = new FormData();
-      // formData.append('traineeForm',JSON.stringify(this.traineeForm.value));
-      // formData.append('image_1', this.traineeForm.get('image_1').value);
-      // formData.append('image_2', this.traineeForm.get('image_2').value);
-      // formData.append('image_3', this.traineeForm.get('image_3').value);
+    // // Form Data
+    // var formData: FormData = new FormData();
+    // formData.append('traineeForm',JSON.stringify(this.traineeForm.value));
+    // formData.append('image_1', this.traineeForm.get('image_1').value);
+    // formData.append('image_2', this.traineeForm.get('image_2').value);
+    // formData.append('image_3', this.traineeForm.get('image_3').value);
     console.log(this.createTicketFormTruckDriver.value);
     this.truckingService.createNewDeliveryTicket(this.createTicketFormTruckDriver.value, 'truck-driver', 'commercial', 'sent', true)
       .subscribe(
@@ -440,7 +443,7 @@ export class CreateTicketPage implements OnInit {
     //   });
     // }
     // passing name in select's input
-    this.customer_name = customer.customer_name;
+    this.customerInput.nativeElement.value = customer.customer_name;
 
     // to enable submit button
     this.isCustomerSelected = false;
@@ -569,7 +572,7 @@ export class CreateTicketPage implements OnInit {
     this.alltDrivers = of([]);
 
     // passing name in select's input
-    this.tDriver_name = tDriver.first_name;
+    this.tDriverInput.nativeElement.value = tDriver.first_name;
 
     // to enable submit button
     this.istDriverSelected = false;
@@ -681,7 +684,7 @@ export class CreateTicketPage implements OnInit {
     this.allRates = of([]);
 
     // passing name in select's input
-    this.rate_name = rate.rate_type;
+    this.rateInput.nativeElement.value = rate.rate_type;
 
     // to enable submit button
     this.isRateSelected = false;
@@ -779,7 +782,7 @@ export class CreateTicketPage implements OnInit {
     this.allDispatchers = of([]);
 
     // passing name in select's input
-    this.dispatcher_name = dispatcher.first_name;
+    this.dispatcherInput.nativeElement.value = dispatcher.first_name;
 
     // to enable submit button
     this.isDispatcherSelected = false;
@@ -866,7 +869,7 @@ export class CreateTicketPage implements OnInit {
     // For Specific Fields
 
     // passing name in select's input
-    this.machinery_name = machinery.id;
+    this.machineryInput.nativeElement.value = machinery.id;
 
     // to enable submit button
     this.isMachinerySelected = false;

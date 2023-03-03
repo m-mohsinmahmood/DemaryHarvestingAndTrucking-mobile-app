@@ -6,7 +6,7 @@ import { Location } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HarvestingService } from './../../harvesting.service';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { ToastService } from 'src/app/services/toast/toast.service';
 import { Observable } from 'rxjs';
 
@@ -31,6 +31,7 @@ export class GeneratedTicketPage implements OnInit {
   upload_2 = false;
   upload_3 = false;
   ticketSub;
+  public loadingSpinner = new BehaviorSubject(false);
 
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
@@ -198,12 +199,13 @@ export class GeneratedTicketPage implements OnInit {
       console.log(this.generateTicketFormTruck.value);
       console.log(formData);
 
+      this.loadingSpinner.next(true);
       this.harvestingService.truckDriverCompleteTicket(formData).subscribe(
         (response: any) => {
           console.log('Response', response);
           if (response.status === 200) {
             this.generateTicketFormTruck.reset();
-            this.goBack();
+            this.router.navigate(['/tabs/home/harvesting/verify-ticket']);
             this.toastService.presentToast(response.message, 'success');
           } else {
             console.log('Something happened :)');
@@ -224,11 +226,16 @@ export class GeneratedTicketPage implements OnInit {
       );
       formData.append('operation', 'verifyTicket');
       formData.append('ticketId', this.ticket.id);
+      this.loadingSpinner.next(true);
       this.harvestingService.kartOperatorVerifyTickets(formData).subscribe(
         (res: any) => {
           if (res.status === 200) {
+            this.loadingSpinner.next(false);
+
             this.toastService.presentToast(res.message, 'success');
-            this.goBack();
+
+            // navigating
+            this.router.navigateByUrl('/tabs/home/harvesting');
           } else {
             console.log('Something happened :)');
             this.toastService.presentToast(res.mssage, 'danger');
@@ -237,6 +244,8 @@ export class GeneratedTicketPage implements OnInit {
         (err) => {
           this.toastService.presentToast(err, 'danger');
           console.log('Error:', err);
+          this.loadingSpinner.next(false);
+
         }
       );
     }

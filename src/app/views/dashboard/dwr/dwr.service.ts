@@ -30,7 +30,7 @@ export class DWRService {
     params = params.set('role', role);
 
     return this.httpClient
-      .get<any>('http://localhost:7071/api/dwr', {
+      .get<any>('api-1/dwr', {
         params,
       })
       .pipe(take(1));
@@ -44,7 +44,7 @@ export class DWRService {
     params = params.set('role', role);
 
     return this.httpClient
-      .get<any>('http://localhost:7071/api/dwr', {
+      .get<any>('api-1/dwr', {
         params,
       })
       .pipe(take(1));
@@ -53,7 +53,7 @@ export class DWRService {
     let params = new HttpParams();
     params = params.set('id', id);
     return this.httpClient
-      .get<any>('http://localhost:7071/api/dwr', {
+      .get<any>('api-1/dwr', {
         params,
       })
       .pipe(take(1));
@@ -62,7 +62,7 @@ export class DWRService {
     let params = new HttpParams();
     params = params.set('job_id',job_id);
     return this.httpClient
-    .get<any>('http://localhost:7071/api/customer-job-setup', {
+    .get<any>('api-1/customer-job-setup', {
       params,
     })
     .pipe(take(1));
@@ -71,7 +71,7 @@ export class DWRService {
     let params = new HttpParams();
     params = params.set('work_order_id',work_order_id);
     return this.httpClient
-    .get<any>('http://localhost:7071/api/work-order-farming', {
+    .get<any>('api-1/work-order-farming', {
       params,
     })
     .pipe(take(1));
@@ -82,7 +82,7 @@ export class DWRService {
     params = params.set('entity','completedTicket');
 
     return this.httpClient
-    .get<any>('http://localhost:7071/api/main_repair', {
+    .get<any>('api-1/main_repair', {
       params,
     })
     .pipe(take(1));
@@ -91,7 +91,7 @@ export class DWRService {
     let params = new HttpParams();
     params = params.set('record_id',training_record_id);
     return this.httpClient
-    .get<any>('http://localhost:7071/api/training', {
+    .get<any>('api-1/training', {
       params,
     })
     .pipe(take(1));
