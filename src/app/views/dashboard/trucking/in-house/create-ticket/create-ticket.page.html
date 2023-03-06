@@ -46,6 +46,46 @@
             </div>
           </div>
 
+          <!-- CROP -->
+          <div [ngClass]="'opacity-100 visible ease-in duration-200'" role="dialog" aria-modal="true">
+            <div [ngClass]="'opacity-100 visible scale-100 ease-in duration-200'" class="mb-4 relative z-70">
+              <div class="mx-auto max-w-full transform rounded-xl px-0 transition-all">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Crop Name <span *ngIf="isCropSelected"
+                    class="text-red-400">*</span></label>
+                <div class="flex items-center justify-between gap-x-2 rounded-md">
+                  <input (keyup)="crop_search$.next($event.target.value)" (click)="inputClickedCrop()"
+                    [value]="crop_name" #cropInput
+                    class="w-full px-4 py-2.5 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
+                    placeholder="Select Crop" role="" aria-expanded="false" aria-controls="options">
+                </div>
+
+                <div *ngIf="allCrops | withLoading | async as allCrops">
+                  <div class="flex justify-center items-center">
+                    <ion-spinner *ngIf="allCrops?.loading" name="crescent" mode="indeterminate"
+                      color="primary"></ion-spinner>
+                  </div>
+                  <ul *ngIf="allCrops?.value && cropUL"
+                    class="-mb-2 max-h-44 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800 bg-white drop-shadow-lg relative w-full"
+                    id="options" role="listbox">
+                    <li *ngFor="let crop of (allCrops?.value.customer_crops)" (click)="listClickedCrop(crop)"
+                      class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200" role="option"
+                      tabindex="-1">
+                      <div class="flex items-center p-2">
+                        {{crop.name}}
+                      </div>
+                    </li>
+                  </ul>
+                  <div *ngIf="allCrops?.value?.customer_crops?.length === 0">
+                    <p disabled
+                      class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200 text-gray-500 hover:text-gray-700 hover:font-semibold">
+                      No Crop(s) found </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- CROP -->
+
           <!-- Truck Driver -->
           <div role="dialog" aria-modal="true">
             <div class="mb-4 relative z-50">
@@ -218,6 +258,46 @@
               </div>
             </div>
           </div>
+
+          <!-- CROP -->
+          <div [ngClass]="'opacity-100 visible ease-in duration-200'" role="dialog" aria-modal="true">
+            <div [ngClass]="'opacity-100 visible scale-100 ease-in duration-200'" class="mb-4 relative z-30">
+              <div class="mx-auto max-w-full transform rounded-xl px-0 transition-all">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Crop Name <span *ngIf="isCropSelected"
+                    class="text-red-400">*</span></label>
+                <div class="flex items-center justify-between gap-x-2 rounded-md">
+                  <input (keyup)="crop_search$.next($event.target.value)" (click)="inputClickedCrop()"
+                    [value]="crop_name" #cropInput
+                    class="w-full px-4 py-2.5 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
+                    placeholder="Select Crop" role="" aria-expanded="false" aria-controls="options">
+                </div>
+
+                <div *ngIf="allCrops | withLoading | async as allCrops">
+                  <div class="flex justify-center items-center">
+                    <ion-spinner *ngIf="allCrops?.loading" name="crescent" mode="indeterminate"
+                      color="primary"></ion-spinner>
+                  </div>
+                  <ul *ngIf="allCrops?.value && cropUL"
+                    class="-mb-2 max-h-44 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800 bg-white drop-shadow-lg relative w-full"
+                    id="options" role="listbox">
+                    <li *ngFor="let crop of (allCrops?.value.customer_crops)" (click)="listClickedCrop(crop)"
+                      class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200" role="option"
+                      tabindex="-1">
+                      <div class="flex items-center p-2">
+                        {{crop.name}}
+                      </div>
+                    </li>
+                  </ul>
+                  <div *ngIf="allCrops?.value?.customer_crops?.length === 0">
+                    <p disabled
+                      class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200 text-gray-500 hover:text-gray-700 hover:font-semibold">
+                      No Crop(s) found </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- CROP -->
 
           <div class="col-span-12 mb-4">
             <label class="block text-sm font-medium text-gray-700">Load Date<span class="text-red-600"
