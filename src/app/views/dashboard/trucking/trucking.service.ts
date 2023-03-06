@@ -77,6 +77,19 @@ export class TruckingService {
       .pipe(take(1));
   }
 
+  getCrops(search: string = '', entity: string = '', customerId: string = '') {
+    let params = new HttpParams();
+    params = params.set('entity', entity);
+    params = params.set('customerId', customerId);
+    params = params.set('search', search);
+
+    return this._httpClient
+      .get(`api-1/dropdowns`, {
+        params,
+      })
+      .pipe(take(1));
+  }
+
   updateDeliveryTicket(data: any, ticketStatus: string) {
     data.ticketStatus = ticketStatus;
 

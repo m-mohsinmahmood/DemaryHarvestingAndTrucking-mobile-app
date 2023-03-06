@@ -48,6 +48,13 @@ export class CreateTicketPage implements OnInit {
 
   isDisabled: any = true;
 
+  @ViewChild('cropInput') cropInput: ElementRef;
+  crop_search$ = new Subject();
+  isCropSelected: any = true;
+  cropUL: any = false;
+  cropSearchValue: any;
+  crop_name: any = '';
+  allCrops: Observable<any>;
 
   role = '';
   createTicketFormDispatcherInHouse: FormGroup;
@@ -73,6 +80,10 @@ export class CreateTicketPage implements OnInit {
           this.customerUL = false; // to hide the UL
           this.isDisabled = this.createTicketFormDispatcherInHouse.controls['customerId'].value === '' ? true : false;
         }
+        if (e.target !== this.cropInput.nativeElement) {
+          this.allCrops = of([]); // to clear array
+          this.cropUL = false; // to hide the UL
+        }
       });
     }
 
@@ -91,6 +102,10 @@ export class CreateTicketPage implements OnInit {
           this.allMachinery = of([]); // to clear array
           this.machineryUL = false; // to hide the UL
         }
+        if (e.target !== this.cropInput.nativeElement) {
+          this.allCrops = of([]); // to clear array
+          this.cropUL = false; // to hide the UL
+        }
       });
     }
   }
@@ -101,13 +116,13 @@ export class CreateTicketPage implements OnInit {
     if (localStorage.getItem('role') === 'dispatcher') {
       this.customerSearchSubscription();
       this.tDriverSearchSubscription();
+      this.cropSearchSubscription();
     } else {
       this.dispatcherSearchSubscription();
       this.customerSearchSubscription();
       this.machinerySearchSubscription();
+      this.cropSearchSubscription();
     }
-
-    console.log(localStorage.getItem('employeeId'));
 
     this.initForms();
   }
@@ -122,6 +137,7 @@ export class CreateTicketPage implements OnInit {
       destinationState: ['', [Validators.required]],
       dispatcherNotes: [''],
       customerId: ['', [Validators.required]],
+      cropId: ['', [Validators.required]]
     });
 
     this.createTicketFormTruckDriverInHouse = this.formBuilder.group({
@@ -142,8 +158,7 @@ export class CreateTicketPage implements OnInit {
       totalJobMiles: [''],
       totalTripMiles: [''],
       truckDriverNotes: [''],
-      cropId: ['5e708ba7-9255-4143-b6c9-8e201f49a4bc'],
-      hoursWorked:['20']
+      cropId: ['', [Validators.required]]
     });
   }
 
@@ -311,13 +326,6 @@ export class CreateTicketPage implements OnInit {
             'Truck Driver'
           );
         }
-        // else {
-        //   this.allDispatchers = this.farmingService.getEmployees(
-        //     value,
-        //     'allEmployees',
-        //     'Dispatcher'
-        //   );
-        // }
 
         // subscribing to show/hide Field UL
         this.alltDrivers.subscribe((tDriver) => {
@@ -357,13 +365,7 @@ export class CreateTicketPage implements OnInit {
         'Truck Driver'
       );
     }
-    // else {
-    //   this.allDispatchers = this.farmingService.getEmployees(
-    //     value,
-    //     'allEmployees',
-    //     'Dispatcher'
-    //   );
-    // }
+
     // subscribing to show/hide farm UL
     this.alltDrivers.subscribe((tDriver) => {
       console.log(tDriver);
@@ -390,20 +392,7 @@ export class CreateTicketPage implements OnInit {
         driverId: tDriver.id
       });
     }
-    // else {
-    //   this.createOrderTDriver.setValue({
-    //     machineryID: this.createOrderTDriver.get('machineryID').value,
-    //     cBeginningEngineHours: this.createOrderTDriver.get('cBeginningEngineHours').value,
-    //     dispatcherId: dispatcher.id,
-    //     customerId: this.createOrderTDriver.get('customerId').value,
-    //     farmId: this.createOrderTDriver.get('farmId').value,
-    //     fieldId: this.createOrderTDriver.get('fieldId').value,
-    //     service: this.createOrderTDriver.get('service').value,
-    //     tractorDriverId: this.createOrderTDriver.get('tractorDriverId').value,
-    //     fieldAddress: this.createOrderTDriver.get('fieldAddress').value,
-    //     phone: this.createOrderTDriver.get('phone').value
-    //   });
-    // }
+
     // clearing array
     this.alltDrivers = of([]);
 
@@ -434,13 +423,6 @@ export class CreateTicketPage implements OnInit {
             'Dispatcher'
           );
         }
-        // else {
-        //   this.allDispatchers = this.farmingService.getEmployees(
-        //     value,
-        //     'allEmployees',
-        //     'Dispatcher'
-        //   );
-        // }
 
         // subscribing to show/hide Field UL
         this.allDispatchers.subscribe((dispatcher) => {
@@ -482,13 +464,7 @@ export class CreateTicketPage implements OnInit {
         'Dispatcher'
       );
     }
-    // else {
-    //   this.allDispatchers = this.farmingService.getEmployees(
-    //     value,
-    //     'allEmployees',
-    //     'Dispatcher'
-    //   );
-    // }
+
     // subscribing to show/hide farm UL
     this.allDispatchers.subscribe((dispatcher) => {
       console.log(dispatcher);
@@ -502,6 +478,7 @@ export class CreateTicketPage implements OnInit {
       }
     });
   }
+
   listClickedDispatcher(dispatcher) {
 
     console.log(dispatcher);
@@ -515,20 +492,7 @@ export class CreateTicketPage implements OnInit {
         dispatcherId: dispatcher.id
       });
     }
-    // else {
-    //   this.createOrderTDriver.setValue({
-    //     machineryID: this.createOrderTDriver.get('machineryID').value,
-    //     cBeginningEngineHours: this.createOrderTDriver.get('cBeginningEngineHours').value,
-    //     dispatcherId: dispatcher.id,
-    //     customerId: this.createOrderTDriver.get('customerId').value,
-    //     farmId: this.createOrderTDriver.get('farmId').value,
-    //     fieldId: this.createOrderTDriver.get('fieldId').value,
-    //     service: this.createOrderTDriver.get('service').value,
-    //     tractorDriverId: this.createOrderTDriver.get('tractorDriverId').value,
-    //     fieldAddress: this.createOrderTDriver.get('fieldAddress').value,
-    //     phone: this.createOrderTDriver.get('phone').value
-    //   });
-    // }
+
     // clearing array
     this.allDispatchers = of([]);
 
@@ -626,6 +590,96 @@ export class CreateTicketPage implements OnInit {
     this.isMachinerySelected = false;
   }
   //#endregion
+
+  //  #region Crops
+  cropSearchSubscription() {
+    this.crop_search$
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        takeUntil(this._unsubscribeAll)
+      )
+      .subscribe((value: string) => {
+        // for asterik to look required
+        if (value === '') { this.isCropSelected = true; }
+
+        // calling API
+        this.allCrops = this.truckingService.getCrops(value, 'customerCrops', this.customerId);
+
+
+        // subscribing to show/hide crop UL
+        this.allCrops.subscribe((crops) => {
+          console.log('crops', crops);
+          if (crops.count === 0) {
+            // hiding UL
+            this.cropUL = false;
+          } else {
+            // showing UL
+            this.cropUL = true;
+          }
+        });
+      });
+  }
+
+  inputClickedCrop() {
+    // getting the serch value to check if there's a value in input
+    this.crop_search$
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        takeUntil(this._unsubscribeAll)
+      )
+      .subscribe((v) => {
+        this.cropSearchValue = v;
+      });
+
+    const value =
+      this.cropSearchValue === undefined
+        ? this.crop_name
+        : this.cropSearchValue;
+
+    // calling API
+    this.allCrops = this.truckingService.getCrops('', 'customerCrops', this.customerId);
+
+
+    // subscribing to show/hide farm UL
+    this.allCrops.subscribe((crops) => {
+      if (crops.count === 0) {
+        // hiding UL
+        this.cropUL = false;
+      } else {
+        // showing UL
+        this.cropUL = true;
+      }
+    });
+  }
+
+  listClickedCrop(crop) {
+    // hiding UL
+    this.cropUL = false;
+
+    // passing name in select's input
+    this.cropInput.nativeElement.value = crop.name;
+
+    // to enable submit button
+    this.isCropSelected = false;
+
+    // assigning values in form
+    if (this.role === 'dispatcher') {
+      this.createTicketFormDispatcherInHouse.patchValue({
+        cropId: crop.crop_id
+      });
+    }
+    else {
+      this.createTicketFormTruckDriverInHouse.patchValue({
+        cropId: crop.crop_id
+      });
+    }
+    // clearing array
+    this.allCrops = of([]);
+  }
+  //#endregion
+
   disableFields() {
     this.isDisabled = true;
   }
