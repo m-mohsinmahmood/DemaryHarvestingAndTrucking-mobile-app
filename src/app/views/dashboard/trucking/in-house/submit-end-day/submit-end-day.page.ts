@@ -42,7 +42,8 @@ export class SubmitEndDayPage implements OnInit {
 
     this.truckingService.updateDeliveryTicket({
       ticketNo: this.submitEndDayWorkOrder.get("deliveryTicketId").value,
-      isTicketActive: false
+      isTicketActive: false,
+      hoursWorked:this.submitEndDayWorkOrder.get("hoursWorked").value
     }, 'pending')
       .subscribe(
         (res: any) => {

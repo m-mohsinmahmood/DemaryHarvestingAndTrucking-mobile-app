@@ -82,11 +82,11 @@
                   <div class="flex flex-col">
                     <div class="flex flex-row py-2">
                       <div class="w-8/12 flex flex-col">
-                        <span class="text-lg text-black font-Lato font-semibold">Ticket # {{repairTicket.repairTicketId}}</span>
+                        <span class="text-lg text-black font-Lato font-semibold">Ticket # {{repairTicket.repairTicketId.substring(0,6)}}</span>
                         <span class="font-Lato"> Status: {{repairTicket.status}}</span>
                       </div>
                       <div class="w-4/12 rounded-3xl h-6 flex items-center justify-center bg-red-50">
-                        <span class="text-sm text-red-500 font-Lato"> {{repairTicket.severityType}}</span>
+                        <span class="text-sm text-red-500 font-Lato"> {{repairTicket.severityType | titlecase}}</span>
                       </div>
                     </div>
 
@@ -95,10 +95,10 @@
                         <ion-row>
                           <ion-col size="8" class="p-0">
                             <span class="text-sm font-Lato">Issue Type: </span>
-                            <span class="text-sm text-black font-Lato">{{repairTicket.ticketType}}</span>
+                            <span class="text-sm text-black font-Lato">{{repairTicket.ticketType | titlecase}}</span>
                           </ion-col>
                           <ion-col size="4">
-                            <span class="text-sm font-Lato">{{repairTicket.issueCategory}}</span>
+                            <span class="text-sm font-Lato">{{repairTicket.issueCategory | titlecase}}</span>
                           </ion-col>
                         </ion-row>
                       </ion-grid>
@@ -122,11 +122,11 @@
                     <div class="flex flex-row py-2">
                       <div class="w-8/12 flex flex-col">
                         <span class="text-lg text-black font-Lato font-semibold">Ticket #
-                          {{maintenanceTicketData.repairTicketId}}</span>
+                          {{maintenanceTicketData.repairTicketId.substring(0,6)}}</span>
                         <span class="font-Lato"> Status: {{maintenanceTicketData.status}}</span>
                       </div>
                       <div class="w-4/12 flex justify-end rounded-3xl h-6 flex items-center justify-center bg-red-50">
-                        <span class="text-sm text-red-500 font-Lato"> {{maintenanceTicketData.severityType}}</span>
+                        <span class="text-sm text-red-500 font-Lato"> {{maintenanceTicketData.severityType | titlecase}}</span>
                       </div>
                     </div>
 
@@ -135,10 +135,10 @@
                         <ion-row>
                           <ion-col size="8" class="p-0">
                             <span class="text-sm font-Lato">Issue Type: </span>
-                            <span class="text-sm text-black font-Lato">{{maintenanceTicketData.ticketType}}</span>
+                            <span class="text-sm text-black font-Lato">{{maintenanceTicketData.ticketType | titlecase }}</span>
                           </ion-col>
                           <ion-col size="4">
-                            <span class="text-sm font-Lato">{{maintenanceTicketData.issueCategory}}</span>
+                            <span class="text-sm font-Lato">{{maintenanceTicketData.issueCategory | titlecase}}</span>
                           </ion-col>
                         </ion-row>
                       </ion-grid>

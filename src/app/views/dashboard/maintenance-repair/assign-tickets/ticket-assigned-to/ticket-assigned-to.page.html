@@ -173,17 +173,16 @@
 
       </ion-button>
       <div *ngIf="value === 'repair' || value === 'maintenance'">
-        <ion-button  [disabled]="this.assignTicket.invalid || (loadingSpinner | async)" class="font-Lato text-white mt-8" expand="block"
+        <ion-button  [disabled]="this.assignTicket.invalid || (loadingSpinnerContinue | async)" class="font-Lato text-white mt-8" expand="block"
           (click)="continue()">
-
-          <div *ngIf="(loadingSpinner | async) === false">Continue Later</div>
-            <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+          <div *ngIf="(loadingSpinnerContinue | async) === false">Continue Later</div>
+            <ion-spinner name="crescent" *ngIf="(loadingSpinnerContinue | async)"></ion-spinner>
         </ion-button>
-        <ion-button  [disabled]="this.assignTicket.invalid || (loadingSpinner | async)" class="font-Lato text-white mt-8" expand="block"
-          (click)="completTicket()">
 
-          <div *ngIf="(loadingSpinner | async) === false"> Complete Ticket</div>
-            <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+        <ion-button  [disabled]="this.assignTicket.invalid || (loadingSpinnerComplete | async)" class="font-Lato text-white mt-8" expand="block"
+          (click)="completTicket()">
+          <div *ngIf="(loadingSpinnerComplete | async) === false"> Complete Ticket</div>
+            <ion-spinner name="crescent" *ngIf="(loadingSpinnerComplete | async)"></ion-spinner>
         </ion-button>
       </div>
     </form>
