@@ -73,7 +73,7 @@ export class CompleteExistingTicketPage implements OnInit {
 
          // patching
           this.completeExistingTicketForm.patchValue({
-            repairTicketId: this.ticketData.repairTicketId,
+            repairTicketId: this.ticketData.repairTicketId.substring(0,6),
             assignedById: this.ticketData.assignedById,
             assignedToId: this.ticketData.assignedToId,
             empModule: this.ticketData.empModule,
