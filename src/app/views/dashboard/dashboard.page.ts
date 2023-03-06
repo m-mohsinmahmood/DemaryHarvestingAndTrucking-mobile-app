@@ -95,6 +95,8 @@ export class DashboardPage implements OnInit {
     else if (localStorage.getItem('role') === 'crew-chief') { localStorage.setItem('employeeId', '4b843edb-0b74-49a2-b3c7-d3884f5f6013'); }
     else if (localStorage.getItem('role') === 'combine-operator') { localStorage.setItem('employeeId', '2212322b-0b74-49a2-b3c7-d3884f5f0013'); }
     else if (localStorage.getItem('role') === 'kart-operator') { localStorage.setItem('employeeId', '4b84222b-0b74-49a2-b3c7-d3884f5f0013'); }
+    else if (localStorage.getItem('role') === 'mechanic') { localStorage.setItem('employeeId', '4543344b-0b74-49a2-b3c7-d3884f5f0013'); }
+
 
     // Original IDS
     // if (localStorage.getItem('role') === 'dispatcher') { localStorage.setItem('employeeId', 'e43cf3d6-faa4-47b8-a97b-c59a5738102c'); }
