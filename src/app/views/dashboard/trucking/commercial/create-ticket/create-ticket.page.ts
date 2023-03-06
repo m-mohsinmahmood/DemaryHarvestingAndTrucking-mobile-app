@@ -480,8 +480,9 @@ export class CreateTicketPage implements OnInit {
             'success'
           );
           this.router.navigate([
-            '/tabs/home/trucking/commercial/create-ticket/ticket-generated',
-            this.ticketGeneratedDispatcher,
+            '/tabs/home/trucking/commercial/create-ticket/ticket-generated',{
+              id: res.id.record_id,
+            }
           ]);
         }
       },

@@ -76,6 +76,15 @@ export class TruckingService {
       .post(`api-1/delivery_ticket_trucking`, data)
       .pipe(take(1));
   }
+  getNewDeliveryTicketById(id){
+    let params = new HttpParams();
+    params = params.set('id', id);
+    return this._httpClient
+    .get(`api-1/delivery_ticket_trucking`, {
+      params
+    })
+    .pipe(take(1));
+}
 
   getCrops(search: string = '', entity: string = '', customerId: string = '') {
     let params = new HttpParams();

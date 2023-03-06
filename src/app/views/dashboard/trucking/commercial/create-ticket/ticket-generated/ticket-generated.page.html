@@ -3,80 +3,83 @@
 <ion-content>
   <!-- <app-timer [value]="'22-22-2022'"></app-timer> -->
   <!-- <ion-text class="flex justify-end">Edit</ion-text> -->
-  <ion-card>
+  <div *ngIf="(loadingSpinner | async) === true" class="h-64 flex justify-center items-center">
+    <ion-spinner name="crescent" class="w-20 h-20"></ion-spinner>
+  </div>
+  <ion-card *ngIf="(loadingSpinner | async) === false">
     <ion-card-header>
       <ion-card-title class="flex justify-center text-xl font-Lato">Commercial Delivery Ticket</ion-card-title>
+
     </ion-card-header>
-    <ion-card-content>
+    <ion-card-content >
       <ion-grid>
 
         <!-- First Row -->
         <ion-row class="h-20 flex content-center pl-4">
           <ion-col size="6" class="flex flex-col">
             <p class="font-Lato text-black font-bold font-14">Dispatcher</p>
-            <span class="font-Lato font-14">{{this.data.dispatcherId}}</span>
+            <span class="font-Lato font-14">{{this.data?.dispatcher_id}}</span>
           </ion-col>
 
           <ion-col size="6" class="flex flex-col">
             <p class="font-Lato text-black font-bold font-14">Load Date</p>
-            <span class="font-Lato font-14">{{this.data.loadDate}}</span>
+            <span class="font-Lato font-14">{{moment(this.data?.load_date).format('YYYY-MM-DD')}}</span>
           </ion-col>
         </ion-row>
 
         <ion-row class="h-20 flex content-center pl-4">
           <ion-col size="6" class="flex flex-col">
             <p class="font-Lato text-black font-bold font-14">Driver</p>
-            <span class="font-Lato font-14">{{this.data.driverId}}</span>
+            <span class="font-Lato font-14">{{this.data?.truck_driver_id}}</span>
           </ion-col>
 
           <ion-col size="6" class="flex flex-col">
             <p class="font-Lato text-black font-bold font-14">Customer</p>
-            <span class="font-Lato font-14">{{this.data.customerId}}</span>
+            <span class="font-Lato font-14">{{this.data?.customer_id}}</span>
           </ion-col>
         </ion-row>
 
         <ion-row class="h-20 flex content-center pl-4">
           <ion-col size="6" class="flex flex-col">
             <p class="font-Lato text-black font-bold font-14">Load #</p>
-            <span class="font-Lato font-14">{{this.data.load}}</span>
+            <span class="font-Lato font-14">{{this.data?.load}}</span>
           </ion-col>
 
           <ion-col size="6" class="flex flex-col">
             <p class="font-Lato text-black font-bold font-14">Destination City</p>
-            <span class="font-Lato font-14">{{this.data.destinationCity}}</span>
+            <span class="font-Lato font-14">{{this.data?.destination_city}}</span>
           </ion-col>
         </ion-row>
 
         <ion-row class="h-20 flex content-center pl-4">
           <ion-col size="6" class="flex flex-col">
             <p class="font-Lato text-black font-bold font-14">Origin City</p>
-            <span class="font-Lato font-14">{{this.data.originCity}}</span>
+            <span class="font-Lato font-14">{{this.data?.origin_city}}</span>
           </ion-col>
 
           <ion-col size="6" class="flex flex-col">
             <p class="font-Lato text-black font-bold font-14">Destination State</p>
-            <span class="font-Lato font-14">{{this.data.destinationState}}</span>
+            <span class="font-Lato font-14">{{this.data?.destination_state}}</span>
           </ion-col>
         </ion-row>
 
         <ion-row class="h-20 flex content-center pl-4">
           <ion-col size="6" class="flex flex-col">
             <p class="font-Lato text-black font-bold font-14">Cargo</p>
-            <span class="font-Lato font-14">{{this.data.cargo}}</span>
+            <span class="font-Lato font-14">{{this.data?.cargo}}</span>
           </ion-col>
 
           <ion-col size="6" class="flex flex-col">
             <p class="font-Lato text-black font-bold font-14">Rate Type</p>
-            <span class="font-Lato font-14">{{this.data.rateType}}</span>
+            <span class="font-Lato font-14">{{this.data?.rate_type}}</span>
           </ion-col>
         </ion-row>
 
         <ion-row class="h-20 flex content-center pl-4">
           <ion-col size="6" class="flex flex-col">
             <p class="font-Lato text-black font-bold font-14">Dispatcher Notes</p>
-            <span class="font-Lato font-14">{{this.data.dispatcherNotes}}</span>
+            <span class="font-Lato font-14">{{this.data?.dispatcher_notes}}</span>
           </ion-col>
-
         </ion-row>
 
         <!-- <ion-row class="h-20 flex content-center pl-4">
@@ -90,6 +93,19 @@
             <ion-img src="{{picture}}"></ion-img>
           </ion-col>
         </ion-row> -->
+        <ion-card class="p-3">
+          <ion-card-content class="m-0 p-0">
+            <div class="mt-4" *ngIf="this.data?.image_1">
+              <img [src]="this.data?.image_1"alt="" class="h-48 w-full object-contain">
+            </div>
+            <div class="mt-4" *ngIf="this.data?.image_2">
+              <img [src]="this.data?.image_2"alt="" class="h-48 w-full object-contain">
+            </div>
+            <div class="mt-4" *ngIf="this.data?.image_3">
+              <img [src]="this.data?.image_3"alt="" class="h-48 w-full object-contain">
+            </div>
+          </ion-card-content>
+        </ion-card>
       </ion-grid>
       <ion-button expand="block" class="mt-5 font-Lato  text-white" (click)="navigateTo('/tabs/home/trucking/commercial')">Done
       </ion-button>
