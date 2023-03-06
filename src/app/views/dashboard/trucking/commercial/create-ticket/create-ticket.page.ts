@@ -1,8 +1,19 @@
 /* eslint-disable no-var */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/member-ordering */
-import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import {
+  Component,
+  ElementRef,
+  OnInit,
+  Renderer2,
+  ViewChild,
+} from '@angular/core';
+import {
+  FormGroup,
+  FormBuilder,
+  Validators,
+  FormControl,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { Subject, Observable, of } from 'rxjs';
@@ -16,7 +27,6 @@ import { TruckingService } from '../../trucking.service';
   styleUrls: ['./create-ticket.page.scss'],
 })
 export class CreateTicketPage implements OnInit {
-
   options: any;
   rateSheetImg: string[] = [];
   originDocs: string[] = [];
@@ -52,7 +62,6 @@ export class CreateTicketPage implements OnInit {
   alltDrivers: Observable<any>;
   tDriverUL: any = false;
 
-
   @ViewChild('rateInput') rateInput: ElementRef;
   isRateSelected: any = true;
   rate_search$ = new Subject();
@@ -84,11 +93,16 @@ export class CreateTicketPage implements OnInit {
     destinationCity: '',
     destinationState: '',
     dispatcherNotes: '',
-  }
+  };
 
   upload_1 = false;
   upload_2 = false;
   upload_3 = false;
+  weightupload_1 = false;
+  weightupload_2 = false;
+  weightupload_3 = false;
+  loadupload_1 = false;
+  loadupload_2 = false;
 
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
@@ -97,7 +111,8 @@ export class CreateTicketPage implements OnInit {
     private toast: ToastService,
     private router: Router,
     private truckingService: TruckingService,
-    private renderer: Renderer2) {
+    private renderer: Renderer2
+  ) {
     {
       if (localStorage.getItem('role') === 'dispatcher') {
         this.renderer.listen('window', 'click', (e) => {
@@ -114,8 +129,7 @@ export class CreateTicketPage implements OnInit {
             this.rateUL = false; // to hide the UL
           }
         });
-      }
-      else {
+      } else {
         this.renderer.listen('window', 'click', (e) => {
           if (e.target !== this.dispatcherInput.nativeElement) {
             this.allDispatchers = of([]); // to clear array
@@ -145,8 +159,7 @@ export class CreateTicketPage implements OnInit {
       this.customerSearchSubscription();
       this.tDriverSearchSubscription();
       this.rateSearchSubscription();
-    }
-    else {
+    } else {
       this.dispatcherSearchSubscription();
       this.customerSearchSubscription();
       this.rateSearchSubscription();
@@ -157,7 +170,7 @@ export class CreateTicketPage implements OnInit {
       dispatcherId: [localStorage.getItem('employeeId')],
       customerId: ['', [Validators.required]],
       uploadFile: ['', []],
-      loadDate: [moment().format("MM-DD-YYYY"), [Validators.required]],
+      loadDate: [moment().format('MM-DD-YYYY'), [Validators.required]],
       driverId: ['', [Validators.required]],
       load: ['', [Validators.required]],
       rateType: ['', [Validators.required]],
@@ -169,11 +182,15 @@ export class CreateTicketPage implements OnInit {
       image_1: [''],
       image_2: [''],
       image_3: [''],
+      role: [''],
+      truckingType: [''],
+      ticketStatus: [''],
+      isTicketInfoCompleted: [''],
     });
 
     this.createTicketFormTruckDriver = this.formBuilder.group({
       dispatcherId: ['', [Validators.required]],
-      loadDate: [moment().format("MM-DD-YYYY"), [Validators.required]],
+      loadDate: [moment().format('MM-DD-YYYY'), [Validators.required]],
       driverId: [[localStorage.getItem('employeeId')]],
       customerId: ['', [Validators.required]],
       rateSheetUpload: ['', [Validators.required]],
@@ -202,129 +219,321 @@ export class CreateTicketPage implements OnInit {
       deadHeadMiles: ['', [Validators.required]],
       totalJobMiles: ['', [Validators.required]],
       totalTripMiles: ['', [Validators.required]],
-      cropId:['5e708ba7-9255-4143-b6c9-8e201f49a4bc'],
-      hoursWorked:['20']
+      cropId: ['5e708ba7-9255-4143-b6c9-8e201f49a4bc'],
+      hoursWorked: ['20'],
+      image_1: [''],
+      image_2: [''],
+      image_3: [''],
+      weightimages_1: [''],
+      weightimages_2: [''],
+      weightimages_3: [''],
+      loadimages_1: [''],
+      loadimages_2: [''],
+      role: [''],
+      truckingType: [''],
+      ticketStatus: [''],
+      isTicketInfoCompleted: [''],
     });
   }
 
-  chooseImage(event) {
-    if (event.target.name === 'rateSheet') {
-      for (let i = 0; i < event.target.files.length; i++) {
-        this.rateSheetImg.push(URL.createObjectURL(event.target.files[i]));
-      }
-    }
-    else if (event.target.name === 'originDocs') {
-      for (let i = 0; i < event.target.files.length; i++) {
-        this.originDocs.push(URL.createObjectURL(event.target.files[i]));
-      }
-    }
-    if (event.target.name === 'customDocs') {
-      for (let i = 0; i < event.target.files.length; i++) {
-        this.customDocs.push(URL.createObjectURL(event.target.files[i]));
-      }
-    }
-  }
+  // chooseImage(event) {
+  //   if (event.target.name === 'rateSheet') {
+  //     for (let i = 0; i < event.target.files.length; i++) {
+  //       this.rateSheetImg.push(URL.createObjectURL(event.target.files[i]));
+  //     }
+  //   } else if (event.target.name === 'originDocs') {
+  //     for (let i = 0; i < event.target.files.length; i++) {
+  //       this.originDocs.push(URL.createObjectURL(event.target.files[i]));
+  //     }
+  //   }
+  //   if (event.target.name === 'customDocs') {
+  //     for (let i = 0; i < event.target.files.length; i++) {
+  //       this.customDocs.push(URL.createObjectURL(event.target.files[i]));
+  //     }
+  //   }
+  // }
   onSelectedFiles(file, name) {
-    if (name === 'upload_1') {
-      this.upload_1 = !this.upload_1;
-      if (file.target.files && file.target.files[0]) {
-        const reader = new FileReader();
-        reader.onload = (_event: any) => {
-          this.createTicketFormDispatcher.controls.image_1?.setValue(file.target.files[0]);
-        };
-        reader.readAsDataURL(file.target.files[0]);
-      } else {
-
+    if (this.role === 'dispatcher') {
+      if (name === 'upload_1') {
+        this.upload_1 = !this.upload_1;
+        if (file.target.files && file.target.files[0]) {
+          const reader = new FileReader();
+          reader.onload = (_event: any) => {
+            this.createTicketFormDispatcher.controls.image_1?.setValue(
+              file.target.files[0]
+            );
+          };
+          reader.readAsDataURL(file.target.files[0]);
+        } else {
+        }
+      }
+      if (name === 'upload_2') {
+        this.upload_2 = !this.upload_2;
+        if (file.target.files && file.target.files[0]) {
+          const reader = new FileReader();
+          reader.onload = (_event: any) => {
+            this.createTicketFormDispatcher.controls.image_2?.setValue(
+              file.target.files[0]
+            );
+          };
+          reader.readAsDataURL(file.target.files[0]);
+        } else {
+        }
+      }
+      if (name === 'upload_3') {
+        this.upload_3 = !this.upload_3;
+        if (file.target.files && file.target.files[0]) {
+          const reader = new FileReader();
+          reader.onload = (_event: any) => {
+            this.createTicketFormDispatcher.controls.image_3?.setValue(
+              file.target.files[0]
+            );
+          };
+          reader.readAsDataURL(file.target.files[0]);
+        } else {
+        }
       }
     }
-    if (name === 'upload_2') {
-      this.upload_2 = !this.upload_2;
-      if (file.target.files && file.target.files[0]) {
-        const reader = new FileReader();
-        reader.onload = (_event: any) => {
-          this.createTicketFormDispatcher.controls.image_2?.setValue(file.target.files[0]);
-        };
-        reader.readAsDataURL(file.target.files[0]);
-      } else {
-
+    // for truck driver
+    else {
+      if (name === 'upload_1') {
+        this.upload_1 = !this.upload_1;
+        if (file.target.files && file.target.files[0]) {
+          const reader = new FileReader();
+          reader.onload = (_event: any) => {
+            this.createTicketFormTruckDriver.controls.image_1?.setValue(
+              file.target.files[0]
+            );
+          };
+          reader.readAsDataURL(file.target.files[0]);
+        } else {
+        }
       }
-    }
-    if (name === 'upload_3') {
-      this.upload_3 = !this.upload_3;
-      if (file.target.files && file.target.files[0]) {
-        const reader = new FileReader();
-        reader.onload = (_event: any) => {
-          this.createTicketFormDispatcher.controls.image_3?.setValue(file.target.files[0]);
-        };
-        reader.readAsDataURL(file.target.files[0]);
-      } else {
+      if (name === 'upload_2') {
+        this.upload_2 = !this.upload_2;
+        if (file.target.files && file.target.files[0]) {
+          const reader = new FileReader();
+          reader.onload = (_event: any) => {
+            this.createTicketFormTruckDriver.controls.image_2?.setValue(
+              file.target.files[0]
+            );
+          };
+          reader.readAsDataURL(file.target.files[0]);
+        } else {
+        }
+      }
+      if (name === 'upload_3') {
+        this.upload_3 = !this.upload_3;
+        if (file.target.files && file.target.files[0]) {
+          const reader = new FileReader();
+          reader.onload = (_event: any) => {
+            this.createTicketFormTruckDriver.controls.image_3?.setValue(
+              file.target.files[0]
+            );
+          };
+          reader.readAsDataURL(file.target.files[0]);
+        } else {
+        }
+      }
+      if (name === 'weightupload_1') {
+        this.weightupload_1 = !this.weightupload_1;
+        if (file.target.files && file.target.files[0]) {
+          const reader = new FileReader();
+          reader.onload = (_event: any) => {
+            this.createTicketFormTruckDriver.controls.weightimages_1?.setValue(
+              file.target.files[0]
+            );
+          };
+          reader.readAsDataURL(file.target.files[0]);
+        } else {
+        }
+      }
+      if (name === 'weightupload_2') {
+        this.weightupload_2 = !this.weightupload_2;
+        if (file.target.files && file.target.files[0]) {
+          const reader = new FileReader();
+          reader.onload = (_event: any) => {
+            this.createTicketFormTruckDriver.controls.weightimages_2?.setValue(
+              file.target.files[0]
+            );
+          };
+          reader.readAsDataURL(file.target.files[0]);
+        } else {
+        }
+      }
+      if (name === 'weightupload_3') {
+        this.weightupload_3 = !this.weightupload_3;
+        if (file.target.files && file.target.files[0]) {
+          const reader = new FileReader();
+          reader.onload = (_event: any) => {
+            this.createTicketFormTruckDriver.controls.weightimages_3?.setValue(
+              file.target.files[0]
+            );
+          };
+          reader.readAsDataURL(file.target.files[0]);
+        } else {
+        }
+      }
+      if (name === 'loadupload_1') {
+        this.loadupload_1 = !this.loadupload_1;
+        if (file.target.files && file.target.files[0]) {
+          const reader = new FileReader();
+          reader.onload = (_event: any) => {
+            this.createTicketFormTruckDriver.controls.loadimages_1?.setValue(
+              file.target.files[0]
+            );
+          };
+          reader.readAsDataURL(file.target.files[0]);
+        } else {
+        }
+      }
 
+      if (name === 'loadupload_2') {
+        this.loadupload_2 = !this.loadupload_2;
+        if (file.target.files && file.target.files[0]) {
+          const reader = new FileReader();
+          reader.onload = (_event: any) => {
+            this.createTicketFormTruckDriver.controls.loadimages_2?.setValue(
+              file.target.files[0]
+            );
+          };
+          reader.readAsDataURL(file.target.files[0]);
+        } else {
+        }
       }
     }
   }
   navigateDispatcher() {
-    console.log(this.createTicketFormDispatcher.value);
+    console.log('---', this.createTicketFormDispatcher.value);
+
+    // patching
+    this.createTicketFormDispatcher.patchValue({
+      role: 'dispatcher',
+      truckingType: 'commercial',
+      ticketStatus: 'sent',
+      isTicketInfoCompleted: 'false',
+    });
+
     // Form Data
-    // var formData: FormData = new FormData();
-    // formData.append('traineeForm',JSON.stringify(this.createTicketFormDispatcher.value));
-    // formData.append('image_1', this.createTicketFormDispatcher.get('image_1').value);
-    // formData.append('image_2', this.createTicketFormDispatcher.get('image_2').value);
-    // formData.append('image_3', this.createTicketFormDispatcher.get('image_3').value);
+    var formData: FormData = new FormData();
+    formData.append(
+      'traineeForm',
+      JSON.stringify(this.createTicketFormDispatcher.value)
+    );
+    formData.append(
+      'image_1',
+      this.createTicketFormDispatcher.get('image_1').value
+    );
+    formData.append(
+      'image_2',
+      this.createTicketFormDispatcher.get('image_2').value
+    );
+    formData.append(
+      'image_3',
+      this.createTicketFormDispatcher.get('image_3').value
+    );
 
-    this.truckingService.createNewDeliveryTicket(this.createTicketFormDispatcher.value, 'dispatcher', 'commercial', 'sent', false)
-      .subscribe(
-        (res: any) => {
-          console.log(res);
-          if (res.status === 200) {
-            this.ticketGeneratedDispatcher = {
-              dispatcherId: [localStorage.getItem('employeeId')],
-              customerId: this.customer_name,
-              uploadFile: this.rateSheetImg,
-              loadDate: this.createTicketFormDispatcher.get('loadDate').value,
-              driverId: this.tDriver_name,
-              load: this.createTicketFormDispatcher.get('load').value,
-              rateType: this.rate_name,
-              cargo: this.createTicketFormDispatcher.get('cargo').value,
-              originCity: this.createTicketFormDispatcher.get('originCity').value,
-              destinationCity: this.createTicketFormDispatcher.get('destinationCity').value,
-              destinationState: this.createTicketFormDispatcher.get('destinationState').value,
-              dispatcherNotes: this.createTicketFormDispatcher.get('dispatcherNotes').value,
-            }
+    this.truckingService.createNewDeliveryTicket(formData).subscribe(
+      (res: any) => {
+        console.log(res);
+        if (res.status === 200) {
+          this.ticketGeneratedDispatcher = {
+            dispatcherId: [localStorage.getItem('employeeId')],
+            customerId: this.customer_name,
+            uploadFile: this.rateSheetImg,
+            loadDate: this.createTicketFormDispatcher.get('loadDate').value,
+            driverId: this.tDriver_name,
+            load: this.createTicketFormDispatcher.get('load').value,
+            rateType: this.rate_name,
+            cargo: this.createTicketFormDispatcher.get('cargo').value,
+            originCity: this.createTicketFormDispatcher.get('originCity').value,
+            destinationCity:
+              this.createTicketFormDispatcher.get('destinationCity').value,
+            destinationState:
+              this.createTicketFormDispatcher.get('destinationState').value,
+            dispatcherNotes:
+              this.createTicketFormDispatcher.get('dispatcherNotes').value,
+          };
 
-            this.toast.presentToast("Delivery ticket has been created successfully!", 'success');
-            this.router.navigate(['/tabs/home/trucking/commercial/create-ticket/ticket-generated', this.ticketGeneratedDispatcher]);
-          }
-        },
-        (err) => {
-          this.toast.presentToast(err, 'danger');
-        },
-      );
+          this.toast.presentToast(
+            'Delivery ticket has been created successfully!',
+            'success'
+          );
+          this.router.navigate([
+            '/tabs/home/trucking/commercial/create-ticket/ticket-generated',
+            this.ticketGeneratedDispatcher,
+          ]);
+        }
+      },
+      (err) => {
+        this.toast.presentToast(err, 'danger');
+      }
+    );
   }
   navigateTruckDriver() {
+    // patching
+    this.createTicketFormTruckDriver.patchValue({
+      role: 'truck-driver',
+      truckingType: 'commercial',
+      ticketStatus: 'sent',
+      isTicketInfoCompleted: true,
+    });
 
     // // Form Data
-    // var formData: FormData = new FormData();
-    // formData.append('traineeForm',JSON.stringify(this.traineeForm.value));
-    // formData.append('image_1', this.traineeForm.get('image_1').value);
-    // formData.append('image_2', this.traineeForm.get('image_2').value);
-    // formData.append('image_3', this.traineeForm.get('image_3').value);
-    console.log(this.createTicketFormTruckDriver.value);
-    this.truckingService.createNewDeliveryTicket(this.createTicketFormTruckDriver.value, 'truck-driver', 'commercial', 'sent', true)
-      .subscribe(
-        (res: any) => {
-          console.log(res);
-          if (res.status === 200) {
-            this.toast.presentToast("Delivery ticket has been created successfully!", 'success');
-            this.router.navigateByUrl('/tabs/home/trucking/commercial');
-          }
-        },
-        (err) => {
-          this.toast.presentToast(err, 'danger');
-        },
-      );
+    var formData: FormData = new FormData();
+    formData.append(
+      'createTicketFormTruckDriver',
+      JSON.stringify(this.createTicketFormTruckDriver.value)
+    );
+    formData.append(
+      'image_1',
+      this.createTicketFormTruckDriver.get('image_1').value
+    );
+    formData.append(
+      'image_2',
+      this.createTicketFormTruckDriver.get('image_2').value
+    );
+    formData.append(
+      'image_3',
+      this.createTicketFormTruckDriver.get('image_3').value
+    );
+    formData.append(
+      'weightimages_1',
+      this.createTicketFormTruckDriver.get('weightimages_1').value
+    );
+    formData.append(
+      'weightimages_2',
+      this.createTicketFormTruckDriver.get('weightimages_2').value
+    );
+    formData.append(
+      'weightimages_3',
+      this.createTicketFormTruckDriver.get('weightimages_3').value
+    );
+    formData.append(
+      'loadimages_1',
+    this.createTicketFormTruckDriver.get('loadimages_1').value
+    );
+    formData.append(
+      'loadimages_2',
+    this.createTicketFormTruckDriver.get('loadimages_2').value
+    );
+
+    this.truckingService.createNewDeliveryTicket(formData).subscribe(
+      (res: any) => {
+        console.log(res);
+        if (res.status === 200) {
+          this.toast.presentToast(
+            'Delivery ticket has been created successfully!',
+            'success'
+          );
+          this.router.navigateByUrl('/tabs/home/trucking/commercial');
+        }
+      },
+      (err) => {
+        this.toast.presentToast(err, 'danger');
+      }
+    );
   }
-
-
 
   // Public Methods of Drop Down Lists
 
@@ -341,8 +550,9 @@ export class CreateTicketPage implements OnInit {
       )
       .subscribe((value: string) => {
         // for asterik to look required
-        if (value === '') { this.isCustomerSelected = true; }
-
+        if (value === '') {
+          this.isCustomerSelected = true;
+        }
 
         this.allCustomers = this.truckingService.getCustomers(
           value,
@@ -422,8 +632,7 @@ export class CreateTicketPage implements OnInit {
       this.createTicketFormDispatcher.patchValue({
         customerId: customer.id,
       });
-    }
-    else {
+    } else {
       this.createTicketFormTruckDriver.patchValue({
         customerId: customer.id,
       });
@@ -452,7 +661,6 @@ export class CreateTicketPage implements OnInit {
     this.customerId = customer.id;
     console.log(this.customer_name);
     console.log(this.customerId);
-
   }
   //#endregion
 
@@ -466,7 +674,9 @@ export class CreateTicketPage implements OnInit {
       )
       .subscribe((value: string) => {
         // for asterik to look required
-        if (value === '') { this.istDriverSelected = true; }
+        if (value === '') {
+          this.istDriverSelected = true;
+        }
 
         if (localStorage.getItem('role') === 'dispatcher') {
           this.alltDrivers = this.truckingService.getEmployees(
@@ -542,7 +752,6 @@ export class CreateTicketPage implements OnInit {
     });
   }
   listClickedtDriver(tDriver) {
-
     console.log(tDriver);
 
     // hiding UL
@@ -551,7 +760,7 @@ export class CreateTicketPage implements OnInit {
     // assigning values in form
     if (localStorage.getItem('role') === 'dispatcher') {
       this.createTicketFormDispatcher.patchValue({
-        driverId: tDriver.id
+        driverId: tDriver.id,
       });
     }
     // else {
@@ -589,7 +798,9 @@ export class CreateTicketPage implements OnInit {
       )
       .subscribe((value: string) => {
         // for asterik to look required
-        if (value === '') { this.isRateSelected = true; }
+        if (value === '') {
+          this.isRateSelected = true;
+        }
 
         // if (localStorage.getItem('role') === 'dispatcher') {
         this.allRates = this.truckingService.getTruckingRates(
@@ -663,7 +874,6 @@ export class CreateTicketPage implements OnInit {
     });
   }
   listClickedRate(rate) {
-
     console.log(rate);
 
     // hiding UL
@@ -672,12 +882,11 @@ export class CreateTicketPage implements OnInit {
     // assigning values in form
     if (localStorage.getItem('role') === 'dispatcher') {
       this.createTicketFormDispatcher.patchValue({
-        rateType: rate.id
+        rateType: rate.id,
       });
-    }
-    else {
+    } else {
       this.createTicketFormTruckDriver.patchValue({
-        rateType: rate.id
+        rateType: rate.id,
       });
     }
     // clearing array
@@ -701,7 +910,9 @@ export class CreateTicketPage implements OnInit {
       )
       .subscribe((value: string) => {
         // for asterik to look required
-        if (value === '') { this.isDispatcherSelected = true; }
+        if (value === '') {
+          this.isDispatcherSelected = true;
+        }
 
         if (localStorage.getItem('role') === 'truck-driver') {
           this.allDispatchers = this.truckingService.getEmployees(
@@ -766,7 +977,6 @@ export class CreateTicketPage implements OnInit {
     });
   }
   listClickedDispatcher(dispatcher) {
-
     console.log(dispatcher);
 
     // hiding UL
@@ -775,7 +985,7 @@ export class CreateTicketPage implements OnInit {
     // assigning values in form
     if (localStorage.getItem('role') === 'truck-driver') {
       this.createTicketFormTruckDriver.patchValue({
-        dispatcherId: dispatcher.id
+        dispatcherId: dispatcher.id,
       });
     }
 
@@ -799,7 +1009,9 @@ export class CreateTicketPage implements OnInit {
       )
       .subscribe((value: string) => {
         // for asterik to look required
-        if (value === '') { this.isMachinerySelected = true; }
+        if (value === '') {
+          this.isMachinerySelected = true;
+        }
         this.allMachinery = this.truckingService.getTruck(
           value,
           'allMotorizedVehicles'
@@ -843,7 +1055,6 @@ export class CreateTicketPage implements OnInit {
 
     // subscribing to show/hide farm UL
     this.allMachinery.subscribe((machinery) => {
-
       if (machinery.count === 0) {
         // hiding UL
         this.machineryUL = false;
@@ -854,7 +1065,6 @@ export class CreateTicketPage implements OnInit {
     });
   }
   listClickedMachinery(machinery) {
-
     // hiding UL
     this.machineryUL = false;
     console.log(machinery);

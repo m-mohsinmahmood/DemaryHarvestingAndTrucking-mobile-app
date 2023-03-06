@@ -21,6 +21,8 @@ export class TicketAssignedToPage implements OnInit {
   // behaviour subject's for loader
   public loading = new BehaviorSubject(true);
   public loadingSpinner = new BehaviorSubject(false);
+  public loadingSpinnerContinue = new BehaviorSubject(false);
+  public loadingSpinnerComplete = new BehaviorSubject(false);
 
   ticketData: any;
   ticketRecordId: any;
@@ -403,7 +405,7 @@ export class TicketAssignedToPage implements OnInit {
   }
   completTicket(){
     console.log(this.assignTicket.value);
-    this.loadingSpinner.next(true);
+    this.loadingSpinnerComplete.next(true);
 
     this.maintenanceRepairService
       .ticket(this.assignTicket.value, this.ticketRecordId,'complete')
@@ -411,7 +413,7 @@ export class TicketAssignedToPage implements OnInit {
         (res) => {
           console.log('RES:', res);
           if (res.status === 200) {
-            this.loadingSpinner.next(false);
+            this.loadingSpinnerComplete.next(false);
 
             // this.router.navigateByUrl('/tabs/home/maintenance-repair/assign-tickets');
             this.toastService.presentToast(
@@ -434,7 +436,7 @@ export class TicketAssignedToPage implements OnInit {
   }
   continue(){
     console.log(this.assignTicket.value);
-    this.loadingSpinner.next(true);
+    this.loadingSpinnerContinue.next(true);
 
     this.maintenanceRepairService
       .ticket(this.assignTicket.value, this.ticketRecordId,'continue')
@@ -442,7 +444,7 @@ export class TicketAssignedToPage implements OnInit {
         (res) => {
           console.log('RES:', res);
           if (res.status === 200) {
-            this.loadingSpinner.next(false);
+            this.loadingSpinnerContinue.next(false);
 
             this.router.navigateByUrl('/tabs/home/maintenance-repair/assign-tickets');
             this.toastService.presentToast(
