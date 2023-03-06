@@ -113,7 +113,7 @@ export class JobSetupPage implements OnInit {
       }
 
       if (e.target !== this.farmInput.nativeElement) {
-        // // console.log('Farm');
+         console.log('Farm',this.farmSearchValue);
         // this.allFarmsClicked = of([]);
         // this.farmUL = false; // to hide the UL
         if (this.farmSearchValue === '' || this.farmSearchValue === undefined) {
@@ -420,14 +420,14 @@ export class JobSetupPage implements OnInit {
     });
 
     // passing name in select's input
-    this.farm_name = farm.name;
+    this.farmInput.nativeElement.value = farm.name;
 
     // clearing array
     this.allFarms = of([]);
     this.allFarmsClicked = of([]);
 
-        // passing name in farm-search-value in Rendered2 for checks 
-        this.farmInput.nativeElement.value = farm.customer_name;
+    // passing name in farm-search-value in Rendered2 for checks 
+    this.farmSearchValue = farm.name;
 
     // to enable submit button
     this.isFarmSelected = false;
