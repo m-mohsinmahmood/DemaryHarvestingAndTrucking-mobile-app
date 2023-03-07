@@ -3,11 +3,15 @@
 <ion-modal #model [isOpen]="isModalOpen" backdropDismiss="false" *ngIf="data?.length <= 0">
   <ng-template>
     <ion-header>
-      <ion-toolbar>
-        <ion-title>Check-In</ion-title>
-        <ion-buttons slot="end">
-        </ion-buttons>
-      </ion-toolbar>
+      <div class=" bg-3D8AA4">
+        <ion-grid>
+          <ion-row>
+            <ion-col size="4" class=" flex justify-center"><div></div></ion-col>
+            <ion-col size="4" class=" flex justify-center"><span class="text-white font-semibold">Check-In</span></ion-col>
+            <ion-col size="4" class="flex justify-end"><ion-icon name="close-outline" (click)="model.dismiss()"></ion-icon></ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
     </ion-header>
     <ion-content class="ion-padding">
 
