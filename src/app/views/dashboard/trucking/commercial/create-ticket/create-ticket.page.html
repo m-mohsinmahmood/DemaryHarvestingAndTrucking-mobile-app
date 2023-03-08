@@ -159,16 +159,6 @@
             </div>
           </div>
 
-          <!-- <ion-card class="mb-1" *ngIf="rateSheetImg.length > 0">
-            <ion-grid>
-              <ion-row class="flex justify-around">
-                <ion-col size="6" *ngFor="let item of rateSheetImg">
-                  <ion-img class="border-2" [ngStyle]="{'border-color':'#5BBE62'}" src="{{item}}"></ion-img>
-                </ion-col>
-              </ion-row>
-            </ion-grid>
-          </ion-card> -->
-
           <div class="col-span-12 mb-4">
             <label class="block text-sm font-medium text-gray-700">Load Date <span class="text-red-600"
                 *ngIf="this.createTicketFormDispatcher.get('loadDate').hasError('required')">*</span></label>
@@ -412,8 +402,6 @@
           </div>
           <div class="col-span-12 mb-4">
             <div class="ml-0 mt-4">
-              <label class="block text-sm font-medium text-gray-700">Load Rate Sheet</label>
-
               <!-- CROP -->
               <div [ngClass]="'opacity-100 visible ease-in duration-200'" role="dialog" aria-modal="true">
                 <div [ngClass]="'opacity-100 visible scale-100 ease-in duration-200'" class="mb-4 relative z-30">
@@ -454,13 +442,8 @@
               </div>
               <!-- CROP -->
 
-              <div class="custom-file-upload">
-                <label>
-                  <input formControlName="rateSheetUpload" type="file" name="rateSheet" (change)="chooseImage($event)"
-                    multiple accept="image/png, image/jpeg" />
-                  Upload Rate Sheet
-                </label>
-              </div>
+              <label class="block text-sm font-medium text-gray-700">Load Rate Sheet</label>
+
               <div class="flex px-0 py-2">
                 <div class="w-16 h-16 mr-2">
                   <ion-card
@@ -527,7 +510,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-span-12 mb-4">
+            <div class="col-span-12 mb-4 mt-4">
               <label class="block text-sm font-medium text-gray-700">Load #<span class="text-red-600"
                   *ngIf="this.createTicketFormTruckDriver.get('load').hasError('required')">*</span></label>
               <input
@@ -689,11 +672,17 @@
                 class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                 formControlName="originLoadedWeight" placeholder="Origin Loaded Weight">
             </div>
+
             <div class="col-span-12 mb-4">
-              <div class="ml-0 mt-4">
-                <label class="block text-sm font-medium text-gray-700">Origin Weight of
-                  Load</label>
-              </div>
+              <label class="block text-sm font-medium text-gray-700">Origin Weight of
+                Load<span class="text-red-600"
+                  *ngIf="this.createTicketFormTruckDriver.get('originWeightLoad').hasError('required')">*</span></label>
+              <input
+                class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                formControlName="originWeightLoad" placeholder="Origin Loaded Weight">
+            </div>
+
+            <div class="col-span-12 mb-4">
               <div class="flex px-0 py-2">
                 <div class="w-16 h-16 mr-2">
                   <ion-card
@@ -763,15 +752,6 @@
                 </div>
               </div>
             </div>
-            <!-- <ion-card class="mb-1" *ngIf="originDocs.length > 0">
-            <ion-grid>
-              <ion-row class="flex justify-around">
-                <ion-col size="6" *ngFor="let item of originDocs">
-                  <ion-img class="border-2" [ngStyle]="{'border-color':'#5BBE62'}" src="{{item}}"></ion-img>
-                </ion-col>
-              </ion-row>
-            </ion-grid>
-          </ion-card> -->
 
             <div class="col-span-12 mb-4">
               <label class="block text-sm font-medium text-gray-700">Destination
@@ -905,6 +885,7 @@
             <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="navigateTruckDriver()">Save and
               Submit
             </ion-button>
+          </div>
         </ion-list>
       </form>
     </div>
