@@ -73,4 +73,8 @@ export class CheckInOutComponent implements OnInit {
       );
   }
 
+  closePopup(){
+    this.router.navigateByUrl('/tabs/home');
+  }
+
 }
