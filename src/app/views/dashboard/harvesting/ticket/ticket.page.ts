@@ -214,8 +214,6 @@ export class TicketPage implements OnInit {
       fieldId: this.customerData.customer_job[0]?.field_id,
       field: this.customerData.customer_job[0]?.field_name,
     });
-    console.log('patched', this.deliveryTicketForm.value);
-
   }
 
   patchReassignForm() {

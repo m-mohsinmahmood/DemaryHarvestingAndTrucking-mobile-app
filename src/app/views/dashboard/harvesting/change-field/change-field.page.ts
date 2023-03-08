@@ -263,7 +263,8 @@ export class ChangeFieldPage implements OnInit {
     // assigning values in form conditionally
     if (this.role === 'crew-chief') {
       this.changeFieldFormChief.patchValue({
-        field_id_new: field.field_id
+        field_id_new: field.field_id,
+        total_acres:field.acres
       });
     } else if (this.role === 'kart-operator') {
       this.changeFieldFormKart.patchValue({
