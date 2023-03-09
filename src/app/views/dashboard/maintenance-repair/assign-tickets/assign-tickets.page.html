@@ -72,7 +72,7 @@
                       <span class="font-Lato"> Status: {{unasignedValue.status}}</span>
                     </div>
                     <div class="w-4/12 flex justify-end rounded-3xl h-6 flex items-center justify-center bg-red-50">
-                      <span class="text-sm text-red-500 font-Lato"> {{unasignedValue.severityType}}</span>
+                      <span class="text-sm text-red-500 font-Lato"> {{unasignedValue.severityType | titlecase}}</span>
                     </div>
                   </div>
                   <div class="mt-2.5 flex p-0">
@@ -80,10 +80,10 @@
                       <ion-row>
                         <ion-col size="8" class="p-0">
                           <span class="text-sm font-Lato">Issue Type: </span>
-                          <span class="text-sm text-black font-Lato">{{unasignedValue.ticketType}}</span>
+                          <span class="text-sm text-black font-Lato">{{unasignedValue.ticketType | titlecase}}</span>
                         </ion-col>
                         <ion-col size="4">
-                          <span class="text-sm font-Lato">{{unasignedValue.issueCategory}}</span>
+                          <span class="text-sm font-Lato">{{unasignedValue.issueCategory | titlecase}}</span>
                         </ion-col>
                       </ion-row>
                     </ion-grid>
@@ -112,7 +112,7 @@
                         <span class="font-Lato"> Status: {{repairTicket.status}}</span>
                       </div>
                       <div class="w-4/12 flex justify-end rounded-3xl h-6 flex items-center justify-center bg-red-50">
-                        <span class="text-sm text-red-500 font-Lato"> {{repairTicket.severityType}}</span>
+                        <span class="text-sm text-red-500 font-Lato"> {{repairTicket.severityType | titlecase}}</span>
                       </div>
                     </div>
                     <div class="mt-2.5 flex p-0">
@@ -120,10 +120,10 @@
                         <ion-row>
                           <ion-col size="8" class="p-0">
                             <span class="text-sm font-Lato">Issue Type: </span>
-                            <span class="text-sm text-black font-Lato">{{repairTicket.ticketType}}</span>
+                            <span class="text-sm text-black font-Lato">{{repairTicket.ticketType | titlecase}}</span>
                           </ion-col>
                           <ion-col size="4">
-                            <span class="text-sm font-Lato">{{repairTicket.issueCategory}}</span>
+                            <span class="text-sm font-Lato">{{repairTicket.issueCategory | titlecase}}</span>
                           </ion-col>
                         </ion-row>
                       </ion-grid>
@@ -152,7 +152,7 @@
                         <span class="font-Lato"> Status: {{maintenanceTicketData.status}}</span>
                       </div>
                       <div class="w-4/12 flex justify-end rounded-3xl h-6 flex items-center justify-center bg-red-50">
-                        <span class="text-sm text-red-500 font-Lato"> {{maintenanceTicketData.severityType}}</span>
+                        <span class="text-sm text-red-500 font-Lato"> {{maintenanceTicketData.severityType | titlecase}}</span>
                       </div>
                     </div>
 
@@ -161,10 +161,10 @@
                         <ion-row>
                           <ion-col size="8" class="p-0">
                             <span class="text-sm font-Lato">Issue Type: </span>
-                            <span class="text-sm text-black font-Lato">{{maintenanceTicketData.ticketType}}</span>
+                            <span class="text-sm text-black font-Lato">{{maintenanceTicketData.ticketType | titlecase}}</span>
                           </ion-col>
                           <ion-col size="4">
-                            <span class="text-sm font-Lato">{{maintenanceTicketData.issueCategory}}</span>
+                            <span class="text-sm font-Lato">{{maintenanceTicketData.issueCategory | titlecase}}</span>
                           </ion-col>
                         </ion-row>
                       </ion-grid>

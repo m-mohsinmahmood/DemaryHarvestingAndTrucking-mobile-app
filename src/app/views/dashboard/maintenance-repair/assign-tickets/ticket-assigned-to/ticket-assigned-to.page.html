@@ -24,7 +24,7 @@
         </div>
 
           <!-- EMPLOYEE DROPDOWN -->
-          <div [ngClass]="'opacity-100 visible ease-in duration-200'" class="" role="dialog" aria-modal="true">
+          <div [ngClass]="'opacity-100 visible ease-in duration-200'"  role="dialog" aria-modal="true">
             <div [ngClass]="'opacity-100 visible scale-100 ease-in duration-200'" class="mb-4 relative z-30">
               <div class="mx-auto max-w-full transform rounded-xl px-0 transition-all">
                 <label class="block text-sm font-medium text-gray-700 mb-1">Assigned By Mechanic/Employee <span
@@ -37,7 +37,7 @@
                     placeholder="Select employee" role="" aria-expanded="false" aria-controls="options">
                 </div>
 
-                <div *ngIf="allEmployees | withLoading | async as allEmployees" class="">
+                <div *ngIf="allEmployees | withLoading | async as allEmployees" >
                   <div class="flex justify-center items-center">
                     <ion-spinner *ngIf="allEmployees?.loading" name="crescent" mode="indeterminate"
                       color="primary"></ion-spinner>
@@ -65,7 +65,7 @@
          <!-- EMPLOYEE DROPDOWN -->
 
           <!-- EMPLOYEE DROPDOWN 2 -->
-          <div [ngClass]="'opacity-100 visible ease-in duration-200'" class="" role="dialog" aria-modal="true">
+          <div [ngClass]="'opacity-100 visible ease-in duration-200'"  role="dialog" aria-modal="true">
             <div [ngClass]="'opacity-100 visible scale-100 ease-in duration-200'" class="mb-4 relative z-20">
               <div class="mx-auto max-w-full transform rounded-xl px-0 transition-all">
                 <label class="block text-sm font-medium text-gray-700 mb-1">Assigned To Mechanic/Employee <span
@@ -78,7 +78,7 @@
                     placeholder="Select employee" role="" aria-expanded="false" aria-controls="options">
                 </div>
 
-                <div *ngIf="allEmployees_2 | withLoading | async as allEmployees_2" class="">
+                <div *ngIf="allEmployees_2 | withLoading | async as allEmployees_2" >
                   <div class="flex justify-center items-center">
                     <ion-spinner *ngIf="allEmployees_2?.loading" name="crescent" mode="indeterminate"
                       color="primary"></ion-spinner>
@@ -173,17 +173,16 @@
 
       </ion-button>
       <div *ngIf="value === 'repair' || value === 'maintenance'">
-        <ion-button  [disabled]="this.assignTicket.invalid || (loadingSpinner | async)" class="font-Lato text-white mt-8" expand="block"
+        <ion-button  [disabled]="this.assignTicket.invalid || (loadingSpinnerContinue | async)" class="font-Lato text-white mt-8" expand="block"
           (click)="continue()">
-
-          <div *ngIf="(loadingSpinner | async) === false">Continue Later</div>
-            <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+          <div *ngIf="(loadingSpinnerContinue | async) === false">Continue Later</div>
+            <ion-spinner name="crescent" *ngIf="(loadingSpinnerContinue | async)"></ion-spinner>
         </ion-button>
-        <ion-button  [disabled]="this.assignTicket.invalid || (loadingSpinner | async)" class="font-Lato text-white mt-8" expand="block"
-          (click)="completTicket()">
 
-          <div *ngIf="(loadingSpinner | async) === false"> Complete Ticket</div>
-            <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+        <ion-button  [disabled]="this.assignTicket.invalid || (loadingSpinnerComplete | async)" class="font-Lato text-white mt-8" expand="block"
+          (click)="completTicket()">
+          <div *ngIf="(loadingSpinnerComplete | async) === false"> Complete Ticket</div>
+            <ion-spinner name="crescent" *ngIf="(loadingSpinnerComplete | async)"></ion-spinner>
         </ion-button>
       </div>
     </form>

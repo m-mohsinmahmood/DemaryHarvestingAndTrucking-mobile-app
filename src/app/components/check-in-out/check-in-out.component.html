@@ -1,13 +1,21 @@
-<ion-card-header *ngIf="data?.length > 0" class="mx-1 font-bold">Check-Out</ion-card-header>
+<ion-card-header *ngIf="data?.length > 0" class="mx-1 font-bold"> Check-Out</ion-card-header>
 
 <ion-modal #model [isOpen]="isModalOpen" backdropDismiss="false" *ngIf="data?.length <= 0">
   <ng-template>
     <ion-header>
-      <ion-toolbar>
-        <ion-title>Check-In</ion-title>
-        <ion-buttons slot="end">
-        </ion-buttons>
-      </ion-toolbar>
+      <div class=" bg-3D8AA4">
+        <ion-grid>
+          <ion-row>
+            <ion-col size="4" class=" flex justify-center">
+              <div></div>
+            </ion-col>
+            <ion-col size="4" class=" flex justify-center"><span
+                class="text-white font-semibold">Check-In</span></ion-col>
+            <ion-col size="4" class="flex justify-end"><ion-icon name="close-outline"
+                (click)="model.dismiss(); closePopup()"></ion-icon></ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
     </ion-header>
     <ion-content class="ion-padding">
 
@@ -29,9 +37,9 @@
         <div class="flex justify-center items-center font-Lato font-bold font-15px text-white">
           <div *ngIf="(loadingSpinner | async) === false">Check Out</div>
           <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
-          <!-- <p class="font-bold font-Lato font-15px text-white"></p> -->
         </div>
       </ion-card-content>
     </ion-card>
+
   </ion-col>
 </ion-row>

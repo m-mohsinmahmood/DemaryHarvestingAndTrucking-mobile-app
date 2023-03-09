@@ -25,7 +25,7 @@ export class OthersService {
     params = params.set('entityType', entityType);
     params = params.set('search', search);
     return this.httpClient
-      .get<any>('http://localhost:7071/api/dropdowns', {
+      .get<any>('http://api-1/dropdowns', {
         params,
       })
       .pipe(take(1));
@@ -35,7 +35,7 @@ export class OthersService {
     console.log(data);
     console.log(dwr_type);
     return this.httpClient
-        .post<any>(`http://localhost:7071/api/dwr`,data)
+        .post<any>(`http://api-1/dwr`,data)
         .pipe(take(1));
   }
 

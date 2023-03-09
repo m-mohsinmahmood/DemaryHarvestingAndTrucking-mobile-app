@@ -17,7 +17,7 @@
                   class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                   placeholder="Enter date" readonly [value]="date">
               </div>
-              <ion-popover trigger="click-trigger" triggerAction="click" class="" [isOpen]="isOpen">
+              <ion-popover trigger="click-trigger" triggerAction="click"  [isOpen]="isOpen">
                 <ng-template>
                   <ion-datetime (ionChange)="getDate($event)" presentation="date" size="cover"></ion-datetime>
                 </ng-template>
@@ -51,7 +51,7 @@
                             </div>
                             <div class="flex justify-between items-center">
                               <ion-text class="text-3D8AA4 font-Lato text-sm font-medium underline underline-offset-4" (click)="navigate('detail')">View Detail</ion-text>
-                              <div class="">
+                              <div >
                                 <button class="bg-3D8AA4 text-3D8AA4 bg-opacity-20 rounded-md font-Lato text-sm px-4 py-2" (click)="navigate('send-back')">Send Back</button>
                                 <button class="bg-3D8AA4 text-white rounded-md font-Lato text-sm px-4 py-2 ml-2" (click)="navigate('verify')">Verify</button>
                               </div>
@@ -79,7 +79,7 @@
                   class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                   placeholder="Enter date" readonly [value]="month">
               </div>
-              <ion-popover trigger="click-trigger" triggerAction="click" class="" [isOpen]="isOpen">
+              <ion-popover trigger="click-trigger" triggerAction="click"  [isOpen]="isOpen">
                 <ng-template>
                   <ion-datetime (ionChange)="getMonth($event)" presentation="month-year" size="cover"></ion-datetime>
                 </ng-template>

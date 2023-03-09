@@ -56,14 +56,46 @@ export class TruckingService {
       .pipe(take(1));
   }
 
-  createNewDeliveryTicket(data: any, role: string, truckingType: string, ticketStatus: string, isInfoCompleted: boolean) {
-    data.role = role;
-    data.ticketStatus = ticketStatus;
-    data.truckingType = truckingType;
-    data.isTicketInfoCompleted = isInfoCompleted;
+  // createNewDeliveryTicket(data: any, role: string, truckingType: string, ticketStatus: string, isInfoCompleted: boolean) {
+  //   data.role = role;
+  //   data.ticketStatus = ticketStatus;
+  //   data.truckingType = truckingType;
+  //   data.isTicketInfoCompleted = isInfoCompleted;
+
+  //   return this._httpClient
+  //     .post(`api-1/delivery_ticket_trucking`, data)
+  //     .pipe(take(1));
+  // }
+  createNewDeliveryTicket(data: any) {
+    // data.role = role;
+    // data.ticketStatus = ticketStatus;
+    // data.truckingType = truckingType;
+    // data.isTicketInfoCompleted = isInfoCompleted;
 
     return this._httpClient
       .post(`api-1/delivery_ticket_trucking`, data)
+      .pipe(take(1));
+  }
+  getNewDeliveryTicketById(id){
+    let params = new HttpParams();
+    params = params.set('id', id);
+    return this._httpClient
+    .get(`api-1/delivery_ticket_trucking`, {
+      params
+    })
+    .pipe(take(1));
+}
+
+  getCrops(search: string = '', entity: string = '', customerId: string = '') {
+    let params = new HttpParams();
+    params = params.set('entity', entity);
+    params = params.set('customerId', customerId);
+    params = params.set('search', search);
+
+    return this._httpClient
+      .get(`api-1/dropdowns`, {
+        params,
+      })
       .pipe(take(1));
   }
 

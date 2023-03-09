@@ -159,26 +159,29 @@ export class StartJobPage implements OnInit {
     if (this.role === 'crew-chief') {
       this.harvestingService.getJobSetup('crew-chief', localStorage.getItem('employeeId'));
     } else if (this.role === 'combine-operator') {
-      console.log(localStorage.getItem('employeeId'));
       this.harvestingService.getJobSetup('combine-operator', '', localStorage.getItem('employeeId'));
     } else if (this.role === 'kart-operator') {
-      this.harvestingService.getJobSetup(
-        'kart-operator',
-        '',
-        localStorage.getItem('employeeId')
-      );
+
+      let crew_chief_id = '';
+      this.harvestingService.getKartOperatorCrewChief( 'getKartOpCrewChief',localStorage.getItem('employeeId')).subscribe(param=>{
+        crew_chief_id = param[0].id;
+
+        this.harvestingService.getJobSetup(
+          'kart-operator',
+          crew_chief_id,
+          localStorage.getItem('employeeId')
+        );
+      });
+
     } else if (this.role === 'truck-driver') {
       this.harvestingService.getJobSetup('truck-driver', '', localStorage.getItem('employeeId'));
     }
-
-    console.log("Start Job Page 2");
 
   }
 
   initObservables() {
     this.sub = this.harvestingService.customerJobSetup$.subscribe((res) => {
       if (res) {
-        console.log("Start Job Page 3");
 
         this.customerData = res;
         console.log('-', this.customerData);
@@ -195,20 +198,28 @@ export class StartJobPage implements OnInit {
           });
           // passing field name for pre-filled
           this.fieldName = this.customerData.customer_job[0]?.field_name;
-        } else if (this.role === 'kart-operator') {
+        }
+
+        else if (this.role === 'kart-operator') {
+          console.log("current job id: ", this.customerData.customer_job[0]?.id);
+
           this.startJobFormKart.patchValue({
             job_id: this.customerData.customer_job[0]?.id,
             employeeId: localStorage.getItem('employeeId'),
           });
           this.fieldName = this.customerData.customer_job[0]?.field_name;
           // console.log('-', this.startJobFormKart.value);
-        } else if (this.role === 'combine-operator') {
+        }
+
+        else if (this.role === 'combine-operator') {
           this.startJobFormCombine.patchValue({
             field_name: this.customerData.customer_job[0]?.field_name,
             field_acres: this.customerData.customer_job[0]?.field_acres,
             workOrderId: this.customerData.customer_job[0]?.id,
           });
-        } else if (this.role === 'truck-driver') {
+        }
+
+        else if (this.role === 'truck-driver') {
           this.startJobFormTruck.patchValue({
             workOrderId: this.customerData.customer_job[0]?.id,
             crew_chief_id: this.customerData.customer_job[0]?.crew_chief_name,
@@ -268,8 +279,8 @@ export class StartJobPage implements OnInit {
               this.startJobFormCombine.reset();
               this.toastService.presentToast(res.message, 'success');
 
-               // navigating
-            this.router.navigateByUrl('/tabs/home/harvesting');
+              // navigating
+              this.router.navigateByUrl('/tabs/home/harvesting');
             } else {
               console.log('Something happened :)');
               this.toastService.presentToast('DWR has been created successfully', 'success');
@@ -283,7 +294,10 @@ export class StartJobPage implements OnInit {
     }
 
     // For Kart Operator
+
     else if (localStorage.getItem('role') === 'kart-operator') {
+      console.log(this.startJobFormKart.get('job_id').value);
+
       const data = {
         machineryId: this.startJobFormKart.get('machineryId').value,
         employeeId: localStorage.getItem('employeeId'),
@@ -303,8 +317,8 @@ export class StartJobPage implements OnInit {
               this.router.navigateByUrl('/tabs/home/harvesting');
               this.toastService.presentToast(res.message, 'success');
 
-               // navigating
-            this.router.navigateByUrl('/tabs/home/harvesting');
+              // navigating
+              this.router.navigateByUrl('/tabs/home/harvesting');
             } else {
               console.log('Something happened :)');
               this.toastService.presentToast('DWR has been created successfully', 'success');
@@ -319,6 +333,27 @@ export class StartJobPage implements OnInit {
 
     // For Truck Driver
     else if (localStorage.getItem('role') === 'truck-driver') {
+
+      this.harvestingService.updateBeginningOfDayJobSetup({
+        jobId: this.startJobFormTruck.get('workOrderId').value,
+        role: 'truck-driver',
+        operation: "beginningOfDay"
+      })
+        .subscribe(
+          (res: any) => {
+            console.log('Response:', res);
+            if (res.status === 200) {
+            } else {
+              console.log('Something happened :)');
+              this.toastService.presentToast('DWR has been created successfully', 'success');
+            }
+          },
+          (err) => {
+            this.toastService.presentToast(err, 'danger');
+            console.log('Error:', err);
+          },
+        );
+
       const data = {
         machineryId: this.startJobFormTruck.get('truck_id').value,
         employeeId: localStorage.getItem('employeeId'),
@@ -337,8 +372,8 @@ export class StartJobPage implements OnInit {
               this.startJobFormCombine.reset();
               this.toastService.presentToast(res.message, 'success');
 
-               // navigating
-            this.router.navigateByUrl('/tabs/home/harvesting');
+              // navigating
+              this.router.navigateByUrl('/tabs/home/harvesting');
             } else {
               console.log('Something happened :)');
               this.toastService.presentToast('DWR has been created successfully', 'success');
@@ -542,24 +577,30 @@ export class StartJobPage implements OnInit {
     // to enable submit button
     this.isMachineSelected = false;
 
+
+
     // assigning values in form conditionally
     if (this.role === 'crew-chief') {
       this.startJobFormCrew.patchValue({
-        machineryId: machinery.id
+        machineryId: machinery.id,
+        beginningEngineHours: machinery.odometer_reading_end
       });
     } else if (this.role === 'combine-operator') {
       this.startJobFormCombine.patchValue({
-        machineryId: machinery.id
+        machineryId: machinery.id,
+        beginningEngineHours:machinery.odometer_reading_end
       });
     }
     else if (this.role === 'kart-operator') {
       this.startJobFormKart.patchValue({
-        machineryId: machinery.id
+        machineryId: machinery.id,
+        beginningEngineHours: machinery.odometer_reading_end
       });
     }
     else if (this.role === 'truck-driver') {
       this.startJobFormTruck.patchValue({
-        truck_id: machinery.id
+        truck_id: machinery.id,
+        begining_odometer_miles: machinery.odometer_reading_end
       });
     }
 

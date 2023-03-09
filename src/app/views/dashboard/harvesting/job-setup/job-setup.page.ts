@@ -117,7 +117,7 @@ export class JobSetupPage implements OnInit {
       }
 
       if (e.target !== this.farmInput.nativeElement) {
-        // // console.log('Farm');
+         console.log('Farm',this.farmSearchValue);
         // this.allFarmsClicked = of([]);
         // this.farmUL = false; // to hide the UL
         console.log('farmSearchValue',this.farmSearchValue);
@@ -454,7 +454,7 @@ export class JobSetupPage implements OnInit {
     this.allFarms = of([]);
     this.allFarmsClicked = of([]);
 
-    // passing name in farm-search-value in Rendered2 for checks
+    // passing name in farm-search-value in Rendered2 for checks 
     this.farmSearchValue = farm.name;
 
     // to enable submit button

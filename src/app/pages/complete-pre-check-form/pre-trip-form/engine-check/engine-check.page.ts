@@ -79,7 +79,7 @@ export class EngineCheckPage implements OnInit {
           console.log(res);
 
           if (res.status === 200) {
-            this.toast.presentToast("Pre Trip Check Form has created successfully!", 'success');
+            // this.toast.presentToast("Pre Trip Check Form has created successfully!", 'success');
             this.router.navigate(['in-cab', { deliveryTicketId: this.deliveryTicketId }], { relativeTo: this.activeRoute });
           }
         },

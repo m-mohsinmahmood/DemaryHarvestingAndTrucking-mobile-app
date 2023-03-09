@@ -35,7 +35,7 @@
         </div>
 
       <!-- TRAINEE DROPDOWN -->
-     <div [ngClass]="'opacity-100 visible ease-in duration-200'" class="" role="dialog" aria-modal="true">
+     <div [ngClass]="'opacity-100 visible ease-in duration-200'"  role="dialog" aria-modal="true">
       <div [ngClass]="'opacity-100 visible scale-100 ease-in duration-200'" class="mb-4 relative z-30">
         <div class="mx-auto max-w-full transform rounded-xl px-0 transition-all">
           <label class="block text-sm font-medium text-gray-700 mb-1">Trainee <span
@@ -47,7 +47,7 @@
               placeholder="Select Trainee" role="" aria-expanded="false" aria-controls="options">
           </div>
 
-          <div *ngIf="allTrainees | withLoading | async as allTrainees" class="">
+          <div *ngIf="allTrainees | withLoading | async as allTrainees" >
             <div class="flex justify-center items-center">
               <ion-spinner *ngIf="allTrainees?.loading" name="crescent" mode="indeterminate"
                 color="primary"></ion-spinner>
@@ -81,7 +81,7 @@
           formControlName="clp" placeholder="Enter CLP">
       </div>
        <!-- SUPERVISOR DROPDOWN -->
-    <div [ngClass]="'opacity-100 visible ease-in duration-200'" class="" role="dialog" aria-modal="true">
+    <div [ngClass]="'opacity-100 visible ease-in duration-200'"  role="dialog" aria-modal="true">
       <div [ngClass]="'opacity-100 visible scale-100 ease-in duration-200'" class="mb-4 relative z-20">
         <div class="mx-auto max-w-full transform rounded-xl px-0 transition-all">
           <label class="block text-sm font-medium text-gray-700 mb-1">Supervisor <span
@@ -93,7 +93,7 @@
               placeholder="Select Supervisor" role="" aria-expanded="false" aria-controls="options">
           </div>
 
-          <div *ngIf="allSupervisors | withLoading | async as allSupervisors" class="">
+          <div *ngIf="allSupervisors | withLoading | async as allSupervisors" >
             <div class="flex justify-center items-center">
               <ion-spinner *ngIf="allSupervisors?.loading" name="crescent" mode="indeterminate"
                 color="primary"></ion-spinner>
@@ -123,7 +123,7 @@
        <!-- TRUCKS DROPDOWN -->
        <div
        [ngClass]="'opacity-100 visible ease-in duration-200'"
-       class="" role="dialog" aria-modal="true">
+        role="dialog" aria-modal="true">
        <div
        [ngClass]="'opacity-100 visible scale-100 ease-in duration-200'"
         class="mb-4 relative z-10">
@@ -137,7 +137,7 @@
                placeholder="Enter Truck ID" role="" aria-expanded="false" aria-controls="options">
            </div>
 
-           <div *ngIf="allTrucks | withLoading | async as allTrucks" class="">
+           <div *ngIf="allTrucks | withLoading | async as allTrucks" >
              <div class="flex justify-center items-center">
                <ion-spinner *ngIf="allTrucks?.loading" name="crescent" mode="indeterminate"
                  color="primary"></ion-spinner>

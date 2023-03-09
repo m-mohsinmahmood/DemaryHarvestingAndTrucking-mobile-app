@@ -9,6 +9,7 @@ import { HarvestingService } from './../harvesting.service';
 import { ToastService } from 'src/app/services/toast/toast.service';
 import { Observable, of, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-change-field',
@@ -69,9 +70,8 @@ export class ChangeFieldPage implements OnInit {
     private formBuilder: FormBuilder,
     private location: Location,
     private harvestingService: HarvestingService,
-    private toastService: ToastService
-
-
+    private toastService: ToastService,
+    private router:Router
   ) { }
 
   ngOnInit() {
@@ -215,6 +215,7 @@ export class ChangeFieldPage implements OnInit {
         });
       });
   }
+
   inputClickedField() {
     // getting the serch value to check if there's a value in input
     this.field_search$
@@ -247,6 +248,7 @@ export class ChangeFieldPage implements OnInit {
       }
     });
   }
+
   listClickedField(field) {
     console.log('Field Object:', field);
     // hiding UL
@@ -261,7 +263,8 @@ export class ChangeFieldPage implements OnInit {
     // assigning values in form conditionally
     if (this.role === 'crew-chief') {
       this.changeFieldFormChief.patchValue({
-        field_id_new: field.field_id
+        field_id_new: field.field_id,
+        total_acres:field.acres
       });
     } else if (this.role === 'kart-operator') {
       this.changeFieldFormKart.patchValue({
@@ -273,6 +276,7 @@ export class ChangeFieldPage implements OnInit {
     this.allFields = of([]);
   }
   //#endregion
+
   submit() {
     this.changeFieldFormChief.value.changeFarmFieldCrop = true;
     this.changeFieldFormChief.value.closeJob = true;
@@ -291,6 +295,7 @@ export class ChangeFieldPage implements OnInit {
             if (res.status === 200) {
               this.changeFieldFormChief.reset();
               this.toastService.presentToast(res.message, 'success');
+              this.router.navigateByUrl('/tabs/home/harvesting');
             } else {
               console.log('Something happened :)');
               this.toastService.presentToast(res.mssage, 'danger');
@@ -302,6 +307,7 @@ export class ChangeFieldPage implements OnInit {
           },
         );
     }
+
     else if (this.role === 'kart-operator') {
       this.harvestingService.changeField(this.changeFieldFormKart.value)
         .subscribe(
@@ -322,7 +328,5 @@ export class ChangeFieldPage implements OnInit {
         );
     }
 
-
   }
-
 }

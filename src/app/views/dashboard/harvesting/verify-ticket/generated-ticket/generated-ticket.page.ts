@@ -205,7 +205,7 @@ export class GeneratedTicketPage implements OnInit {
           console.log('Response', response);
           if (response.status === 200) {
             this.generateTicketFormTruck.reset();
-            this.goBack();
+            this.router.navigate(['/tabs/home/harvesting/verify-ticket']);
             this.toastService.presentToast(response.message, 'success');
           } else {
             console.log('Something happened :)');
@@ -235,7 +235,7 @@ export class GeneratedTicketPage implements OnInit {
             this.toastService.presentToast(res.message, 'success');
 
             // navigating
-            this.router.navigateByUrl('/tabs/home/harvesting/verify-ticket/generated');
+            this.router.navigateByUrl('/tabs/home/harvesting');
           } else {
             console.log('Something happened :)');
             this.toastService.presentToast(res.mssage, 'danger');

@@ -6,7 +6,7 @@
     <div class="p-4">
       <div>
         <!-- EMPLOYEE DROPDOWN -->
-        <div [ngClass]="'opacity-100 visible ease-in duration-200'" class="" role="dialog" aria-modal="true">
+        <div [ngClass]="'opacity-100 visible ease-in duration-200'"  role="dialog" aria-modal="true">
           <div [ngClass]="'opacity-100 visible scale-100 ease-in duration-200'" class="mb-4 relative z-20">
             <div class="mx-auto max-w-full transform rounded-xl px-0 transition-all">
               <label class="block text-sm font-medium text-gray-700 mb-1">Employee Name <span
@@ -18,7 +18,7 @@
                   placeholder="Select employee" role="" aria-expanded="false" aria-controls="options">
               </div>
 
-              <div *ngIf="allEmployees | withLoading | async as allEmployees" class="">
+              <div *ngIf="allEmployees | withLoading | async as allEmployees" >
                 <div class="flex justify-center items-center">
                   <ion-spinner *ngIf="allEmployees?.loading" name="crescent" mode="indeterminate"
                     color="primary"></ion-spinner>
@@ -47,7 +47,7 @@
 
 
         <!-- SUPERVISOR NAME -->
-        <div [ngClass]="'opacity-100 visible ease-in duration-200'" class="" role="dialog" aria-modal="true">
+        <div [ngClass]="'opacity-100 visible ease-in duration-200'"  role="dialog" aria-modal="true">
           <div [ngClass]="'opacity-100 visible scale-100 ease-in duration-200'" class="mb-4 relative z-10">
             <div class="mx-auto max-w-full transform rounded-xl px-0 transition-all">
               <label class="block text-sm font-medium text-gray-700 mb-1">Supervisor Name <span
@@ -59,7 +59,7 @@
                   placeholder="Select employee" role="" aria-expanded="false" aria-controls="options">
               </div>
 
-              <div *ngIf="allSupervisors | withLoading | async as allSupervisors" class="">
+              <div *ngIf="allSupervisors | withLoading | async as allSupervisors" >
                 <div class="flex justify-center items-center">
                   <ion-spinner *ngIf="allSupervisors?.loading" name="crescent" mode="indeterminate"
                     color="primary"></ion-spinner>
