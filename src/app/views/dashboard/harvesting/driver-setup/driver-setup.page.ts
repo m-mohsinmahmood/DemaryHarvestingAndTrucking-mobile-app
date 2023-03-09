@@ -33,6 +33,9 @@ export class DriverSetupPage implements OnInit {
   allTruckDrivers: Observable<any>;
 
   getAllDrivers;
+  job_id;
+  customerJobSetupLoading2: any
+  data: any;
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
   constructor(
@@ -56,6 +59,8 @@ export class DriverSetupPage implements OnInit {
     this.getKartOperatorTruckDrivers();
 
     this.combineSearchSubscription();
+
+    this.initObservables()
   }
 
   async ionViewDidEnter() {
@@ -71,7 +76,6 @@ export class DriverSetupPage implements OnInit {
       )
       .subscribe(
         (res: any) => {
-          console.log('response:', res);
           this.getAllDrivers = res;
         },
         (err) => {
@@ -106,7 +110,6 @@ export class DriverSetupPage implements OnInit {
 
         // subscribing to show/hide field UL
         this.allTruckDrivers.subscribe((truckDrivers) => {
-          console.log('truckDrivers:', truckDrivers);
 
           if (truckDrivers.length === 0) {
             // hiding UL
@@ -123,24 +126,68 @@ export class DriverSetupPage implements OnInit {
   }
 
   addTruckDriver() {
-    let raw = JSON.stringify({
-      driverIds: this.driverSetupForm.get('truck_driver').value,
-      kartOperatorId: localStorage.getItem('employeeId'),
-      operation: 'addTruckDrivers'
-    });
 
-    this.harvestingService
-      .kartOperatorAddTruckDriver('addTruckDrivers', raw)
-      .subscribe(
-        (response: any) => {
-          console.log('response:', response);
-          this.getKartOperatorTruckDrivers();
-        },
-        (err) => {
-          console.log('Error:', err);
-        }
+    let crew_chief_id = '';
+
+    this.harvestingService.getKartOperatorCrewChief('getKartOpCrewChief', localStorage.getItem('employeeId')).subscribe(param => {
+      crew_chief_id = param[0].id;
+
+      this.harvestingService.getJobTesting2(
+        'kart-operator',
+        localStorage.getItem('employeeId'),
+        crew_chief_id
       );
+
+      this.initObservables()
+
+      this.customerJobSetupLoading2.subscribe(param => {
+        if (param === false) {
+
+          let raw = {
+            driverIds: this.driverSetupForm.get('truck_driver').value,
+            kartOperatorId: localStorage.getItem('employeeId'),
+            operation: 'addTruckDrivers',
+            job_id: this.job_id
+          };
+
+          console.log(raw);
+
+          this.harvestingService
+            .kartOperatorAddTruckDriver('addTruckDrivers', raw)
+            .subscribe(
+              (response: any) => {
+                this.getKartOperatorTruckDrivers();
+              },
+              (err) => {
+                console.log('Error:', err);
+              }
+            );
+        }
+
+      })
+
+    });
   }
+
+  initObservables() {
+    this.customerJobSetupLoading2 = this.harvestingService.customerJobSetupLoading2$;
+    this.harvestingService.customerJobSetup2$.subscribe(res => {
+
+      this.data = res
+      this.customerJobSetupLoading2.subscribe((loadValue) => {
+        if (loadValue === true) {
+
+        } else {
+          console.log("param: ", res);
+
+          this.job_id = this?.data?.customer_job[0]?.id;
+          console.log(this.job_id);
+
+        }
+      })
+    })
+  }
+
 
   clickedTruckDriverInput() {
     this.truck_driver_search$

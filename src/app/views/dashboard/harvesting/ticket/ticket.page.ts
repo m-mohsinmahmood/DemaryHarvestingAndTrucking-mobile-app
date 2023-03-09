@@ -179,10 +179,16 @@ export class TicketPage implements OnInit {
   }
 
   initApis() {
-    this.harvestingService.getJobTesting2(
-      'kart-operator',
-      localStorage.getItem('employeeId')
-    );
+    let crew_chief_id = '';
+    this.harvestingService.getKartOperatorCrewChief( 'getKartOpCrewChief',localStorage.getItem('employeeId')).subscribe(param=>{
+      crew_chief_id = param[0].id;
+
+      this.harvestingService.getJobTesting2(
+        'kart-operator',
+        localStorage.getItem('employeeId'),
+        crew_chief_id
+      );
+    });
   }
 
   initObservables() {

@@ -234,10 +234,18 @@ export class HarvestingService {
       );
   }
 
-  getJobTesting2(entity, employeeId) {
+    getKartOperatorCrewChief(entity, employeeId) {
     return this._httpClient
       .get(
-        `api-1/customer-job-setup?entity=${entity}&employeeId=${employeeId}`
+        `api-1/havesting-kart-operator?operation=${entity}&employeeId=${employeeId}`
+      )
+      .pipe(take(1));
+  }
+
+  getJobTesting2(entity, employeeId, crew_chief_id) {
+    return this._httpClient
+      .get(
+        `api-1/customer-job-setup?entity=${entity}&employeeId=${employeeId}&crew_chief_id=${crew_chief_id}`
       )
       .pipe(take(1))
       .subscribe(

@@ -161,11 +161,18 @@ export class StartJobPage implements OnInit {
     } else if (this.role === 'combine-operator') {
       this.harvestingService.getJobSetup('combine-operator', '', localStorage.getItem('employeeId'));
     } else if (this.role === 'kart-operator') {
-      this.harvestingService.getJobSetup(
-        'kart-operator',
-        '',
-        localStorage.getItem('employeeId')
-      );
+
+      let crew_chief_id = '';
+      this.harvestingService.getKartOperatorCrewChief( 'getKartOpCrewChief',localStorage.getItem('employeeId')).subscribe(param=>{
+        crew_chief_id = param[0].id;
+
+        this.harvestingService.getJobSetup(
+          'kart-operator',
+          crew_chief_id,
+          localStorage.getItem('employeeId')
+        );
+      });
+
     } else if (this.role === 'truck-driver') {
       this.harvestingService.getJobSetup('truck-driver', '', localStorage.getItem('employeeId'));
     }
