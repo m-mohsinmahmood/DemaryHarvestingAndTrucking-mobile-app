@@ -94,7 +94,10 @@ export class JobSetupPage implements OnInit {
     this.renderer.listen('window', 'click', (e) => {
       if (e.target !== this.customerInput.nativeElement) {
         console.log('Customer',this.customerSearchValue);
-        if (this.customerSearchValue === '') {
+        console.log('isCustomerSelected',this.isCustomerSelected === false);
+        console.log('isCustomerSelected',this.isCustomerSelected);
+        if (this.customerSearchValue === '' || this.isCustomerSelected === true) {
+          console.log('if called');
           this.isDisabled = true;
           this.farm_name = '';
           this.crop_name = '';
@@ -106,6 +109,7 @@ export class JobSetupPage implements OnInit {
           this.farmSearchValue = ''; // to disable field
 
         } else {
+          console.log('else called');
           this.isDisabled = false;
           this.allCustomers = of([]); // to clear array
           this.customerUL = false; // to hide the UL
@@ -116,7 +120,9 @@ export class JobSetupPage implements OnInit {
         // // console.log('Farm');
         // this.allFarmsClicked = of([]);
         // this.farmUL = false; // to hide the UL
-        if (this.farmSearchValue === '' || this.farmSearchValue === undefined) {
+        console.log('farmSearchValue',this.farmSearchValue);
+        console.log('isFarmSelected', this.isFarmSelected);
+        if (this.farmSearchValue === '' || this.farmSearchValue === undefined || this.isFarmSelected === true) {
           this.isFieldDisabled = true;
           this.field_name = '';
           this.farmUL = false;
@@ -133,6 +139,7 @@ export class JobSetupPage implements OnInit {
         // // console.log('Field');
         // this.allFields = of([]);
         // this.fieldUL = false; // to hide the UL
+        console.log('fieldSearchValue',this.fieldSearchValue);
         if (this.fieldSearchValue === '' || this.farmSearchValue === undefined) {
           // this.createOrderDispatcher.patchValue({
           //   totalAcres: null
@@ -240,13 +247,29 @@ export class JobSetupPage implements OnInit {
           // this.isDisabled = customers.count === 0 ? true : false;
           if (customers.count === 0) {
             this.isDisabled = true;
-            this.isFieldDisabled = true
+            this.isFieldDisabled = true;
 
+            // for asterik
+          this.isCustomerSelected = true;
+          this.isFarmSelected = true;
+          this.isCropSelected = true;
+          this.isFieldSelected = true;
+
+            // passing empty string for Renderer2 condition
+            this.farmSearchValue = '';
+            this.fieldSearchValue = '';
+            this.cropSearchValue = '';
+
+            // passing for Renderer2 condition
+            this.isCustomerSelected = true;
 
             // clearing the input values in farm, crop after getting disabled
-            this.farm_name = '';
-            this.crop_name = '';
-            this.field_name = '';
+            // this.farm_name = '';
+            // this.crop_name = '';
+            // this.field_name = '';
+            this.farmInput.nativeElement.value = '';
+            this.fieldInput.nativeElement.value = '';
+            this.cropInput.nativeElement.value = '';
 
             // hiding UL
             this.customerUL = false;
@@ -276,7 +299,7 @@ export class JobSetupPage implements OnInit {
         : this.customerSearchValue;
 
     // calling API
-    this.allCustomers = this.harvestingService.getCustomers('', 'allCustomers');
+    this.allCustomers = this.harvestingService.getCustomers(this.customerSearchValue, 'allCustomers');
 
     // subscribing to disable & enable farm, crop inputs
     this.allCustomers.subscribe((customers) => {
@@ -285,9 +308,12 @@ export class JobSetupPage implements OnInit {
         this.isDisabled = true;
 
         // clearing the input values in farm, crop after getting disabled
-        this.farm_name = '';
-        this.crop_name = '';
-        this.field_name = '';
+        // this.farm_name = '';
+        // this.crop_name = '';
+        // this.field_name = '';
+        this.farmInput.nativeElement.value = '';
+        this.cropInput.nativeElement.value = '';
+        this.fieldInput.nativeElement.value = '';
 
         // hiding UL
         this.customerUL = false;
@@ -360,9 +386,11 @@ export class JobSetupPage implements OnInit {
         this.allFarmsClicked.subscribe((farms) => {
           if (farms.count === 0) {
             this.isFieldDisabled = true;
-            this.field_name = '';
-            // hiding UL
-            this.farmUL = false;
+            this.fieldInput.nativeElement.value = '';
+            this.isFarmSelected = true; //for asterik
+            this.isFieldSelected = true; //for asterik
+            this.farmUL = false; // hiding UL
+
           } else {
             // showing UL
             this.farmUL = true;
@@ -390,7 +418,7 @@ export class JobSetupPage implements OnInit {
         : this.farmSearchValue;
 
     // calling API
-    this.allFarmsClicked = this.harvestingService.getFarms('', 'customerFarms', this.customerID);
+    this.allFarmsClicked = this.harvestingService.getFarms(this.farmSearchValue, 'customerFarms', this.customerID);
 
 
     // subscribing to show/hide farm UL
@@ -420,14 +448,14 @@ export class JobSetupPage implements OnInit {
     });
 
     // passing name in select's input
-    this.farm_name = farm.name;
+    this.farmInput.nativeElement.value = farm.name;
 
     // clearing array
     this.allFarms = of([]);
     this.allFarmsClicked = of([]);
 
-        // passing name in farm-search-value in Rendered2 for checks 
-        this.farmInput.nativeElement.value = farm.customer_name;
+    // passing name in farm-search-value in Rendered2 for checks
+    this.farmSearchValue = farm.name;
 
     // to enable submit button
     this.isFarmSelected = false;
@@ -585,7 +613,7 @@ export class JobSetupPage implements OnInit {
     // passing name in select's input
     this.field_name = field.field_name;
 
-        // passing name in customer-search-value in Rendered2 for checks 
+        // passing name in customer-search-value in Rendered2 for checks
         this.fieldInput.nativeElement.value = field.field_name;
 
     // to enable submit button
