@@ -128,6 +128,8 @@ export class CloseOutPage implements OnInit {
     console.log(this.closeJobFormCrew.value);
 
     if (this.role === 'crew-chief') {
+      this.closeJobFormCrew.value.job_id = this.customerData?.customer_job[0]?.id;
+
       this.loadingSpinner.next(true);
       this.harvestingservice.createJob(this.closeJobFormCrew.value).subscribe(
         (res: any) => {

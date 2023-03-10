@@ -71,7 +71,7 @@ export class ChangeFieldPage implements OnInit {
     private location: Location,
     private harvestingService: HarvestingService,
     private toastService: ToastService,
-    private router:Router
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -171,7 +171,7 @@ export class ChangeFieldPage implements OnInit {
           crop_id: this.customerData.customer_job[0].crop_id,
           field_id: this.customerData.customer_job[0].field_id,
           has_employee: this.customerData.customer_job[0].has_employee,
-          job_id: this.customerData.customer_job[0].job_id,
+          job_id: this.customerData.customer_job[0].id,
         });
       }
     });
@@ -264,7 +264,7 @@ export class ChangeFieldPage implements OnInit {
     if (this.role === 'crew-chief') {
       this.changeFieldFormChief.patchValue({
         field_id_new: field.field_id,
-        total_acres:field.acres
+        total_acres: field.acres
       });
     } else if (this.role === 'kart-operator') {
       this.changeFieldFormKart.patchValue({

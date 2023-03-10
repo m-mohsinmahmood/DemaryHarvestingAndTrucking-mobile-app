@@ -151,6 +151,7 @@ export class ChangeFarmPage implements OnInit {
       field_id: [''],
     });
     this.jobUpdateForm = this.formBuilder.group({
+      job_id: [''],
       crew_chief_id: [localStorage.getItem('employeeId')],
       state: ['', [Validators.required]],
       customer_id: [''],
@@ -214,6 +215,7 @@ export class ChangeFarmPage implements OnInit {
     this.jobUpdateForm.value.changeFarmFieldCrop = true;
     this.jobUpdateForm.value.closeJob = true;
     this.jobUpdateForm.value.newJobSetup = true;
+    this.jobUpdateForm.value.job_id = this.jobSetupForm.get('jobId').value;
 
     console.log(this.jobUpdateForm.value);
 

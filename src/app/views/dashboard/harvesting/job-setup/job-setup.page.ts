@@ -77,6 +77,9 @@ export class JobSetupPage implements OnInit {
 
   states: string[];
   add_location_overlay = true;
+  subscribe;
+  loadingSub;
+  customerData: any;
 
   public loadingSpinner = new BehaviorSubject(false);
 
@@ -93,7 +96,7 @@ export class JobSetupPage implements OnInit {
   ) {
     this.renderer.listen('window', 'click', (e) => {
       if (e.target !== this.customerInput.nativeElement) {
-        console.log('Customer',this.customerSearchValue);
+        console.log('Customer', this.customerSearchValue);
         if (this.customerSearchValue === '') {
           this.isDisabled = true;
           this.farm_name = '';
@@ -113,7 +116,7 @@ export class JobSetupPage implements OnInit {
       }
 
       if (e.target !== this.farmInput.nativeElement) {
-         console.log('Farm',this.farmSearchValue);
+        console.log('Farm', this.farmSearchValue);
         // this.allFarmsClicked = of([]);
         // this.farmUL = false; // to hide the UL
         if (this.farmSearchValue === '' || this.farmSearchValue === undefined) {
@@ -153,16 +156,35 @@ export class JobSetupPage implements OnInit {
 
     // pasing states
     this.states = states;
-
+    this.initApis();
+    this.initObservables();
     this.customerSearchSubscription();
     this.farmSearchSubscription();
     this.cropSearchSubscription();
     this.fieldSearchSubscription();
   }
 
+  initApis() {
+    // getting for crew-chief only
+    this.harvestingService.getJobSetup('crew-chief', localStorage.getItem('employeeId'));
+  }
+
+  initObservables() {
+    this.subscribe = this.harvestingService.customerJobSetup$.subscribe((res) => {
+      console.log('Response',res);
+      this.customerData = res;
+    });
+
+    this.loadingSub = this.harvestingService.customerLoading$.subscribe((val) => {
+      // console.log('Loading Value',val);
+    });
+  }
+
   ngOnDestroy(): void {
     this._unsubscribeAll.next(null);
     this._unsubscribeAll.complete();
+    this.subscribe.unsubscribe();
+    this.loadingSub.unsubscribe();
   }
 
   initForms() {
@@ -184,6 +206,9 @@ export class JobSetupPage implements OnInit {
     this.jobSetupForm.value.changeFarmFieldCrop = true;
     this.jobSetupForm.value.closeJob = true;
     this.jobSetupForm.value.newJobSetup = true;
+    this.jobSetupForm.value.job_id = this.customerData?.customer_job[0].id;
+
+    console.log("iddddddL: ",this.customerData?.customer_job[0].id);
 
     this.loadingSpinner.next(true);
     console.log(this.jobSetupForm.value);
@@ -585,8 +610,8 @@ export class JobSetupPage implements OnInit {
     // passing name in select's input
     this.field_name = field.field_name;
 
-        // passing name in customer-search-value in Rendered2 for checks 
-        this.fieldInput.nativeElement.value = field.field_name;
+    // passing name in customer-search-value in Rendered2 for checks 
+    this.fieldInput.nativeElement.value = field.field_name;
 
     // to enable submit button
     this.isFieldSelected = false;
