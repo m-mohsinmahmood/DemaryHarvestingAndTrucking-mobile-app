@@ -66,6 +66,7 @@ export class ChangeFarmPage implements OnInit {
   isFarmSelected: any = true;
   isCropSelected: any = true;
   isFieldSelected: any = true;
+  isFarmCropSelected: any = true;
 
   // selected customer id to select farms & crops
   customerID: any;
@@ -249,7 +250,7 @@ export class ChangeFarmPage implements OnInit {
       )
       .subscribe((value: string) => {
         // for asterik to look required
-        if (value === '') { this.isFarmSelected = true; }
+        if (value === '') { this.isFarmCropSelected = true; }
 
         //calling API
         this.allFarmsClicked = this.harvestingService.getFarms(value, 'customerFarms', this.customerData?.customer_job[0].customer_id);
@@ -261,10 +262,13 @@ export class ChangeFarmPage implements OnInit {
             this.isFieldDisabled = true;
             // hiding UL
             this.farmUL = false;
+            // disbale button
+            this.isFarmCropSelected = true;
           } else {
             // showing UL
             this.farmUL = true;
             this.isFieldDisabled = false;
+
           }
         });
       });
@@ -299,6 +303,8 @@ export class ChangeFarmPage implements OnInit {
         // hiding UL
         this.farmUL = false;
         this.isFieldDisabled = true;
+        // disbale button
+        this.isFarmCropSelected = true;
       } else {
         // showing UL
         this.farmUL = true;
@@ -324,7 +330,7 @@ export class ChangeFarmPage implements OnInit {
     this.allFarmsClicked = of([]);
 
     // to enable submit button
-    this.isFarmSelected = false;
+    this.isFarmCropSelected = false;
     ;
     // passing selected Farm-ID for selected fields
     this.farmID = farm.id;
@@ -340,7 +346,7 @@ export class ChangeFarmPage implements OnInit {
       )
       .subscribe((value: string) => {
         // for asterik to look required
-        if (value === '') { this.isCropSelected = true; }
+        if (value === '') { this.isFarmCropSelected = true; }
 
         // calling API
         this.allCropsClicked = this.harvestingService.getCrops(value, 'customerCrops', this.customerData?.customer_job[0].customer_id);
@@ -352,6 +358,8 @@ export class ChangeFarmPage implements OnInit {
           if (crops.count === 0) {
             // hiding UL
             this.cropUL = false;
+            // disbale button
+            this.isFarmCropSelected = true;
           } else {
             // showing UL
             this.cropUL = true;
@@ -385,6 +393,8 @@ export class ChangeFarmPage implements OnInit {
       if (crops.count === 0) {
         // hiding UL
         this.cropUL = false;
+        // disbale button
+        this.isFarmCropSelected = true;
       } else {
         // showing UL
         this.cropUL = true;
@@ -399,7 +409,7 @@ export class ChangeFarmPage implements OnInit {
     this.cropInput.nativeElement.value = crop.name;
 
     // to enable submit button
-    this.isCropSelected = false;
+    this.isFarmCropSelected = false;
 
     // assigning values in form
     this.jobSetupForm.patchValue({
