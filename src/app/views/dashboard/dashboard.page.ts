@@ -134,5 +134,10 @@ export class DashboardPage implements OnInit {
       console.log(this.isModalOpen);
       this.nav.navigate(['harvesting'], { relativeTo: this.activatedRoute });
     }
+    else if (this.activeDwr[0].module === 'maintenance-repair') {
+      this.isModalOpen = false;
+      console.log(this.isModalOpen);
+      this.nav.navigate(['maintenance-repair'], { relativeTo: this.activatedRoute });
+    }
   }
 }
