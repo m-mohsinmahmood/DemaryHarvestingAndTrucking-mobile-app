@@ -1,0 +1,366 @@
+<app-header [title]="['Pre-Trip Check Form Truck']" [color]="'preTripForm'"></app-header>
+
+<ion-content>
+  <!-- <app-timer [value]="'12-12-2020'"></app-timer> -->
+  <div class="p-4 pb-0">
+
+    <div class="mx-4 my-2">
+      <ion-progress-bar class="mb-2" [buffer]="buffer" [value]="progress"></ion-progress-bar>
+      <ion-text class="text-lg justify-start flex font-Lato text-black ml-2">{{progress * 5}} of 5
+        Completed</ion-text>
+    </div>
+
+  </div>
+
+  <div class="p-4 pt-0">
+    <ion-text>
+      <h2 class="font-semibold ml-4">Coupling, Suspension and Miscellaneous</h2>
+      <p class="ml-4">Please select items that needs M&R attention:</p>
+    </ion-text>
+
+    <form [formGroup]="couplingCheckForm">
+
+      <ion-item>
+        <div class="mt-4 mb-3">
+          <label class="font-bold">Air Line</label>
+          <ion-radio-group formControlName="airLine" value="true" class="radio">
+            <div class="flex">
+              <ion-item class="h-10" lines="none">
+                <ion-radio mode="md" value="true"></ion-radio>
+                <ion-label class="font-Lato ml-2 text-sm">Satisfactory</ion-label>
+              </ion-item>
+              <ion-item class="h-10 " lines="none">
+                <ion-radio mode="md" class="unsatisfactory" value="false"></ion-radio>
+                <ion-label class="font-Lato ml-2 text-sm">UnSatisfactory</ion-label>
+              </ion-item>
+            </div>
+          </ion-radio-group>
+          <div
+            [ngClass]="this.couplingCheckForm.get('airLine').value ==='true' ? 'hidden':'flex-row  mt-2'">
+            <div>
+              <ion-item lines="none" class="select_native">
+                <ion-select
+                formControlName="airLineSeverity"
+                [value]="'Minor'"
+                 placeholder="Select Severity Level"
+                  class="border-2 border-3D8AA4 rounded-lg">
+                  <ion-select-option value="minor" class="font-Lato">Minor</ion-select-option>
+                  <ion-select-option value="moderate" class="font-Lato">Moderate</ion-select-option>
+                  <ion-select-option value="critical-repair" class="font-Lato">Critical repair </ion-select-option>
+                </ion-select>
+              </ion-item>
+            </div>
+            <div>
+              <ion-textarea formControlName="airLineNotes" class="bg-slate-200 mt-2 rounded-md custom-textarea" placeholder="Type something here"></ion-textarea>
+            </div>
+          </div>
+        </div>
+      </ion-item>
+
+      <ion-item>
+        <div class="mt-4 mb-3">
+          <label class="font-bold">Brake Accessories</label>
+          <ion-radio-group formControlName="brakeAccessories" value="true" class="radio">
+            <div class="flex">
+              <ion-item class="h-10" lines="none">
+                <ion-radio mode="md" value="true"></ion-radio>
+                <ion-label class="font-Lato ml-2 text-sm">Satisfactory</ion-label>
+              </ion-item>
+              <ion-item class="h-10 " lines="none">
+                <ion-radio mode="md" class="unsatisfactory" value="false"></ion-radio>
+                <ion-label class="font-Lato ml-2 text-sm">UnSatisfactory</ion-label>
+              </ion-item>
+            </div>
+          </ion-radio-group>
+          <div
+            [ngClass]="this.couplingCheckForm.get('brakeAccessories').value ==='true' ? 'hidden':'flex-row  mt-2'">
+            <div>
+              <ion-item lines="none" class="select_native">
+                <ion-select
+                formControlName="brakeAccessoriesSeverity"
+                [value]="'Minor'"
+                 placeholder="Select Severity Level"
+                  class="border-2 border-3D8AA4 rounded-lg">
+                  <ion-select-option value="minor" class="font-Lato">Minor</ion-select-option>
+                  <ion-select-option value="moderate" class="font-Lato">Moderate</ion-select-option>
+                  <ion-select-option value="critical-repair" class="font-Lato">Critical repair </ion-select-option>
+                </ion-select>
+              </ion-item>
+            </div>
+            <div>
+              <ion-textarea formControlName="brakeAccessoriesNotes" class="bg-slate-200 mt-2 rounded-md custom-textarea" placeholder="Type something here"></ion-textarea>
+            </div>
+          </div>
+        </div>
+      </ion-item>
+
+
+      <ion-item>
+        <div class="mt-4 mb-3">
+          <label class="font-bold">Coupling Devices</label>
+          <ion-radio-group formControlName="couplingDevices" value="true" class="radio">
+            <div class="flex">
+              <ion-item class="h-10" lines="none">
+                <ion-radio mode="md" value="true"></ion-radio>
+                <ion-label class="font-Lato ml-2 text-sm">Satisfactory</ion-label>
+              </ion-item>
+              <ion-item class="h-10 " lines="none">
+                <ion-radio mode="md" class="unsatisfactory" value="false"></ion-radio>
+                <ion-label class="font-Lato ml-2 text-sm">UnSatisfactory</ion-label>
+              </ion-item>
+            </div>
+          </ion-radio-group>
+          <div
+            [ngClass]="this.couplingCheckForm.get('couplingDevices').value ==='true' ? 'hidden':'flex-row  mt-2'">
+            <div>
+              <ion-item lines="none" class="select_native">
+                <ion-select
+                formControlName="couplingDevicesSeverity"
+                [value]="'Minor'"
+                 placeholder="Select Severity Level"
+                  class="border-2 border-3D8AA4 rounded-lg">
+                  <ion-select-option value="minor" class="font-Lato">Minor</ion-select-option>
+                  <ion-select-option value="moderate" class="font-Lato">Moderate</ion-select-option>
+                  <ion-select-option value="critical-repair" class="font-Lato">Critical repair </ion-select-option>
+                </ion-select>
+              </ion-item>
+            </div>
+            <div>
+              <ion-textarea formControlName="couplingDevicesNotes" class="bg-slate-200 mt-2 rounded-md custom-textarea" placeholder="Type something here"></ion-textarea>
+            </div>
+          </div>
+        </div>
+      </ion-item>
+
+
+      <ion-item>
+        <div class="mt-4 mb-3">
+          <label class="font-bold">Fifth Wheel</label>
+          <ion-radio-group formControlName="fifthWheel" value="true" class="radio">
+            <div class="flex">
+              <ion-item class="h-10" lines="none">
+                <ion-radio mode="md" value="true"></ion-radio>
+                <ion-label class="font-Lato ml-2 text-sm">Satisfactory</ion-label>
+              </ion-item>
+              <ion-item class="h-10 " lines="none">
+                <ion-radio mode="md" class="unsatisfactory" value="false"></ion-radio>
+                <ion-label class="font-Lato ml-2 text-sm">UnSatisfactory</ion-label>
+              </ion-item>
+            </div>
+          </ion-radio-group>
+          <div
+            [ngClass]="this.couplingCheckForm.get('fifthWheel').value ==='true' ? 'hidden':'flex-row  mt-2'">
+            <div>
+              <ion-item lines="none" class="select_native">
+                <ion-select
+                formControlName="fifthWheelSeverity"
+                [value]="'Minor'"
+                 placeholder="Select Severity Level"
+                  class="border-2 border-3D8AA4 rounded-lg">
+                  <ion-select-option value="minor" class="font-Lato">Minor</ion-select-option>
+                  <ion-select-option value="moderate" class="font-Lato">Moderate</ion-select-option>
+                  <ion-select-option value="critical-repair" class="font-Lato">Critical repair </ion-select-option>
+                </ion-select>
+              </ion-item>
+            </div>
+            <div>
+              <ion-textarea formControlName="fifthWheelNotes" class="bg-slate-200 mt-2 rounded-md custom-textarea" placeholder="Type something here"></ion-textarea>
+            </div>
+          </div>
+        </div>
+      </ion-item>
+
+
+      <ion-item>
+        <div class="mt-4 mb-3">
+          <label class="font-bold">Rear End</label>
+          <ion-radio-group formControlName="rearEnd" value="true" class="radio">
+            <div class="flex">
+              <ion-item class="h-10" lines="none">
+                <ion-radio mode="md" value="true"></ion-radio>
+                <ion-label class="font-Lato ml-2 text-sm">Satisfactory</ion-label>
+              </ion-item>
+              <ion-item class="h-10 " lines="none">
+                <ion-radio mode="md" class="unsatisfactory" value="false"></ion-radio>
+                <ion-label class="font-Lato ml-2 text-sm">UnSatisfactory</ion-label>
+              </ion-item>
+            </div>
+          </ion-radio-group>
+          <div
+            [ngClass]="this.couplingCheckForm.get('rearEnd').value ==='true' ? 'hidden':'flex-row  mt-2'">
+            <div>
+              <ion-item lines="none" class="select_native">
+                <ion-select
+                formControlName="rearEndSeverity"
+                [value]="'Minor'"
+                 placeholder="Select Severity Level"
+                  class="border-2 border-3D8AA4 rounded-lg">
+                  <ion-select-option value="minor" class="font-Lato">Minor</ion-select-option>
+                  <ion-select-option value="moderate" class="font-Lato">Moderate</ion-select-option>
+                  <ion-select-option value="critical-repair" class="font-Lato">Critical repair </ion-select-option>
+                </ion-select>
+              </ion-item>
+            </div>
+            <div>
+              <ion-textarea formControlName="rearEndNotes" class="bg-slate-200 mt-2 rounded-md custom-textarea" placeholder="Type something here"></ion-textarea>
+            </div>
+          </div>
+        </div>
+      </ion-item>
+
+
+      <ion-item>
+        <div class="mt-4 mb-3">
+          <label class="font-bold">Muffler</label>
+          <ion-radio-group formControlName="muffler" value="true" class="radio">
+            <div class="flex">
+              <ion-item class="h-10" lines="none">
+                <ion-radio mode="md" value="true"></ion-radio>
+                <ion-label class="font-Lato ml-2 text-sm">Satisfactory</ion-label>
+              </ion-item>
+              <ion-item class="h-10 " lines="none">
+                <ion-radio mode="md" class="unsatisfactory" value="false"></ion-radio>
+                <ion-label class="font-Lato ml-2 text-sm">UnSatisfactory</ion-label>
+              </ion-item>
+            </div>
+          </ion-radio-group>
+          <div
+            [ngClass]="this.couplingCheckForm.get('muffler').value ==='true' ? 'hidden':'flex-row  mt-2'">
+            <div>
+              <ion-item lines="none" class="select_native">
+                <ion-select
+                formControlName="mufflerSeverity"
+                [value]="'Minor'"
+                 placeholder="Select Severity Level"
+                  class="border-2 border-3D8AA4 rounded-lg">
+                  <ion-select-option value="minor" class="font-Lato">Minor</ion-select-option>
+                  <ion-select-option value="moderate" class="font-Lato">Moderate</ion-select-option>
+                  <ion-select-option value="critical-repair" class="font-Lato">Critical repair </ion-select-option>
+                </ion-select>
+              </ion-item>
+            </div>
+            <div>
+              <ion-textarea formControlName="mufflerNotes" class="bg-slate-200 mt-2 rounded-md custom-textarea" placeholder="Type something here"></ion-textarea>
+            </div>
+          </div>
+        </div>
+      </ion-item>
+
+
+      <ion-item>
+        <div class="mt-4 mb-3">
+          <label class="font-bold">Front Axle</label>
+          <ion-radio-group formControlName="frontAxle" value="true" class="radio">
+            <div class="flex">
+              <ion-item class="h-10" lines="none">
+                <ion-radio mode="md" value="true"></ion-radio>
+                <ion-label class="font-Lato ml-2 text-sm">Satisfactory</ion-label>
+              </ion-item>
+              <ion-item class="h-10 " lines="none">
+                <ion-radio mode="md" class="unsatisfactory" value="false"></ion-radio>
+                <ion-label class="font-Lato ml-2 text-sm">UnSatisfactory</ion-label>
+              </ion-item>
+            </div>
+          </ion-radio-group>
+          <div
+            [ngClass]="this.couplingCheckForm.get('frontAxle').value ==='true' ? 'hidden':'flex-row  mt-2'">
+            <div>
+              <ion-item lines="none" class="select_native">
+                <ion-select
+                formControlName="frontAxleSeverity"
+                [value]="'Minor'"
+                 placeholder="Select Severity Level"
+                  class="border-2 border-3D8AA4 rounded-lg">
+                  <ion-select-option value="minor" class="font-Lato">Minor</ion-select-option>
+                  <ion-select-option value="moderate" class="font-Lato">Moderate</ion-select-option>
+                  <ion-select-option value="critical-repair" class="font-Lato">Critical repair </ion-select-option>
+                </ion-select>
+              </ion-item>
+            </div>
+            <div>
+              <ion-textarea formControlName="frontAxleNotes" class="bg-slate-200 mt-2 rounded-md custom-textarea" placeholder="Type something here"></ion-textarea>
+            </div>
+          </div>
+        </div>
+      </ion-item>
+
+      <ion-item>
+        <div class="mt-4 mb-3">
+          <label class="font-bold">Suspension System</label>
+          <ion-radio-group formControlName="suspensionSystem" value="true" class="radio">
+            <div class="flex">
+              <ion-item class="h-10" lines="none">
+                <ion-radio mode="md" value="true"></ion-radio>
+                <ion-label class="font-Lato ml-2 text-sm">Satisfactory</ion-label>
+              </ion-item>
+              <ion-item class="h-10 " lines="none">
+                <ion-radio mode="md" class="unsatisfactory" value="false"></ion-radio>
+                <ion-label class="font-Lato ml-2 text-sm">UnSatisfactory</ion-label>
+              </ion-item>
+            </div>
+          </ion-radio-group>
+          <div
+            [ngClass]="this.couplingCheckForm.get('suspensionSystem').value ==='true' ? 'hidden':'flex-row  mt-2'">
+            <div>
+              <ion-item lines="none" class="select_native">
+                <ion-select
+                formControlName="suspensionSystemSeverity"
+                [value]="'Minor'"
+                 placeholder="Select Severity Level"
+                  class="border-2 border-3D8AA4 rounded-lg">
+                  <ion-select-option value="minor" class="font-Lato">Minor</ion-select-option>
+                  <ion-select-option value="moderate" class="font-Lato">Moderate</ion-select-option>
+                  <ion-select-option value="critical-repair" class="font-Lato">Critical repair </ion-select-option>
+                </ion-select>
+              </ion-item>
+            </div>
+            <div>
+              <ion-textarea formControlName="suspensionSystemNotes" class="bg-slate-200 mt-2 rounded-md custom-textarea" placeholder="Type something here"></ion-textarea>
+            </div>
+          </div>
+        </div>
+      </ion-item>
+
+      <ion-item>
+        <div class="mt-4 mb-3">
+          <label class="font-bold">Transmission</label>
+          <ion-radio-group formControlName="transmission" value="true" class="radio">
+            <div class="flex">
+              <ion-item class="h-10" lines="none">
+                <ion-radio mode="md" value="true"></ion-radio>
+                <ion-label class="font-Lato ml-2 text-sm">Satisfactory</ion-label>
+              </ion-item>
+              <ion-item class="h-10 " lines="none">
+                <ion-radio mode="md" class="unsatisfactory" value="false"></ion-radio>
+                <ion-label class="font-Lato ml-2 text-sm">UnSatisfactory</ion-label>
+              </ion-item>
+            </div>
+          </ion-radio-group>
+          <div
+            [ngClass]="this.couplingCheckForm.get('transmission').value ==='true' ? 'hidden':'flex-row  mt-2'">
+            <div>
+              <ion-item lines="none" class="select_native">
+                <ion-select
+                formControlName="transmissionSeverity"
+                [value]="'Minor'"
+                 placeholder="Select Severity Level"
+                  class="border-2 border-3D8AA4 rounded-lg">
+                  <ion-select-option value="minor" class="font-Lato">Minor</ion-select-option>
+                  <ion-select-option value="moderate" class="font-Lato">Moderate</ion-select-option>
+                  <ion-select-option value="critical-repair" class="font-Lato">Critical repair </ion-select-option>
+                </ion-select>
+              </ion-item>
+            </div>
+            <div>
+              <ion-textarea formControlName="transmissionNotes" class="bg-slate-200 mt-2 rounded-md custom-textarea" placeholder="Type something here"></ion-textarea>
+            </div>
+          </div>
+        </div>
+      </ion-item>
+
+    </form>
+
+    <ion-button expand="block" class="mt-5 font-Lato  text-white" (click)="submitForm()">Next
+    </ion-button>
+  </div>
+</ion-content>

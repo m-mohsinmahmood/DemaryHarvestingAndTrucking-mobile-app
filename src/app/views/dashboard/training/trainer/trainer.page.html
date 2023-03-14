@@ -1,0 +1,70 @@
+<app-header [title]="'Trainer'" [color]="'training'" [routeValue]="'trainer'"></app-header>
+
+
+<ion-content>
+  <p class="text-xl font-bold font-Lato mt-8 ml-7">Training Tasks</p>
+<ion-grid>
+  <ion-row>
+    <ion-col size="12">
+      <ion-card class="card"  (click)="navigate('Company Training')">
+        <ion-card-content>
+           <p class="font-15px font-bold font-Lato ion-text-center">Company Training</p>
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+    <ion-col size="12">
+      <ion-card class="card" (click)="navigate('Safety Training')">
+        <ion-card-content>
+           <p class="font-15px font-bold font-Lato ion-text-center">Safety Training</p>
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+    <ion-col size="12">
+      <ion-card class="card" (click)="navigate('CDL Training')">
+        <ion-card-content>
+           <p class="font-15px font-bold font-Lato ion-text-center">CDL Training</p>
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+  </ion-row>
+</ion-grid>
+<p class="text-xl font-bold font-Lato mt-8 ml-7">CDL Training Evaluation Forms</p>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12">
+        <ion-card class="card" [routerLink]="['pre-trip']" >
+          <ion-card-content>
+             <p class="font-15px font-bold font-Lato ion-text-center">Pre-Trip Check</p>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col size="12">
+        <ion-card class="card" [routerLink]="['basic-skills']">
+          <ion-card-content>
+             <p class="font-15px font-bold font-Lato ion-text-center">Basic Skills</p>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col size="12">
+        <ion-card class="card" [routerLink]="['road-skills']">
+          <ion-card-content>
+             <p class="font-15px font-bold font-Lato ion-text-center">Road Test Skills</p>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <p class="text-xl font-bold font-Lato mt-8 ml-7">Training Records</p>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12">
+        <ion-card class="card" [routerLink]="['training-records']">
+          <ion-card-content>
+             <p class="font-15px font-bold font-Lato ion-text-center">View Training Records</p>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+
+    </ion-row>
+  </ion-grid>
+</ion-content>

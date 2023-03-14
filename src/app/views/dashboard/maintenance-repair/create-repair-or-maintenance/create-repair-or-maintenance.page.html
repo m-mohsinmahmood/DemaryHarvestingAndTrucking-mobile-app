@@ -1,0 +1,456 @@
+<app-header [title]="['Create New Repair Ticket']" [color]="'maintenance-repair'" *ngIf="category === 'repair'">
+</app-header>
+<app-header [title]="['Create New Maintenance Ticket']" [color]="'maintenance-repair'"
+  *ngIf="category === 'maintenance'">
+</app-header>
+
+<ion-content *ngIf="category === 'repair'">
+  <!-- <app-timer [value]="'12-11-2023'"></app-timer> -->
+
+  <div class="p-4">
+    <form [formGroup]="createTicket">
+      <ion-list>
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Repair Ticket
+            Number<span class="text-red-600"
+              *ngIf="this.createTicket.get('repairTicketId').hasError('required')">*</span></label>
+          <input
+          readonly
+          [placeholder]=""
+          formControlName="repairTicketId"
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+             placeholder="Ticket Number">
+        </div>
+
+        <!-- EMPLOYEE DROPDOWN -->
+        <div [ngClass]="'opacity-100 visible ease-in duration-200'"  role="dialog" aria-modal="true">
+          <div [ngClass]="'opacity-100 visible scale-100 ease-in duration-200'" class="mb-4 relative z-30">
+            <div class="mx-auto max-w-full transform rounded-xl px-0 transition-all">
+              <label class="block text-sm font-medium text-gray-700 mb-1">Assigned By Mechanic/Employee <span
+                  *ngIf="isEmployeeSelected" class="text-red-400">*</span></label>
+              <div class="flex items-center justify-between gap-x-2 rounded-md">
+                <input (keyup)="employeesearch$.next($event.target.value)" (click)="inputClickedEmployee()"
+                  [value]="employee_name" #employeeInput
+                  class="w-full px-4 py-2 text-gray-900 placeholder:text-base rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
+                  placeholder="Select employee" role="" aria-expanded="false" aria-controls="options">
+              </div>
+
+              <div *ngIf="allEmployees | withLoading | async as allEmployees" >
+                <div class="flex justify-center items-center">
+                  <ion-spinner *ngIf="allEmployees?.loading" name="crescent" mode="indeterminate"
+                    color="primary"></ion-spinner>
+                </div>
+                <ul *ngIf="allEmployees?.value && employeeUL"
+                  class="-mb-2 max-h-44 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800 bg-white absolute w-full"
+                  id="options" role="listbox">
+                  <li *ngFor="let employee of (allEmployees?.value.employees)"
+                    (click)="listClickedEmployee(employee)"
+                    class="cursor-pointer  select-none rounded-md px-4 py-2 hover:bg-gray-200" role="option" tabindex="-1">
+                    <div class="flex items-center p-2">
+                      {{employee.first_name}} {{employee.last_name}}
+                    </div>
+                  </li>
+                </ul>
+                <div *ngIf="allEmployees?.value?.employees?.length === 0">
+                  <p disabled
+                    class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200 text-gray-500 hover:text-gray-700 hover:font-semibold">
+                    No employee (s) found </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+       <!-- EMPLOYEE DROPDOWN -->
+
+        <!-- EMPLOYEE DROPDOWN 2 -->
+        <div [ngClass]="'opacity-100 visible ease-in duration-200'"  role="dialog" aria-modal="true">
+          <div [ngClass]="'opacity-100 visible scale-100 ease-in duration-200'" class="mb-4 relative z-20">
+            <div class="mx-auto max-w-full transform rounded-xl px-0 transition-all">
+              <label class="block text-sm font-medium text-gray-700 mb-1">Assigned To Mechanic/Employee <span
+                  *ngIf="isEmployeeSelected" class="text-red-400">*</span></label>
+              <div class="flex items-center justify-between gap-x-2 rounded-md">
+                <input (keyup)="employeesearch_2$.next($event.target.value)" (click)="inputClickedEmployee_2()"
+                  [value]="employee_name_2" #employeeInput2
+                  class="w-full px-4 py-2 text-gray-900 placeholder:text-base rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
+                  placeholder="Select employee" role="" aria-expanded="false" aria-controls="options">
+              </div>
+
+              <div *ngIf="allEmployees_2 | withLoading | async as allEmployees_2" >
+                <div class="flex justify-center items-center">
+                  <ion-spinner *ngIf="allEmployees_2?.loading" name="crescent" mode="indeterminate"
+                    color="primary"></ion-spinner>
+                </div>
+                <ul *ngIf="allEmployees_2?.value && employeeUL_2"
+                  class="-mb-2 max-h-44 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800 bg-white absolute w-full"
+                  id="options" role="listbox">
+                  <li *ngFor="let employee of (allEmployees_2?.value.employees)"
+                    (click)="listClickedEmployee_2(employee)"
+                    class="cursor-pointer  select-none rounded-md px-4 py-2 hover:bg-gray-200" role="option" tabindex="-1">
+                    <div class="flex items-center p-2">
+                      {{employee.first_name}} {{employee.last_name}}
+                    </div>
+                  </li>
+                </ul>
+                <div *ngIf="allEmployees_2?.value?.employees?.length === 0">
+                  <p disabled
+                    class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200 text-gray-500 hover:text-gray-700 hover:font-semibold">
+                    No employee (s) found </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+       <!-- EMPLOYEE DROPDOWN 2 -->
+
+         <!-- Machinery -->
+         <div
+         [ngClass]="'opacity-100 visible ease-in duration-200'"  role="dialog" aria-modal="true">
+         <div [ngClass]="'opacity-100 visible scale-100 ease-in duration-200'" class="mb-4 relative z-10">
+           <div class="mx-auto max-w-full transform rounded-xl px-0 transition-all">
+             <label class="block text-sm font-medium text-gray-700 mb-1">Machinery ID: <span
+               *ngIf="isMachineSelected"
+               class="text-red-400">*</span></label>
+             <div class="flex items-center justify-between gap-x-2 rounded-md">
+               <input (keyup)="machine_search$.next($event.target.value)"
+                (click)="inputClickedMachinery()" [value]="machine_name"
+                #machineryInput
+                class="w-full px-4 py-2 text-gray-900 placeholder:text-base rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
+                placeholder="Select Machiery" role="" aria-expanded="false" aria-controls="options">
+             </div>
+
+             <div *ngIf="allMachinery | withLoading | async as allMachinery" >
+               <div class="flex justify-center items-center">
+                 <ion-spinner *ngIf="allMachinery?.loading" name="crescent" mode="indeterminate"
+                   color="primary"></ion-spinner>
+               </div>
+               <ul *ngIf="allMachinery?.value && machineUL"
+                 class="-mb-2 max-h-48 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800 bg-white absolute w-full"
+                 id="options" role="listbox">
+                 <li *ngFor="let machinery of (allMachinery?.value.machinery)" (click)="listClickedMachiney(machinery)"
+                   class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200" role="option"
+                   tabindex="-1">
+                   <div class="flex items-center p-2">
+                     {{machinery.name}}
+                   </div>
+                 </li>
+               </ul>
+               <div *ngIf="allMachinery?.value?.machinery?.length === 0">
+                 <p disabled
+                   class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200 text-gray-500 hover:text-gray-700 hover:font-semibold">
+                   No Machinery(s) found </p>
+               </div>
+             </div>
+           </div>
+         </div>
+       </div>
+           <!-- Machinery -->
+
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">City<span class="text-red-600"
+              *ngIf="this.createTicket.get('city').hasError('required')">*</span></label>
+          <input
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="city" placeholder="City">
+        </div>
+
+        <div>
+          <div class="col-span-12 mb-4">
+            <label class="block text-sm font-medium text-gray-700">State<span *ngIf="this.createTicket.get('state').hasError('required')" class="text-red-400" >*</span></label>
+            <ion-select
+              class="mt-1 w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+              formControlName="state" placeholder="Select State">
+              <ion-select-option *ngFor="let state of states" [value]="state">{{state}}</ion-select-option>
+            </ion-select>
+          </div>
+        </div>
+
+        <div class="col-span-12 mb-4">
+          <label class="ml-5" class="block text-sm font-medium text-gray-700">Category<span class="text-red-600"
+              *ngIf="this.createTicket.get('issueCategory').hasError('required')">*</span></label>
+          <ion-select
+            class="mt-1 w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="issueCategory" placeholder="Select Category">
+            <ion-select-option value="electrical">Electrical</ion-select-option>
+            <ion-select-option value="mechanical">Mechanical</ion-select-option>
+          </ion-select>
+        </div>
+
+        <div class="col-span-12 mb-4">
+          <label class="ml-5" class="block text-sm font-medium text-gray-700">Severity<span class="text-red-600"
+              *ngIf="this.createTicket.get('severityType').hasError('required')">*</span></label>
+          <ion-select
+            class="mt-1 w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="severityType" placeholder="Select Category">
+            <ion-select-option value="critical">Critical</ion-select-option>
+          </ion-select>
+        </div>
+
+        <div class="col-span-12 mb-4">
+          <label class="ml-5" class="block text-sm font-medium text-gray-700">Status<span class="text-red-600"
+              *ngIf="this.createTicket.get('status').hasError('required')">*</span></label>
+          <ion-select
+            class="mt-1 w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="status" placeholder="Status">
+            <ion-select-option value="repair-in-process" >Repair In Process</ion-select-option>
+          </ion-select>
+        </div>
+
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Detailed Description of Issue<span class="text-red-600"
+              *ngIf="this.createTicket.get('description').hasError('required')">*</span></label>
+          <textarea
+            class="mt-1 w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="description" placeholder="Type something here">
+          </textarea>
+        </div>
+
+        <!-- <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Repair Summary<span
+              class="text-red-600" *ngIf="this.createTicket.get('summary').hasError('required')">*</span></label>
+          <textarea
+            class="mt-1 w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="summary" placeholder="Enter Summary">
+          </textarea>
+        </div> -->
+
+      </ion-list>
+
+      <ion-button [disabled]="loadingSpinner | async" class="font-Lato text-white mt-8" expand="block"
+        (click)="submit()">
+        <div *ngIf="(loadingSpinner | async) === false"> Save and Submit</div>
+            <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+      </ion-button>
+    </form>
+  </div>
+
+</ion-content>
+<ion-content *ngIf="category === 'maintenance'">
+  <!-- <app-timer [value]="'12-11-2023'"></app-timer> -->
+  <div class="p-4">
+    <form [formGroup]="createTicket">
+      <ion-list>
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Maintenance Ticket
+            Number<span class="text-red-600"
+              *ngIf="this.createTicket.get('repairTicketId').hasError('required')">*</span></label>
+          <input
+          readonly
+          [placeholder]=""
+          formControlName="repairTicketId"
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+             placeholder="Ticket Number">
+        </div>
+         <!-- EMPLOYEE DROPDOWN -->
+         <div [ngClass]="'opacity-100 visible ease-in duration-200'"  role="dialog" aria-modal="true">
+          <div [ngClass]="'opacity-100 visible scale-100 ease-in duration-200'" class="mb-4 relative z-30">
+            <div class="mx-auto max-w-full transform rounded-xl px-0 transition-all">
+              <label class="block text-sm font-medium text-gray-700 mb-1">Assigned By Mechanic/Employee <span
+                  *ngIf="isEmployeeSelected" class="text-red-400">*</span></label>
+              <div class="flex items-center justify-between gap-x-2 rounded-md">
+                <input (keyup)="employeesearch$.next($event.target.value)" (click)="inputClickedEmployee()"
+                  [value]="employee_name" #employeeInput
+                  class="w-full px-4 py-2 text-gray-900 placeholder:text-base rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
+                  placeholder="Select employee" role="" aria-expanded="false" aria-controls="options">
+              </div>
+
+              <div *ngIf="allEmployees | withLoading | async as allEmployees" >
+                <div class="flex justify-center items-center">
+                  <ion-spinner *ngIf="allEmployees?.loading" name="crescent" mode="indeterminate"
+                    color="primary"></ion-spinner>
+                </div>
+                <ul *ngIf="allEmployees?.value && employeeUL"
+                  class="-mb-2 max-h-44 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800 bg-white absolute w-full"
+                  id="options" role="listbox">
+                  <li *ngFor="let employee of (allEmployees?.value.employees)"
+                    (click)="listClickedEmployee(employee)"
+                    class="cursor-pointer  select-none rounded-md px-4 py-2 hover:bg-gray-200" role="option" tabindex="-1">
+                    <div class="flex items-center p-2">
+                      {{employee.first_name}} {{employee.last_name}}
+                    </div>
+                  </li>
+                </ul>
+                <div *ngIf="allEmployees?.value?.employees?.length === 0">
+                  <p disabled
+                    class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200 text-gray-500 hover:text-gray-700 hover:font-semibold">
+                    No employee (s) found </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+       <!-- EMPLOYEE DROPDOWN -->
+
+        <!-- EMPLOYEE DROPDOWN 2 -->
+        <div [ngClass]="'opacity-100 visible ease-in duration-200'"  role="dialog" aria-modal="true">
+          <div [ngClass]="'opacity-100 visible scale-100 ease-in duration-200'" class="mb-4 relative z-20">
+            <div class="mx-auto max-w-full transform rounded-xl px-0 transition-all">
+              <label class="block text-sm font-medium text-gray-700 mb-1">Assigned To Mechanic/Employee <span
+                  *ngIf="isEmployeeSelected" class="text-red-400">*</span></label>
+              <div class="flex items-center justify-between gap-x-2 rounded-md">
+                <input (keyup)="employeesearch_2$.next($event.target.value)" (click)="inputClickedEmployee_2()"
+                  [value]="employee_name_2" #employeeInput2
+                  class="w-full px-4 py-2 text-gray-900 placeholder:text-base rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
+                  placeholder="Select employee" role="" aria-expanded="false" aria-controls="options">
+              </div>
+
+              <div *ngIf="allEmployees_2 | withLoading | async as allEmployees_2" >
+                <div class="flex justify-center items-center">
+                  <ion-spinner *ngIf="allEmployees_2?.loading" name="crescent" mode="indeterminate"
+                    color="primary"></ion-spinner>
+                </div>
+                <ul *ngIf="allEmployees_2?.value && employeeUL_2"
+                  class="-mb-2 max-h-44 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800 bg-white absolute w-full"
+                  id="options" role="listbox">
+                  <li *ngFor="let employee of (allEmployees_2?.value.employees)"
+                    (click)="listClickedEmployee_2(employee)"
+                    class="cursor-pointer  select-none rounded-md px-4 py-2 hover:bg-gray-200" role="option" tabindex="-1">
+                    <div class="flex items-center p-2">
+                      {{employee.first_name}} {{employee.last_name}}
+                    </div>
+                  </li>
+                </ul>
+                <div *ngIf="allEmployees_2?.value?.employees?.length === 0">
+                  <p disabled
+                    class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200 text-gray-500 hover:text-gray-700 hover:font-semibold">
+                    No employee (s) found </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+       <!-- EMPLOYEE DROPDOWN 2 -->
+
+
+         <!-- Machinery -->
+         <div
+         [ngClass]="'opacity-100 visible ease-in duration-200'"  role="dialog" aria-modal="true">
+         <div [ngClass]="'opacity-100 visible scale-100 ease-in duration-200'" class="mb-4 relative z-10">
+           <div class="mx-auto max-w-full transform rounded-xl px-0 transition-all">
+             <label class="block text-sm font-medium text-gray-700 mb-1">Machinery ID: <span
+               *ngIf="isMachineSelected"
+               class="text-red-400">*</span></label>
+             <div class="flex items-center justify-between gap-x-2 rounded-md">
+               <input (keyup)="machine_search$.next($event.target.value)"
+                (click)="inputClickedMachinery()" [value]="machine_name"
+                #machineryInput
+                class="w-full px-4 py-2 text-gray-900 placeholder:text-base rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
+                placeholder="Select Machiery" role="" aria-expanded="false" aria-controls="options">
+             </div>
+
+             <div *ngIf="allMachinery | withLoading | async as allMachinery" >
+               <div class="flex justify-center items-center">
+                 <ion-spinner *ngIf="allMachinery?.loading" name="crescent" mode="indeterminate"
+                   color="primary"></ion-spinner>
+               </div>
+               <ul *ngIf="allMachinery?.value && machineUL"
+                 class="-mb-2 max-h-48 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800 bg-white absolute w-full"
+                 id="options" role="listbox">
+                 <li *ngFor="let machinery of (allMachinery?.value.machinery)" (click)="listClickedMachiney(machinery)"
+                   class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200" role="option"
+                   tabindex="-1">
+                   <div class="flex items-center p-2">
+                     {{machinery.name}}
+                   </div>
+                 </li>
+               </ul>
+               <div *ngIf="allMachinery?.value?.machinery?.length === 0">
+                 <p disabled
+                   class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200 text-gray-500 hover:text-gray-700 hover:font-semibold">
+                   No Machinery(s) found </p>
+               </div>
+             </div>
+           </div>
+         </div>
+       </div>
+           <!-- Machinery -->
+
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">City <span class="text-red-600"
+              *ngIf="this.createTicket.get('city').hasError('required')">*</span></label>
+          <input
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="city" placeholder="City">
+        </div>
+
+        <div>
+          <div class="col-span-12 mb-4">
+            <label class="block text-sm font-medium text-gray-700">State <span *ngIf="this.createTicket.get('state').hasError('required')" class="text-red-400" >*</span></label>
+            <ion-select
+              class="mt-1 w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+              formControlName="state" placeholder="Select State">
+              <ion-select-option *ngFor="let state of states" [value]="state">{{state}}</ion-select-option>
+            </ion-select>
+          </div>
+        </div>
+
+        <div class="col-span-12 mb-4">
+          <label class="ml-5" class="block text-sm font-medium text-gray-700">Category<span class="text-red-600"
+              *ngIf="this.createTicket.get('issueCategory').hasError('required')">*</span></label>
+          <ion-select
+            class="mt-1 w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="issueCategory" placeholder="Select Category">
+            <ion-select-option value="electrical">Electrical</ion-select-option>
+            <ion-select-option value="mechanical">Mechanical</ion-select-option>
+          </ion-select>
+        </div>
+
+        <div class="col-span-12 mb-4">
+          <label class="ml-5" class="block text-sm font-medium text-gray-700">Severity<span class="text-red-600"
+              *ngIf="this.createTicket.get('severityType').hasError('required')">*</span></label>
+          <ion-select
+            class="mt-1 w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="severityType" placeholder="Select Category">
+            <ion-select-option value="critical">Critical</ion-select-option>
+          </ion-select>
+        </div>
+
+        <!-- <div class="col-span-12 mb-4">
+          <label class="ml-5" class="block text-sm font-medium text-gray-700">Status<span class="text-red-600"
+              *ngIf="this.createTicket.get('status').hasError('required')">*</span></label>
+          <ion-select
+            class="mt-1 w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="status" placeholder="Status">
+            <ion-select-option value="1">Repair In Process</ion-select-option>
+            <ion-select-option value="2">Maintenance In Process</ion-select-option>
+          </ion-select>
+        </div> -->
+        <div class="col-span-12 mb-4">
+          <label class="ml-5" class="block text-sm font-medium text-gray-700">Status<span class="text-red-600"
+              *ngIf="this.createTicket.get('status').hasError('required')">*</span></label>
+          <ion-select
+            class="mt-1 w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="status" placeholder="Status">
+            <ion-select-option value="maintenance-in-process">Maintenance In Process</ion-select-option>
+          </ion-select>
+        </div>
+
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Detailed Description of Issue<span class="text-red-600"
+              *ngIf="this.createTicket.get('description').hasError('required')">*</span></label>
+          <textarea
+            class="mt-1 w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="description" placeholder="Type something here">
+          </textarea>
+        </div>
+
+        <!-- <div class="col-span-12 mb-4">
+
+          <label class="block text-sm font-medium text-gray-700">Maintenance Summary
+            <span class="text-red-600" *ngIf="this.createTicket.get('summary').hasError('required')">*</span></label>
+          <textarea
+            class="mt-1 w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="summary" placeholder="Enter Summary">
+          </textarea>
+        </div> -->
+
+      </ion-list>
+
+      <ion-button [disabled]="loadingSpinner | async" class="font-Lato text-white mt-8" expand="block"
+        (click)="submit()">
+        <div *ngIf="(loadingSpinner | async) === false"> Save and Submit</div>
+            <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+      </ion-button>
+    </form>
+  </div>
+
+</ion-content>

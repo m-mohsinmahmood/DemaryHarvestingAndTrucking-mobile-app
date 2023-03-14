@@ -1,0 +1,158 @@
+<app-header [title]="'Report New Equipment Issue'" [color]="'maintenance-repair'"></app-header>
+
+<ion-content>
+  <!-- <app-timer [value]="'01:12:45'"></app-timer> -->
+
+  <div class="p-4">
+    <form [formGroup]="reportNewEquipIssue">
+      <ion-list>
+        <div class="col-span-12 mb-4" *ngIf="(loading | async)=== false">
+          <label class="block text-sm font-medium text-gray-700">Employee Name </label>
+          <input
+          readonly
+          [value]="profileData.employee_name"
+          disabled
+            class="mt-1 block w-full  rounded-md border border-gray-300  text-gray-400 focus:text-gray-700
+            bg-gray-200 py-2 px-3 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+             placeholder="Enter Trainer Name">
+        </div>
+        <div class="col-span-12 mb-4" *ngIf="(loading | async)=== true">
+          <label class="block text-sm font-medium text-gray-700">Employee Name
+            </label>
+             <ion-skeleton-text  [animated]="true" style="width: 100%; height: 39px; border-radius: 5px;"></ion-skeleton-text>
+        </div>
+         <!-- Machinery -->
+         <div
+         [ngClass]="add_location_overlay ? 'opacity-100 visible ease-in duration-200' : 'opacity-0 invisible ease-out duration-300'"
+          role="dialog" aria-modal="true">
+
+         <div
+           [ngClass]="add_location_overlay ? 'opacity-100 visible scale-100 ease-in duration-200' : 'opacity-0 invisible scale-95 ease-out duration-300'"
+           class="mb-4 relative z-10">
+           <div class="mx-auto max-w-full transform rounded-xl px-0 transition-all">
+             <label class="block text-sm font-medium text-gray-700 mb-1">Machinery ID: <span
+               *ngIf="isMachineSelected"
+               class="text-red-400">*</span></label>
+             <div class="flex items-center justify-between gap-x-2 rounded-md">
+               <input (keyup)="machine_search$.next($event.target.value)"
+                (click)="inputClickedMachinery()" [value]="machine_name"
+                #machineryInput
+                class="w-full px-4 py-2 text-gray-900 placeholder:text-base rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
+                placeholder="Select Machiery" role="" aria-expanded="false" aria-controls="options">
+             </div>
+
+             <div *ngIf="allMachinery | withLoading | async as allMachinery" >
+               <div class="flex justify-center items-center">
+                 <ion-spinner *ngIf="allMachinery?.loading" name="crescent" mode="indeterminate"
+                   color="primary"></ion-spinner>
+               </div>
+               <ul *ngIf="allMachinery?.value && machineUL"
+                 class="-mb-2 max-h-48 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800 bg-white absolute w-full"
+                 id="options" role="listbox">
+                 <li *ngFor="let machinery of (allMachinery?.value.machinery)" (click)="listClickedMachiney(machinery)"
+                   class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200" role="option"
+                   tabindex="-1">
+                   <div class="flex items-center p-2">
+                     {{machinery.name}}
+                   </div>
+                 </li>
+               </ul>
+               <div *ngIf="allMachinery?.value?.machinery?.length === 0">
+                 <p disabled
+                   class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200 text-gray-500 hover:text-gray-700 hover:font-semibold">
+                   No Machinery(s) found </p>
+               </div>
+             </div>
+           </div>
+         </div>
+       </div>
+           <!-- Machinery -->
+
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">City<span class="text-red-600"
+              *ngIf="this.reportNewEquipIssue.get('city').hasError('required')">*</span></label>
+          <input
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="city" placeholder="City">
+        </div>
+
+        <div>
+          <div class="col-span-12 mb-4">
+            <label class="block text-sm font-medium text-gray-700">State <span *ngIf="this.reportNewEquipIssue.get('state').hasError('required')" class="text-red-400" >*</span></label>
+            <ion-select
+              class="mt-1 w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+              formControlName="state" placeholder="Select State">
+              <ion-select-option *ngFor="let state of states" [value]="state">{{state}}</ion-select-option>
+            </ion-select>
+          </div>
+        </div>
+
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Maintenance or Repair<span class="text-red-600"
+              *ngIf="this.reportNewEquipIssue.get('ticketType').hasError('required')">*</span></label>
+          <ion-select
+            class="mt-1 w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="ticketType" placeholder="Select Category">
+            <ion-select-option value="maintenance">Maintenance</ion-select-option>
+            <ion-select-option value="repair">Repair</ion-select-option>
+          </ion-select>
+        </div>
+
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Ticket #</label>
+          <input
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="repairTicketId" readonly placeholder="12345">
+        </div>
+
+        <div class="col-span-12 mb-4">
+          <label class="ml-5" class="block text-sm font-medium text-gray-700">Category<span class="text-red-600"
+              *ngIf="this.reportNewEquipIssue.get('issueCategory').hasError('required')">*</span></label>
+          <ion-select
+            class="mt-1 w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="issueCategory" placeholder="Select Category">
+            <ion-select-option value="electrical">Electrical</ion-select-option>
+            <ion-select-option value="mechanical">Mechanical</ion-select-option>
+          </ion-select>
+        </div>
+
+        <div class="col-span-12 mb-4">
+          <label class="ml-5" class="block text-sm font-medium text-gray-700">Severity<span class="text-red-600"
+              *ngIf="this.reportNewEquipIssue.get('severityType').hasError('required')">*</span></label>
+          <ion-select
+            class="mt-1 w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="severityType" placeholder="Select Category">
+            <ion-select-option value="critical">Critical</ion-select-option>
+          </ion-select>
+        </div>
+
+        <div class="col-span-12 mb-4">
+          <label class="ml-5" class="block text-sm font-medium text-gray-700">Status<span class="text-red-600"
+              *ngIf="this.reportNewEquipIssue.get('status').hasError('required')">*</span></label>
+          <ion-select
+            class="mt-1 w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="status" placeholder="Select Category">
+            <ion-select-option value="repair-reported">Repair Reported</ion-select-option>
+          </ion-select>
+        </div>
+
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Detail Description of Issue<span class="text-red-600"
+              *ngIf="this.reportNewEquipIssue.get('description').hasError('required')">*</span></label>
+          <textarea
+            class="mt-1 w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="description" placeholder="Type something here"></textarea>
+        </div>
+      </ion-list>
+
+      <ion-button
+      [disabled]="this.reportNewEquipIssue.invalid || (loadingSpinner | async)"
+      class="font-Lato text-white mt-8"
+      expand="block"
+        (click)="submit()">
+        <div *ngIf="(loadingSpinner | async) === false">Save and Submit</div>
+        <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner> </ion-button>
+    </form>
+
+  </div>
+</ion-content>

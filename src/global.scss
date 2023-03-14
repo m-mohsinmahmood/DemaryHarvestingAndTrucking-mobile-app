@@ -26,25 +26,16 @@
 @import "~@ionic/angular/css/flex-utils.css";
 
 button {
-    border-top-style: inherit !important;
-    border-right-style: inherit !important;
-    border-bottom-style: inherit !important;
-    border-left-style: inherit !important;
+  border-top-style: inherit !important;
+  border-right-style: inherit !important;
+  border-bottom-style: inherit !important;
+  border-left-style: inherit !important;
+}
+ion-toast.custom-toast::part(message) {
+  color: rgb(255, 255, 255);
 }
 
-.custom-segment {
-    ion-segment-button {
-        --color-checked: var(--ion-color-primary);
-    }
+ion-spinner {
+  --color: #ffffff
 }
 
-ion-chip {
-    font-size: x-small !important;
-    ion-icon {
-        font-size: small !important;
-    }
-}
-
-ion-menu {
-    max-width: 280px !important;
-}

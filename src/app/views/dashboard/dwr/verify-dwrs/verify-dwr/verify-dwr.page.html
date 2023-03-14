@@ -1,0 +1,64 @@
+
+<app-header [title]="'Verify DWRs'" [color]="'dwr'"></app-header>
+
+<ion-content>
+  <!-- <app-timer [value]="'11:22:33'"></app-timer> -->
+
+  <p class="font-semibold text-lg font-Lato ml-6 my-3">October 25th, 2022</p>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12">
+        <ion-card class="card">
+          <ion-card-content class="flex flex-col justify-between h-28">
+            <div class="flex justify-between items-center">
+              <ion-text class="font-Leto text-base">Name: <span class="font-Lato text-black">John Marr</span></ion-text>
+              <ion-text class="font-Lato">Total Hours: <span class="font-Lato text-black">8 Hrs</span></ion-text>
+            </div>
+            <div class="flex justify-between items-center">
+              <ion-text class="text-3D8AA4 font-Lato text-sm font-medium underline underline-offset-4" (click)="navigate('detail')">View Detail</ion-text>
+              <div >
+                <button class="bg-3D8AA4 text-3D8AA4 bg-opacity-20 rounded-md font-Lato text-sm px-4 py-2" (click)="navigate('send-back')">Send Back</button>
+                <button class="bg-3D8AA4 text-white rounded-md font-Lato text-sm px-4 py-2 ml-2" (click)="navigate('verify')">Verify</button>
+              </div>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col size="12">
+        <ion-card class="card">
+          <ion-card-content class="flex flex-col justify-between h-28">
+            <div class="flex justify-between items-center">
+              <ion-text class="font-Leto text-base">Name: <span class="font-Lato text-black">John Marr</span></ion-text>
+              <ion-text class="font-Lato">Total Hours: <span class="font-Lato text-black">8 Hrs</span></ion-text>
+
+            </div>
+            <div class="flex justify-between items-center">
+              <ion-text class="text-3D8AA4 font-Lato text-sm font-medium underline underline-offset-4">View Detail</ion-text>
+              <div >
+                <button class="bg-3D8AA4 text-3D8AA4 bg-opacity-20 rounded-md font-Lato text-sm px-4 py-2">Send Back</button>
+                <button class="bg-3D8AA4 text-white rounded-md font-Lato text-sm px-4 py-2 ml-2">Verify</button>
+              </div>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col size="12">
+        <ion-card class="card">
+          <ion-card-content class="flex flex-col justify-between h-28">
+            <div class="flex justify-between items-center">
+              <ion-text class="font-Leto text-base">Name: <span class="font-Lato text-black">John Marr</span></ion-text>
+              <ion-text class="font-Lato">Total Hours: <span class="font-Lato text-black">8 Hrs</span></ion-text>
+            </div>
+            <div class="flex justify-between items-center">
+              <ion-text class="text-3D8AA4 font-Lato text-sm font-medium underline underline-offset-4">View Detail</ion-text>
+              <div >
+                <button class="bg-3D8AA4 text-3D8AA4 bg-opacity-20 rounded-md font-Lato text-sm px-4 py-2">Send Back</button>
+                <button class="bg-3D8AA4 text-white rounded-md font-Lato text-sm px-4 py-2 ml-2">Verify</button>
+              </div>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  </ion-content>

@@ -1,0 +1,101 @@
+<app-header [title]="'Existing Work Orders'" [color]="'farming'"></app-header>
+
+<ion-content>
+  <!-- <app-timer [value]="'12-10-2022'"> </app-timer> -->
+  <div class="p-2">
+    <div class="segment-style">
+
+      <ion-skeleton-text [animated]="true" style="width: 100%; "
+        *ngIf="!dataLoaded.completedList && !dataLoaded.existingList"></ion-skeleton-text>
+
+      <ion-segment *ngIf="dataLoaded.completedList && dataLoaded.existingList" [(ngModel)]="segment" scrollable>
+        <ion-segment-button value="existing">
+          <div class="flex justify-center items-center">
+            <p class=" font-Lato">Existing</p>
+            <span class="text-white ml-4 w-8 h-4 rounded-full flex justify-center items-center">
+              {{existingOrdersCount}}</span>
+          </div>
+        </ion-segment-button>
+        <ion-segment-button value="completed">
+          <div class="flex justify-center items-center">
+            <p class=" font-Lato">Completed</p>
+            <span class="text-white ml-4 w-8 h-4 rounded-full flex justify-center items-center">
+              {{completeOrdersCount}}</span>
+          </div>
+        </ion-segment-button>
+      </ion-segment>
+
+      <div [ngSwitch]="segment">
+        <div *ngSwitchCase="'existing'">
+          <div *ngIf="existingWorkOrders | async as existingWorkOrders">
+            <ion-card *ngFor="let orders of (existingWorkOrders.workOrders)" class="existingTicket p-2"
+              [routerLink]="['complete-existing-order', orders]">
+              <div class="flex flex-col">
+                <div class="flex flex-row">
+                  <div class="w-full h-6 flex items-center justify-start">
+                    <span class="text-base text-black font-Lato font-bold"> {{orders.work_order_id}}</span>
+                  </div>
+                </div>
+
+                <div class="flex justify-between py-1.5">
+                  <div>
+                    <span class="text-sm text-black font-Lato">{{orders.farm_name}}</span>
+                  </div>
+                  <div>
+                    <span class="text-sm text-black font-Lato">{{orders.field_name}}</span>
+                  </div>
+                </div>
+
+                <div class="flex justify-between py-1.5 mt-2">
+                  <div class="flex flex-col">
+                    <span class="text-sm text-gray-700 font-Lato">Tractor Driver </span>
+                    <span class="text-sm font-bold text-black font-Lato">{{orders.tractor_driver_name}}</span>
+                  </div>
+                  <div class="flex flex-col items-end">
+                    <span class="text-sm text-gray-700 font-Lato">Customer </span>
+                    <span class="text-sm font-bold text-black font-Lato">{{orders.customer_first_name}}</span>
+                  </div>
+                </div>
+              </div>
+            </ion-card>
+          </div>
+        </div>
+
+        <div *ngSwitchCase="'completed'">
+          <div *ngIf="completedWorkOrders | async as completedWorkOrders">
+            <ion-card *ngFor="let orders of (completedWorkOrders.workOrders)" class="completedTicket p-2">
+              <div class="flex flex-col">
+                <div class="flex flex-row">
+                  <div class="w-full h-6 flex items-center justify-start">
+                    <span class="text-base text-black font-Lato font-bold"> {{orders.work_order_id}}</span>
+                  </div>
+                </div>
+
+                <div class="flex justify-between py-1.5">
+                  <div>
+                    <span class="text-sm text-black font-Lato">{{orders.farm_name}}</span>
+                  </div>
+                  <div>
+                    <span class="text-sm text-black font-Lato">{{orders.field_name}}</span>
+                  </div>
+                </div>
+
+                <div class="flex justify-between py-1.5 mt-2">
+                  <div class="flex flex-col">
+                    <span class="text-sm text-gray-700 font-Lato">Tractor Driver </span>
+                    <span class="text-sm font-bold text-black font-Lato">{{orders.tractor_driver_name}}</span>
+                  </div>
+                  <div class="flex flex-col items-end">
+                    <span class="text-sm text-gray-700 font-Lato">Customer </span>
+                    <span class="text-sm font-bold text-black font-Lato">{{orders.customer_name}}</span>
+                  </div>
+                </div>
+              </div>
+            </ion-card>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>
+<!-- Verify Delivery ticket End -->

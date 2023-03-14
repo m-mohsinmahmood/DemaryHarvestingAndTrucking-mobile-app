@@ -1,0 +1,136 @@
+.card {
+  box-shadow: none;
+  background: #F2F1F1;
+  text-align: center;
+  height: 135px;
+  margin: 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  ion-text {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 24px;
+  }
+}
+
+.timeline {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+.timeline-event {
+  display: flex;
+  position: relative;
+}
+
+.timeline-event:last-child {
+  height: 38px;
+  margin-bottom: 3rem;
+}
+
+.timeline-content {
+  flex: 1;
+  padding: 0 1rem;
+  font-weight: 500;
+  font-size: 19px;
+  font-family: 'Lato';
+  width: 100%;
+
+  &.complete {
+    color: #121212;
+  }
+
+  &.active {
+    color: #FF6340;
+  }
+
+  &.in-complete {
+    color: #D0D0D4;
+  }
+}
+
+.timeLineButton {
+  &.complete {
+    color: #121212;
+    --background: transparent;
+    color: transparent;
+  }
+
+  &.in-complete {
+    color: #D0D0D4;
+    --background: transparent;
+    color: transparent;
+  }
+}
+
+.timeline-point-track-container {
+  flex: 0;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.timeline-point {
+  display: flex;
+  align-self: baseline;
+  border: 2px solid white;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  ion-icon {
+    font-size: 24px;
+  }
+
+  &.complete {
+    background-color: #5BBE62;
+  }
+
+  &.active {
+    background-color: #FF6340;
+  }
+
+  &.in-complete {
+    background-color: #D0D0D4;
+  }
+}
+
+.timeline-track {
+  flex-grow: 1;
+  width: 2px;
+
+  &.complete {
+    background-color: #5BBE62;
+  }
+
+  &.active {
+    background-color: #FF6340;
+  }
+
+  &.in-complete {
+    background-color: #D0D0D4;
+  }
+}
+
+.timeline-date {
+  font-size: 14px;
+  font-style: italic;
+  padding-left: 5px;
+}
+
+// Progress Bar
+ion-progress-bar {
+  --background: #F2F3F5;
+  --progress-background: #59C64F;
+  height: 7px;
+  border-radius: 10px;
+}

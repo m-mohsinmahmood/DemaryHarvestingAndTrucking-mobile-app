@@ -1,0 +1,121 @@
+<app-header [title]="'Pre-Trip Check Digital Evaluation Form'" [color]="'training'" [routeValue]="'pre-trip'"></app-header>
+<ion-content>
+  <!-- <app-timer [value]="'01:23:45'"></app-timer> -->
+
+<div class="mx-4 my-2">
+  <ion-progress-bar class="mb-2" [buffer]="buffer" [value]="progress" ></ion-progress-bar>
+  <ion-text class="text-lg font-semibold justify-start flex font-Lato text-black ">{{progress * 5}} of 5 Categories Completed</ion-text>
+</div>
+<div class="mt-2 ml-3">
+  <ion-text class="font-semibold font-Lato text-9B9BA4 text-xl">In Cab</ion-text>
+</div>
+<form [formGroup]="preTripForm">
+  <div class="mx-4">
+    <div class="flex justify-between items-center my-3">
+     <ion-text class="font-Lato font-medium">Safety Belt</ion-text>
+      <ion-checkbox slot="start" formControlName="safetyBelt"></ion-checkbox>
+    </div>
+    <div class="flex justify-between items-center my-3">
+      <ion-text class="font-Lato font-medium" >Coolent Level</ion-text>
+       <ion-checkbox slot="start" formControlName="coolantLevelCab"></ion-checkbox>
+     </div>
+     <div class="flex justify-between items-center my-3">
+      <ion-text class="font-Lato font-medium">Emergency Equipment</ion-text>
+       <ion-checkbox slot="start" formControlName="emergencyEquipment"></ion-checkbox>
+     </div>
+     <div class="flex justify-between items-center my-3">
+      <ion-text class="font-Lato font-medium">Safe Start</ion-text>
+       <ion-checkbox slot="start" formControlName="safeStart"></ion-checkbox>
+     </div>
+     <div class="flex justify-between items-center my-3">
+      <ion-text class="font-Lato font-medium">Temperature Gauge</ion-text>
+       <ion-checkbox slot="start" formControlName="temperatureGauge"></ion-checkbox>
+     </div>
+     <div class="flex justify-between items-center my-3">
+      <ion-text class="font-Lato font-medium">Oil Pressure</ion-text>
+       <ion-checkbox slot="start" formControlName="oilPressure"></ion-checkbox>
+     </div>
+     <div class="flex justify-between items-center my-3">
+      <ion-text class="font-Lato font-medium">Volt Meter</ion-text>
+       <ion-checkbox slot="start" formControlName="voltMeter"></ion-checkbox>
+     </div>
+     <div class="flex justify-between items-center my-3">
+      <ion-text class="font-Lato font-medium">Air Gauge Bu/Co</ion-text>
+       <ion-checkbox slot="start" formControlName="airGaugeBuCo"></ion-checkbox>
+     </div>
+     <div class="flex justify-between items-center my-3">
+      <ion-text class="font-Lato font-medium">Indicators</ion-text>
+       <ion-checkbox slot="start" formControlName="indicators"></ion-checkbox>
+     </div>
+     <div class="flex justify-between items-center my-3">
+      <ion-text class="font-Lato font-medium">Horns</ion-text>
+       <ion-checkbox slot="start" formControlName="horns"></ion-checkbox>
+     </div>
+     <div class="flex justify-between items-center my-3">
+      <ion-text class="font-Lato font-medium">Defroster</ion-text>
+       <ion-checkbox slot="start" formControlName="defroster"></ion-checkbox>
+     </div>
+     <div class="flex justify-between items-center my-3">
+      <ion-text class="font-Lato font-medium">Windshield</ion-text>
+       <ion-checkbox slot="start" formControlName="windshield"></ion-checkbox>
+     </div>
+     <div class="flex justify-between items-center my-3">
+      <ion-text class="font-Lato font-medium">Wipers/Wash</ion-text>
+       <ion-checkbox slot="start" formControlName="wipersWash"></ion-checkbox>
+     </div>
+     <div class="flex justify-between items-center my-3">
+      <ion-text class="font-Lato font-medium">Park Brake</ion-text>
+       <ion-checkbox slot="start" formControlName="parkBrake"></ion-checkbox>
+     </div>
+     <div class="flex justify-between items-center my-3">
+      <ion-text class="font-Lato font-medium">Svc Brake</ion-text>
+       <ion-checkbox slot="start" formControlName="svcBrake"></ion-checkbox>
+     </div>
+     <div class="flex justify-between items-center my-3">
+      <ion-text class="font-Lato font-medium">Leak Test</ion-text>
+       <ion-checkbox slot="start" formControlName="leakTest"></ion-checkbox>
+     </div>
+     <div class="flex justify-between items-center my-3">
+      <ion-text class="font-Lato font-medium">Abs Lights</ion-text>
+       <ion-checkbox slot="start" formControlName="abcLights"></ion-checkbox>
+     </div>
+     <div class="flex justify-between items-center my-3">
+      <ion-text class="font-Lato font-medium">Light Function</ion-text>
+       <ion-checkbox slot="start" formControlName="lightFunction"></ion-checkbox>
+     </div>
+     <ion-text class="text-sm font-semibold font-Lato text-black mt-2">Add Comments</ion-text>
+       <ion-textarea [autoGrow]="true"
+       formControlName="commentsCab"
+       class="border-2 rounded-lg my-2 px-1"
+         placeholder="Add your comments here">
+       </ion-textarea>
+      </div>
+      <div class="ion-text-center my-5">
+        <ion-text class="bg-3D8AA4 bg-opacity-10 text-3D8AA4 font-medium font-Lato border-2 border-opacity-60 rounded-lg border-3D8AA4 px-5 py-2">Score = {{result}}%</ion-text>
+       </div>
+       <ion-button
+       expand="block"
+       class="close-out-button font-Lato mb-4 mt-0 mx-8 bg-opacity-10 text-white"
+       (click)="next()">
+       <div>Next</div>
+     </ion-button>
+  </form>
+   <ion-modal #modal [isOpen]="isModalOpen" backdropDismiss="false">
+    <ng-template>
+      <ion-content class="ion-padding">
+        <ion-text class="flex justify-center items-center ion-text-center">
+          This is a one-time fill form. Please verify your readings before going to the next page.
+        </ion-text>
+        <div class="flex flex-col justify-center items-center mt-3">
+          <ion-button class="text-white w-full" expand="block" (click)="submit()">
+            <div *ngIf="(loadingSpinner | async) === false">Next</div>
+            <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+          </ion-button>
+          <ion-button class="text-white w-full" expand="block" (click)="edit()">
+            Edit
+          </ion-button>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+</ion-content>

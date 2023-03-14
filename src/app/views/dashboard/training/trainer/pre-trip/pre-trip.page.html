@@ -1,0 +1,298 @@
+
+<app-header [title]="'CDL Training Pre-Trip Check'" [color]="'training'"></app-header>
+<ion-content>
+  <!-- <app-timer [value]="'01:23:45'"></app-timer> -->
+  <form class="mx-4" [formGroup]="preTrip">
+    <div class="col-span-12 mb-4 mt-2">
+      <label class="block text-sm font-medium text-gray-700">Type of Evaluation Form</label>
+      <ion-select
+        class="mt-1 w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+        formControlName="evaluation_form" placeholder="Select Evaluation Form" (ionChange)="onSelect($event)">
+        <ion-select-option value="paper-form">Paper Form</ion-select-option>
+        <ion-select-option value="digital-form">Digital Form</ion-select-option>
+        </ion-select>
+    </div>
+    <div>
+
+    <div class="col-span-12 mb-4" *ngIf="(loading | async)=== false">
+      <label class="block text-sm font-medium text-gray-700">Trainer </label>
+      <input
+      readonly
+      [value]="profileData[0].trainer_name"
+      disabled
+        class="mt-1 block w-full  rounded-md border border-gray-300  text-gray-400 focus:text-gray-700
+        bg-gray-200 py-2 px-3 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+         placeholder="Enter Trainer Name">
+    </div>
+    <div class="col-span-12 mb-4" *ngIf="(loading | async)=== true">
+      <label class="block text-sm font-medium text-gray-700">Trainer
+        </label>
+         <ion-skeleton-text  [animated]="true" style="width: 100%; height: 39px; border-radius: 5px;"></ion-skeleton-text>
+    </div>
+     <!-- TRAINEE DROPDOWN -->
+     <div [ngClass]="'opacity-100 visible ease-in duration-200'"  role="dialog" aria-modal="true">
+      <div [ngClass]="'opacity-100 visible scale-100 ease-in duration-200'" class="mb-4 relative z-20">
+        <div class="mx-auto max-w-full transform rounded-xl px-0 transition-all">
+          <label class="block text-sm font-medium text-gray-700 mb-1">Trainee<span
+              *ngIf="isTraineeSelected" class="text-red-400">*</span></label>
+          <div class="flex items-center justify-between gap-x-2 rounded-md">
+            <input (keyup)="traineeSearch$.next($event.target.value)" (click)="inputClickedTrainee()"
+              [value]="trainee_name" #traineeInput
+              class="{{isFieldDisabled? 'pointer-events-none bg-gray-200 w-full px-4 py-2 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500': 'w-full px-4 py-2 text-gray-900 placeholder:text-sm rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500'}}"
+              placeholder="Select Trainee" role="" aria-expanded="false" aria-controls="options">
+          </div>
+
+          <div *ngIf="allTrainees | withLoading | async as allTrainees" >
+            <div class="flex justify-center items-center">
+              <ion-spinner *ngIf="allTrainees?.loading" name="crescent" mode="indeterminate"
+                color="primary"></ion-spinner>
+            </div>
+            <ul *ngIf="allTrainees?.value && traineeUL"
+              class="-mb-2 max-h-44 scroll-py-2 shadow-sm shadow-slate-500 overflow-y-auto py-2 text-sm text-gray-800 bg-white absolute w-full"
+              id="options" role="listbox">
+              <li *ngFor="let trainee of (allTrainees?.value.employees)"
+                (click)="listClickedTrainee(trainee)"
+                class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200" role="option" tabindex="-1">
+                <div class="flex items-center p-2">
+                  {{trainee.first_name}} {{trainee.last_name}}
+                </div>
+              </li>
+            </ul>
+            <div *ngIf="allTrainees?.value?.employees?.length === 0">
+              <p disabled
+                class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200 text-gray-500 hover:text-gray-700 hover:font-semibold">
+                No Trainee (s) found </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+   <!-- TRAINEE DROPDOWN -->
+
+
+    <!-- SUPERVISOR DROPDOWN -->
+    <div [ngClass]="'opacity-100 visible ease-in duration-200'"  role="dialog" aria-modal="true">
+      <div [ngClass]="'opacity-100 visible scale-100 ease-in duration-200'" class="mb-4 relative z-10">
+        <div class="mx-auto max-w-full transform rounded-xl px-0 transition-all">
+          <label class="block text-sm font-medium text-gray-700 mb-1">Supervisor <span
+              *ngIf="isSupervisorSelected" class="text-red-400">*</span></label>
+          <div class="flex items-center justify-between gap-x-2 rounded-md">
+            <input (keyup)="traineeSearch$.next($event.target.value)" (click)="inputClickedSupervisor()"
+              [value]="supervisor_name" #supervisorInput
+              class="{{isFieldDisabled? 'pointer-events-none bg-gray-200 w-full px-4 py-2 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500': 'w-full px-4 py-2 text-gray-900 placeholder:text-sm rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500'}}"
+              placeholder="Select Supervisor" role="" aria-expanded="false" aria-controls="options">
+          </div>
+
+          <div *ngIf="allSupervisors | withLoading | async as allSupervisors" >
+            <div class="flex justify-center items-center">
+              <ion-spinner *ngIf="allSupervisors?.loading" name="crescent" mode="indeterminate"
+                color="primary"></ion-spinner>
+            </div>
+            <ul *ngIf="allSupervisors?.value && supervisorUL"
+              class="-mb-2 max-h-44 scroll-py-2 shadow-sm shadow-slate-500 overflow-y-auto py-2 text-sm text-gray-800 bg-white absolute w-full"
+              id="options" role="listbox">
+              <li *ngFor="let supervisor of (allSupervisors?.value.employees)"
+                (click)="listClickedSupervisor(supervisor)"
+                class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200" role="option" tabindex="-1">
+                <div class="flex items-center p-2">
+                  {{supervisor.first_name}} {{supervisor.last_name}}
+                </div>
+              </li>
+            </ul>
+            <div *ngIf="allSupervisors?.value?.employees?.length === 0">
+              <p disabled
+                class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200 text-gray-500 hover:text-gray-700 hover:font-semibold">
+                No Supervisor (s) found </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+   <!-- SUPERVISOR DROPDOWN -->
+
+
+    <div class="col-span-12 mb-4">
+      <label class="block text-sm font-medium text-gray-700">Trainee Completed CDL Classroom<span *ngIf="this.preTrip.get('is_completed_cdl_classroom').hasError('required')" class="text-red-400">*</span></label>
+      <ion-select
+        class="mt-1 w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+        formControlName="is_completed_cdl_classroom" placeholder="Trainee Completed CDL Classroom">
+        <ion-select-option value="yes">Yes</ion-select-option>
+        <ion-select-option value="no">No</ion-select-option>
+      </ion-select>
+    </div>
+
+    <div class="col-span-12 mb-4">
+      <label class="block text-sm font-medium text-gray-700">Trainee Completed Group Practical<span *ngIf="this.preTrip.get('is_completed_group_practical').hasError('required')" class="text-red-400">*</span></label>
+      <ion-select
+        class="mt-1 w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+        formControlName="is_completed_group_practical" placeholder="Trainee Completed Group Practical">
+        <ion-select-option value="yes">Yes</ion-select-option>
+        <ion-select-option value="no">No</ion-select-option>
+      </ion-select>
+    </div>
+
+    <div class="col-span-12 mb-4">
+      <label class="block text-sm font-medium text-gray-700">City <span *ngIf="this.preTrip.get('city').hasError('required')" class="text-red-400">*</span></label>
+      <input
+        class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+        formControlName="city" placeholder="Enter City">
+    </div>
+
+    <div class="col-span-12 mb-4">
+      <label class="block text-sm font-medium text-gray-700">
+        State
+        <span
+          *ngIf="this.preTrip.get('state').hasError('required')" class="text-red-400">*</span>
+          </label>
+      <ion-select
+        class="mt-1 w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+        formControlName="state" placeholder="Select State">
+        <ion-select-option *ngFor="let state of states" [value]="state">{{state}}</ion-select-option>
+      </ion-select>
+    </div>
+    <ion-button class="upload-button"
+     (click)="uploadClick()"
+     *ngIf="value === 'paper-form'"
+    class="text-white">
+      <ion-icon name="add-outline"></ion-icon>
+        Upload Form
+    </ion-button>
+<!-- For Paper Form -->
+<div *ngIf="value === 'paper-form' && upload">
+  <div class="ml-1 mt-4">
+    <ion-label class="font font-medium text-aaaaaa">Training docs (upload here)</ion-label>
+  </div>
+  <div class="flex px-2 py-2">
+    <div class="w-16 h-16 mr-2">
+      <ion-card
+        [ngClass]="!upload_1 ? ' shadow-none m-0 border-2 border-aaaaaa bg-e9e6e6' : 'shadow-none m-0 border-2 border-3D8AA4 bg-white'"
+        (click)="upload__1.click()"
+      >
+        <ion-card-content class="p-0 w-16 h-16 flex justify-center items-center">
+            <ion-segment scrollable value="done" class="bg-none">
+              <ion-segment-button value="upload" *ngIf="!upload_1">
+                <ion-icon
+                  [ngStyle]="{'color' : !upload_1 ? '#aaaaaa' : ''}"
+                  name="cloud-upload-outline"
+                >
+                </ion-icon>
+              </ion-segment-button>
+
+              <ion-segment-button value="done" *ngIf="upload_1">
+                <ion-icon
+                  [ngStyle]="{'color' : upload_1 ? '#3D8AA4' : ''}"
+                  name="cloud-done-outline"
+                >
+                </ion-icon>
+              </ion-segment-button>
+              <input
+                #upload__1
+                type="file"
+                class=" invisible hidden"
+                (change)="onSelectedFiles($event, 'upload_1')"
+              />
+            </ion-segment>
+        </ion-card-content>
+      </ion-card>
+    </div>
+    <div class="w-16 h-16 mr-2">
+      <ion-card
+        [ngClass]="!upload_2 ? ' shadow-none m-0 border-2 border-aaaaaa bg-e9e6e6' : 'shadow-none m-0 border-2 border-3D8AA4 bg-white'"
+        (click)="upload__2.click()"
+      >
+        <ion-card-content class="p-0 w-16 h-16 flex justify-center items-center">
+            <ion-segment scrollable value="done" class="bg-none">
+              <ion-segment-button value="upload" *ngIf="!upload_2">
+                <ion-icon
+                  [ngStyle]="{'color' : !upload_2 ? '#aaaaaa' : ''}"
+                  name="cloud-upload-outline"
+                >
+                </ion-icon>
+              </ion-segment-button>
+
+              <ion-segment-button value="done" *ngIf="upload_2">
+                <ion-icon
+                  [ngStyle]="{'color' : upload_2 ? '#3D8AA4' : ''}"
+                  name="cloud-done-outline"
+                >
+                </ion-icon>
+              </ion-segment-button>
+              <input
+                #upload__2
+                type="file"
+                class=" invisible hidden"
+                (change)="onSelectedFiles($event, 'upload_2')"
+              />
+            </ion-segment>
+        </ion-card-content>
+      </ion-card>
+    </div>
+    <div class="w-16 h-16 mr-2">
+      <ion-card
+        [ngClass]="!upload_3 ? ' shadow-none m-0 border-2 border-aaaaaa bg-e9e6e6' : 'shadow-none m-0 border-2 border-3D8AA4 bg-white'"
+        (click)="upload__3.click()"
+      >
+        <ion-card-content class="p-0 w-16 h-16 flex justify-center items-center">
+            <ion-segment scrollable value="done" class="bg-none">
+              <ion-segment-button value="upload" *ngIf="!upload_3">
+                <ion-icon
+                  [ngStyle]="{'color' : !upload_3 ? '#aaaaaa' : ''}"
+                  name="cloud-upload-outline"
+                >
+                </ion-icon>
+              </ion-segment-button>
+
+              <ion-segment-button value="done" *ngIf="upload_3">
+                <ion-icon
+                  [ngStyle]="{'color' : upload_3 ? '#3D8AA4' : ''}"
+                  name="cloud-done-outline"
+                >
+                </ion-icon>
+              </ion-segment-button>
+              <input
+                #upload__3
+                type="file"
+                class=" invisible hidden"
+                (change)="onSelectedFiles($event, 'upload_3')"
+
+              />
+            </ion-segment>
+        </ion-card-content>
+      </ion-card>
+    </div>
+</div>
+<ion-button expand="block"
+class="font-Lato text-white mb-4 mt-6 mx-8"
+(click)="submit()"
+[disabled]="preTrip.invalid || isTraineeSelected || isSupervisorSelected || (loadingSpinner | async)">
+<div *ngIf="(loadingSpinner | async) === false">Save</div>
+<ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner></ion-button>
+</div>
+<!-- For Digital Form -->
+<div *ngIf="value === 'digital-form'">
+<ion-button expand="block"
+ class="font-Lato text-white mb-4 mt-6 mx-8"
+ (click)="continue()"
+ [disabled]="preTrip.invalid || isTraineeSelected || isSupervisorSelected || (loadingSpinner | async)">
+  <div *ngIf="(loadingSpinner | async) === false">Continue</div>
+  <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner></ion-button>
+</div>
+
+  </div>
+  </form>
+
+  <!-- MODEL -->
+<ion-modal #modal [isOpen]="isModalOpen" backdropDismiss="false">
+  <ng-template>
+    <ion-content class="ion-padding">
+      <ion-text class="flex justify-center items-center ion-text-center">
+         You need to first complete your started evaluation
+      </ion-text>
+      <div class="flex justify-center items-center mt-3">
+        <ion-button class="text-white" (click)="completeEvaluation(); modal.dismiss()">Complete evaluation</ion-button>
+      </div>
+    </ion-content>
+  </ng-template>
+</ion-modal>
+ <!-- MODEL -->
+</ion-content>

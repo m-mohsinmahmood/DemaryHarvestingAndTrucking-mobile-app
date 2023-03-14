@@ -1,0 +1,8 @@
+ <ion-header class="ion-no-border">
+  <ion-toolbar class="toolbar {{color}}">
+    <span class="flex items-center">
+      <ion-icon name="chevron-back-outline" (click)="goBack()" *ngIf="!(title === 'Dashboard')"></ion-icon>
+      <span class="flex justify-center w-full text-center font-Lato">{{title}}</span>
+    </span>
+  </ion-toolbar>
+</ion-header>

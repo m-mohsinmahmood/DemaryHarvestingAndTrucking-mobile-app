@@ -1,0 +1,127 @@
+<app-header [title]="'Training Records'" [color]="'training'" [routeValue]="'search-records'"></app-header>
+<ion-content>
+  <!-- <app-timer [value]="'11:22:00'"></app-timer> -->
+  <div class="mx-6 mt-6">
+    <div class="flex justify-between items-center my-3" *ngIf="(loading |async) === false">
+      <ion-text class="font-Lato text-9B9BA4"> Trainee</ion-text>
+      <ion-text class="font-Lato font-semibold"> {{records[0]?.trainee_name? records[0]?.trainee_name: "No Record" }}</ion-text>
+    </div>
+    <div class="flex justify-between items-center my-3" *ngIf="(loading |async) === true">
+      <ion-text class="font-Lato text-9B9BA4"> Trainee</ion-text>
+      <ion-skeleton-text  [animated]="true" style="width: 40%; height: 19px; border-radius: 5px;"></ion-skeleton-text>
+    </div>
+    <!-- <div class="flex justify-between items-center my-3" *ngIf="(loading |async) === false">
+      <ion-text class="font-Lato text-9B9BA4"> Trainer</ion-text>
+      <ion-text class="font-Lato font-semibold"> {{records.trainer_name}}</ion-text>
+    </div>
+    <div class="flex justify-between items-center my-3" *ngIf="(loading |async) === true">
+      <ion-text class="font-Lato text-9B9BA4"> Trainer</ion-text>
+      <ion-skeleton-text  [animated]="true" style="width: 40%; height: 19px; border-radius: 5px;"></ion-skeleton-text>
+    </div> -->
+    <div class="flex justify-between items-center my-3" *ngIf="(loading |async) === false">
+      <ion-text class="font-Lato text-9B9BA4"> Evaluation Form</ion-text>
+      <ion-text class="font-Lato font-semibold"> {{records[0]?.evaluation_type?(records[0]?.evaluation_type | titlecase ):"No Record"}}</ion-text>
+    </div>
+    <div class="flex justify-between items-center my-3" *ngIf="(loading |async) === true">
+      <ion-text class="font-Lato text-9B9BA4"> Evaluation Form</ion-text>
+      <ion-skeleton-text  [animated]="true" style="width: 40%; height: 19px; border-radius: 5px;"></ion-skeleton-text>
+    </div>
+    <div class="flex justify-between items-center my-3" *ngIf="(loading |async) === false">
+      <ion-text class="font-Lato text-9B9BA4"> Form Type</ion-text>
+      <ion-text class="font-Lato font-semibold" *ngIf="records.message">No Record</ion-text>
+      <ion-text class="font-Lato font-semibold" *ngIf="!records.message"> {{records[0]?.evaluation_form === 'paper-form'?'Paper Form' : 'Digital Form'}}</ion-text>
+    </div>
+    <div class="flex justify-between items-center my-3" *ngIf="(loading |async) === true">
+      <ion-text class="font-Lato text-9B9BA4"> Form Type</ion-text>
+      <ion-skeleton-text  [animated]="true" style="width: 40%; height: 19px; border-radius: 5px;"></ion-skeleton-text>
+    </div>
+    <div class="my-9">
+      <div *ngIf="(loading |async) === true">
+        <div class="flex justify-start mb-3">
+          <ion-skeleton-text  [animated]="true" style="width: 7%; height: 20px; border-radius: 5px;"></ion-skeleton-text>
+          <ion-text class="font-Lato ml-2 font-semibold"
+            >Trainee completed CDL Classroom</ion-text
+          >
+        </div>
+        <div class="flex justify-start mb-3">
+          <ion-skeleton-text  [animated]="true" style="width: 7%; height: 20px; border-radius: 5px;"></ion-skeleton-text>
+          <ion-text class="font-Lato ml-2 font-semibold"
+            >Trainee completed Group Practical</ion-text
+          >
+        </div>
+      </div>
+      <div *ngIf="(loading |async) === false">
+      <div class="ion-text-start mb-3" *ngIf="records[0]?.is_completed_cdl_classroom">
+        <ion-icon name="checkmark-outline"></ion-icon>
+        <ion-text class="font-Lato ml-2 font-semibold"
+          >Trainee completed CDL Classroom</ion-text
+        >
+      </div>
+      <div class="ion-text-start mb-3" *ngIf="records[0]?.is_completed_group_practical">
+        <ion-icon name="checkmark-outline"></ion-icon>
+        <ion-text class="font-Lato ml-2 font-semibold"
+          >Trainee completed Group Practical</ion-text
+        >
+      </div>
+       <div class="ion-text-start mb-3" *ngIf="!records[0]?.is_completed_cdl_classroom">
+        <ion-icon name="close-outline"></ion-icon>
+        <ion-text class="font-Lato ml-2 font-semibold"
+          >Trainee completed CDL Classroom</ion-text
+        >
+      </div>
+      <div class="ion-text-start mb-3" *ngIf="!records[0]?.is_completed_group_practical">
+        <ion-icon name="close-outline"></ion-icon>
+        <ion-text class="font-Lato ml-2 font-semibold"
+          >Trainee completed Group Practical</ion-text
+        >
+      </div>
+    </div>
+    </div>
+    <ion-text class="font-Lato text-xl font-bold px-4"
+      >History</ion-text
+    >
+<div *ngIf="(loading |async) === true" class="h-64 flex justify-center items-center">
+    <ion-spinner name="crescent" class="h-14 w-14"></ion-spinner>
+</div>
+  <div *ngIf="(loading |async) === false">
+    <div *ngIf="evaluationType === 'paper-form'">
+    <div *ngIf="records.message">
+      <ion-text class="h-64 flex justify-center items-center font-Lato text-lg font-semibold">{{records.message}}</ion-text>
+    </div>
+    <div *ngIf="!records.message">
+      <ion-card (click)="navigate(formType,record)" *ngFor="let record of records">
+        <ion-card-content>
+          <div class="flex justify-between items-center mb-2">
+            <ion-text class="font-Lato text-black font-semibold text-lg">
+               {{moment(record.created_at).format('MMMM DD, YYYY')}}
+            </ion-text>
+            <ion-icon name="arrow-forward-outline" [ngStyle]="{'color': '#0CA3C7'}" class="w-10 h-7"></ion-icon>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+    <ion-button expand="block" class="close-out-button font-Lato mb-4 mt-0 mx-8 bg-opacity-10 text-white">Exit</ion-button>
+  </div>
+
+    <div *ngIf="evaluationType === 'digital-form'">
+      <div *ngIf="records.message">
+        <ion-text class="h-64 flex justify-center items-center font-Lato text-lg font-semibold">{{records.message}}</ion-text>
+      </div>
+      <div *ngIf="!records.message">
+        <ion-card (click)="navigate(formType,record)" *ngFor="let record of records">
+          <ion-card-content>
+            <div class="flex justify-between items-center mb-2">
+              <ion-text class="font-Lato text-black font-semibold text-lg">
+                 {{moment(record.created_at).format('MMMM DD, YYYY')}}
+              </ion-text>
+              <ion-icon name="arrow-forward-outline" [ngStyle]="{'color': '#0CA3C7'}" class="w-10 h-7"></ion-icon>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </div>
+
+  </div>
+</div>
+
+  </div>
+</ion-content>

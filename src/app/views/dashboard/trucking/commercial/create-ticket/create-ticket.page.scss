@@ -1,0 +1,29 @@
+input[type="file"] {
+  display: none !important;
+}
+
+.custom-file-upload {
+  border: 1px solid #5BBE62;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  height: 3rem;
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  cursor: pointer;
+}
+ion-segment {
+  --background: none;
+  ion-segment-button {
+    min-width: 10px;
+    color: #aaaaaa;
+    --border-color: none;
+    --indicator-color: none;
+    --indicator-box-shadow: 0;
+    ion-icon {
+      zoom: 1;
+    }
+  }
+}
