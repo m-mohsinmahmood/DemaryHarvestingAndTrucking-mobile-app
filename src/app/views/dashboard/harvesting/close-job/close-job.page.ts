@@ -128,7 +128,7 @@ export class CloseJobPage implements OnInit {
         if (this.role === 'kart-operator') {
           this.closeJobFormKart.patchValue({
             // passing to pre-filled
-            workOrderId: this.customerData?.workOrders[0]?.id,
+            jobId: this.customerData?.workOrders[0]?.id,
           });
 
         }
@@ -158,7 +158,7 @@ export class CloseJobPage implements OnInit {
     this.closeJobFormKart = this.formBuilder.group({
       endingEngineHours: ['', [Validators.required]],
       employeeId: localStorage.getItem('employeeId'),
-      workOrderId: [''],
+      jobId: [''],
     });
     this.closeJobFormTruck = this.formBuilder.group({
       ending_odometer_miles: ['', [Validators.required]],
@@ -193,7 +193,7 @@ export class CloseJobPage implements OnInit {
         );
 
       const dayClosed = {
-        workOrderId: this.customerData.workOrders[0].id,
+        jobId: this.customerData.workOrders[0].id,
         endingEngineHours: this.closeJobFormCrew.get('endingEngineHours').value,
         ending_separator_hours: this.closeJobFormCrew.get(
           'ending_separator_hours'
@@ -245,7 +245,7 @@ export class CloseJobPage implements OnInit {
 
       console.log(this.closeJobFormCombine.value);
       const dayClosed = {
-        workOrderId: this.customerData.workOrders[0].id,
+        jobId: this.customerData.workOrders[0].id,
         endingEngineHours:this.closeJobFormCombine.get('endingEngineHours').value,
         ending_separator_hours: this.closeJobFormCombine.get(
           'ending_separator_hours'
