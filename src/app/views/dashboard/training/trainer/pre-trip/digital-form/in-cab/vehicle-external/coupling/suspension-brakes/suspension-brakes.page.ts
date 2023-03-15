@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
+import { CheckInOutService } from 'src/app/components/check-in-out/check-in-out.service';
 import { ToastService } from 'src/app/services/toast/toast.service';
 import { TrainingService } from 'src/app/views/dashboard/training/training.service';
 
@@ -23,16 +24,21 @@ export class SuspensionBrakesPage implements OnInit {
   isModalOpen = false;
   trainer_id;
   supervisor_id;
+  active_check_in_id: any;
   public loadingSpinner = new BehaviorSubject(false);
+  public activeCheckInSpinner = new BehaviorSubject(false);
+
 
   constructor(private formBuilder: FormBuilder,
     private router:  Router,
     private trainingService: TrainingService,
     private toastService: ToastService,
     private route: ActivatedRoute,
+    private dwrServices: CheckInOutService
     ) { }
 
   ngOnInit() {
+
      // getting id & role
    this.getRoleAndID();
 
@@ -163,8 +169,13 @@ export class SuspensionBrakesPage implements OnInit {
              // spinner
           this.loadingSpinner.next(false);
 
+          // getting check-in id
+          this.getCheckInID();
+
            // creating DWR
-           this.createDWR();
+           console.log('000',this.activeCheckInSpinner.getValue());
+          //  if(this.activeCheckInSpinner.getValue() === false){ this.createDWR();}
+          this.createDWR();
 
            // tooltip
           this.toastService.presentToast(
@@ -188,6 +199,17 @@ export class SuspensionBrakesPage implements OnInit {
         this.toastService.presentToast(err.mssage, 'danger');
       }
     );
+  }
+
+  getCheckInID(){
+    this.activeCheckInSpinner.next(true);
+
+    this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
+      console.log('Active Check ID: ', workOrder.dwr[0].id);
+      this.active_check_in_id = workOrder.dwr[0].id;
+      this.activeCheckInSpinner.next(false);
+    });
+
   }
 
   createDWR(){
