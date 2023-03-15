@@ -121,23 +121,23 @@ export class DashboardPage implements OnInit {
 
     if (this.activeDwr[0].module === 'farming') {
       this.isModalOpen = false;
-      console.log(this.isModalOpen);
       this.nav.navigate(['farming'], { relativeTo: this.activatedRoute });
     }
     else if (this.activeDwr[0].module === 'trucking') {
       this.isModalOpen = false;
-      console.log(this.isModalOpen);
       this.nav.navigate(['trucking'], { relativeTo: this.activatedRoute });
     }
     else if (this.activeDwr[0].module === 'harvesting') {
       this.isModalOpen = false;
-      console.log(this.isModalOpen);
       this.nav.navigate(['harvesting'], { relativeTo: this.activatedRoute });
     }
     else if (this.activeDwr[0].module === 'maintenance-repair') {
       this.isModalOpen = false;
-      console.log(this.isModalOpen);
       this.nav.navigate(['maintenance-repair'], { relativeTo: this.activatedRoute });
+    }
+    else if (this.activeDwr[0].module === 'training') {
+      this.isModalOpen = false;
+      this.nav.navigate(['training'], { relativeTo: this.activatedRoute });
     }
   }
 }
