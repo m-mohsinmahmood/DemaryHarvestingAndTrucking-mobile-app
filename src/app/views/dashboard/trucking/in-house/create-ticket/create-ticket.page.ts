@@ -6,6 +6,7 @@ import { ToastService } from 'src/app/services/toast/toast.service';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { TruckingService } from '../../trucking.service';
 import * as moment from 'moment';
+import { states } from 'src/JSON/state';
 
 @Component({
   selector: 'app-create-ticket',
@@ -60,6 +61,9 @@ export class CreateTicketPage implements OnInit {
   createTicketFormDispatcherInHouse: FormGroup;
   createTicketFormTruckDriverInHouse: FormGroup;
 
+  states: string[];
+
+
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
   constructor(
@@ -112,6 +116,9 @@ export class CreateTicketPage implements OnInit {
 
   ngOnInit() {
     this.role = localStorage.getItem('role');
+
+    // pasing states
+    this.states = states;
 
     if (localStorage.getItem('role') === 'dispatcher') {
       this.customerSearchSubscription();
