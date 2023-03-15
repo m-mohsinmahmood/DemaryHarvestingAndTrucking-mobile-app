@@ -19,6 +19,7 @@ import * as moment from 'moment';
 import { Subject, Observable, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { ToastService } from 'src/app/services/toast/toast.service';
+import { states } from 'src/JSON/state';
 import { TruckingService } from '../../trucking.service';
 
 @Component({
@@ -112,6 +113,8 @@ export class CreateTicketPage implements OnInit {
   loadupload_1 = false;
   loadupload_2 = false;
 
+  states: string[];
+
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
   constructor(
@@ -170,6 +173,9 @@ export class CreateTicketPage implements OnInit {
 
   ngOnInit() {
     this.role = localStorage.getItem('role');
+
+      // pasing states
+      this.states = states;
 
     if (localStorage.getItem('role') === 'dispatcher') {
       this.customerSearchSubscription();
