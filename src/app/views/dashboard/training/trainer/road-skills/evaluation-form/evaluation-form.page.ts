@@ -186,17 +186,17 @@ endEvaluation(){
       // getting check-in id
       this.getCheckInID();
 
-      // creating DWR
-     this.createDWR();
+    //   // creating DWR
+    //  this.createDWR();
 
-        // tooltip
-        this.toastService.presentToast(
-          'Evaluation ended',
-          'success'
-        );
+        // // tooltip
+        // this.toastService.presentToast(
+        //   'Evaluation ended',
+        //   'success'
+        // );
 
-        // navigating
-        this.router.navigateByUrl('/tabs/home/training/trainer');
+        // // navigating
+        // this.router.navigateByUrl('/tabs/home/training/trainer');
 
       } else {
         console.log('Something happened :)');
@@ -210,12 +210,15 @@ endEvaluation(){
   );
 }
 getCheckInID(){
-  this.activeCheckInSpinner.next(true);
 
   this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
+    this.activeCheckInSpinner.next(true);
     console.log('Active Check ID: ', workOrder.dwr[0].id);
     this.active_check_in_id = workOrder.dwr[0].id;
     this.activeCheckInSpinner.next(false);
+
+      // creating DWR
+      this.createDWR();
   });
 
 }
@@ -226,6 +229,15 @@ createDWR(){
    .subscribe(
      (res) => {
        if (res.status === 200) {
+        // tooltip
+        this.toastService.presentToast(
+          'Evaluation ended',
+          'success'
+        );
+
+        // navigating
+        this.router.navigateByUrl('/tabs/home/training/trainer');
+
        } else {
          console.log('Something happened :)');
          this.toastService.presentToast(res.mssage, 'danger');

@@ -172,22 +172,6 @@ export class SuspensionBrakesPage implements OnInit {
           // getting check-in id
           this.getCheckInID();
 
-           // creating DWR
-          //  if(this.activeCheckInSpinner.getValue() === false){this.createDWR();}
-
-
-          //  // tooltip
-          // this.toastService.presentToast(
-          //   'Digital evaluation completed',
-          //   'success'
-          // );
-
-        // //  navigating
-        // if (this.isModalOpen === false) {
-        //   setTimeout(()=>{
-        //     this.router.navigate(['/tabs/home/training/trainer']);
-        //   },500);
-        // }
         } else {
           console.log('Something happened :)');
           this.toastService.presentToast(res.mssage, 'danger');

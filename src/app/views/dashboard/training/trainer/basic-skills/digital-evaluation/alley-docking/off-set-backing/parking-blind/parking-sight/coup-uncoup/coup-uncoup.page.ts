@@ -148,19 +148,6 @@ export class CoupUncoupPage implements OnInit {
             // creating DWR
            this.createDWR();
 
-           // tooltip
-            this.toastService.presentToast(
-              'Digital Evaluation completed',
-              'success'
-            );
-
-            // navigating
-          if (this.isModalOpen === false) {
-            setTimeout(()=>{
-              this.router.navigate(['/tabs/home/training/trainer']);
-            },500);
-          }
-
           } else {
             console.log('Something happened :)');
             this.toastService.presentToast(res.mssage, 'danger');
@@ -193,12 +180,15 @@ export class CoupUncoupPage implements OnInit {
         });
     }
     getCheckInID(){
-      this.activeCheckInSpinner.next(true);
 
       this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
+        this.activeCheckInSpinner.next(true);
         console.log('Active Check ID: ', workOrder.dwr[0].id);
         this.active_check_in_id = workOrder.dwr[0].id;
         this.activeCheckInSpinner.next(false);
+
+       // creating DWR
+      this.createDWR();
       });
 
     }
@@ -209,6 +199,19 @@ export class CoupUncoupPage implements OnInit {
        .subscribe(
          (res) => {
            if (res.status === 200) {
+            // tooltip
+            this.toastService.presentToast(
+              'Digital Evaluation completed',
+              'success'
+            );
+
+            // navigating
+          if (this.isModalOpen === false) {
+            setTimeout(()=>{
+              this.router.navigate(['/tabs/home/training/trainer']);
+            },500);
+          }
+
            } else {
              console.log('Something happened :)');
              this.toastService.presentToast(res.mssage, 'danger');
