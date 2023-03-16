@@ -129,6 +129,18 @@
             </div>
           </div>
         </div>
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">
+            State
+            <span
+              *ngIf="this.createOrderDispatcher.get('state').hasError('required')" class="text-red-400">*</span>
+              </label>
+          <ion-select
+            class="mt-1 w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="state" placeholder="Select State">
+            <ion-select-option *ngFor="let state of states" [value]="state">{{state}}</ion-select-option>
+          </ion-select>
+        </div>
 
         <div class="col-span-12 mb-4">
           <label class="block text-sm font-medium text-gray-700">Total Acres</label>
@@ -455,6 +467,18 @@
               </div>
             </div>
           </div>
+        </div>
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">
+            State
+            <span
+              *ngIf="this.createOrderTDriver.get('state').hasError('required')" class="text-red-400">*</span>
+              </label>
+          <ion-select
+            class="mt-1 w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="state" placeholder="Select State">
+            <ion-select-option *ngFor="let state of states" [value]="state">{{state}}</ion-select-option>
+          </ion-select>
         </div>
 
         <div class="col-span-12 mb-4">

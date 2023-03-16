@@ -5,6 +5,7 @@ import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { FarmingService } from './../farming.service';
 import { ToastService } from './../../../../services/toast/toast.service';
+import { states } from 'src/JSON/state';
 
 @Component({
   selector: 'app-create-order',
@@ -78,6 +79,8 @@ export class CreateOrderPage implements OnInit {
   //Farm ID for selected Fields
   farmId: any;
   employeeName: any;
+  states: string[];
+
 
   public loadingSpinner = new BehaviorSubject(false);
 
@@ -198,6 +201,9 @@ export class CreateOrderPage implements OnInit {
   }
 
   ngOnInit() {
+    // pasing states
+    this.states = states;
+
     this.farmingService.getEmployeesById(localStorage.getItem('employeeId')).subscribe(param => {
       console.log(param);
       this.employeeName = param.employee_info.first_name + ' ' + param.employee_info.last_name;
@@ -217,6 +223,7 @@ export class CreateOrderPage implements OnInit {
       customerId: ['', [Validators.required]],
       farmId: ['', [Validators.required]],
       fieldId: ['', [Validators.required]],
+      state: ['', [Validators.required]],
       service: ['', [Validators.required]],
       tractorDriverId: ['', [Validators.required]],
       fieldAddress: ['', [Validators.required]],
@@ -231,6 +238,7 @@ export class CreateOrderPage implements OnInit {
       dispatcherId: ['', [Validators.required]],
       customerId: ['', [Validators.required]],
       farmId: ['', [Validators.required]],
+      state: ['', [Validators.required]],
       fieldId: ['', [Validators.required]],
       service: ['', [Validators.required]],
       fieldAddress: ['', [Validators.required]],
