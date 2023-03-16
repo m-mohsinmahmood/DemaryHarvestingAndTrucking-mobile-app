@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
+import { CheckInOutService } from 'src/app/components/check-in-out/check-in-out.service';
 import { ToastService } from 'src/app/services/toast/toast.service';
 import { TrainingService } from 'src/app/views/dashboard/training/training.service';
 
@@ -29,16 +30,19 @@ export class CoupUncoupPage implements OnInit {
   training_record: any;
   checkValue: any;
   isModalOpen = false;
-
+  active_check_in_id: any;
 
   public loadingSpinner = new BehaviorSubject(false);
+  public activeCheckInSpinner = new BehaviorSubject(false);
 
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
     private trainingService: TrainingService,
     private toastService: ToastService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private dwrServices: CheckInOutService
+
 
     ) { }
 
@@ -138,6 +142,9 @@ export class CoupUncoupPage implements OnInit {
           // spinner
             this.loadingSpinner.next(false);
 
+            // getting check-in id
+          this.getCheckInID();
+
             // creating DWR
            this.createDWR();
 
@@ -185,10 +192,20 @@ export class CoupUncoupPage implements OnInit {
           });
         });
     }
+    getCheckInID(){
+      this.activeCheckInSpinner.next(true);
+
+      this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
+        console.log('Active Check ID: ', workOrder.dwr[0].id);
+        this.active_check_in_id = workOrder.dwr[0].id;
+        this.activeCheckInSpinner.next(false);
+      });
+
+    }
     createDWR(){
       console.log(this.supervisor_id);
       this.trainingService
-       .createDWR(this.trainer_id, this.training_record_id,'basic-skills','digital-form',this.supervisor_id)
+       .createDWR(this.trainer_id, this.training_record_id,'basic-skills','digital-form',this.supervisor_id,this.active_check_in_id)
        .subscribe(
          (res) => {
            if (res.status === 200) {

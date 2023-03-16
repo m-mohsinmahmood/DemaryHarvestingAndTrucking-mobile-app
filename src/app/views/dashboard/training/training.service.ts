@@ -111,7 +111,7 @@ export class TrainingService {
     })
     .pipe(take(1));
   }
-  createDWR(employeeId: any, training_record_id: any,evaluation_type,evaluation_form,supervisor_id: any){
+  createDWR(employeeId: any, training_record_id: any,evaluation_type,evaluation_form,supervisor_id: any,dwrId){
     const data = {
       dwr_type: 'training',
       module: 'training',
@@ -120,7 +120,7 @@ export class TrainingService {
       evaluation_type,
       evaluation_form,
       supervisor_id,
-      dwrId: '7db4a117-67d9-42cb-a0c0-c89724855025'
+      dwrId
     };
     return this.httpClient
       .post<any>(`api-1/dwr`, data)

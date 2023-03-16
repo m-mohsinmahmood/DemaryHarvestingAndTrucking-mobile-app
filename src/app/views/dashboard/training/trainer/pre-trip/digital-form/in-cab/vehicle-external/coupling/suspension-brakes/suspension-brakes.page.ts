@@ -173,8 +173,6 @@ export class SuspensionBrakesPage implements OnInit {
           this.getCheckInID();
 
            // creating DWR
-           console.log('000',this.activeCheckInSpinner.getValue());
-          //  if(this.activeCheckInSpinner.getValue() === false){ this.createDWR();}
           this.createDWR();
 
            // tooltip
@@ -214,7 +212,7 @@ export class SuspensionBrakesPage implements OnInit {
 
   createDWR(){
     this.trainingService
-     .createDWR(this.trainer_id, this.training_record_id,'pre-trip','digital-form',this.supervisor_id)
+     .createDWR(this.trainer_id, this.training_record_id,'pre-trip','digital-form',this.supervisor_id,this.active_check_in_id)
      .subscribe(
        (res) => {
          console.log('RES:', res);
