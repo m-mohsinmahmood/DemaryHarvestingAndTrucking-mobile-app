@@ -173,20 +173,21 @@ export class SuspensionBrakesPage implements OnInit {
           this.getCheckInID();
 
            // creating DWR
-          this.createDWR();
+          //  if(this.activeCheckInSpinner.getValue() === false){this.createDWR();}
 
-           // tooltip
-          this.toastService.presentToast(
-            'Digital evaluation completed',
-            'success'
-          );
 
-          // navigating
-        if (this.isModalOpen === false) {
-          setTimeout(()=>{
-            this.router.navigate(['/tabs/home/training/trainer']);
-          },500);
-        }
+          //  // tooltip
+          // this.toastService.presentToast(
+          //   'Digital evaluation completed',
+          //   'success'
+          // );
+
+        // //  navigating
+        // if (this.isModalOpen === false) {
+        //   setTimeout(()=>{
+        //     this.router.navigate(['/tabs/home/training/trainer']);
+        //   },500);
+        // }
         } else {
           console.log('Something happened :)');
           this.toastService.presentToast(res.mssage, 'danger');
@@ -200,23 +201,40 @@ export class SuspensionBrakesPage implements OnInit {
   }
 
   getCheckInID(){
-    this.activeCheckInSpinner.next(true);
-
     this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
+      this.activeCheckInSpinner.next(true);
       console.log('Active Check ID: ', workOrder.dwr[0].id);
       this.active_check_in_id = workOrder.dwr[0].id;
       this.activeCheckInSpinner.next(false);
+
+       // creating DWR
+      this.createDWR();
     });
 
   }
 
   createDWR(){
+    console.log('check-in id:', this.active_check_in_id);
     this.trainingService
      .createDWR(this.trainer_id, this.training_record_id,'pre-trip','digital-form',this.supervisor_id,this.active_check_in_id)
      .subscribe(
        (res) => {
          console.log('RES:', res);
          if (res.status === 200) {
+
+           // tooltip
+           this.toastService.presentToast(
+            'Digital evaluation completed',
+            'success'
+          );
+
+          //  navigating
+        if (this.isModalOpen === false) {
+          setTimeout(()=>{
+            this.router.navigate(['/tabs/home/training/trainer']);
+          },500);
+        }
+
            this.router.navigateByUrl('/tabs/home/training/trainer');
          } else {
            console.log('Something happened :)');
