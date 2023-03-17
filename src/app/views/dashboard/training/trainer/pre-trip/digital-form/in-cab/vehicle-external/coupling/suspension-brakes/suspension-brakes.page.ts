@@ -219,7 +219,7 @@ export class SuspensionBrakesPage implements OnInit {
           },500);
         }
 
-           this.router.navigateByUrl('/tabs/home/training/trainer');
+          //  this.router.navigateByUrl('/tabs/home/training/trainer');
          } else {
            console.log('Something happened :)');
            this.toastService.presentToast(res.mssage, 'danger');

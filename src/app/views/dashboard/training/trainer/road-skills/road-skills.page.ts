@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 /* eslint-disable no-var */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable @typescript-eslint/naming-convention */
@@ -9,6 +10,7 @@ import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { ToastService } from 'src/app/services/toast/toast.service';
 import { states } from 'src/JSON/state';
 import { TrainingService } from '../../training.service';
+import { CheckInOutService } from 'src/app/components/check-in-out/check-in-out.service';
 
 @Component({
   selector: 'app-road-skills',
@@ -73,13 +75,18 @@ export class RoadSkillsPage implements OnInit {
      isTruckSelected: any = true;
      //#endregion
 
+  active_check_in_id: any;
+  public activeCheckInSpinner = new BehaviorSubject(false);
+
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
   constructor(private formBuilder: FormBuilder,
     private router: Router,
     private renderer: Renderer2,
     private trainingService: TrainingService,
-    private toastService: ToastService) {
+    private toastService: ToastService,
+    private dwrServices: CheckInOutService
+    ) {
       this.renderer.listen('window', 'click', (e) => {
         if (e.target !== this.traineeInput.nativeElement) {
           this.allTrainees = of([]);
@@ -217,12 +224,19 @@ export class RoadSkillsPage implements OnInit {
       (res) => {
         console.log('RES:', res);
         if (res.status === 200) {
-          this.loadingSpinner.next(false);
 
-          this.toastService.presentToast(
-            'Your details have been submitted',
-            'success'
-          );
+            // passing record id
+            this.training_record_id = res.id.record_id;
+
+            // getting check-in id
+            this.getCheckInID();
+
+          // this.loadingSpinner.next(false);
+
+          // this.toastService.presentToast(
+          //   'Your details have been submitted',
+          //   'success'
+          // );
           // this.router.navigateByUrl('/tabs/home/training/trainer');
 
         } else {
@@ -236,6 +250,55 @@ export class RoadSkillsPage implements OnInit {
       }
     );
   }
+
+  getCheckInID(){
+    this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
+      this.activeCheckInSpinner.next(true);
+      console.log('Active Check ID: ', workOrder.dwr[0].id);
+      this.active_check_in_id = workOrder.dwr[0].id;
+      this.activeCheckInSpinner.next(false);
+
+       // creating DWR
+      this.createDWR();
+    });
+
+  }
+
+  createDWR(){
+    let supervisor_id;
+    supervisor_id = this.roadTestForm.get('supervisor_id').value;
+    this.trainingService
+     .createDWR(this.trainer_id, this.training_record_id,'','road-skills','paper-form',supervisor_id,this.active_check_in_id)
+     .subscribe(
+       (res) => {
+         console.log('RES:', res);
+         if (res.status === 200) {
+
+          // to stop loader
+          this.loadingSpinner.next(false);
+
+
+           // tooltip
+           this.toastService.presentToast(
+            'Your details have been submitted',
+            'success'
+          );
+
+          //  navigating
+          //  this.router.navigateByUrl('/tabs/home/training');
+         } else {
+           console.log('Something happened :)');
+           this.toastService.presentToast(res.mssage, 'danger');
+         }
+       },
+       (err) => {
+         console.log('ERROR::', err);
+         this.toastService.presentToast(err.mssage, 'danger');
+         this.loadingSpinner.next(false);
+
+       }
+     );
+ }
   continue(){
     console.log(this.roadTestForm.value);
     // Form Data

@@ -113,6 +113,9 @@ export class TrainingService {
   }
   createDWR(employeeId: any, training_record_id: any,trainee_record_id: any, evaluation_type,evaluation_form,supervisor_id: any,dwrId){
     let data;
+    console.log('trainee_record_id',trainee_record_id);
+    console.log('training_record_id',training_record_id);
+
     if(trainee_record_id){
        data = {
         dwr_type: 'training',
@@ -137,6 +140,7 @@ export class TrainingService {
           dwrId,
         };
     }
+    console.log('DATA:',data);
     return this.httpClient
       .post<any>(`api-1/dwr`, data)
       .pipe(take(1));
