@@ -200,7 +200,7 @@ export class SuspensionBrakesPage implements OnInit {
   createDWR(){
     console.log('check-in id:', this.active_check_in_id);
     this.trainingService
-     .createDWR(this.trainer_id, this.training_record_id,'pre-trip','digital-form',this.supervisor_id,this.active_check_in_id)
+     .createDWR(this.trainer_id, this.training_record_id,'','pre-trip','digital-form',this.supervisor_id,this.active_check_in_id)
      .subscribe(
        (res) => {
          console.log('RES:', res);

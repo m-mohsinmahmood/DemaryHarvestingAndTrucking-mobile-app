@@ -1,3 +1,5 @@
+/* eslint-disable max-len */
+/* eslint-disable prefer-const */
 /* eslint-disable no-var */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable @typescript-eslint/naming-convention */
@@ -10,6 +12,7 @@ import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { Renderer2 } from '@angular/core';
 import { ToastService } from 'src/app/services/toast/toast.service';
 import { Router } from '@angular/router';
+import { CheckInOutService } from 'src/app/components/check-in-out/check-in-out.service';
 
 @Component({
   selector: 'app-trainee',
@@ -42,6 +45,10 @@ export class TraineePage implements OnInit {
   role: any;
   //#endregion
 
+  trainee_record_id: any;
+  active_check_in_id: any;
+  public activeCheckInSpinner = new BehaviorSubject(false);
+
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
   constructor(
@@ -49,7 +56,9 @@ export class TraineePage implements OnInit {
     private trainingService: TrainingService,
     private renderer: Renderer2,
     private toastService: ToastService,
-    private router: Router
+    private router: Router,
+    private dwrServices: CheckInOutService
+
   ) {
     this.renderer.listen('window', 'click', (e) => {
       if (e.target !== this.employeeInput.nativeElement) {
@@ -158,6 +167,7 @@ export class TraineePage implements OnInit {
   }
   submit() {
     console.log(this.traineeForm.value);
+    // to start the loader
     this.loadingSpinner.next(true);
     // Form Data
     var formData: FormData = new FormData();
@@ -168,10 +178,12 @@ export class TraineePage implements OnInit {
 
     this.trainingService.save(formData,'trainee')
     .subscribe((res)=>{
+      this.trainee_record_id  = res.id.record_id;
       if(res.status === 200){
-        this.loadingSpinner.next(false);
-        this.router.navigateByUrl('/tabs/home/training');
-        this.toastService.presentToast(res.message,'success');
+
+         // getting check-in id
+         this.getCheckInID();
+
       }else{
         console.log('Something happened :)');
         this.toastService.presentToast(res.mssage,'danger');
@@ -274,4 +286,50 @@ export class TraineePage implements OnInit {
     this.allEmployees = of([]);
   }
   //#endregion
+
+  getCheckInID(){
+    this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
+      this.activeCheckInSpinner.next(true);
+      this.active_check_in_id = workOrder.dwr[0].id;
+      this.activeCheckInSpinner.next(false);
+
+       // creating DWR
+      this.createDWR();
+    });
+
+  }
+
+  createDWR(){
+     let supervisor_id;
+     supervisor_id = this.traineeForm.get('trainer_id').value
+    this.trainingService
+     .createDWR(this.trainee_id,'', this.trainee_record_id,'','',supervisor_id,this.active_check_in_id)
+     .subscribe(
+       (res) => {
+         console.log('RES:', res);
+         if (res.status === 200) {
+
+          // to stop loader
+          this.loadingSpinner.next(false);
+
+           // tooltip
+           this.toastService.presentToast(
+            'Details have been submitted',
+            'success'
+          );
+
+
+        // navigating
+           this.router.navigateByUrl('/tabs/home/training');
+         } else {
+           console.log('Something happened :)');
+           this.toastService.presentToast(res.mssage, 'danger');
+         }
+       },
+       (err) => {
+         console.log('ERROR::', err);
+         this.toastService.presentToast(err.mssage, 'danger');
+       }
+     );
+ }
 }

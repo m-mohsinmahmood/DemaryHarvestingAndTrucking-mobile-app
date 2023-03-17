@@ -225,7 +225,7 @@ getCheckInID(){
 
 createDWR(){
   this.trainingService
-   .createDWR(this.trainer_id, this.training_record_id,'road-skills','digital-form',this.supervisor_id,this.active_check_in_id)
+   .createDWR(this.trainer_id, this.training_record_id,'','road-skills','digital-form',this.supervisor_id,this.active_check_in_id)
    .subscribe(
      (res) => {
        if (res.status === 200) {

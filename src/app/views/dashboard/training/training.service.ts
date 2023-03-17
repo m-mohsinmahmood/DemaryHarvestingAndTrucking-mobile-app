@@ -111,17 +111,32 @@ export class TrainingService {
     })
     .pipe(take(1));
   }
-  createDWR(employeeId: any, training_record_id: any,evaluation_type,evaluation_form,supervisor_id: any,dwrId){
-    const data = {
-      dwr_type: 'training',
-      module: 'training',
-      training_record_id,
-      employeeId,
-      evaluation_type,
-      evaluation_form,
-      supervisor_id,
-      dwrId
-    };
+  createDWR(employeeId: any, training_record_id: any,trainee_record_id: any, evaluation_type,evaluation_form,supervisor_id: any,dwrId){
+    let data;
+    if(trainee_record_id){
+       data = {
+        dwr_type: 'training',
+        module: 'training',
+        employeeId,
+        evaluation_type,
+        evaluation_form,
+        supervisor_id,
+        dwrId,
+        trainee_record_id
+      };
+    }
+     else if(training_record_id){
+         data = {
+          dwr_type: 'training',
+          module: 'training',
+          training_record_id,
+          employeeId,
+          evaluation_type,
+          evaluation_form,
+          supervisor_id,
+          dwrId,
+        };
+    }
     return this.httpClient
       .post<any>(`api-1/dwr`, data)
       .pipe(take(1));
