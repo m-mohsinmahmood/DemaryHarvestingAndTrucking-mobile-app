@@ -96,11 +96,13 @@ export class DetailPage implements OnInit {
         this.loaderModel.next(false);
       });
   }
-  navigate(task_id: any) {
+  navigate(task_id: any,type) {
     this.router.navigate(['/tabs/home/dwr/detail/view-job'], {
       queryParams: {
-        task_id
+        task_id,
+        type
       },
     });
   }
+
 }

@@ -3,9 +3,6 @@
 
 <ion-content>
   <ion-card>
-    <!-- <ion-card-header class="bg-3D8AA4">
-      <ion-card-title class="flex justify-center text-2xl font-Lato text-white">Harvesting Job</ion-card-title>
-    </ion-card-header> -->
     <!-- LOADER -->
     <ion-card-content *ngIf="(loading | async) === true">
       <ion-grid>
@@ -99,22 +96,16 @@
               </div>
             </ion-card-content>
           </ion-card>
-
-          <!-- Fourth Row -->
-          <!-- <ion-row class="mb-1 h-16">
-            <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
-              <p class="font-Lato text-black font-bold font-14">GPS Acres</p>
-              <span class="font-Lato font-14">{{data.total_gps_acres}}</span>
-            </ion-col>
-            <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
-              <p class="font-Lato text-black font-bold font-14">Destination</p>
-              <span class="font-Lato font-14">{{'ticketData.destination'}}</span>
-            </ion-col>
-          </ion-row> -->
-
-
       </ion-grid>
-      <ion-button expand="block" class="mt-5 font-Lato text-white" >Exit</ion-button>
+      <div *ngIf="type === 'detail'">
+        <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="exit()" >Exit</ion-button>
+      </div>
+      <div *ngIf="type === 'send-back'">
+        <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="exit()" >Send Back</ion-button>
+      </div>
+      <div *ngIf="type === 'verify'">
+        <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="exit()" >Verify</ion-button>
+      </div>
     </ion-card-content>
 
     <!-- For Training Evaluation Form having Pre-Trip -->
@@ -162,6 +153,15 @@
               <span class="font-Lato font-14">{{data.trainingData[0].percentageSuspension}}%</span>
             </ion-col>
           </ion-row>
+          <div *ngIf="type === 'detail'">
+            <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="exit()" >Exit</ion-button>
+          </div>
+          <div *ngIf="type === 'send-back'">
+            <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="exit()" >Send Back</ion-button>
+          </div>
+          <div *ngIf="type === 'verify'">
+            <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="exit()" >Verify</ion-button>
+          </div>
 
       </ion-grid>
 
@@ -233,10 +233,18 @@
               </div>
             </ion-card-content>
           </ion-card>
+          <div *ngIf="type === 'detail'">
+            <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="exit()" >Exit</ion-button>
+          </div>
+          <div *ngIf="type === 'send-back'">
+            <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="exit()" >Send Back</ion-button>
+          </div>
+          <div *ngIf="type === 'verify'">
+            <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="exit()" >Verify</ion-button>
+          </div>
 
       </ion-grid>
-      <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="exit()" >Exit</ion-button>
-    </ion-card-content>
+     </ion-card-content>
 
   <!-- For Training Evaluation Form having Road-Skills -->
   <ion-card-content *ngIf="(loading | async) === false && data.trainingData.length !== 0 && data.trainingData[0].evaluation_type === 'road-skills'">
@@ -384,7 +392,15 @@
           </ion-card-content>
           <ion-button *ngIf="(loading | async) === false" expand="block" class="close-out-button font-Lato mx-8 mb-8 mt-4 bg-opacity-10 text-white" (click)="exit()">Exit</ion-button>
         </ion-card>
-
+        <div *ngIf="type === 'detail'">
+          <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="exit()" >Exit</ion-button>
+        </div>
+        <div *ngIf="type === 'send-back'">
+          <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="exit()" >Send Back</ion-button>
+        </div>
+        <div *ngIf="type === 'verify'">
+          <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="exit()" >Verify</ion-button>
+        </div>
     </ion-grid>
 
     <!-- For Paper Form -->
@@ -469,6 +485,15 @@
           </div>
         </ion-card-content>
       </ion-card>
+      <div *ngIf="type === 'detail'">
+        <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="exit()" >Exit</ion-button>
+      </div>
+      <div *ngIf="type === 'send-back'">
+        <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="exit()" >Send Back</ion-button>
+      </div>
+      <div *ngIf="type === 'verify'">
+        <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="exit()" >Verify</ion-button>
+      </div>
     </ion-grid>
   </ion-card-content>
 
@@ -558,6 +583,15 @@
          class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text>
       </div>
     </ion-card-content>
+    <div *ngIf="type === 'detail'">
+      <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="exit()" >Exit</ion-button>
+    </div>
+    <div *ngIf="type === 'send-back'">
+      <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="exit()" >Send Back</ion-button>
+    </div>
+    <div *ngIf="type === 'verify'">
+      <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="exit()" >Verify</ion-button>
+    </div>
 
   </ion-grid>
 
@@ -643,6 +677,15 @@
         </div>
       </ion-card-content>
     </ion-card>
+    <div *ngIf="type === 'detail'">
+      <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="exit()" >Exit</ion-button>
+    </div>
+    <div *ngIf="type === 'send-back'">
+      <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="exit()" >Send Back</ion-button>
+    </div>
+    <div *ngIf="type === 'verify'">
+      <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="exit()" >Verify</ion-button>
+    </div>
   </ion-grid>
 
   </ion-card-content>

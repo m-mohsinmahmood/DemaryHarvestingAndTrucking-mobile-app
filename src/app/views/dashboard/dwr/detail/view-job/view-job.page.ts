@@ -13,6 +13,7 @@ export class ViewJobPage implements OnInit {
   // dtae
   data: any;
   task_id: any;
+  type: any;
   // behaviour subject for loader
   public loading = new BehaviorSubject(true);
 
@@ -26,6 +27,7 @@ export class ViewJobPage implements OnInit {
     this.route.queryParams.subscribe((params)=>{
       console.log('PARAMS:',params);
       this.task_id= params.task_id;
+      this.type= params.type;
     });
 
     // passing dummy job id from Customer_Job_Setup Table

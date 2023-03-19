@@ -30,7 +30,7 @@ export class DWRService {
 
     params = params.set('date', date);
     params = params.set('dateType', 'day');
-    // params = params.set('role', role);
+    params = params.set('role', role);
 
     return this.httpClient
       .get<any>('api-1/dwr', {
@@ -45,7 +45,7 @@ export class DWRService {
     params = params.set('dateType', 'month');
     params = params.set('month', month);
     params = params.set('year', year);
-    // params = params.set('role', role);
+    params = params.set('role', role);
 
     return this.httpClient
       .get<any>('api-1/dwr', {

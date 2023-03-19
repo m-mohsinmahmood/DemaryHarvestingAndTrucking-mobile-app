@@ -19,7 +19,7 @@ export class VerifyDwrsPage implements OnInit {
   month: any = moment(new Date()).format('YYYY-MM');
 
   // payload values
-  monthValue = moment(new Date()).month();
+  monthValue = moment(new Date()).month() + 1;
   yearValue = moment(new Date()).year();
 
   // Date & Month Observables
@@ -57,24 +57,17 @@ export class VerifyDwrsPage implements OnInit {
 
   }
   getDWRByDate(){
-    this.dwrs$ =this.dwrService.getDWR(localStorage.getItem('employeeId'),this.date,localStorage.getItem('role'));
+    this.dwrs$ =this.dwrService.getDWR('4b44434b-0b74-49a2-b3c7-d3884f5f6013',this.date,'supervisor');
   }
   getDWRByMonth(){
-    this.monthDWRS$ = this.dwrService.getMonthDWR(localStorage.getItem('employeeId'),this.monthValue,this.yearValue,localStorage.getItem('role'));
+    this.monthDWRS$ = this.dwrService.getMonthDWR('4b44434b-0b74-49a2-b3c7-d3884f5f6013',this.monthValue,this.yearValue,'supervisor');
   }
-  // navigate(name: string,id: any) {
-  //   this.router.navigateByUrl('/tabs/home/dwr/verify-dwrs/verify-dwr', {
-  //     state: {
-  //       type: name,
-  //       id
-  //     },
-  //   });
-  // }
-  navigate(name: string){
-    this.router.navigateByUrl('/tabs/home/dwr/detail',{
-      state:{
-        type: name
-      }
+  navigate(name: string,dwr_id: any) {
+    this.router.navigate(['/tabs/home/dwr/detail'], {
+      queryParams: {
+        type: name,
+        dwr_id
+      },
     });
   }
 }
