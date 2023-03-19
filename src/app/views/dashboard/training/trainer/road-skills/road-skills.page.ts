@@ -285,7 +285,7 @@ export class RoadSkillsPage implements OnInit {
           );
 
           //  navigating
-          //  this.router.navigateByUrl('/tabs/home/training');
+           this.router.navigateByUrl('/tabs/home/training');
          } else {
            console.log('Something happened :)');
            this.toastService.presentToast(res.mssage, 'danger');

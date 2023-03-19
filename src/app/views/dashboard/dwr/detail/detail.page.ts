@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DWRService } from '../dwr.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 
@@ -16,6 +16,7 @@ export class DetailPage implements OnInit {
   // data
   workHistoryData: any;
   data: any;
+  dwr_id: any;
 
   // behaviour subject for loader
   public loading = new BehaviorSubject(true);
@@ -23,16 +24,27 @@ export class DetailPage implements OnInit {
 
   constructor(
     private router: Router,
-    private dwrService: DWRService
+    private dwrService: DWRService,
+    private route: ActivatedRoute,
+
   ) { }
 
   ngOnInit() {
-    this.type = this.router.getCurrentNavigation().extras.state.type;
-    console.log('State:',this.router.getCurrentNavigation().extras.state);
+    // this.type = this.router.getCurrentNavigation().extras.state.type;
+    // console.log('State:',this.router.getCurrentNavigation().extras.state);
+
+    this.route.queryParams.subscribe((params)=>{
+      console.log('PARAMS:',params);
+      this.type = params.type;
+      this.dwr_id= params.dwr_id;
+    //   this.formType = params.formType;
+    // this.evaluationType = params.evaluationType;
+    // this.trainee_id = params.trainee_id;
+
 
     // conditionally checking types to render data
     if(this.type === 'work-history'){
-      this.dwrService.getDWRById(this.router.getCurrentNavigation().extras.state.id)
+      this.dwrService.getDWRById(this.dwr_id,'getTasks')
       .subscribe((res)=>{
         console.log('Res:',res);
           this.loading.next(true);
@@ -40,6 +52,7 @@ export class DetailPage implements OnInit {
           this.loading.next(false);
       });
     }
+  });
   }
   getJob(){
     this.router.navigateByUrl('/tabs/home/dwr/detail/view-job');
@@ -82,5 +95,12 @@ export class DetailPage implements OnInit {
         this.data = res[0];
         this.loaderModel.next(false);
       });
+  }
+  navigate(task_id: any) {
+    this.router.navigate(['/tabs/home/dwr/detail/view-job'], {
+      queryParams: {
+        task_id
+      },
+    });
   }
 }

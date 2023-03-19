@@ -19,7 +19,7 @@ export class WorkHistoryPage implements OnInit {
   month: any = moment(new Date()).format('YYYY-MM');
 
   // payload values
-  monthValue = moment(new Date()).month();
+  monthValue = moment(new Date()).month() + 1;
   yearValue = moment(new Date()).year();
 
   // Date & Month Observables
@@ -59,11 +59,11 @@ export class WorkHistoryPage implements OnInit {
     this.isOpen = false;
   }
 
-  navigate(name: string,id: any) {
-    this.router.navigateByUrl('/tabs/home/dwr/detail', {
-      state: {
+  navigate(name: string,dwr_id: any) {
+    this.router.navigate(['/tabs/home/dwr/detail'], {
+      queryParams: {
         type: name,
-        id
+        dwr_id
       },
     });
   }

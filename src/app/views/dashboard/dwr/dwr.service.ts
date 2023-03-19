@@ -24,10 +24,13 @@ export class DWRService {
   getDWR(employeeId: string, date: any,
     role: any) {
     let params = new HttpParams();
+    params = params.set('operation','getDWR');
+    params = params.set('employeeId', '00277ae0-9534-473a-afe8-c648aa0e6d9d');
     params = params.set('employeeId', employeeId);
-    params = params.set('dateType', 'day');
+
     params = params.set('date', date);
-    params = params.set('role', role);
+    params = params.set('dateType', 'day');
+    // params = params.set('role', role);
 
     return this.httpClient
       .get<any>('api-1/dwr', {
@@ -37,11 +40,12 @@ export class DWRService {
   }
   getMonthDWR(employeeId: string, month: any, year: any, role: any) {
     let params = new HttpParams();
+    params = params.set('operation','getDWR');
     params = params.set('employeeId', employeeId);
     params = params.set('dateType', 'month');
     params = params.set('month', month);
     params = params.set('year', year);
-    params = params.set('role', role);
+    // params = params.set('role', role);
 
     return this.httpClient
       .get<any>('api-1/dwr', {
@@ -49,9 +53,10 @@ export class DWRService {
       })
       .pipe(take(1));
   }
-  getDWRById(id: string) {
+  getDWRById(id: string, operation: string) {
     let params = new HttpParams();
-    params = params.set('id', id);
+    params = params.set('operation', operation);
+    params = params.set('taskId', id);
     return this.httpClient
       .get<any>('api-1/dwr', {
         params,
