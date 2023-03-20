@@ -108,6 +108,65 @@
       </div>
     </ion-card-content>
 
+    <!-- For Trainer (Training Tasks) Data -->
+    <ion-card-content *ngIf="(loading | async) === false && data.trainerData.length !== 0">
+      <ion-grid >
+        <ion-row>
+          <ion-col size="12">
+           <ion-text class="flex justify-center items-center text-xl font-semibold text-3D8AA4" ion-text-center>Trainer Training Tasks Details</ion-text>
+          </ion-col>
+        </ion-row>
+        <ion-row class="mb-1 h-16">
+          <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">Trainer Name</p>
+            <span class="font-Lato font-14">{{data.trainerData[0].trainer_id | slice:0:8}}</span>
+          </ion-col>
+          <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">Supervisor Name</p>
+            <span class="font-Lato font-14">{{data.trainerData[0].supervisor_id | slice:0:8}}</span>
+          </ion-col>
+        </ion-row>
+
+        <ion-row class="mb-1 h-16">
+          <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">City</p>
+            <span class="font-Lato font-14">{{data.trainerData[0].city}}</span>
+          </ion-col>
+          <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">State</p>
+            <span class="font-Lato font-14 text-left">{{data.trainerData[0].state}}</span>
+          </ion-col>
+        </ion-row>
+
+        <ion-row class="mb-1 h-16">
+          <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">Training Type:</p>
+            <span class="font-Lato font-14">{{data.trainerData[0].training_type | titlecase}}</span>
+          </ion-col>
+        </ion-row>
+        <ion-row class="mb-1 h-16">
+          <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">Topic:</p>
+            <span class="font-Lato font-14">{{data.trainerData[0].topic}}</span>
+          </ion-col>
+        </ion-row>
+
+          <ion-card class="p-3">
+            <ion-card-content class="m-0 p-0">
+              <div class="mt-4" *ngIf="data.trainerData[0].image_1 !== null">
+                <img [src]="data.trainerData[0].image_1" class="h-48 w-full object-contain">
+              </div>
+              <div class="mt-4" *ngIf="data.trainerData[0].image_2 !== null">
+                <img [src]="data.trainerData[0].image_2 "alt="" class="h-48 w-full object-contain">
+              </div>
+              <div class="mt-4" *ngIf="data.trainerData[0].image_3 !== null">
+                <img [src]="data.trainerData[0].image_3"alt="" class="h-48 w-full object-contain">
+              </div>
+            </ion-card-content>
+          </ion-card>
+      </ion-grid>
+    </ion-card-content>
+
     <!-- For Training Evaluation Form having Pre-Trip -->
     <ion-card-content *ngIf="(loading | async) === false && data.trainingData.length !== 0 && data.trainingData[0].evaluation_type === 'pre-trip'">
       <!-- For Digital Form -->
@@ -519,46 +578,46 @@
       <ion-grid>
         <ion-row class="bg-d9d9d95c py-2 px-2">
           <ion-col size="5" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Skill</ion-text></ion-col>
-          <ion-col size="4" class="ion-text-center"><ion-text class="font-Lato font-semibold text-black">S/U</ion-text></ion-col>
-          <ion-col size="3" class="ion-text-end"><ion-text class="font-Lato font-semibold text-black">Attempts</ion-text></ion-col>
+          <ion-col size="3" class="ion-text-center"><ion-text class="font-Lato font-semibold text-black">S/U</ion-text></ion-col>
+          <ion-col size="4" class="ion-text-end"><ion-text class="font-Lato font-semibold text-black">Attempts</ion-text></ion-col>
         </ion-row>
       </ion-grid>
       <ion-row class="my-4">
-        <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Straight Line Backing</ion-text></ion-col>
+        <ion-col size="5" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Straight Line Backing</ion-text></ion-col>
         <ion-col *ngIf=" (+data.trainingData[0].pullUpsInput_slb + +data.trainingData[0].encroachInput_slb < 3) && (data.trainingData[0].goal_slb === 'true') && (data.trainingData[0].finalPosition_slb === 'true')" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
         <ion-col *ngIf=" !((+data.trainingData[0].pullUpsInput_slb + +data.trainingData[0].encroachInput_slb < 3) && (data.trainingData[0].goal_slb === 'true') && (data.trainingData[0].finalPosition_slb === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
-        <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{+data.trainingData[0].pullUpsInput_slb + +data.trainingData[0].encroachInput_slb}}</ion-text></ion-col>
+        <ion-col size="2" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{+data.trainingData[0].pullUpsInput_slb + +data.trainingData[0].encroachInput_slb}}</ion-text></ion-col>
       </ion-row>
 
       <ion-row class="my-4">
-        <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Alley Docking (45/90)</ion-text></ion-col>
+        <ion-col size="5" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Alley Docking (45/90)</ion-text></ion-col>
         <ion-col *ngIf="(+data.trainingData[0].pullUpsInput_ad + +data.trainingData[0].encroachInput_ad < 3) && (data.trainingData[0].goal_ad === 'true') && (data.trainingData[0].finalPosition_ad === 'true')" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
         <ion-col *ngIf="!((+data.trainingData[0].pullUpsInput_ad + +data.trainingData[0].encroachInput_ad < 3) && (data.trainingData[0].goal_ad === 'true') && (data.trainingData[0].finalPosition_ad === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
-        <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{+data.trainingData[0].pullUpsInput_ad + +data.trainingData[0].encroachInput_ad}}</ion-text></ion-col>
+        <ion-col size="2" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{+data.trainingData[0].pullUpsInput_ad + +data.trainingData[0].encroachInput_ad}}</ion-text></ion-col>
       </ion-row>
       <ion-row class="my-4">
-        <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Off Set Backing</ion-text></ion-col>
+        <ion-col size="5" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Off Set Backing</ion-text></ion-col>
         <ion-col *ngIf="(+data.trainingData[0].encroach_osb + +data.trainingData[0].encroach_osb < 3) && (data.trainingData[0].goal_osb === 'true') && (data.trainingData[0].finalPosition_osb === 'true')" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
         <ion-col *ngIf="!((+data.trainingData[0].encroach_osb + +data.trainingData[0].encroach_osb < 3) && (data.trainingData[0].goal_osb === 'true') && (data.trainingData[0].finalPosition_osb === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
-        <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{+data.trainingData[0].pullUps_osb + +data.trainingData[0].encroach_osb}}</ion-text></ion-col>
+        <ion-col size="2" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{+data.trainingData[0].pullUps_osb + +data.trainingData[0].encroach_osb}}</ion-text></ion-col>
       </ion-row>
       <ion-row class="my-4">
-        <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Parallel Parking Blind</ion-text></ion-col>
+        <ion-col size="5" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Parallel Parking Blind</ion-text></ion-col>
         <ion-col *ngIf="(+data.trainingData[0].pullUps_pb + +data.trainingData[0].encroach_pb < 3) && (data.trainingData[0].goal_pb === 'true') && (data.trainingData[0].finalPosition_pb === 'true')" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
         <ion-col *ngIf="!((+data.trainingData[0].pullUps_pb + +data.trainingData[0].encroach_pb < 3) && (data.trainingData[0].goal_pb === 'true') && (data.trainingData[0].finalPosition_pb === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
-        <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{+data.trainingData[0].pullUps_pb + +data.trainingData[0].encroach_pb}}</ion-text></ion-col>
+        <ion-col size="2" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{+data.trainingData[0].pullUps_pb + +data.trainingData[0].encroach_pb}}</ion-text></ion-col>
       </ion-row>
       <ion-row class="my-4">
-    <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">Parallel Parking Sight</ion-text></ion-col>
+    <ion-col size="5" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">Parallel Parking Sight</ion-text></ion-col>
     <ion-col *ngIf="(+data.trainingData[0].pullUps_ps + +data.trainingData[0].encroach_ps < 3) && (data.trainingData[0].goal_ps === 'true') && (data.trainingData[0].finalPosition_ps === 'true')" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
     <ion-col *ngIf="!((+data.trainingData[0].pullUps_ps + +data.trainingData[0].encroach_ps < 3) && (data.trainingData[0].goal_ps === 'true') && (data.trainingData[0].finalPosition_ps === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">Unsatisfactory</ion-text></ion-col>
-    <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{+data.trainingData[0].pullUps_ps + +data.trainingData[0].encroach_ps}}</ion-text></ion-col>
+    <ion-col size="2" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{+data.trainingData[0].pullUps_ps + +data.trainingData[0].encroach_ps}}</ion-text></ion-col>
   </ion-row>
       <ion-row class="my-4">
-        <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Coupling & Uncoupling</ion-text></ion-col>
+        <ion-col size="5" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Coupling & Uncoupling</ion-text></ion-col>
         <ion-col *ngIf="(+data.trainingData[0].pullUps_cou + +data.trainingData[0].encroach_cou < 3) && (data.trainingData[0].goal_cou === 'true') && (data.trainingData[0].finalPosition_cou === 'true')" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
         <ion-col *ngIf="!((+data.trainingData[0].pullUps_cou + +data.trainingData[0].encroach_cou < 3) && (data.trainingData[0].goal_cou === 'true') && (data.trainingData[0].finalPosition_cou === 'true'))"  size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
-        <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{+data.trainingData[0].pullUps_cou + +data.trainingData[0].encroach_cou}}</ion-text></ion-col>
+        <ion-col size="2" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{+data.trainingData[0].pullUps_cou + +data.trainingData[0].encroach_cou}}</ion-text></ion-col>
       </ion-row>
 
     </ion-grid>

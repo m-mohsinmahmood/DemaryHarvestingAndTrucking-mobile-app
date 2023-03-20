@@ -303,7 +303,7 @@ export class TraineePage implements OnInit {
      let supervisor_id;
      supervisor_id = this.traineeForm.get('trainer_id').value
     this.trainingService
-     .createDWR(this.trainee_id,'', this.trainee_record_id,'','',supervisor_id,this.active_check_in_id)
+     .createDWR(this.trainee_id,'', this.trainee_record_id,'','','',supervisor_id,this.active_check_in_id)
      .subscribe(
        (res) => {
          console.log('RES:', res);

@@ -259,7 +259,7 @@ export class PreTripPage implements OnInit {
     let supervisor_id;
     supervisor_id = this.preTrip.get('supervisor_id').value;
     this.trainingService
-     .createDWR(this.trainer_id, this.training_record_id,'','pre-trip','paper-form',supervisor_id,this.active_check_in_id)
+     .createDWR(this.trainer_id, this.training_record_id,'','','pre-trip','paper-form',supervisor_id,this.active_check_in_id)
      .subscribe(
        (res) => {
          console.log('RES:', res);

@@ -48,6 +48,14 @@
                   <ion-text class="font-Lato font-semibold text-black text-base mt-1">Module: <span class="font-Lato font-medium bg-3D8AA4 rounded-md text-white px-3 py-1">{{dwr.dwr_type | titlecase}}</span> </ion-text>
                 </ion-card>
               </div>
+              <div *ngFor="let dwr of dwrs$?.value?.trainerData">
+                <ion-card class="p-2 flex flex-col justify-between items-center" (click)="navigate('work-history',dwr.dwr_id)">
+                  <ion-text class="font-Lato font-semibold text-lg text-3D8AA4">
+                    {{moment(dwr.created_at).format('MMMM DD, YYYY')}}
+                  </ion-text>
+                  <ion-text class="font-Lato font-semibold text-black text-base mt-1">Module: <span class="font-Lato font-medium bg-3D8AA4 rounded-md text-white px-3 py-1">{{dwr.dwr_type | titlecase}}</span> </ion-text>
+                </ion-card>
+              </div>
             </div>
             <div *ngIf="dwrs$.value.count === 0">
               <ion-card class="p-2 flex flex-col justify-between items-center">
@@ -90,6 +98,14 @@
                 </ion-card>
               </div>
               <div *ngFor="let monthDWR of monthDWRS$?.value?.traineeData">
+                <ion-card class="p-2 flex flex-col justify-between items-center" (click)="navigate('work-history',monthDWR.dwr_id)">
+                  <ion-text class="font-Lato font-semibold text-lg text-3D8AA4">
+                    {{moment(monthDWR.created_at).format('MMMM DD, YYYY')}}
+                  </ion-text>
+                  <ion-text class="font-Lato font-semibold text-black text-base mt-1">Module: <span class="font-Lato font-medium bg-3D8AA4 rounded-md text-white px-3 py-1">{{monthDWR.dwr_type | titlecase}}</span> </ion-text>
+                </ion-card>
+              </div>
+              <div *ngFor="let monthDWR of monthDWRS$?.value?.trainerData">
                 <ion-card class="p-2 flex flex-col justify-between items-center" (click)="navigate('work-history',monthDWR.dwr_id)">
                   <ion-text class="font-Lato font-semibold text-lg text-3D8AA4">
                     {{moment(monthDWR.created_at).format('MMMM DD, YYYY')}}

@@ -1,3 +1,5 @@
+/* eslint-disable arrow-body-style */
+/* eslint-disable prefer-const */
 /* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Component, OnInit } from '@angular/core';
@@ -6,6 +8,7 @@ import * as moment from 'moment';
 import { DWRService } from '../dwr.service';
 import { Observable } from 'rxjs';
 import { of } from 'rxjs';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-work-history',
@@ -69,6 +72,37 @@ export class WorkHistoryPage implements OnInit {
   }
   getDWRByDate(){
     this.dwrs$ =this.dwrService.getDWR(localStorage.getItem('employeeId'),this.date,localStorage.getItem('role'));
+  this.dwrs$.subscribe((res)=>{
+    let newArray: any = [];
+    console.log('res',res);
+    if(res.traineeData.length === 0) {
+    }else{
+        newArray.push(res.traineeData[0]);
+      }
+
+    if(res.trainerData.length === 0) {
+    }else{
+      newArray.push(res.trainerData[0]);
+    }
+     if(res.trainingData.length === 0) {
+    }else{
+      newArray.push(res.trainingData[0]);
+
+    }
+    let chars = ['A', 'B', 'A', 'C', 'B'];
+    let dupChars = newArray.filter((c, index) => newArray.indexOf(c) !== index);
+    console.log('---',dupChars);
+    let dupCharss = newArray.filter((c, index) => {
+      console.log('---',c);
+      console.log('---',index);
+      return newArray.indexOf(c.dwr_id) !== index;
+     });
+    console.log('Arr2:',dupCharss);
+
+    console.log('arr:',newArray);
+    // arr1.filter((data,index)=>data.dwr_id = arr1.filter((value)=> value.dwr_id));
+    // console.log('arr:',arr1);
+  });
   }
   getDWRByMonth(){
     this.monthDWRS$ = this.dwrService.getMonthDWR(localStorage.getItem('employeeId'),this.monthValue,this.yearValue,localStorage.getItem('role'));

@@ -700,7 +700,7 @@
 
            <ion-button expand="block"
            class="mt-5 font-Lato text-white"
-           [disabled]="loadingSpinner | async"
+           [disabled]="(loadingSpinner | async)"
             (click)="submit()">
             <div *ngIf="(loadingSpinner | async) === false">Save</div>
             <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
