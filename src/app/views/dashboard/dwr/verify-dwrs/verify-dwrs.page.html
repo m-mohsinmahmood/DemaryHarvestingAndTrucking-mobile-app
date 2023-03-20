@@ -25,36 +25,23 @@
             </div>
             <ion-button expand="block" class="text-white rounded-md font-Lato text-sm px-2 py-0 ml-2 mt-1"
               (click)="getDWRByDate()">Get DWR</ion-button>
-          <!-- DWR DAY BLOCK -->
-            <div *ngIf="dwrs$ |withLoading | async as dwrs$">
-              <div *ngIf="dwrs$?.loading">
-                <div class="flex justify-center items-center h-20 w-full">
-                  <ion-spinner name="crescent"></ion-spinner>
-                </div>
+            <!-- DWR DAY BLOCK -->
+            <div *ngIf="(loading | async) === true">
+              <div class="flex justify-center items-center h-20 w-full">
+                <ion-spinner name="crescent"></ion-spinner>
               </div>
-              <div *ngIf="dwrs$.value.count !== 0">
-                <div *ngFor="let dwr of dwrs$?.value?.trainingData">
-                  <ion-grid>
-                    <ion-row>
-                      <ion-col size="12">
-                        <ion-card class="p-2 flex flex-col justify-between items-center" (click)="navigate('work-history',dwr.dwr_id)">
-                          <ion-text class="font-Lato font-semibold text-lg text-3D8AA4">
-                            {{moment(dwr.created_at).format('MMMM DD, YYYY')}}
-                          </ion-text>
-                          <ion-text class="font-Lato font-semibold text-black text-base mt-1">Module: <span class="font-Lato font-medium bg-3D8AA4 rounded-md text-white px-3 py-1">{{dwr.dwr_type | titlecase}}</span> </ion-text>
-                        </ion-card>
-                      </ion-col>
-                    </ion-row>
-                  </ion-grid>
-                </div>
-              </div>
-              <div *ngIf="dwrs$.value.count === 0">
-                <ion-card class="p-2 flex flex-col justify-between items-center">
-                  <ion-text class="font-Lato font-semibold text-lg text-3D8AA4">No DWR Found</ion-text>
+            </div>
+            <div *ngIf="(loading | async) === false">
+              <div *ngFor="let dwr of dwrs$">
+                <ion-card class="p-2 flex flex-col justify-between items-center" (click)="navigate('verify',dwr.dwr_id)">
+                  <ion-text class="font-Lato font-semibold text-lg text-3D8AA4">
+                    {{moment(dwr.created_at).format('MMMM DD, YYYY')}}
+                  </ion-text>
+                  <ion-text class="font-Lato font-semibold text-black text-base mt-1">Module: <span class="font-Lato font-medium bg-3D8AA4 rounded-md text-white px-3 py-1">{{dwr.dwr_type | titlecase}}</span> </ion-text>
                 </ion-card>
               </div>
             </div>
-            <!-- DWR DAY BLOCK -->
+          <!-- DWR DAY BLOCK -->
           </div>
           <div *ngSwitchCase="'month'">
             <div class="px-4">
@@ -73,37 +60,23 @@
             <ion-button expand="block" class="text-white rounded-md font-Lato text-sm px-2 py-0 ml-2 mt-1"
               (click)="getDWRByMonth()">Get DWR</ion-button>
             <!-- DWR MONTH BLOCK -->
-            <div *ngIf="monthDWRS$ |withLoading | async as monthDWRS$">
-              <div *ngIf="monthDWRS$?.loading">
-                <div class="flex justify-center">
-                  <ion-spinner name="crescent"></ion-spinner>
-                </div>
-              </div>
-              <div *ngIf="monthDWRS$.value.count !== 0">
-                <div *ngFor="let monthDWR of monthDWRS$?.value?.trainingData">
-                  <ion-card class="p-2 flex flex-col justify-between items-center" (click)="navigate('work-history',monthDWR.dwr_id)">
-                    <ion-text class="font-Lato font-semibold text-lg text-3D8AA4">
-                      {{moment(monthDWR.created_at).format('MMMM DD, YYYY')}}
-                    </ion-text>
-                    <ion-text class="font-Lato font-semibold text-black text-base mt-1">Module: <span class="font-Lato font-medium bg-3D8AA4 rounded-md text-white px-3 py-1">{{monthDWR.dwr_type | titlecase}}</span> </ion-text>
-                  </ion-card>
-                </div>
-                <div *ngFor="let monthDWR of monthDWRS$?.value?.traineeData">
-                  <ion-card class="p-2 flex flex-col justify-between items-center" (click)="navigate('work-history',monthDWR.dwr_id)">
-                    <ion-text class="font-Lato font-semibold text-lg text-3D8AA4">
-                      {{moment(monthDWR.created_at).format('MMMM DD, YYYY')}}
-                    </ion-text>
-                    <ion-text class="font-Lato font-semibold text-black text-base mt-1">Module: <span class="font-Lato font-medium bg-3D8AA4 rounded-md text-white px-3 py-1">{{monthDWR.dwr_type | titlecase}}</span> </ion-text>
-                  </ion-card>
-                </div>
-              </div>
-              <div *ngIf="monthDWRS$?.value.count === 0">
-                <ion-card class="p-2 flex flex-col justify-between items-center">
-                  <ion-text class="font-Lato font-semibold text-lg text-3D8AA4">No DWR Found</ion-text>
-                </ion-card>
-              </div>
+          <div *ngIf="(loading | async) === true">
+            <div class="flex justify-center items-center h-20 w-full">
+              <ion-spinner name="crescent"></ion-spinner>
             </div>
-            <!-- DWR MONTH BLOCK -->
+          </div>
+
+          <div *ngIf="(loading | async) === false">
+            <div *ngFor="let monthDWRS of monthDWRS$">
+              <ion-card class="p-2 flex flex-col justify-between items-center" (click)="navigate('verify',monthDWRS.dwr_id)">
+                <ion-text class="font-Lato font-semibold text-lg text-3D8AA4">
+                  {{moment(monthDWRS.created_at).format('MMMM DD, YYYY')}}
+                </ion-text>
+                <ion-text class="font-Lato font-semibold text-black text-base mt-1">Module: <span class="font-Lato font-medium bg-3D8AA4 rounded-md text-white px-3 py-1">{{monthDWRS.dwr_type | titlecase}}</span> </ion-text>
+              </ion-card>
+            </div>
+          </div>
+           <!-- DWR MONTH BLOCK -->
           </div>
 
         </div>

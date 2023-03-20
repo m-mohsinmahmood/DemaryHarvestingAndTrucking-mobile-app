@@ -223,6 +223,8 @@ export class CoupUncoupPage implements OnInit {
          (err) => {
            console.log('ERROR::', err);
            this.toastService.presentToast(err.mssage, 'danger');
+           this.loadingSpinner.next(false);
+
          }
        );
    }

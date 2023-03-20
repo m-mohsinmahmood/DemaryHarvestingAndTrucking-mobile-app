@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 /* eslint-disable @typescript-eslint/naming-convention */
 import {
   HttpClient,
@@ -50,6 +51,26 @@ export class DWRService {
     return this.httpClient
       .get<any>('api-1/dwr', {
         params,
+      })
+      .pipe(take(1));
+  }
+  verify(operation: any,status: any, notes: any, dwrId: any){
+    let params = new HttpParams();
+    params = params.set('operation',operation);
+    // params = params.set('status', status);
+    // params = params.set('notes', notes);
+    // params =  params.set('dwrId',dwrId);
+    let data;
+    data={
+      status,
+      notes,
+      dwrId
+    };
+    console.log('DATA:',data);
+
+    return this.httpClient
+      .patch<any>('api-1/dwr', data,{
+        params
       })
       .pipe(take(1));
   }

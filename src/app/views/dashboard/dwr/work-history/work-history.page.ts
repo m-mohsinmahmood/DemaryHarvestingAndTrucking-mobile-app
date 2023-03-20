@@ -114,8 +114,6 @@ export class WorkHistoryPage implements OnInit {
             self.findIndex((v) => keys.every((k) => v[k] === value[k])) ===
             index
         );
-        console.log(newArray);
-        console.log(filteredData);
 
         this.dwrs$ = filteredData;
 
