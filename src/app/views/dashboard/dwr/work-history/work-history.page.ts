@@ -1,3 +1,5 @@
+/* eslint-disable @angular-eslint/use-lifecycle-interface */
+/* eslint-disable @typescript-eslint/prefer-for-of */
 /* eslint-disable arrow-body-style */
 /* eslint-disable prefer-const */
 /* eslint-disable max-len */
@@ -27,7 +29,11 @@ export class WorkHistoryPage implements OnInit {
 
   // Date & Month Observables
   dwrs$: Observable<any>;
+  dwrs2: Observable<any>;
   monthDWRS$: Observable<any>;
+
+  DWRSubValue: any;
+  MonthSubValue: any;
 
 // to use in HTML
   moment: any = moment;
@@ -45,6 +51,9 @@ export class WorkHistoryPage implements OnInit {
     // call to render on-page
     // this.dwrs$ = this.dwrService.getDWR('f4cfa75b-7c14-4b68-a192-00d56c9f2022',this.date);
 
+  }
+  ngOnDestroy(): void {
+    this.DWRSubValue.unsubscribe();
   }
   getDate(e) {
     this.date = moment(e.detail.value).format('YYYY-MM-DD');
@@ -71,8 +80,10 @@ export class WorkHistoryPage implements OnInit {
     });
   }
   getDWRByDate(){
-    this.dwrs$ =this.dwrService.getDWR(localStorage.getItem('employeeId'),this.date,localStorage.getItem('role'));
-  this.dwrs$.subscribe((res)=>{
+    this.DWRSubValue =this.dwrService.getDWR(localStorage.getItem('employeeId'),this.date,localStorage.getItem('role')).subscribe((res)=>{
+
+  //   })
+  // this.dwrs$.subscribe((res)=>{
     let newArray: any = [];
     console.log('res',res);
     if(res.traineeData.length === 0) {
@@ -87,21 +98,21 @@ export class WorkHistoryPage implements OnInit {
      if(res.trainingData.length === 0) {
     }else{
       newArray.push(res.trainingData[0]);
-
     }
-    let chars = ['A', 'B', 'A', 'C', 'B'];
-    let dupChars = newArray.filter((c, index) => newArray.indexOf(c) !== index);
-    console.log('---',dupChars);
-    let dupCharss = newArray.filter((c, index) => {
-      console.log('---',c);
-      console.log('---',index);
-      return newArray.indexOf(c.dwr_id) !== index;
-     });
-    console.log('Arr2:',dupCharss);
 
-    console.log('arr:',newArray);
-    // arr1.filter((data,index)=>data.dwr_id = arr1.filter((value)=> value.dwr_id));
-    // console.log('arr:',arr1);
+// to remove common dwr_id's
+const keys = ['dwr_id'];
+const filteredData = newArray.filter((value, index, self) =>
+  self.findIndex(v => keys.every(k => v[k] === value[k])) === index
+);
+console.log(newArray);
+console.log(filteredData);
+
+this.dwrs$ = filteredData;
+this.dwrs2 = filteredData;
+console.log('--',this.dwrs2);
+
+
   });
   }
   getDWRByMonth(){

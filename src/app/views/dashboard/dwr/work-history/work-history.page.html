@@ -24,6 +24,9 @@
           </div>
           <ion-button expand="block" class="text-white rounded-md font-Lato text-sm px-2 py-0 ml-2 mt-1"
             (click)="getDWRByDate()">Get DWR</ion-button>
+            <div *ngFor="let item of dwrs2">
+
+            </div>
         <!-- DWR DAY BLOCK -->
           <div *ngIf="dwrs$ |withLoading | async as dwrs$">
             <div *ngIf="dwrs$?.loading">
@@ -31,8 +34,16 @@
                 <ion-spinner name="crescent"></ion-spinner>
               </div>
             </div>
+            <!-- <div *ngFor="let dwr of dwrs$.value">
+                <ion-card class="p-2 flex flex-col justify-between items-center" (click)="navigate('work-history',dwr.dwr_id)">
+                  <ion-text class="font-Lato font-semibold text-lg text-3D8AA4">
+                    {{moment(dwr.created_at).format('MMMM DD, YYYY')}}
+                  </ion-text>
+                  <ion-text class="font-Lato font-semibold text-black text-base mt-1">Module: <span class="font-Lato font-medium bg-3D8AA4 rounded-md text-white px-3 py-1">{{dwr.dwr_type | titlecase}}</span> </ion-text>
+                </ion-card>
+              </div> -->
             <div *ngIf="dwrs$.value.count !== 0">
-              <div *ngFor="let dwr of dwrs$?.value?.trainingData">
+              <div *ngFor="let dwr of dwrs$?.value">
                 <ion-card class="p-2 flex flex-col justify-between items-center" (click)="navigate('work-history',dwr.dwr_id)">
                   <ion-text class="font-Lato font-semibold text-lg text-3D8AA4">
                     {{moment(dwr.created_at).format('MMMM DD, YYYY')}}
@@ -40,22 +51,22 @@
                   <ion-text class="font-Lato font-semibold text-black text-base mt-1">Module: <span class="font-Lato font-medium bg-3D8AA4 rounded-md text-white px-3 py-1">{{dwr.dwr_type | titlecase}}</span> </ion-text>
                 </ion-card>
               </div>
-              <div *ngFor="let dwr of dwrs$?.value?.traineeData">
+              <!-- <div *ngFor="let dwr of dwrs$?.value?.traineeData">
                 <ion-card class="p-2 flex flex-col justify-between items-center" (click)="navigate('work-history',dwr.dwr_id)">
                   <ion-text class="font-Lato font-semibold text-lg text-3D8AA4">
                     {{moment(dwr.created_at).format('MMMM DD, YYYY')}}
                   </ion-text>
                   <ion-text class="font-Lato font-semibold text-black text-base mt-1">Module: <span class="font-Lato font-medium bg-3D8AA4 rounded-md text-white px-3 py-1">{{dwr.dwr_type | titlecase}}</span> </ion-text>
                 </ion-card>
-              </div>
-              <div *ngFor="let dwr of dwrs$?.value?.trainerData">
+              </div> -->
+              <!-- <div *ngFor="let dwr of dwrs$?.value?.trainerData">
                 <ion-card class="p-2 flex flex-col justify-between items-center" (click)="navigate('work-history',dwr.dwr_id)">
                   <ion-text class="font-Lato font-semibold text-lg text-3D8AA4">
                     {{moment(dwr.created_at).format('MMMM DD, YYYY')}}
                   </ion-text>
                   <ion-text class="font-Lato font-semibold text-black text-base mt-1">Module: <span class="font-Lato font-medium bg-3D8AA4 rounded-md text-white px-3 py-1">{{dwr.dwr_type | titlecase}}</span> </ion-text>
                 </ion-card>
-              </div>
+              </div> -->
             </div>
             <div *ngIf="dwrs$.value.count === 0">
               <ion-card class="p-2 flex flex-col justify-between items-center">
