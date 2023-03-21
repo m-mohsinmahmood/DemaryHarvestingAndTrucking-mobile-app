@@ -102,13 +102,15 @@ export class AuthService {
   }
 
   async loginWithEmailPassword(email: string, password: string) {
+    //to start loader
     this.isLoading.next(true);
+
     signInWithEmailAndPassword(this.auth, email, password)
       .then((user) => {
         console.log('user', user);
         this.getEmployeeDetailsByFirbaseId('X2lR84eu0EOfEXxVJHndgCQXEs62');
-        this.isLoading.next(false);
-        this.router.navigate(['tabs'], { replaceUrl: true });
+        // this.isLoading.next(false);
+        // this.router.navigate(['tabs'], { replaceUrl: true });
       })
       .catch(async (err: FirebaseError) => {
         this.isLoading.next(false);
@@ -146,13 +148,18 @@ export class AuthService {
     await signOut(this.auth);
     this.router.navigate(['login'], { replaceUrl: true });
   }
+
 getEmployeeDetailsByFirbaseId(fb_id){
   this.harvestingService.getEmployeeByFirebaseId(fb_id).subscribe((res)=>{
     console.log('Employee Details:',res);
 
     // setting in local storage
-    // localStorage.setItem('employeeId',res.id);
-    // localStorage.setItem('role',res.role);
+    localStorage.setItem('employeeId',res.id);
+    localStorage.setItem('role',res.role);
+
+     //to stop loader
+     this.isLoading.next(false);
+     this.router.navigate(['tabs'], { replaceUrl: true });
 
     // for manual
     // localStorage.setItem('role','dispatcher');

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/prefer-for-of */
 /* eslint-disable prefer-const */
 /* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/naming-convention */
@@ -75,16 +76,29 @@ export class VerifyDwrsPage implements OnInit {
         // combining in one array
         if (res.traineeData.length === 0) {
         } else {
-          newArray.push(res.traineeData[0]);
+          for (let index = 0; index < res.traineeData.length; index++) {
+            newArray.push(res.traineeData[index]);
+          }
         }
 
         if (res.trainerData.length === 0) {
         } else {
-          newArray.push(res.trainerData[0]);
+          for (let index = 0; index < res.trainerData.length; index++) {
+            newArray.push(res.trainerData[index]);
+          }
         }
         if (res.trainingData.length === 0) {
         } else {
-          newArray.push(res.trainingData[0]);
+          for (let index = 0; index < res.trainingData.length; index++) {
+            newArray.push(res.trainingData[index]);
+          }
+        }
+        if (res.farmingData.length === 0) {
+        } else {
+          newArray.push(res.farmingData[0]);
+          for (let index = 0; index < res.farmingData.length; index++) {
+            newArray.push(res.farmingData[index]);
+          }
         }
 
          // to remove common dwr_id's
@@ -111,20 +125,33 @@ export class VerifyDwrsPage implements OnInit {
     this.MonthSubValue = this.dwrService.getMonthDWR(this.supervisor_id,this.monthValue,this.yearValue,'supervisor').subscribe((res)=>{
       let newArray: any = [];
 
-        // combining in one array
-        if (res.traineeData.length === 0) {
-        } else {
-          newArray.push(res.traineeData[0]);
+       // combining in one array
+       if (res.traineeData.length === 0) {
+      } else {
+        for (let index = 0; index < res.traineeData.length; index++) {
+          newArray.push(res.traineeData[index]);
         }
+      }
 
-        if (res.trainerData.length === 0) {
-        } else {
-          newArray.push(res.trainerData[0]);
+      if (res.trainerData.length === 0) {
+      } else {
+        for (let index = 0; index < res.trainerData.length; index++) {
+          newArray.push(res.trainerData[index]);
         }
-        if (res.trainingData.length === 0) {
-        } else {
-          newArray.push(res.trainingData[0]);
+      }
+      if (res.trainingData.length === 0) {
+      } else {
+        for (let index = 0; index < res.trainingData.length; index++) {
+          newArray.push(res.trainingData[index]);
         }
+      }
+      if (res.farmingData.length === 0) {
+      } else {
+        newArray.push(res.farmingData[0]);
+        for (let index = 0; index < res.farmingData.length; index++) {
+          newArray.push(res.farmingData[index]);
+        }
+      }
 
         // to remove common dwr_id's
         const keys = ['dwr_id'];
@@ -142,11 +169,12 @@ export class VerifyDwrsPage implements OnInit {
         this.loading.next(false);
     });
   }
-  navigate(name: string,dwr_id: any) {
+  navigate(name: string,dwr_id: any,dwr_type: any) {
     this.router.navigate(['/tabs/home/dwr/detail'], {
       queryParams: {
         type: name,
-        dwr_id
+        dwr_id,
+        dwr_type
       },
     });
   }

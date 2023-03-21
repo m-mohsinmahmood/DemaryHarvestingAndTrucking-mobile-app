@@ -18,6 +18,7 @@ export class DetailPage implements OnInit {
   data: any;
   dwr_id: any;
   role: any;
+  dwr_type: any;
 
   // behaviour subject for loader
   public loading = new BehaviorSubject(true);
@@ -41,6 +42,7 @@ export class DetailPage implements OnInit {
       console.log('PARAMS:',params);
       this.type = params.type;
       this.dwr_id= params.dwr_id;
+      this.dwr_type= params.dwr_type;
     //   this.formType = params.formType;
     // this.evaluationType = params.evaluationType;
     // this.trainee_id = params.trainee_id;
@@ -107,17 +109,18 @@ export class DetailPage implements OnInit {
         this.loaderModel.next(false);
       });
   }
-  navigate(task_id: any,type, notes) {
+  navigate(task_id: any,type, notes,dwr_type) {
     this.router.navigate(['/tabs/home/dwr/detail/view-job'], {
       queryParams: {
         task_id,
         type,
-        notes
+        notes,
+        dwr_type
       },
     });
   }
   getTickets(){
-    this.dwrService.getDWRById(this.dwr_id,'getTasks')
+    this.dwrService.getDWRById(this.dwr_id,'getTasks',this.dwr_type)
       .subscribe((res)=>{
         console.log('Res:',res);
           this.loading.next(true);
@@ -125,8 +128,5 @@ export class DetailPage implements OnInit {
           this.loading.next(false);
       });
   }
-  // getTickets(){
-  //   this.getTickets();
-  // }
 
 }

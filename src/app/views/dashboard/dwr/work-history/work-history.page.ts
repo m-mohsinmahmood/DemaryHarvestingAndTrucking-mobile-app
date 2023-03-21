@@ -71,11 +71,12 @@ export class WorkHistoryPage implements OnInit {
     this.isOpen = false;
   }
 
-  navigate(name: string, dwr_id: any) {
+  navigate(name: string, dwr_id: any,dwr_type) {
     this.router.navigate(['/tabs/home/dwr/detail'], {
       queryParams: {
         type: name,
         dwr_id,
+        dwr_type
       },
     });
   }
@@ -88,23 +89,41 @@ export class WorkHistoryPage implements OnInit {
         localStorage.getItem('employeeId'),
         this.date,
         localStorage.getItem('role')
+        // '33791177-05cf-4df9-8050-59d486f6be78',
+        // this.date,
+        // 'dispatcher'
+
       )
       .subscribe((res) => {
+        console.log('RESPONSE:',res);
         let newArray: any = [];
 
         // combining in one array
         if (res.traineeData.length === 0) {
         } else {
-          newArray.push(res.traineeData[0]);
+          for (let index = 0; index < res.traineeData.length; index++) {
+            newArray.push(res.traineeData[index]);
+          }
         }
 
         if (res.trainerData.length === 0) {
         } else {
-          newArray.push(res.trainerData[0]);
+          for (let index = 0; index < res.trainerData.length; index++) {
+            newArray.push(res.trainerData[index]);
+          }
         }
         if (res.trainingData.length === 0) {
         } else {
-          newArray.push(res.trainingData[0]);
+          for (let index = 0; index < res.trainingData.length; index++) {
+            newArray.push(res.trainingData[index]);
+          }
+        }
+        if (res.farmingData.length === 0) {
+        } else {
+          newArray.push(res.farmingData[0]);
+          for (let index = 0; index < res.farmingData.length; index++) {
+            newArray.push(res.farmingData[index]);
+          }
         }
 
         // to remove common dwr_id's
@@ -114,7 +133,7 @@ export class WorkHistoryPage implements OnInit {
             self.findIndex((v) => keys.every((k) => v[k] === value[k])) ===
             index
         );
-
+           console.log('Filtered Data:',filteredData);
         this.dwrs$ = filteredData;
 
         // to stop spinner
@@ -133,19 +152,32 @@ export class WorkHistoryPage implements OnInit {
     ).subscribe((res)=>{
       let newArray: any = [];
 
-        // combining in one array
-        if (res.traineeData.length === 0) {
+         // combining in one array
+         if (res.traineeData.length === 0) {
         } else {
-          newArray.push(res.traineeData[0]);
+          for (let index = 0; index < res.traineeData.length; index++) {
+            newArray.push(res.traineeData[index]);
+          }
         }
 
         if (res.trainerData.length === 0) {
         } else {
-          newArray.push(res.trainerData[0]);
+          for (let index = 0; index < res.trainerData.length; index++) {
+            newArray.push(res.trainerData[index]);
+          }
         }
         if (res.trainingData.length === 0) {
         } else {
-          newArray.push(res.trainingData[0]);
+          for (let index = 0; index < res.trainingData.length; index++) {
+            newArray.push(res.trainingData[index]);
+          }
+        }
+        if (res.farmingData.length === 0) {
+        } else {
+          newArray.push(res.farmingData[0]);
+          for (let index = 0; index < res.farmingData.length; index++) {
+            newArray.push(res.farmingData[index]);
+          }
         }
 
         // to remove common dwr_id's

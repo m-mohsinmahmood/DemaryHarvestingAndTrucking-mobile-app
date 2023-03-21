@@ -33,7 +33,7 @@
             </div>
             <div *ngIf="(loading | async) === false">
               <div *ngFor="let dwr of dwrs$">
-                <ion-card class="p-2 flex flex-col justify-between items-center" (click)="navigate('verify',dwr.dwr_id)">
+                <ion-card class="p-2 flex flex-col justify-between items-center" (click)="navigate('verify',dwr.dwr_id,dwr.dwr_type)">
                   <ion-text class="font-Lato font-semibold text-lg text-3D8AA4">
                     {{moment(dwr.created_at).format('MMMM DD, YYYY')}}
                   </ion-text>
@@ -68,7 +68,7 @@
 
           <div *ngIf="(loading | async) === false">
             <div *ngFor="let monthDWRS of monthDWRS$">
-              <ion-card class="p-2 flex flex-col justify-between items-center" (click)="navigate('verify',monthDWRS.dwr_id)">
+              <ion-card class="p-2 flex flex-col justify-between items-center" (click)="navigate('verify',monthDWRS.dwr_id, monthDWRS.dwr_type)">
                 <ion-text class="font-Lato font-semibold text-lg text-3D8AA4">
                   {{moment(monthDWRS.created_at).format('MMMM DD, YYYY')}}
                 </ion-text>

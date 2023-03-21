@@ -21,6 +21,7 @@ export class ViewJobPage implements OnInit {
 notesForm: FormGroup;
 status: any;
 notes: any;
+dwr_type: any;
 
   // behaviour subject for loader
   public loading = new BehaviorSubject(true);
@@ -42,6 +43,7 @@ notes: any;
       this.task_id= params.task_id;
       this.type= params.type;
       this.notes= params.notes;
+      this.dwr_type= params.dwr_type;
     });
     this.initForm();
 
@@ -54,13 +56,14 @@ notes: any;
     //     this.data = res;
     //     this.loading.next(false);
     //   });
-    this.dwrService.getDWRById(this.task_id,'getTicketData')
+
+    this.dwrService.getDWRById(this.task_id,'getTicketData',this.dwr_type)
       .subscribe((res)=>{
         console.log('Res:',res);
           this.loading.next(true);
           this.data = res;
           // for basic skills to get the sat/un-sat status
-          if(this.data.trainingData.length > 0){
+          if(this.data?.trainingData?.length > 0){
 
 this.status = ((+this.data.trainingData[0].pullUpsInput_slb + +this.data.trainingData[0].encroachInput_slb < 3) && (this.data.trainingData[0].goal_slb === 'true') && (this.data.trainingData[0].finalPosition_slb === 'true')) &&
 ((+this.data.trainingData[0].pullUpsInput_ad + +this.data.trainingData[0].encroachInput_ad < 3) && (this.data.trainingData[0].goal_ad === 'true') && (this.data.trainingData[0].finalPosition_ad === 'true'))  &&

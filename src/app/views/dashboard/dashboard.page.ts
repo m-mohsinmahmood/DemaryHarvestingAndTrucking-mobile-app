@@ -50,8 +50,9 @@ export class DashboardPage implements OnInit {
     this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
       this.activeDwr = workOrder.dwr;
 
+      this.role = localStorage.getItem('role');
+
       if (this.activeDwr.length <= 0) {
-        console.log("Check-In");
         this.role = 'crew-chief';
         this.selectform.patchValue({ select: this.role });
         localStorage.setItem('role', this.role);
@@ -63,15 +64,15 @@ export class DashboardPage implements OnInit {
         this.isModalOpen = false;
       }
       else {
-        console.log("Already CheckedIn");
+        console.log('Already CheckedIn');
         this.role = this.activeDwr[0].role;
         this.selectform.patchValue({ select: this.role });
         localStorage.setItem('role', this.activeDwr[0].role);
         localStorage.setItem('employeeId', this.activeDwr[0].employee_id);
         this.isModalOpen = true;
 
-        console.log("Role: ", localStorage.getItem("role"));
-        console.log("ID :", localStorage.getItem("employeeId"));
+        // console.log("Role: ", localStorage.getItem("role"));
+        // console.log("ID :", localStorage.getItem("employeeId"));
       }
     });
   }

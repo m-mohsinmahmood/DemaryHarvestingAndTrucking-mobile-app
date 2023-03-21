@@ -45,7 +45,7 @@
           </ion-row>
       </ion-grid>
     </ion-card-content>
-
+<div *ngIf="dwr_type === 'training'">
     <!-- For Trainee Data -->
     <ion-card-content *ngIf="(loading | async) === false && data.traineeData.length !== 0">
       <ion-grid >
@@ -125,7 +125,7 @@
     </ion-card-content>
 
     <!-- For Trainer (Training Tasks) Data -->
-    <ion-card-content *ngIf="(loading | async) === false && data.trainerData.length !== 0">
+    <ion-card-content *ngIf="(loading | async) === false && data?.trainerData?.length !== 0">
       <ion-grid >
         <ion-row>
           <ion-col size="12">
@@ -218,7 +218,7 @@
     </ion-card-content>
 
     <!-- For Training Evaluation Form having Pre-Trip -->
-    <ion-card-content *ngIf="(loading | async) === false && data.trainingData.length !== 0 && data.trainingData[0].evaluation_type === 'pre-trip'">
+    <ion-card-content *ngIf="(loading | async) === false && data?.trainingData?.length !== 0 && data?.trainingData[0]?.evaluation_type === 'pre-trip'">
       <!-- For Digital Form -->
       <ion-grid *ngIf="data.trainingData[0].evaluation_form === 'digital-form'" >
         <ion-col size="12">
@@ -411,7 +411,7 @@
      </ion-card-content>
 
   <!-- For Training Evaluation Form having Road-Skills -->
-  <ion-card-content *ngIf="(loading | async) === false && data.trainingData.length !== 0 && data.trainingData[0].evaluation_type === 'road-skills'">
+  <ion-card-content *ngIf="(loading | async) === false && data?.trainingData?.length !== 0 && data?.trainingData[0]?.evaluation_type === 'road-skills'">
 
     <!-- For Digital Form -->
     <ion-grid *ngIf="data.trainingData[0].evaluation_form === 'digital-form'" >
@@ -711,9 +711,9 @@
   </ion-card-content>
 
   <!-- For Training Evaluation Form having Basic-Skills -->
-  <ion-card-content *ngIf="(loading | async) === false && data.trainingData.length !== 0 && data.trainingData[0].evaluation_type === 'basic-skills'">
+  <ion-card-content *ngIf="(loading | async) === false && data?.trainingData?.length !== 0 && data?.trainingData[0]?.evaluation_type === 'basic-skills'">
    <!-- For Digital Form -->
-   <ion-grid *ngIf="data.trainingData[0].evaluation_form === 'digital-form'" >
+   <ion-grid *ngIf="data?.trainingData[0]?.evaluation_form === 'digital-form'" >
     <ion-col size="12">
       <ion-text class="flex justify-center items-center text-xl font-semibold text-3D8AA4" ion-text-center>Training Evaluation Form</ion-text>
      </ion-col>
@@ -844,7 +844,7 @@
   </ion-grid>
 
   <!-- For Paper Form -->
-  <ion-grid *ngIf="data.trainingData[0].evaluation_form === 'paper-form'" >
+  <ion-grid *ngIf="data?.trainingData[0]?.evaluation_form === 'paper-form'" >
     <ion-col size="12">
       <ion-text class="flex justify-center items-center text-xl font-semibold text-3D8AA4" ion-text-center>Training Evaluation Form</ion-text>
      </ion-col>
@@ -965,6 +965,84 @@
     </div>
   </ion-grid>
   </ion-card-content>
+</div>
+<div *ngIf="dwr_type === 'farming'">
+  <ion-card-content *ngIf="(loading | async) === false">
+    <ion-grid >
+      <ion-row>
+        <ion-col size="12">
+         <ion-text class="flex justify-center items-center text-xl font-semibold text-3D8AA4" ion-text-center>Farming Details</ion-text>
+        </ion-col>
+      </ion-row>
+      <ion-row class="mb-1 h-16">
+        <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+          <p class="font-Lato text-black font-bold font-14">Customer Name</p>
+          <span class="font-Lato font-14">{{data.data[0].customer_id | slice:0:8}}</span>
+        </ion-col>
+        <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+          <p class="font-Lato text-black font-bold font-14">Dispatcher Name</p>
+          <span class="font-Lato font-14">{{data.data[0].dispatcher_id | slice:0:8}}</span>
+        </ion-col>
+      </ion-row>
+
+      <ion-row class="mb-1 h-16">
+        <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+          <p class="font-Lato text-black font-bold font-14">Tractor Driver Name</p>
+          <span class="font-Lato font-14">{{data.data[0].tractor_driver_id | slice:0:8}}</span>
+        </ion-col>
+        <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+          <p class="font-Lato text-black font-bold font-14">Farm Name</p>
+          <span class="font-Lato font-14 text-left">{{data.data[0].farm_id | slice:0:8}}</span>
+        </ion-col>
+      </ion-row>
+
+      <ion-row class="mb-1 h-16">
+        <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+          <p class="font-Lato text-black font-bold font-14">Field Name:</p>
+          <span class="font-Lato font-14">{{data.data[0].field_id | slice:0:8}}</span>
+        </ion-col>
+        <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+          <p class="font-Lato text-black font-bold font-14">Hours Worked:</p>
+          <span class="font-Lato font-14">{{data.data[0].hours_worked}}</span>
+        </ion-col>
+      </ion-row>
+
+    </ion-grid>
+      <ion-text class="text-sm font-semibold font-Lato text-black mt-2" >Notes</ion-text>
+      <ion-item lines="none" class="textarea">
+        <ion-textarea disabled [autoGrow]="true" class="h-10" [value]="data.data[0].notes">
+        </ion-textarea>
+      </ion-item>
+      <div *ngIf="notes">
+        <ion-text class="text-sm font-semibold font-Lato text-black mt-2" >Supervisor Notes:</ion-text>
+        <ion-item lines="none" class="textarea">
+          <!-- <form [formGroup]="notesForm"> -->
+          <ion-textarea disabled [autoGrow]="true" [value]="notes">
+          </ion-textarea>
+        <!-- </form> -->
+        </ion-item>
+      </div>
+    <div *ngIf="type === 'detail'">
+      <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="exit()" >Exit</ion-button>
+    </div>
+    <div *ngIf="type === 'send-back'">
+      <ion-button expand="block" class="mt-5 font-Lato text-white" [disabled]="(loadingSpinner | async)" (click)="sendBack()">
+        <div *ngIf="(loadingSpinner | async) === false">Send Back</div>
+        <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+      </ion-button>
+    </div>
+    <div *ngIf="type === 'verify'">
+      <ion-button expand="block"
+      class="mt-5 font-Lato text-white"
+      [disabled]="(loadingSpinner | async)"
+       (click)="verify()">
+       <div *ngIf="(loadingSpinner | async) === false">Verify</div>
+       <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+      </ion-button>
+    </div>
+
+  </ion-card-content>
+</div>
   </ion-card>
 </ion-content>
 `
