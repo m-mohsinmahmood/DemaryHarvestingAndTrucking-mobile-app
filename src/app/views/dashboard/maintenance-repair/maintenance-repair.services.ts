@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 /* eslint-disable @typescript-eslint/naming-convention */
 import {
   HttpClient,
@@ -124,13 +125,33 @@ export class MaintenanceRepairService {
     })
     .pipe(take(1));
   }
-  createDWR(employeeId: any, main_repair_ticket_id: any,supervisor_id: any){
-    const data = {
-      dwr_type: 'main-repair',
-      main_repair_ticket_id,
-      employeeId,
-      supervisor_id,
+  // createDWR(employeeId: any, main_repair_ticket_id: any,supervisor_id: any){
+  //   const data = {
+  //     dwr_type: 'main-repair',
+  //     main_repair_ticket_id,
+  //     employeeId,
+  //     supervisor_id,
+  //   };
+  //   return this.httpClient
+  //     .post<any>(`api-1/dwr`, data)
+  //     .pipe(take(1));
+  // }
+  createDWR(
+    employeeId: any,
+    ticketRecordId: any,
+    supervisor_id: any,
+    dwrId){
+    let data;
+
+       data = {
+        dwr_type: 'main-repair',
+        module: 'main-repair',
+        employeeId,
+        supervisor_id,
+        dwrId,
+        ticketRecordId
     };
+    console.log('DATA:',data);
     return this.httpClient
       .post<any>(`api-1/dwr`, data)
       .pipe(take(1));

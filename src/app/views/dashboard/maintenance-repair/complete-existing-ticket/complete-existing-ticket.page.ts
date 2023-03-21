@@ -1,9 +1,13 @@
+/* eslint-disable max-len */
+/* eslint-disable prefer-const */
+/* eslint-disable @typescript-eslint/naming-convention */
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MaintenanceRepairService } from '../maintenance-repair.services';
 import { BehaviorSubject } from 'rxjs';
 import { ToastService } from 'src/app/services/toast/toast.service';
+import { CheckInOutService } from 'src/app/components/check-in-out/check-in-out.service';
 
 @Component({
   selector: 'app-complete-existing-ticket',
@@ -19,16 +23,20 @@ export class CompleteExistingTicketPage implements OnInit {
   assignedBy: any;
   assignedTo: any;
 
+  active_check_in_id: any;
+
   // behaviour subject's for loader
   public loading = new BehaviorSubject(true);
   public loadingSpinner = new BehaviorSubject(false);
+  public activeCheckInSpinner = new BehaviorSubject(false);
 
 
   constructor(private activeRoute: ActivatedRoute,
     private router: Router,
     private formBuilder: FormBuilder,
     private maintenanceRepairService: MaintenanceRepairService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private dwrServices: CheckInOutService
 
     ) { }
 
@@ -102,13 +110,10 @@ export class CompleteExistingTicketPage implements OnInit {
         (res) => {
           console.log('RES:', res);
           if (res.status === 200) {
-            this.loadingSpinner.next(false);
 
-            //     this.router.navigateByUrl('/tabs/home/maintenance-repair');
-            this.toastService.presentToast(
-              'Paused ticket has been completed',
-              'success'
-            );
+          // getting check-in id
+         this.getCheckInID();
+
           } else {
             console.log('Something happened :)');
             this.toastService.presentToast(res.mssage, 'danger');
@@ -120,32 +125,51 @@ export class CompleteExistingTicketPage implements OnInit {
         }
       );
 
-      // creating DWR
+  }
+  getCheckInID(){
+    this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
+      this.activeCheckInSpinner.next(true);
+      this.active_check_in_id = workOrder.dwr[0].id;
+      this.activeCheckInSpinner.next(false);
+
+       // creating DWR
       this.createDWR();
+    });
 
   }
-  createDWR(){
-    this.maintenanceRepairService
-     .createDWR(localStorage.getItem('employeeId'), this.ticketRecordId,this.completeExistingTicketForm.get('assignedById').value)
-     .subscribe(
-       (res) => {
-         console.log('RES:', res);
-         if (res.status === 200) {
-          this.router.navigateByUrl('/tabs/home/maintenance-repair');
-           // this.toastService.presentToast(
-           //   'Ticket has been completed',
-           //   'success'
-           // );
-         } else {
-           console.log('Something happened :)');
-           this.toastService.presentToast(res.mssage, 'danger');
-         }
-       },
-       (err) => {
-         console.log('ERROR::', err);
-         this.toastService.presentToast(err.mssage, 'danger');
-       }
-     );
- }
+
+createDWR(){
+  let supervisor_id;
+  supervisor_id = this.completeExistingTicketForm.get('assignedById').value;
+
+ this.maintenanceRepairService
+  .createDWR(localStorage.getItem('employeeId'),this.ticketRecordId, this.completeExistingTicketForm.get('assignedById').value,this.active_check_in_id)
+  .subscribe(
+    (res) => {
+      console.log('RES:', res);
+      if (res.status === 200) {
+
+       // to stop loader
+        this.loadingSpinner.next(false);
+
+        // tooltip
+        this.toastService.presentToast(
+         'Paused ticket has been completed',
+         'success'
+       );
+
+     // navigating
+    this.router.navigateByUrl('/tabs/home/maintenance-repair');
+          } else {
+        console.log('Something happened :)');
+        this.toastService.presentToast(res.mssage, 'danger');
+      }
+    },
+    (err) => {
+      console.log('ERROR::', err);
+      this.toastService.presentToast(err.mssage, 'danger');
+    }
+  );
+}
 
 }
