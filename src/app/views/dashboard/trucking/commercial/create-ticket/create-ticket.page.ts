@@ -459,7 +459,7 @@ export class CreateTicketPage implements OnInit {
       this.createTicketFormDispatcher.get('image_3').value
     );
 
-    this.truckingService.createNewDeliveryTicket(formData).subscribe(
+    this.truckingService.createNewDeliveryTicketCommercial(formData).subscribe(
       (res: any) => {
         console.log(res);
         if (res.status === 200) {
@@ -545,7 +545,7 @@ export class CreateTicketPage implements OnInit {
     this.createTicketFormTruckDriver.get('loadimages_2').value
     );
 
-    this.truckingService.createNewDeliveryTicket(formData).subscribe(
+    this.truckingService.createNewDeliveryTicketCommercial(formData).subscribe(
       (res: any) => {
         console.log(res);
         if (res.status === 200) {

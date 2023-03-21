@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subject, Observable, of } from 'rxjs';
 import { ToastService } from 'src/app/services/toast/toast.service';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
@@ -169,41 +169,55 @@ export class CreateTicketPage implements OnInit {
     });
   }
 
-  // navigatedispatcher() {
-  //   console.log(this.createTicketFormDispatcherInHouse.value);
+  navigatedispatcher() {
+    console.log(this.createTicketFormDispatcherInHouse.value);
+    this.createTicketFormDispatcherInHouse.addControl('role', new FormControl('dispatcher'));
+    this.createTicketFormDispatcherInHouse.addControl('ticketStatus', new FormControl('sent'));
+    this.createTicketFormDispatcherInHouse.addControl('truckingType', new FormControl('home'));
+    this.createTicketFormDispatcherInHouse.addControl('isTicketInfoCompleted', new FormControl(false));
 
-  //   this.truckingService.createNewDeliveryTicket(this.createTicketFormDispatcherInHouse.value, 'dispatcher', 'home', 'sent', false)
-  //     .subscribe(
-  //       (res: any) => {
-  //         console.log(res);
-  //         if (res.status === 200) {
-  //           this.toast.presentToast("Delivery ticket has been created successfully!", 'success');
-  //           this.router.navigateByUrl('/tabs/home/trucking/in-house');
-  //         }
-  //       },
-  //       (err) => {
-  //         this.toast.presentToast(err, 'danger');
-  //       },
-  //     );
-  // }
+    var formData: FormData = new FormData();
+    formData.append('traineeForm', JSON.stringify(this.createTicketFormDispatcherInHouse.value));
 
-  // navigateTruckDriver() {
-  //   console.log(this.createTicketFormTruckDriverInHouse.value);
+    this.truckingService.createNewDeliveryTicket(this.createTicketFormDispatcherInHouse.value)
+      .subscribe(
+        (res: any) => {
+          console.log(res);
+          if (res.status === 200) {
+            this.toast.presentToast("Delivery ticket has been created successfully!", 'success');
+            this.router.navigateByUrl('/tabs/home/trucking/in-house');
+          }
+        },
+        (err) => {
+          this.toast.presentToast(err, 'danger');
+        },
+      );
+  }
 
-  //   this.truckingService.createNewDeliveryTicket(this.createTicketFormTruckDriverInHouse.value, 'truck-driver', 'home', 'sent', true)
-  //     .subscribe(
-  //       (res: any) => {
-  //         console.log(res);
-  //         if (res.status === 200) {
-  //           this.toast.presentToast("Delivery ticket has been created successfully!", 'success');
-  //           this.router.navigateByUrl('/tabs/home/trucking/in-house');
-  //         }
-  //       },
-  //       (err) => {
-  //         this.toast.presentToast(err, 'danger');
-  //       },
-  //     );
-  // }
+  navigateTruckDriver() {
+    console.log(this.createTicketFormTruckDriverInHouse.value);
+    this.createTicketFormTruckDriverInHouse.addControl('role', new FormControl('truck-driver'));
+    this.createTicketFormTruckDriverInHouse.addControl('ticketStatus', new FormControl('sent'));
+    this.createTicketFormTruckDriverInHouse.addControl('truckingType', new FormControl('home'));
+    this.createTicketFormTruckDriverInHouse.addControl('isTicketInfoCompleted', new FormControl(true));
+
+    var formData: FormData = new FormData();
+    formData.append('traineeForm', JSON.stringify(this.createTicketFormTruckDriverInHouse.value));
+
+    this.truckingService.createNewDeliveryTicket(formData)
+      .subscribe(
+        (res: any) => {
+          console.log(res);
+          if (res.status === 200) {
+            this.toast.presentToast("Delivery ticket has been created successfully!", 'success');
+            this.router.navigateByUrl('/tabs/home/trucking/in-house');
+          }
+        },
+        (err) => {
+          this.toast.presentToast(err, 'danger');
+        },
+      );
+  }
 
   //  #region Customer
   customerSearchSubscription() {
