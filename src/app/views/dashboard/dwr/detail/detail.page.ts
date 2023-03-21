@@ -10,13 +10,14 @@ import { BehaviorSubject, Observable } from 'rxjs';
   styleUrls: ['./detail.page.scss'],
 })
 export class DetailPage implements OnInit {
-
+  segment: any = 'view-tasks';
   type: any;
 
   // data
   workHistoryData: any;
   data: any;
   dwr_id: any;
+  role: any;
 
   // behaviour subject for loader
   public loading = new BehaviorSubject(true);
@@ -33,6 +34,9 @@ export class DetailPage implements OnInit {
     // this.type = this.router.getCurrentNavigation().extras.state.type;
     // console.log('State:',this.router.getCurrentNavigation().extras.state);
 
+    //getting role
+    this.getEmployeeDetails();
+
     this.route.queryParams.subscribe((params)=>{
       console.log('PARAMS:',params);
       this.type = params.type;
@@ -43,16 +47,23 @@ export class DetailPage implements OnInit {
 
 
     // conditionally checking types to render data
-    if(this.type === 'work-history'){
-      this.dwrService.getDWRById(this.dwr_id,'getTasks')
-      .subscribe((res)=>{
-        console.log('Res:',res);
-          this.loading.next(true);
-          this.workHistoryData = res;
-          this.loading.next(false);
-      });
+    if(this.type === 'work-history' || this.type === 'verify' ){
+      // this.dwrService.getDWRById(this.dwr_id,'getTasks')
+      // .subscribe((res)=>{
+      //   console.log('Res:',res);
+      //     this.loading.next(true);
+      //     this.workHistoryData = res;
+      //     this.loading.next(false);
+      // });
+      this.getTickets();
     }
   });
+  }
+  async ionViewDidEnter(){
+    this.getEmployeeDetails();
+  }
+  getEmployeeDetails(){
+    this.role = localStorage.getItem('role');
   }
   getJob(){
     this.router.navigateByUrl('/tabs/home/dwr/detail/view-job');
@@ -96,13 +107,26 @@ export class DetailPage implements OnInit {
         this.loaderModel.next(false);
       });
   }
-  navigate(task_id: any,type) {
+  navigate(task_id: any,type, notes) {
     this.router.navigate(['/tabs/home/dwr/detail/view-job'], {
       queryParams: {
         task_id,
-        type
+        type,
+        notes
       },
     });
   }
+  getTickets(){
+    this.dwrService.getDWRById(this.dwr_id,'getTasks')
+      .subscribe((res)=>{
+        console.log('Res:',res);
+          this.loading.next(true);
+          this.workHistoryData = res;
+          this.loading.next(false);
+      });
+  }
+  // getTickets(){
+  //   this.getTickets();
+  // }
 
 }

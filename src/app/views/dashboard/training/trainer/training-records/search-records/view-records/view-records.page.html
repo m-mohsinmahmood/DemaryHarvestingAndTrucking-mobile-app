@@ -541,23 +541,31 @@
     </ion-grid>
     <ion-card-content *ngIf="(loading | async) === false">
       <div class="mb-0 flex items-center justify-between">
-        <ion-text class="font-Lato font-semibold text-black">Final Result:</ion-text>
-        <ion-text
+        <ion-text class="font-Lato font-semibold text-black">Final Results:</ion-text>
+        <!-- <ion-text
         *ngIf="((+records.pullUpsInput_slb + +records.encroachInput_slb < 3) && (records.goal_slb === 'true') && (records.finalPosition_slb === 'true')) &&
         ((+records.pullUpsInput_ad + +records.encroachInput_ad < 3) && (records.goal_ad === 'true') && (records.finalPosition_ad === 'true'))  &&
-        ((+records.encroach_osb + +records.encroach_osb < 3) && (records.goal_osb === 'true') && (records.finalPosition_osb === 'true')) &&
+        ((+records.encroach_osb + +records.pullUps_osb < 3) && (records.goal_osb === 'true') && (records.finalPosition_osb === 'true')) &&
         ((+records.pullUps_pb + +records.encroach_pb < 3) && (records.goal_pb === 'true') && (records.finalPosition_pb === 'true')) &&
         ((+records.pullUps_ps + +records.encroach_ps < 3) && (records.goal_ps === 'true') && (records.finalPosition_ps === 'true')) &&
         ((+records.pullUps_cou + +records.encroach_cou < 3) && (records.goal_cou === 'true') && (records.finalPosition_cou === 'true'))"
-        class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text>
+        class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text> -->
+
         <ion-text
+      *ngIf="status === true"
+      class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text>
+      <ion-text
+      *ngIf="status === false"
+      class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text>
+
+        <!-- <ion-text
         *ngIf="(!(+records.pullUpsInput_slb + +records.encroachInput_slb < 3) && (records.goal_slb === 'true') && (records.finalPosition_slb === 'true')) ||
         (!(+records.pullUpsInput_ad + +records.encroachInput_ad < 3) && (records.goal_ad === 'true') && (records.finalPosition_ad === 'true'))  ||
-        (!(+records.encroach_osb + +records.encroach_osb < 3) && (records.goal_osb === 'true') && (records.finalPosition_osb === 'true')) ||
+        (!(+records.encroach_osb + +records.pullUps_osb < 3) && (records.goal_osb === 'true') && (records.finalPosition_osb === 'true')) ||
         (!(+records.pullUps_pb + +records.encroach_pb < 3) && (records.goal_pb === 'true') && (records.finalPosition_pb === 'true')) ||
         (!(+records.pullUps_ps + +records.encroach_ps < 3) && (records.goal_ps === 'true') && (records.finalPosition_ps === 'true')) ||
         (!(+records.pullUps_cou + +records.encroach_cou < 3) && (records.goal_cou === 'true') && (records.finalPosition_cou === 'true'))"
-         class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text>
+         class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text> -->
       </div>
     </ion-card-content>
     <ion-button *ngIf="(loading | async) === false" expand="block" class="close-out-button font-Lato mx-8 mb-2 mt-2 bg-opacity-10 text-white" (click)="exit()">Close</ion-button>

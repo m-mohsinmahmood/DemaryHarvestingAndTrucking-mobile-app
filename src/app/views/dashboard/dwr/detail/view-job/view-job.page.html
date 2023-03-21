@@ -97,14 +97,30 @@
             </ion-card-content>
           </ion-card>
       </ion-grid>
+      <div *ngIf="notes">
+        <ion-text class="text-sm font-semibold font-Lato text-black mt-2" >Notes</ion-text>
+        <ion-item lines="none" class="textarea">
+          <ion-textarea disabled [autoGrow]="true" [value]="this.notes">
+          </ion-textarea>
+        </ion-item>
+      </div>
       <div *ngIf="type === 'detail'">
         <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="exit()" >Exit</ion-button>
       </div>
       <div *ngIf="type === 'send-back'">
-        <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="exit()" >Send Back</ion-button>
+        <ion-button expand="block" class="mt-5 font-Lato text-white" [disabled]="(loadingSpinner | async)" (click)="sendBack()">
+          <div *ngIf="(loadingSpinner | async) === false">Send Back</div>
+          <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+        </ion-button>
       </div>
       <div *ngIf="type === 'verify'">
-        <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="exit()" >Verify</ion-button>
+        <ion-button expand="block"
+        class="mt-5 font-Lato text-white"
+        [disabled]="(loadingSpinner | async)"
+         (click)="verify()">
+         <div *ngIf="(loadingSpinner | async) === false">Verify</div>
+         <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+        </ion-button>
       </div>
     </ion-card-content>
 
@@ -165,6 +181,40 @@
             </ion-card-content>
           </ion-card>
       </ion-grid>
+      <div *ngIf="type === 'send-back'">
+        <ion-text class="text-sm font-semibold font-Lato text-black mt-2" >Notes</ion-text>
+        <ion-item lines="none" class="textarea">
+          <form [formGroup]="notesForm">
+          <ion-textarea [autoGrow]="true" formControlName="notes">
+          </ion-textarea>
+        </form>
+        </ion-item>
+      </div>
+      <div *ngIf="notes">
+        <ion-text class="text-sm font-semibold font-Lato text-black mt-2" >Notes</ion-text>
+        <ion-item lines="none" class="textarea">
+          <ion-textarea disabled [autoGrow]="true" [value]="this.notes">
+          </ion-textarea>
+        </ion-item>
+      </div>
+      <div *ngIf="type === 'detail'">
+        <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="exit()" >Exit</ion-button>
+      </div>
+      <div *ngIf="type === 'send-back'">
+        <ion-button expand="block" class="mt-5 font-Lato text-white" [disabled]="(loadingSpinner | async)" (click)="sendBack()">
+          <div *ngIf="(loadingSpinner | async) === false">Send Back</div>
+          <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+        </ion-button>
+      </div>
+      <div *ngIf="type === 'verify'">
+        <ion-button expand="block"
+        class="mt-5 font-Lato text-white"
+        [disabled]="(loadingSpinner | async)"
+         (click)="verify()">
+         <div *ngIf="(loadingSpinner | async) === false">Verify</div>
+         <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+        </ion-button>
+      </div>
     </ion-card-content>
 
     <!-- For Training Evaluation Form having Pre-Trip -->
@@ -212,14 +262,42 @@
               <span class="font-Lato font-14">{{data.trainingData[0].percentageSuspension}}%</span>
             </ion-col>
           </ion-row>
+          <div *ngIf="type === 'send-back'">
+            <ion-text class="text-sm font-semibold font-Lato text-black mt-2" >Notes</ion-text>
+            <ion-item lines="none" class="textarea">
+              <form [formGroup]="notesForm">
+              <ion-textarea [autoGrow]="true" formControlName="notes">
+              </ion-textarea>
+            </form>
+            </ion-item>
+          </div>
+          <div *ngIf="notes">
+            <ion-text class="text-sm font-semibold font-Lato text-black mt-2" >Notes</ion-text>
+            <ion-item lines="none" class="textarea">
+              <ion-textarea disabled [autoGrow]="true" [value]="this.notes">
+              </ion-textarea>
+            </ion-item>
+          </div>
+
           <div *ngIf="type === 'detail'">
             <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="exit()" >Exit</ion-button>
           </div>
           <div *ngIf="type === 'send-back'">
-            <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="exit()" >Send Back</ion-button>
+            <ion-button expand="block" class="mt-5 font-Lato text-white" [disabled]="(loadingSpinner | async)" (click)="sendBack()">
+              <div *ngIf="(loadingSpinner | async) === false">Send Back</div>
+              <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+            </ion-button>
           </div>
           <div *ngIf="type === 'verify'">
-            <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="exit()" >Verify</ion-button>
+            <div *ngIf="type === 'verify'">
+              <ion-button expand="block"
+              class="mt-5 font-Lato text-white"
+              [disabled]="(loadingSpinner | async)"
+               (click)="verify()">
+               <div *ngIf="(loadingSpinner | async) === false">Verify</div>
+               <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+              </ion-button>
+            </div>
           </div>
 
       </ion-grid>
@@ -291,15 +369,42 @@
                 <img [src]="data.trainingData[0].image_3"alt="" class="h-48 w-full object-contain">
               </div>
             </ion-card-content>
+            <div *ngIf="type === 'send-back'">
+              <ion-text class="text-sm font-semibold font-Lato text-black mt-2" >Notes</ion-text>
+              <ion-item lines="none" class="textarea">
+                <form [formGroup]="notesForm">
+                <ion-textarea [autoGrow]="true" formControlName="notes">
+                </ion-textarea>
+              </form>
+              </ion-item>
+            </div>
+            <div *ngIf="notes">
+              <ion-text class="text-sm font-semibold font-Lato text-black mt-2" >Notes</ion-text>
+              <ion-item lines="none" class="textarea">
+                <ion-textarea disabled [autoGrow]="true" [value]="this.notes">
+                </ion-textarea>
+              </ion-item>
+            </div>
           </ion-card>
           <div *ngIf="type === 'detail'">
             <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="exit()" >Exit</ion-button>
           </div>
           <div *ngIf="type === 'send-back'">
-            <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="exit()" >Send Back</ion-button>
+            <ion-button expand="block" class="mt-5 font-Lato text-white" [disabled]="(loadingSpinner | async)" (click)="sendBack()">
+              <div *ngIf="(loadingSpinner | async) === false">Send Back</div>
+              <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+            </ion-button>
           </div>
           <div *ngIf="type === 'verify'">
-            <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="exit()" >Verify</ion-button>
+            <div *ngIf="type === 'verify'">
+              <ion-button expand="block"
+              class="mt-5 font-Lato text-white"
+              [disabled]="(loadingSpinner | async)"
+               (click)="verify()">
+               <div *ngIf="(loadingSpinner | async) === false">Verify</div>
+               <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+              </ion-button>
+            </div>
           </div>
 
       </ion-grid>
@@ -449,16 +554,39 @@
               class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text>
             </div>
           </ion-card-content>
-          <ion-button *ngIf="(loading | async) === false" expand="block" class="close-out-button font-Lato mx-8 mb-8 mt-4 bg-opacity-10 text-white" (click)="exit()">Exit</ion-button>
         </ion-card>
+        <div *ngIf="type === 'send-back'" class="mt-6">
+          <ion-text class="text-sm font-semibold font-Lato text-black mt-2" >Notes</ion-text>
+          <ion-item lines="none" class="textarea">
+            <form [formGroup]="notesForm">
+            <ion-textarea [autoGrow]="true" formControlName="notes">
+            </ion-textarea>
+          </form>
+          </ion-item>
+        </div>
+        <div *ngIf="notes">
+          <ion-text class="text-sm font-semibold font-Lato text-black mt-2" >Notes</ion-text>
+          <ion-item lines="none" class="textarea">
+            <ion-textarea disabled [autoGrow]="true" [value]="this.notes">
+            </ion-textarea>
+          </ion-item>
+        </div>
         <div *ngIf="type === 'detail'">
           <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="exit()" >Exit</ion-button>
         </div>
+
         <div *ngIf="type === 'send-back'">
-          <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="exit()" >Send Back</ion-button>
+          <ion-button expand="block" class="mt-5 font-Lato text-white" [disabled]="(loadingSpinner | async)" (click)="sendBack()">
+            <div *ngIf="(loadingSpinner | async) === false">Send Back</div>
+            <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+          </ion-button>
         </div>
+
         <div *ngIf="type === 'verify'">
-          <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="exit()" >Verify</ion-button>
+          <ion-button expand="block" class="mt-5 font-Lato text-white" [disabled]="(loadingSpinner | async)" (click)="verify()">
+            <div *ngIf="(loadingSpinner | async) === false">Verify</div>
+            <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+          </ion-button>
         </div>
     </ion-grid>
 
@@ -544,15 +672,41 @@
           </div>
         </ion-card-content>
       </ion-card>
+      <div *ngIf="type === 'send-back'">
+        <ion-text class="text-sm font-semibold font-Lato text-black mt-2" >Notes</ion-text>
+        <ion-item lines="none" class="textarea">
+          <form [formGroup]="notesForm">
+          <ion-textarea [autoGrow]="true" formControlName="notes">
+          </ion-textarea>
+        </form>
+        </ion-item>
+      </div>
+      <div *ngIf="notes">
+        <ion-text class="text-sm font-semibold font-Lato text-black mt-2" >Notes</ion-text>
+        <ion-item lines="none" class="textarea">
+          <ion-textarea disabled [autoGrow]="true" [value]="this.notes">
+          </ion-textarea>
+        </ion-item>
+      </div>
       <div *ngIf="type === 'detail'">
         <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="exit()" >Exit</ion-button>
       </div>
       <div *ngIf="type === 'send-back'">
-        <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="exit()" >Send Back</ion-button>
+        <ion-button expand="block" class="mt-5 font-Lato text-white" [disabled]="(loadingSpinner | async)" (click)="sendBack()">
+          <div *ngIf="(loadingSpinner | async) === false">Send Back</div>
+          <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+        </ion-button>
       </div>
       <div *ngIf="type === 'verify'">
-        <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="exit()" >Verify</ion-button>
-      </div>
+        <div *ngIf="type === 'verify'">
+          <ion-button expand="block"
+          class="mt-5 font-Lato text-white"
+          [disabled]="(loadingSpinner | async)"
+           (click)="verify()">
+           <div *ngIf="(loadingSpinner | async) === false">Verify</div>
+           <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+          </ion-button>
+        </div>      </div>
     </ion-grid>
   </ion-card-content>
 
@@ -624,32 +778,67 @@
     <ion-card-content *ngIf="(loading | async) === false">
       <div class="mb-0 flex items-center justify-between">
         <ion-text class="font-Lato font-semibold text-black">Final Result:</ion-text>
-        <ion-text
+        <!-- <ion-text
         *ngIf="((+data.trainingData[0].pullUpsInput_slb + +data.trainingData[0].encroachInput_slb < 3) && (data.trainingData[0].goal_slb === 'true') && (data.trainingData[0].finalPosition_slb === 'true')) &&
         ((+data.trainingData[0].pullUpsInput_ad + +data.trainingData[0].encroachInput_ad < 3) && (data.trainingData[0].goal_ad === 'true') && (data.trainingData[0].finalPosition_ad === 'true'))  &&
         ((+data.trainingData[0].encroach_osb + +data.trainingData[0].encroach_osb < 3) && (data.trainingData[0].goal_osb === 'true') && (data.trainingData[0].finalPosition_osb === 'true')) &&
         ((+data.trainingData[0].pullUps_pb + +data.trainingData[0].encroach_pb < 3) && (data.trainingData[0].goal_pb === 'true') && (data.trainingData[0].finalPosition_pb === 'true')) &&
         ((+data.trainingData[0].pullUps_ps + +data.trainingData[0].encroach_ps < 3) && (data.trainingData[0].goal_ps === 'true') && (data.trainingData[0].finalPosition_ps === 'true')) &&
         ((+data.trainingData[0].pullUps_cou + +data.trainingData[0].encroach_cou < 3) && (data.trainingData[0].goal_cou === 'true') && (data.trainingData[0].finalPosition_cou === 'true'))"
+        class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text> -->
+
+        <ion-text
+        *ngIf="status === true"
         class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text>
         <ion-text
+        *ngIf="status === false"
+        class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text>
+
+        <!-- <ion-text
         *ngIf="(!(+data.trainingData[0].pullUpsInput_slb + +data.trainingData[0].encroachInput_slb < 3) && (data.trainingData[0].goal_slb === 'true') && (data.trainingData[0].finalPosition_slb === 'true')) ||
         (!(+data.trainingData[0].pullUpsInput_ad + +data.trainingData[0].encroachInput_ad < 3) && (data.trainingData[0].goal_ad === 'true') && (data.trainingData[0].finalPosition_ad === 'true'))  ||
         (!(+data.trainingData[0].encroach_osb + +data.trainingData[0].encroach_osb < 3) && (data.trainingData[0].goal_osb === 'true') && (data.trainingData[0].finalPosition_osb === 'true')) ||
         (!(+data.trainingData[0].pullUps_pb + +data.trainingData[0].encroach_pb < 3) && (data.trainingData[0].goal_pb === 'true') && (data.trainingData[0].finalPosition_pb === 'true')) ||
         (!(+data.trainingData[0].pullUps_ps + +data.trainingData[0].encroach_ps < 3) && (data.trainingData[0].goal_ps === 'true') && (data.trainingData[0].finalPosition_ps === 'true')) ||
         (!(+data.trainingData[0].pullUps_cou + +data.trainingData[0].encroach_cou < 3) && (data.trainingData[0].goal_cou === 'true') && (data.trainingData[0].finalPosition_cou === 'true'))"
-         class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text>
+         class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text> -->
       </div>
     </ion-card-content>
+    <div *ngIf="type === 'send-back'">
+      <ion-text class="text-sm font-semibold font-Lato text-black mt-2" >Notes</ion-text>
+      <ion-item lines="none" class="textarea">
+        <form [formGroup]="notesForm">
+        <ion-textarea [autoGrow]="true" formControlName="notes">
+        </ion-textarea>
+      </form>
+      </ion-item>
+    </div>
+    <div *ngIf="notes">
+      <ion-text class="text-sm font-semibold font-Lato text-black mt-2" >Notes</ion-text>
+      <ion-item lines="none" class="textarea">
+        <ion-textarea disabled [autoGrow]="true" [value]="this.notes">
+        </ion-textarea>
+      </ion-item>
+    </div>
     <div *ngIf="type === 'detail'">
       <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="exit()" >Exit</ion-button>
     </div>
     <div *ngIf="type === 'send-back'">
-      <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="exit()" >Send Back</ion-button>
+      <ion-button expand="block" class="mt-5 font-Lato text-white" [disabled]="(loadingSpinner | async)" (click)="sendBack()">
+        <div *ngIf="(loadingSpinner | async) === false">Send Back</div>
+        <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+      </ion-button>
     </div>
     <div *ngIf="type === 'verify'">
-      <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="exit()" >Verify</ion-button>
+      <div *ngIf="type === 'verify'">
+        <ion-button expand="block"
+        class="mt-5 font-Lato text-white"
+        [disabled]="(loadingSpinner | async)"
+         (click)="verify()">
+         <div *ngIf="(loadingSpinner | async) === false">Verify</div>
+         <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+        </ion-button>
+      </div>
     </div>
 
   </ion-grid>
@@ -736,19 +925,46 @@
         </div>
       </ion-card-content>
     </ion-card>
+    <div *ngIf="type === 'send-back'">
+      <ion-text class="text-sm font-semibold font-Lato text-black mt-2" >Notes</ion-text>
+      <ion-item lines="none" class="textarea">
+        <form [formGroup]="notesForm">
+        <ion-textarea [autoGrow]="true" formControlName="notes">
+        </ion-textarea>
+      </form>
+      </ion-item>
+    </div>
+
+    <div *ngIf="notes">
+      <ion-text class="text-sm font-semibold font-Lato text-black mt-2" >Notes</ion-text>
+      <ion-item lines="none" class="textarea">
+        <ion-textarea disabled [autoGrow]="true" [value]="this.notes">
+        </ion-textarea>
+      </ion-item>
+    </div>
+
     <div *ngIf="type === 'detail'">
       <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="exit()" >Exit</ion-button>
     </div>
     <div *ngIf="type === 'send-back'">
-      <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="exit()" >Send Back</ion-button>
+      <ion-button expand="block" class="mt-5 font-Lato text-white" [disabled]="(loadingSpinner | async)" (click)="sendBack()">
+        <div *ngIf="(loadingSpinner | async) === false">Send Back</div>
+        <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+      </ion-button>
     </div>
     <div *ngIf="type === 'verify'">
-      <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="exit()" >Verify</ion-button>
+      <div *ngIf="type === 'verify'">
+        <ion-button expand="block"
+        class="mt-5 font-Lato text-white"
+        [disabled]="(loadingSpinner | async)"
+         (click)="verify()">
+         <div *ngIf="(loadingSpinner | async) === false">Verify</div>
+         <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+        </ion-button>
+      </div>
     </div>
   </ion-grid>
-
   </ion-card-content>
-
   </ion-card>
 </ion-content>
 `
