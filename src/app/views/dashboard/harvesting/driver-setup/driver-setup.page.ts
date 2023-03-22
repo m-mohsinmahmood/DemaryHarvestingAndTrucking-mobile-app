@@ -133,7 +133,7 @@ export class DriverSetupPage implements OnInit {
       crew_chief_id = param[0].id;
 
       this.harvestingService.getJobTesting2(
-        'kart-operator',
+        'Kart Operator',
         localStorage.getItem('employeeId'),
         crew_chief_id
       );

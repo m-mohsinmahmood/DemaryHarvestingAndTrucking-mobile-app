@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 /* eslint-disable no-debugger */
 /* eslint-disable no-var */
 /* eslint-disable no-underscore-dangle */
@@ -16,6 +17,7 @@ import { TrainingService } from './../../training.service';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { ToastService } from 'src/app/services/toast/toast.service';
+import { CheckInOutService } from 'src/app/components/check-in-out/check-in-out.service';
 
 @Component({
   selector: 'app-training-tasks',
@@ -50,6 +52,10 @@ export class TrainingTasksPage implements OnInit {
 
   // eslint-disable-next-line @typescript-eslint/no-inferrable-types
   docPreview: string = '';
+  active_check_in_id: any;
+  trainer_record_id: any;
+  public activeCheckInSpinner = new BehaviorSubject(false);
+
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
   constructor(
@@ -57,7 +63,9 @@ export class TrainingTasksPage implements OnInit {
     private formBuilder: FormBuilder,
     private trainingService: TrainingService,
     private renderer: Renderer2,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private dwrServices: CheckInOutService
+
   ) {
     this.renderer.listen('window', 'click', (e) => {
       if (e.target !== this.employeeInput.nativeElement) {
@@ -196,12 +204,14 @@ export class TrainingTasksPage implements OnInit {
         (res) => {
           console.log('RES:', res);
           if (res.status === 200) {
-            this.loadingSpinner.next(false);
-            this.router.navigateByUrl('/tabs/home/training/trainer');
-            this.toastService.presentToast(
-              'Your details have been submitted',
-              'success'
-            );
+            // this.loadingSpinner.next(false);
+
+          // passing record id
+          this.trainer_record_id = res.id.record_id;
+
+          // getting check-in id
+          this.getCheckInID();
+
           } else {
             console.log('Something happened :)');
             this.toastService.presentToast(res.mssage, 'danger');
@@ -214,6 +224,54 @@ export class TrainingTasksPage implements OnInit {
       );
   }
 
+  getCheckInID(){
+    this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
+      this.activeCheckInSpinner.next(true);
+      console.log('Active Check ID: ', workOrder.dwr[0].id);
+      this.active_check_in_id = workOrder.dwr[0].id;
+      this.activeCheckInSpinner.next(false);
+
+       // creating DWR
+      this.createDWR();
+    });
+
+  }
+
+  createDWR(){
+    let supervisor_id;
+    supervisor_id = this.trainingTasksForm.get('supervisor_id').value;
+    this.trainingService
+     .createDWR(this.trainer_id, '','',this.trainer_record_id,'','',supervisor_id,this.active_check_in_id)
+     .subscribe(
+       (res) => {
+         console.log('RES:', res);
+         if (res.status === 200) {
+
+          // to stop loader
+          this.loadingSpinner.next(false);
+
+
+           // tooltip
+           this.toastService.presentToast(
+            'Your details have been submitted',
+            'success'
+          );
+
+          //  navigating
+           this.router.navigateByUrl('/tabs/home/training');
+         } else {
+           console.log('Something happened :)');
+           this.toastService.presentToast(res.mssage, 'danger');
+         }
+       },
+       (err) => {
+         console.log('ERROR::', err);
+         this.toastService.presentToast(err.mssage, 'danger');
+         this.loadingSpinner.next(false);
+
+       }
+     );
+ }
   //#region Supervisor
   employeeSearchSubscription() {
     this.employeesearch$

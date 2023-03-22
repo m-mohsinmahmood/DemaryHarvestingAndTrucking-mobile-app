@@ -2,7 +2,7 @@
 <app-header [title]="'Change Field'" [color]="'harvesting'"></app-header>
 
 <!-- Crew-Chief -->
- <ion-content *ngIf="role === 'crew-chief'">
+ <ion-content *ngIf="role.includes('Crew Chief')">
   <!-- <app-timer [value]="'23:00:12'"></app-timer> -->
   <div class="p-4">
 <ion-card class="m-0 mb-4">
@@ -120,7 +120,7 @@
 </ion-content>
 
 <!-- Combine Operator -->
-<ion-content *ngIf="role === 'combine-operator'">
+<ion-content *ngIf="role.includes('Combine Operator')">
   <div class="p-4">
 <ion-card class="m-0 mb-2">
   <ion-card-header>
@@ -198,7 +198,7 @@
 </ion-content>
 
 <!-- Kart-Operator -->
-<ion-content *ngIf="role === 'kart-operator'">
+<ion-content *ngIf="role.includes('Kart Operator')">
   <!-- <app-timer [value]="'23:00:12'"></app-timer> -->
   <div class="p-4">
 <ion-card class="m-0 mb-4">

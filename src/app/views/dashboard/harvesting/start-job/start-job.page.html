@@ -1,11 +1,11 @@
-<app-header [title]="role ==='crew-chief'? 'Enter Begining of Day Work Data' : '' ||
-role === 'combine-operator'? 'Enter Field Data': '' ||
-role ==='kart-operator'? 'Enter Begining of Day Work Data' : '' ||
-role ==='truck-driver'? 'Enter Begining of Day Work Data' : ''" [color]="'harvesting'"></app-header>
+<app-header [title]="role.includes('Crew Chief')? 'Enter Begining of Day Work Data' : '' ||
+role.includes('Combine Operator')? 'Enter Field Data': '' ||
+role.includes('Kart Operator')? 'Enter Begining of Day Work Data' : '' ||
+role.includes('Truck Driver')? 'Enter Begining of Day Work Data' : ''" [color]="'harvesting'"></app-header>
 
 
-<!-- Crew-Chief -->
-<ion-content *ngIf="role === 'crew-chief'">
+<!-- Crew Chief -->
+<ion-content *ngIf="role === 'Crew Chief'">
   <!-- <app-timer [value]="'22:31:13'"></app-timer> -->
   <div class="p-4">
     <div>
@@ -140,7 +140,7 @@ role ==='truck-driver'? 'Enter Begining of Day Work Data' : ''" [color]="'harves
 </ion-content>
 
 <!-- Combine-Operator -->
-<ion-content *ngIf="role === 'combine-operator'">
+<ion-content *ngIf="role.includes('Combine Operator')">
   <!-- <app-timer [value]="'23:11:43'"></app-timer> -->
   <div class="p-4">
     <ion-card class="m-0 mb-2">
@@ -278,7 +278,7 @@ role ==='truck-driver'? 'Enter Begining of Day Work Data' : ''" [color]="'harves
 </ion-content>
 
 <!-- Kart-Operator -->
-<ion-content *ngIf="role === 'kart-operator'">
+<ion-content *ngIf="role.includes('Kart Operator')">
   <!-- <app-timer [value]="'12:02:11'"></app-timer> -->
   <div class="p-4">
     <ion-card class="m-0 mb-2">
@@ -394,7 +394,7 @@ role ==='truck-driver'? 'Enter Begining of Day Work Data' : ''" [color]="'harves
 </ion-content>
 
 <!-- Truck-Operator -->
-<ion-content *ngIf="role === 'truck-driver'">
+<ion-content *ngIf="role === 'Truck Driver'">
   <!-- <app-timer [value]="'23:00:12'"></app-timer> -->
   <div class="p-4">
 

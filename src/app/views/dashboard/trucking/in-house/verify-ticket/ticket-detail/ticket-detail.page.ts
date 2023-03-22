@@ -29,7 +29,7 @@ export class TicketDetailPage implements OnInit {
   data;
 
   constructor(private toast: ToastService, private truckingService: TruckingService, private router: Router, private formBuilder: FormBuilder, private activeRoute: ActivatedRoute, private renderer: Renderer2) {
-    if (localStorage.getItem('role') === 'truck-driver') {
+    if (localStorage.getItem('role').includes('Truck Driver')) {
       this.renderer.listen('window', 'click', (e) => {
         if (e.target !== this.machineryInput.nativeElement) {
           this.allMachinery = of([]); // to clear array

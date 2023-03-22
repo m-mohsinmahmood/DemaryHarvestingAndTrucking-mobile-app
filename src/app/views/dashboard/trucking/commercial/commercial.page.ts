@@ -27,8 +27,7 @@ export class CommercialPage implements OnInit {
     preCheck: -1
   }
 
-  roleOptions = ['dispatcher', 'truck-driver'];
-  role = this.roleOptions[1];
+  role;
 
   constructor(private truckingService: TruckingService) { }
 
@@ -57,7 +56,7 @@ export class CommercialPage implements OnInit {
     console.log(localStorage.getItem('role'));
     console.log(localStorage.getItem('employeeId'));
 
-    if (this.role === 'dispatcher') {
+    if (this.role.includes('Dispatcher')) {
       // If Dispatcher Logs In
       this.pendingWorkOrders = this.truckingService.getDeliveryTickets(this.role, 'pending', localStorage.getItem('employeeId'), 'commercial');
       this.pendingWorkOrders.subscribe((workOrders) => {

@@ -60,12 +60,12 @@ export class VerifyTicketPage implements OnInit {
     this.role = localStorage.getItem('role');
 
     // passing the segment value conditionally
-    this.segment = this.role === 'kart-operator' ? 'sent' : 'received';
-    if (this.role === 'kart-operator') {
+    this.segment = this.role.includes('Kart Operator') ? 'sent' : 'received';
+    if (this.role.includes('Kart Operator')) {
       this.initSentApis();
       this.initSentObservables();
     }
-    if (this.role === 'truck-driver') {
+    if (this.role.includes('Truck Driver')) {
       this.initSentApis();
       this.initSentObservables();
     }
@@ -75,24 +75,24 @@ export class VerifyTicketPage implements OnInit {
     this.role = localStorage.getItem('role');
 
     // passing the segment value conditionally
-    this.segment = this.role === 'kart-operator' ? 'sent' : 'received';
-    if (this.role === 'kart-operator') {
+    this.segment = this.role.includes('Kart Operator') ? 'sent' : 'received';
+    if (this.role.includes('Kart Operator')) {
       this.initSentApis();
       this.initSentObservables();
     }
-    if (this.role === 'truck-driver') {
+    if (this.role.includes('Truck Driver')) {
       this.initSentApis();
       this.initSentObservables();
     }
   }
 
   initSentApis() {
-    if (this.role === 'kart-operator') {
+    if (this.role.includes('Kart Operator')) {
       this.harvestingService.kartOperatorGetTickets(
         localStorage.getItem('employeeId'),
         'sent'
       );
-    } else if (this.role === 'truck-driver') {
+    } else if (this.role.includes('Truck Driver')) {
       this.harvestingService.truckDriverGetTickets(
         localStorage.getItem('employeeId'),
         'sent'
@@ -106,12 +106,12 @@ export class VerifyTicketPage implements OnInit {
   }
 
   initPendingApis() {
-    if (this.role === 'kart-operator') {
+    if (this.role.includes('Kart Operator')) {
       this.harvestingService.kartOperatorGetTickets(
         localStorage.getItem('employeeId'),
         'pending'
       );
-    } else if (this.role === 'truck-driver') {
+    } else if (this.role.includes('Truck Driver')) {
       this.harvestingService.truckDriverGetTickets(
         localStorage.getItem('employeeId'),
         'pending'

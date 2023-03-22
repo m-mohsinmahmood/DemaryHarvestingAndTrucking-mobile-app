@@ -172,8 +172,8 @@ export class JobSetupPage implements OnInit {
   }
 
   initApis() {
-    // getting for crew-chief only
-    this.harvestingService.getJobSetup('crew-chief', localStorage.getItem('employeeId'));
+    // getting for Crew Chief only
+    this.harvestingService.getJobSetup('Crew Chief', localStorage.getItem('employeeId'));
   }
 
   initObservables() {

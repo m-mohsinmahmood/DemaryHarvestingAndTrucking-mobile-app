@@ -19,6 +19,7 @@ import * as moment from 'moment';
 import { Subject, Observable, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { ToastService } from 'src/app/services/toast/toast.service';
+import { states } from 'src/JSON/state';
 import { TruckingService } from '../../trucking.service';
 
 @Component({
@@ -32,8 +33,7 @@ export class CreateTicketPage implements OnInit {
   originDocs: string[] = [];
   customDocs: string[] = [];
 
-  roleOptions = ['dispatcher', 'truck-driver'];
-  role = this.roleOptions[1];
+  role;
   createTicketFormDispatcher: FormGroup;
   createTicketFormTruckDriver: FormGroup;
 
@@ -112,6 +112,8 @@ export class CreateTicketPage implements OnInit {
   loadupload_1 = false;
   loadupload_2 = false;
 
+  states: string[];
+
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
   constructor(
@@ -122,7 +124,7 @@ export class CreateTicketPage implements OnInit {
     private renderer: Renderer2
   ) {
     {
-      if (localStorage.getItem('role') === 'dispatcher') {
+      if (localStorage.getItem('role').includes('Dispatcher')) {
         this.renderer.listen('window', 'click', (e) => {
           if (e.target !== this.tDriverInput.nativeElement) {
             this.alltDrivers = of([]); // to clear array
@@ -171,7 +173,10 @@ export class CreateTicketPage implements OnInit {
   ngOnInit() {
     this.role = localStorage.getItem('role');
 
-    if (localStorage.getItem('role') === 'dispatcher') {
+    // pasing states
+    this.states = states;
+
+    if (localStorage.getItem('role').includes('Dispatcher')) {
       this.customerSearchSubscription();
       this.tDriverSearchSubscription();
       this.rateSearchSubscription();
@@ -205,7 +210,7 @@ export class CreateTicketPage implements OnInit {
       truckingType: [''],
       ticketStatus: [''],
       isTicketInfoCompleted: [''],
-      cropId:['', [Validators.required]]
+      cropId: ['', [Validators.required]]
     });
 
     this.createTicketFormTruckDriver = this.formBuilder.group({
@@ -252,7 +257,7 @@ export class CreateTicketPage implements OnInit {
       truckingType: [''],
       ticketStatus: [''],
       isTicketInfoCompleted: [''],
-      cropId:['', [Validators.required]]
+      cropId: ['', [Validators.required]]
     });
   }
 
@@ -273,7 +278,7 @@ export class CreateTicketPage implements OnInit {
   //   }
   // }
   onSelectedFiles(file, name) {
-    if (this.role === 'dispatcher') {
+    if (this.role.includes('Dispatcher')) {
       if (name === 'upload_1') {
         this.upload_1 = !this.upload_1;
         if (file.target.files && file.target.files[0]) {
@@ -428,7 +433,7 @@ export class CreateTicketPage implements OnInit {
 
     // patching
     this.createTicketFormDispatcher.patchValue({
-      role: 'dispatcher',
+      role: 'Dispatcher',
       truckingType: 'commercial',
       ticketStatus: 'sent',
       isTicketInfoCompleted: 'false',
@@ -453,7 +458,7 @@ export class CreateTicketPage implements OnInit {
       this.createTicketFormDispatcher.get('image_3').value
     );
 
-    this.truckingService.createNewDeliveryTicket(formData).subscribe(
+    this.truckingService.createNewDeliveryTicketCommercial(formData).subscribe(
       (res: any) => {
         console.log(res);
         if (res.status === 200) {
@@ -480,7 +485,7 @@ export class CreateTicketPage implements OnInit {
             'success'
           );
           this.router.navigate([
-            '/tabs/home/trucking/commercial/create-ticket/ticket-generated',{
+            '/tabs/home/trucking/commercial/create-ticket/ticket-generated', {
               id: res.id.record_id,
             }
           ]);
@@ -494,7 +499,7 @@ export class CreateTicketPage implements OnInit {
   navigateTruckDriver() {
     // patching
     this.createTicketFormTruckDriver.patchValue({
-      role: 'truck-driver',
+      role: 'Truck Driver',
       truckingType: 'commercial',
       ticketStatus: 'sent',
       isTicketInfoCompleted: true,
@@ -532,14 +537,14 @@ export class CreateTicketPage implements OnInit {
     );
     formData.append(
       'loadimages_1',
-    this.createTicketFormTruckDriver.get('loadimages_1').value
+      this.createTicketFormTruckDriver.get('loadimages_1').value
     );
     formData.append(
       'loadimages_2',
-    this.createTicketFormTruckDriver.get('loadimages_2').value
+      this.createTicketFormTruckDriver.get('loadimages_2').value
     );
 
-    this.truckingService.createNewDeliveryTicket(formData).subscribe(
+    this.truckingService.createNewDeliveryTicketCommercial(formData).subscribe(
       (res: any) => {
         console.log(res);
         if (res.status === 200) {
@@ -649,7 +654,7 @@ export class CreateTicketPage implements OnInit {
     this.customerUL = false;
 
     // assigning values in form
-    if (localStorage.getItem('role') === 'dispatcher') {
+    if (localStorage.getItem('role').includes('Dispatcher')) {
       this.createTicketFormDispatcher.patchValue({
         customerId: customer.id,
       });
@@ -699,20 +704,13 @@ export class CreateTicketPage implements OnInit {
           this.istDriverSelected = true;
         }
 
-        if (localStorage.getItem('role') === 'dispatcher') {
+        if (localStorage.getItem('role').includes('Dispatcher')) {
           this.alltDrivers = this.truckingService.getEmployees(
             value,
             'allEmployees',
             'Truck Driver'
           );
         }
-        // else {
-        //   this.allDispatchers = this.farmingService.getEmployees(
-        //     value,
-        //     'allEmployees',
-        //     'Dispatcher'
-        //   );
-        // }
 
         // subscribing to show/hide Field UL
         this.alltDrivers.subscribe((tDriver) => {
@@ -745,20 +743,14 @@ export class CreateTicketPage implements OnInit {
         : this.tDriverSearchValue;
 
     // calling API
-    if (localStorage.getItem('role') === 'dispatcher') {
+    if (localStorage.getItem('role').includes('Dispatcher')) {
       this.alltDrivers = this.truckingService.getEmployees(
         value,
         'allEmployees',
         'Truck Driver'
       );
     }
-    // else {
-    //   this.allDispatchers = this.farmingService.getEmployees(
-    //     value,
-    //     'allEmployees',
-    //     'Dispatcher'
-    //   );
-    // }
+
     // subscribing to show/hide farm UL
     this.alltDrivers.subscribe((tDriver) => {
       console.log(tDriver);
@@ -779,7 +771,7 @@ export class CreateTicketPage implements OnInit {
     this.tDriverUL = false;
 
     // assigning values in form
-    if (localStorage.getItem('role') === 'dispatcher') {
+    if (localStorage.getItem('role').includes('Dispatcher')) {
       this.createTicketFormDispatcher.patchValue({
         driverId: tDriver.id,
       });
@@ -823,19 +815,11 @@ export class CreateTicketPage implements OnInit {
           this.isRateSelected = true;
         }
 
-        // if (localStorage.getItem('role') === 'dispatcher') {
         this.allRates = this.truckingService.getTruckingRates(
           'allCustomersTruckingRate',
           this.customerId
         );
-        // }
-        // else {
-        //   this.allDispatchers = this.farmingService.getEmployees(
-        //     value,
-        //     'allEmployees',
-        //     'Dispatcher'
-        //   );
-        // }
+
 
         // subscribing to show/hide Field UL
         this.allRates.subscribe((rate) => {
@@ -868,19 +852,11 @@ export class CreateTicketPage implements OnInit {
         : this.rateSearchValue;
 
     // calling API
-    // if (localStorage.getItem('role') === 'dispatcher') {
     this.allRates = this.truckingService.getTruckingRates(
       'allCustomersTruckingRate',
       this.customerId
     );
-    // }
-    // else {
-    //   this.allDispatchers = this.farmingService.getEmployees(
-    //     value,
-    //     'allEmployees',
-    //     'Dispatcher'
-    //   );
-    // }
+
     // subscribing to show/hide farm UL
     this.allRates.subscribe((rate) => {
       console.log(rate);
@@ -901,7 +877,7 @@ export class CreateTicketPage implements OnInit {
     this.rateUL = false;
 
     // assigning values in form
-    if (localStorage.getItem('role') === 'dispatcher') {
+    if (localStorage.getItem('role').includes('Dispatcher')) {
       this.createTicketFormDispatcher.patchValue({
         rateType: rate.id,
       });
@@ -935,7 +911,7 @@ export class CreateTicketPage implements OnInit {
           this.isDispatcherSelected = true;
         }
 
-        if (localStorage.getItem('role') === 'truck-driver') {
+        if (localStorage.getItem('role').includes('Truck Driver')) {
           this.allDispatchers = this.truckingService.getEmployees(
             value,
             'allEmployees',
@@ -976,7 +952,7 @@ export class CreateTicketPage implements OnInit {
     // calling API
     console.log(localStorage.getItem('role'));
 
-    if (localStorage.getItem('role') === 'truck-driver') {
+    if (localStorage.getItem('role').includes('Truck Driver')) {
       this.allDispatchers = this.truckingService.getEmployees(
         value,
         'allEmployees',
@@ -1004,7 +980,7 @@ export class CreateTicketPage implements OnInit {
     this.dispatcherUL = false;
 
     // assigning values in form
-    if (localStorage.getItem('role') === 'truck-driver') {
+    if (localStorage.getItem('role').includes('Truck Driver')) {
       this.createTicketFormTruckDriver.patchValue({
         dispatcherId: dispatcher.id,
       });
@@ -1179,7 +1155,7 @@ export class CreateTicketPage implements OnInit {
     this.isCropSelected = false;
 
     // assigning values in form
-    if (this.role === 'dispatcher') {
+    if (this.role.includes('Dispatcher')) {
       this.createTicketFormDispatcher.patchValue({
         cropId: crop.crop_id
       });

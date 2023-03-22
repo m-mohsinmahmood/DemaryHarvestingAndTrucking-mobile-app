@@ -1,11 +1,12 @@
 import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subject, Observable, of } from 'rxjs';
 import { ToastService } from 'src/app/services/toast/toast.service';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { TruckingService } from '../../trucking.service';
 import * as moment from 'moment';
+import { states } from 'src/JSON/state';
 
 @Component({
   selector: 'app-create-ticket',
@@ -60,6 +61,9 @@ export class CreateTicketPage implements OnInit {
   createTicketFormDispatcherInHouse: FormGroup;
   createTicketFormTruckDriverInHouse: FormGroup;
 
+  states: string[];
+
+
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
   constructor(
@@ -69,7 +73,7 @@ export class CreateTicketPage implements OnInit {
     private truckingService: TruckingService,
     private renderer: Renderer2) {
 
-    if (localStorage.getItem('role') === 'dispatcher') {
+    if (localStorage.getItem('role').includes('Dispatcher')) {
       this.renderer.listen('window', 'click', (e) => {
         if (e.target !== this.tDriverInput.nativeElement) {
           this.alltDrivers = of([]); // to clear array
@@ -87,7 +91,7 @@ export class CreateTicketPage implements OnInit {
       });
     }
 
-    else if (localStorage.getItem('role') === 'truck-driver') {
+    else if (localStorage.getItem('role').includes('Truck Driver')) {
       this.renderer.listen('window', 'click', (e) => {
         if (e.target !== this.dispatcherInput.nativeElement) {
           this.allDispatchers = of([]); // to clear array
@@ -113,7 +117,10 @@ export class CreateTicketPage implements OnInit {
   ngOnInit() {
     this.role = localStorage.getItem('role');
 
-    if (localStorage.getItem('role') === 'dispatcher') {
+    // pasing states
+    this.states = states;
+
+    if (localStorage.getItem('role').includes('Dispatcher')) {
       this.customerSearchSubscription();
       this.tDriverSearchSubscription();
       this.cropSearchSubscription();
@@ -162,41 +169,55 @@ export class CreateTicketPage implements OnInit {
     });
   }
 
-  // navigatedispatcher() {
-  //   console.log(this.createTicketFormDispatcherInHouse.value);
+  navigatedispatcher() {
+    console.log(this.createTicketFormDispatcherInHouse.value);
+    this.createTicketFormDispatcherInHouse.addControl('role', new FormControl('Dispatcher'));
+    this.createTicketFormDispatcherInHouse.addControl('ticketStatus', new FormControl('sent'));
+    this.createTicketFormDispatcherInHouse.addControl('truckingType', new FormControl('home'));
+    this.createTicketFormDispatcherInHouse.addControl('isTicketInfoCompleted', new FormControl(false));
 
-  //   this.truckingService.createNewDeliveryTicket(this.createTicketFormDispatcherInHouse.value, 'dispatcher', 'home', 'sent', false)
-  //     .subscribe(
-  //       (res: any) => {
-  //         console.log(res);
-  //         if (res.status === 200) {
-  //           this.toast.presentToast("Delivery ticket has been created successfully!", 'success');
-  //           this.router.navigateByUrl('/tabs/home/trucking/in-house');
-  //         }
-  //       },
-  //       (err) => {
-  //         this.toast.presentToast(err, 'danger');
-  //       },
-  //     );
-  // }
+    var formData: FormData = new FormData();
+    formData.append('traineeForm', JSON.stringify(this.createTicketFormDispatcherInHouse.value));
 
-  // navigateTruckDriver() {
-  //   console.log(this.createTicketFormTruckDriverInHouse.value);
+    this.truckingService.createNewDeliveryTicket(this.createTicketFormDispatcherInHouse.value)
+      .subscribe(
+        (res: any) => {
+          console.log(res);
+          if (res.status === 200) {
+            this.toast.presentToast("Delivery ticket has been created successfully!", 'success');
+            this.router.navigateByUrl('/tabs/home/trucking/in-house');
+          }
+        },
+        (err) => {
+          this.toast.presentToast(err, 'danger');
+        },
+      );
+  }
 
-  //   this.truckingService.createNewDeliveryTicket(this.createTicketFormTruckDriverInHouse.value, 'truck-driver', 'home', 'sent', true)
-  //     .subscribe(
-  //       (res: any) => {
-  //         console.log(res);
-  //         if (res.status === 200) {
-  //           this.toast.presentToast("Delivery ticket has been created successfully!", 'success');
-  //           this.router.navigateByUrl('/tabs/home/trucking/in-house');
-  //         }
-  //       },
-  //       (err) => {
-  //         this.toast.presentToast(err, 'danger');
-  //       },
-  //     );
-  // }
+  navigateTruckDriver() {
+    console.log(this.createTicketFormTruckDriverInHouse.value);
+    this.createTicketFormTruckDriverInHouse.addControl('role', new FormControl('Truck Driver'));
+    this.createTicketFormTruckDriverInHouse.addControl('ticketStatus', new FormControl('sent'));
+    this.createTicketFormTruckDriverInHouse.addControl('truckingType', new FormControl('home'));
+    this.createTicketFormTruckDriverInHouse.addControl('isTicketInfoCompleted', new FormControl(true));
+
+    var formData: FormData = new FormData();
+    formData.append('traineeForm', JSON.stringify(this.createTicketFormTruckDriverInHouse.value));
+
+    this.truckingService.createNewDeliveryTicket(formData)
+      .subscribe(
+        (res: any) => {
+          console.log(res);
+          if (res.status === 200) {
+            this.toast.presentToast("Delivery ticket has been created successfully!", 'success');
+            this.router.navigateByUrl('/tabs/home/trucking/in-house');
+          }
+        },
+        (err) => {
+          this.toast.presentToast(err, 'danger');
+        },
+      );
+  }
 
   //  #region Customer
   customerSearchSubscription() {
@@ -283,7 +304,7 @@ export class CreateTicketPage implements OnInit {
     this.customerUL = false;
 
     // assigning values in form
-    if (localStorage.getItem('role') === 'dispatcher') {
+    if (localStorage.getItem('role').includes('Dispatcher')) {
       this.createTicketFormDispatcherInHouse.patchValue({
         customerId: customer.id,
       });
@@ -319,7 +340,7 @@ export class CreateTicketPage implements OnInit {
         // for asterik to look required
         if (value === '') { this.istDriverSelected = true; }
 
-        if (localStorage.getItem('role') === 'dispatcher') {
+        if (localStorage.getItem('role').includes('Dispatcher')) {
           this.alltDrivers = this.truckingService.getEmployees(
             value,
             'allEmployees',
@@ -358,7 +379,7 @@ export class CreateTicketPage implements OnInit {
         : this.tDriverSearchValue;
 
     // calling API
-    if (localStorage.getItem('role') === 'dispatcher') {
+    if (localStorage.getItem('role').includes('Dispatcher')) {
       this.alltDrivers = this.truckingService.getEmployees(
         value,
         'allEmployees',
@@ -387,7 +408,7 @@ export class CreateTicketPage implements OnInit {
     this.tDriverUL = false;
 
     // assigning values in form
-    if (localStorage.getItem('role') === 'dispatcher') {
+    if (localStorage.getItem('role').includes('Dispatcher')) {
       this.createTicketFormDispatcherInHouse.patchValue({
         driverId: tDriver.id
       });
@@ -416,7 +437,7 @@ export class CreateTicketPage implements OnInit {
         // for asterik to look required
         if (value === '') { this.isDispatcherSelected = true; }
 
-        if (localStorage.getItem('role') === 'truck-driver') {
+        if (localStorage.getItem('role').includes('Truck Driver')) {
           this.allDispatchers = this.truckingService.getEmployees(
             value,
             'allEmployees',
@@ -457,7 +478,7 @@ export class CreateTicketPage implements OnInit {
     // calling API
     console.log(localStorage.getItem('role'));
 
-    if (localStorage.getItem('role') === 'truck-driver') {
+    if (localStorage.getItem('role').includes('Truck Driver')) {
       this.allDispatchers = this.truckingService.getEmployees(
         value,
         'allEmployees',
@@ -487,7 +508,7 @@ export class CreateTicketPage implements OnInit {
     this.dispatcherUL = false;
 
     // assigning values in form
-    if (localStorage.getItem('role') === 'truck-driver') {
+    if (localStorage.getItem('role').includes('Truck Driver')) {
       this.createTicketFormTruckDriverInHouse.patchValue({
         dispatcherId: dispatcher.id
       });
@@ -665,7 +686,7 @@ export class CreateTicketPage implements OnInit {
     this.isCropSelected = false;
 
     // assigning values in form
-    if (this.role === 'dispatcher') {
+    if (this.role.includes('Dispatcher')) {
       this.createTicketFormDispatcherInHouse.patchValue({
         cropId: crop.crop_id
       });

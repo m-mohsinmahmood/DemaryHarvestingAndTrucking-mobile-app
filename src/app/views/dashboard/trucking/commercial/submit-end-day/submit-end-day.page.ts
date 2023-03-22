@@ -54,7 +54,7 @@ export class SubmitEndDayPage implements OnInit {
     let endOfDay = {
       hoursWorked: this.submitEndDayWorkOrder.get("hoursWorked").value,
       ending_odometer_miles: this.submitEndDayWorkOrder.get("ending_odometer_miles").value,
-      workOrderId: this.submitEndDayWorkOrder.get("deliveryTicketId").value
+      deliveryTicketId: this.submitEndDayWorkOrder.get("deliveryTicketId").value
     }
     this.truckingService.updateDWR(endOfDay, 'trucking')
       .subscribe(

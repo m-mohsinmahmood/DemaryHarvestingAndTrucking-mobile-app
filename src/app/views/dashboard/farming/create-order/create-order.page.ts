@@ -5,6 +5,7 @@ import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { FarmingService } from './../farming.service';
 import { ToastService } from './../../../../services/toast/toast.service';
+import { states } from 'src/JSON/state';
 
 @Component({
   selector: 'app-create-order',
@@ -78,13 +79,15 @@ export class CreateOrderPage implements OnInit {
   //Farm ID for selected Fields
   farmId: any;
   employeeName: any;
+  states: string[];
+
 
   public loadingSpinner = new BehaviorSubject(false);
 
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
   constructor(private toast: ToastService, private formBuilder: FormBuilder, private router: Router, private farmingService: FarmingService, private renderer: Renderer2) {
-    if (localStorage.getItem('role') === 'tractor-driver') {
+    if (localStorage.getItem('role').includes('Tractor Driver')) {
       this.renderer.listen('window', 'click', (e) => {
         if (e.target !== this.dispatcherInput.nativeElement) {
           this.allDispatchers = of([]); // to clear array
@@ -137,9 +140,8 @@ export class CreateOrderPage implements OnInit {
           this.serviceUL = false; // to hide the UL
         }
       });
-
     }
-    if (localStorage.getItem('role') === 'dispatcher') {
+    if (localStorage.getItem('role').includes('Dispatcher')) {
       this.renderer.listen('window', 'click', (e) => {
         if (e.target !== this.customerInput.nativeElement) {
           console.log('----', this.customerSearchValue);
@@ -198,6 +200,9 @@ export class CreateOrderPage implements OnInit {
   }
 
   ngOnInit() {
+    // pasing states
+    this.states = states;
+
     this.farmingService.getEmployeesById(localStorage.getItem('employeeId')).subscribe(param => {
       console.log(param);
       this.employeeName = param.employee_info.first_name + ' ' + param.employee_info.last_name;
@@ -217,6 +222,7 @@ export class CreateOrderPage implements OnInit {
       customerId: ['', [Validators.required]],
       farmId: ['', [Validators.required]],
       fieldId: ['', [Validators.required]],
+      state: ['', [Validators.required]],
       service: ['', [Validators.required]],
       tractorDriverId: ['', [Validators.required]],
       fieldAddress: ['', [Validators.required]],
@@ -231,6 +237,7 @@ export class CreateOrderPage implements OnInit {
       dispatcherId: ['', [Validators.required]],
       customerId: ['', [Validators.required]],
       farmId: ['', [Validators.required]],
+      state: ['', [Validators.required]],
       fieldId: ['', [Validators.required]],
       service: ['', [Validators.required]],
       fieldAddress: ['', [Validators.required]],
@@ -240,13 +247,13 @@ export class CreateOrderPage implements OnInit {
   }
 
   navigateTo(nav: string) {
-    if (this.role === 'dispatcher') {
+    if (this.role.includes('Dispatcher')) {
       console.log(this.createOrderDispatcher.value);
-      this.createWorkOrder(this.createOrderDispatcher.value, "dispatcher", nav, false);
+      this.createWorkOrder(this.createOrderDispatcher.value, "Dispatcher", nav, false);
     }
     else {
       console.log(this.createOrderTDriver.value);
-      this.createWorkOrder(this.createOrderTDriver.value, "tractor-driver", nav, true);
+      this.createWorkOrder(this.createOrderTDriver.value, "Tractor Driver", nav, true);
     }
   }
 
@@ -283,7 +290,7 @@ export class CreateOrderPage implements OnInit {
         // for asterik to look required
         if (value === '') { this.isDispatcherSelected = true; }
 
-        if (localStorage.getItem('role') === 'dispatcher') {
+        if (localStorage.getItem('role').includes('Dispatcher')) {
           this.allDispatchers = this.farmingService.getEmployees(
             value,
             'allEmployees',
@@ -329,7 +336,7 @@ export class CreateOrderPage implements OnInit {
         : this.dispatcherSearchValue;
 
     // calling API
-    if (localStorage.getItem('role') === 'dispatcher') {
+    if (localStorage.getItem('role').includes('Dispatcher')) {
       this.allDispatchers = this.farmingService.getEmployees(
         value,
         'allEmployees',
@@ -363,7 +370,7 @@ export class CreateOrderPage implements OnInit {
     this.dispatcherUL = false;
 
     // assigning values in form
-    if (localStorage.getItem('role') === 'dispatcher') {
+    if (localStorage.getItem('role').includes('Dispatcher')) {
       this.createOrderDispatcher.patchValue({
         tractorDriverId: dispatcher.id
       });
@@ -496,7 +503,7 @@ export class CreateOrderPage implements OnInit {
     this.customerUL = false;
 
     // assigning values in form
-    if (localStorage.getItem('role') === 'dispatcher') {
+    if (localStorage.getItem('role').includes('Dispatcher')) {
       this.createOrderDispatcher.patchValue({
         customerId: customer.id,
         phone: customer.phone_number
@@ -600,7 +607,7 @@ export class CreateOrderPage implements OnInit {
     this.farmUL = false;
 
     // assigning values in form
-    if (localStorage.getItem('role') === 'dispatcher') {
+    if (localStorage.getItem('role').includes('Dispatcher')) {
       this.createOrderDispatcher.patchValue({
         farmId: farm.id
       });
@@ -712,7 +719,7 @@ export class CreateOrderPage implements OnInit {
     console.log(field);
 
     // assigning values in form
-    if (localStorage.getItem('role') === 'dispatcher') {
+    if (localStorage.getItem('role').includes('Dispatcher')) {
       this.createOrderDispatcher.patchValue({
         fieldId: field.field_id,
         totalAcres: field.acres
@@ -813,12 +820,14 @@ export class CreateOrderPage implements OnInit {
     console.log(machinery);
 
     // assigning values in form
-    if (localStorage.getItem('role') === 'tractor-driver') {
+    if (localStorage.getItem('role').includes('Tractor Driver')) {
       this.createOrderTDriver.patchValue({
         machineryID: machinery.id,
         beginningEngineHours: machinery.odometer_reading_end
       });
     }
+    console.log(machinery.odometer_reading_end);
+
     // clearing array
     this.allMachinery = of([]);
 
@@ -909,7 +918,7 @@ export class CreateOrderPage implements OnInit {
     console.log(service);
 
     // assigning values in form
-    if (localStorage.getItem('role') === 'dispatcher') {
+    if (localStorage.getItem('role').includes('Dispatcher')) {
       this.createOrderDispatcher.patchValue({
         service: service.service
       })

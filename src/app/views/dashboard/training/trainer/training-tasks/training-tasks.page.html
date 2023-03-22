@@ -538,12 +538,10 @@
          <div class="col-span-12 mb-4" *ngIf="(loading | async)=== false">
           <label class="block text-sm font-medium text-gray-700">City</label>
           <input
-          disabled
           [value]="profileData.town_city"
           class="mt-1 block w-full text-gray-400 rounded-md border border-gray-300 focus:text-gray-700
-          bg-gray-200 py-2 px-3 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-
-          placeholder="Enter City Name">
+          bg-gray-200 py-2 px-3 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm pointer-events-none"
+>
         </div>
         <div class="col-span-12 mb-4" *ngIf="(loading | async)=== true">
           <label class="block text-sm font-medium text-gray-700">City
@@ -700,7 +698,7 @@
 
            <ion-button expand="block"
            class="mt-5 font-Lato text-white"
-           [disabled]="loadingSpinner | async"
+           [disabled]="(loadingSpinner | async)"
             (click)="submit()">
             <div *ngIf="(loadingSpinner | async) === false">Save</div>
             <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>

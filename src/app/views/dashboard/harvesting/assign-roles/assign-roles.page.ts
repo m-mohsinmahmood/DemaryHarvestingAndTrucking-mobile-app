@@ -53,7 +53,7 @@ export class AssignRolesPage implements OnInit {
   isCartSelected: any = true;
 
   // for selected
-  value = 'combine-operator';
+  value = 'Combine Operator';
   activeJobData;
 
   // data
@@ -119,7 +119,7 @@ export class AssignRolesPage implements OnInit {
 
     //api call
 
-    this.harvestingService.getJobSetup('crew-chief', localStorage.getItem('employeeId'), '');
+    this.harvestingService.getJobSetup('Crew Chief', localStorage.getItem('employeeId'), '');
     this.sub = this.harvestingService.customerJobSetup$.subscribe((res) => {
       console.log(res);
 
@@ -394,8 +394,8 @@ export class AssignRolesPage implements OnInit {
   //#endregion
 
   onClick(val: any) {
-    if (val === 'combine-operator') {
-      this.value = 'combine-operator';
+    if (val === 'Combine Operator') {
+      this.value = 'Combine Operator';
       this.getCombineOperators();
     } else {
       this.value = 'cart-operator';

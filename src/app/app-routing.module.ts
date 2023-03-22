@@ -8,39 +8,39 @@ import {
   redirectLoggedInTo,
 } from '@angular/fire/auth-guard';
 
-// const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['login']);
-const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['tabs']);
+const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['login']);
+// const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['tabs']);
 const redirectAuthorizedToHome = () => redirectLoggedInTo(['tabs']);
 
 const routes: Routes = [
   { path: '', redirectTo: '/tabs/home', pathMatch: 'full' },
   {
     path: 'login',
-    // loadChildren: () =>
-    //   import('./views/login/login.module').then((m) => m.LoginPageModule),
-    // ...canActivate(redirectAuthorizedToHome),
     loadChildren: () =>
       import('./views/login/login.module').then((m) => m.LoginPageModule),
+    ...canActivate(redirectAuthorizedToHome),
+    // loadChildren: () =>
+    //   import('./views/login/login.module').then((m) => m.LoginPageModule),
   },
   {
     path: 'tabs',
-    // loadChildren: () =>
-    //   import('./views/tabs/tabs.module').then((m) => m.TabsPageModule),
-    // ...canActivate(redirectUnauthorizedToLogin),
     loadChildren: () =>
-    import('./views/tabs/tabs.module').then((m) => m.TabsPageModule),
+      import('./views/tabs/tabs.module').then((m) => m.TabsPageModule),
+    ...canActivate(redirectUnauthorizedToLogin),
+    // loadChildren: () =>
+    // import('./views/tabs/tabs.module').then((m) => m.TabsPageModule),
   },
   {
     path: 'complete-pre-check-form',
-    // loadChildren: () =>
-    //   import(
-    //     './pages/complete-pre-check-form/complete-pre-check-form.module'
-    //   ).then((m) => m.CompletePreCheckFormPageModule),
-    // ...canActivate(redirectUnauthorizedToLogin),
     loadChildren: () =>
-    import(
-      './pages/complete-pre-check-form/complete-pre-check-form.module'
-    ).then((m) => m.CompletePreCheckFormPageModule)
+      import(
+        './pages/complete-pre-check-form/complete-pre-check-form.module'
+      ).then((m) => m.CompletePreCheckFormPageModule),
+    ...canActivate(redirectUnauthorizedToLogin),
+    // loadChildren: () =>
+    // import(
+    //   './pages/complete-pre-check-form/complete-pre-check-form.module'
+    // ).then((m) => m.CompletePreCheckFormPageModule)
   },
 ];
 

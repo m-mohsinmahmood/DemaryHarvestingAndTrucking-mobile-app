@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 /* eslint-disable @typescript-eslint/naming-convention */
 import {
   HttpClient,
@@ -24,9 +25,12 @@ export class DWRService {
   getDWR(employeeId: string, date: any,
     role: any) {
     let params = new HttpParams();
+    params = params.set('operation','getDWR');
+    // params = params.set('employeeId', '00277ae0-9534-473a-afe8-c648aa0e6d9d');
     params = params.set('employeeId', employeeId);
-    params = params.set('dateType', 'day');
+
     params = params.set('date', date);
+    params = params.set('dateType', 'day');
     params = params.set('role', role);
 
     return this.httpClient
@@ -37,6 +41,7 @@ export class DWRService {
   }
   getMonthDWR(employeeId: string, month: any, year: any, role: any) {
     let params = new HttpParams();
+    params = params.set('operation','getDWR');
     params = params.set('employeeId', employeeId);
     params = params.set('dateType', 'month');
     params = params.set('month', month);
@@ -49,9 +54,31 @@ export class DWRService {
       })
       .pipe(take(1));
   }
-  getDWRById(id: string) {
+  verify(operation: any,status: any, notes: any, dwrId: any){
     let params = new HttpParams();
-    params = params.set('id', id);
+    params = params.set('operation',operation);
+    // params = params.set('status', status);
+    // params = params.set('notes', notes);
+    // params =  params.set('dwrId',dwrId);
+    let data;
+    data={
+      status,
+      notes,
+      dwrId
+    };
+    console.log('DATA:',data);
+
+    return this.httpClient
+      .patch<any>('api-1/dwr', data,{
+        params
+      })
+      .pipe(take(1));
+  }
+  getDWRById(id: string, operation: string,dwr_type) {
+    let params = new HttpParams();
+    params = params.set('operation', operation);
+    params = params.set('taskId', id);
+    params = params.set('dwr_type', dwr_type);
     return this.httpClient
       .get<any>('api-1/dwr', {
         params,
