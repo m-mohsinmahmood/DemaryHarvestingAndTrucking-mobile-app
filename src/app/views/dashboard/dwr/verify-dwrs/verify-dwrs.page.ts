@@ -95,9 +95,14 @@ export class VerifyDwrsPage implements OnInit {
         }
         if (res.farmingData.length === 0) {
         } else {
-          newArray.push(res.farmingData[0]);
           for (let index = 0; index < res.farmingData.length; index++) {
             newArray.push(res.farmingData[index]);
+          }
+        }
+        if (res.maintenanceRepairData.length === 0) {
+        } else {
+          for (let index = 0; index < res.maintenanceRepairData.length; index++) {
+            newArray.push(res.maintenanceRepairData[index]);
           }
         }
 
@@ -150,6 +155,12 @@ export class VerifyDwrsPage implements OnInit {
         newArray.push(res.farmingData[0]);
         for (let index = 0; index < res.farmingData.length; index++) {
           newArray.push(res.farmingData[index]);
+        }
+      }
+      if (res.maintenanceRepairData.length === 0) {
+      } else {
+        for (let index = 0; index < res.maintenanceRepairData.length; index++) {
+          newArray.push(res.maintenanceRepairData[index]);
         }
       }
 
