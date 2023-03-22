@@ -109,7 +109,7 @@ export class SubmitEndDayPage implements OnInit {
         endingEngineHours: this.submitEndDayWorkOrder.get("endingEngineHours").value
       }
 
-      this.farmingService.updateWorkOrder(updateWorkOrder, 'tractor-driver', 'submitEndingDay')
+      this.farmingService.updateWorkOrder(updateWorkOrder, 'Tractor Driver', 'submitEndingDay')
         .subscribe(
           (res: any) => {
           },

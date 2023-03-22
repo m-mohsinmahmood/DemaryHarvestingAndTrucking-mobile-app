@@ -79,7 +79,7 @@ export class CloseOutOrderPage implements OnInit {
       }
     );
 
-    this.farmingService.updateWorkOrder(this.closeOutWorkOrder.value, 'tractor-driver', 'closeOutWorkOrder')
+    this.farmingService.updateWorkOrder(this.closeOutWorkOrder.value, 'Tractor Driver', 'closeOutWorkOrder')
       .subscribe(
         (res: any) => {
           console.log(res);

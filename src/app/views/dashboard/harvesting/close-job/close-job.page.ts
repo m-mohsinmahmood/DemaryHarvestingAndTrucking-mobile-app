@@ -14,7 +14,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./close-job.page.scss'],
 })
 export class CloseJobPage implements OnInit {
-  role: any;
+  role = '';
   closeJobFormCrew: FormGroup;
   closeJobFormCombine: FormGroup;
   closeJobFormKart: FormGroup;
@@ -68,7 +68,7 @@ export class CloseJobPage implements OnInit {
   }
 
   initApis() {
-    if (this.role === 'crew-chief') {
+    if (this.role.includes('Crew Chief')) {
       this.activeRoute.params.subscribe((param) => {
         console.log("Kart Operator Data: ", param);
         this.truckId = param.machinery_id;
@@ -80,7 +80,7 @@ export class CloseJobPage implements OnInit {
         'harvesting'
       );
     }
-    else if (this.role === 'combine-operator') {
+    else if (this.role.includes('Combine Operator')) {
       this.activeRoute.params.subscribe((param) => {
         console.log("Kart Operator Data: ", param);
         this.truckId = param.machinery_id;
@@ -93,7 +93,7 @@ export class CloseJobPage implements OnInit {
       );
     }
 
-    else if (this.role === 'truck-driver') {
+    else if (this.role.includes('Truck Driver')) {
       this.activeRoute.params.subscribe((param) => {
         this.closeJobFormTruck.patchValue({
           workOrderId: param.id,
@@ -104,7 +104,7 @@ export class CloseJobPage implements OnInit {
       });
     }
 
-    else if (this.role === 'kart-operator') {
+    else if (this.role.includes('Kart Operator')) {
       this.activeRoute.params.subscribe((param) => {
         console.log("Kart Operator Data: ", param);
         this.truckId = param.machinery_id;
@@ -125,7 +125,7 @@ export class CloseJobPage implements OnInit {
       if (this.customerData?.workOrders) {
         // this.customerData = res;
 
-        if (this.role === 'kart-operator') {
+        if (this.role.includes('Kart Operator')) {
           this.closeJobFormKart.patchValue({
             // passing to pre-filled
             jobId: this.customerData?.workOrders[0]?.id,
@@ -173,12 +173,12 @@ export class CloseJobPage implements OnInit {
     // console.log(this.closeJobFormTruck.value);
     // console.log(this.closeJobFormCombine.value);
 
-    if (localStorage.getItem('role') === 'crew-chief') {
+    if (localStorage.getItem('role').includes('Crew Chief')) {
       this.harvestingService
         .updateEndingOfDayJobSetup({
           operation: 'endingOfDay',
           jobId: this.truckId,
-          role: 'crew-chief',
+          role: 'Crew Chief',
           endingEngineHours: this.closeJobFormCrew.get('endingEngineHours').value
         })
         .subscribe(
@@ -224,12 +224,12 @@ export class CloseJobPage implements OnInit {
       );
     }
 
-    if (localStorage.getItem('role') === 'combine-operator') {
+    if (localStorage.getItem('role').includes('Combine Operator')) {
       this.harvestingService
         .updateEndingOfDayJobSetup({
           operation: 'endingOfDay',
           jobId: this.truckId,
-          role: 'combine-operator',
+          role: 'Combine Operator',
           endingEngineHours: this.closeJobFormCombine.get('endingEngineHours').value
         })
         .subscribe(
@@ -246,7 +246,7 @@ export class CloseJobPage implements OnInit {
       console.log(this.closeJobFormCombine.value);
       const dayClosed = {
         jobId: this.customerData.workOrders[0].id,
-        endingEngineHours:this.closeJobFormCombine.get('endingEngineHours').value,
+        endingEngineHours: this.closeJobFormCombine.get('endingEngineHours').value,
         ending_separator_hours: this.closeJobFormCombine.get(
           'ending_separator_hours'
         ).value,
@@ -273,7 +273,7 @@ export class CloseJobPage implements OnInit {
       );
     }
 
-    if (localStorage.getItem('role') === 'kart-operator') {
+    if (localStorage.getItem('role').includes('Kart Operator')) {
       console.log('customerData', this.customerData);
       console.log('this.closeJobFormKart', this.closeJobFormKart.value);
       this.loadingSpinner.next(true);
@@ -282,7 +282,7 @@ export class CloseJobPage implements OnInit {
         .updateEndingOfDayJobSetup({
           operation: 'endingOfDay',
           jobId: this.truckId,
-          role: 'kart-operator',
+          role: 'Kart Operator',
           endingEngineHours: this.closeJobFormKart.get('endingEngineHours').value
         })
         .subscribe(
@@ -321,7 +321,7 @@ export class CloseJobPage implements OnInit {
           }
         );
     }
-    if (localStorage.getItem('role') === 'truck-driver') {
+    if (localStorage.getItem('role').includes('Truck Driver')) {
       console.log(this.closeJobFormTruck.value);
 
       this.loadingSpinner.next(true);
@@ -348,7 +348,7 @@ export class CloseJobPage implements OnInit {
         .updateEndingOfDayJobSetup({
           operation: 'endingOfDay',
           jobId: this.truckId,
-          role: 'truck-driver',
+          role: 'Truck Driver',
           endingEngineHours: this.closeJobFormTruck.get('ending_odometer_miles').value
         })
         .subscribe(

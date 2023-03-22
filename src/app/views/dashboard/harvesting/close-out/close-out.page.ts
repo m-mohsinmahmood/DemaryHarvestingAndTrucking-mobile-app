@@ -79,18 +79,18 @@ export class CloseOutPage implements OnInit {
   }
   initApis() {
 
-    if (this.role === 'crew-chief') {
+    if (this.role.includes('Crew Chief')) {
       console.log(localStorage.getItem('employeeId'));
 
-      this.harvestingservice.getJobSetup('crew-chief', localStorage.getItem('employeeId'));
+      this.harvestingservice.getJobSetup('Crew Chief', localStorage.getItem('employeeId'));
     }
   }
   initObservables() {
     this.sub = this.harvestingservice.customerJobSetup$.subscribe((res) => {
       console.log(res);
       this.customerData = res;
-      // For crew-chief
-      if (this.role === 'crew-chief') {
+      // For Crew Chief
+      if (this.role.includes('Crew Chief')) {
         this.closeJobFormCrew.patchValue({
           customer_id: this.customerData?.customer_job[0]?.customer_id,
           state: this.customerData?.customer_job[0]?.state,
@@ -100,13 +100,13 @@ export class CloseOutPage implements OnInit {
         });
       }
       // For combine operator
-      else if (this.role === 'combine-operator') {
+      else if (this.role.includes('Combine Operator')) {
         this.closeJobFormCombine.patchValue({
           customer_id: this.customerData?.customer_job[0]?.customer_id
         });
       }
       // For kart operator
-      else if (this.role === 'kart-operator') {
+      else if (this.role.includes('Kart Operator')) {
         this.closeJobFormKart.patchValue({
           customer_id: this.customerData?.customer_job[0]?.customer_id
         });
@@ -127,7 +127,7 @@ export class CloseOutPage implements OnInit {
 
     console.log(this.closeJobFormCrew.value);
 
-    if (this.role === 'crew-chief') {
+    if (this.role.includes('Crew Chief')) {
       this.closeJobFormCrew.value.job_id = this.customerData?.customer_job[0]?.id;
 
       this.loadingSpinner.next(true);
@@ -150,7 +150,7 @@ export class CloseOutPage implements OnInit {
           console.log('Error in Close-Out Job:', err);
         },
       );
-    } else if (this.role === 'combine-operator') {
+    } else if (this.role.includes('Combine Operator')) {
       this.loadingSpinner.next(true);
       this.harvestingservice.closeOutJob(this.closeJobFormCombine.value).subscribe(
         (res: any) => {
@@ -160,8 +160,8 @@ export class CloseOutPage implements OnInit {
             this.closeJobFormCrew.reset();
             this.toastService.presentToast(res.message, 'success');
 
-             // navigating
-             this.router.navigateByUrl('/tabs/home/harvesting');
+            // navigating
+            this.router.navigateByUrl('/tabs/home/harvesting');
           } else {
             console.log('Something happened :)');
           }
@@ -170,7 +170,7 @@ export class CloseOutPage implements OnInit {
           console.log('Error in Close-Out Job:', err.message);
         },
       );
-    } else if (this.role === 'kart-operator') {
+    } else if (this.role.includes('Kart Operator')) {
       this.loadingSpinner.next(true);
       this.harvestingservice.closeOutJob(this.closeJobFormKart.value).subscribe(
         (res: any) => {
@@ -178,8 +178,8 @@ export class CloseOutPage implements OnInit {
           if (res.status === 200) {
             this.loadingSpinner.next(false);
 
-              // navigating
-              this.router.navigateByUrl('/tabs/home/harvesting');
+            // navigating
+            this.router.navigateByUrl('/tabs/home/harvesting');
 
             this.closeJobFormCrew.reset();
             this.toastService.presentToast(res.message, 'success');

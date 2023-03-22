@@ -2,7 +2,7 @@
 <!-- <app-timer [value]="'12-10-2022'"> </app-timer> -->
 <ion-content>
   <!--------- Role Dispatcher --------------->
-  <div class="p-4" *ngIf="role === 'dispatcher'">
+  <div class="p-4" *ngIf="role.includes('Dispatcher') ">
     <form [formGroup]="createOrderDispatcher">
       <div>
 
@@ -254,7 +254,7 @@
   </div>
 
   <!-------------- Role Tractor Driver-------------------->
-  <div class="p-4" *ngIf="role === 'tractor-driver'">
+  <div class="p-4" *ngIf="role.includes('Tractor Driver')">
     <form [formGroup]="createOrderTDriver">
       <div>
 

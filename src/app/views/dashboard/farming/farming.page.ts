@@ -45,14 +45,12 @@ export class FarmingPage implements OnInit {
       this.activeDwr = workOrder.dwr;
       this.data = this.activeDwr[0];
 
-      if (workOrder.dwr.length > 0)
-        {this.isModalOpen = false;}
-      else
-        {this.isModalOpen = true;}
+      if (workOrder.dwr.length > 0) { this.isModalOpen = false; }
+      else { this.isModalOpen = true; }
     });
 
     // To check if employee has begun a day before closing it
-    if (this.role === 'dispatcher') {
+    if (this.role.includes('Dispatcher')) {
       this.farmingService.getAllWorkOrders('', 'pending_work_order', localStorage.getItem('employeeId')).subscribe(workOrder => {
         this.pendingOrdersCount = workOrder.count;
 

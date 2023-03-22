@@ -17,7 +17,7 @@ export class DetailPage implements OnInit {
   workHistoryData: any;
   data: any;
   dwr_id: any;
-  role: any;
+  role = '';
   dwr_type: any;
 
   // behaviour subject for loader

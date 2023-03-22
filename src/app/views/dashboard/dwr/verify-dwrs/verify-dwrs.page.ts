@@ -30,7 +30,7 @@ export class VerifyDwrsPage implements OnInit {
 
 // to use in HTML
   moment: any = moment;
-  role: any;
+  role='';
   supervisor_id: any;
 
   DWRSubValue: any;

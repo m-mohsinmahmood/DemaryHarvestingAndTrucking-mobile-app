@@ -1,13 +1,13 @@
 <app-header
-  [title]="role ==='crew-chief'? 'Submit End of Day Work Data' : '' ||
-role === 'combine-operator'? 'Submit End of Day Work Data': '' ||
-role ==='kart-operator'? 'Submit End of Day Work Data' : '' ||
-role ==='truck-driver'? 'Submit End of Day Work Data' : ''"
+  [title]="role.includes('Crew Chief')? 'Submit End of Day Work Data' : '' ||
+  role.includes('Combine Operator')? 'Submit End of Day Work Data': '' ||
+  role.includes('Kart Operator')? 'Submit End of Day Work Data' : '' ||
+role.includes('Truck Driver')? 'Submit End of Day Work Data' : ''"
 [color]="'harvesting'"
 ></app-header>
 
 <!-- Crew Chief -->
-<ion-content *ngIf="role === 'crew-chief'">
+<ion-content *ngIf="role === 'Crew Chief'">
   <!-- <app-timer [value]="'22:32:43'"></app-timer> -->
   <div class="p-4">
     <div>
@@ -46,7 +46,7 @@ role ==='truck-driver'? 'Submit End of Day Work Data' : ''"
 </ion-content>
 
 <!-- Combine-Operator -->
-<ion-content *ngIf="role === 'combine-operator'">
+<ion-content *ngIf="role.includes('Combine Operator')">
   <!-- <app-timer [value]="'22:32:43'"></app-timer> -->
   <div class="p-4">
 
@@ -120,7 +120,7 @@ role ==='truck-driver'? 'Submit End of Day Work Data' : ''"
 </ion-content>
 
 <!-- Kart-Operator -->
-<ion-content *ngIf="role === 'kart-operator'">
+<ion-content *ngIf="role.includes('Kart Operator')">
   <!-- <app-timer [value]="'23:22:01'"></app-timer> -->
   <div class="p-4">
     <form [formGroup]="closeJobFormKart">
@@ -145,7 +145,7 @@ role ==='truck-driver'? 'Submit End of Day Work Data' : ''"
 </ion-content>
 
 <!-- Truck Driver -->
-<ion-content *ngIf="role === 'truck-driver'">
+<ion-content *ngIf="role === 'Truck Driver'">
   <!-- <app-timer [value]="'23:14:12'"></app-timer> -->
   <div class="p-4">
     <form [formGroup]="closeJobFormTruck">

@@ -73,7 +73,7 @@ export class CreateTicketPage implements OnInit {
     private truckingService: TruckingService,
     private renderer: Renderer2) {
 
-    if (localStorage.getItem('role') === 'dispatcher') {
+    if (localStorage.getItem('role').includes('Dispatcher')) {
       this.renderer.listen('window', 'click', (e) => {
         if (e.target !== this.tDriverInput.nativeElement) {
           this.alltDrivers = of([]); // to clear array
@@ -91,7 +91,7 @@ export class CreateTicketPage implements OnInit {
       });
     }
 
-    else if (localStorage.getItem('role') === 'truck-driver') {
+    else if (localStorage.getItem('role').includes('Truck Driver')) {
       this.renderer.listen('window', 'click', (e) => {
         if (e.target !== this.dispatcherInput.nativeElement) {
           this.allDispatchers = of([]); // to clear array
@@ -120,7 +120,7 @@ export class CreateTicketPage implements OnInit {
     // pasing states
     this.states = states;
 
-    if (localStorage.getItem('role') === 'dispatcher') {
+    if (localStorage.getItem('role').includes('Dispatcher')) {
       this.customerSearchSubscription();
       this.tDriverSearchSubscription();
       this.cropSearchSubscription();
@@ -171,7 +171,7 @@ export class CreateTicketPage implements OnInit {
 
   navigatedispatcher() {
     console.log(this.createTicketFormDispatcherInHouse.value);
-    this.createTicketFormDispatcherInHouse.addControl('role', new FormControl('dispatcher'));
+    this.createTicketFormDispatcherInHouse.addControl('role', new FormControl('Dispatcher'));
     this.createTicketFormDispatcherInHouse.addControl('ticketStatus', new FormControl('sent'));
     this.createTicketFormDispatcherInHouse.addControl('truckingType', new FormControl('home'));
     this.createTicketFormDispatcherInHouse.addControl('isTicketInfoCompleted', new FormControl(false));
@@ -196,7 +196,7 @@ export class CreateTicketPage implements OnInit {
 
   navigateTruckDriver() {
     console.log(this.createTicketFormTruckDriverInHouse.value);
-    this.createTicketFormTruckDriverInHouse.addControl('role', new FormControl('truck-driver'));
+    this.createTicketFormTruckDriverInHouse.addControl('role', new FormControl('Truck Driver'));
     this.createTicketFormTruckDriverInHouse.addControl('ticketStatus', new FormControl('sent'));
     this.createTicketFormTruckDriverInHouse.addControl('truckingType', new FormControl('home'));
     this.createTicketFormTruckDriverInHouse.addControl('isTicketInfoCompleted', new FormControl(true));
@@ -304,7 +304,7 @@ export class CreateTicketPage implements OnInit {
     this.customerUL = false;
 
     // assigning values in form
-    if (localStorage.getItem('role') === 'dispatcher') {
+    if (localStorage.getItem('role').includes('Dispatcher')) {
       this.createTicketFormDispatcherInHouse.patchValue({
         customerId: customer.id,
       });
@@ -340,7 +340,7 @@ export class CreateTicketPage implements OnInit {
         // for asterik to look required
         if (value === '') { this.istDriverSelected = true; }
 
-        if (localStorage.getItem('role') === 'dispatcher') {
+        if (localStorage.getItem('role').includes('Dispatcher')) {
           this.alltDrivers = this.truckingService.getEmployees(
             value,
             'allEmployees',
@@ -379,7 +379,7 @@ export class CreateTicketPage implements OnInit {
         : this.tDriverSearchValue;
 
     // calling API
-    if (localStorage.getItem('role') === 'dispatcher') {
+    if (localStorage.getItem('role').includes('Dispatcher')) {
       this.alltDrivers = this.truckingService.getEmployees(
         value,
         'allEmployees',
@@ -408,7 +408,7 @@ export class CreateTicketPage implements OnInit {
     this.tDriverUL = false;
 
     // assigning values in form
-    if (localStorage.getItem('role') === 'dispatcher') {
+    if (localStorage.getItem('role').includes('Dispatcher')) {
       this.createTicketFormDispatcherInHouse.patchValue({
         driverId: tDriver.id
       });
@@ -437,7 +437,7 @@ export class CreateTicketPage implements OnInit {
         // for asterik to look required
         if (value === '') { this.isDispatcherSelected = true; }
 
-        if (localStorage.getItem('role') === 'truck-driver') {
+        if (localStorage.getItem('role').includes('Truck Driver')) {
           this.allDispatchers = this.truckingService.getEmployees(
             value,
             'allEmployees',
@@ -478,7 +478,7 @@ export class CreateTicketPage implements OnInit {
     // calling API
     console.log(localStorage.getItem('role'));
 
-    if (localStorage.getItem('role') === 'truck-driver') {
+    if (localStorage.getItem('role').includes('Truck Driver')) {
       this.allDispatchers = this.truckingService.getEmployees(
         value,
         'allEmployees',
@@ -508,7 +508,7 @@ export class CreateTicketPage implements OnInit {
     this.dispatcherUL = false;
 
     // assigning values in form
-    if (localStorage.getItem('role') === 'truck-driver') {
+    if (localStorage.getItem('role').includes('Truck Driver')) {
       this.createTicketFormTruckDriverInHouse.patchValue({
         dispatcherId: dispatcher.id
       });
@@ -686,7 +686,7 @@ export class CreateTicketPage implements OnInit {
     this.isCropSelected = false;
 
     // assigning values in form
-    if (this.role === 'dispatcher') {
+    if (this.role.includes('Dispatcher')) {
       this.createTicketFormDispatcherInHouse.patchValue({
         cropId: crop.crop_id
       });

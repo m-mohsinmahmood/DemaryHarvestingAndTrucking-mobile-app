@@ -1,5 +1,5 @@
 <app-header [title]="'Complete Delivery Ticket'" [color]="'harvesting'"></app-header><ion-content
-  *ngIf="role === 'kart-operator'"> <app-timer [value]="'12:32:11'"></app-timer> <ion-card> <ion-card-header
+  *ngIf="role.includes('Kart Operator')"> <app-timer [value]="'12:32:11'"></app-timer> <ion-card> <ion-card-header
       class="bg-3D8AA4"> <ion-card-title class="flex justify-center text-2xl font-Lato text-white">DHT Delivery
         Ticket</ion-card-title> </ion-card-header> <ion-card-content *ngIf="(isLoadingTicket$ | async) === false">
       <ion-grid> <!-- First Row --> <ion-row class="mb-1 h-16"> <ion-col size="6"
@@ -111,7 +111,7 @@
             <p class="font-Lato text-black font-bold font-14">Kart Scale Weight</p> <ion-skeleton-text [animated]="true"
               style="width: 80%;"></ion-skeleton-text>
           </ion-col> </ion-row> </ion-grid> </ion-card-content> </ion-card></ion-content><ion-content
-  *ngIf="role === 'truck-driver'"> <app-timer [value]="'23:44:12'"></app-timer> <ion-card> <ion-card-header
+  *ngIf="role.includes('Truck Driver')"> <app-timer [value]="'23:44:12'"></app-timer> <ion-card> <ion-card-header
       class="bg-3D8AA4"> <ion-card-title class="font-Lato flex justify-center text-2xl text-white">Delivery Ticket#
         {{ticketID.substring(0,8)}}</ion-card-title> </ion-card-header> <ion-card-content> <ion-grid
         *ngIf="(isLoadingTicket$ | async) === false"> <ion-row class="mb-5 h-10"> <ion-col size="6"

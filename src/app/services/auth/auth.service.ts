@@ -107,8 +107,9 @@ export class AuthService {
 
     signInWithEmailAndPassword(this.auth, email, password)
       .then((user) => {
-        console.log('user', user);
-        this.getEmployeeDetailsByFirbaseId('X2lR84eu0EOfEXxVJHndgCQXEs62');
+        // console.log('user', user);
+        console.log('Firebase Id:',user.user.uid);
+        this.getEmployeeDetailsByFirbaseId(user.user.uid);
         // this.isLoading.next(false);
         // this.router.navigate(['tabs'], { replaceUrl: true });
       })

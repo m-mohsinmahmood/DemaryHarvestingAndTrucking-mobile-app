@@ -19,7 +19,7 @@ import { Router } from '@angular/router';
 export class ChangeFieldPage implements OnInit {
   @ViewChild('fieldInput') fieldInput: ElementRef;
 
-  role: any;
+  role = '';
   changeFieldFormChief: FormGroup;
   changeFieldFormKart: FormGroup;
   changeFieldFormCombine: FormGroup;
@@ -143,8 +143,8 @@ export class ChangeFieldPage implements OnInit {
     });
   }
   initApis() {
-    if (this.role === 'crew-chief') {
-      this.harvestingService.getJobSetup('crew-chief', localStorage.getItem('employeeId'));
+    if (this.role.includes('Crew Chief')) {
+      this.harvestingService.getJobSetup('Crew Chief', localStorage.getItem('employeeId'));
     }
   }
 
@@ -261,12 +261,12 @@ export class ChangeFieldPage implements OnInit {
     this.isFieldSelected = false;
 
     // assigning values in form conditionally
-    if (this.role === 'crew-chief') {
+    if (this.role.includes('Crew Chief')) {
       this.changeFieldFormChief.patchValue({
         field_id_new: field.field_id,
         total_acres: field.acres
       });
-    } else if (this.role === 'kart-operator') {
+    } else if (this.role.includes('Kart Operator')) {
       this.changeFieldFormKart.patchValue({
         field_id_new: field.field_id,
       });
@@ -286,7 +286,7 @@ export class ChangeFieldPage implements OnInit {
     // console.log(this.changeFieldFormKart.value);
     // console.log(this.changeFieldFormKart.value);
     // console.log(this.changeFieldFormCombine.value);
-    if (this.role === 'crew-chief') {
+    if (this.role.includes('Crew Chief')) {
       // changing field
       this.harvestingService.createJob(this.changeFieldFormChief.value)
         .subscribe(
@@ -308,7 +308,7 @@ export class ChangeFieldPage implements OnInit {
         );
     }
 
-    else if (this.role === 'kart-operator') {
+    else if (this.role.includes('Kart Operator')) {
       this.harvestingService.changeField(this.changeFieldFormKart.value)
         .subscribe(
           (res: any) => {

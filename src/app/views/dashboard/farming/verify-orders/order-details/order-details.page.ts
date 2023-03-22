@@ -43,7 +43,7 @@ export class OrderDetailsPage implements OnInit {
   navigateTo(nav: string) {
     this.loadingSpinner.next(true)
 
-    this.farmingService.updateWorkOrder({ customerId: this.data.work_order_id }, 'dispatcher')
+    this.farmingService.updateWorkOrder({ customerId: this.data.work_order_id }, 'Dispatcher')
       .subscribe(
         (res: any) => {
           console.log(res);

@@ -1,10 +1,10 @@
-<app-header [title]="role ==='crew-chief'? 'Crew Tasks' : ''
-|| role === 'combine-operator'? 'Combine Operator Tasks': ''
-|| role ==='kart-operator'? 'Kart Operator Tasks' : ''
-|| role ==='truck-driver'? 'Truck Driver Tasks' : ''" [color]="'harvesting'" [routeValue]="'harvesting'"></app-header>
+<app-header [title]="role.includes('Crew Chief')? 'Crew Tasks' : ''
+|| role.includes('Combine Operator')? 'Combine Operator Tasks': ''
+|| role.includes('Kart Operator')? 'Kart Operator Tasks' : ''
+|| role.includes('Truck Driver')? 'Truck Driver Tasks' : ''" [color]="'harvesting'" [routeValue]="'harvesting'"></app-header>
 
 <!-- Crew-Tasks -->
-<ion-content *ngIf="role === 'crew-chief'">
+<ion-content *ngIf="role.includes('Crew Chief')">
   <p class="text-xl font-bold font-Lato mt-8 ml-7">Job Set-up</p>
   <ion-grid>
     <ion-row>
@@ -72,7 +72,7 @@
 </ion-content>
 
 <!-- Combine Operator Tasks -->
-<ion-content *ngIf="role === 'combine-operator'">
+<ion-content *ngIf="role.includes('Combine Operator')">
   <ion-grid>
     <ion-row>
       <ion-col size="12">
@@ -101,7 +101,7 @@
 </ion-content>
 
 <!-- Kart Operator Tasks -->
-<ion-content *ngIf="role === 'kart-operator'">
+<ion-content *ngIf="role.includes('Kart Operator')">
   <p class="text-xl font-bold font-Lato mt-8 ml-7">Kart Operator Tasks</p>
   <ion-grid>
     <ion-row>
@@ -175,7 +175,7 @@
 </ion-content>
 
 <!-- Truck Driver Tasks -->
-<ion-content *ngIf="role === 'truck-driver'">
+<ion-content *ngIf="role === 'Truck Driver'">
   <ion-grid>
     <ion-row>
       <ion-col size="12">

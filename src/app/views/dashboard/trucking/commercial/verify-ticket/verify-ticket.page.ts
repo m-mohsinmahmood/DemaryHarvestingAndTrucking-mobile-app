@@ -13,8 +13,7 @@ export class VerifyTicketPage implements OnInit {
   segment = 'pending'; // For Segment
   segmentTruckDriver = 'existing'; // For Segment
 
-  roleOptions = ['dispatcher', 'truck-driver']
-  role = this.roleOptions[1];
+  role;
 
   sentWorkOrders: Observable<any>;
   pendingWorkOrders: Observable<any>;
@@ -68,7 +67,7 @@ export class VerifyTicketPage implements OnInit {
 
     this.role = localStorage.getItem('role');
 
-    if (this.role === 'dispatcher') {
+    if (this.role.includes('Dispatcher')) {
       this.sentWorkOrders = this.truckingService.getDeliveryTickets(this.role, 'sent', localStorage.getItem('employeeId'), 'commercial');
       this.sentWorkOrders.subscribe((workOrders) => {
         this.dataLoaded.sentList = true;

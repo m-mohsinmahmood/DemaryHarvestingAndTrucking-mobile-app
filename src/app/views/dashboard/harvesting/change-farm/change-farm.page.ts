@@ -163,8 +163,8 @@ export class ChangeFarmPage implements OnInit {
   }
 
   initApis() {
-    // getting for crew-chief only
-    this.harvestingService.getJobSetup('crew-chief', localStorage.getItem('employeeId'));
+    // getting for crew Chief only
+    this.harvestingService.getJobSetup('Crew Chief', localStorage.getItem('employeeId'));
   }
 
   initObservables() {

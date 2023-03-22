@@ -38,7 +38,7 @@ export class SubmitBeginningDayPage implements OnInit {
   public loadingSpinner = new BehaviorSubject(false);
 
   constructor(private toast: ToastService, private formBuilder: FormBuilder, private router: Router, private farmingService: FarmingService, private renderer: Renderer2) {
-    if (localStorage.getItem('role') === 'tractor-driver') {
+    if (localStorage.getItem('role').includes( 'Tractor Driver')) {
       this.renderer.listen('window', 'click', (e) => {
         if (e.target !== this.machineryInput.nativeElement) {
           this.allMachinery = of([]); // to clear array
@@ -89,7 +89,7 @@ export class SubmitBeginningDayPage implements OnInit {
     this.loadingSpinner.next(true)
     console.log(this.submitBeginningDay.value);
 
-    this.farmingService.updateWorkOrder(this.submitBeginningDay.value, 'tractor-driver', 'submitBeginningDay')
+    this.farmingService.updateWorkOrder(this.submitBeginningDay.value, 'Tractor Driver', 'submitBeginningDay')
       .subscribe(
         (res: any) => {
           console.log(res);

@@ -89,10 +89,6 @@ export class WorkHistoryPage implements OnInit {
         localStorage.getItem('employeeId'),
         this.date,
         localStorage.getItem('role')
-        // '33791177-05cf-4df9-8050-59d486f6be78',
-        // this.date,
-        // 'dispatcher'
-
       )
       .subscribe((res) => {
         console.log('RESPONSE:',res);

@@ -75,7 +75,7 @@ export class GeneratedTicketPage implements OnInit {
       });
     }
 
-    if (this.role === 'truck-driver') {
+    if (this.role.includes('Truck Driver')) {
       this.initApis();
       this.initObservables();
     } else {
@@ -180,7 +180,7 @@ export class GeneratedTicketPage implements OnInit {
     this.isLoadingTicket$ = this.harvestingService.ticketLoading$;
   }
   submit() {
-    if (this.role === 'truck-driver') {
+    if (this.role.includes('Truck Driver')) {
       // Form Data
       const formData: FormData = new FormData();
       formData.append(

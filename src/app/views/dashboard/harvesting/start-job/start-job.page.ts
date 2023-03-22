@@ -72,7 +72,7 @@ export class StartJobPage implements OnInit {
     private renderer: Renderer2,
     private router: Router
   ) {
-    if (localStorage.getItem('role') === 'crew-chief' || localStorage.getItem('role') === 'combine-operator') {
+    if (localStorage.getItem('role').includes('Crew Chief') || localStorage.getItem('role').includes('Combine Operator')) {
       this.renderer.listen('window', 'click', (e) => {
         if (e.target !== this.machineryInput.nativeElement) {
           this.allMachinery = of([]);
@@ -156,25 +156,25 @@ export class StartJobPage implements OnInit {
   }
 
   initApis() {
-    if (this.role === 'crew-chief') {
-      this.harvestingService.getJobSetup('crew-chief', localStorage.getItem('employeeId'));
-    } else if (this.role === 'combine-operator') {
-      this.harvestingService.getJobSetup('combine-operator', '', localStorage.getItem('employeeId'));
-    } else if (this.role === 'kart-operator') {
+    if (this.role.includes('Crew Chief')) {
+      this.harvestingService.getJobSetup('Crew Chief', localStorage.getItem('employeeId'));
+    } else if (this.role.includes('Combine Operator')) {
+      this.harvestingService.getJobSetup('Combine Operator', '', localStorage.getItem('employeeId'));
+    } else if (this.role.includes('Kart Operator')) {
 
       let crew_chief_id = '';
-      this.harvestingService.getKartOperatorCrewChief( 'getKartOpCrewChief',localStorage.getItem('employeeId')).subscribe(param=>{
+      this.harvestingService.getKartOperatorCrewChief('getKartOpCrewChief', localStorage.getItem('employeeId')).subscribe(param => {
         crew_chief_id = param[0].id;
 
         this.harvestingService.getJobSetup(
-          'kart-operator',
+          'Kart Operator',
           crew_chief_id,
           localStorage.getItem('employeeId')
         );
       });
 
-    } else if (this.role === 'truck-driver') {
-      this.harvestingService.getJobSetup('truck-driver', '', localStorage.getItem('employeeId'));
+    } else if (this.role.includes('Truck Driver')) {
+      this.harvestingService.getJobSetup('Truck Driver', '', localStorage.getItem('employeeId'));
     }
 
   }
@@ -190,7 +190,7 @@ export class StartJobPage implements OnInit {
         this.farmID = this.customerData?.customer_job[0]?.farm_id;
 
         // passing job id's conditionally for DWR
-        if (this.role === 'crew-chief') {
+        if (this.role.includes('Crew Chief')) {
           this.startJobFormCrew.patchValue({
             job_id: this.customerData.customer_job[0]?.job_id,
             field_id: this.customerData.customer_job[0]?.field_id, // passing to pre-filled
@@ -200,7 +200,7 @@ export class StartJobPage implements OnInit {
           this.fieldName = this.customerData.customer_job[0]?.field_name;
         }
 
-        else if (this.role === 'kart-operator') {
+        else if (this.role.includes('Kart Operator')) {
           console.log("current job id: ", this.customerData.customer_job[0]?.id);
 
           this.startJobFormKart.patchValue({
@@ -211,7 +211,7 @@ export class StartJobPage implements OnInit {
           // console.log('-', this.startJobFormKart.value);
         }
 
-        else if (this.role === 'combine-operator') {
+        else if (this.role.includes('Combine Operator')) {
           this.startJobFormCombine.patchValue({
             field_name: this.customerData.customer_job[0]?.field_name,
             field_acres: this.customerData.customer_job[0]?.field_acres,
@@ -219,7 +219,7 @@ export class StartJobPage implements OnInit {
           });
         }
 
-        else if (this.role === 'truck-driver') {
+        else if (this.role.includes('Truck Driver')) {
           this.startJobFormTruck.patchValue({
             workOrderId: this.customerData.customer_job[0]?.id,
             crew_chief_id: this.customerData.customer_job[0]?.crew_chief_name,
@@ -234,7 +234,7 @@ export class StartJobPage implements OnInit {
   }
   submit() {
     // For Crew Chief
-    if (localStorage.getItem('role') === 'crew-chief') {
+    if (localStorage.getItem('role').includes('Crew Chief')) {
       const data = {
         machineryId: this.startJobFormCrew.get('machineryId').value,
         employeeId: localStorage.getItem('employeeId'),
@@ -261,7 +261,7 @@ export class StartJobPage implements OnInit {
     }
 
     // For Combine Operator
-    else if (localStorage.getItem('role') === 'combine-operator') {
+    else if (localStorage.getItem('role').includes('Combine Operator')) {
       const data = {
         machineryId: this.startJobFormCombine.get('machineryId').value,
         employeeId: localStorage.getItem('employeeId'),
@@ -295,7 +295,7 @@ export class StartJobPage implements OnInit {
 
     // For Kart Operator
 
-    else if (localStorage.getItem('role') === 'kart-operator') {
+    else if (localStorage.getItem('role').includes('Kart Operator')) {
       console.log(this.startJobFormKart.get('job_id').value);
 
       const data = {
@@ -332,11 +332,11 @@ export class StartJobPage implements OnInit {
     }
 
     // For Truck Driver
-    else if (localStorage.getItem('role') === 'truck-driver') {
+    else if (localStorage.getItem('role').includes('Truck Driver')) {
 
       this.harvestingService.updateBeginningOfDayJobSetup({
         jobId: this.startJobFormTruck.get('workOrderId').value,
-        role: 'truck-driver',
+        role: 'Truck Driver',
         operation: "beginningOfDay"
       })
         .subscribe(
@@ -470,18 +470,18 @@ export class StartJobPage implements OnInit {
     this.isFieldSelected = false;
 
     // assigning values in form conditionally
-    if (this.role === 'crew-chief') {
+    if (this.role.includes('Crew Chief')) {
       this.startJobFormCrew.patchValue({
         field_id: field.field_id,
       });
     }
 
-    else if (this.role === 'kart-operator') {
+    else if (this.role.includes('Kart Operator')) {
       this.startJobFormKart.patchValue({
         field_id: field.field_id
       });
     }
-    else if (this.role === 'truck-driver') {
+    else if (this.role.includes('Truck Driver')) {
       this.startJobFormTruck.patchValue({
         field_id: field.field_id
       });
@@ -580,24 +580,24 @@ export class StartJobPage implements OnInit {
 
 
     // assigning values in form conditionally
-    if (this.role === 'crew-chief') {
+    if (this.role.includes('Crew Chief')) {
       this.startJobFormCrew.patchValue({
         machineryId: machinery.id,
         beginningEngineHours: machinery.odometer_reading_end
       });
-    } else if (this.role === 'combine-operator') {
+    } else if (this.role.includes('Combine Operator')) {
       this.startJobFormCombine.patchValue({
         machineryId: machinery.id,
-        beginningEngineHours:machinery.odometer_reading_end
+        beginningEngineHours: machinery.odometer_reading_end
       });
     }
-    else if (this.role === 'kart-operator') {
+    else if (this.role.includes('Kart Operator')) {
       this.startJobFormKart.patchValue({
         machineryId: machinery.id,
         beginningEngineHours: machinery.odometer_reading_end
       });
     }
-    else if (this.role === 'truck-driver') {
+    else if (this.role.includes('Truck Driver')) {
       this.startJobFormTruck.patchValue({
         truck_id: machinery.id,
         begining_odometer_miles: machinery.odometer_reading_end

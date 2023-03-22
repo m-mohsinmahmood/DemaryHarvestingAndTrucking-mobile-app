@@ -108,9 +108,9 @@
     <ion-card class="card">
       <ion-grid>
         <ion-row >
-          <ion-col size="6"  (click)="onClick('combine-operator')">
+          <ion-col size="6"  (click)="onClick('Combine Operator')">
             <div
-              class=" pl-2 pt-1 border rounded-md {{value === 'combine-operator'? 'border-3D8AA4 border-2':''}} bg-gray-200">
+              class=" pl-2 pt-1 border rounded-md {{value === 'Combine Operator'? 'border-3D8AA4 border-2':''}} bg-gray-200">
               <h1 class="font-Lato text-xs font-semibold">Combine Operator</h1>
               <span class="font-Lato text-xs font-semibold">{{data?.assigned_roles[0].combine_operator}}</span>
             </div>
@@ -123,7 +123,7 @@
             </div>
           </ion-col>
         </ion-row>
-        <div *ngIf="value === 'combine-operator'">
+        <div *ngIf="value === 'Combine Operator'">
           <ion-row *ngFor="let data of data?.employees" class="m-1">
               <ion-col *ngIf="data.role.includes('Combine Operator')" size="6" class="p-5 border-b-2">
                 <div class="font-Lato font-semibold">{{data.first_name}} </div>

@@ -180,11 +180,11 @@ export class TicketPage implements OnInit {
 
   initApis() {
     let crew_chief_id = '';
-    this.harvestingService.getKartOperatorCrewChief( 'getKartOpCrewChief',localStorage.getItem('employeeId')).subscribe(param=>{
+    this.harvestingService.getKartOperatorCrewChief('getKartOpCrewChief', localStorage.getItem('employeeId')).subscribe(param => {
       crew_chief_id = param[0].id;
 
       this.harvestingService.getJobTesting2(
-        'kart-operator',
+        'Kart Operator',
         localStorage.getItem('employeeId'),
         crew_chief_id
       );
@@ -271,8 +271,8 @@ export class TicketPage implements OnInit {
               'Delivery Ticket has been created.',
               'success'
             );
-                      // navigating
-                      this.router.navigateByUrl('/tabs/home/harvesting');
+            // navigating
+            this.router.navigateByUrl('/tabs/home/harvesting');
           } else {
             console.log('Something happened :)');
           }
@@ -468,7 +468,7 @@ export class TicketPage implements OnInit {
     this.isFieldSelected = false;
 
     // assigning values in form conditionally
-    if (this.role === 'kart-operator') {
+    if (this.role.includes('Kart Operator')) {
       // this.changeFieldFormKart.patchValue({
       //   field_id_new: field.field_id,
       // });

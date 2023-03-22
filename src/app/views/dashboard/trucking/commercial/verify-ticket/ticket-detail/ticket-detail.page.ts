@@ -12,8 +12,7 @@ import { ToastService } from './../../../../../../services/toast/toast.service';
   styleUrls: ['./ticket-detail.page.scss'],
 })
 export class TicketDetailPage implements OnInit {
-  roleOptions = ['dispatcher', 'truck-driver'];
-  role = this.roleOptions[1];
+  role;
   createFormTruckCommercial: FormGroup;
 
   @ViewChild('machineryInput') machineryInput: ElementRef;
@@ -34,7 +33,7 @@ export class TicketDetailPage implements OnInit {
   customDocs: string[] = [];
 
   constructor(private toast: ToastService, private truckingService: TruckingService, private activeRoute: ActivatedRoute, private router: Router, private formBuilder: FormBuilder, private renderer: Renderer2) {
-    if (localStorage.getItem('role') === 'truck-driver') {
+    if (localStorage.getItem('role').includes('Truck Driver')) {
       this.renderer.listen('window', 'click', (e) => {
         if (e.target !== this.machineryInput.nativeElement) {
           this.allMachinery = of([]); // to clear array

@@ -190,7 +190,7 @@ export class CompleteExistingOrderPage implements OnInit {
 
     this.completeExistingWorkOrder.value.completeInfo = true;
     console.log(this.completeExistingWorkOrder.value);
-    this.farmingService.updateWorkOrder(this.completeExistingWorkOrder.value, 'tractor-driver', 'existingWorkOrder')
+    this.farmingService.updateWorkOrder(this.completeExistingWorkOrder.value, 'Tractor Driver', 'existingWorkOrder')
       .subscribe(
         (res: any) => {
           console.log(res);
@@ -311,7 +311,7 @@ export class CompleteExistingOrderPage implements OnInit {
         // for asterik to look required
         if (value === '') { this.isDispatcherSelected = true; }
 
-        if (localStorage.getItem('role') === 'dispatcher') {
+        if (localStorage.getItem('role').includes('Dispatcher')) {
           this.allDispatchers = this.farmingService.getEmployees(
             value,
             'allEmployees',
@@ -357,7 +357,7 @@ export class CompleteExistingOrderPage implements OnInit {
         : this.dispatcherSearchValue;
 
     // calling API
-    if (localStorage.getItem('role') === 'dispatcher') {
+    if (localStorage.getItem('role').includes('Dispatcher')) {
       this.allDispatchers = this.farmingService.getEmployees(
         value,
         'allEmployees',
@@ -620,7 +620,7 @@ export class CompleteExistingOrderPage implements OnInit {
     this.allFarms = of([]);
 
     // passing name in farm-search-value in Rendered2 for checks 
-  this.farmSearchValue = farm.name;
+    this.farmSearchValue = farm.name;
 
     // For Specific Fields
     this.farmId = farm.id;

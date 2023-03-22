@@ -1,6 +1,6 @@
 <app-header [title]="'Close-out Customer Job'" [color]="'harvesting'"></app-header>
 
-<ion-content *ngIf="role === 'crew-chief'">
+<ion-content *ngIf="role === 'Crew Chief'">
   <!-- <app-timer [value]="'23:00:12'"></app-timer> -->
   <div class="p-4">
     <ion-card class="m-0 mb-2">
@@ -80,7 +80,7 @@
   </div>
 </ion-content>
 
-<ion-content *ngIf="role === 'combine-operator'">
+<ion-content *ngIf="role === 'Combine Operator'">
   <!-- <app-timer [value]="'23:00:12'"></app-timer> -->
   <div class="p-4">
     <ion-card class="m-0 mb-2">
@@ -160,7 +160,7 @@
   </div>
 </ion-content>
 
-<ion-content *ngIf="role === 'kart-operator'">
+<ion-content *ngIf="role.includes('Kart Operator')">
   <!-- <app-timer [value]="'23:00:12'"></app-timer> -->
   <div class="p-4">
     <ion-card class="m-0 mb-2">
