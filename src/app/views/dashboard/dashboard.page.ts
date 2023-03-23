@@ -125,8 +125,14 @@ export class DashboardPage implements OnInit {
   }
 
   presentPopover(e: Event) {
+    this.popover.event = e;
+    this.isOpen = true;
+  }
+
+  setOpen() {
 
     if (this.activeDwr[0].module === 'farming') {
+      this.isModalOpen = false;
       this.nav.navigate(['farming'], { relativeTo: this.activatedRoute });
     }
     else if (this.activeDwr[0].module === 'trucking') {
