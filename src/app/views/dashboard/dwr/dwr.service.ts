@@ -26,7 +26,7 @@ export class DWRService {
     role: any) {
     let params = new HttpParams();
     params = params.set('operation','getDWR');
-    params = params.set('employeeId', '00277ae0-9534-473a-afe8-c648aa0e6d9d');
+    // params = params.set('employeeId', '00277ae0-9534-473a-afe8-c648aa0e6d9d');
     params = params.set('employeeId', employeeId);
 
     params = params.set('date', date);

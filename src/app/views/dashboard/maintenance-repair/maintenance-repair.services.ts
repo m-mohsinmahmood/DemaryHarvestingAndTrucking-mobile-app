@@ -138,18 +138,18 @@ export class MaintenanceRepairService {
   // }
   createDWR(
     employeeId: any,
-    ticketRecordId: any,
+    main_repair_ticket_id: any,
     supervisor_id: any,
     dwrId){
     let data;
 
        data = {
-        dwr_type: 'main-repair',
-        module: 'main-repair',
+        dwr_type: 'maintenance-repair',
+        module: 'maintenance-repair',
         employeeId,
         supervisor_id,
         dwrId,
-        ticketRecordId
+        main_repair_ticket_id
     };
     console.log('DATA:',data);
     return this.httpClient

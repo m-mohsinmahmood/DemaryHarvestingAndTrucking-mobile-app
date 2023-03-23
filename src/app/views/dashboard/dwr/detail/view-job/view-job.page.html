@@ -1043,6 +1043,107 @@
 
   </ion-card-content>
 </div>
+<div *ngIf="dwr_type === 'maintenance-repair'">
+  <ion-card-content *ngIf="(loading | async) === false">
+    <ion-grid >
+      <ion-row>
+        <ion-col size="12">
+         <ion-text class="flex justify-center items-center text-xl font-semibold text-3D8AA4" ion-text-center>Ticket Details</ion-text>
+        </ion-col>
+      </ion-row>
+      <ion-row class="mb-1 h-16">
+        <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+          <p class="font-Lato text-black font-bold font-14">Supervisor Name</p>
+          <span class="font-Lato font-14">{{data.data[0].supervisor_id | slice:0:8}}</span>
+        </ion-col>
+        <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+          <p class="font-Lato text-black font-bold font-14">Mechanic Name</p>
+          <span class="font-Lato font-14">{{data.data[0].assignedToId | slice:0:8}}</span>
+        </ion-col>
+      </ion-row>
+
+      <ion-row class="mb-1 h-16">
+        <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+          <p class="font-Lato text-black font-bold font-14">Machinery ID</p>
+          <span class="font-Lato font-14">{{data.data[0].equipmentId | slice:0:8}}</span>
+        </ion-col>
+        <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+          <p class="font-Lato text-black font-bold font-14">City</p>
+          <span class="font-Lato font-14 text-left">{{data.data[0].city}}</span>
+        </ion-col>
+      </ion-row>
+
+      <ion-row class="mb-1 h-16">
+        <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+          <p class="font-Lato text-black font-bold font-14">State</p>
+          <span class="font-Lato font-14">{{data.data[0].state}}</span>
+        </ion-col>
+        <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+          <p class="font-Lato text-black font-bold font-14">Category</p>
+          <span class="font-Lato font-14">{{data.data[0].issueCategory | titlecase}}</span>
+        </ion-col>
+      </ion-row>
+      <ion-row class="mb-1 h-16">
+        <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+          <p class="font-Lato text-black font-bold font-14">Severity</p>
+          <span class="font-Lato font-14">{{data.data[0].severityType | titlecase }}</span>
+        </ion-col>
+        <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+          <p class="font-Lato text-black font-bold font-14">Status</p>
+          <span class="font-Lato font-14 text-left">{{data.data[0].status | titlecase}}</span>
+        </ion-col>
+      </ion-row>
+
+    </ion-grid>
+    <div>
+        <ion-text class="text-sm font-semibold font-Lato text-black mt-2" >Detailed description of issue:</ion-text>
+        <ion-item lines="none" class="textarea">
+          <ion-textarea disabled [autoGrow]="true" [value]="data.data[0].description">
+          </ion-textarea>
+        </ion-item>
+        <ion-text class="text-sm font-semibold font-Lato text-black mt-2" >Summary:</ion-text>
+        <ion-item lines="none" class="textarea">
+          <ion-textarea disabled [autoGrow]="true" [value]="data.data[0].summary">
+          </ion-textarea>
+        </ion-item>
+      </div>
+    <div *ngIf="notes">
+      <ion-text class="text-sm font-semibold font-Lato text-black mt-2" >Supervisor Notes</ion-text>
+      <ion-item lines="none" class="textarea">
+        <ion-textarea disabled [autoGrow]="true" class="h-10" [value]="data.data[0].notes">
+        </ion-textarea>
+      </ion-item>
+    </div>
+    <div *ngIf="type === 'send-back'">
+      <ion-text class="text-sm font-semibold font-Lato text-black mt-2" >Notes</ion-text>
+      <ion-item lines="none" class="textarea">
+        <form [formGroup]="notesForm">
+        <ion-textarea [autoGrow]="true" formControlName="notes">
+        </ion-textarea>
+      </form>
+      </ion-item>
+    </div>
+
+    <div *ngIf="type === 'detail'">
+      <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="exit()" >Exit</ion-button>
+    </div>
+    <div *ngIf="type === 'send-back'">
+      <ion-button expand="block" class="mt-5 font-Lato text-white" [disabled]="(loadingSpinner | async)" (click)="sendBack()">
+        <div *ngIf="(loadingSpinner | async) === false">Send Back</div>
+        <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+      </ion-button>
+    </div>
+    <div *ngIf="type === 'verify'">
+      <ion-button expand="block"
+      class="mt-5 font-Lato text-white"
+      [disabled]="(loadingSpinner | async)"
+       (click)="verify()">
+       <div *ngIf="(loadingSpinner | async) === false">Verify</div>
+       <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+      </ion-button>
+    </div>
+
+  </ion-card-content>
+</div>
   </ion-card>
 </ion-content>
-`
