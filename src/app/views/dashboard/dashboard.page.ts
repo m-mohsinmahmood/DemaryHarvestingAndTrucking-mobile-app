@@ -60,7 +60,6 @@ export class DashboardPage implements OnInit {
       this.role = localStorage.getItem('role');
 
       if (this.activeDwr.length <= 0) {
-        // this.role = 'crew-chief';
         this.role = localStorage.getItem("role");
         // to stop loading
         this.loading.next(false)
