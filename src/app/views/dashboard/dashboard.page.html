@@ -16,7 +16,7 @@
           </ion-avatar>
 
           <div class="flex flex-col ml-2">
-            <ion-text class="font-semibold font-Lato">Wade Warren</ion-text>
+            <ion-text class="font-semibold font-Lato">{{empName}}</ion-text>
             <span class="text-xs font-medium font-Lato text-gray-400">{{role}}</span>
           </div>
 
@@ -219,7 +219,7 @@
         on other module.
       </p>
 
-      <div class="flex justify-center mt-4">
+      <div class="flex justify-center mt-8">
         <ion-button class="text-white w-1/2" (click)="setOpen(); model.dismiss()" expand="block">
           Go Back
         </ion-button>

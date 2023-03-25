@@ -388,7 +388,7 @@ export class CreateOrderPage implements OnInit {
     // this.fieldId = field.id;
 
     // passing name in select's input
-    this.dispatcherInput.nativeElement.value = dispatcher.first_name;
+    this.dispatcherInput.nativeElement.value = dispatcher.first_name + ' ' + dispatcher.last_name;
 
     // to enable submit button
     this.isDispatcherSelected = false;

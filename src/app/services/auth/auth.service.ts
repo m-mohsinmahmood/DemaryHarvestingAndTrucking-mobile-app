@@ -157,6 +157,7 @@ getEmployeeDetailsByFirbaseId(fb_id){
     // setting in local storage
     localStorage.setItem('employeeId',res.id);
     localStorage.setItem('role',res.role);
+    localStorage.setItem('employeeName',res.employee_name);
 
      //to stop loader
      this.isLoading.next(false);

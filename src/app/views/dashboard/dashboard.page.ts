@@ -15,6 +15,7 @@ export class DashboardPage implements OnInit {
   @ViewChild('popover') popover;
   isOpen = false;
 
+  empName: string = '';
   role: string = '';
   selectform: FormGroup;
   activeDwr: any;
@@ -58,6 +59,7 @@ export class DashboardPage implements OnInit {
       this.activeDwr = workOrder.dwr;
 
       this.role = localStorage.getItem('role');
+      this.empName = localStorage.getItem('employeeName');
 
       if (this.activeDwr.length <= 0) {
         this.role = localStorage.getItem("role");
