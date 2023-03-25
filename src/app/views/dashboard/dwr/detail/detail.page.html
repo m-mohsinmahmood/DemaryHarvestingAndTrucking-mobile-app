@@ -1066,10 +1066,10 @@
                       </div>
 
                       <div class="flex justify-between items-center mt-3 px-2 ">
-                        <ion-text class="text-3D8AA4 font-Lato text-sm font-medium underline underline-offset-4" (click)="navigate(tasks.task_id,'detail',tasks.notes,tasks.dwr_type)">View Detail</ion-text>
+                        <ion-text class="text-3D8AA4 font-Lato text-sm font-medium underline underline-offset-4" (click)="navigate(tasks.task_id,'detail-reassign',tasks.notes,tasks.dwr_type)">View Detail</ion-text>
                         <div>
-                          <button class="bg-3D8AA4 text-3D8AA4 bg-opacity-20 rounded-md font-Lato text-sm px-4 py-2" *ngIf="role === 'supervisor'" (click)="navigate(tasks.task_id,'send-back','',tasks.dwr_type)">Send Back</button>
-                          <button class="bg-3D8AA4 text-white rounded-md font-Lato text-sm px-4 py-2 ml-2" *ngIf="role === 'supervisor'" (click)="navigate(tasks.task_id,'verify','',tasks.dwr_type)">Verify</button>
+                          <!-- <button class="bg-3D8AA4 text-3D8AA4 bg-opacity-20 rounded-md font-Lato text-sm px-4 py-2" *ngIf="role === 'supervisor'" (click)="navigate(tasks.task_id,'send-back','',tasks.dwr_type)">Send Back</button> -->
+                          <!-- <button class="bg-3D8AA4 text-white rounded-md font-Lato text-sm px-4 py-2 ml-2" *ngIf="role === 'supervisor'" (click)="navigate(tasks.task_id,'verify','',tasks.dwr_type)">Verify</button> -->
                         </div>
                       </div>
                     </ion-card>

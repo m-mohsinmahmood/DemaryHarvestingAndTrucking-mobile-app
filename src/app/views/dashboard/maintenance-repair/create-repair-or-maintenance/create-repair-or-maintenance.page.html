@@ -26,7 +26,8 @@
         <div [ngClass]="'opacity-100 visible ease-in duration-200'"  role="dialog" aria-modal="true">
           <div [ngClass]="'opacity-100 visible scale-100 ease-in duration-200'" class="mb-4 relative z-30">
             <div class="mx-auto max-w-full transform rounded-xl px-0 transition-all">
-              <label class="block text-sm font-medium text-gray-700 mb-1">Assigned By Mechanic/Employee <span
+              <label class="block text-sm font-medium text-gray-700 mb-1">Assigned by
+                Supervisor/Crew Chief/Operations Director <span
                   *ngIf="isEmployeeSelected" class="text-red-400">*</span></label>
               <div class="flex items-center justify-between gap-x-2 rounded-md">
                 <input (keyup)="employeesearch$.next($event.target.value)" (click)="inputClickedEmployee()"
@@ -107,7 +108,7 @@
          [ngClass]="'opacity-100 visible ease-in duration-200'"  role="dialog" aria-modal="true">
          <div [ngClass]="'opacity-100 visible scale-100 ease-in duration-200'" class="mb-4 relative z-10">
            <div class="mx-auto max-w-full transform rounded-xl px-0 transition-all">
-             <label class="block text-sm font-medium text-gray-700 mb-1">Machinery ID: <span
+             <label class="block text-sm font-medium text-gray-700 mb-1">Equipment ID: <span
                *ngIf="isMachineSelected"
                class="text-red-400">*</span></label>
              <div class="flex items-center justify-between gap-x-2 rounded-md">
@@ -244,7 +245,8 @@
          <div [ngClass]="'opacity-100 visible ease-in duration-200'"  role="dialog" aria-modal="true">
           <div [ngClass]="'opacity-100 visible scale-100 ease-in duration-200'" class="mb-4 relative z-30">
             <div class="mx-auto max-w-full transform rounded-xl px-0 transition-all">
-              <label class="block text-sm font-medium text-gray-700 mb-1">Assigned By Mechanic/Employee <span
+              <label class="block text-sm font-medium text-gray-700 mb-1">Assigned by
+                Supervisor/Crew Chief/Operations Director <span
                   *ngIf="isEmployeeSelected" class="text-red-400">*</span></label>
               <div class="flex items-center justify-between gap-x-2 rounded-md">
                 <input (keyup)="employeesearch$.next($event.target.value)" (click)="inputClickedEmployee()"
@@ -326,7 +328,7 @@
          [ngClass]="'opacity-100 visible ease-in duration-200'"  role="dialog" aria-modal="true">
          <div [ngClass]="'opacity-100 visible scale-100 ease-in duration-200'" class="mb-4 relative z-10">
            <div class="mx-auto max-w-full transform rounded-xl px-0 transition-all">
-             <label class="block text-sm font-medium text-gray-700 mb-1">Machinery ID: <span
+             <label class="block text-sm font-medium text-gray-700 mb-1">Equipment ID: <span
                *ngIf="isMachineSelected"
                class="text-red-400">*</span></label>
              <div class="flex items-center justify-between gap-x-2 rounded-md">

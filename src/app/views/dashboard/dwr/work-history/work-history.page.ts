@@ -56,7 +56,7 @@ export class WorkHistoryPage implements OnInit {
     this.DWRSubValue.unsubscribe();
   }
   getDate(e) {
-    this.date = moment(e.detail.value).format('YYYY-MM-DD');
+    this.date = moment(e.detail.value).format('MM-DD-YYYY');
     this.isOpen = false;
   }
   getMonth(e) {

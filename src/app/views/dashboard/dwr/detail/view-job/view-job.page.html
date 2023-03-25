@@ -57,11 +57,11 @@
         <ion-row class="mb-1 h-16">
           <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
             <p class="font-Lato text-black font-bold font-14">Trainee Name</p>
-            <span class="font-Lato font-14">{{data.traineeData[0].trainee_id | slice:0:8}}</span>
+            <span class="font-Lato font-14 text-left">{{data.traineeData[0].trainee_name}}</span>
           </ion-col>
           <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
             <p class="font-Lato text-black font-bold font-14">Trainer Name</p>
-            <span class="font-Lato font-14">{{data.traineeData[0].trainer_id | slice:0:8}}</span>
+            <span class="font-Lato font-14 text-left">{{data.traineeData[0].trainer_name}}</span>
           </ion-col>
         </ion-row>
 
@@ -135,11 +135,11 @@
         <ion-row class="mb-1 h-16">
           <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
             <p class="font-Lato text-black font-bold font-14">Trainer Name</p>
-            <span class="font-Lato font-14">{{data.trainerData[0].trainer_id | slice:0:8}}</span>
+            <span class="font-Lato font-14 text-left">{{data.trainerData[0].trainer_name}}</span>
           </ion-col>
           <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
             <p class="font-Lato text-black font-bold font-14">Supervisor Name</p>
-            <span class="font-Lato font-14">{{data.trainerData[0].supervisor_id | slice:0:8}}</span>
+            <span class="font-Lato font-14 text-left">{{data.trainerData[0].supervisor_name}}</span>
           </ion-col>
         </ion-row>
 
@@ -320,18 +320,18 @@
         <ion-row class="mb-1 h-16">
           <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
             <p class="font-Lato text-black font-bold font-14">Trainer Name:</p>
-            <span class="font-Lato font-14">{{data.trainingData[0].trainer_id | slice:0:8}}</span>
+            <span class="font-Lato font-14 text-left">{{data.trainingData[0].trainer_name}}</span>
           </ion-col>
           <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
             <p class="font-Lato text-black font-bold font-14">Trainee Name:</p>
-            <span class="font-Lato font-14">{{data.trainingData[0].trainee_id | slice:0:8}}</span>
+            <span class="font-Lato font-14 text-left">{{data.trainingData[0].trainee_name}}</span>
           </ion-col>
         </ion-row>
 
         <ion-row class="mb-1 h-16">
           <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
             <p class="font-Lato text-black font-bold font-14">Supervisor Name:</p>
-            <span class="font-Lato font-14">{{data.trainingData[0].supervisor_id | slice:0:8}}</span>
+            <span class="font-Lato font-14 text-left">{{data.trainingData[0].supervisor_name}}</span>
           </ion-col>
           <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
             <p class="font-Lato text-black font-bold font-14 text-left">Trainee Completed CDL Classroom:</p>
@@ -608,17 +608,17 @@
       <ion-row>
         <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
           <p class="font-Lato text-black font-bold font-14">Trainer Name:</p>
-          <span class="font-Lato font-14">{{data.trainingData[0].trainer_id | slice: 0:8}}</span>
+          <span class="font-Lato font-14">{{data.trainingData[0].trainer_name }}</span>
         </ion-col>
         <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
           <p class="font-Lato text-black font-bold font-14">Tainee Name</p>
-          <span class="font-Lato font-14">{{data.trainingData[0].trainee_id | slice: 0:8}}</span>
+          <span class="font-Lato font-14">{{data.trainingData[0].trainee_name}}</span>
         </ion-col>
       </ion-row>
       <ion-row class="mb-1 h-16">
         <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
           <p class="font-Lato text-black font-bold font-14">Supervisor Name:</p>
-          <span class="font-Lato font-14">{{data.trainingData[0].supervisor_id | slice: 0:8}}</span>
+          <span class="font-Lato font-14">{{data.trainingData[0].supervisor_name}}</span>
         </ion-col>
         <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
           <p class="font-Lato text-black font-bold font-14">Truck ID:</p>
@@ -861,17 +861,17 @@
     <ion-row>
       <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
         <p class="font-Lato text-black font-bold font-14">Trainer Name:</p>
-        <span class="font-Lato font-14">{{data.trainingData[0].trainer_id | slice: 0:8}}</span>
+        <span class="font-Lato font-14 text-left">{{data.trainingData[0].trainer_name}}</span>
       </ion-col>
       <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
         <p class="font-Lato text-black font-bold font-14">Tainee Name</p>
-        <span class="font-Lato font-14">{{data.trainingData[0].trainee_id | slice: 0:8}}</span>
+        <span class="font-Lato font-14 text-left">{{data.trainingData[0].trainee_name}}</span>
       </ion-col>
     </ion-row>
     <ion-row class="mb-1 h-16">
       <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
         <p class="font-Lato text-black font-bold font-14">Supervisor Name:</p>
-        <span class="font-Lato font-14">{{data.trainingData[0].supervisor_id | slice: 0:8}}</span>
+        <span class="font-Lato font-14 text-left">{{data.trainingData[0].supervisor_name}}</span>
       </ion-col>
       <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
         <p class="font-Lato text-black font-bold font-14">Truck ID:</p>
@@ -977,29 +977,29 @@
       <ion-row class="mb-1 h-16">
         <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
           <p class="font-Lato text-black font-bold font-14">Customer Name</p>
-          <span class="font-Lato font-14">{{data.data[0].customer_id | slice:0:8}}</span>
+          <span class="font-Lato font-14 text-left ">{{data.data[0].customer_name}}</span>
         </ion-col>
         <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
           <p class="font-Lato text-black font-bold font-14">Dispatcher Name</p>
-          <span class="font-Lato font-14">{{data.data[0].dispatcher_id | slice:0:8}}</span>
+          <span class="font-Lato font-14">{{data.data[0].dispatcher_name}}</span>
         </ion-col>
       </ion-row>
 
       <ion-row class="mb-1 h-16">
         <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
-          <p class="font-Lato text-black font-bold font-14">Tractor Driver Name</p>
-          <span class="font-Lato font-14">{{data.data[0].tractor_driver_id | slice:0:8}}</span>
+          <p class="font-Lato text-black font-bold font-14"> Driver Name</p>
+          <span class="font-Lato font-14">{{data.data[0].tractor_driver_name}}</span>
         </ion-col>
         <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
           <p class="font-Lato text-black font-bold font-14">Farm Name</p>
-          <span class="font-Lato font-14 text-left">{{data.data[0].farm_id | slice:0:8}}</span>
+          <span class="font-Lato font-14 text-left">{{data.data[0].farm}}</span>
         </ion-col>
       </ion-row>
 
       <ion-row class="mb-1 h-16">
         <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
           <p class="font-Lato text-black font-bold font-14">Field Name:</p>
-          <span class="font-Lato font-14">{{data.data[0].field_id | slice:0:8}}</span>
+          <span class="font-Lato font-14">{{data.data[0].field}}</span>
         </ion-col>
         <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
           <p class="font-Lato text-black font-bold font-14">Hours Worked:</p>
@@ -1013,13 +1013,22 @@
         <ion-textarea disabled [autoGrow]="true" class="h-10" [value]="data.data[0].notes">
         </ion-textarea>
       </ion-item>
-      <div *ngIf="notes">
+
+      <div *ngIf="type === 'detail-reassign'">
         <ion-text class="text-sm font-semibold font-Lato text-black mt-2" >Supervisor Notes:</ion-text>
         <ion-item lines="none" class="textarea">
-          <!-- <form [formGroup]="notesForm"> -->
-          <ion-textarea disabled [autoGrow]="true" [value]="notes">
+            <ion-textarea disabled [autoGrow]="true" [value]="notes">
+            </ion-textarea>
+          </ion-item>
+        </div>
+
+      <div *ngIf="type === 'send-back'">
+        <ion-text class="text-sm font-semibold font-Lato text-black mt-2" >Supervisor Notes:</ion-text>
+        <ion-item lines="none" class="textarea">
+          <form [formGroup]="notesForm">
+          <ion-textarea formControlName="notes"  [autoGrow]="true" [value]="notes">
           </ion-textarea>
-        <!-- </form> -->
+        </form>
         </ion-item>
       </div>
     <div *ngIf="type === 'detail'">
@@ -1054,18 +1063,18 @@
       <ion-row class="mb-1 h-16">
         <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
           <p class="font-Lato text-black font-bold font-14">Supervisor Name</p>
-          <span class="font-Lato font-14">{{data.data[0].supervisor_id | slice:0:8}}</span>
+          <span class="font-Lato font-14 text-left">{{data.data[0].supervisor_name }}</span>
         </ion-col>
         <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
           <p class="font-Lato text-black font-bold font-14">Mechanic Name</p>
-          <span class="font-Lato font-14">{{data.data[0].assignedToId | slice:0:8}}</span>
+          <span class="font-Lato font-14 text-left">{{data.data[0].mechanic_name }}</span>
         </ion-col>
       </ion-row>
 
       <ion-row class="mb-1 h-16">
         <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
-          <p class="font-Lato text-black font-bold font-14">Machinery ID</p>
-          <span class="font-Lato font-14">{{data.data[0].equipmentId | slice:0:8}}</span>
+          <p class="font-Lato text-black font-bold font-14">Equipment ID</p>
+          <span class="font-Lato font-14">{{data.data[0].machinery_id | slice:0:8}}</span>
         </ion-col>
         <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
           <p class="font-Lato text-black font-bold font-14">City</p>
@@ -1110,7 +1119,7 @@
     <div *ngIf="notes">
       <ion-text class="text-sm font-semibold font-Lato text-black mt-2" >Supervisor Notes</ion-text>
       <ion-item lines="none" class="textarea">
-        <ion-textarea disabled [autoGrow]="true" class="h-10" [value]="data.data[0].notes">
+        <ion-textarea disabled [autoGrow]="true" class="h-10" [value]="notes">
         </ion-textarea>
       </ion-item>
     </div>

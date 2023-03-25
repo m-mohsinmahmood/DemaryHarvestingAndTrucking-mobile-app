@@ -55,7 +55,7 @@ export class VerifyDwrsPage implements OnInit {
     this.location.back();
   }
   getDate(e) {
-    this.date = moment(e.detail.value).format('YYYY-MM-DD');
+    this.date = moment(e.detail.value).format('MM-DD-YYYY');
     }
   getMonth(e) {
     // passing month & year values
@@ -63,7 +63,7 @@ export class VerifyDwrsPage implements OnInit {
     this.yearValue = moment(e.detail.value).year();
 
     // passing month value for month select
-    this.month = moment(e.detail.value).format('YYYY-MM');
+    this.month = moment(e.detail.value).format('MM-YYYY');
 
   }
   getDWRByDate(){
