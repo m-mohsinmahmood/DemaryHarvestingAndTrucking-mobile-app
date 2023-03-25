@@ -3,7 +3,8 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FarmingService } from './../farming.service';
 import { ToastService } from 'src/app/services/toast/toast.service';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { CheckInOutService } from 'src/app/components/check-in-out/check-in-out.service';
 
 @Component({
   selector: 'app-submit-end-day',
@@ -17,10 +18,13 @@ export class SubmitEndDayPage implements OnInit {
   workOrder: any;
   checkInData;
   remainingAcres: any;
+  activeDwr: Observable<any>;
+  dwrLoaded = false;
+  acresComp = false;
 
   public loadingSpinner = new BehaviorSubject(false);
 
-  constructor(private activeRoute: ActivatedRoute, private toast: ToastService, private router: Router, private formBuilder: FormBuilder, private farmingService: FarmingService) {
+  constructor(private dwrServices: CheckInOutService, private activeRoute: ActivatedRoute, private toast: ToastService, private router: Router, private formBuilder: FormBuilder, private farmingService: FarmingService) {
   }
 
   ngOnInit() {
@@ -32,11 +36,30 @@ export class SubmitEndDayPage implements OnInit {
   }
 
   initDataRetrieval() {
-    this.activeRoute.params.subscribe(param => {
-      console.log("Check In: ", param);
+    this.dwrLoaded = false;
+    this.acresComp = false;
 
-      this.checkInData = param;
-    })
+    this.submitEndDayWorkOrder = this.formBuilder.group({
+      employeeId: [localStorage.getItem('employeeId')],
+      acresCompleted: ['', [Validators.required]],
+      endingEngineHours: ['', [Validators.required]],
+      hoursWorked: ['', [Validators.required]],
+      notes: ['', [Validators.required]],
+      module: [''],
+      dwrId: ['']
+    });
+
+    this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
+      console.log('Active Check In ', workOrder.dwr);
+      this.activeDwr = workOrder.dwr;
+      this.checkInData = this.activeDwr[0];
+
+      this.submitEndDayWorkOrder.patchValue({
+        module: [workOrder.dwr[0].module],
+        dwrId: [workOrder.dwr[0].id]
+      })
+      this.dwrLoaded = true;
+    });
 
     this.farmingService.getBeginningOfDay(localStorage.getItem('employeeId'), 'beginningOfDay', 'farming').subscribe(workOrder => {
       this.workOrderCount = workOrder.count;
@@ -50,20 +73,11 @@ export class SubmitEndDayPage implements OnInit {
           console.log("Remaining Acres: ", acres.workOrders[0].total_acres);
           this.remainingAcres = workOrderByID.total_acres - acres.workOrders[0].total_acres
           console.log(this.remainingAcres);
-
+          this.acresComp = true;
         })
       });
     });
 
-    this.submitEndDayWorkOrder = this.formBuilder.group({
-      employeeId: [localStorage.getItem('employeeId')],
-      acresCompleted: ['', [Validators.required]],
-      endingEngineHours: ['', [Validators.required]],
-      hoursWorked: ['', [Validators.required]],
-      notes: ['', [Validators.required]],
-      module: [this.checkInData.module],
-      dwrId: [this.checkInData.id]
-    });
   }
 
   navigateTo() {
