@@ -44,9 +44,10 @@ export class SubmitEndDayPage implements OnInit {
 
       this.farmingService.getWorkOrderById(workOrder.workOrders[0].work_order_id).subscribe(workOrderByID => {
         console.log("WorkOrder By Id: ", workOrderByID);
+        console.log("Field Acres :", workOrderByID.total_acres);
 
         this.farmingService.getAllWorkOrders('', 'getRemainingAcresofField', localStorage.getItem('employeeId'), workOrderByID.field_id).subscribe((acres) => {
-          console.log("Remaining Acres: ", acres);
+          console.log("Remaining Acres: ", acres.workOrders[0].total_acres);
           this.remainingAcres = workOrderByID.total_acres - acres.workOrders[0].total_acres
           console.log(this.remainingAcres);
 
