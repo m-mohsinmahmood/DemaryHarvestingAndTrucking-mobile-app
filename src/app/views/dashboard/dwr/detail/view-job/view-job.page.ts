@@ -88,7 +88,8 @@ this.status = ((+this.data.trainingData[0].pullUpsInput_slb + +this.data.trainin
     });
   }
   exit(){
-    this.router.navigate(['/tabs/home/dwr/work-history']);
+    // this.router.navigate(['/tabs/home/dwr/work-history']);
+    this.location.historyGo(-1);
   }
   verify(){
     this.loadingSpinner.next(true);

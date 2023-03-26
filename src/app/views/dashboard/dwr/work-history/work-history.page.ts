@@ -22,7 +22,7 @@ export class WorkHistoryPage implements OnInit {
   segment: any = 'day';
   // select values
   date: any = moment(new Date()).format('YYYY-MM-DD');
-  month: any = moment(new Date()).format('YYYY-MM');
+  month: any = moment(new Date()).format('YYYY-MM-DD');
 
   // payload values
   monthValue = moment(new Date()).month() + 1;
@@ -84,7 +84,7 @@ export class WorkHistoryPage implements OnInit {
     // to statr spinner
     this.loading.next(true);
 
-    this.DWRSubValue = this.dwrService
+    this.dwrService
       .getDWR(
         localStorage.getItem('employeeId'),
         this.date,
@@ -146,7 +146,7 @@ export class WorkHistoryPage implements OnInit {
     // to statr spinner
     this.loading.next(true);
 
-    this.MonthSubValue = this.dwrService.getMonthDWR(
+     this.dwrService.getMonthDWR(
       localStorage.getItem('employeeId'),
       this.monthValue,
       this.yearValue,
