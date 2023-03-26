@@ -128,7 +128,7 @@ export class VerifyDwrsPage implements OnInit {
     // to start spinner
     this.loading.next(true);
 
-    this.MonthSubValue = this.dwrService.getMonthDWR(this.supervisor_id,this.monthValue,this.yearValue,this.role,'getMyDWR').subscribe((res)=>{
+    this.MonthSubValue = this.dwrService.getMonthDWR(this.supervisor_id,this.monthValue,this.yearValue,this.role,'getAssignedDWR').subscribe((res)=>{
       let newArray: any = [];
 
        // combining in one array
