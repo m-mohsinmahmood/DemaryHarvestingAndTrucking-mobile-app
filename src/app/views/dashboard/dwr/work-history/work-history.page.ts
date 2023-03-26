@@ -22,7 +22,7 @@ export class WorkHistoryPage implements OnInit {
   segment: any = 'day';
   // select values
   date: any = moment(new Date()).format('YYYY-MM-DD');
-  month: any = moment(new Date()).format('YYYY-MM-DD');
+  month: any = moment(new Date()).format('YYYY-MM');
 
   // payload values
   monthValue = moment(new Date()).month() + 1;
@@ -38,7 +38,7 @@ export class WorkHistoryPage implements OnInit {
   // to use in HTML
   moment: any = moment;
 
-  isOpen;
+  isOpen = 'false';
 
   // kart operator id
   kart_operator_id = 'f4cfa75b-7c14-4b68-a192-00d56c9f2022';
@@ -46,18 +46,25 @@ export class WorkHistoryPage implements OnInit {
   // crew chief id
   crew_chief_id = '4b843edb-0b74-49a2-b3c7-d3884f5f6013';
   public loading = new BehaviorSubject(false);
-  constructor(private router: Router, private dwrService: DWRService) {}
+  constructor(private router: Router, private dwrService: DWRService) {
+  }
 
   ngOnInit() {
+    console.log('IS-OPEN:',this.isOpen);
+
     // call to render on-page
     // this.dwrs$ = this.dwrService.getDWR('f4cfa75b-7c14-4b68-a192-00d56c9f2022',this.date);
   }
   ngOnDestroy(): void {
-    this.DWRSubValue.unsubscribe();
+    // this.DWRSubValue.unsubscribe();
+  }
+  call(){
+    console.log('CALLED');
+    this.isOpen = 'true'
   }
   getDate(e) {
     this.date = moment(e.detail.value).format('MM-DD-YYYY');
-    this.isOpen = false;
+    this.isOpen = 'false';
   }
   getMonth(e) {
     // passing month & year values
@@ -68,7 +75,7 @@ export class WorkHistoryPage implements OnInit {
     this.month = moment(e.detail.value).format('YYYY-MM');
 
     // to close pop-over
-    this.isOpen = false;
+    this.isOpen = 'false';
   }
 
   navigate(name: string, dwr_id: any,dwr_type) {
@@ -88,7 +95,8 @@ export class WorkHistoryPage implements OnInit {
       .getDWR(
         localStorage.getItem('employeeId'),
         this.date,
-        localStorage.getItem('role')
+        localStorage.getItem('role'),
+        'getMyDWR'
       )
       .subscribe((res) => {
         console.log('RESPONSE:',res);
@@ -150,7 +158,8 @@ export class WorkHistoryPage implements OnInit {
       localStorage.getItem('employeeId'),
       this.monthValue,
       this.yearValue,
-      localStorage.getItem('role')
+      localStorage.getItem('role'),
+      'getMyDWR'
     ).subscribe((res)=>{
       let newArray: any = [];
 

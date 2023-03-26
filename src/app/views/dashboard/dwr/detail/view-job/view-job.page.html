@@ -97,6 +97,15 @@
             </ion-card-content>
           </ion-card>
       </ion-grid>
+      <div *ngIf="type === 'send-back'">
+        <ion-text class="text-sm font-semibold font-Lato text-black mt-2" >Notes</ion-text>
+        <ion-item lines="none" class="textarea">
+          <form [formGroup]="notesForm">
+          <ion-textarea [autoGrow]="true" formControlName="notes">
+          </ion-textarea>
+        </form>
+        </ion-item>
+      </div>
       <div *ngIf="notes">
         <ion-text class="text-sm font-semibold font-Lato text-black mt-2" >Notes</ion-text>
         <ion-item lines="none" class="textarea">
@@ -159,11 +168,16 @@
             <p class="font-Lato text-black font-bold font-14">Training Type:</p>
             <span class="font-Lato font-14">{{data.trainerData[0].training_type | titlecase}}</span>
           </ion-col>
-        </ion-row>
-        <ion-row class="mb-1 h-16">
           <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
             <p class="font-Lato text-black font-bold font-14">Topic:</p>
-            <span class="font-Lato font-14">{{data.trainerData[0].topic}}</span>
+            <span class="font-Lato font-14 text-left">{{data.trainerData[0].topic}}</span>
+          </ion-col>
+        </ion-row>
+
+        <ion-row class="mb-1 h-16">
+          <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">Notes:</p>
+            <span class="font-Lato font-14 text-left">{{data.trainerData[0].notes}}</span>
           </ion-col>
         </ion-row>
 

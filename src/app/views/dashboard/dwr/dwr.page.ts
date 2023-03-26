@@ -7,13 +7,15 @@ import { Location } from '@angular/common';
   styleUrls: ['./dwr.page.scss'],
 })
 export class DwrPage implements OnInit {
-
+  role: any;
   constructor(
     private location: Location
 
   ) { }
 
   ngOnInit() {
+    // //getting role
+    // this.role = localStorage.getItem('role');
   }
   goBack(){
     this.location.back();

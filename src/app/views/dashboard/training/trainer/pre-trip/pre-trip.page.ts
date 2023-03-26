@@ -231,13 +231,13 @@ export class PreTripPage implements OnInit {
 
         } else {
           console.log('Something happened :)');
-          this.toastService.presentToast(res.mssage, 'danger');
+          this.toastService.presentToast('Fill the required fields or try again', 'danger');
         }
       },
       (err) => {
         console.log('ERROR::', err);
-        this.toastService.presentToast(err.mssage, 'danger');
-        this.loadingSpinner.next(true);
+        this.toastService.presentToast('Fill the required fields or try again', 'danger');
+        this.loadingSpinner.next(false);
 
       }
     );
@@ -284,7 +284,7 @@ export class PreTripPage implements OnInit {
        },
        (err) => {
          console.log('ERROR::', err);
-         this.toastService.presentToast(err.mssage, 'danger');
+         this.toastService.presentToast('Fill the required fields or try again', 'danger');
          this.loadingSpinner.next(false);
 
        }

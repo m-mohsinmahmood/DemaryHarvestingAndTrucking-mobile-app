@@ -32,6 +32,7 @@ export class VerifyDwrsPage implements OnInit {
   moment: any = moment;
   role='';
   supervisor_id: any;
+  isOpen = false;
 
   DWRSubValue: any;
   MonthSubValue: any;
@@ -70,7 +71,7 @@ export class VerifyDwrsPage implements OnInit {
      // to start spinner
      this.loading.next(true);
 
-    this.DWRSubValue = this.dwrService.getDWR(this.supervisor_id,this.date,'supervisor').subscribe((res)=>{
+    this.DWRSubValue = this.dwrService.getDWR(this.supervisor_id,this.date,this.role,'getAssignedDWR').subscribe((res)=>{
       const newArray: any = [];
 
         // combining in one array
@@ -127,7 +128,7 @@ export class VerifyDwrsPage implements OnInit {
     // to start spinner
     this.loading.next(true);
 
-    this.MonthSubValue = this.dwrService.getMonthDWR(this.supervisor_id,this.monthValue,this.yearValue,'supervisor').subscribe((res)=>{
+    this.MonthSubValue = this.dwrService.getMonthDWR(this.supervisor_id,this.monthValue,this.yearValue,this.role,'getMyDWR').subscribe((res)=>{
       let newArray: any = [];
 
        // combining in one array
