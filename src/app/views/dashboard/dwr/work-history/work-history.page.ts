@@ -21,8 +21,8 @@ import { BehaviorSubject } from 'rxjs';
 export class WorkHistoryPage implements OnInit {
   segment: any = 'day';
   // select values
-  date: any = moment(new Date()).format('YYYY-MM-DD');
-  month: any = moment(new Date()).format('YYYY-MM');
+  date: any = moment(new Date()).format('DD-MM-YYYY');
+  month: any = moment(new Date()).format('MM-YYYY');
 
   // payload values
   monthValue = moment(new Date()).month() + 1;

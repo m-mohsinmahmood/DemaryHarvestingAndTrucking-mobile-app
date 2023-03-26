@@ -77,6 +77,19 @@ export class HeaderComponent implements OnInit {
     else if(this.routeValue === 'complete-maintenance-ticket'){
       this.router.navigateByUrl('/tabs/home/maintenance-repair');
     }
+    else if(this.routeValue === 'dwr'){
+      this.router.navigateByUrl('/tabs/home');
+    }
+    else if(this.routeValue === 'dwr-main'){
+      this.router.navigateByUrl('/tabs/home/dwr');
+    }
+    else if(this.routeValue === 'dwr-detail'){
+      // this.router.navigateByUrl('/tabs/home/dwr');
+      this.location.historyGo(-1);
+    }
+    else if(this.routeValue === 'dwr-view-job'){
+      this.location.historyGo(-1);
+    }
     else{
       this.location.back();
     }
