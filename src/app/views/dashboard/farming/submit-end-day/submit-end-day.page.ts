@@ -54,9 +54,12 @@ export class SubmitEndDayPage implements OnInit {
       this.activeDwr = workOrder.dwr;
       this.checkInData = this.activeDwr[0];
 
+      console.log("Check 1: ", workOrder.dwr[0].module);
+      console.log("Check 2: ", workOrder.dwr[0].id);
+
       this.submitEndDayWorkOrder.patchValue({
-        module: [workOrder.dwr[0].module],
-        dwrId: [workOrder.dwr[0].id]
+        module: workOrder.dwr[0].module,
+        dwrId: workOrder.dwr[0].id
       })
       this.dwrLoaded = true;
     });
