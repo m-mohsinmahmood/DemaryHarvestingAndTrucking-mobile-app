@@ -460,11 +460,13 @@ export class TicketAssignedToPage implements OnInit {
             );
           } else {
             console.log('Something happened :)');
+            this.loadingSpinner.next(false);
             this.toastService.presentToast(res.mssage, 'danger');
           }
         },
         (err) => {
           console.log('ERROR::', err);
+          this.loadingSpinner.next(false);
           this.toastService.presentToast(err.mssage, 'danger');
         }
       );
@@ -507,11 +509,13 @@ createDWR(){
         this.router.navigateByUrl('/tabs/home/maintenance-repair/assign-tickets');
       } else {
         console.log('Something happened :)');
+        this.loadingSpinner.next(false);
         this.toastService.presentToast(res.mssage, 'danger');
       }
     },
     (err) => {
       console.log('ERROR::', err);
+      this.loadingSpinner.next(false);
       this.toastService.presentToast(err.mssage, 'danger');
     }
   );
