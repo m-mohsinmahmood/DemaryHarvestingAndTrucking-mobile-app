@@ -26,7 +26,7 @@ export class HarvestingPage implements OnInit {
     preCheck: -1
   };
 
-  role: any;
+  role = '';
   workOrderCount;
   constructor(
     private location: Location,
@@ -48,7 +48,7 @@ export class HarvestingPage implements OnInit {
 
     //call for dwr
 
-    if (this.role === 'crew-chief') {
+    if (this.role.includes('Crew Chief')) {
       //call for dwr
       this.harvestingService.getBeginningOfDay2(localStorage.getItem('employeeId'), 'beginningOfDay', 'harvesting')
         .subscribe((workOrder) => {
@@ -58,7 +58,7 @@ export class HarvestingPage implements OnInit {
         });
     }
 
-    if (this.role === 'combine-operator') {
+    if (this.role.includes('Combine Operator')) {
       this.harvestingService.getBeginningOfDay2(localStorage.getItem('employeeId'), 'beginningOfDay', 'harvesting')
         .subscribe((workOrder) => {
           this.activeTicket = workOrder;
@@ -67,7 +67,7 @@ export class HarvestingPage implements OnInit {
         });
     }
 
-    if (this.role === 'kart-operator') {
+    if (this.role.includes('Kart Operator')) {
       // Call to get pending tickets
       this.harvestingService.kartOperatorGetTickets(
         localStorage.getItem('employeeId'),
@@ -86,7 +86,7 @@ export class HarvestingPage implements OnInit {
         });
     }
 
-    if (this.role === 'truck-driver') {
+    if (this.role.includes('Truck Driver')) {
       this.activeWorkOrders = this.harvestingService.getDeliveryTickets(this.role, localStorage.getItem('employeeId'), true, false, 'truck-driver-active-tickets');
       this.activeWorkOrders.subscribe((workOrders) => {
         this.activeTicket = workOrders.customer_job[0];
@@ -122,7 +122,7 @@ export class HarvestingPage implements OnInit {
       else { this.isModalOpen = true; }
     });
 
-    if (this.role === 'crew-chief') {
+    if (this.role.includes('Crew Chief')) {
       //call for dwr
       this.harvestingService.getBeginningOfDay2(localStorage.getItem('employeeId'), 'beginningOfDay', 'harvesting')
         .subscribe((workOrder) => {
@@ -132,7 +132,7 @@ export class HarvestingPage implements OnInit {
         });
     }
 
-    if (this.role === 'combine-operator') {
+    if (this.role.includes('Combine Operator')) {
       this.harvestingService.getBeginningOfDay2(localStorage.getItem('employeeId'), 'beginningOfDay', 'harvesting')
         .subscribe((workOrder) => {
           this.activeTicket = workOrder;
@@ -141,7 +141,7 @@ export class HarvestingPage implements OnInit {
         });
     }
 
-    if (this.role === 'kart-operator') {
+    if (this.role.includes('Kart Operator')) {
       //call for dwr
       this.harvestingService.getBeginningOfDay2(localStorage.getItem('employeeId'), 'beginningOfDay', 'harvesting')
         .subscribe((workOrder) => {
@@ -151,7 +151,7 @@ export class HarvestingPage implements OnInit {
         });
     }
 
-    if (this.role === 'truck-driver') {
+    if (this.role.includes('Truck Driver')) {
       this.activeWorkOrders = this.harvestingService.getDeliveryTickets(this.role, localStorage.getItem('employeeId'), true, false, 'truck-driver-active-tickets');
       this.activeWorkOrders.subscribe((workOrders) => {
         this.activeTicket = workOrders.customer_job[0];

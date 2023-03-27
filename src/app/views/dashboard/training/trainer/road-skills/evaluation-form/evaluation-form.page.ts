@@ -7,6 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { ToastService } from 'src/app/services/toast/toast.service';
 import { TrainingService } from '../../../training.service';
+import { CheckInOutService } from 'src/app/components/check-in-out/check-in-out.service';
 
 @Component({
   selector: 'app-evaluation-form',
@@ -21,14 +22,17 @@ totalUnSatisfactory = 0;
  trainer_id;
  supervisor_id;
  training_record_id;
+ active_check_in_id: any;
 
  public loadingSpinner = new BehaviorSubject(false);
+ public activeCheckInSpinner = new BehaviorSubject(false);
 
   constructor(private formBuilder: FormBuilder,
     private router: Router,
     private trainingService: TrainingService,
     private toastService: ToastService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private dwrServices: CheckInOutService
 
     ) { }
 
@@ -179,17 +183,20 @@ endEvaluation(){
         // spinner
         this.loadingSpinner.next(false);
 
-        // creating DWR
-        this.createDWR();
+      // getting check-in id
+      this.getCheckInID();
 
-        // tooltip
-        this.toastService.presentToast(
-          'Evaluation ended',
-          'success'
-        );
+    //   // creating DWR
+    //  this.createDWR();
 
-        // navigating
-        this.router.navigateByUrl('/tabs/home/training/trainer');
+        // // tooltip
+        // this.toastService.presentToast(
+        //   'Evaluation ended',
+        //   'success'
+        // );
+
+        // // navigating
+        // this.router.navigateByUrl('/tabs/home/training/trainer');
 
       } else {
         console.log('Something happened :)');
@@ -202,12 +209,35 @@ endEvaluation(){
     }
   );
 }
+getCheckInID(){
+
+  this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
+    this.activeCheckInSpinner.next(true);
+    console.log('Active Check ID: ', workOrder.dwr[0].id);
+    this.active_check_in_id = workOrder.dwr[0].id;
+    this.activeCheckInSpinner.next(false);
+
+      // creating DWR
+      this.createDWR();
+  });
+
+}
+
 createDWR(){
   this.trainingService
-   .createDWR(this.trainer_id, this.training_record_id,'road-skills','digital-form',this.supervisor_id)
+   .createDWR(this.trainer_id, this.training_record_id,'','','road-skills','digital-form',this.supervisor_id,this.active_check_in_id)
    .subscribe(
      (res) => {
        if (res.status === 200) {
+        // tooltip
+        this.toastService.presentToast(
+          'Evaluation ended',
+          'success'
+        );
+
+        // navigating
+        this.router.navigateByUrl('/tabs/home/training/trainer');
+
        } else {
          console.log('Something happened :)');
          this.toastService.presentToast(res.mssage, 'danger');

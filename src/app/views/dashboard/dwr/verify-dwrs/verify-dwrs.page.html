@@ -1,5 +1,5 @@
 
-<app-header [title]="'Verify DWRs'" [color]="'dwr'"></app-header>
+<app-header [title]="'Verify DWRs'" [color]="'dwr'" [routeValue]="'dwr-main'"></app-header>
   <ion-content>
     <!-- <app-timer [value]="'11:22:33'"></app-timer> -->
     <div class="p-2">
@@ -11,13 +11,13 @@
         <div [ngSwitch]="segment">
           <div *ngSwitchCase="'day'">
             <div class="px-4">
-              <div class="col-span-12 mb-4 mt-2" id="click-trigger">
+              <div class="col-span-12 mb-4 mt-2" id="click-trigger2">
                 <label class="block text-sm font-medium text-gray-700">Select Date:</label>
-                <input id="click-trigger"
+                <input id="click-trigger2"
                   class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                   placeholder="Enter date" readonly [value]="date">
               </div>
-              <ion-popover trigger="click-trigger" triggerAction="click"  [isOpen]="isOpen">
+              <ion-popover [dismissOnSelect]="true" trigger="click-trigger2" triggerAction="click">
                 <ng-template>
                   <ion-datetime (ionChange)="getDate($event)" presentation="date" size="cover"></ion-datetime>
                 </ng-template>
@@ -25,51 +25,23 @@
             </div>
             <ion-button expand="block" class="text-white rounded-md font-Lato text-sm px-2 py-0 ml-2 mt-1"
               (click)="getDWRByDate()">Get DWR</ion-button>
-          <!-- DWR DAY BLOCK -->
-            <div *ngIf="dwrs$ |withLoading | async as dwrs$">
-              <div *ngIf="dwrs$?.loading">
-                <div class="flex justify-center items-center h-20 w-full">
-                  <ion-spinner name="crescent"></ion-spinner>
-                </div>
+            <!-- DWR DAY BLOCK -->
+            <div *ngIf="(loading | async) === true">
+              <div class="flex justify-center items-center h-20 w-full">
+                <ion-spinner name="crescent"></ion-spinner>
               </div>
-              <div *ngIf="dwrs$.value.count !== 0">
-                <div *ngFor="let dwr of dwrs$?.value?.workOrders">
-                  <!-- <ion-card class="p-2 flex flex-col justify-between items-center" (click)="navigate('work-history',dwr.id)">
-                    <ion-text class="font-Lato font-semibold text-lg text-3D8AA4">
-                      {{moment(dwr.created_at).format('MMMM DD, YYYY')}}
-                    </ion-text>
-                    <ion-text class="font-Lato text-base mt-1">Total Hours: {{dwr.hours_worked}}</ion-text>
-                  </ion-card> -->
-                  <ion-grid>
-                    <ion-row>
-                      <ion-col size="12">
-                        <ion-card class="card">
-                          <ion-card-content class="flex flex-col justify-between h-28">
-                            <div class="flex justify-between items-center">
-                              <ion-text class="font-Leto text-base">Name: <span class="font-Lato text-black">{{''}}</span></ion-text>
-                              <ion-text class="font-Lato">Total Hours: <span class="font-Lato text-black">{{dwr.hours_worked?dwr.hours_worked : 0}} Hrs</span></ion-text>
-                            </div>
-                            <div class="flex justify-between items-center">
-                              <ion-text class="text-3D8AA4 font-Lato text-sm font-medium underline underline-offset-4" (click)="navigate('detail')">View Detail</ion-text>
-                              <div >
-                                <button class="bg-3D8AA4 text-3D8AA4 bg-opacity-20 rounded-md font-Lato text-sm px-4 py-2" (click)="navigate('send-back')">Send Back</button>
-                                <button class="bg-3D8AA4 text-white rounded-md font-Lato text-sm px-4 py-2 ml-2" (click)="navigate('verify')">Verify</button>
-                              </div>
-                            </div>
-                          </ion-card-content>
-                        </ion-card>
-                      </ion-col>
-                    </ion-row>
-                  </ion-grid>
-                </div>
-              </div>
-              <div *ngIf="dwrs$.value.count === 0">
-                <ion-card class="p-2 flex flex-col justify-between items-center">
-                  <ion-text class="font-Lato font-semibold text-lg text-3D8AA4">No DWR Found</ion-text>
+            </div>
+            <div *ngIf="(loading | async) === false">
+              <div *ngFor="let dwr of dwrs$">
+                <ion-card class="p-2 flex flex-col justify-between items-center" (click)="navigate('verify',dwr.dwr_id,dwr.dwr_type)">
+                  <ion-text class="font-Lato font-semibold text-lg text-3D8AA4">
+                    {{moment(dwr.created_at).format('MMMM DD, YYYY')}}
+                  </ion-text>
+                  <ion-text class="font-Lato font-semibold text-black text-base mt-1">Module: <span class="font-Lato font-medium bg-3D8AA4 rounded-md text-white px-3 py-1">{{dwr.dwr_type | titlecase}}</span> </ion-text>
                 </ion-card>
               </div>
             </div>
-            <!-- DWR DAY BLOCK -->
+          <!-- DWR DAY BLOCK -->
           </div>
           <div *ngSwitchCase="'month'">
             <div class="px-4">
@@ -88,29 +60,23 @@
             <ion-button expand="block" class="text-white rounded-md font-Lato text-sm px-2 py-0 ml-2 mt-1"
               (click)="getDWRByMonth()">Get DWR</ion-button>
             <!-- DWR MONTH BLOCK -->
-            <div *ngIf="monthDWRS$ |withLoading | async as monthDWRS$">
-              <div *ngIf="monthDWRS$?.loading">
-                <div class="flex justify-center">
-                  <ion-spinner name="crescent"></ion-spinner>
-                </div>
-              </div>
-              <div *ngIf="monthDWRS$.value.count !== 0">
-                <div *ngFor="let monthDWR of monthDWRS$?.value?.workOrders">
-                  <ion-card class="p-2 flex flex-col justify-between items-center" (click)="navigate('work-history',monthDWR.id)">
-                    <ion-text class="font-Lato font-semibold text-lg text-3D8AA4">
-                      {{moment(monthDWR.created_at).format('MMMM DD, YYYY')}}
-                    </ion-text>
-                    <ion-text class="font-Lato text-base mt-1">Total Hours: {{monthDWR.hours_worked}}</ion-text>
-                  </ion-card>
-                </div>
-              </div>
-              <div *ngIf="monthDWRS$?.value.count === 0">
-                <ion-card class="p-2 flex flex-col justify-between items-center">
-                  <ion-text class="font-Lato font-semibold text-lg text-3D8AA4">No DWR Found</ion-text>
-                </ion-card>
-              </div>
+          <div *ngIf="(loading | async) === true">
+            <div class="flex justify-center items-center h-20 w-full">
+              <ion-spinner name="crescent"></ion-spinner>
             </div>
-            <!-- DWR MONTH BLOCK -->
+          </div>
+
+          <div *ngIf="(loading | async) === false">
+            <div *ngFor="let monthDWRS of monthDWRS$">
+              <ion-card class="p-2 flex flex-col justify-between items-center" (click)="navigate('verify',monthDWRS.dwr_id, monthDWRS.dwr_type)">
+                <ion-text class="font-Lato font-semibold text-lg text-3D8AA4">
+                  {{moment(monthDWRS.created_at).format('MMMM DD, YYYY')}}
+                </ion-text>
+                <ion-text class="font-Lato font-semibold text-black text-base mt-1">Module: <span class="font-Lato font-medium bg-3D8AA4 rounded-md text-white px-3 py-1">{{monthDWRS.dwr_type | titlecase}}</span> </ion-text>
+              </ion-card>
+            </div>
+          </div>
+           <!-- DWR MONTH BLOCK -->
           </div>
 
         </div>

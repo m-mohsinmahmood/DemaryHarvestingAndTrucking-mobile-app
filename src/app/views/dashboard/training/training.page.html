@@ -26,4 +26,8 @@
     </ion-row>
   </ion-grid>
 
+    <!-- MODEL -->
+    <app-check-in-out [isModalOpen]="isModalOpen" [data]="activeDwr" *ngIf="activeDwr" [module]="'training'">
+    </app-check-in-out>
+
   </ion-content>

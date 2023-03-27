@@ -21,7 +21,7 @@ export class FarmingService {
     data.role = role;
     data.completeInfo = completeInfo;
 
-    if (role === 'dispatcher') {
+    if (role.includes('Dispatcher')) {
       data.workOrderStatus = 'sent';
       data.workOrderIsCompleted = false;
       data.workOrderCloseOut = false;

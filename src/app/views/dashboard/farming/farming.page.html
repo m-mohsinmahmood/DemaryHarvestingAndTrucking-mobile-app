@@ -1,8 +1,8 @@
-<app-header [title]="role ==='dispatcher'? 'Dispatcher Tasks' : ''
-|| role === 'tractor-driver'? 'Tractor Driver Tasks': ''" [color]="'farming'"></app-header>
+<app-header [title]="role.includes('Dispatcher') ? 'Dispatcher Tasks' : ''
+|| role.includes('Tractor Driver')? 'Tractor Driver Tasks': ''" [color]="'farming'"></app-header>
 
 <!-- Role: Dispatcher-->
-<ion-content class="homeScreen" *ngIf="role === 'dispatcher' ">
+<ion-content class="homeScreen" *ngIf="role.includes('Dispatcher')">
   <ion-grid>
     <ion-row>
       <ion-col size="12">
@@ -44,7 +44,7 @@
 </ion-content>
 
 <!-- Role: Tractor Driver-->
-<ion-content class="homeScreen" *ngIf="role === 'tractor-driver' ">
+<ion-content class="homeScreen" *ngIf="role.includes('Tractor Driver') ">
   <ion-grid>
     <ion-row>
       <ion-col size="12">
@@ -89,7 +89,7 @@
 
     <ion-row>
       <ion-col size="12">
-        <ion-card class="card" [disabled]="workOrderCount <= 0" [routerLink]="['submit-end-day', data]">
+        <ion-card class="card" [disabled]="workOrderCount <= 0" [routerLink]="['submit-end-day']">
           <ion-card-content>
             <p class="font-bold font-Lato font-15px">Submit End of Day Work Data</p>
           </ion-card-content>

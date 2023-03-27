@@ -1,3 +1,5 @@
+/* eslint-disable max-len */
+/* eslint-disable prefer-const */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
@@ -7,6 +9,7 @@ import { MaintenanceRepairService } from '../../maintenance-repair.services';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { ToastService } from 'src/app/services/toast/toast.service';
+import { CheckInOutService } from 'src/app/components/check-in-out/check-in-out.service';
 
 @Component({
   selector: 'app-ticket-assigned-to',
@@ -27,6 +30,8 @@ export class TicketAssignedToPage implements OnInit {
   ticketData: any;
   ticketRecordId: any;
   value: any;
+  active_check_in_id: any;
+
   //#region  employee variables
   allEmployees: Observable<any>;
   employeesearch$ = new Subject();
@@ -45,6 +50,8 @@ export class TicketAssignedToPage implements OnInit {
   isEmployeeSelected_2: any = true;
   //#endregion
 
+  public activeCheckInSpinner = new BehaviorSubject(false);
+
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
   constructor(
@@ -53,7 +60,8 @@ export class TicketAssignedToPage implements OnInit {
     private maintenanceRepairService: MaintenanceRepairService,
     private route: ActivatedRoute,
     private renderer: Renderer2,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private dwrServices: CheckInOutService
   ) {
     this.renderer.listen('window', 'click', (e) => {
       if (e.target !== this.employeeInput.nativeElement) {
@@ -413,13 +421,10 @@ export class TicketAssignedToPage implements OnInit {
         (res) => {
           console.log('RES:', res);
           if (res.status === 200) {
-            this.loadingSpinnerComplete.next(false);
 
-            // this.router.navigateByUrl('/tabs/home/maintenance-repair/assign-tickets');
-            this.toastService.presentToast(
-              'Ticket has been completed',
-              'success'
-            );
+             // getting check-in id
+             this.getCheckInID();
+
           } else {
             console.log('Something happened :)');
             this.toastService.presentToast(res.mssage, 'danger');
@@ -430,8 +435,6 @@ export class TicketAssignedToPage implements OnInit {
           this.toastService.presentToast(err.mssage, 'danger');
         }
       );
-      // creating DWR
-      this.createDWR();
 
   }
   continue(){
@@ -462,27 +465,51 @@ export class TicketAssignedToPage implements OnInit {
         }
       );
   }
-  createDWR(){
-    this.maintenanceRepairService
-     .createDWR(localStorage.getItem('employeeId'), this.ticketRecordId,this.assignTicket.get('assignedById').value)
-     .subscribe(
-       (res) => {
-         console.log('RES:', res);
-         if (res.status === 200) {
-          this.router.navigateByUrl('/tabs/home/maintenance-repair');
-           // this.toastService.presentToast(
-           //   'Ticket has been completed',
-           //   'success'
-           // );
-         } else {
-           console.log('Something happened :)');
-           this.toastService.presentToast(res.mssage, 'danger');
-         }
-       },
-       (err) => {
-         console.log('ERROR::', err);
-         this.toastService.presentToast(err.mssage, 'danger');
-       }
-     );
- }
+
+getCheckInID(){
+  this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
+    this.activeCheckInSpinner.next(true);
+    this.active_check_in_id = workOrder.dwr[0].id;
+    this.activeCheckInSpinner.next(false);
+
+     // creating DWR
+    this.createDWR();
+  });
+
+}
+createDWR(){
+  let supervisor_id;
+  supervisor_id = this.assignTicket.get('assignedById').value;
+
+ this.maintenanceRepairService
+  .createDWR(localStorage.getItem('employeeId'),this.ticketRecordId, this.assignTicket.get('assignedById').value,this.active_check_in_id)
+  .subscribe(
+    (res) => {
+      console.log('RES:', res);
+      if (res.status === 200) {
+
+       // to stop loader
+       this.loadingSpinnerComplete.next(false);
+
+
+        // tooltip
+        this.toastService.presentToast(
+         'Details have been submitted',
+         'success'
+       );
+
+
+     // navigating
+        this.router.navigateByUrl('/tabs/home/maintenance-repair/assign-tickets');
+      } else {
+        console.log('Something happened :)');
+        this.toastService.presentToast(res.mssage, 'danger');
+      }
+    },
+    (err) => {
+      console.log('ERROR::', err);
+      this.toastService.presentToast(err.mssage, 'danger');
+    }
+  );
+}
 }

@@ -1,6 +1,6 @@
 <app-header [title]="'Verify Delivery Ticket'" [color]="'harvesting'"></app-header>
 <!-- Kart Operator -->
-<ion-content *ngIf="role === 'kart-operator'">
+<ion-content *ngIf="role.includes('Kart Operator')">
   <!-- <app-timer [value]="'09:12:14'"></app-timer> -->
   <div class="p-2">
     <div class="segment-style">
@@ -195,7 +195,7 @@
 </ion-content>
 
 <!-- Truck Driver -->
-<ion-content *ngIf="role === 'truck-driver'">
+<ion-content *ngIf="role.includes('Truck Driver')">
   <div class="py-2">
     <div class="segment-style">
       <ion-segment [(ngModel)]="segment" scrollable (ionChange)="segmentChangeTruck($event)">

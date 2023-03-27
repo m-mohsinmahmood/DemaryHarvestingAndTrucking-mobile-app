@@ -6,15 +6,17 @@ import { MaintenanceRepairPageRoutingModule } from './maintenance-repair-routing
 import { MaintenanceRepairPage } from './maintenance-repair.page';
 import { HeaderModule } from 'src/app/components/header/header.module';
 import { TimerModule } from 'src/app/components/timer/timer.module';
+import { CheckInOutModule } from './../../../components/check-in-out/check-in-out.module';
 
 @NgModule({
   imports: [
-    CommonModule,
+  CommonModule,
     FormsModule,
     IonicModule,
     MaintenanceRepairPageRoutingModule,
     HeaderModule,
-    TimerModule
+    TimerModule,
+    CheckInOutModule
   ],
   declarations: [MaintenanceRepairPage]
 })

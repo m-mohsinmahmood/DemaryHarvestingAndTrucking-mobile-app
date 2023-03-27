@@ -11,13 +11,14 @@ import { ToastService } from 'src/app/services/toast/toast.service';
   styleUrls: ['./close-out-order.page.scss'],
 })
 export class CloseOutOrderPage implements OnInit {
-
+  workOrder: any;
   closeOutWorkOrder: FormGroup;
   workOrderId: string;
   machineryID: string;
   data: Observable<any>;
   dataLoaded = false;
   workOrderCount = 0;
+  remainingAcres: any;
   public loadingSpinner = new BehaviorSubject(false);
 
   constructor(private toast: ToastService, private formBuilder: FormBuilder, private router: Router, private farmingService: FarmingService, private renderer: Renderer2) {
@@ -36,19 +37,30 @@ export class CloseOutOrderPage implements OnInit {
     this.dataLoaded = false;
     this.workOrderCount = 0;
 
-    this.data = this.farmingService.getAllWorkOrders('', 'close_out_work_order', localStorage.getItem('employeeId'));
+    this.farmingService.getBeginningOfDay(localStorage.getItem('employeeId'), 'beginningOfDay', 'farming').subscribe(workOrder => {
+      this.workOrderCount = workOrder.count;
+      this.workOrder = workOrder.workOrders;
 
-    this.data.subscribe((workOrders) => {
-      console.log(workOrders);
-      this.workOrderCount = workOrders.count;
-      if (workOrders.count > 0) {
-        this.workOrderId = workOrders.workOrders[0].id;
-        this.machineryID = workOrders.workOrders[0].machinery_id;
-      }
-      this.dataLoaded = true;
-      console.log(this.workOrderCount);
+      this.farmingService.getWorkOrderById(workOrder.workOrders[0].work_order_id).subscribe(workOrderByID => {
+        console.log("WorkOrder By Id: ", workOrderByID);
 
-    })
+        this.data = this.farmingService.getAllWorkOrders('', 'getRemainingAcresofField', localStorage.getItem('employeeId'), workOrderByID.field_id);
+        this.data.subscribe((workOrders) => {
+          console.log("Data :", workOrders);
+
+          console.log("Field Acres: ", workOrders.workOrders[0].total_acres);
+          console.log(workOrderByID.total_acres);
+
+          this.remainingAcres = workOrderByID.total_acres - workOrders.workOrders[0].total_acres
+          console.log(this.remainingAcres);
+
+          this.workOrderId = workOrderByID.id;
+          this.machineryID = workOrderByID.machinery_id;
+          this.dataLoaded = true;
+
+        });
+      });
+    });
 
     this.closeOutWorkOrder = this.formBuilder.group({
       workOrderId: [this.workOrderId],
@@ -62,40 +74,44 @@ export class CloseOutOrderPage implements OnInit {
   }
 
   navigateTo() {
-    this.loadingSpinner.next(true)
+    if (this.closeOutWorkOrder.get('acresCompleted').value > +this.remainingAcres) {
+      this.toast.presentToast("Completed Acres should not be exceeding " + this.remainingAcres, 'danger');
+    }
+    else {
+      this.loadingSpinner.next(true)
 
-    this.closeOutWorkOrder.patchValue({
-      workOrderId: this.workOrderId
-    })
+      this.closeOutWorkOrder.patchValue({
+        workOrderId: this.workOrderId
+      })
 
-    this.closeOutWorkOrder.value.machineryID = this.machineryID;
+      this.closeOutWorkOrder.value.machineryID = this.machineryID;
 
-    console.log(this.closeOutWorkOrder.value);
+      console.log(this.closeOutWorkOrder.value);
 
-    this.farmingService.updateEndingEngineHours(
-      {
-        id: this.machineryID,
-        endingEngineHours: this.closeOutWorkOrder.get("endingEngineHours").value
-      }
-    );
-
-    this.farmingService.updateWorkOrder(this.closeOutWorkOrder.value, 'tractor-driver', 'closeOutWorkOrder')
-      .subscribe(
-        (res: any) => {
-          console.log(res);
-
-          if (res.status === 200) {
-            this.toast.presentToast("Work Order has been closed successfully!", 'success');
-            this.router.navigateByUrl('/tabs/home/farming');
-            this.loadingSpinner.next(false)
-          }
-        },
-        (err) => {
-          this.toast.presentToast(err, 'danger');
-          this.loadingSpinner.next(false)
-        },
+      this.farmingService.updateEndingEngineHours(
+        {
+          id: this.machineryID,
+          endingEngineHours: this.closeOutWorkOrder.get("endingEngineHours").value
+        }
       );
-  }
 
+      this.farmingService.updateWorkOrder(this.closeOutWorkOrder.value, 'Tractor Driver', 'closeOutWorkOrder')
+        .subscribe(
+          (res: any) => {
+            console.log(res);
+
+            if (res.status === 200) {
+              this.toast.presentToast("Work Order has been closed successfully!", 'success');
+              this.router.navigateByUrl('/tabs/home/farming');
+              this.loadingSpinner.next(false)
+            }
+          },
+          (err) => {
+            this.toast.presentToast(err, 'danger');
+            this.loadingSpinner.next(false)
+          },
+        );
+    }
+  }
 }
 

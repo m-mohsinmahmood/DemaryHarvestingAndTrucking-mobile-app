@@ -240,12 +240,16 @@ export class BasicSkillsPage implements OnInit {
 
         } else {
           console.log('Something happened :)');
-          this.toastService.presentToast(res.mssage, 'danger');
+          this.toastService.presentToast('Fill the required fields or try again', 'danger');
+          this.loadingSpinner.next(false);
+
         }
       },
       (err) => {
         console.log('ERROR::', err);
-        this.toastService.presentToast(err.mssage, 'danger');
+        this.toastService.presentToast('Fill the required fields or try again', 'danger');
+        this.loadingSpinner.next(false);
+
       }
     );
   }

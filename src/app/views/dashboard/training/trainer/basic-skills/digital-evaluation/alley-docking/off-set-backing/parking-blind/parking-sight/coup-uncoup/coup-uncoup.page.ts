@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
+import { CheckInOutService } from 'src/app/components/check-in-out/check-in-out.service';
 import { ToastService } from 'src/app/services/toast/toast.service';
 import { TrainingService } from 'src/app/views/dashboard/training/training.service';
 
@@ -29,16 +30,19 @@ export class CoupUncoupPage implements OnInit {
   training_record: any;
   checkValue: any;
   isModalOpen = false;
-
+  active_check_in_id: any;
 
   public loadingSpinner = new BehaviorSubject(false);
+  public activeCheckInSpinner = new BehaviorSubject(false);
 
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
     private trainingService: TrainingService,
     private toastService: ToastService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private dwrServices: CheckInOutService
+
 
     ) { }
 
@@ -135,24 +139,14 @@ export class CoupUncoupPage implements OnInit {
              // closing modal
           this.isModalOpen = false;
 
-          // spinner
-            this.loadingSpinner.next(false);
+          // // spinner
+          //   this.loadingSpinner.next(false);
+
+            // getting check-in id
+          this.getCheckInID();
 
             // creating DWR
            this.createDWR();
-
-           // tooltip
-            this.toastService.presentToast(
-              'Digital Evaluation completed',
-              'success'
-            );
-
-            // navigating
-          if (this.isModalOpen === false) {
-            setTimeout(()=>{
-              this.router.navigate(['/tabs/home/training/trainer']);
-            },500);
-          }
 
           } else {
             console.log('Something happened :)');
@@ -185,13 +179,42 @@ export class CoupUncoupPage implements OnInit {
           });
         });
     }
+    getCheckInID(){
+
+      this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
+        this.activeCheckInSpinner.next(true);
+        console.log('Active Check ID: ', workOrder.dwr[0].id);
+        this.active_check_in_id = workOrder.dwr[0].id;
+        this.activeCheckInSpinner.next(false);
+
+       // creating DWR
+      this.createDWR();
+      });
+
+    }
     createDWR(){
-      console.log(this.supervisor_id);
+      console.log('Active check:',this.active_check_in_id);
       this.trainingService
-       .createDWR(this.trainer_id, this.training_record_id,'basic-skills','digital-form',this.supervisor_id)
+       .createDWR(this.trainer_id, this.training_record_id,'','','basic-skills','digital-form',this.supervisor_id,this.active_check_in_id)
        .subscribe(
          (res) => {
            if (res.status === 200) {
+            // tooltip
+            this.toastService.presentToast(
+              'Digital Evaluation completed',
+              'success'
+            );
+
+             // spinner
+             this.loadingSpinner.next(false);
+
+            // navigating
+          if (this.isModalOpen === false) {
+            setTimeout(()=>{
+              this.router.navigate(['/tabs/home/training/trainer']);
+            },500);
+          }
+
            } else {
              console.log('Something happened :)');
              this.toastService.presentToast(res.mssage, 'danger');
@@ -200,6 +223,8 @@ export class CoupUncoupPage implements OnInit {
          (err) => {
            console.log('ERROR::', err);
            this.toastService.presentToast(err.mssage, 'danger');
+           this.loadingSpinner.next(false);
+
          }
        );
    }

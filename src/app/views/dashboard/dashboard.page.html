@@ -1,7 +1,10 @@
 <!-- ===================== Dashboard Starts =========================== -->
 <!-- <app-header [title]="'Dashboard'"></app-header> -->
-
-<ion-content>
+<ion-content *ngIf="(loading | async ) === true">
+  <div class="flex justify-center items-center h-full"><ion-spinner class="h-32 w-32" name="crescent"></ion-spinner>
+  </div>
+</ion-content>
+<ion-content *ngIf="(loading | async ) === false">
   <!-- =============================== Header =============================== -->
 
   <div class="grid-background">
@@ -13,39 +16,30 @@
           </ion-avatar>
 
           <div class="flex flex-col ml-2">
-            <ion-text class="font-semibold font-Lato">Wade Warren</ion-text>
-            <!-- <span class=" text-xs font-medium font-Lato text-gray-400" *ngIf="role ==='crew-chief'">Crew Chief</span>
-            <span class="text-xs font-medium font-Lato text-gray-400" *ngIf="role ==='combine-operator'">Combine
-              Operator</span>
-            <span class="text-xs font-medium font-Lato text-gray-400" *ngIf="role ==='kart-operator'">Kart
-              Operator</span>
-            <span class="text-xs font-medium font-Lato text-gray-400" *ngIf="role ==='truck-driver'">Truck Driver</span> -->
-            <span class="text-xs font-medium font-Lato text-gray-400" >{{role | titlecase }}</span>
+            <ion-text class="font-semibold font-Lato">{{empName}}</ion-text>
+            <span class="text-xs font-medium font-Lato text-gray-400">{{role}}</span>
           </div>
 
         </ion-col>
-        <ion-col size="2" class="flex justify-center items-center">
+        <!-- <ion-col size="2" class="flex justify-center items-center">
           <ion-tab-button class="relative">
             <img src="../../../assets/icon/bell_notification.png" alt="" class="w-8 h-8 object-contain">
             <ion-badge class="text-white absolute left-6 top-1">6</ion-badge>
           </ion-tab-button>
-        </ion-col>
-        <ion-col size="2" class="flex justify-center items-center">
-          <ion-tab-button id="click-trigger" class="relative" (click)="presentPopover($event)">
-            <ion-icon name="log-out-outline" size="large"></ion-icon>
-          </ion-tab-button>
-
+        </ion-col> -->
+        <ion-col size="4" class="flex items-center justify-end">
+            <ion-icon name="log-out-outline" id="click-trigger" class="relative" (click)="presentPopover($event)"></ion-icon>
         </ion-col>
 
- <!-- POP-OVER -->
-  <ion-popover #popover [isOpen]="isOpen" (didDismiss)="isOpen = false">
-    <ng-template>
-      <ion-content class="ion-padding" (click)="logout()">Logout</ion-content>
-    </ng-template>
-  </ion-popover>
+        <!-- POP-OVER -->
+        <ion-popover #popover [isOpen]="isOpen" (didDismiss)="isOpen = false">
+          <ng-template>
+            <ion-content class="ion-padding" (click)="logout()">Logout</ion-content>
+          </ng-template>
+        </ion-popover>
       </ion-row>
     </ion-grid>
-    <div class="w-5/12 ml-4">
+    <!-- <div class="w-5/12 ml-4">
       <form [formGroup]="selectform">
         <ion-select formControlName="select" placeholder="Select Role" class="border-2 border-project-green rounded-lg"
           (ionChange)="onSelect($event)">
@@ -59,14 +53,14 @@
           <ion-select-option value="supervisor" class="font-Lato">Supervisor</ion-select-option>
         </ion-select>
       </form>
-    </div>
+    </div> -->
   </div>
 
   <!-- =============================== Top Cards =============================== -->
   <ion-grid class="p-2.5">
     <ion-row>
       <ion-col size="4" class="flex flex-col"
-        *ngIf="role === 'crew-chief' || role === 'kart-operator' || role === 'combine-operator' || role === 'truck-driver'">
+        *ngIf="role.includes('Crew Chief')  || role.includes('Kart Operator') || role.includes('Combine Operator') || role.includes('Truck Driver')">
         <div class="h-28 flex justify-center items-center">
           <ion-card class="card" [routerLink]="['harvesting']" [ngStyle]="{'background-color':'#129476'}">
             <ion-card-content>
@@ -80,7 +74,8 @@
       </ion-col>
 
 
-      <ion-col class="flex flex-col" size="4" *ngIf="role === 'dispatcher' || role === 'tractor-driver' ">
+
+      <ion-col class="flex flex-col" size="4" *ngIf="role.includes('Dispatcher') || role.includes('Tractor Driver')">
         <div class="h-28 flex justify-center items-center">
           <ion-card class="card" [routerLink]="['farming']" [ngStyle]="{'background-color':'#961818'}">
             <ion-card-content>
@@ -94,9 +89,8 @@
       </ion-col>
 
 
-      <ion-col size="4" *ngIf="role === 'dispatcher' || role === 'truck-driver'" class="flex flex-col">
-        <!-- <ion-col size="4" class="flex flex-col"> -->
-          <div class="h-28 flex justify-center items-center">
+      <ion-col size="4" *ngIf="role.includes('Dispatcher')  || role.includes('Truck Driver')" class="flex flex-col">
+        <div class="h-28 flex justify-center items-center">
           <ion-card class="card" [routerLink]="['trucking']" [ngStyle]="{'background-color':'#4256F9'}">
             <ion-card-content>
               <img src="../../../assets/images/truck.png" alt="" class="w-12 h-12 object-contain">
@@ -107,7 +101,7 @@
           <ion-text class="font-Lato">Trucking</ion-text>
         </div>
       </ion-col>
-      <ion-col size="4" class="flex flex-col">
+      <ion-col size="4" class="flex flex-col" *ngIf="role.includes('Mechanic')">
         <div class="h-28 flex justify-center items-center">
           <ion-card class="card " [routerLink]="['maintenance-repair']" [ngStyle]="{'background-color':'#FF7272'}">
             <ion-card-content>
@@ -179,6 +173,7 @@
             </ion-card-content>
           </ion-card>
         </div>
+
         <div class="flex flex-col items-center">
           <div class="ion-text-center flex flex-col">
             <ion-text class="font-Lato">Equipment Rental</ion-text>
@@ -209,9 +204,11 @@
       <div class=" bg-3D8AA4">
         <ion-grid>
           <ion-row>
-            <ion-col size="4" class=" flex justify-center"><div></div></ion-col>
-            <ion-col size="4" class=" flex justify-center"><span class="text-white font-semibold">Check-Out</span></ion-col>
-            <ion-col size="4" class="flex justify-end"><ion-icon name="close-outline" (click)="model.dismiss()"></ion-icon></ion-col>
+            <ion-col size="4" class=" flex justify-center">
+              <div></div>
+            </ion-col>
+            <ion-col size="4" class=" flex justify-center"><span
+                class="text-white font-semibold">Check-Out</span></ion-col>
           </ion-row>
         </ion-grid>
       </div>
@@ -222,7 +219,7 @@
         on other module.
       </p>
 
-      <div class="flex justify-center mt-4">
+      <div class="flex justify-center mt-8">
         <ion-button class="text-white w-1/2" (click)="setOpen(); model.dismiss()" expand="block">
           Go Back
         </ion-button>

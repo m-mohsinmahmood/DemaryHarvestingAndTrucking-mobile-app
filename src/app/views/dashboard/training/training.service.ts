@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/naming-convention */
 import {
   HttpClient,
@@ -111,15 +112,63 @@ export class TrainingService {
     })
     .pipe(take(1));
   }
-  createDWR(employeeId: any, training_record_id: any,evaluation_type,evaluation_form,supervisor_id: any){
-    const data = {
-      dwr_type: 'training',
-      training_record_id,
-      employeeId,
-      evaluation_type,
-      evaluation_form,
-      supervisor_id
-    };
+  createDWR(
+    employeeId: any,
+    training_record_id: any,
+    trainee_record_id: any,
+    trainer_record_id: any,
+    evaluation_type,
+    evaluation_form,
+    supervisor_id: any,
+    dwrId){
+    let data;
+    console.log('trainee_record_id',trainee_record_id);
+    console.log('training_record_id',training_record_id);
+    console.log('trainer_record_id',trainer_record_id);
+    console.log('dwrId',dwrId);
+
+    if(trainee_record_id){
+      console.log('Block A');
+       data = {
+        dwr_type: 'training',
+        module: 'training',
+        employeeId,
+        evaluation_type,
+        evaluation_form,
+        supervisor_id,
+        dwrId,
+        trainee_record_id
+      };
+    }
+     else if(training_record_id){
+      console.log('Block B');
+      console.log('dwrId::',dwrId);
+         data = {
+          dwr_type: 'training',
+          module: 'training',
+          training_record_id,
+          employeeId,
+          evaluation_type,
+          evaluation_form,
+          supervisor_id,
+          dwrId,
+        };
+    }
+    else if(trainer_record_id){
+      console.log('Block B');
+      console.log('dwrId::',dwrId);
+         data = {
+          dwr_type: 'training',
+          module: 'training',
+          trainer_record_id,
+          employeeId,
+          evaluation_type,
+          evaluation_form,
+          supervisor_id,
+          dwrId,
+        };
+    }
+    console.log('DATA:',data);
     return this.httpClient
       .post<any>(`api-1/dwr`, data)
       .pipe(take(1));

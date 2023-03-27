@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { MaintenanceRepairService } from './maintenance-repair.services';
+import { CheckInOutService } from './../../../components/check-in-out/check-in-out.service';
 
 @Component({
   selector: 'app-maintenance-repair',
@@ -13,19 +14,40 @@ export class MaintenanceRepairPage implements OnInit {
   segment = 'repair';
   repairTicketsData: any;
   maintenanceTicketsData: any;
+  isModalOpen;
+  activeDwr: Observable<any>;
+  data;
+
   public loading = new BehaviorSubject(true);
 
   constructor(private router: Router,
     private maintenanceRepairService: MaintenanceRepairService,
+    private dwrServices: CheckInOutService
     ) { }
 
   ngOnInit() {
     this.getTicketsData();
   }
+
   ionViewWillEnter(){
     this.getTicketsData();
   }
+
   getTicketsData() {
+    this.isModalOpen = false;
+
+        // Check-in/Check-out
+        this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
+          console.log('Active Check In ', workOrder.dwr);
+          this.activeDwr = workOrder.dwr;
+          this.data = this.activeDwr[0];
+
+          if (workOrder.dwr.length > 0)
+            {this.isModalOpen = false;}
+          else
+            {this.isModalOpen = true;}
+        });
+
 
     // repair tickets
     this.maintenanceRepairService

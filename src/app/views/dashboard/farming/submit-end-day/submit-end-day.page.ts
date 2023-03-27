@@ -3,7 +3,8 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FarmingService } from './../farming.service';
 import { ToastService } from 'src/app/services/toast/toast.service';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { CheckInOutService } from 'src/app/components/check-in-out/check-in-out.service';
 
 @Component({
   selector: 'app-submit-end-day',
@@ -17,10 +18,13 @@ export class SubmitEndDayPage implements OnInit {
   workOrder: any;
   checkInData;
   remainingAcres: any;
+  activeDwr: Observable<any>;
+  dwrLoaded = false;
+  acresComp = false;
 
   public loadingSpinner = new BehaviorSubject(false);
 
-  constructor(private activeRoute: ActivatedRoute, private toast: ToastService, private router: Router, private formBuilder: FormBuilder, private farmingService: FarmingService) {
+  constructor(private dwrServices: CheckInOutService, private activeRoute: ActivatedRoute, private toast: ToastService, private router: Router, private formBuilder: FormBuilder, private farmingService: FarmingService) {
   }
 
   ngOnInit() {
@@ -32,27 +36,8 @@ export class SubmitEndDayPage implements OnInit {
   }
 
   initDataRetrieval() {
-    this.activeRoute.params.subscribe(param => {
-      console.log("Check In: ", param);
-
-      this.checkInData = param;
-    })
-
-    this.farmingService.getBeginningOfDay(localStorage.getItem('employeeId'), 'beginningOfDay', 'farming').subscribe(workOrder => {
-      this.workOrderCount = workOrder.count;
-      this.workOrder = workOrder.workOrders;
-
-      this.farmingService.getWorkOrderById(workOrder.workOrders[0].work_order_id).subscribe(workOrderByID => {
-        console.log("WorkOrder By Id: ", workOrderByID);
-
-        this.farmingService.getAllWorkOrders('', 'getRemainingAcresofField', localStorage.getItem('employeeId'), workOrderByID.field_id).subscribe((acres) => {
-          console.log("Remaining Acres: ", acres);
-          this.remainingAcres = workOrderByID.total_acres - acres.workOrders[0].total_acres
-          console.log(this.remainingAcres);
-
-        })
-      });
-    });
+    this.dwrLoaded = false;
+    this.acresComp = false;
 
     this.submitEndDayWorkOrder = this.formBuilder.group({
       employeeId: [localStorage.getItem('employeeId')],
@@ -60,9 +45,42 @@ export class SubmitEndDayPage implements OnInit {
       endingEngineHours: ['', [Validators.required]],
       hoursWorked: ['', [Validators.required]],
       notes: ['', [Validators.required]],
-      module: [this.checkInData.module],
-      dwrId: [this.checkInData.id]
+      module: [''],
+      dwrId: ['']
     });
+
+    this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
+      console.log('Active Check In ', workOrder.dwr);
+      this.activeDwr = workOrder.dwr;
+      this.checkInData = this.activeDwr[0];
+
+      console.log("Check 1: ", workOrder.dwr[0].module);
+      console.log("Check 2: ", workOrder.dwr[0].id);
+
+      this.submitEndDayWorkOrder.patchValue({
+        module: workOrder.dwr[0].module,
+        dwrId: workOrder.dwr[0].id
+      })
+      this.dwrLoaded = true;
+    });
+
+    this.farmingService.getBeginningOfDay(localStorage.getItem('employeeId'), 'beginningOfDay', 'farming').subscribe(workOrder => {
+      this.workOrderCount = workOrder.count;
+      this.workOrder = workOrder.workOrders;
+
+      this.farmingService.getWorkOrderById(workOrder.workOrders[0].work_order_id).subscribe(workOrderByID => {
+        console.log("WorkOrder By Id: ", workOrderByID);
+        console.log("Field Acres :", workOrderByID.total_acres);
+
+        this.farmingService.getAllWorkOrders('', 'getRemainingAcresofField', localStorage.getItem('employeeId'), workOrderByID.field_id).subscribe((acres) => {
+          console.log("Remaining Acres: ", acres.workOrders[0].total_acres);
+          this.remainingAcres = workOrderByID.total_acres - acres.workOrders[0].total_acres
+          console.log(this.remainingAcres);
+          this.acresComp = true;
+        })
+      });
+    });
+
   }
 
   navigateTo() {
@@ -109,7 +127,7 @@ export class SubmitEndDayPage implements OnInit {
         endingEngineHours: this.submitEndDayWorkOrder.get("endingEngineHours").value
       }
 
-      this.farmingService.updateWorkOrder(updateWorkOrder, 'tractor-driver', 'submitEndingDay')
+      this.farmingService.updateWorkOrder(updateWorkOrder, 'Tractor Driver', 'submitEndingDay')
         .subscribe(
           (res: any) => {
           },

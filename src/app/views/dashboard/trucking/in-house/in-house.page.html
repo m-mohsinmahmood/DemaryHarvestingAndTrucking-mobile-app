@@ -1,7 +1,7 @@
 <app-header [title]="'Trucking (In-House)'" [color]="'trucking'"></app-header>
 <!-- <app-timer [value]="'11-12-2022'"></app-timer> -->
 <!-- Role: Crew Chief-->
-<ion-content *ngIf="role ==='dispatcher'">
+<ion-content *ngIf="role.includes('Dispatcher')">
   <ion-grid>
     <ion-row>
       <ion-col size="12">
@@ -38,7 +38,7 @@
 </ion-content>
 
 <!-- Role: Truck Driver-->
-<ion-content *ngIf="role ==='truck-driver'">
+<ion-content *ngIf="role.includes('Truck Driver')">
   <ion-grid>
     <ion-row>
       <ion-col size="12">

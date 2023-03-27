@@ -19,7 +19,7 @@
     </ion-header>
     <ion-content class="ion-padding">
 
-      <div class="flex justify-center mt-4">
+      <div class="flex justify-center mt-8">
         <ion-button [disabled]=" (loadingSpinner | async)" class="text-white w-1/2" (click)="checkIn(); model.dismiss()"
           expand="block">
           <div *ngIf="(loadingSpinner | async) === false"> Check-In</div>
