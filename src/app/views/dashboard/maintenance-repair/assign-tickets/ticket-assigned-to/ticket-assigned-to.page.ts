@@ -393,13 +393,17 @@ export class TicketAssignedToPage implements OnInit {
         (res) => {
           console.log('RES:', res);
           if (res.status === 200) {
-            this.loadingSpinner.next(false);
+            // this.loadingSpinner.next(false);
 
-            this.router.navigateByUrl('/tabs/home/maintenance-repair/assign-tickets');
-            this.toastService.presentToast(
-              'Ticket has been assigned',
-              'success'
-            );
+            // this.router.navigateByUrl('/tabs/home/maintenance-repair/assign-tickets');
+            // this.toastService.presentToast(
+            //   'Ticket has been assigned',
+            //   'success'
+            // );
+
+             // getting check-in id
+             this.getCheckInID();
+
           } else {
             console.log('Something happened :)');
             this.toastService.presentToast(res.mssage, 'danger');
@@ -413,7 +417,7 @@ export class TicketAssignedToPage implements OnInit {
   }
   completTicket(){
     console.log(this.assignTicket.value);
-    this.loadingSpinnerComplete.next(true);
+    this.loadingSpinner.next(true);
 
     this.maintenanceRepairService
       .ticket(this.assignTicket.value, this.ticketRecordId,'complete')
@@ -489,7 +493,7 @@ createDWR(){
       if (res.status === 200) {
 
        // to stop loader
-       this.loadingSpinnerComplete.next(false);
+       this.loadingSpinner.next(false);
 
 
         // tooltip

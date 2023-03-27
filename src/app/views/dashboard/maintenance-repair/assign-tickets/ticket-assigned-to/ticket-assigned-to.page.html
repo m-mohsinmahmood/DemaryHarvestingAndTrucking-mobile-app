@@ -182,7 +182,7 @@
 
         <ion-button  [disabled]="this.assignTicket.invalid || (loadingSpinnerComplete | async)" class="font-Lato text-white mt-8" expand="block"
           (click)="completTicket()">
-          <div *ngIf="(loadingSpinnerComplete | async) === false"> Complete Ticket</div>
+          <div *ngIf="(loadingSpinner | async) === false"> Complete Ticket</div>
             <ion-spinner name="crescent" *ngIf="(loadingSpinnerComplete | async)"></ion-spinner>
         </ion-button>
       </div>
