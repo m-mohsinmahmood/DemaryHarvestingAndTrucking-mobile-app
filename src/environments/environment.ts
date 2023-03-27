@@ -4,42 +4,16 @@
 
 export const environment = {
   production: false,
-  baseUrl: 'https://dht-dev.azure-api.net/dht-dev',
-  azureUrl: 'https://dht-dev.azurewebsites.net/api/',
+  baseUrl: 'https://dht-prod.azure-api.net/dht-dev',
+  azureUrl: 'https://dht-prod.azurewebsites.net/api/',
+
   firebase: {
-    // apiKey: 'AIzaSyC5CKY8sq2fSRW9N_oQShdz_ossFbhLdXA',
-    // authDomain: 'dht-sample-7c9b1.firebaseapp.com',
-    // projectId: 'dht-sample-7c9b1',
-    // storageBucket: 'dht-sample-7c9b1.appspot.com',
-    // messagingSenderId: '86161078443',
-    // appId: '1:86161078443:web:15f4fe1a27da2f16455fee',
-    // measurementId: 'G-W6VGGSH9NW',
-
-// haris acount (103@gmail.com)
-  // apiKey: 'AIzaSyAZMLB5fIeae-5G5PTbFwgrIPfPcWCfcT8',
-  // authDomain: 'dht-mobile-a647e.firebaseapp.com',
-  // projectId: 'dht-mobile-a647e',
-  // storageBucket: 'dht-mobile-a647e.appspot.com',
-  // messagingSenderId: '274079936477',
-  // appId: '1:274079936477:web:3c968ca99a30436456d034',
-  // measurementId: 'G-JBNLG5ZTLL'
-
-  // dev account
-  apiKey: "AIzaSyCdMGmwBIclPi-IKUyzFkSMLqhlMYTJmvI",
-  authDomain: "dht-fb-dev.firebaseapp.com",
-  projectId: "dht-fb-dev",
-  storageBucket: "dht-fb-dev.appspot.com",
-  messagingSenderId: "595303405617",
-  appId: "1:595303405617:web:882b17fba69067596cdd10",
-  measurementId: "G-BD6QK30Y3Z"
-
-        // apiKey: 'AIzaSyCdMGmwBIclPi-IKUyzFkSMLqhlMYTJmvI',
-        // authDomain: 'dht-fb-dev.firebaseapp.com',
-        // projectId: 'dht-fb-dev',
-        // storageBucket: 'dht-fb-dev.appspot.com',
-        // messagingSenderId: '595303405617',
-        // appId: '1:595303405617:web:882b17fba69067596cdd10',
-        // measurementId: 'G-BD6QK30Y3Z'
+    apiKey: "AIzaSyD5PQuHhPv-82wkMtoi05KVBLqxwrzOci4",
+    authDomain: "dht-fb-prod.firebaseapp.com",
+    projectId: "dht-fb-prod",
+    storageBucket: "dht-fb-prod.appspot.com",
+    messagingSenderId: "864143335811",
+    appId: "1:864143335811:web:aaa117ef3fddaa502796b6"
   },
 };
 
