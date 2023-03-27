@@ -1,0 +1,57 @@
+<app-header [title]="'Truck Driver Setup'" [color]="'harvesting'"></app-header>
+
+<ion-content>
+  <!-- <app-timer [value]="'12:00'"></app-timer> -->
+
+  <div class="p-2 px-4">
+    <form [formGroup]="driverSetupForm">
+      <div class="px-2">
+        <div [ngClass]="add_location_overlay ? 'opacity-100 visible ease-in duration-200' : 'opacity-0 invisible ease-out duration-300'"  role="dialog" aria-modal="true">
+          <div [ngClass]="add_location_overlay ? 'opacity-100 visible scale-100 ease-in duration-200' : 'opacity-0 invisible scale-95 ease-out duration-300'" class="relative z-20 mb-4">
+            <div class="mx-auto max-w-full transform rounded-xl px-0 transition-all">
+              <label class="mb-1 block text-sm font-medium text-gray-700">Truck Driver: <span *ngIf="isTruckDriverSelected" class="text-red-400">*</span></label>
+              <div class="flex items-center justify-between gap-x-2 rounded-md">
+                <input (keyup)="truck_driver_search$.next($event.target?.value)" (click)="clickedTruckDriverInput()" [value]="driver_name" #driverInput class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder:text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500" placeholder="Select Driver" role="" aria-expanded="false" aria-controls="options" />
+              </div>
+
+              <div *ngIf="(allTruckDrivers | withLoading | async) as allTruckDrivers">
+                <div class="flex items-center justify-center">
+                  <ion-spinner *ngIf="allTruckDrivers?.loading" name="crescent" mode="indeterminate" color="primary"></ion-spinner>
+                </div>
+                <ul *ngIf="allTruckDrivers?.value && driverUL" class="absolute -mb-2 max-h-48 w-full scroll-py-2 overflow-y-auto bg-white py-2 text-sm text-gray-800" id="options" role="listbox">
+                  <li *ngFor="let driver of (allTruckDrivers?.value)" (click)="selectedDriver(driver)" class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200" role="option" tabindex="-1">
+                    <div class="flex items-center p-2">{{driver.name}}</div>
+                  </li>
+                </ul>
+                <div *ngIf="allTruckDrivers?.value?.length === 0">
+                  <p disabled class="cursor-pointer select-none rounded-md px-4 py-2 text-gray-500 hover:bg-gray-200 hover:font-semibold hover:text-gray-700">No Drivers found!</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <ion-button expand="block" class="font-Lato font-white mt-4 text-white" (click)="addTruckDriver()">Add</ion-button>
+    </form>
+  </div>
+
+  <ion-card class="card bg-f2f3f5 opacity-100 shadow-none">
+    <ion-grid>
+      <ion-row >
+        <ion-col size="12">
+          <div class="bg-5bbe62 flex items-center justify-between bg-opacity-20 px-3 py-2">
+            <h1 class="font-Lato text-base font-semibold text-black">Truck Drivers</h1>
+            <span class="font-Lato text-5bbe62 text-base font-semibold">{{getAllDrivers?.length}}</span>
+          </div>
+        </ion-col>
+      </ion-row>
+
+      <ion-row class="m-1" *ngIf="getAllDrivers?.length > 0">
+          <ion-col *ngFor="let driver of getAllDrivers" size="12" class="border-b-2 py-4">
+            <div class="font-Lato font-semibold">{{driver.name}}</div>
+          </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-card>
+
+</ion-content>

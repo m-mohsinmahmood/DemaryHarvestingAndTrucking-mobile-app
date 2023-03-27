@@ -1,0 +1,96 @@
+ion-header {
+  text-overflow:clip !important;
+
+  .toolbar {
+    color: #fff;
+    padding: 6px 0px;
+    text-overflow:clip !important;
+    // white-space: unset;
+
+    //  text-overflow: ellipsis !important;
+    //  white-space: normal;
+    //  position: static;
+    // ion-title {
+    //   // text-overflow: ellipsis !important;
+    //   // white-space: normal;
+    //   // position: static;
+    //   // text-overflow: unset;
+    //   // white-space: unset;
+    // }
+
+    &.harvesting {
+      --background: #129476;
+    }
+
+    &.training {
+      --background: #0CA3C7;
+    }
+
+    &.dwr {
+      --background: #7893F4;
+    }
+
+    &.maintenance-repair {
+      --background: #FF7272;
+    }
+
+    &.farming {
+      --background: #961818;
+    }
+
+    &.trucking {
+      --background: #4256F9;
+    }
+
+    &.others {
+      --background: #455769;
+    }
+
+    &.preTripForm {
+      --background: #3D8AA4;
+    }
+
+    ion-icon {
+      zoom: 1.8;
+    }
+  }
+}
+ion-title{
+  // text-overflow: clip!important;
+  // white-space: none !important;
+  // overflow: none !important;
+  // background-color: red !important;
+  }
+
+// ion-title::part(shadow){
+// text-overflow: clip !important;
+// white-space: none !important;
+// overflow: none !important;
+// background-color: orange !important;
+// }
+// ion-title::part(native){
+//   text-overflow: clip !important;
+//   white-space: none !important;
+//   overflow: none !important;
+//   background-color: green !important;
+//   }
+
+  // ion-title::part(shadow){
+  //   text-overflow: clip !important;
+  //   white-space: none !important;
+  //   overflow: none !important;
+  //   background-color: green !important;
+  //   }
+//   ion-title::part(::shadow) {
+//     text-overflow: inherit;
+//     white-space: normal;
+//     background-color: #129476;
+//  }
+//  ion-title::part(native) {
+//   text-overflow: inherit;
+//   white-space: normal;
+//   background-color: #129476;
+// }
+//  ion-title {
+//   position: static;
+// }

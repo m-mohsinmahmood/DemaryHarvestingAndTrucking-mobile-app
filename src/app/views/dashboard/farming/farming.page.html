@@ -1,0 +1,115 @@
+<app-header [title]="role.includes('Dispatcher') ? 'Dispatcher Tasks' : ''
+|| role.includes('Tractor Driver')? 'Tractor Driver Tasks': ''" [color]="'farming'"></app-header>
+
+<!-- Role: Dispatcher-->
+<ion-content class="homeScreen" *ngIf="role.includes('Dispatcher')">
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12">
+        <ion-card class="card bg-greenBtn" [routerLink]="['create-order']">
+          <ion-card-content>
+            <div class="flex justify-center items-center">
+              <ion-icon class="mr-2 text-white w-6 h-6" slot="start" name="add-outline"></ion-icon>
+              <p class="font-bold font-Lato font-15px text-white">Create New Work Order</p>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col size="12">
+        <ion-card class="card" [routerLink]="['verify-orders']">
+          <ion-card-content>
+            <div class="flex justify-center items-center">
+              <p class="font-15px font-bold font-Lato">Verify Work Orders</p>
+              <ion-spinner class="ml-4 justify-center items-center flex" *ngIf="pendingOrdersCount < 0" name="crescent"
+                mode="indeterminate" color="primary"></ion-spinner>
+
+              <span *ngIf="pendingOrdersCount > -1"
+                class="text-white font-semibold ml-2 bg-project-green w-8 h-6 rounded-full flex justify-center items-center">
+                {{pendingOrdersCount}}</span>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+
+    <!-- MODEL -->
+    <app-check-in-out [isModalOpen]="isModalOpen" [data]="activeDwr" *ngIf="activeDwr" [module]="'farming'">
+    </app-check-in-out>
+
+  </ion-grid>
+</ion-content>
+
+<!-- Role: Tractor Driver-->
+<ion-content class="homeScreen" *ngIf="role.includes('Tractor Driver') ">
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12">
+        <ion-card class="card bg-greenBtn" [routerLink]="['create-order']">
+          <ion-card-content>
+            <div class="flex justify-center items-center">
+              <ion-icon class="mr-2 text-white w-6 h-6" slot="start" name="add-outline"></ion-icon>
+              <p class="font-bold font-Lato font-15px text-white">Create New Work Order</p>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col size="12">
+        <ion-card class="card" [routerLink]="['existing-order']">
+          <ion-card-content>
+            <div class="flex justify-center items-center">
+              <p class="font-15px font-bold font-Lato">Complete Existing Work Order (Dispatched)</p>
+              <ion-spinner class="ml-4 justify-center items-center flex" *ngIf="sentOrdersCount < 0" name="crescent"
+                mode="indeterminate" color="primary"></ion-spinner>
+
+              <span *ngIf="sentOrdersCount > -1"
+                class="text-white font-semibold ml-2 bg-project-green w-8 h-6 rounded-full flex justify-center items-center">
+                {{sentOrdersCount}}</span>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col size="12">
+        <ion-card class="card" [disabled]="workOrderCount > 0" [routerLink]="['submit-beginning-day']">
+          <ion-card-content>
+            <p class="font-bold font-Lato font-15px">Submit Beginning of Day Work Data</p>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col size="12">
+        <ion-card class="card" [disabled]="workOrderCount <= 0" [routerLink]="['submit-end-day']">
+          <ion-card-content>
+            <p class="font-bold font-Lato font-15px">Submit End of Day Work Data</p>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col size="12">
+        <ion-card class="card" [disabled]="workOrderCount <= 0" [routerLink]="['close-out-order']">
+          <ion-card-content>
+            <p class="font-bold font-Lato font-15px">Close-Out Work Order</p>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+    <!-- MODEL -->
+    <app-check-in-out [isModalOpen]="isModalOpen" [data]="activeDwr" *ngIf="activeDwr" [module]="'farming'">
+    </app-check-in-out>
+
+  </ion-grid>
+</ion-content>

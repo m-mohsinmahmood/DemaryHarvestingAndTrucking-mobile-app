@@ -1,0 +1,114 @@
+<ion-content>
+  <div class="px-5">
+    <div class="flex h-56 items-center justify-center">
+      <img src="../../../assets/images/logo.svg" alt="" class="h-56 w-56" />
+    </div>
+    <div class="font-Lato text-center text-2xl font-semibold">Welcome</div>
+    <div class="text-6D7885 font-Lato text-center text-base">
+      Login to your account
+    </div>
+    <form (ngSubmit)="login()" [formGroup]="loginForm" method="POST">
+      <div class="col-span-12 mb-4">
+        <label for="email" class="block text-sm font-medium text-gray-700"
+          >Email <span class="text-red-400">*</span></label
+        >
+        <input
+          id="email"
+          name="email"
+          formControlName="email"
+          type="email"
+          autocomplete="email"
+          required
+          class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+          placeholder="Enter email"
+        />
+      </div>
+
+      <div class="col-span-12 mb-4">
+        <label for="password" class="block text-sm font-medium text-gray-700"
+          >Password <span class="text-red-400">*</span></label
+        >
+        <div class="flex">
+          <input
+            [type]="!showPassword? 'password': 'text'"
+            formControlName="password"
+            id="password"
+            name="password"
+            type="password"
+            autocomplete="current-password"
+            required
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            placeholder="Enter Password"
+          />
+          <div class="absolute right-8 mt-4">
+            <a class="type-toggle" (click)="toggleShow()">
+              <ion-icon
+                class="show-option"
+                size="small"
+                [hidden]="showPassword"
+                name="eye-off-outline"
+              ></ion-icon>
+              <ion-icon
+                class="hide-option"
+                size="small"
+                [hidden]="!showPassword"
+                name="eye-outline"
+              ></ion-icon>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="text-3D8AA4 font-Lato text-end font-semibold">
+        <a href="">Forgot Password?</a>
+      </div>
+      <ion-button
+        expand="block"
+        class="font-Lato mt-5 text-lg text-white"
+        type="submit"
+        >Login</ion-button
+      >
+    </form>
+    <!-- <ion-grid>
+      <ion-row>
+        <ion-col size="3" class="flex items-center justify-center">
+          <div class="thinline"></div>
+        </ion-col>
+        <ion-col size="6" class="flex items-center justify-center">
+          <div class="font-Lato">Or continue with</div>
+        </ion-col>
+        <ion-col size="3" class="flex items-center justify-center">
+          <div class="thinline"></div>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="4">
+          <div
+            class="border-0000001f bg-f2f3f5 flex justify-center rounded-2xl border-2 py-4"
+          >
+            <div class="h-5">
+              <img src="../../../assets/icon/Facebook.png" alt="" />
+            </div>
+          </div>
+        </ion-col>
+        <ion-col size="4">
+          <div
+            class="border-0000001f bg-f2f3f5 flex justify-center rounded-2xl border-2 py-4"
+          >
+            <div class="h-5">
+              <img src="../../../assets/icon/LinkedIn.png" alt="" />
+            </div>
+          </div>
+        </ion-col>
+        <ion-col size="4">
+          <div
+            class="border-0000001f bg-f2f3f5 flex justify-center rounded-2xl border-2 py-4"
+          >
+            <div class="h-5">
+              <img src="../../../assets/icon/Twitter.png" alt="" />
+            </div>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid> -->
+  </div>
+</ion-content>

@@ -1,0 +1,80 @@
+@font-face {
+  font-family: 'Lato';
+  src: url('../assets/fonts/Lato/Lato-Regular.ttf');
+}
+
+::ng-deep .font-Lato {
+  font-family: 'Lato' !important;
+}
+
+::ng-deep label {
+  font-family: 'Lato' !important;
+  font-weight: bold !important;
+}
+
+::ng-deep input::placeholder,
+::ng-deep ion-text {
+  font-family: 'Lato' !important;
+}
+
+::ng-deep .font-15px {
+  font-size: 15px !important;
+}
+
+// ----------------- Radio Style-----------------
+::ng-deep .radio {
+  ion-item::part(native) {
+    padding: 0px;
+  }
+
+  .unsatisfactory {
+    --color-checked: #FF6340;
+  }
+}
+
+// ----------------- Segment Style-----------------
+::ng-deep .segment-style {
+  ion-segment {
+    margin: 0px;
+
+    ion-segment-button {
+      min-width: unset;
+      margin: 0px;
+      --indicator-color: none;
+      font-family: 'Lato';
+      border-radius: 0px;
+
+      ion-label {
+        font-size: 12px;
+      }
+    }
+
+    span {
+      color: black;
+      background-color: #D9D9D9;
+    }
+
+    p {
+      color: black;
+    }
+  }
+
+  .segment-button-checked {
+    color: #3D8AA4 !important;
+    border-bottom: 2px solid #3D8AA4;
+
+    span {
+      color: white;
+      background-color: #3D8AA4;
+    }
+
+    p {
+      color: #3D8AA4;
+    }
+  }
+}
+
+//----- Home Screen BG Color -------
+::ng-deep .homeScreen {
+  --background: #F6FBF7;
+}

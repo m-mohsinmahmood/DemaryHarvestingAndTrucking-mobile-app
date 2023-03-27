@@ -1,0 +1,112 @@
+<app-header [title]="'Trucking (In-House)'" [color]="'trucking'"></app-header>
+<!-- <app-timer [value]="'11-12-2022'"></app-timer> -->
+<!-- Role: Crew Chief-->
+<ion-content *ngIf="role.includes('Dispatcher')">
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12">
+        <ion-card class="card bg-greenBtn" [routerLink]="['create-ticket']">
+          <ion-card-content>
+            <div class="flex justify-center items-center">
+              <ion-icon class="mr-2 text-white w-6 h-6" slot="start" name="add-outline"></ion-icon>
+              <p class="font-bold font-Lato font-15px text-white">Create New Delivery Ticket</p>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col size="12">
+        <ion-card class="card" [routerLink]="['verify-ticket']">
+          <ion-card-content>
+            <div class="flex justify-center items-center">
+              <p class="font-15px font-bold font-Lato">Verify Delivery Ticket</p>
+
+              <ion-spinner class="ml-4 justify-center items-center flex" *ngIf="dataCount.pending < 0" name="crescent"
+                mode="indeterminate" color="primary"></ion-spinner>
+              <span *ngIf="dataCount.pending > -1"
+                class="text-white font-semibold ml-2 bg-project-green w-8 h-6 rounded-full flex justify-center items-center">
+                {{dataCount.pending}}</span>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+  </ion-grid>
+</ion-content>
+
+<!-- Role: Truck Driver-->
+<ion-content *ngIf="role.includes('Truck Driver')">
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12">
+        <ion-card [disabled]="dataCount.active <= 0" class="card bg-greenBtn"
+          [routerLink]="['/complete-pre-check-form', activeTicket ]">
+          <ion-card-content>
+            <div class="flex justify-center items-center">
+              <p class="font-bold font-Lato font-15px text-white">View/Complete Pre-Trip Check Form</p>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col size="12">
+        <ion-card class="card" [routerLink]="['create-ticket']">
+          <ion-card-content>
+            <div class="flex justify-center items-center">
+              <ion-icon class="mr-2 w-6 h-6" slot="start" name="add-outline"></ion-icon>
+              <p class="font-bold font-Lato font-15px">Create New Delivery Ticket</p>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col size="12">
+        <ion-card class="card" [routerLink]="['verify-ticket']">
+          <ion-card-content>
+            <div class="flex justify-center items-center">
+              <p class="font-15px font-bold font-Lato">Complete Existing Delivery Ticket</p>
+              <ion-spinner class="ml-4 justify-center items-center flex" *ngIf="dataCount.existing < 0" name="crescent"
+                mode="indeterminate" color="primary"></ion-spinner>
+              <span *ngIf="dataCount.existing > -1"
+                class="text-white font-semibold ml-2 bg-project-green w-8 h-6 rounded-full flex justify-center items-center">
+                {{dataCount.existing}}</span>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col size="12">
+        <ion-card class="card" [disabled]="dataCount.active > 0 || dataCount.preCheck > 0"
+          [routerLink]="['submit-beginning-day']">
+          <ion-card-content>
+            <div class="flex justify-center items-center">
+              <p class="font-bold font-Lato font-15px">Submit Beginning of Day Work Data</p>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col size="12">
+        <ion-card class="card" [disabled]="dataCount.preCheck <= 0" [routerLink]="['submit-end-day', preCheck]">
+          <ion-card-content>
+            <div class="flex justify-center items-center">
+              <p class="font-bold font-Lato font-15px">Submit End of Day Work Data</p>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+  </ion-grid>
+</ion-content>

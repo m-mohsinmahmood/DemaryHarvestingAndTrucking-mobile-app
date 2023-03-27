@@ -1,0 +1,76 @@
+<app-header [title]="'Close Out Work Order'" [color]="'farming'"></app-header>
+
+<ion-content>
+  <!-- <app-timer [value]="'12-10-2022'"> </app-timer> -->
+
+  <form [formGroup]="closeOutWorkOrder">
+    <div class="p-4">
+      <div>
+
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Work Order<span class="text-red-600"
+              *ngIf="this.closeOutWorkOrder.get('workOrderId').hasError('required')">*</span></label>
+          <ion-skeleton-text [animated]="true" style="width: 100%; height: 30px;" *ngIf="!dataLoaded">
+          </ion-skeleton-text>
+          <input *ngIf="dataLoaded"
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            value="{{workOrderId}}" readonly>
+        </div>
+
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Total Acres<span class="text-red-600"
+              *ngIf="this.closeOutWorkOrder.get('acresByService').hasError('required')">*</span></label>
+          <input type="number"
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="acresByService" placeholder="Enter Acres by service">
+        </div>
+
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Acres Completed<span class="text-red-600"
+              *ngIf="this.closeOutWorkOrder.get('acresCompleted').hasError('required')">*</span></label>
+          <input type="number"
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="acresCompleted" placeholder="Enter Completed Acres">
+        </div>
+
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Ending Engine Hours<span class="text-red-600"
+              *ngIf="this.closeOutWorkOrder.get('endingEngineHours').hasError('required')">*</span></label>
+          <input type="number"
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="endingEngineHours" placeholder="Enter Engine Hours">
+        </div>
+
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Total GPS Acres<span class="text-red-600"
+              *ngIf="this.closeOutWorkOrder.get('gpsAcresByService').hasError('required')">*</span></label>
+          <input type="number"
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="gpsAcresByService" placeholder="Enter GPS Acres by service">
+        </div>
+
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Hours Worked<span class="text-red-600"
+              *ngIf="this.closeOutWorkOrder.get('hoursWorked').hasError('required')">*</span></label>
+          <input type="number"
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="hoursWorked" placeholder="Enter Hours Worked">
+        </div>
+
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Notes<span class="text-red-600"
+              *ngIf="this.closeOutWorkOrder.get('notes').hasError('required')">*</span></label>
+          <input
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="notes" placeholder="Enter Notes">
+        </div>
+
+      </div>
+      <ion-button [disabled]="this.closeOutWorkOrder.invalid || (workOrderCount <= 0) || (loadingSpinner | async)"
+        expand="block" class="mt-5 font-Lato text-white" (click)="navigateTo()">
+        <div *ngIf="(loadingSpinner | async) === false">Close-Out Customer Work Order</div>
+        <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+      </ion-button>
+    </div>
+  </form>
+</ion-content>

@@ -11,7 +11,7 @@ import { MenuService } from './services/menu/menu.service';
 export class AppComponent {
 
   isMobileDevice: boolean;
-  
+
   constructor(
     private router: Router,
     private menu: MenuService
@@ -21,8 +21,8 @@ export class AppComponent {
 
   checkDevicePlatform(){
     if(this.isMobileDevice){
-      this.router.navigate(['tabs/home']);
-    } 
+      this.router.navigate(['login']);
+    } ;
   }
 
   navigateToPage(url: string){

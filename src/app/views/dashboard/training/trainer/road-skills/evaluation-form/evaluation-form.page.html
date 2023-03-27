@@ -1,0 +1,434 @@
+<app-header [title]="'Road Test Skills Digital Evaluation Form'" [color]="'training'"></app-header>
+<ion-content>
+
+  <!-- <app-timer [value]="'11:22:00'"></app-timer> -->
+  <div class="mx-4">
+    <div class="flex justify-between items-center border-b-2 my-5">
+      <ion-text class="font-semibold font-Lato">Score Maneuvers Below</ion-text>
+      <ion-text class="font-Lato text-9B9BA4">Total Attempts</ion-text>
+    </div>
+    <form [formGroup]="evaluationFrom">
+      <div class="border-b-2 py-4">
+        <div class="flex flex-col justify-center">
+          <ion-text class="font-Lato font-semibold">Left Turns</ion-text>
+          <div class="flex justify-between items-center mt-3">
+            <ion-radio-group formControlName="leftTurns" class="radio flex justify-center items-center">
+              <div class="flex justify-center items-center  mr-2">
+                <ion-radio mode="md" value="true"></ion-radio>
+                <ion-label class="font-Lato ml-1 text-sm">Satisfactory</ion-label>
+              </div>
+              <div class="flex justify-center items-center">
+                <ion-radio class="unsatisfactory" mode="md" value="false"></ion-radio>
+                <ion-label class="font-Lato ml-1 text-sm">Unsatisfactory</ion-label>
+              </div>
+            </ion-radio-group>
+            <div class="flex-col">
+              <div class="flex justify-center items-center w-28 border-2  rounded-lg px-2">
+                <ion-input [type]="'number'" formControlName="leftTurnsInput" placeholder="Enter Value"></ion-input>
+              </div>
+              <ion-text *ngIf="this.evaluationFrom.get('leftTurnsInput').hasError('pattern')"
+                class=" text-sm text-red-500">
+                Enter between 0-5
+              </ion-text>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="border-b-2 py-4">
+        <div class="flex flex-col justify-center">
+          <ion-text class="font-Lato font-semibold">Right Turns</ion-text>
+          <div class="flex justify-between items-center mt-3">
+            <ion-radio-group formControlName="rightTurns" class="radio flex justify-center items-center">
+              <div class="flex justify-center items-center  mr-2">
+                <ion-radio mode="md" value="true"></ion-radio>
+                <ion-label class="font-Lato ml-1 text-sm">Satisfactory</ion-label>
+              </div>
+              <div class="flex justify-center items-center">
+                <ion-radio class="unsatisfactory" mode="md" value="false"></ion-radio>
+                <ion-label class="font-Lato ml-1 text-sm">Unsatisfactory</ion-label>
+              </div>
+            </ion-radio-group>
+            <div class="flex-col">
+              <div class="flex justify-center items-center w-28 border-2  rounded-lg px-2">
+                <ion-input formControlName="rightTurnsInput" placeholder="Enter Value" type="number"></ion-input>
+              </div>
+              <ion-text *ngIf="this.evaluationFrom.get('rightTurnsInput').hasError('pattern')"
+                class=" text-sm text-red-500">
+                Enter between 0-5
+              </ion-text>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="border-b-2 py-4">
+        <div class="flex flex-col justify-center">
+          <ion-text class="font-Lato font-semibold">Intersection Stop</ion-text>
+          <div class="flex justify-between items-center mt-3">
+            <ion-radio-group formControlName="intersectionStop"
+              class="radio flex justify-center items-center">
+              <div class="flex justify-center items-center  mr-2">
+                <ion-radio mode="md" value=true></ion-radio>
+                <ion-label class="font-Lato ml-1 text-sm">Satisfactory</ion-label>
+              </div>
+              <div class="flex justify-center items-center">
+                <ion-radio class="unsatisfactory" mode="md" value="false"></ion-radio>
+                <ion-label class="font-Lato ml-1 text-sm">Unsatisfactory</ion-label>
+              </div>
+            </ion-radio-group>
+            <div class="flex-col">
+              <div class="flex justify-center items-center w-28 border-2  rounded-lg px-2">
+                <ion-input formControlName="intersectionStopInput" placeholder="Enter Value" type="number"></ion-input>
+              </div>
+              <ion-text *ngIf="this.evaluationFrom.get('intersectionStopInput').hasError('pattern')"
+                class=" text-sm text-red-500">
+                Enter between 0-5
+              </ion-text>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="border-b-2 py-4">
+        <div class="flex flex-col justify-center">
+          <ion-text class="font-Lato font-semibold">Intersection Thru</ion-text>
+          <div class="flex justify-between items-center mt-3">
+            <ion-radio-group formControlName="intersectionThru"
+              class="radio flex justify-center items-center">
+              <div class="flex justify-center items-center  mr-2">
+                <ion-radio mode="md" value="true"></ion-radio>
+                <ion-label class="font-Lato ml-1 text-sm">Satisfactory</ion-label>
+              </div>
+              <div class="flex justify-center items-center">
+                <ion-radio class="unsatisfactory" mode="md" value="false"></ion-radio>
+                <ion-label class="font-Lato ml-1 text-sm">Unsatisfactory</ion-label>
+              </div>
+            </ion-radio-group>
+            <div class="flex-col">
+              <div class="flex justify-center items-center w-28 border-2  rounded-lg px-2">
+                <ion-input formControlName="intersectionThruInput" placeholder="Enter Value" type="number"></ion-input>
+              </div>
+              <ion-text *ngIf="this.evaluationFrom.get('intersectionThruInput').hasError('pattern')"
+                class=" text-sm text-red-500">
+                Enter between 0-5
+              </ion-text>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="border-b-2 py-4">
+        <div class="flex flex-col justify-center">
+          <ion-text class="font-Lato font-semibold">Interstate</ion-text>
+          <div class="flex justify-between items-center mt-3">
+            <ion-radio-group formControlName="interstate" class="radio flex justify-center items-center">
+              <div class="flex justify-center items-center  mr-2">
+                <ion-radio mode="md" value="true"></ion-radio>
+                <ion-label class="font-Lato ml-1 text-sm">Satisfactory</ion-label>
+              </div>
+              <div class="flex justify-center items-center">
+                <ion-radio class="unsatisfactory" mode="md" value="false"></ion-radio>
+                <ion-label class="font-Lato ml-1 text-sm">Unsatisfactory</ion-label>
+              </div>
+            </ion-radio-group>
+            <div class="flex-col">
+              <div class="flex justify-center items-center w-28 border-2  rounded-lg px-2">
+                <ion-input formControlName="interstateInput" placeholder="Enter Value" type="number"></ion-input>
+              </div>
+              <ion-text *ngIf="this.evaluationFrom.get('interstateInput').hasError('pattern')"
+                class=" text-sm text-red-500">
+                Enter between 0-5
+              </ion-text>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="border-b-2 py-4">
+        <div class="flex flex-col justify-center">
+          <ion-text class="font-Lato font-semibold">Urban Business</ion-text>
+          <div class="flex justify-between items-center mt-3">
+            <ion-radio-group formControlName="urbanBusiness"
+              class="radio flex justify-center items-center">
+              <div class="flex justify-center items-center  mr-2">
+                <ion-radio mode="md" value="true"></ion-radio>
+                <ion-label class="font-Lato ml-1 text-sm">Satisfactory</ion-label>
+              </div>
+              <div class="flex justify-center items-center">
+                <ion-radio class="unsatisfactory" mode="md" value="false"></ion-radio>
+                <ion-label class="font-Lato ml-1 text-sm">Unsatisfactory</ion-label>
+              </div>
+            </ion-radio-group>
+            <div class="flex-col">
+              <div class="flex justify-center items-center w-28 border-2  rounded-lg px-2">
+                <ion-input formControlName="urbanBusinessInput" placeholder="Enter Value" type="number"></ion-input>
+              </div>
+              <ion-text *ngIf="this.evaluationFrom.get('urbanBusinessInput').hasError('pattern')"
+                class=" text-sm text-red-500">
+                Enter between 0-5
+              </ion-text>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="border-b-2 py-4">
+        <div class="flex flex-col justify-center">
+          <ion-text class="font-Lato font-semibold">Lance Changes</ion-text>
+          <div class="flex justify-between items-center mt-3">
+            <ion-radio-group formControlName="lanceChanges" class="radio flex justify-center items-center">
+              <div class="flex justify-center items-center  mr-2">
+                <ion-radio mode="md" value="true"></ion-radio>
+                <ion-label class="font-Lato ml-1 text-sm">Satisfactory</ion-label>
+              </div>
+              <div class="flex justify-center items-center">
+                <ion-radio class="unsatisfactory" mode="md" value="false"></ion-radio>
+                <ion-label class="font-Lato ml-1 text-sm">Unsatisfactory</ion-label>
+              </div>
+            </ion-radio-group>
+            <div class="flex-col">
+              <div class="flex justify-center items-center w-28 border-2  rounded-lg px-2">
+                <ion-input formControlName="lanceChangesInput" placeholder="Enter Value" type="number"></ion-input>
+              </div>
+              <ion-text *ngIf="this.evaluationFrom.get('lanceChangesInput').hasError('pattern')"
+                class=" text-sm text-red-500">
+                Enter between 0-5
+              </ion-text>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="border-b-2 py-4">
+        <div class="flex flex-col justify-center">
+          <ion-text class="font-Lato font-semibold">Curve</ion-text>
+          <div class="flex justify-between items-center mt-3">
+            <ion-radio-group formControlName="curve" class="radio flex justify-center items-center">
+              <div class="flex justify-center items-center  mr-2">
+                <ion-radio mode="md" value="true"></ion-radio>
+                <ion-label class="font-Lato ml-1 text-sm">Satisfactory</ion-label>
+              </div>
+              <div class="flex justify-center items-center">
+                <ion-radio class="unsatisfactory" mode="md" value="false"></ion-radio>
+                <ion-label class="font-Lato ml-1 text-sm">Unsatisfactory</ion-label>
+              </div>
+            </ion-radio-group>
+            <div class="flex-col">
+              <div class="flex justify-center items-center w-28 border-2  rounded-lg px-2">
+                <ion-input formControlName="curveInput" placeholder="Enter Value" type="number"></ion-input>
+              </div>
+              <ion-text *ngIf="this.evaluationFrom.get('curveInput').hasError('pattern')" class=" text-sm text-red-500">
+                Enter between 0-5
+              </ion-text>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="border-b-2 py-4">
+        <div class="flex flex-col justify-center">
+          <ion-text class="font-Lato font-semibold">Roadside Start/Stop</ion-text>
+          <div class="flex justify-between items-center mt-3">
+            <ion-radio-group formControlName="roadside" class="radio flex justify-center items-center">
+              <div class="flex justify-center items-center  mr-2">
+                <ion-radio mode="md" value="true"></ion-radio>
+                <ion-label class="font-Lato ml-1 text-sm">Satisfactory</ion-label>
+              </div>
+              <div class="flex justify-center items-center">
+                <ion-radio class="unsatisfactory" mode="md" value="false">
+                </ion-radio>
+                <ion-label class="font-Lato ml-1 text-sm">Unsatisfactory</ion-label>
+              </div>
+            </ion-radio-group>
+            <div class="flex-col">
+              <div class="flex justify-center items-center w-28 border-2  rounded-lg px-2">
+                <ion-input formControlName="roadsideInput" placeholder="Enter Value" type="number"></ion-input>
+              </div>
+              <ion-text *ngIf="this.evaluationFrom.get('roadsideInput').hasError('pattern')"
+                class=" text-sm text-red-500">
+                Enter between 0-5
+              </ion-text>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="border-b-2 py-4">
+        <div class="flex flex-col justify-center">
+          <ion-text class="font-Lato font-semibold">RR Crossing</ion-text>
+          <div class="flex justify-between items-center mt-3">
+            <ion-radio-group formControlName="rrCrossing" class="radio flex justify-center items-center">
+              <div class="flex justify-center items-center  mr-2">
+                <ion-radio mode="md" value="true"></ion-radio>
+                <ion-label class="font-Lato ml-1 text-sm">Satisfactory</ion-label>
+              </div>
+              <div class="flex justify-center items-center">
+                <ion-radio class="unsatisfactory" mode="md" value="false"></ion-radio>
+                <ion-label class="font-Lato ml-1 text-sm">Unsatisfactory</ion-label>
+              </div>
+            </ion-radio-group>
+            <div class="flex-col">
+              <div class="flex justify-center items-center w-28 border-2  rounded-lg px-2">
+                <ion-input formControlName="rrCrossingInput" placeholder="Enter Value" type="number"></ion-input>
+              </div>
+              <ion-text *ngIf="this.evaluationFrom.get('rrCrossingInput').hasError('pattern')"
+                class=" text-sm text-red-500">
+                Enter between 0-5
+              </ion-text>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="border-b-2 py-4">
+        <div class="flex flex-col justify-center">
+          <ion-text class="font-Lato font-semibold">Signs</ion-text>
+          <div class="flex justify-between items-center mt-3">
+            <ion-radio-group formControlName="signs" class="radio flex justify-center items-center">
+              <div class="flex justify-center items-center  mr-2">
+                <ion-radio mode="md" value="true"></ion-radio>
+                <ion-label class="font-Lato ml-1 text-sm">Satisfactory</ion-label>
+              </div>
+              <div class="flex justify-center items-center">
+                <ion-radio class="unsatisfactory" mode="md" value="false"></ion-radio>
+                <ion-label class="font-Lato ml-1 text-sm">Unsatisfactory</ion-label>
+              </div>
+            </ion-radio-group>
+            <div class="flex-col">
+              <div class="flex justify-center items-center w-28 border-2  rounded-lg px-2">
+                <ion-input formControlName="signsInput" placeholder="Enter Value" type="number"></ion-input>
+              </div>
+              <ion-text *ngIf="this.evaluationFrom.get('signsInput').hasError('pattern')" class=" text-sm text-red-500">
+                Enter between 0-5
+              </ion-text>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="border-b-2 py-4">
+        <div class="flex flex-col justify-center">
+          <ion-text class="font-Lato font-semibold">General Driving</ion-text>
+          <div class="flex justify-between items-center mt-3">
+            <ion-radio-group formControlName="generalDriving"
+              class="radio flex justify-center items-center">
+              <div class="flex justify-center items-center  mr-2">
+                <ion-radio mode="md" value="true"></ion-radio>
+                <ion-label class="font-Lato ml-1 text-sm">Satisfactory</ion-label>
+              </div>
+              <div class="flex justify-center items-center">
+                <ion-radio class="unsatisfactory" mode="md" value="false"></ion-radio>
+                <ion-label class="font-Lato ml-1 text-sm">Unsatisfactory</ion-label>
+              </div>
+            </ion-radio-group>
+            <div class="flex-col">
+              <div class="flex justify-center items-center w-28 border-2  rounded-lg px-2">
+                <ion-input formControlName="generalDrivingInput" placeholder="Enter Value" type="number"></ion-input>
+              </div>
+              <ion-text *ngIf="this.evaluationFrom.get('generalDrivingInput').hasError('pattern')"
+                class=" text-sm text-red-500">
+                Enter between 0-5
+              </ion-text>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="border-b-2 py-4">
+        <div class="flex flex-col justify-center">
+          <ion-text class="font-Lato font-semibold">eLog Practical</ion-text>
+          <div class="flex justify-between items-center mt-3">
+            <ion-radio-group formControlName="eLogPractical"
+              class="radio flex justify-center items-center">
+              <div class="flex justify-center items-center  mr-2">
+                <ion-radio mode="md" value="true"></ion-radio>
+                <ion-label class="font-Lato ml-1 text-sm">Satisfactory</ion-label>
+              </div>
+              <div class="flex justify-center items-center">
+                <ion-radio class="unsatisfactory" mode="md" value="false"></ion-radio>
+                <ion-label class="font-Lato ml-1 text-sm">Unsatisfactory</ion-label>
+              </div>
+            </ion-radio-group>
+            <div class="flex-col">
+              <div class="flex justify-center items-center w-28 border-2  rounded-lg px-2">
+                <ion-input formControlName="eLogPracticalInput" placeholder="Enter Value" type="number"></ion-input>
+              </div>
+              <ion-text *ngIf="this.evaluationFrom.get('eLogPracticalInput').hasError('pattern')"
+                class=" text-sm text-red-500">
+                Enter between 0-5
+              </ion-text>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    <ion-card>
+      <!-- <ion-card-content>
+        <div class="flex justify-between items-center mb-2">
+          <ion-text class="font-Lato text-9B9BA4">Total Satisfactory:
+            <span class="font-Lato text-black">
+              {{totalSatisfactory}}
+              <div>
+              </div>
+            </span>
+          </ion-text>
+        </div>
+        <div class="flex justify-between items-center mb-2">
+          <ion-text class="font-Lato text-9B9BA4">Total Unatisfactory:
+            <span class="font-Lato text-black">
+              {{totalUnSatisfactory}}
+            </span>
+          </ion-text>
+        </div>
+        <ion-button
+        expand="block"
+        [disabled]="loadingSpinner | async"
+        class="close-out-button font-Lato mb-4 mt-4 mx-8 bg-opacity-10 text-white"
+      (click)="endEvaluation()">
+      <div *ngIf="(loadingSpinner | async) === false">End of Evaluation</div>
+            <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner></ion-button>
+      </ion-card-content> -->
+      <ion-card-content>
+        <div class="mb-2 flex items-center justify-between">
+          <ion-text class="font-Lato font-semibold text-black">Final Result:</ion-text>
+          <ion-text
+          *ngIf="((evaluationFrom.get('leftTurnsInput').value < 3) && (evaluationFrom.get('leftTurns').value === 'true')) &&
+          ((evaluationFrom.get('rightTurnsInput').value < 3) && (evaluationFrom.get('rightTurns').value === 'true'))  &&
+          ((evaluationFrom.get('intersectionStopInput').value < 3) && (evaluationFrom.get('intersectionStop').value === 'true')) &&
+          ((evaluationFrom.get('intersectionThruInput').value < 3) && (evaluationFrom.get('intersectionThru').value === 'true')) &&
+          ((evaluationFrom.get('interstateInput').value < 3) && (evaluationFrom.get('interstate').value === 'true')) &&
+          ((evaluationFrom.get('urbanBusinessInput').value < 3) && (evaluationFrom.get('urbanBusiness').value === 'true')) &&
+          ((evaluationFrom.get('lanceChangesInput').value < 3) && (evaluationFrom.get('lanceChanges').value === 'true')) &&
+          ((evaluationFrom.get('curveInput').value < 3) && (evaluationFrom.get('curve').value === 'true')) &&
+          ((evaluationFrom.get('roadsideInput').value < 3) && (evaluationFrom.get('roadside').value === 'true')) &&
+          ((evaluationFrom.get('rrCrossingInput').value < 3) && (evaluationFrom.get('rrCrossing').value === 'true')) &&
+          ((evaluationFrom.get('signsInput').value < 3) && (evaluationFrom.get('signs').value === 'true')) &&
+          ((evaluationFrom.get('eLogPracticalInput').value < 3) && (evaluationFrom.get('generalDriving').value === 'true')) &&
+          ((evaluationFrom.get('generalDrivingInput').value < 3) && (evaluationFrom.get('eLogPractical').value === 'true'))
+          "
+          class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text>
+          <!-- <ion-text
+          *ngIf="(!(+records.pullUpsInput_slb + +records.encroachInput_slb < 3) && (records.goal_slb === 'true') && (records.finalPosition_slb === 'true')) ||
+          (!(+records.pullUpsInput_ad + +records.encroachInput_ad < 3) && (records.goal_ad === 'true') && (records.finalPosition_ad === 'true'))  ||
+          (!(+records.encroach_osb + +records.encroach_osb < 3) && (records.goal_osb === 'true') && (records.finalPosition_osb === 'true')) ||
+          (!(+records.pullUps_pb + +records.encroach_pb < 3) && (records.goal_pb === 'true') && (records.finalPosition_pb === 'true')) ||
+          (!(+records.pullUps_ps + +records.encroach_ps < 3) && (records.goal_ps === 'true') && (records.finalPosition_ps === 'true')) ||
+          (!(+records.pullUps_cou + +records.encroach_cou < 3) && (records.goal_cou === 'true') && (records.finalPosition_cou === 'true'))"
+           class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text> -->
+           <ion-text
+           *ngIf="!((evaluationFrom.get('leftTurnsInput').value < 3) && (evaluationFrom.get('leftTurns').value === 'true')) ||
+           !((evaluationFrom.get('rightTurnsInput').value < 3) && (evaluationFrom.get('rightTurns').value === 'true'))  ||
+           !((evaluationFrom.get('intersectionStopInput').value < 3) && (evaluationFrom.get('intersectionStop').value === 'true')) ||
+           !((evaluationFrom.get('intersectionThruInput').value < 3) && (evaluationFrom.get('intersectionThru').value === 'true')) ||
+           !((evaluationFrom.get('interstateInput').value < 3) && (evaluationFrom.get('interstate').value === 'true')) ||
+           !((evaluationFrom.get('urbanBusinessInput').value < 3) && (evaluationFrom.get('urbanBusiness').value === 'true')) ||
+           !((evaluationFrom.get('lanceChangesInput').value < 3) && (evaluationFrom.get('lanceChanges').value === 'true')) ||
+           !((evaluationFrom.get('curveInput').value < 3) && (evaluationFrom.get('curve').value === 'true')) ||
+           !((evaluationFrom.get('roadsideInput').value < 3) && (evaluationFrom.get('roadside').value === 'true')) ||
+           !((evaluationFrom.get('rrCrossingInput').value < 3) && (evaluationFrom.get('rrCrossing').value === 'true')) ||
+           !((evaluationFrom.get('signsInput').value < 3) && (evaluationFrom.get('signs').value === 'true')) ||
+           !((evaluationFrom.get('eLogPracticalInput').value < 3) && (evaluationFrom.get('generalDriving').value === 'true')) ||
+           !((evaluationFrom.get('generalDrivingInput').value < 3) && (evaluationFrom.get('eLogPractical').value === 'true'))
+           "
+           class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text>
+          </div>
+          <ion-button
+          expand="block"
+          [disabled]="(loadingSpinner | async) || evaluationFrom.invalid"
+          class="close-out-button font-Lato mb-4 mt-4 mx-8 bg-opacity-10 text-white"
+        (click)="endEvaluation()">
+        <div *ngIf="(loadingSpinner | async) === false">End of Evaluation</div>
+              <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner></ion-button>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

@@ -1,0 +1,70 @@
+<app-header [title]="'Submit End of Day Work Data'" [color]="'farming'"></app-header>
+
+<ion-content>
+  <!-- <app-timer [value]="'12-10-2022'"> </app-timer> -->
+
+  <form [formGroup]="submitEndDayWorkOrder">
+    <div class="p-4">
+      <div>
+
+        <div *ngIf="!dwrLoaded">
+          <label class="block text-sm font-medium text-gray-700">Work Order ID</label>
+          <ion-skeleton-text [animated]="true" style="width: 100%; height: 30px;">
+          </ion-skeleton-text>
+        </div>
+
+        <div *ngIf="!acresComp">
+          <label class="block text-sm font-medium text-gray-700">Acres Completed</label>
+          <ion-skeleton-text [animated]="true" style="width: 100%;  height:30px">
+          </ion-skeleton-text>
+        </div>
+
+        <div class="col-span-12 mb-4" *ngIf="dwrLoaded">
+          <label class="block text-sm font-medium text-gray-700">Work Order ID</label>
+          <input
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            [value]="workOrder? workOrder[0].work_order_id:'' " readonly>
+        </div>
+
+        <div class="col-span-12 mb-4" *ngIf="acresComp">
+          <label class="block text-sm font-medium text-gray-700">Acres Completed<span class="text-red-600"
+              *ngIf="this.submitEndDayWorkOrder.get('acresCompleted').hasError('required')">*</span></label>
+          <input type="number"
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="acresCompleted" placeholder="Enter Completed Acres">
+        </div>
+
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Ending Engine Hours<span class="text-red-600"
+              *ngIf="this.submitEndDayWorkOrder.get('endingEngineHours').hasError('required')">*</span></label>
+          <input type="number"
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="endingEngineHours" placeholder="Enter Engine Hours">
+        </div>
+
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Hours Worked<span class="text-red-600"
+              *ngIf="this.submitEndDayWorkOrder.get('hoursWorked').hasError('required')">*</span></label>
+          <input type="number"
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="hoursWorked" placeholder="Enter Hours Worked">
+        </div>
+
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Notes<span class="text-red-600"
+              *ngIf="this.submitEndDayWorkOrder.get('notes').hasError('required')">*</span></label>
+          <textarea
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="notes" placeholder="Enter Notes">
+          </textarea>
+        </div>
+
+      </div>
+      <ion-button [disabled]="this.submitEndDayWorkOrder.invalid || workOrderCount <= 0 || (loadingSpinner | async)"
+        expand="block" class="mt-5 font-Lato text-white" (click)="navigateTo()">
+        <div *ngIf="(loadingSpinner | async) === false">Save and Submit Ticket</div>
+        <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+      </ion-button>
+    </div>
+  </form>
+</ion-content>

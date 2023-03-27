@@ -1,0 +1,28 @@
+
+.font-14{
+  font-size: 14px !important;
+}
+.font-16{
+  font-size: 16px !important;
+}
+
+.font{
+  font-family: 'Lato';
+}
+ion-item::part(native){
+  --padding-start: 0px;
+
+}
+ion-segment {
+  --background: none;
+  ion-segment-button {
+    min-width: 10px;
+    color: #aaaaaa;
+    --border-color: none;
+    --indicator-color: none;
+    --indicator-box-shadow: 0;
+    ion-icon {
+      zoom: 1;
+    }
+  }
+}

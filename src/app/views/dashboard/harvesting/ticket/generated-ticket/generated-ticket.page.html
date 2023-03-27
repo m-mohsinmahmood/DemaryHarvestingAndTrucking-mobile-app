@@ -1,0 +1,239 @@
+<app-header
+  [title]="'Ticket Generated'"
+  [color]="'harvesting'"
+></app-header>
+
+<ion-content>
+  <!-- <app-timer [value]="'12:32:11'"></app-timer> -->
+<ion-card>
+  <ion-card-header class="bg-3D8AA4">
+    <ion-card-title class="flex justify-center text-2xl font-Lato text-white">DHT Delivery Ticket - SL</ion-card-title>
+  </ion-card-header>
+  <ion-card-content *ngIf="!isLoadingCustomer && !isLoadingTicket">
+    <ion-grid>
+      <!-- First Row -->
+      <ion-row class="mb-1 h-16">
+        <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+          <p class="font-Lato text-black font-bold font-14">DHT Date</p>
+          <span class="font-Lato font-14">Sun 5, 2022</span>
+        </ion-col>
+        <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+          <p class="font-Lato text-black font-bold font-14">Customer Name</p>
+          <span class="font-Lato font-14">{{customerData?.customer_job[5].customer_name}}</span>
+        </ion-col>
+      </ion-row>
+
+      <!-- Second Row -->
+      <ion-row class="mb-1 h-16">
+        <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+          <p class="font-Lato text-black font-bold font-14">Crop</p>
+          <span class="font-Lato font-14 text-start">{{customerData?.customer_job[5].crop_name}}</span>
+        </ion-col>
+        <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+          <p class="font-Lato text-black font-bold font-14">Field</p>
+          <span class="font-Lato font-14">{{customerData?.customer_job[5].field_name}}</span>
+        </ion-col>
+      </ion-row>
+
+        <!-- Third Row -->
+        <ion-row class="mb-1 h-16">
+          <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">Farm</p>
+            <span class="font-Lato font-14">{{customerData?.customer_job[5].farm_name}}</span>
+          </ion-col>
+          <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">Truck Company</p>
+            <span class="font-Lato font-14">{{ticketData.truck_driver_company}}</span>
+          </ion-col>
+        </ion-row>
+
+        <!-- Fourth Row -->
+        <!-- <ion-row class="mb-1 h-16">
+          <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">Kart Operaator</p>
+            <span class="font-Lato font-14">John Adam</span>
+          </ion-col>
+          <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">Destination</p>
+            <span class="font-Lato font-14">{{customerData2??.destination}}</span>
+          </ion-col>
+        </ion-row> -->
+
+        <!-- Fifth Row -->
+        <ion-row class="mb-1 h-16">
+          <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">Split Load</p>
+            <span class="font-Lato font-14">{{ticketData.split_load === null? "None": ticketData.split_load}}</span>
+          </ion-col>
+          <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">Driver</p>
+            <span class="font-Lato font-14">Mike Allen</span>
+          </ion-col>
+        </ion-row>
+
+        <ion-row class="mb-1 h-16">
+          <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">Scale Ticket</p>
+            <span class="font-Lato font-14">{{'35366'}}</span>
+          </ion-col>
+          <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">Ticket#</p>
+            <span class="font-Lato font-14">{{ticketData.delivery_ticket_number}}</span>
+          </ion-col>
+        </ion-row>
+        <ion-row class="mb-1 h-16">
+          <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">Kart Scale Weight (SL)</p>
+            <span class="font-Lato font-14">113,422 lb</span>
+          </ion-col>
+          <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">Truck ID</p>
+            <span class="font-Lato font-14">{{ticketData.truck}}</span>
+          </ion-col>
+        </ion-row>
+        <ion-row class="mb-1 h-16">
+          <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">Moisture Content</p>
+            <span class="font-Lato font-14">20%</span>
+          </ion-col>
+
+          <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">Field (SL)</p>
+            <span class="font-Lato font-14">1113,234 lb</span>
+          </ion-col>
+        </ion-row>
+        <ion-row class="mb-1 h-16">
+          <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">Loaded Miles</p>
+            <span class="font-Lato font-14">{{ticketData.loaded_miles}}</span>
+          </ion-col>
+
+          <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">Scale Ticket Weight</p>
+            <span class="font-Lato font-14">3333 lb</span>
+          </ion-col>
+        </ion-row>
+        <ion-row class="mb-1 h-16">
+          <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">Kart Scale Weight</p>
+            <span class="font-Lato font-14">{{ticketData.kart_scale_weight}}</span>
+          </ion-col>
+        </ion-row>
+    </ion-grid>
+    <ion-button expand="block" class="mt-5 mb-5 font-Lato text-white" [routerLink]="['/tabs/home/harvesting']">Close</ion-button>
+  </ion-card-content>
+  <ion-card-content *ngIf="isLoadingCustomer || isLoadingTicket">
+    <ion-grid>
+      <!-- First Row -->
+      <ion-row class="mb-1 h-16">
+        <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+          <p class="font-Lato text-black font-bold font-14">DHT Date</p>
+          <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+        </ion-col>
+        <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+          <p class="font-Lato text-black font-bold font-14">Customer Name</p>
+          <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+        </ion-col>
+      </ion-row>
+
+      <!-- Second Row -->
+      <ion-row class="mb-1 h-16">
+        <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+          <p class="font-Lato text-black font-bold font-14">Crop</p>
+          <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+        </ion-col>
+        <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+          <p class="font-Lato text-black font-bold font-14">Field</p>
+          <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+        </ion-col>
+      </ion-row>
+
+        <!-- Third Row -->
+        <ion-row class="mb-1 h-16">
+          <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">Farm</p>
+            <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+          </ion-col>
+          <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">Truck Company</p>
+            <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+          </ion-col>
+        </ion-row>
+
+        <!-- Fourth Row -->
+        <ion-row class="mb-1 h-16">
+          <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">Kart Operaator</p>
+            <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+          </ion-col>
+          <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">Destination</p>
+            <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+          </ion-col>
+        </ion-row>
+
+        <!-- Fifth Row -->
+        <ion-row class="mb-1 h-16">
+          <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">Split Load</p>
+            <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+          </ion-col>
+          <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">Driver</p>
+            <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+          </ion-col>
+        </ion-row>
+
+        <ion-row class="mb-1 h-16">
+          <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">Scale Ticket</p>
+            <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+          </ion-col>
+          <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">Ticket#</p>
+            <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+          </ion-col>
+        </ion-row>
+        <ion-row class="mb-1 h-16">
+          <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">Kart Scale Weight (SL)</p>
+            <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+          </ion-col>
+          <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">Truck ID</p>
+            <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+          </ion-col>
+        </ion-row>
+        <ion-row class="mb-1 h-16">
+          <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">Moisture Content</p>
+            <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+          </ion-col>
+
+          <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">Field (SL)</p>
+            <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+          </ion-col>
+        </ion-row>
+        <ion-row class="mb-1 h-16">
+          <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">Loaded Miles</p>
+            <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+          </ion-col>
+
+          <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">Scale Ticket Weight</p>
+            <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+          </ion-col>
+        </ion-row>
+        <ion-row class="mb-1 h-16">
+          <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">Kart Scale Weight</p>
+            <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+          </ion-col>
+        </ion-row>
+    </ion-grid>
+    <!-- <ion-button expand="block" class="mt-5 mb-5 font-Lato text-white" [routerLink]="['/tabs/home/harvesting']">Close</ion-button> -->
+  </ion-card-content>
+</ion-card>
+</ion-content>

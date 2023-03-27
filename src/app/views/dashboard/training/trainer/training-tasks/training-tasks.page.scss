@@ -1,0 +1,26 @@
+.font{
+  font-family: 'Lato';
+}
+ion-segment {
+  --background: none;
+  ion-segment-button {
+    min-width: 10px;
+    color: #aaaaaa;
+    --border-color: none;
+    --indicator-color: none;
+    --indicator-box-shadow: 0;
+    ion-icon {
+      zoom: 1;
+    }
+  }
+}
+ion-textarea {
+  font-family: Lato !important;
+}
+ion-item::part(native) {
+  background: #F2F3F5;
+  border-radius: 10px;
+}
+ion-spinner {
+  --color: #ffffff;
+}

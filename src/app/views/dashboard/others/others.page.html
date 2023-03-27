@@ -1,0 +1,144 @@
+<app-header [title]="'Others'" [color]="'others'"></app-header>
+
+<ion-content>
+  <!-- <app-timer [value]="'10-5-2022'"></app-timer> -->
+  <form [formGroup]="otherForm">
+    <div class="p-4">
+      <div>
+        <!-- EMPLOYEE DROPDOWN -->
+        <div [ngClass]="'opacity-100 visible ease-in duration-200'"  role="dialog" aria-modal="true">
+          <div [ngClass]="'opacity-100 visible scale-100 ease-in duration-200'" class="mb-4 relative z-20">
+            <div class="mx-auto max-w-full transform rounded-xl px-0 transition-all">
+              <label class="block text-sm font-medium text-gray-700 mb-1">Employee Name <span
+                  *ngIf="isEmployeeSelected" class="text-red-400">*</span></label>
+              <div class="flex items-center justify-between gap-x-2 rounded-md">
+                <input (keyup)="employeesearch$.next($event.target.value)" (click)="inputClickedEmployee()"
+                  [value]="employee_name" #employeeInput
+                  class="{{isFieldDisabled? 'pointer-events-none bg-gray-200 w-full px-4 py-2 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500': 'w-full px-4 py-2 text-gray-900 placeholder:text-sm rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500'}}"
+                  placeholder="Select employee" role="" aria-expanded="false" aria-controls="options">
+              </div>
+
+              <div *ngIf="allEmployees | withLoading | async as allEmployees" >
+                <div class="flex justify-center items-center">
+                  <ion-spinner *ngIf="allEmployees?.loading" name="crescent" mode="indeterminate"
+                    color="primary"></ion-spinner>
+                </div>
+                <ul *ngIf="allEmployees?.value && employeeUL"
+                  class="-mb-2 max-h-44 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800 bg-white absolute w-full"
+                  id="options" role="listbox">
+                  <li *ngFor="let employee of (allEmployees?.value.employees)"
+                    (click)="listClickedEmployee(employee)"
+                    class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200" role="option" tabindex="-1">
+                    <div class="flex items-center p-2">
+                      {{employee.first_name}} {{employee.last_name}}
+                    </div>
+                  </li>
+                </ul>
+                <div *ngIf="allEmployees?.value?.employees?.length === 0">
+                  <p disabled
+                    class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200 text-gray-500 hover:text-gray-700 hover:font-semibold">
+                    No employee (s) found </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+       <!-- EMPLOYEE DROPDOWN -->
+
+
+        <!-- SUPERVISOR NAME -->
+        <div [ngClass]="'opacity-100 visible ease-in duration-200'"  role="dialog" aria-modal="true">
+          <div [ngClass]="'opacity-100 visible scale-100 ease-in duration-200'" class="mb-4 relative z-10">
+            <div class="mx-auto max-w-full transform rounded-xl px-0 transition-all">
+              <label class="block text-sm font-medium text-gray-700 mb-1">Supervisor Name <span
+                  *ngIf="isSupervisorSelected" class="text-red-400">*</span></label>
+              <div class="flex items-center justify-between gap-x-2 rounded-md">
+                <input (keyup)="supervisorsearch$.next($event.target.value)" (click)="inputClickedsupervisor()"
+                  [value]="supervisor_name" #supervisorInput
+                  class="{{isFieldDisabled? 'pointer-events-none bg-gray-200 w-full px-4 py-2 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500': 'w-full px-4 py-2 text-gray-900 placeholder:text-sm rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500'}}"
+                  placeholder="Select employee" role="" aria-expanded="false" aria-controls="options">
+              </div>
+
+              <div *ngIf="allSupervisors | withLoading | async as allSupervisors" >
+                <div class="flex justify-center items-center">
+                  <ion-spinner *ngIf="allSupervisors?.loading" name="crescent" mode="indeterminate"
+                    color="primary"></ion-spinner>
+                </div>
+                <ul *ngIf="allSupervisors?.value && supervisorUL"
+                  class="-mb-2 max-h-44 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800 bg-white absolute w-full"
+                  id="options" role="listbox">
+                  <li *ngFor="let supervisor of (allSupervisors?.value.employees)"
+                    (click)="listClickedSupervisor(supervisor)"
+                    class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200" role="option" tabindex="-1">
+                    <div class="flex items-center p-2">
+                      {{supervisor.supervisor}}
+                    </div>
+                  </li>
+                </ul>
+                <div *ngIf="allSupervisors?.value?.employees?.length === 0">
+                  <p disabled
+                    class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200 text-gray-500 hover:text-gray-700 hover:font-semibold">
+                    No supervisors (s) found </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- SUPERVISOR NAME -->
+
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Location (City)</label>
+          <input
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+             placeholder="Arizona">
+        </div>
+
+        <div>
+          <div class="col-span-12 mb-4">
+            <label class="block text-sm font-medium text-gray-700">State <span *ngIf="this.otherForm.get('state').hasError('required')"  class="text-red-400" >*</span></label>
+            <ion-select
+              class="mt-1 w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+              formControlName="state" placeholder="Select State">
+              <ion-select-option *ngFor="let state of states" [value]="state">{{state}}</ion-select-option>
+            </ion-select>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="pb-4">
+        <ion-radio-group formControlName="apprTaskId">
+          <ion-text class="font-semibold">Select Appropriate Task<span class="text-red-600"
+              *ngIf="this.otherForm.get('apprTaskId').hasError('required')">*</span></ion-text>
+          <ion-item class="h-10" lines="none">
+            <ion-radio mode="md" value="1"></ion-radio>
+            <label class="block text-sm ml-2 text-gray-700">Drive Company Vehicle</label>
+          </ion-item>
+          <ion-item class="h-10" lines="none">
+            <ion-radio mode="md" value="2"></ion-radio>
+            <label class="block text-sm ml-2 text-gray-700">Customer Activities</label>
+          </ion-item>
+          <ion-item class="h-10" lines="none">
+            <ion-radio mode="md" value="3"></ion-radio>
+            <label class="block text-sm ml-2 text-gray-700">Company Activities</label>
+          </ion-item>
+          <ion-item class="h-10" lines="none">
+            <ion-radio mode="md" value="4"></ion-radio>
+            <label class="block text-sm ml-2 text-gray-700">Other</label>
+          </ion-item>
+        </ion-radio-group>
+      </div>
+
+      <div class="col-span-12 mb-4">
+        <label class="block text-sm font-medium text-gray-700">Write Here<span class="text-red-600"
+            *ngIf="this.otherForm.get('notesOther').hasError('required')">*</span></label>
+        <textarea
+          class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+          formControlName="notesOther" placeholder="Write Here..."></textarea>
+      </div>
+
+      <ion-button [disabled]="this.otherForm.invalid" expand="block" class="mt-5 font-Lato text-white"
+        (click)="navigateTo()">Save</ion-button>
+    </div>
+  </form>
+</ion-content>

@@ -1,0 +1,874 @@
+<app-header [title]="'Training Records'" [color]="'training'" [routeValue]="'view-records'"></app-header>
+ <!-- COMMON LOADER -->
+ <ion-grid *ngIf="(loading | async) === true">
+  <div class="flex h-64 w-full items-center justify-center">
+    <ion-spinner name="crescent" class="h-10 w-10"></ion-spinner>
+  </div>
+</ion-grid>
+<!-- CHECKBOXES BLOCK -->
+<ion-content *ngIf="records?.evaluation_type === 'pre-trip'">
+  <!-- <app-timer [value]="'33:222:11'"></app-timer> -->
+<!-- DIGITAL FORM -->
+  <div class="mx-4"  *ngIf="records?.evaluation_form === 'digital-form' && records?.evaluation_type === 'pre-trip'">
+    <div class="mt-2 border-b-2 py-2">
+      <ion-text class="font-Lato font-semibold">{{moment(records?.created_at).format('MMMM DD, YYYY')}}
+      </ion-text>
+    </div>
+    <div class="my-5 flex items-center justify-between">
+      <ion-text class="font-Lato text-9B9BA4 text-sm">Trainer</ion-text>
+      <ion-text class="font-Lato text-sm font-semibold text-black">{{trainerName}}</ion-text>
+    </div>
+    <div class="flex justify-between items-center my-5">
+      <ion-text class="font-Lato text-sm text-9B9BA4">Total Time</ion-text>
+      <!-- <ion-text class="font-Lato text-sm text-black font-semibold">{{moment().subtract(records?.endDatePreTrip,records?.created_at).format('HH:mm')}}</ion-text> -->
+      <ion-text class="font-Lato text-sm text-black font-semibold" *ngIf="(loading | async) === false">
+        {{moment(records?.endDatePreTrip).diff(records?.created_at,'hours')?moment(records?.endDatePreTrip).diff(records?.created_at,'hours') : '00'}}:
+        {{moment(records?.endDatePreTrip).diff(records?.created_at,'minutes')?moment(records?.endDatePreTrip).diff(records?.created_at,'minutes'): '00'}}:
+        {{moment(records?.endDatePreTrip).diff(records?.created_at,'seconds')?moment(records?.endDatePreTrip).diff(records?.created_at,'seconds'): '00'}}
+      </ion-text>
+
+    </div>
+    <div class="my-3"><ion-text class="font-Lato text-xl font-semibold">Evaluation Results</ion-text></div>
+    <form [formGroup]="preCheckForm">
+      <div class="my-3"><ion-text class="font-Lato font-semibold">Engine Compartment</ion-text></div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Oil Level</ion-text>
+        <ion-checkbox disabled [checked]="records?.oilLevel" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Coolant Level</ion-text>
+        <ion-checkbox disabled [checked]="records?.coolantLevelEngine" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Power Steeling Level</ion-text>
+        <ion-checkbox disabled [checked]="records?.powerSteelingLevel" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">H20 Pump engine</ion-text>
+        <ion-checkbox disabled [checked]="records?.h20" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Alternator Belt</ion-text>
+        <ion-checkbox disabled [checked]="records?.alternatorBelt" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Air Compressor Engine</ion-text>
+        <ion-checkbox disabled [checked]="records?.airCompresseorEngine" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Leaks & Hoses</ion-text>
+        <ion-checkbox disabled [checked]="records?.leaksHoses" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Fan & Shroud</ion-text>
+        <ion-checkbox disabled [checked]="records?.fanShroud" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Radiator</ion-text>
+        <ion-checkbox disabled [checked]="records?.radiator" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Wiring</ion-text>
+        <ion-checkbox disabled [checked]="records?.wiring" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Steering Box</ion-text>
+        <ion-checkbox disabled [checked]="records?.steeringBox" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Steering Linkage</ion-text>
+        <ion-checkbox disabled [checked]="records?.steeringLinkage" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Hoses(Steering)</ion-text>
+        <ion-checkbox disabled [checked]="records?.hosesSteering" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Turbo</ion-text>
+        <ion-checkbox disabled [checked]="records?.turbo" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Window Fluid</ion-text>
+        <ion-checkbox disabled [checked]="records?.windowFluid" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Mirror</ion-text>
+        <ion-checkbox disabled [checked]="records?.mirror" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Clutch Condition</ion-text>
+        <ion-checkbox disabled [checked]="records?.clutchCondition" slot="start"></ion-checkbox>
+      </div>
+
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato text-lg font-bold">Score</ion-text>
+        <ion-text class="font-Lato text-lg font-bold">{{records?.percentageEngineCompartment}}%</ion-text>
+      </div>
+      <ion-text class="font-Lato mt-2 text-sm font-semibold text-black">Engine Compartment Notes</ion-text>
+      <ion-item lines="none" class="textarea">
+        <ion-textarea [autoGrow]="true" disabled="" [value]="records?.commentsEngine"> </ion-textarea>
+      </ion-item>
+      <div class="thin-line mt-2"></div>
+
+      <!-- IN CAB -->
+      <div class="my-3"><ion-text class="font-Lato text-xl font-semibold">In Cab</ion-text></div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Safety Belt</ion-text>
+        <ion-checkbox disabled [checked]="records?.safetyBelt" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Coolent Level</ion-text>
+        <ion-checkbox disabled [checked]="records?.coolantLevelCab" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Emergency Equipment</ion-text>
+        <ion-checkbox disabled [checked]="records?.emergencyEquipment" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Safe Start</ion-text>
+        <ion-checkbox disabled [checked]="records?.safeStart" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Temperature Gauge</ion-text>
+        <ion-checkbox disabled [checked]="records?.temperatureGauge" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Oil Pressure</ion-text>
+        <ion-checkbox disabled [checked]="records?.oilPressure" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Volt Meter</ion-text>
+        <ion-checkbox disabled [checked]="records?.voltMeter" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Air Gauge Bu/Co</ion-text>
+        <ion-checkbox disabled [checked]="records?.airGaugeBuCo" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Indicators</ion-text>
+        <ion-checkbox disabled [checked]="records?.indicators" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Horns</ion-text>
+        <ion-checkbox disabled [checked]="records?.horns" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Defroster</ion-text>
+        <ion-checkbox disabled [checked]="records?.defroster" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Windshield</ion-text>
+        <ion-checkbox disabled [checked]="records?.windshield" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Wipers/Wash</ion-text>
+        <ion-checkbox disabled [checked]="records?.wipersWash" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Park Brake</ion-text>
+        <ion-checkbox disabled [checked]="records?.parkBrake" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Svc Brake</ion-text>
+        <ion-checkbox disabled [checked]="records?.svcBrake" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Leak Test</ion-text>
+        <ion-checkbox disabled [checked]="records?.leakTest" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Abs Lights</ion-text>
+        <ion-checkbox disabled [checked]="records?.abcLights" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Light Function</ion-text>
+        <ion-checkbox disabled [checked]="records?.lightFunction" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato text-lg font-bold">Score</ion-text>
+        <ion-text class="font-Lato text-lg font-bold">{{records?.percentageInCab}}%</ion-text>
+      </div>
+      <ion-text class="font-Lato mt-2 text-sm font-semibold text-black">In Cab Notes</ion-text>
+      <ion-textarea [autoGrow]="true" class="my-2 rounded-lg border-2 px-1" disabled="" [value]="records?.commentsCab" placeholder="Add your comments here :)"> </ion-textarea>
+      <div class="thin-line mt-3"></div>
+
+      <!-- IN CAB -->
+
+      <!-- VEHICLE /EXTERNAL -->
+      <div class="my-3"><ion-text class="font-Lato text-xl font-semibold">Vehicle/External</ion-text></div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Light Function</ion-text>
+        <ion-checkbox disabled [checked]="records?.lightFunctionVehicle" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Lens/Reflector</ion-text>
+        <ion-checkbox disabled [checked]="records?.lensReflector" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Door</ion-text>
+        <ion-checkbox disabled [checked]="records?.door" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Fuel Tank</ion-text>
+        <ion-checkbox disabled [checked]="records?.fuelTank" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Leaks</ion-text>
+        <ion-checkbox disabled [checked]="records?.leaks" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Steps</ion-text>
+        <ion-checkbox disabled [checked]="records?.steps" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Frame</ion-text>
+        <ion-checkbox disabled [checked]="records?.frame" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Drive Shaft</ion-text>
+        <ion-checkbox disabled [checked]="records?.driveShaft" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Tires(5)</ion-text>
+        <ion-checkbox disabled [checked]="records?.tires" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Rims(5)</ion-text>
+        <ion-checkbox disabled [checked]="records?.rims" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Lug Nuts(3)</ion-text>
+        <ion-checkbox disabled [checked]="records?.lugNuts" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Axel Hub Seal(3)</ion-text>
+        <ion-checkbox disabled [checked]="records?.axelHubSeal" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Bid Spacers(2)</ion-text>
+        <ion-checkbox disabled [checked]="records?.bidSpacers" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Battery Box</ion-text>
+        <ion-checkbox disabled [checked]="records?.batteryBox" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Exhaust</ion-text>
+        <ion-checkbox disabled [checked]="records?.exhaust" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Header Bvd</ion-text>
+        <ion-checkbox disabled [checked]="records?.headerBvd" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Landing Gear</ion-text>
+        <ion-checkbox disabled [checked]="records?.landingGear" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato text-lg font-bold">Score</ion-text>
+        <ion-text class="font-Lato text-lg font-bold">{{records?.percentageVehicleExternal}}%</ion-text>
+      </div>
+      <ion-text class="font-Lato mt-2 text-sm font-semibold text-black">Vehicle/External Notes</ion-text>
+      <ion-textarea [autoGrow]="true" class="my-2 rounded-lg border-2 px-1" disabled="" [value]="records?.commentsVehicle" placeholder="Add your comments here :)"> </ion-textarea>
+      <div class="thin-line mt-3"></div>
+
+      <!-- VEHICLE /EXTERNAL -->
+
+      <!-- COUPLING -->
+      <div class="my-3"><ion-text class="font-Lato text-xl font-semibold">Coupling</ion-text></div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Air Connectors</ion-text>
+        <ion-checkbox disabled [checked]="records?.airConditioners" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Electric Connectors</ion-text>
+        <ion-checkbox disabled [checked]="records?.electricConnectors" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Mounting Bolts</ion-text>
+        <ion-checkbox disabled [checked]="records?.mountingBolts" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Platform Base</ion-text>
+        <ion-checkbox disabled [checked]="records?.platformBase" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Locking Jaws</ion-text>
+        <ion-checkbox disabled [checked]="records?.lockingJaws" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Grease</ion-text>
+        <ion-checkbox disabled [checked]="records?.grease" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Release Arm</ion-text>
+        <ion-checkbox disabled [checked]="records?.releaseArm" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Skid Plate</ion-text>
+        <ion-checkbox disabled [checked]="records?.skidPlate" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Sliding Pins</ion-text>
+        <ion-checkbox disabled [checked]="records?.slidingPins" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">King Pin</ion-text>
+        <ion-checkbox disabled [checked]="records?.kingPin" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Apron</ion-text>
+        <ion-checkbox disabled [checked]="records?.apron" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Gap</ion-text>
+        <ion-checkbox disabled [checked]="records?.gap" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Air Line</ion-text>
+        <ion-checkbox disabled [checked]="records?.airLine" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Location</ion-text>
+        <ion-checkbox disabled [checked]="records?.location" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Safety Devices(T)</ion-text>
+        <ion-checkbox disabled [checked]="records?.safetyDevices" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Print (T)</ion-text>
+        <ion-checkbox disabled [checked]="records?.print" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Draw Bar (T)</ion-text>
+        <ion-checkbox disabled [checked]="records?.drawBar" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato text-lg font-bold">Score</ion-text>
+        <ion-text class="font-Lato text-lg font-bold">{{records?.percentageCoupling}}%</ion-text>
+      </div>
+      <ion-text class="font-Lato mt-2 text-sm font-semibold text-black">Coupling Notes</ion-text>
+      <ion-textarea [autoGrow]="true" class="my-2 rounded-lg border-2 px-1" disabled="" [value]="records?.commentsCoupling" placeholder="Add your comments here :)"> </ion-textarea>
+      <div class="thin-line mt-3"></div>
+
+      <!-- COUPLING -->
+      <!-- SUSPENSION -->
+      <div class="my-3"><ion-text class="font-Lato text-xl font-semibold">Suspension</ion-text></div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Springs (3)</ion-text>
+        <ion-checkbox disabled [checked]="records?.springs" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Air Bags (2)</ion-text>
+        <ion-checkbox disabled [checked]="records?.airBags" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Shocks (3)</ion-text>
+        <ion-checkbox disabled [checked]="records?.shocks" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">V Bolts (3)</ion-text>
+        <ion-checkbox disabled [checked]="records?.vBolts" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Mounts (3)</ion-text>
+        <ion-checkbox disabled [checked]="records?.mounts" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Bushings (3)</ion-text>
+        <ion-checkbox disabled [checked]="records?.bushings" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Leaf Springs (3)</ion-text>
+        <ion-checkbox disabled [checked]="records?.leafSprings" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Slack Adjusters (3)</ion-text>
+        <ion-checkbox disabled [checked]="records?.slackAdjusters" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Crack Chamber (3)</ion-text>
+        <ion-checkbox disabled [checked]="records?.crackChammber" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Push Rod (3)</ion-text>
+        <ion-checkbox disabled [checked]="records?.pushRod" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Drums (3)</ion-text>
+        <ion-checkbox disabled [checked]="records?.drums" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Linings (3)</ion-text>
+        <ion-checkbox disabled [checked]="records?.linings" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Rotor (3)</ion-text>
+        <ion-checkbox disabled [checked]="records?.rotor" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Disc Pads (3)</ion-text>
+        <ion-checkbox disabled [checked]="records?.discPads" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Brake Hoses (2)</ion-text>
+        <ion-checkbox disabled [checked]="records?.brakeHoses" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">5-Cams (2)</ion-text>
+        <ion-checkbox disabled [checked]="records?.cams" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Torque Arm (2)</ion-text>
+        <ion-checkbox disabled [checked]="records?.torqueArm" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato font-medium">Wheel Seals (2)</ion-text>
+        <ion-checkbox disabled [checked]="records?.wheelSeals" slot="start"></ion-checkbox>
+      </div>
+      <div class="my-3 flex items-center justify-between">
+        <ion-text class="font-Lato text-lg font-bold">Score</ion-text>
+        <ion-text class="font-Lato text-lg font-bold">{{records?.percentageSuspension}}%</ion-text>
+      </div>
+      <ion-text class="font-Lato mt-2 text-sm font-semibold text-black">Suspension Notes</ion-text>
+      <ion-textarea [autoGrow]="true" disabled="" [value]="records?.commentsSuspension" class="my-2 rounded-lg border-2 px-1" placeholder="Add your comments here"> </ion-textarea>
+      <div class="thin-line mt-3"></div>
+      <div class="my-3 flex items-center justify-around">
+        <ion-text class="font-Lato text-xl font-bold ">Total Score:</ion-text>
+        <ion-text class="font-Lato text-xl font-bold ">{{math.trunc(((+records?.percentageEngineCompartment + +records?.percentageInCab + +records?.percentageVehicleExternal + +records?.percentageCoupling + +records?.percentageSuspension)/500)*100)}}%</ion-text>
+      </div>
+      <!-- SUSPENSION -->
+    </form>
+    <ion-button expand="block" class="close-out-button font-Lato mx-8 mb-8 mt-4 bg-opacity-10 text-white" (click)="exit()">Exit</ion-button>
+  </div>
+  <!-- PAPER FORM -->
+  <div class="mx-4" *ngIf="records?.evaluation_form === 'paper-form' && records?.evaluation_type === 'pre-trip'">
+    <div class="mt-2 border-b-2 py-2">
+      <ion-text class="font-Lato font-semibold">
+        {{moment(records.created_at).format('MMMM DD, YYYY')}}
+      </ion-text>
+    </div>
+    <div class="my-5 flex items-center justify-between">
+      <ion-text class="font-Lato text-9B9BA4 text-sm">Trainee</ion-text>
+      <ion-text class="font-Lato text-sm font-semibold text-black">{{trainerName}}</ion-text>
+    </div>
+    <ion-card class="p-3">
+      <ion-card-content class="m-0 p-0">
+        <div class="mt-4">
+          <img [src]="records.image_1"alt="" class="h-48 w-full object-contain">
+        </div>
+        <div class="mt-4">
+          <img [src]="records.image_2"alt="" class="h-48 w-full object-contain">
+        </div>
+        <div class="mt-4">
+          <img [src]="records.image_3"alt="" class="h-48 w-full object-contain">
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>
+
+<!-- SATISFACTORY & UNSATISFACTORY BLOCK FOR BASIC SKILLS -->
+<ion-content *ngIf="records?.evaluation_type === 'basic-skills'">
+  <!-- <app-timer [value]="'33:222:e11'"></app-timer> -->
+
+  <!-- DIGITAL FORM -->
+  <div class="mx-4" *ngIf="records?.evaluation_form === 'digital-form' && records?.evaluation_type === 'basic-skills'">
+    <div class="mt-2 border-b-2 py-2">
+      <ion-text class="font-Lato font-semibold">{{moment(records.created_at).format('MMMM DD, YYYY')}}</ion-text>
+    </div>
+    <div class="my-5 flex items-center justify-between">
+      <ion-text class="font-Lato text-9B9BA4 text-sm">Trainer</ion-text>
+      <ion-text class="font-Lato text-sm font-semibold text-black">{{trainerName}}</ion-text>
+    </div>
+    <div class="flex justify-between items-center my-5">
+      <ion-text class="font-Lato text-sm text-9B9BA4">Total Time</ion-text>
+      <ion-text class="font-Lato text-sm text-black font-semibold" *ngIf="(loading | async) === false">
+        {{moment(records?.endDateBasicSkill).diff(records?.created_at,'hours')}}h:
+        {{moment(records?.endDateBasicSkill).diff(records?.created_at,'minutes')}}m:
+        {{moment(records?.endDateBasicSkill).diff(records?.created_at,'seconds')}}s
+      </ion-text>
+    </div>
+
+    <ion-grid *ngIf="(loading | async) === false">
+      <div class="my-1"><ion-text class="font-Lato font-semibold">Evaluation Results</ion-text></div>
+      <ion-grid>
+        <ion-row class="bg-d9d9d95c py-2 px-2">
+          <ion-col size="5" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Skill</ion-text></ion-col>
+          <ion-col size="4" class="ion-text-center"><ion-text class="font-Lato font-semibold text-black">S/U</ion-text></ion-col>
+          <ion-col size="3" class="ion-text-end"><ion-text class="font-Lato font-semibold text-black">Attempts</ion-text></ion-col>
+        </ion-row>
+      </ion-grid>
+      <ion-row class="my-4">
+        <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Straight Line Backing</ion-text></ion-col>
+        <ion-col *ngIf=" (+records.pullUpsInput_slb + +records.encroachInput_slb < 3) && (records.goal_slb === 'true') && (records.finalPosition_slb === 'true')" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf=" !((+records.pullUpsInput_slb + +records.encroachInput_slb < 3) && (records.goal_slb === 'true') && (records.finalPosition_slb === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
+        <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{+records.pullUpsInput_slb + +records.encroachInput_slb}}</ion-text></ion-col>
+      </ion-row>
+
+      <ion-row class="my-4">
+        <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Alley Docking (45/90)</ion-text></ion-col>
+        <ion-col *ngIf="(+records.pullUpsInput_ad + +records.encroachInput_ad < 3) && (records.goal_ad === 'true') && (records.finalPosition_ad === 'true')" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="!((+records.pullUpsInput_ad + +records.encroachInput_ad < 3) && (records.goal_ad === 'true') && (records.finalPosition_ad === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
+        <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{+records.pullUpsInput_ad + +records.encroachInput_ad}}</ion-text></ion-col>
+      </ion-row>
+      <ion-row class="my-4">
+        <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Off Set Backing</ion-text></ion-col>
+        <ion-col *ngIf="(+records.encroach_osb + +records.encroach_osb < 3) && (records.goal_osb === 'true') && (records.finalPosition_osb === 'true')" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="!((+records.encroach_osb + +records.encroach_osb < 3) && (records.goal_osb === 'true') && (records.finalPosition_osb === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
+        <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{+records.pullUps_osb + +records.encroach_osb}}</ion-text></ion-col>
+      </ion-row>
+      <ion-row class="my-4">
+        <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Parallel Parking Blind</ion-text></ion-col>
+        <ion-col *ngIf="(+records.pullUps_pb + +records.encroach_pb < 3) && (records.goal_pb === 'true') && (records.finalPosition_pb === 'true')" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="!((+records.pullUps_pb + +records.encroach_pb < 3) && (records.goal_pb === 'true') && (records.finalPosition_pb === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
+        <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{+records.pullUps_pb + +records.encroach_pb}}</ion-text></ion-col>
+      </ion-row>
+      <ion-row class="my-4">
+    <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">Parallel Parking Sight</ion-text></ion-col>
+    <ion-col *ngIf="(+records.pullUps_ps + +records.encroach_ps < 3) && (records.goal_ps === 'true') && (records.finalPosition_ps === 'true')" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
+    <ion-col *ngIf="!((+records.pullUps_ps + +records.encroach_ps < 3) && (records.goal_ps === 'true') && (records.finalPosition_ps === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">Unsatisfactory</ion-text></ion-col>
+    <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{+records.pullUps_ps + +records.encroach_ps}}</ion-text></ion-col>
+  </ion-row>
+      <ion-row class="my-4">
+        <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Coupling & Uncoupling</ion-text></ion-col>
+        <ion-col *ngIf="(+records.pullUps_cou + +records.encroach_cou < 3) && (records.goal_cou === 'true') && (records.finalPosition_cou === 'true')" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="!((+records.pullUps_cou + +records.encroach_cou < 3) && (records.goal_cou === 'true') && (records.finalPosition_cou === 'true'))"  size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
+        <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{+records.pullUps_cou + +records.encroach_cou}}</ion-text></ion-col>
+      </ion-row>
+
+    </ion-grid>
+    <ion-card-content *ngIf="(loading | async) === false">
+      <div class="mb-0 flex items-center justify-between">
+        <ion-text class="font-Lato font-semibold text-black">Final Results:</ion-text>
+        <!-- <ion-text
+        *ngIf="((+records.pullUpsInput_slb + +records.encroachInput_slb < 3) && (records.goal_slb === 'true') && (records.finalPosition_slb === 'true')) &&
+        ((+records.pullUpsInput_ad + +records.encroachInput_ad < 3) && (records.goal_ad === 'true') && (records.finalPosition_ad === 'true'))  &&
+        ((+records.encroach_osb + +records.pullUps_osb < 3) && (records.goal_osb === 'true') && (records.finalPosition_osb === 'true')) &&
+        ((+records.pullUps_pb + +records.encroach_pb < 3) && (records.goal_pb === 'true') && (records.finalPosition_pb === 'true')) &&
+        ((+records.pullUps_ps + +records.encroach_ps < 3) && (records.goal_ps === 'true') && (records.finalPosition_ps === 'true')) &&
+        ((+records.pullUps_cou + +records.encroach_cou < 3) && (records.goal_cou === 'true') && (records.finalPosition_cou === 'true'))"
+        class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text> -->
+
+        <ion-text
+      *ngIf="status === true"
+      class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text>
+      <ion-text
+      *ngIf="status === false"
+      class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text>
+
+        <!-- <ion-text
+        *ngIf="(!(+records.pullUpsInput_slb + +records.encroachInput_slb < 3) && (records.goal_slb === 'true') && (records.finalPosition_slb === 'true')) ||
+        (!(+records.pullUpsInput_ad + +records.encroachInput_ad < 3) && (records.goal_ad === 'true') && (records.finalPosition_ad === 'true'))  ||
+        (!(+records.encroach_osb + +records.pullUps_osb < 3) && (records.goal_osb === 'true') && (records.finalPosition_osb === 'true')) ||
+        (!(+records.pullUps_pb + +records.encroach_pb < 3) && (records.goal_pb === 'true') && (records.finalPosition_pb === 'true')) ||
+        (!(+records.pullUps_ps + +records.encroach_ps < 3) && (records.goal_ps === 'true') && (records.finalPosition_ps === 'true')) ||
+        (!(+records.pullUps_cou + +records.encroach_cou < 3) && (records.goal_cou === 'true') && (records.finalPosition_cou === 'true'))"
+         class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text> -->
+      </div>
+    </ion-card-content>
+    <ion-button *ngIf="(loading | async) === false" expand="block" class="close-out-button font-Lato mx-8 mb-2 mt-2 bg-opacity-10 text-white" (click)="exit()">Close</ion-button>
+    <ion-card>
+    </ion-card>
+  </div>
+  <!-- PAPER FORM -->
+  <div class="mx-4" *ngIf="records?.evaluation_form === 'paper-form' && records?.evaluation_type === 'basic-skills'">
+    <div class="mt-2 border-b-2 py-2">
+      <ion-text class="font-Lato font-semibold">
+        {{moment(records.created_at).format('MMMM DD, YYYY')}}
+      </ion-text>
+    </div>
+    <div class="my-5 flex items-center justify-between">
+      <ion-text class="font-Lato text-9B9BA4 text-sm">Trainee</ion-text>
+      <ion-text class="font-Lato text-sm font-semibold text-black">{{trainerName}}</ion-text>
+    </div>
+    <ion-card class="p-3">
+      <ion-card-content class="m-0 p-0">
+        <div class="mt-4">
+          <img [src]="records.image_1"alt="" class="h-48 w-full object-contain">
+        </div>
+        <div class="mt-4">
+          <img [src]="records.image_2"alt="" class="h-48 w-full object-contain">
+        </div>
+        <div class="mt-4">
+          <img [src]="records.image_3"alt="" class="h-48 w-full object-contain">
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>
+
+<!-- SATISFACTORY & UNSATISFACTORY BLOCK FOR ROAD SKILLS-->
+<ion-content *ngIf="records?.evaluation_type === 'road-skills'">
+  <!-- <app-timer [value]="'33:222:11'"></app-timer> -->
+
+   <!-- DIGITAL FORM -->
+  <div class="mx-4" *ngIf="records?.evaluation_form === 'digital-form' && records?.evaluation_type === 'road-skills'">
+    <div class="mt-2 border-b-2 py-2">
+      <ion-text class="font-Lato font-semibold">October 21st, 2020</ion-text>
+    </div>
+    <div class="my-5 flex items-center justify-between">
+      <ion-text class="font-Lato text-9B9BA4 text-sm">Trainer</ion-text>
+      <ion-text class="font-Lato text-sm font-semibold text-black">{{trainerName}}</ion-text>
+    </div>
+    <div class="flex justify-between items-center my-5">
+      <ion-text class="font-Lato text-sm text-9B9BA4">Total Time</ion-text>
+      <!-- <ion-text class="font-Lato text-sm text-black font-semibold">{{moment(records?.endDateRoadSkill).subtract(records?.created_at).format('')}}</ion-text> -->
+      <ion-text class="font-Lato text-sm text-black font-semibold" *ngIf="(loading | async) === false">
+        {{moment(records?.endDateRoadSkill).diff(records?.created_at,'hours')}}h:
+        {{moment(records?.endDateRoadSkill).diff(records?.created_at,'minutes')}}m:
+        {{moment(records?.endDateRoadSkill).diff(records?.created_at,'seconds')}}s
+      </ion-text>
+      <!-- <ion-text class="font-Lato text-sm text-black font-semibold">{{math.abs(records?.endDateRoadSkill - records?.created_at)}}}</ion-text> -->
+
+    </div>
+    <!-- LOADER -->
+    <ion-grid *ngIf="(loading | async) === true">
+      <div class="flex h-64 w-full items-center justify-center">
+        <ion-spinner name="crescent" class="h-10 w-10"></ion-spinner>
+      </div>
+    </ion-grid>
+    <div *ngIf="(loading | async) === false">
+    <div class="my-3"><ion-text class="font-Lato font-semibold">Road Test Evaluation Results</ion-text></div>
+    <ion-grid>
+      <ion-row class="bg-d9d9d95c py-2 px-2">
+        <ion-col size="5" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">Skill</ion-text></ion-col>
+        <ion-col size="4" class="ion-text-center"><ion-text class="font-Lato text-black font-semibold">S/U</ion-text></ion-col>
+        <ion-col size="3" class="ion-text-end"><ion-text class="font-Lato text-black font-semibold">Attempts</ion-text></ion-col>
+      </ion-row>
+    </ion-grid>
+    <ion-grid>
+      <ion-row class="my-4">
+        <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">Left Turns</ion-text></ion-col>
+        <ion-col *ngIf="((records.leftTurnsInput < 3) && (records.leftTurns === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="!((records.leftTurnsInput < 3) && (records.leftTurns === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">Unsatisfactory</ion-text></ion-col>
+        <ion-col  size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.leftTurnsInput}}</ion-text></ion-col>
+      </ion-row>
+      <ion-row class="my-4">
+        <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">Right Turns</ion-text></ion-col>
+        <ion-col *ngIf="((records.rightTurnsInput < 3) && (records.rightTurns === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="!((records.rightTurnsInput < 3) && (records.rightTurns === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">Unsatisfactory</ion-text></ion-col>
+        <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.rightTurnsInput}}</ion-text></ion-col>
+      </ion-row>
+      <ion-row class="my-4">
+        <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">Intersection Stop</ion-text></ion-col>
+        <ion-col *ngIf="((records.intersectionStopInput < 3) && (records.intersectionStop === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="!((records.intersectionStopInput < 3) && (records.intersectionStop === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">Unsatisfactory</ion-text></ion-col>
+        <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.intersectionStopInput}}</ion-text></ion-col>
+      </ion-row>
+      <ion-row class="my-4">
+        <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">Intersection Thru</ion-text></ion-col>
+        <ion-col *ngIf="((records.intersectionThruInput < 3) && (records.intersectionThru === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="!((records.intersectionThruInput < 3) && (records.intersectionThru === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">Unsatisfactory</ion-text></ion-col>
+        <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.intersectionThruInput}}</ion-text></ion-col>
+      </ion-row>
+      <ion-row class="my-4">
+        <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">Interstate</ion-text></ion-col>
+        <ion-col *ngIf="((records.interstateInput < 3) && (records.interstate === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="!((records.interstateInput < 3) && (records.interstate === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">Unsatisfactory</ion-text></ion-col>
+        <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.interstateInput}}</ion-text></ion-col>
+      </ion-row>
+      <ion-row class="my-4">
+        <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">Urban Business</ion-text></ion-col>
+        <ion-col *ngIf="((records.urbanBusinessInput < 3) && (records.urbanBusiness === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="!((records.urbanBusinessInput < 3) && (records.urbanBusiness === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">Unsatisfactory</ion-text></ion-col>
+        <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.urbanBusinessInput}}</ion-text></ion-col>
+      </ion-row>
+      <ion-row class="my-4">
+        <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">Lance Changes</ion-text></ion-col>
+        <ion-col *ngIf="((records.lanceChangesInput < 3) && (records.lanceChanges === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="!((records.lanceChangesInput < 3) && (records.lanceChanges === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">Unsatisfactory</ion-text></ion-col>
+        <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.lanceChangesInput}}</ion-text></ion-col>
+      </ion-row>
+      <ion-row class="my-4">
+        <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">Curve</ion-text></ion-col>
+        <ion-col *ngIf="((records.curveInput < 3) && (records.curve === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="!((records.curveInput < 3) && (records.curve === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">Unsatisfactory</ion-text></ion-col>
+        <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.curveInput}}</ion-text></ion-col>
+      </ion-row>
+      <ion-row class="my-4">
+        <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">Roadside Start/Stop</ion-text></ion-col>
+        <ion-col *ngIf="((records.roadsideInput < 3) && (records.roadside === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="!((records.roadsideInput < 3) && (records.roadside === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">Unsatisfactory</ion-text></ion-col>
+        <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.roadsideInput}}</ion-text></ion-col>
+      </ion-row>
+      <ion-row class="my-4">
+        <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">RR Crodsing</ion-text></ion-col>
+        <ion-col *ngIf="((records.rrCrossingInput < 3) && (records.rrCrossing === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="!((records.rrCrossingInput < 3) && (records.rrCrossing === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">Unsatisfactory</ion-text></ion-col>
+        <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.rrCrossingInput}}</ion-text></ion-col>
+      </ion-row>
+      <ion-row class="my-4">
+        <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">Signs</ion-text></ion-col>
+        <ion-col *ngIf="((records.signsInput < 3) && (records.signs === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="!((records.signsInput < 3) && (records.signs === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">Unsatisfactory</ion-text></ion-col>
+        <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.signsInput}}</ion-text></ion-col>
+      </ion-row>
+      <ion-row class="my-4">
+        <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">General Driving</ion-text></ion-col>
+        <ion-col *ngIf="((records.generalDrivingInput < 3) && (records.generalDriving === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="!((records.generalDrivingInput < 3) && (records.generalDriving === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">Unsatisfactory</ion-text></ion-col>
+        <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.generalDrivingInput}}</ion-text></ion-col>
+      </ion-row>
+      <ion-row class="my-4">
+        <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">eLog Practical</ion-text></ion-col>
+        <ion-col *ngIf="((records.eLogPracticalInput < 3) && (records.eLogPractical === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="!((records.eLogPracticalInput < 3) && (records.eLogPractical === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">Unsatisfactory</ion-text></ion-col>
+        <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{records.eLogPracticalInput}}</ion-text></ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+    <ion-card>
+      <ion-card-content *ngIf="(loading | async) === false">
+        <div class="flex justify-between items-center mb-2">
+          <ion-text class="font-Lato text-black font-semibold">Final Results:</ion-text>
+          <!-- <ion-text *ngIf="+records?.leftTurnsInput + +records?.rightTurnsInput + +records?.intersectionStopInput + +records?.intersectionThruInput + +records?.interstateInput + +records?.urbanBusinessInput + +records?.lanceChangesInput + +records?.curveInput + +records?.roadsideInput + +records?.rrCrossingInput + +records?.signsInput+ +records?.generalDrivingInput + +records?.eLogPracticalInput > 32" class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">{{+records?.leftTurnsInput + +records?.rightTurnsInput + +records?.intersectionStopInput + +records?.intersectionThruInput + +records?.interstateInput + +records?.urbanBusinessInput + +records?.lanceChangesInput + +records?.curveInput + +records?.roadsideInput + +records?.rrCrossingInput + +records?.signsInput+ +records?.generalDrivingInput + +records?.eLogPracticalInput > 32 ? "Satisfactory":"Unsatisfactory"}}</ion-text> -->
+          <!-- <ion-text *ngIf="+records?.leftTurnsInput + +records?.rightTurnsInput + +records?.intersectionStopInput + +records?.intersectionThruInput + +records?.interstateInput + +records?.urbanBusinessInput + +records?.lanceChangesInput + +records?.curveInput + +records?.roadsideInput + +records?.rrCrossingInput + +records?.signsInput+ +records?.generalDrivingInput + +records?.eLogPracticalInput < 32" class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">{{+records?.leftTurnsInput + +records?.rightTurnsInput + +records?.intersectionStopInput + +records?.intersectionThruInput + +records?.interstateInput + +records?.urbanBusinessInput + +records?.lanceChangesInput + +records?.curveInput + +records?.roadsideInput + +records?.rrCrossingInput + +records?.signsInput+ +records?.generalDrivingInput + +records?.eLogPracticalInput > 32 ? "Satisfactory":"Unsatisfactory"}}</ion-text> -->
+       <ion-text
+          *ngIf="((records.leftTurnsInput < 3) && (records.leftTurns === 'true')) &&
+          ((records.rightTurnsInput < 3) && (records.rightTurns === 'true'))  &&
+          ((records.intersectionStopInput < 3) && (records.intersectionStop === 'true')) &&
+          ((records.intersectionThruInput < 3) && (records.intersectionThru === 'true')) &&
+          ((records.interstateInput < 3) && (records.interstate === 'true')) &&
+          ((records.urbanBusinessInput < 3) && (records.urbanBusiness === 'true')) &&
+          ((records.lanceChangesInput < 3) && (records.lanceChanges === 'true')) &&
+          ((records.curveInput < 3) && (records.curve === 'true')) &&
+          ((records.roadsideInput < 3) && (records.roadside === 'true')) &&
+          ((records.rrCrossingInput < 3) && (records.rrCrossing === 'true')) &&
+          ((records.signsInput < 3) && (records.signs === 'true')) &&
+          ((records.eLogPracticalInput < 3) && (records.generalDriving === 'true')) &&
+          ((records.generalDrivingInput < 3) && (records.eLogPractical === 'true'))
+          "
+          class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text>
+          <ion-text
+          *ngIf="!((records.leftTurnsInput < 3) && (records.leftTurns === 'true')) ||
+          !((records.rightTurnsInput < 3) && (records.rightTurns === 'true'))  ||
+          !((records.intersectionStopInput < 3) && (records.intersectionStop === 'true')) ||
+          !((records.intersectionThruInput < 3) && (records.intersectionThru === 'true')) ||
+          !((records.interstateInput < 3) && (records.interstate === 'true')) ||
+          !((records.urbanBusinessInput < 3) && (records.urbanBusiness === 'true')) ||
+          !((records.lanceChangesInput < 3) && (records.lanceChanges === 'true')) ||
+          !((records.curveInput < 3) && (records.curve === 'true')) ||
+          !((records.roadsideInput < 3) && (records.roadside === 'true')) ||
+          !((records.rrCrossingInput < 3) && (records.rrCrossing === 'true')) ||
+          !((records.signsInput < 3) && (records.signs === 'true')) ||
+          !((records.eLogPracticalInput < 3) && (records.generalDriving === 'true')) ||
+          !((records.generalDrivingInput < 3) && (records.eLogPractical === 'true'))
+          "
+          class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text>
+        </div>
+
+        <!-- <ion-text class="font-Lato text-9B9BA4">Total Attempts: <span class="font-Lato text-black">
+          {{+records?.leftTurnsInput + +records?.rightTurnsInput + +records?.intersectionStopInput + +records?.intersectionThruInput + +records?.interstateInput + +records?.urbanBusinessInput + +records?.lanceChangesInput + +records?.curveInput + +records?.roadsideInput + +records?.rrCrossingInput + +records?.signsInput+ +records?.generalDrivingInput + +records?.eLogPracticalInput}}
+        </span></ion-text> -->
+      </ion-card-content>
+      <ion-button *ngIf="(loading | async) === false" expand="block" class="close-out-button font-Lato mx-8 mb-8 mt-4 bg-opacity-10 text-white" (click)="exit()">Exit</ion-button>
+    </ion-card>
+  </div>
+  <!-- PAPER FORM -->
+  <div class="mx-4" *ngIf="records?.evaluation_form === 'paper-form' && records?.evaluation_type === 'road-skills'">
+    <div class="mt-2 border-b-2 py-2">
+      <ion-text class="font-Lato font-semibold">
+        {{moment(records.created_at).format('MMMM DD, YYYY')}}
+      </ion-text>
+    </div>
+    <div class="my-5 flex items-center justify-between">
+      <ion-text class="font-Lato text-9B9BA4 text-sm">Trainee</ion-text>
+      <ion-text class="font-Lato text-sm font-semibold text-black">{{trainerName}}</ion-text>
+    </div>
+    <ion-card class="p-3">
+      <ion-card-content class="m-0 p-0">
+        <div class="mt-4">
+          <img [src]="records.image_1"alt="" class="h-48 w-full object-contain">
+        </div>
+        <div class="mt-4">
+          <img [src]="records.image_2"alt="" class="h-48 w-full object-contain">
+        </div>
+        <div class="mt-4">
+          <img [src]="records.image_3"alt="" class="h-48 w-full object-contain">
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>
+
+<!-- SATISFACTORY & UNSATISFACTORY BLOCK FOR SUMMARY -->
+<ion-content *ngIf="formType === 'summary' && records">
+  <!-- <app-timer [value]="'33:222:11'"></app-timer> -->
+  <div class="mx-4">
+    <div class="mt-2 border-b-2 py-2">
+      <ion-text class="font-Lato font-semibold">Summary CDL Training Records</ion-text>
+    </div>
+    <div class="my-3 flex items-center justify-between" *ngIf="(loading |async) === true">
+      <ion-text class="font-Lato text-9B9BA4"> Trainee</ion-text>
+      <ion-skeleton-text [animated]="true" style="width: 40%; height: 19px; border-radius: 5px;"></ion-skeleton-text>
+    </div>
+    <div class="my-5 flex items-center justify-between" *ngIf="(loading |async) === false">
+      <ion-text class="font-Lato text-9B9BA4 text-sm font-semibold">Trainee</ion-text>
+      <ion-text class="font-Lato text-sm font-semibold text-black">{{records[0].trainee_name}}</ion-text>
+    </div>
+    <div class="my-3 flex items-center justify-between" *ngIf="(loading |async) === true">
+      <ion-text class="font-Lato text-9B9BA4"> Trainer</ion-text>
+      <ion-skeleton-text [animated]="true" style="width: 40%; height: 19px; border-radius: 5px;"></ion-skeleton-text>
+    </div>
+    <div class="my-5 flex items-center justify-between" *ngIf="(loading |async) === false">
+      <ion-text class="font-Lato text-9B9BA4 text-sm font-semibold">Trainer</ion-text>
+      <ion-text class="font-Lato text-sm font-semibold text-black">{{records[0].trainer_name}}</ion-text>
+    </div>
+    <div class="my-5 flex items-center justify-between">
+      <ion-text class="font-Lato text-9B9BA4 text-sm font-semibold">Evaluation Form</ion-text>
+      <ion-text class="font-Lato text-sm font-semibold text-black">Summary</ion-text>
+    </div>
+    <ion-grid *ngIf="(loading | async) === true">
+      <div class="flex h-64 w-full items-center justify-center">
+        <ion-spinner name="crescent" class="h-10 w-10"></ion-spinner>
+      </div>
+    </ion-grid>
+    <div *ngIf="(loading | async) === false">
+    <div class="my-3"><ion-text class="font-Lato font-semibold">Training Type</ion-text></div>
+    <ion-grid>
+      <ion-row class="bg-d9d9d95c py-2 px-2">
+        <ion-col size="5" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">Skill</ion-text></ion-col>
+        <ion-col size="4" class="ion-text-center"><ion-text class="font-Lato text-black font-semibold">S/U</ion-text></ion-col>
+        <ion-col size="3" class="ion-text-end"><ion-text class="font-Lato text-black font-semibold">Time</ion-text></ion-col>
+      </ion-row>
+    </ion-grid>
+    <ion-grid>
+      </ion-grid>
+
+      <ion-grid *ngIf="records.length > 0">
+        <div *ngFor="let record of records">
+          <ion-row class="my-4" *ngIf="record.evaluation_type === 'pre-trip'">
+            <ion-col size="4" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">CDL Pre-Trip Check</ion-text></ion-col>
+            <ion-col size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
+            <ion-col size="3" class="ion-text-start"><ion-text class="font-Lato font-semibold">{{record.enddatepretrip?.hours?record.enddatepretrip.hours: '0'}}h:{{record.enddatepretrip?.minutes?record.enddatepretrip.minutes : '0'}}m</ion-text></ion-col>
+          </ion-row>
+          <ion-row class="my-4" *ngIf="record.evaluation_type === 'basic-skills'">
+            <ion-col size="4" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">CDL Basic Skills</ion-text></ion-col>
+            <ion-col size="5" class="ion-text-start" *ngIf="(((+record.satisfactoryStraightLineBacking + +record.satisfactoryAlleyDocking + +record.satisfactoryOffSetBacking + +record.satisfactoryParkingBlind + +record.satisfactoryCoupUncoup)/600)*100) > 50"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
+            <ion-col size="5" class="ion-text-start" *ngIf="(((+record.satisfactoryStraightLineBacking + +record.satisfactoryAlleyDocking + +record.satisfactoryOffSetBacking + +record.satisfactoryParkingBlind + +record.satisfactoryCoupUncoup)/600)*100) < 50"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
+            <ion-col size="3" class="ion-text-start"><ion-text class="font-Lato font-semibold">{{record.enddatebasicskill?.hours?record.enddatebasicskill.hours: '0'}}h:{{record.enddatebasicskill?.minutes?record.enddatebasicskill.minutes : '0'}}m</ion-text></ion-col>
+          </ion-row>
+          <ion-row class="my-4" *ngIf="record.evaluation_type === 'road-skills'">
+            <ion-col size="4" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">CDL Road Trip Skills</ion-text></ion-col>
+            <ion-col size="5" class="ion-text-start" *ngIf="(((+record.satisfactoryRoadTesting)/100)*100) > 50"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
+            <ion-col size="5" class="ion-text-start" *ngIf="(((+record.satisfactoryRoadTesting)/100)*100) < 50"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
+            <ion-col size="3" class="ion-text-start"><ion-text class="font-Lato font-semibold">{{record.enddateroadskill?.hours?record.enddateroadskill.hours: '0'}}h:{{record.enddateroadskill?.minutes?record.enddateroadskill.minutes : '0'}}m</ion-text></ion-col>
+          </ion-row>
+        </div>
+      </ion-grid>
+
+      <ion-card>
+        <ion-card-content >
+          <div class="mb-0 flex items-center justify-between">
+            <ion-text class="font-Lato font-semibold">Total Training Time:</ion-text>
+            <ion-text class="font-Lato px-3 py-1 text-sm font-semibold text-black"> {{getTotalTrainingHoursTime(records)}} </ion-text>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-button expand="block" class="close-out-button font-Lato mx-8 mb-2 mt-2 bg-opacity-10 text-white" (click)="exit()">Close</ion-button>
+    </div>
+  </div>
+</ion-content>

@@ -1,0 +1,13 @@
+.font{
+  font-family: 'Lato';
+}
+
+ion-item::part(native){
+  --padding-start: 0px;
+
+}
+ion-popover {
+  &.width-80 {
+    --width: 80%;
+  }
+}

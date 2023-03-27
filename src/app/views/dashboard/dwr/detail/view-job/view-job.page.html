@@ -1,0 +1,1172 @@
+<app-header [title]="'Detail'" [color]="'dwr'" [routeValue]="'dwr-view-job'"></app-header>
+
+
+<ion-content>
+  <ion-card>
+    <!-- LOADER -->
+    <ion-card-content *ngIf="(loading | async) === true">
+      <ion-grid>
+        <ion-row>
+          <ion-col  class="flex justify-center items-center">
+            <ion-skeleton-text  [animated]="true" style="width: 60%;"></ion-skeleton-text>
+          </ion-col>
+        </ion-row>
+        <ion-row class="mb-1 h-16">
+          <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+            <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+          </ion-col>
+          <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+            <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+          </ion-col>
+        </ion-row>
+
+        <ion-row class="mb-1 h-16">
+          <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+            <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+          </ion-col>
+          <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+            <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+          </ion-col>
+        </ion-row>
+
+          <ion-row class="mb-1 h-16">
+            <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+              <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+            </ion-col>
+            <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+              <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+            </ion-col>
+          </ion-row>
+
+          <ion-row class="mb-1 h-16">
+            <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+              <ion-skeleton-text  [animated]="true" style="width: 80%;"></ion-skeleton-text>
+            </ion-col>
+          </ion-row>
+      </ion-grid>
+    </ion-card-content>
+<div *ngIf="dwr_type === 'training'">
+    <!-- For Trainee Data -->
+    <ion-card-content *ngIf="(loading | async) === false && data.traineeData.length !== 0">
+      <ion-grid >
+        <ion-row>
+          <ion-col size="12">
+           <ion-text class="flex justify-center items-center text-xl font-semibold text-3D8AA4" ion-text-center>Trainee Details</ion-text>
+          </ion-col>
+        </ion-row>
+        <ion-row class="mb-1 h-16">
+          <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">Trainee Name</p>
+            <span class="font-Lato font-14 text-left">{{data.traineeData[0].trainee_name}}</span>
+          </ion-col>
+          <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">Trainer Name</p>
+            <span class="font-Lato font-14 text-left">{{data.traineeData[0].trainer_name}}</span>
+          </ion-col>
+        </ion-row>
+
+        <ion-row class="mb-1 h-16">
+          <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">City</p>
+            <span class="font-Lato font-14">{{data.traineeData[0].city}}</span>
+          </ion-col>
+          <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">State</p>
+            <span class="font-Lato font-14 text-left">{{data.traineeData[0].state}}</span>
+          </ion-col>
+        </ion-row>
+
+        <ion-row class="mb-1 h-16">
+          <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">Training Type:</p>
+            <span class="font-Lato font-14">{{data.traineeData[0].training_type}}</span>
+          </ion-col>
+        </ion-row>
+
+          <ion-card class="p-3">
+            <ion-card-content class="m-0 p-0">
+              <div class="mt-4" *ngIf="data.traineeData[0].image_1 !== null">
+                <img [src]="data.traineeData[0].image_1" class="h-48 w-full object-contain">
+              </div>
+              <div class="mt-4" *ngIf="data.traineeData[0].image_2 !== null">
+                <img [src]="data.traineeData[0].image_2 "alt="" class="h-48 w-full object-contain">
+              </div>
+              <div class="mt-4" *ngIf="data.traineeData[0].image_3 !== null">
+                <img [src]="data.traineeData[0].image_3"alt="" class="h-48 w-full object-contain">
+              </div>
+            </ion-card-content>
+          </ion-card>
+      </ion-grid>
+      <div *ngIf="type === 'send-back'">
+        <ion-text class="text-sm font-semibold font-Lato text-black mt-2" >Notes</ion-text>
+        <ion-item lines="none" class="textarea">
+          <form [formGroup]="notesForm">
+          <ion-textarea [autoGrow]="true" formControlName="notes">
+          </ion-textarea>
+        </form>
+        </ion-item>
+      </div>
+      <div *ngIf="notes">
+        <ion-text class="text-sm font-semibold font-Lato text-black mt-2" >Notes</ion-text>
+        <ion-item lines="none" class="textarea">
+          <ion-textarea disabled [autoGrow]="true" [value]="this.notes">
+          </ion-textarea>
+        </ion-item>
+      </div>
+      <div *ngIf="type === 'detail'">
+        <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="exit()" >Exit</ion-button>
+      </div>
+      <div *ngIf="type === 'send-back'">
+        <ion-button expand="block" class="mt-5 font-Lato text-white" [disabled]="(loadingSpinner | async)" (click)="sendBack()">
+          <div *ngIf="(loadingSpinner | async) === false">Send Back</div>
+          <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+        </ion-button>
+      </div>
+      <div *ngIf="type === 'verify'">
+        <ion-button expand="block"
+        class="mt-5 font-Lato text-white"
+        [disabled]="(loadingSpinner | async)"
+         (click)="verify()">
+         <div *ngIf="(loadingSpinner | async) === false">Verify</div>
+         <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+        </ion-button>
+      </div>
+    </ion-card-content>
+
+    <!-- For Trainer (Training Tasks) Data -->
+    <ion-card-content *ngIf="(loading | async) === false && data?.trainerData?.length !== 0">
+      <ion-grid >
+        <ion-row>
+          <ion-col size="12">
+           <ion-text class="flex justify-center items-center text-xl font-semibold text-3D8AA4" ion-text-center>Trainer Training Tasks Details</ion-text>
+          </ion-col>
+        </ion-row>
+        <ion-row class="mb-1 h-16">
+          <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">Trainer Name</p>
+            <span class="font-Lato font-14 text-left">{{data.trainerData[0].trainer_name}}</span>
+          </ion-col>
+          <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">Supervisor Name</p>
+            <span class="font-Lato font-14 text-left">{{data.trainerData[0].supervisor_name}}</span>
+          </ion-col>
+        </ion-row>
+
+        <ion-row class="mb-1 h-16">
+          <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">City</p>
+            <span class="font-Lato font-14">{{data.trainerData[0].city}}</span>
+          </ion-col>
+          <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">State</p>
+            <span class="font-Lato font-14 text-left">{{data.trainerData[0].state}}</span>
+          </ion-col>
+        </ion-row>
+
+        <ion-row class="mb-1 h-16">
+          <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">Training Type:</p>
+            <span class="font-Lato font-14">{{data.trainerData[0].training_type | titlecase}}</span>
+          </ion-col>
+          <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">Topic:</p>
+            <span class="font-Lato font-14 text-left">{{data.trainerData[0].topic}}</span>
+          </ion-col>
+        </ion-row>
+
+        <ion-row class="mb-1 h-16">
+          <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">Notes:</p>
+            <span class="font-Lato font-14 text-left">{{data.trainerData[0].notes}}</span>
+          </ion-col>
+        </ion-row>
+
+          <ion-card class="p-3">
+            <ion-card-content class="m-0 p-0">
+              <div class="mt-4" *ngIf="data.trainerData[0].image_1 !== null">
+                <img [src]="data.trainerData[0].image_1" class="h-48 w-full object-contain">
+              </div>
+              <div class="mt-4" *ngIf="data.trainerData[0].image_2 !== null">
+                <img [src]="data.trainerData[0].image_2 "alt="" class="h-48 w-full object-contain">
+              </div>
+              <div class="mt-4" *ngIf="data.trainerData[0].image_3 !== null">
+                <img [src]="data.trainerData[0].image_3"alt="" class="h-48 w-full object-contain">
+              </div>
+            </ion-card-content>
+          </ion-card>
+      </ion-grid>
+      <div *ngIf="type === 'send-back'">
+        <ion-text class="text-sm font-semibold font-Lato text-black mt-2" >Notes</ion-text>
+        <ion-item lines="none" class="textarea">
+          <form [formGroup]="notesForm">
+          <ion-textarea [autoGrow]="true" formControlName="notes">
+          </ion-textarea>
+        </form>
+        </ion-item>
+      </div>
+      <div *ngIf="notes">
+        <ion-text class="text-sm font-semibold font-Lato text-black mt-2" >Notes</ion-text>
+        <ion-item lines="none" class="textarea">
+          <ion-textarea disabled [autoGrow]="true" [value]="this.notes">
+          </ion-textarea>
+        </ion-item>
+      </div>
+      <div *ngIf="type === 'detail'">
+        <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="exit()" >Exit</ion-button>
+      </div>
+      <div *ngIf="type === 'send-back'">
+        <ion-button expand="block" class="mt-5 font-Lato text-white" [disabled]="(loadingSpinner | async)" (click)="sendBack()">
+          <div *ngIf="(loadingSpinner | async) === false">Send Back</div>
+          <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+        </ion-button>
+      </div>
+      <div *ngIf="type === 'verify'">
+        <ion-button expand="block"
+        class="mt-5 font-Lato text-white"
+        [disabled]="(loadingSpinner | async)"
+         (click)="verify()">
+         <div *ngIf="(loadingSpinner | async) === false">Verify</div>
+         <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+        </ion-button>
+      </div>
+    </ion-card-content>
+
+    <!-- For Training Evaluation Form having Pre-Trip -->
+    <ion-card-content *ngIf="(loading | async) === false && data?.trainingData?.length !== 0 && data?.trainingData[0]?.evaluation_type === 'pre-trip'">
+      <!-- For Digital Form -->
+      <ion-grid *ngIf="data.trainingData[0].evaluation_form === 'digital-form'" >
+        <ion-col size="12">
+          <ion-text class="flex justify-center items-center text-xl font-semibold text-3D8AA4" ion-text-center>Training Evaluation Form</ion-text>
+         </ion-col>
+        <ion-row>
+          <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">Evaluation Type:</p>
+            <span class="font-Lato font-14">{{data.trainingData[0].evaluation_type | titlecase}}</span>
+          </ion-col>
+          <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">Evaluation Form</p>
+            <span class="font-Lato font-14">{{data.trainingData[0].evaluation_form | titlecase}}</span>
+          </ion-col>
+        </ion-row>
+        <ion-row class="mb-1 h-16">
+          <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">Engine/Compartment:</p>
+            <span class="font-Lato font-14">{{data.trainingData[0].percentageEngineCompartment}}%</span>
+          </ion-col>
+          <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">In Cab</p>
+            <span class="font-Lato font-14">{{data.trainingData[0].percentageInCab}}%</span>
+          </ion-col>
+        </ion-row>
+
+        <ion-row class="mb-1 h-16">
+          <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">Vehicle/External</p>
+            <span class="font-Lato font-14">{{data.trainingData[0].percentageVehicleExternal}}%</span>
+          </ion-col>
+          <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">Coupling</p>
+            <span class="font-Lato font-14 text-left">{{data.trainingData[0].percentageCoupling}}%</span>
+          </ion-col>
+        </ion-row>
+
+        <ion-row class="mb-1 h-16">
+            <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+              <p class="font-Lato text-black font-bold font-14">Suspension</p>
+              <span class="font-Lato font-14">{{data.trainingData[0].percentageSuspension}}%</span>
+            </ion-col>
+          </ion-row>
+          <div *ngIf="type === 'send-back'">
+            <ion-text class="text-sm font-semibold font-Lato text-black mt-2" >Notes</ion-text>
+            <ion-item lines="none" class="textarea">
+              <form [formGroup]="notesForm">
+              <ion-textarea [autoGrow]="true" formControlName="notes">
+              </ion-textarea>
+            </form>
+            </ion-item>
+          </div>
+          <div *ngIf="notes">
+            <ion-text class="text-sm font-semibold font-Lato text-black mt-2" >Notes</ion-text>
+            <ion-item lines="none" class="textarea">
+              <ion-textarea disabled [autoGrow]="true" [value]="this.notes">
+              </ion-textarea>
+            </ion-item>
+          </div>
+
+          <div *ngIf="type === 'detail'">
+            <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="exit()" >Exit</ion-button>
+          </div>
+          <div *ngIf="type === 'send-back'">
+            <ion-button expand="block" class="mt-5 font-Lato text-white" [disabled]="(loadingSpinner | async)" (click)="sendBack()">
+              <div *ngIf="(loadingSpinner | async) === false">Send Back</div>
+              <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+            </ion-button>
+          </div>
+          <div *ngIf="type === 'verify'">
+            <div *ngIf="type === 'verify'">
+              <ion-button expand="block"
+              class="mt-5 font-Lato text-white"
+              [disabled]="(loadingSpinner | async)"
+               (click)="verify()">
+               <div *ngIf="(loadingSpinner | async) === false">Verify</div>
+               <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+              </ion-button>
+            </div>
+          </div>
+
+      </ion-grid>
+
+      <!-- For Paper Form -->
+      <ion-grid *ngIf="data.trainingData[0].evaluation_form === 'paper-form'" >
+        <ion-col size="12">
+          <ion-text class="flex justify-center items-center text-xl font-semibold text-3D8AA4" ion-text-center>Training Evaluation Form</ion-text>
+         </ion-col>
+        <ion-row>
+          <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">Evaluation Type:</p>
+            <span class="font-Lato font-14">{{data.trainingData[0].evaluation_type | titlecase}}</span>
+          </ion-col>
+          <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">Evaluation Form</p>
+            <span class="font-Lato font-14">{{data.trainingData[0].evaluation_form | titlecase}}</span>
+          </ion-col>
+        </ion-row>
+        <ion-row class="mb-1 h-16">
+          <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">Trainer Name:</p>
+            <span class="font-Lato font-14 text-left">{{data.trainingData[0].trainer_name}}</span>
+          </ion-col>
+          <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">Trainee Name:</p>
+            <span class="font-Lato font-14 text-left">{{data.trainingData[0].trainee_name}}</span>
+          </ion-col>
+        </ion-row>
+
+        <ion-row class="mb-1 h-16">
+          <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">Supervisor Name:</p>
+            <span class="font-Lato font-14 text-left">{{data.trainingData[0].supervisor_name}}</span>
+          </ion-col>
+          <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+            <p class="font-Lato text-black font-bold font-14 text-left">Trainee Completed CDL Classroom:</p>
+            <span class="font-Lato font-14 text-left">{{data.trainingData[0].is_completed_cdl_classroom}}</span>
+          </ion-col>
+        </ion-row>
+
+        <ion-row class="mb-1 h-16">
+            <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+              <p class="font-Lato text-black font-bold font-14 text-left">Trainee Completed Group Practical</p>
+              <span class="font-Lato font-14">{{data.trainingData[0].is_completed_group_practical}}</span>
+            </ion-col>
+            <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+              <p class="font-Lato text-black font-bold font-14 text-left">City</p>
+              <span class="font-Lato font-14">{{data.trainingData[0].city}}</span>
+            </ion-col>
+          </ion-row>
+
+          <ion-row class="mb-1 h-16">
+            <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+              <p class="font-Lato text-black font-bold font-14 text-left">State:</p>
+              <span class="font-Lato font-14">{{data.trainingData[0].state}}</span>
+            </ion-col>
+          </ion-row>
+
+          <ion-card class="p-3" *ngIf="data.trainingData[0].image_1 !== null">
+            <ion-card-content class="m-0 p-0">
+              <div class="mt-4" *ngIf="data.trainingData[0].image_1 !== null">
+                <img [src]="data.trainingData[0].image_1" class="h-48 w-full object-contain">
+              </div>
+              <div class="mt-4" *ngIf="data.trainingData[0].image_2 !== null">
+                <img [src]="data.trainingData[0].image_2 "alt="" class="h-48 w-full object-contain">
+              </div>
+              <div class="mt-4" *ngIf="data.trainingData[0].image_3 !== null">
+                <img [src]="data.trainingData[0].image_3"alt="" class="h-48 w-full object-contain">
+              </div>
+            </ion-card-content>
+            <div *ngIf="type === 'send-back'">
+              <ion-text class="text-sm font-semibold font-Lato text-black mt-2" >Notes</ion-text>
+              <ion-item lines="none" class="textarea">
+                <form [formGroup]="notesForm">
+                <ion-textarea [autoGrow]="true" formControlName="notes">
+                </ion-textarea>
+              </form>
+              </ion-item>
+            </div>
+            <div *ngIf="notes">
+              <ion-text class="text-sm font-semibold font-Lato text-black mt-2" >Notes</ion-text>
+              <ion-item lines="none" class="textarea">
+                <ion-textarea disabled [autoGrow]="true" [value]="this.notes">
+                </ion-textarea>
+              </ion-item>
+            </div>
+          </ion-card>
+          <div *ngIf="type === 'detail'">
+            <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="exit()" >Exit</ion-button>
+          </div>
+          <div *ngIf="type === 'send-back'">
+            <ion-button expand="block" class="mt-5 font-Lato text-white" [disabled]="(loadingSpinner | async)" (click)="sendBack()">
+              <div *ngIf="(loadingSpinner | async) === false">Send Back</div>
+              <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+            </ion-button>
+          </div>
+          <div *ngIf="type === 'verify'">
+            <div *ngIf="type === 'verify'">
+              <ion-button expand="block"
+              class="mt-5 font-Lato text-white"
+              [disabled]="(loadingSpinner | async)"
+               (click)="verify()">
+               <div *ngIf="(loadingSpinner | async) === false">Verify</div>
+               <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+              </ion-button>
+            </div>
+          </div>
+
+      </ion-grid>
+     </ion-card-content>
+
+  <!-- For Training Evaluation Form having Road-Skills -->
+  <ion-card-content *ngIf="(loading | async) === false && data?.trainingData?.length !== 0 && data?.trainingData[0]?.evaluation_type === 'road-skills'">
+
+    <!-- For Digital Form -->
+    <ion-grid *ngIf="data.trainingData[0].evaluation_form === 'digital-form'" >
+      <ion-col size="12">
+        <ion-text class="flex justify-center items-center text-xl font-semibold text-3D8AA4" ion-text-center>Training Evaluation Form</ion-text>
+       </ion-col>
+      <ion-row>
+        <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+          <p class="font-Lato text-black font-bold font-14">Evaluation Type:</p>
+          <span class="font-Lato font-14">{{data.trainingData[0].evaluation_type | titlecase}}</span>
+        </ion-col>
+        <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+          <p class="font-Lato text-black font-bold font-14">Evaluation Form</p>
+          <span class="font-Lato font-14">{{data.trainingData[0].evaluation_form | titlecase}}</span>
+        </ion-col>
+      </ion-row>
+        <div class="my-3"><ion-text class="font-Lato font-semibold">Road Test Evaluation Results</ion-text></div>
+        <ion-grid>
+          <ion-row class="bg-d9d9d95c py-2 px-2">
+            <ion-col size="5" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">Skill</ion-text></ion-col>
+            <ion-col size="4" class="ion-text-center"><ion-text class="font-Lato text-black font-semibold">S/U</ion-text></ion-col>
+            <ion-col size="3" class="ion-text-end"><ion-text class="font-Lato text-black font-semibold">Attempts</ion-text></ion-col>
+          </ion-row>
+        </ion-grid>
+        <ion-grid>
+          <ion-row class="my-4">
+            <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">Left Turns</ion-text></ion-col>
+            <ion-col *ngIf="((data.trainingData[0].leftTurnsInput < 3) && (data.trainingData[0].leftTurns === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
+            <ion-col *ngIf="!((data.trainingData[0].leftTurnsInput < 3) && (data.trainingData[0].leftTurns === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">Unsatisfactory</ion-text></ion-col>
+            <ion-col  size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{data.trainingData[0].leftTurnsInput}}</ion-text></ion-col>
+          </ion-row>
+          <ion-row class="my-4">
+            <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">Right Turns</ion-text></ion-col>
+            <ion-col *ngIf="((data.trainingData[0].rightTurnsInput < 3) && (data.trainingData[0].rightTurns === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
+            <ion-col *ngIf="!((data.trainingData[0].rightTurnsInput < 3) && (data.trainingData[0].rightTurns === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">Unsatisfactory</ion-text></ion-col>
+            <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{data.trainingData[0].rightTurnsInput}}</ion-text></ion-col>
+          </ion-row>
+          <ion-row class="my-4">
+            <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">Intersection Stop</ion-text></ion-col>
+            <ion-col *ngIf="((data.trainingData[0].intersectionStopInput < 3) && (data.trainingData[0].intersectionStop === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
+            <ion-col *ngIf="!((data.trainingData[0].intersectionStopInput < 3) && (data.trainingData[0].intersectionStop === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">Unsatisfactory</ion-text></ion-col>
+            <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{data.trainingData[0].intersectionStopInput}}</ion-text></ion-col>
+          </ion-row>
+          <ion-row class="my-4">
+            <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">Intersection Thru</ion-text></ion-col>
+            <ion-col *ngIf="((data.trainingData[0].intersectionThruInput < 3) && (data.trainingData[0].intersectionThru === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
+            <ion-col *ngIf="!((data.trainingData[0].intersectionThruInput < 3) && (data.trainingData[0].intersectionThru === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">Unsatisfactory</ion-text></ion-col>
+            <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{data.trainingData[0].intersectionThruInput}}</ion-text></ion-col>
+          </ion-row>
+          <ion-row class="my-4">
+            <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">Interstate</ion-text></ion-col>
+            <ion-col *ngIf="((data.trainingData[0].interstateInput < 3) && (data.trainingData[0].interstate === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
+            <ion-col *ngIf="!((data.trainingData[0].interstateInput < 3) && (data.trainingData[0].interstate === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">Unsatisfactory</ion-text></ion-col>
+            <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{data.trainingData[0].interstateInput}}</ion-text></ion-col>
+          </ion-row>
+          <ion-row class="my-4">
+            <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">Urban Business</ion-text></ion-col>
+            <ion-col *ngIf="((data.trainingData[0].urbanBusinessInput < 3) && (data.trainingData[0].urbanBusiness === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
+            <ion-col *ngIf="!((data.trainingData[0].urbanBusinessInput < 3) && (data.trainingData[0].urbanBusiness === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">Unsatisfactory</ion-text></ion-col>
+            <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{data.trainingData[0].urbanBusinessInput}}</ion-text></ion-col>
+          </ion-row>
+          <ion-row class="my-4">
+            <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">Lance Changes</ion-text></ion-col>
+            <ion-col *ngIf="((data.trainingData[0].lanceChangesInput < 3) && (data.trainingData[0].lanceChanges === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
+            <ion-col *ngIf="!((data.trainingData[0].lanceChangesInput < 3) && (data.trainingData[0].lanceChanges === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">Unsatisfactory</ion-text></ion-col>
+            <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{data.trainingData[0].lanceChangesInput}}</ion-text></ion-col>
+          </ion-row>
+          <ion-row class="my-4">
+            <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">Curve</ion-text></ion-col>
+            <ion-col *ngIf="((data.trainingData[0].curveInput < 3) && (data.trainingData[0].curve === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
+            <ion-col *ngIf="!((data.trainingData[0].curveInput < 3) && (data.trainingData[0].curve === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">Unsatisfactory</ion-text></ion-col>
+            <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{data.trainingData[0].curveInput}}</ion-text></ion-col>
+          </ion-row>
+          <ion-row class="my-4">
+            <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">Roadside Start/Stop</ion-text></ion-col>
+            <ion-col *ngIf="((data.trainingData[0].roadsideInput < 3) && (data.trainingData[0].roadside === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
+            <ion-col *ngIf="!((data.trainingData[0].roadsideInput < 3) && (data.trainingData[0].roadside === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">Unsatisfactory</ion-text></ion-col>
+            <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{data.trainingData[0].roadsideInput}}</ion-text></ion-col>
+          </ion-row>
+          <ion-row class="my-4">
+            <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">RR Crodsing</ion-text></ion-col>
+            <ion-col *ngIf="((data.trainingData[0].rrCrossingInput < 3) && (data.trainingData[0].rrCrossing === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
+            <ion-col *ngIf="!((data.trainingData[0].rrCrossingInput < 3) && (data.trainingData[0].rrCrossing === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">Unsatisfactory</ion-text></ion-col>
+            <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{data.trainingData[0].rrCrossingInput}}</ion-text></ion-col>
+          </ion-row>
+          <ion-row class="my-4">
+            <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">Signs</ion-text></ion-col>
+            <ion-col *ngIf="((data.trainingData[0].signsInput < 3) && (data.trainingData[0].signs === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
+            <ion-col *ngIf="!((data.trainingData[0].signsInput < 3) && (data.trainingData[0].signs === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">Unsatisfactory</ion-text></ion-col>
+            <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{data.trainingData[0].signsInput}}</ion-text></ion-col>
+          </ion-row>
+          <ion-row class="my-4">
+            <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">General Driving</ion-text></ion-col>
+            <ion-col *ngIf="((data.trainingData[0].generalDrivingInput < 3) && (data.trainingData[0].generalDriving === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
+            <ion-col *ngIf="!((data.trainingData[0].generalDrivingInput < 3) && (data.trainingData[0].generalDriving === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">Unsatisfactory</ion-text></ion-col>
+            <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{data.trainingData[0].generalDrivingInput}}</ion-text></ion-col>
+          </ion-row>
+          <ion-row class="my-4">
+            <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">eLog Practical</ion-text></ion-col>
+            <ion-col *ngIf="((data.trainingData[0].eLogPracticalInput < 3) && (data.trainingData[0].eLogPractical === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
+            <ion-col *ngIf="!((data.trainingData[0].eLogPracticalInput < 3) && (data.trainingData[0].eLogPractical === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">Unsatisfactory</ion-text></ion-col>
+            <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{data.trainingData[0].eLogPracticalInput}}</ion-text></ion-col>
+          </ion-row>
+        </ion-grid>
+        <ion-card>
+          <ion-card-content>
+            <div class="flex justify-between items-center mb-2">
+              <ion-text class="font-Lato text-black font-semibold">Final Results:</ion-text>
+           <ion-text
+              *ngIf="((data.trainingData[0].leftTurnsInput < 3) && (data.trainingData[0].leftTurns === 'true')) &&
+              ((data.trainingData[0].rightTurnsInput < 3) && (data.trainingData[0].rightTurns === 'true'))  &&
+              ((data.trainingData[0].intersectionStopInput < 3) && (data.trainingData[0].intersectionStop === 'true')) &&
+              ((data.trainingData[0].intersectionThruInput < 3) && (data.trainingData[0].intersectionThru === 'true')) &&
+              ((data.trainingData[0].interstateInput < 3) && (data.trainingData[0].interstate === 'true')) &&
+              ((data.trainingData[0].urbanBusinessInput < 3) && (data.trainingData[0].urbanBusiness === 'true')) &&
+              ((data.trainingData[0].lanceChangesInput < 3) && (data.trainingData[0].lanceChanges === 'true')) &&
+              ((data.trainingData[0].curveInput < 3) && (data.trainingData[0].curve === 'true')) &&
+              ((data.trainingData[0].roadsideInput < 3) && (data.trainingData[0].roadside === 'true')) &&
+              ((data.trainingData[0].rrCrossingInput < 3) && (data.trainingData[0].rrCrossing === 'true')) &&
+              ((data.trainingData[0].signsInput < 3) && (data.trainingData[0].signs === 'true')) &&
+              ((data.trainingData[0].eLogPracticalInput < 3) && (data.trainingData[0].generalDriving === 'true')) &&
+              ((data.trainingData[0].generalDrivingInput < 3) && (data.trainingData[0].eLogPractical === 'true'))
+              "
+              class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text>
+              <ion-text
+              *ngIf="!((data.trainingData[0].leftTurnsInput < 3) && (data.trainingData[0].leftTurns === 'true')) ||
+              !((data.trainingData[0].rightTurnsInput < 3) && (data.trainingData[0].rightTurns === 'true'))  ||
+              !((data.trainingData[0].intersectionStopInput < 3) && (data.trainingData[0].intersectionStop === 'true')) ||
+              !((data.trainingData[0].intersectionThruInput < 3) && (data.trainingData[0].intersectionThru === 'true')) ||
+              !((data.trainingData[0].interstateInput < 3) && (data.trainingData[0].interstate === 'true')) ||
+              !((data.trainingData[0].urbanBusinessInput < 3) && (data.trainingData[0].urbanBusiness === 'true')) ||
+              !((data.trainingData[0].lanceChangesInput < 3) && (data.trainingData[0].lanceChanges === 'true')) ||
+              !((data.trainingData[0].curveInput < 3) && (data.trainingData[0].curve === 'true')) ||
+              !((data.trainingData[0].roadsideInput < 3) && (data.trainingData[0].roadside === 'true')) ||
+              !((data.trainingData[0].rrCrossingInput < 3) && (data.trainingData[0].rrCrossing === 'true')) ||
+              !((data.trainingData[0].signsInput < 3) && (data.trainingData[0].signs === 'true')) ||
+              !((data.trainingData[0].eLogPracticalInput < 3) && (data.trainingData[0].generalDriving === 'true')) ||
+              !((data.trainingData[0].generalDrivingInput < 3) && (data.trainingData[0].eLogPractical === 'true'))
+              "
+              class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text>
+            </div>
+          </ion-card-content>
+        </ion-card>
+        <div *ngIf="type === 'send-back'" class="mt-6">
+          <ion-text class="text-sm font-semibold font-Lato text-black mt-2" >Notes</ion-text>
+          <ion-item lines="none" class="textarea">
+            <form [formGroup]="notesForm">
+            <ion-textarea [autoGrow]="true" formControlName="notes">
+            </ion-textarea>
+          </form>
+          </ion-item>
+        </div>
+        <div *ngIf="notes">
+          <ion-text class="text-sm font-semibold font-Lato text-black mt-2" >Notes</ion-text>
+          <ion-item lines="none" class="textarea">
+            <ion-textarea disabled [autoGrow]="true" [value]="this.notes">
+            </ion-textarea>
+          </ion-item>
+        </div>
+        <div *ngIf="type === 'detail'">
+          <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="exit()" >Exit</ion-button>
+        </div>
+
+        <div *ngIf="type === 'send-back'">
+          <ion-button expand="block" class="mt-5 font-Lato text-white" [disabled]="(loadingSpinner | async)" (click)="sendBack()">
+            <div *ngIf="(loadingSpinner | async) === false">Send Back</div>
+            <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+          </ion-button>
+        </div>
+
+        <div *ngIf="type === 'verify'">
+          <ion-button expand="block" class="mt-5 font-Lato text-white" [disabled]="(loadingSpinner | async)" (click)="verify()">
+            <div *ngIf="(loadingSpinner | async) === false">Verify</div>
+            <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+          </ion-button>
+        </div>
+    </ion-grid>
+
+    <!-- For Paper Form -->
+    <ion-grid *ngIf="data.trainingData[0].evaluation_form === 'paper-form'" >
+      <ion-col size="12">
+        <ion-text class="flex justify-center items-center text-xl font-semibold text-3D8AA4" ion-text-center>Training Evaluation Form</ion-text>
+       </ion-col>
+      <ion-row>
+        <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+          <p class="font-Lato text-black font-bold font-14">Evaluation Type:</p>
+          <span class="font-Lato font-14">{{data.trainingData[0].evaluation_type | titlecase}}</span>
+        </ion-col>
+        <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+          <p class="font-Lato text-black font-bold font-14">Evaluation Form</p>
+          <span class="font-Lato font-14">{{data.trainingData[0].evaluation_form | titlecase}}</span>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+          <p class="font-Lato text-black font-bold font-14">Trainer Name:</p>
+          <span class="font-Lato font-14">{{data.trainingData[0].trainer_name }}</span>
+        </ion-col>
+        <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+          <p class="font-Lato text-black font-bold font-14">Tainee Name</p>
+          <span class="font-Lato font-14">{{data.trainingData[0].trainee_name}}</span>
+        </ion-col>
+      </ion-row>
+      <ion-row class="mb-1 h-16">
+        <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+          <p class="font-Lato text-black font-bold font-14">Supervisor Name:</p>
+          <span class="font-Lato font-14">{{data.trainingData[0].supervisor_name}}</span>
+        </ion-col>
+        <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+          <p class="font-Lato text-black font-bold font-14">Truck ID:</p>
+          <span class="font-Lato font-14">{{data.trainingData[0].truckId | slice: 0:8}}</span>
+        </ion-col>
+      </ion-row>
+
+      <ion-row class="mb-1 h-16">
+        <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+          <p class="font-Lato text-black font-bold font-14 text-left">Odometer Starting Miles:</p>
+          <span class="font-Lato font-14">{{data.trainingData[0].odometerStartingMiles}}</span>
+        </ion-col>
+        <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+          <p class="font-Lato text-black font-bold font-14 text-left">Odometer Ending Miles:</p>
+          <span class="font-Lato font-14 text-left">{{data.trainingData[0].odometerEndingMiles}}</span>
+        </ion-col>
+      </ion-row>
+
+      <ion-row class="mb-1 h-16">
+        <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+          <p class="font-Lato text-black font-bold font-14 text-left">Trainee Completed CDL Classroom:</p>
+          <span class="font-Lato font-14">{{data.trainingData[0].is_completed_cdl_classroom}}</span>
+        </ion-col>
+        <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+          <p class="font-Lato text-black font-bold font-14 text-left">Trainee Completed Group Practical:</p>
+          <span class="font-Lato font-14 text-left">{{data.trainingData[0].is_completed_group_practical}}</span>
+        </ion-col>
+      </ion-row>
+
+      <ion-row class="mb-1 h-16">
+        <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+          <p class="font-Lato text-black font-bold font-14">City:</p>
+          <span class="font-Lato font-14">{{data.trainingData[0].city}}</span>
+        </ion-col>
+        <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+          <p class="font-Lato text-black font-bold font-14">State:</p>
+          <span class="font-Lato font-14 text-left">{{data.trainingData[0].state}}</span>
+        </ion-col>
+      </ion-row>
+
+      <ion-card class="p-3" *ngIf="data.trainingData[0].image_1 !== null">
+        <ion-card-content class="m-0 p-0">
+          <div class="mt-4" *ngIf="data.trainingData[0].image_1 !== null">
+            <img [src]="data.trainingData[0].image_1" class="h-48 w-full object-contain">
+          </div>
+          <div class="mt-4" *ngIf="data.trainingData[0].image_2 !== null">
+            <img [src]="data.trainingData[0].image_2 "alt="" class="h-48 w-full object-contain">
+          </div>
+          <div class="mt-4" *ngIf="data.trainingData[0].image_3 !== null">
+            <img [src]="data.trainingData[0].image_3"alt="" class="h-48 w-full object-contain">
+          </div>
+        </ion-card-content>
+      </ion-card>
+      <div *ngIf="type === 'send-back'">
+        <ion-text class="text-sm font-semibold font-Lato text-black mt-2" >Notes</ion-text>
+        <ion-item lines="none" class="textarea">
+          <form [formGroup]="notesForm">
+          <ion-textarea [autoGrow]="true" formControlName="notes">
+          </ion-textarea>
+        </form>
+        </ion-item>
+      </div>
+      <div *ngIf="notes">
+        <ion-text class="text-sm font-semibold font-Lato text-black mt-2" >Notes</ion-text>
+        <ion-item lines="none" class="textarea">
+          <ion-textarea disabled [autoGrow]="true" [value]="this.notes">
+          </ion-textarea>
+        </ion-item>
+      </div>
+      <div *ngIf="type === 'detail'">
+        <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="exit()" >Exit</ion-button>
+      </div>
+      <div *ngIf="type === 'send-back'">
+        <ion-button expand="block" class="mt-5 font-Lato text-white" [disabled]="(loadingSpinner | async)" (click)="sendBack()">
+          <div *ngIf="(loadingSpinner | async) === false">Send Back</div>
+          <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+        </ion-button>
+      </div>
+      <div *ngIf="type === 'verify'">
+        <div *ngIf="type === 'verify'">
+          <ion-button expand="block"
+          class="mt-5 font-Lato text-white"
+          [disabled]="(loadingSpinner | async)"
+           (click)="verify()">
+           <div *ngIf="(loadingSpinner | async) === false">Verify</div>
+           <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+          </ion-button>
+        </div>      </div>
+    </ion-grid>
+  </ion-card-content>
+
+  <!-- For Training Evaluation Form having Basic-Skills -->
+  <ion-card-content *ngIf="(loading | async) === false && data?.trainingData?.length !== 0 && data?.trainingData[0]?.evaluation_type === 'basic-skills'">
+   <!-- For Digital Form -->
+   <ion-grid *ngIf="data?.trainingData[0]?.evaluation_form === 'digital-form'" >
+    <ion-col size="12">
+      <ion-text class="flex justify-center items-center text-xl font-semibold text-3D8AA4" ion-text-center>Training Evaluation Form</ion-text>
+     </ion-col>
+    <ion-row>
+      <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+        <p class="font-Lato text-black font-bold font-14">Evaluation Type:</p>
+        <span class="font-Lato font-14">{{data.trainingData[0].evaluation_type | titlecase}}</span>
+      </ion-col>
+      <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+        <p class="font-Lato text-black font-bold font-14">Evaluation Form</p>
+        <span class="font-Lato font-14">{{data.trainingData[0].evaluation_form | titlecase}}</span>
+      </ion-col>
+    </ion-row>
+    <ion-grid>
+      <div class="my-1"><ion-text class="font-Lato font-semibold">Evaluation Results</ion-text></div>
+      <ion-grid>
+        <ion-row class="bg-d9d9d95c py-2 px-2">
+          <ion-col size="5" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Skill</ion-text></ion-col>
+          <ion-col size="3" class="ion-text-center"><ion-text class="font-Lato font-semibold text-black">S/U</ion-text></ion-col>
+          <ion-col size="4" class="ion-text-end"><ion-text class="font-Lato font-semibold text-black">Attempts</ion-text></ion-col>
+        </ion-row>
+      </ion-grid>
+      <ion-row class="my-4">
+        <ion-col size="5" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Straight Line Backing</ion-text></ion-col>
+        <ion-col *ngIf=" (+data.trainingData[0].pullUpsInput_slb + +data.trainingData[0].encroachInput_slb < 3) && (data.trainingData[0].goal_slb === 'true') && (data.trainingData[0].finalPosition_slb === 'true')" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf=" !((+data.trainingData[0].pullUpsInput_slb + +data.trainingData[0].encroachInput_slb < 3) && (data.trainingData[0].goal_slb === 'true') && (data.trainingData[0].finalPosition_slb === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
+        <ion-col size="2" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{+data.trainingData[0].pullUpsInput_slb + +data.trainingData[0].encroachInput_slb}}</ion-text></ion-col>
+      </ion-row>
+
+      <ion-row class="my-4">
+        <ion-col size="5" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Alley Docking (45/90)</ion-text></ion-col>
+        <ion-col *ngIf="(+data.trainingData[0].pullUpsInput_ad + +data.trainingData[0].encroachInput_ad < 3) && (data.trainingData[0].goal_ad === 'true') && (data.trainingData[0].finalPosition_ad === 'true')" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="!((+data.trainingData[0].pullUpsInput_ad + +data.trainingData[0].encroachInput_ad < 3) && (data.trainingData[0].goal_ad === 'true') && (data.trainingData[0].finalPosition_ad === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
+        <ion-col size="2" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{+data.trainingData[0].pullUpsInput_ad + +data.trainingData[0].encroachInput_ad}}</ion-text></ion-col>
+      </ion-row>
+      <ion-row class="my-4">
+        <ion-col size="5" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Off Set Backing</ion-text></ion-col>
+        <ion-col *ngIf="(+data.trainingData[0].encroach_osb + +data.trainingData[0].encroach_osb < 3) && (data.trainingData[0].goal_osb === 'true') && (data.trainingData[0].finalPosition_osb === 'true')" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="!((+data.trainingData[0].encroach_osb + +data.trainingData[0].encroach_osb < 3) && (data.trainingData[0].goal_osb === 'true') && (data.trainingData[0].finalPosition_osb === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
+        <ion-col size="2" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{+data.trainingData[0].pullUps_osb + +data.trainingData[0].encroach_osb}}</ion-text></ion-col>
+      </ion-row>
+      <ion-row class="my-4">
+        <ion-col size="5" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Parallel Parking Blind</ion-text></ion-col>
+        <ion-col *ngIf="(+data.trainingData[0].pullUps_pb + +data.trainingData[0].encroach_pb < 3) && (data.trainingData[0].goal_pb === 'true') && (data.trainingData[0].finalPosition_pb === 'true')" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="!((+data.trainingData[0].pullUps_pb + +data.trainingData[0].encroach_pb < 3) && (data.trainingData[0].goal_pb === 'true') && (data.trainingData[0].finalPosition_pb === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
+        <ion-col size="2" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{+data.trainingData[0].pullUps_pb + +data.trainingData[0].encroach_pb}}</ion-text></ion-col>
+      </ion-row>
+      <ion-row class="my-4">
+    <ion-col size="5" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">Parallel Parking Sight</ion-text></ion-col>
+    <ion-col *ngIf="(+data.trainingData[0].pullUps_ps + +data.trainingData[0].encroach_ps < 3) && (data.trainingData[0].goal_ps === 'true') && (data.trainingData[0].finalPosition_ps === 'true')" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-project-green bg-project-green bg-opacity-10 rounded-full px-3 py-1">Satisfactory</ion-text></ion-col>
+    <ion-col *ngIf="!((+data.trainingData[0].pullUps_ps + +data.trainingData[0].encroach_ps < 3) && (data.trainingData[0].goal_ps === 'true') && (data.trainingData[0].finalPosition_ps === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-sm text-e64646 bg-E64646 bg-opacity-10 rounded-full px-3 py-1">Unsatisfactory</ion-text></ion-col>
+    <ion-col size="2" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{+data.trainingData[0].pullUps_ps + +data.trainingData[0].encroach_ps}}</ion-text></ion-col>
+  </ion-row>
+      <ion-row class="my-4">
+        <ion-col size="5" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Coupling & Uncoupling</ion-text></ion-col>
+        <ion-col *ngIf="(+data.trainingData[0].pullUps_cou + +data.trainingData[0].encroach_cou < 3) && (data.trainingData[0].goal_cou === 'true') && (data.trainingData[0].finalPosition_cou === 'true')" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="!((+data.trainingData[0].pullUps_cou + +data.trainingData[0].encroach_cou < 3) && (data.trainingData[0].goal_cou === 'true') && (data.trainingData[0].finalPosition_cou === 'true'))"  size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
+        <ion-col size="2" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{+data.trainingData[0].pullUps_cou + +data.trainingData[0].encroach_cou}}</ion-text></ion-col>
+      </ion-row>
+
+    </ion-grid>
+    <ion-card-content *ngIf="(loading | async) === false">
+      <div class="mb-0 flex items-center justify-between">
+        <ion-text class="font-Lato font-semibold text-black">Final Result:</ion-text>
+        <!-- <ion-text
+        *ngIf="((+data.trainingData[0].pullUpsInput_slb + +data.trainingData[0].encroachInput_slb < 3) && (data.trainingData[0].goal_slb === 'true') && (data.trainingData[0].finalPosition_slb === 'true')) &&
+        ((+data.trainingData[0].pullUpsInput_ad + +data.trainingData[0].encroachInput_ad < 3) && (data.trainingData[0].goal_ad === 'true') && (data.trainingData[0].finalPosition_ad === 'true'))  &&
+        ((+data.trainingData[0].encroach_osb + +data.trainingData[0].encroach_osb < 3) && (data.trainingData[0].goal_osb === 'true') && (data.trainingData[0].finalPosition_osb === 'true')) &&
+        ((+data.trainingData[0].pullUps_pb + +data.trainingData[0].encroach_pb < 3) && (data.trainingData[0].goal_pb === 'true') && (data.trainingData[0].finalPosition_pb === 'true')) &&
+        ((+data.trainingData[0].pullUps_ps + +data.trainingData[0].encroach_ps < 3) && (data.trainingData[0].goal_ps === 'true') && (data.trainingData[0].finalPosition_ps === 'true')) &&
+        ((+data.trainingData[0].pullUps_cou + +data.trainingData[0].encroach_cou < 3) && (data.trainingData[0].goal_cou === 'true') && (data.trainingData[0].finalPosition_cou === 'true'))"
+        class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text> -->
+
+        <ion-text
+        *ngIf="status === true"
+        class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text>
+        <ion-text
+        *ngIf="status === false"
+        class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text>
+
+        <!-- <ion-text
+        *ngIf="(!(+data.trainingData[0].pullUpsInput_slb + +data.trainingData[0].encroachInput_slb < 3) && (data.trainingData[0].goal_slb === 'true') && (data.trainingData[0].finalPosition_slb === 'true')) ||
+        (!(+data.trainingData[0].pullUpsInput_ad + +data.trainingData[0].encroachInput_ad < 3) && (data.trainingData[0].goal_ad === 'true') && (data.trainingData[0].finalPosition_ad === 'true'))  ||
+        (!(+data.trainingData[0].encroach_osb + +data.trainingData[0].encroach_osb < 3) && (data.trainingData[0].goal_osb === 'true') && (data.trainingData[0].finalPosition_osb === 'true')) ||
+        (!(+data.trainingData[0].pullUps_pb + +data.trainingData[0].encroach_pb < 3) && (data.trainingData[0].goal_pb === 'true') && (data.trainingData[0].finalPosition_pb === 'true')) ||
+        (!(+data.trainingData[0].pullUps_ps + +data.trainingData[0].encroach_ps < 3) && (data.trainingData[0].goal_ps === 'true') && (data.trainingData[0].finalPosition_ps === 'true')) ||
+        (!(+data.trainingData[0].pullUps_cou + +data.trainingData[0].encroach_cou < 3) && (data.trainingData[0].goal_cou === 'true') && (data.trainingData[0].finalPosition_cou === 'true'))"
+         class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text> -->
+      </div>
+    </ion-card-content>
+    <div *ngIf="type === 'send-back'">
+      <ion-text class="text-sm font-semibold font-Lato text-black mt-2" >Notes</ion-text>
+      <ion-item lines="none" class="textarea">
+        <form [formGroup]="notesForm">
+        <ion-textarea [autoGrow]="true" formControlName="notes">
+        </ion-textarea>
+      </form>
+      </ion-item>
+    </div>
+    <div *ngIf="notes">
+      <ion-text class="text-sm font-semibold font-Lato text-black mt-2" >Notes</ion-text>
+      <ion-item lines="none" class="textarea">
+        <ion-textarea disabled [autoGrow]="true" [value]="this.notes">
+        </ion-textarea>
+      </ion-item>
+    </div>
+    <div *ngIf="type === 'detail'">
+      <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="exit()" >Exit</ion-button>
+    </div>
+    <div *ngIf="type === 'send-back'">
+      <ion-button expand="block" class="mt-5 font-Lato text-white" [disabled]="(loadingSpinner | async)" (click)="sendBack()">
+        <div *ngIf="(loadingSpinner | async) === false">Send Back</div>
+        <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+      </ion-button>
+    </div>
+    <div *ngIf="type === 'verify'">
+      <div *ngIf="type === 'verify'">
+        <ion-button expand="block"
+        class="mt-5 font-Lato text-white"
+        [disabled]="(loadingSpinner | async)"
+         (click)="verify()">
+         <div *ngIf="(loadingSpinner | async) === false">Verify</div>
+         <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+        </ion-button>
+      </div>
+    </div>
+
+  </ion-grid>
+
+  <!-- For Paper Form -->
+  <ion-grid *ngIf="data?.trainingData[0]?.evaluation_form === 'paper-form'" >
+    <ion-col size="12">
+      <ion-text class="flex justify-center items-center text-xl font-semibold text-3D8AA4" ion-text-center>Training Evaluation Form</ion-text>
+     </ion-col>
+    <ion-row>
+      <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+        <p class="font-Lato text-black font-bold font-14">Evaluation Type:</p>
+        <span class="font-Lato font-14">{{data.trainingData[0].evaluation_type | titlecase}}</span>
+      </ion-col>
+      <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+        <p class="font-Lato text-black font-bold font-14">Evaluation Form</p>
+        <span class="font-Lato font-14">{{data.trainingData[0].evaluation_form | titlecase}}</span>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+        <p class="font-Lato text-black font-bold font-14">Trainer Name:</p>
+        <span class="font-Lato font-14 text-left">{{data.trainingData[0].trainer_name}}</span>
+      </ion-col>
+      <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+        <p class="font-Lato text-black font-bold font-14">Tainee Name</p>
+        <span class="font-Lato font-14 text-left">{{data.trainingData[0].trainee_name}}</span>
+      </ion-col>
+    </ion-row>
+    <ion-row class="mb-1 h-16">
+      <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+        <p class="font-Lato text-black font-bold font-14">Supervisor Name:</p>
+        <span class="font-Lato font-14 text-left">{{data.trainingData[0].supervisor_name}}</span>
+      </ion-col>
+      <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+        <p class="font-Lato text-black font-bold font-14">Truck ID:</p>
+        <span class="font-Lato font-14">{{data.trainingData[0].truckId | slice: 0:8}}</span>
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="mb-1 h-16">
+      <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+        <p class="font-Lato text-black font-bold font-14 text-left">Odometer Starting Miles:</p>
+        <span class="font-Lato font-14">{{data.trainingData[0].odometerStartingMiles}}</span>
+      </ion-col>
+      <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+        <p class="font-Lato text-black font-bold font-14 text-left">Odometer Ending Miles:</p>
+        <span class="font-Lato font-14 text-left">{{data.trainingData[0].odometerEndingMiles}}</span>
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="mb-1 h-16">
+      <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+        <p class="font-Lato text-black font-bold font-14 text-left">Trainee Completed CDL Classroom:</p>
+        <span class="font-Lato font-14">{{data.trainingData[0].is_completed_cdl_classroom}}</span>
+      </ion-col>
+      <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+        <p class="font-Lato text-black font-bold font-14 text-left">Trainee Completed Group Practical:</p>
+        <span class="font-Lato font-14 text-left">{{data.trainingData[0].is_completed_group_practical}}</span>
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="mb-1 h-16">
+      <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+        <p class="font-Lato text-black font-bold font-14">City:</p>
+        <span class="font-Lato font-14">{{data.trainingData[0].city}}</span>
+      </ion-col>
+      <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+        <p class="font-Lato text-black font-bold font-14">State:</p>
+        <span class="font-Lato font-14 text-left">{{data.trainingData[0].state}}</span>
+      </ion-col>
+    </ion-row>
+
+    <ion-card class="p-3" *ngIf="data.trainingData[0].image_1 !== null">
+      <ion-card-content class="m-0 p-0">
+        <div class="mt-4" *ngIf="data.trainingData[0].image_1 !== null">
+          <img [src]="data.trainingData[0].image_1" class="h-48 w-full object-contain">
+        </div>
+        <div class="mt-4" *ngIf="data.trainingData[0].image_2 !== null">
+          <img [src]="data.trainingData[0].image_2 "alt="" class="h-48 w-full object-contain">
+        </div>
+        <div class="mt-4" *ngIf="data.trainingData[0].image_3 !== null">
+          <img [src]="data.trainingData[0].image_3"alt="" class="h-48 w-full object-contain">
+        </div>
+      </ion-card-content>
+    </ion-card>
+    <div *ngIf="type === 'send-back'">
+      <ion-text class="text-sm font-semibold font-Lato text-black mt-2" >Notes</ion-text>
+      <ion-item lines="none" class="textarea">
+        <form [formGroup]="notesForm">
+        <ion-textarea [autoGrow]="true" formControlName="notes">
+        </ion-textarea>
+      </form>
+      </ion-item>
+    </div>
+
+    <div *ngIf="notes">
+      <ion-text class="text-sm font-semibold font-Lato text-black mt-2" >Notes</ion-text>
+      <ion-item lines="none" class="textarea">
+        <ion-textarea disabled [autoGrow]="true" [value]="this.notes">
+        </ion-textarea>
+      </ion-item>
+    </div>
+
+    <div *ngIf="type === 'detail'">
+      <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="exit()" >Exit</ion-button>
+    </div>
+    <div *ngIf="type === 'send-back'">
+      <ion-button expand="block" class="mt-5 font-Lato text-white" [disabled]="(loadingSpinner | async)" (click)="sendBack()">
+        <div *ngIf="(loadingSpinner | async) === false">Send Back</div>
+        <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+      </ion-button>
+    </div>
+    <div *ngIf="type === 'verify'">
+      <div *ngIf="type === 'verify'">
+        <ion-button expand="block"
+        class="mt-5 font-Lato text-white"
+        [disabled]="(loadingSpinner | async)"
+         (click)="verify()">
+         <div *ngIf="(loadingSpinner | async) === false">Verify</div>
+         <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+        </ion-button>
+      </div>
+    </div>
+  </ion-grid>
+  </ion-card-content>
+</div>
+<div *ngIf="dwr_type === 'farming'">
+  <ion-card-content *ngIf="(loading | async) === false">
+    <ion-grid >
+      <ion-row>
+        <ion-col size="12">
+         <ion-text class="flex justify-center items-center text-xl font-semibold text-3D8AA4" ion-text-center>Farming Details</ion-text>
+        </ion-col>
+      </ion-row>
+      <ion-row class="mb-1 h-16">
+        <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+          <p class="font-Lato text-black font-bold font-14">Customer Name</p>
+          <span class="font-Lato font-14 text-left ">{{data.data[0].customer_name}}</span>
+        </ion-col>
+        <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+          <p class="font-Lato text-black font-bold font-14">Dispatcher Name</p>
+          <span class="font-Lato font-14">{{data.data[0].dispatcher_name}}</span>
+        </ion-col>
+      </ion-row>
+
+      <ion-row class="mb-1 h-16">
+        <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+          <p class="font-Lato text-black font-bold font-14"> Driver Name</p>
+          <span class="font-Lato font-14">{{data.data[0].tractor_driver_name}}</span>
+        </ion-col>
+        <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+          <p class="font-Lato text-black font-bold font-14">Farm Name</p>
+          <span class="font-Lato font-14 text-left">{{data.data[0].farm}}</span>
+        </ion-col>
+      </ion-row>
+
+      <ion-row class="mb-1 h-16">
+        <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+          <p class="font-Lato text-black font-bold font-14">Field Name:</p>
+          <span class="font-Lato font-14">{{data.data[0].field}}</span>
+        </ion-col>
+        <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+          <p class="font-Lato text-black font-bold font-14">Hours Worked:</p>
+          <span class="font-Lato font-14">{{data.data[0].hours_worked}}</span>
+        </ion-col>
+      </ion-row>
+
+    </ion-grid>
+      <ion-text class="text-sm font-semibold font-Lato text-black mt-2" >Notes</ion-text>
+      <ion-item lines="none" class="textarea">
+        <ion-textarea disabled [autoGrow]="true" class="h-10" [value]="data.data[0].notes">
+        </ion-textarea>
+      </ion-item>
+
+      <div *ngIf="type === 'detail-reassign'">
+        <ion-text class="text-sm font-semibold font-Lato text-black mt-2" >Supervisor Notes:</ion-text>
+        <ion-item lines="none" class="textarea">
+            <ion-textarea disabled [autoGrow]="true" [value]="notes">
+            </ion-textarea>
+          </ion-item>
+        </div>
+
+      <div *ngIf="type === 'send-back'">
+        <ion-text class="text-sm font-semibold font-Lato text-black mt-2" >Supervisor Notes:</ion-text>
+        <ion-item lines="none" class="textarea">
+          <form [formGroup]="notesForm">
+          <ion-textarea formControlName="notes"  [autoGrow]="true" [value]="notes">
+          </ion-textarea>
+        </form>
+        </ion-item>
+      </div>
+    <div *ngIf="type === 'detail'">
+      <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="exit()" >Exit</ion-button>
+    </div>
+    <div *ngIf="type === 'send-back'">
+      <ion-button expand="block" class="mt-5 font-Lato text-white" [disabled]="(loadingSpinner | async)" (click)="sendBack()">
+        <div *ngIf="(loadingSpinner | async) === false">Send Back</div>
+        <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+      </ion-button>
+    </div>
+    <div *ngIf="type === 'verify'">
+      <ion-button expand="block"
+      class="mt-5 font-Lato text-white"
+      [disabled]="(loadingSpinner | async)"
+       (click)="verify()">
+       <div *ngIf="(loadingSpinner | async) === false">Verify</div>
+       <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+      </ion-button>
+    </div>
+
+  </ion-card-content>
+</div>
+<div *ngIf="dwr_type === 'maintenance-repair'">
+  <ion-card-content *ngIf="(loading | async) === false">
+    <ion-grid >
+      <ion-row>
+        <ion-col size="12">
+         <ion-text class="flex justify-center items-center text-xl font-semibold text-3D8AA4" ion-text-center>Ticket Details</ion-text>
+        </ion-col>
+      </ion-row>
+      <ion-row class="mb-1 h-16">
+        <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+          <p class="font-Lato text-black font-bold font-14">Supervisor Name</p>
+          <span class="font-Lato font-14 text-left">{{data.data[0].supervisor_name }}</span>
+        </ion-col>
+        <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+          <p class="font-Lato text-black font-bold font-14">Mechanic Name</p>
+          <span class="font-Lato font-14 text-left">{{data.data[0].mechanic_name }}</span>
+        </ion-col>
+      </ion-row>
+
+      <ion-row class="mb-1 h-16">
+        <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+          <p class="font-Lato text-black font-bold font-14">Equipment ID</p>
+          <span class="font-Lato font-14">{{data.data[0].machinery_id | slice:0:8}}</span>
+        </ion-col>
+        <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+          <p class="font-Lato text-black font-bold font-14">City</p>
+          <span class="font-Lato font-14 text-left">{{data.data[0].city}}</span>
+        </ion-col>
+      </ion-row>
+
+      <ion-row class="mb-1 h-16">
+        <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+          <p class="font-Lato text-black font-bold font-14">State</p>
+          <span class="font-Lato font-14">{{data.data[0].state}}</span>
+        </ion-col>
+        <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+          <p class="font-Lato text-black font-bold font-14">Category</p>
+          <span class="font-Lato font-14">{{data.data[0].issueCategory | titlecase}}</span>
+        </ion-col>
+      </ion-row>
+      <ion-row class="mb-1 h-16">
+        <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+          <p class="font-Lato text-black font-bold font-14">Severity</p>
+          <span class="font-Lato font-14">{{data.data[0].severityType | titlecase }}</span>
+        </ion-col>
+        <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+          <p class="font-Lato text-black font-bold font-14">Status</p>
+          <span class="font-Lato font-14 text-left">{{data.data[0].status | titlecase}}</span>
+        </ion-col>
+      </ion-row>
+
+    </ion-grid>
+    <div>
+        <ion-text class="text-sm font-semibold font-Lato text-black mt-2" >Detailed description of issue:</ion-text>
+        <ion-item lines="none" class="textarea">
+          <ion-textarea disabled [autoGrow]="true" [value]="data.data[0].description">
+          </ion-textarea>
+        </ion-item>
+        <ion-text class="text-sm font-semibold font-Lato text-black mt-2" >Summary:</ion-text>
+        <ion-item lines="none" class="textarea">
+          <ion-textarea disabled [autoGrow]="true" [value]="data.data[0].summary">
+          </ion-textarea>
+        </ion-item>
+      </div>
+    <div *ngIf="notes">
+      <ion-text class="text-sm font-semibold font-Lato text-black mt-2" >Supervisor Notes</ion-text>
+      <ion-item lines="none" class="textarea">
+        <ion-textarea disabled [autoGrow]="true" class="h-10" [value]="notes">
+        </ion-textarea>
+      </ion-item>
+    </div>
+    <div *ngIf="type === 'send-back'">
+      <ion-text class="text-sm font-semibold font-Lato text-black mt-2" >Notes</ion-text>
+      <ion-item lines="none" class="textarea">
+        <form [formGroup]="notesForm">
+        <ion-textarea [autoGrow]="true" formControlName="notes">
+        </ion-textarea>
+      </form>
+      </ion-item>
+    </div>
+
+    <div *ngIf="type === 'detail'">
+      <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="exit()" >Exit</ion-button>
+    </div>
+    <div *ngIf="type === 'send-back'">
+      <ion-button expand="block" class="mt-5 font-Lato text-white" [disabled]="(loadingSpinner | async)" (click)="sendBack()">
+        <div *ngIf="(loadingSpinner | async) === false">Send Back</div>
+        <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+      </ion-button>
+    </div>
+    <div *ngIf="type === 'verify'">
+      <ion-button expand="block"
+      class="mt-5 font-Lato text-white"
+      [disabled]="(loadingSpinner | async)"
+       (click)="verify()">
+       <div *ngIf="(loadingSpinner | async) === false">Verify</div>
+       <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+      </ion-button>
+    </div>
+
+  </ion-card-content>
+</div>
+  </ion-card>
+</ion-content>

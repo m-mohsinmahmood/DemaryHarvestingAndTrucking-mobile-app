@@ -1,0 +1,126 @@
+<app-header [title]="'Pre-Trip Check Digital Evaluation Form'" [color]="'training'" [routeValue]="'pre-trip'"></app-header>
+
+
+<ion-content>
+  <!-- <app-timer [value]="'01:23:45'"></app-timer> -->
+  <div class="mx-4 my-2">
+    <ion-progress-bar class="mb-2" [buffer]="buffer" [value]="progress" ></ion-progress-bar>
+    <ion-text class="text-lg font-semibold justify-start flex font-Lato text-black ">{{progress * 5}} of 5 Categories Completed</ion-text>
+  </div>
+  <div class="mt-2 ml-3">
+    <ion-text class="font-semibold font-Lato text-9B9BA4 text-xl">Suspension/Brakes</ion-text>
+</div>
+<form [formGroup]="preTripForm">
+  <div class="mx-4">
+    <div class="flex justify-between items-center my-3">
+     <ion-text class="font-Lato font-medium">Springs (3)</ion-text>
+      <ion-checkbox slot="start" formControlName="springs"></ion-checkbox>
+    </div>
+    <div class="flex justify-between items-center my-3">
+      <ion-text class="font-Lato font-medium" >Air Bags (2)</ion-text>
+       <ion-checkbox slot="start" formControlName="airBags"></ion-checkbox>
+     </div>
+     <div class="flex justify-between items-center my-3">
+      <ion-text class="font-Lato font-medium">Shocks (3)</ion-text>
+       <ion-checkbox slot="start" formControlName="shocks"></ion-checkbox>
+     </div>
+     <div class="flex justify-between items-center my-3">
+      <ion-text class="font-Lato font-medium">V Bolts (3)</ion-text>
+       <ion-checkbox slot="start" formControlName="vBolts"></ion-checkbox>
+     </div>
+     <div class="flex justify-between items-center my-3">
+      <ion-text class="font-Lato font-medium">Mounts (3)</ion-text>
+       <ion-checkbox slot="start" formControlName="mounts"></ion-checkbox>
+     </div>
+     <div class="flex justify-between items-center my-3">
+      <ion-text class="font-Lato font-medium">Bushings (3)</ion-text>
+       <ion-checkbox slot="start" formControlName="bushings"></ion-checkbox>
+     </div>
+     <div class="flex justify-between items-center my-3">
+      <ion-text class="font-Lato font-medium">Leaf Springs (3)</ion-text>
+       <ion-checkbox slot="start" formControlName="leafSprings"></ion-checkbox>
+     </div>
+     <div class="flex justify-between items-center my-3">
+      <ion-text class="font-Lato font-medium">Slack Adjusters (3)</ion-text>
+       <ion-checkbox slot="start" formControlName="slackAdjusters"></ion-checkbox>
+     </div>
+     <div class="flex justify-between items-center my-3">
+      <ion-text class="font-Lato font-medium">Crack Chamber (3)</ion-text>
+       <ion-checkbox slot="start" formControlName="crackChammber"></ion-checkbox>
+     </div>
+     <div class="flex justify-between items-center my-3">
+      <ion-text class="font-Lato font-medium">Push Rod (3)</ion-text>
+       <ion-checkbox slot="start" formControlName="pushRod"></ion-checkbox>
+     </div>
+     <div class="flex justify-between items-center my-3">
+      <ion-text class="font-Lato font-medium">Drums (3)</ion-text>
+       <ion-checkbox slot="start" formControlName="drums"></ion-checkbox>
+     </div>
+     <div class="flex justify-between items-center my-3">
+      <ion-text class="font-Lato font-medium">Linings (3)</ion-text>
+       <ion-checkbox slot="start" formControlName="linings"></ion-checkbox>
+     </div>
+     <div class="flex justify-between items-center my-3">
+      <ion-text class="font-Lato font-medium">Rotor (3)</ion-text>
+       <ion-checkbox slot="start" formControlName="rotor"></ion-checkbox>
+     </div>
+     <div class="flex justify-between items-center my-3">
+      <ion-text class="font-Lato font-medium">Disc Pads (3)</ion-text>
+       <ion-checkbox slot="start" formControlName="discPads"></ion-checkbox>
+     </div>
+     <div class="flex justify-between items-center my-3">
+      <ion-text class="font-Lato font-medium">Brake Hoses (2)</ion-text>
+       <ion-checkbox slot="start" formControlName="brakeHoses"></ion-checkbox>
+     </div>
+     <div class="flex justify-between items-center my-3">
+      <ion-text class="font-Lato font-medium">5-Cams (2)</ion-text>
+       <ion-checkbox slot="start" formControlName="cams"></ion-checkbox>
+     </div>
+     <div class="flex justify-between items-center my-3">
+      <ion-text class="font-Lato font-medium">Torque Arm (2)</ion-text>
+       <ion-checkbox slot="start" formControlName="torqueArm"></ion-checkbox>
+     </div>
+     <div class="flex justify-between items-center my-3">
+      <ion-text class="font-Lato font-medium">Wheel Seals (2)</ion-text>
+       <ion-checkbox slot="start" formControlName="wheelSeals"></ion-checkbox>
+     </div>
+     <ion-text class="text-sm font-semibold font-Lato text-black mt-2">Add Comments</ion-text>
+       <ion-textarea [autoGrow]="true"
+       formControlName="commentsSuspension"
+       class="border-2 rounded-lg my-2 px-1"
+       placeholder="Add your comments here">
+       </ion-textarea>
+
+       <div class="ion-text-center my-5">
+        <ion-text class="bg-3D8AA4 bg-opacity-10 text-3D8AA4 font-medium font-Lato border-2 border-opacity-60 rounded-lg border-3D8AA4 px-5 py-2">Score = {{result}}%</ion-text>
+       </div>
+       <ion-button
+      expand="block"
+      class="close-out-button font-Lato mb-4 mt-0 mx-8 bg-opacity-10 text-white"
+      (click)="next()">
+      <div>Next</div>
+    </ion-button>
+
+    </div>
+</form>
+  <!-- MODEL -->
+  <ion-modal #modal [isOpen]="isModalOpen" backdropDismiss="false">
+    <ng-template>
+      <ion-content class="ion-padding">
+        <ion-text class="flex justify-center items-center ion-text-center">
+          This is a one-time fill form. Please verify your readings before ending.
+        </ion-text>
+        <div class="flex flex-col justify-center items-center mt-3">
+          <ion-button class="text-white w-full" expand="block" (click)="exit()">
+            <div *ngIf="(loadingSpinner | async) === false">End Evaluation</div>
+            <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+          </ion-button>
+          <ion-button class="text-white w-full" expand="block" (click)="edit()">
+            Edit
+          </ion-button>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+  <!-- MODEL -->
+</ion-content>

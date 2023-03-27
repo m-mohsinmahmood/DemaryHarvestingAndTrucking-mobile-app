@@ -1,0 +1,33 @@
+<app-header [title]="'Training'" [color]="'training'" [routeValue]="'training'"></app-header>
+
+<ion-content>
+  <!-- <app-timer [value]="'12:12:21'"></app-timer> -->
+
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12">
+        <!-- <ion-card class="card" [routerLink]="['trainee']" *ngIf="role.includes('Trainee')"> -->
+          <ion-card class="card" [routerLink]="['trainee']">
+          <ion-card-content class="flex justify-between items-center">
+             <p class="font-15px font-bold font-Lato ion-text-center">Trainee</p>
+             <ion-icon name="arrow-forward-outline" [ngStyle]="{'color': '#0CA3C7'}" class="w-10 h-7"></ion-icon>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col size="12">
+        <!-- <ion-card class="card" [routerLink]="['trainer']" *ngIf="role.includes('Trainer')"> -->
+          <ion-card class="card" [routerLink]="['trainer']">
+          <ion-card-content class="flex justify-between items-center">
+             <p class="font-15px font-bold font-Lato ion-text-center">Trainer</p>
+             <ion-icon name="arrow-forward-outline" [ngStyle]="{'color': '#0CA3C7'}" class="w-10 h-7"></ion-icon>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+    <!-- MODEL -->
+    <app-check-in-out [isModalOpen]="isModalOpen" [data]="activeDwr" *ngIf="activeDwr" [module]="'training'">
+    </app-check-in-out>
+
+  </ion-content>

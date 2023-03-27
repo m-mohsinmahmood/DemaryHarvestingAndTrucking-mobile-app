@@ -1,0 +1,45 @@
+<ion-card-header *ngIf="data?.length > 0" class="mx-1 font-bold"> Check-Out</ion-card-header>
+
+<ion-modal #model [isOpen]="isModalOpen" backdropDismiss="false" *ngIf="data?.length <= 0">
+  <ng-template>
+    <ion-header>
+      <div class=" bg-3D8AA4">
+        <ion-grid>
+          <ion-row>
+            <ion-col size="4" class=" flex justify-center">
+              <div></div>
+            </ion-col>
+            <ion-col size="4" class=" flex justify-center"><span
+                class="text-white font-semibold">Check-In</span></ion-col>
+            <ion-col size="4" class="flex justify-end"><ion-icon name="close-outline"
+                (click)="model.dismiss(); closePopup()"></ion-icon></ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
+    </ion-header>
+    <ion-content class="ion-padding">
+
+      <div class="flex justify-center mt-8">
+        <ion-button [disabled]=" (loadingSpinner | async)" class="text-white w-1/2" (click)="checkIn(); model.dismiss()"
+          expand="block">
+          <div *ngIf="(loadingSpinner | async) === false"> Check-In</div>
+          <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+        </ion-button>
+      </div>
+    </ion-content>
+  </ng-template>
+</ion-modal>
+
+<ion-row *ngIf="data?.length > 0">
+  <ion-col size="12">
+    <ion-card class=" bg-greenBtn" (click)="checkOut()" [disabled]="data?.length <= 0 || (loadingSpinner | async)">
+      <ion-card-content>
+        <div class="flex justify-center items-center font-Lato font-bold font-15px text-white">
+          <div *ngIf="(loadingSpinner | async) === false">Check Out</div>
+          <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+  </ion-col>
+</ion-row>

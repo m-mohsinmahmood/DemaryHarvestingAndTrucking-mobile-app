@@ -1,0 +1,554 @@
+<app-header [title]="'Create New Work Order'" [color]="'farming'"></app-header>
+<!-- <app-timer [value]="'12-10-2022'"> </app-timer> -->
+<ion-content>
+  <!--------- Role Dispatcher --------------->
+  <div class="p-4" *ngIf="role.includes('Dispatcher') ">
+    <form [formGroup]="createOrderDispatcher">
+      <div>
+
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Dispatcher</label>
+          <input
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            [value]="employeeName? employeeName : ''" formControlName="dispatcherId" readonly placeholder="12345">
+        </div>
+
+        <!-- Customer-->
+        <div role="dialog" aria-modal="true">
+          <div class="mb-4 relative z-80">
+            <div class="mx-auto max-w-full transform rounded-xl px-0  transition-all">
+              <label class="block text-sm font-medium text-gray-700 mb-1">Customer<span *ngIf="isCustomerSelected"
+                  class="text-red-400">*</span></label>
+              <div class="flex items-center justify-between gap-x-2 rounded-md">
+                <input (keyup)="customer_search$.next($event.target.value)" [value]="customer_name"
+                  (click)="inputClickedCustomer()" #customerInput
+                  class="w-full px-4 py-2.5 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
+                  placeholder="Select Customer" role="" aria-expanded="false" aria-controls="options">
+              </div>
+
+              <div *ngIf="allCustomers | withLoading | async as allCustomers">
+                <div class="flex justify-center items-center">
+                  <ion-spinner *ngIf="allCustomers?.loading" name="crescent" mode="indeterminate"
+                    color="primary"></ion-spinner>
+                </div>
+                <ul *ngIf="allCustomers?.value && customerUL"
+                  class="-mb-2 max-h-44 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800 bg-white drop-shadow-lg relative w-full"
+                  id="options" role="listbox">
+                  <li *ngFor="let customer of (allCustomers?.value.customers)" (click)="listClickedCustomer(customer)"
+                    class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200" role="option"
+                    tabindex="-1">
+                    <div class="flex items-center p-2">
+                      {{customer.customer_name}}
+                    </div>
+                  </li>
+                </ul>
+                <div *ngIf="allCustomers?.value?.customers?.length === 0" (onclick)="disableFields()">
+                  <div
+                    class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200 text-gray-500 hover:text-gray-700 hover:font-semibold"
+                    disabled role="option" tabindex="-1"> No Customer(s) found </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Farms -->
+        <div role="dialog" aria-modal="true">
+          <div class="mb-4 relative z-70">
+            <div class="mx-auto max-w-full transform rounded-xl px-0  transition-all">
+              <label class="block text-sm font-medium text-gray-700 mb-1">Farm <span *ngIf="isFarmSelected"
+                  class="text-red-400">*</span></label>
+              <div class="flex items-center justify-between gap-x-2 rounded-md">
+                <input (keyup)="farm_search$.next($event.target.value)" [value]="farm_name" (click)="inputClickedFarm()"
+                  #farmsInput
+                  class="{{isDisabled? 'pointer-events-none bg-gray-200 w-full px-4 py-2.5 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500': 'w-full px-4 py-2.5 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500'}}"
+                  placeholder="Select Farm" role="" aria-expanded="false" aria-controls="options">
+              </div>
+
+              <div *ngIf="allFarms | withLoading | async as allFarms">
+                <div class="flex justify-center items-center">
+                  <ion-spinner *ngIf="allFarms?.loading" name="crescent" mode="indeterminate"
+                    color="primary"></ion-spinner>
+                </div>
+                <ul *ngIf="allFarms?.value && farmUL"
+                  class="-mb-2 max-h-44 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800 bg-white drop-shadow-lg relative w-full"
+                  id="options" role="listbox">
+                  <li *ngFor="let farm of (allFarms?.value.customer_farms)" (click)="listClickedFarm(farm)"
+                    class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200" role="option"
+                    tabindex="-1">
+                    <div class="flex items-center p-2">
+                      {{farm.name}}
+                    </div>
+                  </li>
+                </ul>
+                <div *ngIf="allFarms?.value?.customer_farms?.length === 0">
+                  <div
+                    class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200 text-gray-500 hover:text-gray-700 hover:font-semibold"
+                    disabled role="option" tabindex="-1"> No Farm(s) found </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Field -->
+        <div role="dialog" aria-modal="true">
+          <div class="mb-4 relative z-60">
+            <div class="mx-auto max-w-full transform rounded-xl px-0  transition-all">
+              <label class="block text-sm font-medium text-gray-700 mb-1">Field <span *ngIf="isFieldSelected"
+                  class="text-red-400">*</span></label>
+              <div class="flex items-center justify-between gap-x-2 rounded-md">
+                <input (keyup)="field_search$.next($event.target.value)" [value]="field_name"
+                  (click)="inputClickedField()" #fieldsInput
+                  class="{{isFieldDisabled? 'pointer-events-none bg-gray-200 w-full px-4 py-2.5 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500': 'w-full px-4 py-2.5 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500'}}"
+                  placeholder="Select Field" role="" aria-expanded="false" aria-controls="options">
+              </div>
+
+              <div *ngIf="allFields | withLoading | async as allFields">
+                <div class="flex justify-center items-center">
+                  <ion-spinner *ngIf="allFields?.loading" name="crescent" mode="indeterminate"
+                    color="primary"></ion-spinner>
+                </div>
+                <ul *ngIf="allFields?.value && fieldUL"
+                  class="-mb-2 max-h-44 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800 bg-white drop-shadow-lg relative w-full"
+                  id="options" role="listbox">
+                  <li *ngFor="let field of (allFields?.value.customer_fields)" (click)="listClickedField(field)"
+                    class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200" role="option"
+                    tabindex="-1">
+                    <div class="flex items-center p-2">
+                      {{field.field_name}}
+                    </div>
+                  </li>
+                </ul>
+                <div *ngIf="allFields?.value?.customer_fields?.length === 0">
+                  <div
+                    class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200 text-gray-500 hover:text-gray-700 hover:font-semibold"
+                    disabled role="option" tabindex="-1"> No Field(s) found </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">
+            State
+            <span
+              *ngIf="this.createOrderDispatcher.get('state').hasError('required')" class="text-red-400">*</span>
+              </label>
+          <ion-select
+            class="mt-1 w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="state" placeholder="Select State">
+            <ion-select-option *ngFor="let state of states" [value]="state">{{state}}</ion-select-option>
+          </ion-select>
+        </div>
+
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Total Acres</label>
+          <input
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            [value]="this.createOrderDispatcher.get('totalAcres').value" formControlName="totalAcres" readonly>
+        </div>
+
+        <!--Service-->
+        <div role="dialog" aria-modal="true">
+          <div class="mb-4 relative z-60">
+            <div class="mx-auto max-w-full transform rounded-xl px-0  transition-all">
+              <label class="block text-sm font-medium text-gray-700 mb-1">Service/Equipment Type <span *ngIf="isServiceSelected"
+                  class="text-red-400">*</span></label>
+              <div class="flex items-center justify-between gap-x-2 rounded-md">
+                <input (keyup)="service_search$.next($event.target.value)" [value]="service_name"
+                  (click)="inputClickedService()" #serviceInput
+                  class="w-full px-4 py-2.5 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
+                  placeholder="Select service/equipment type" role="" aria-expanded="false" aria-controls="options">
+              </div>
+
+              <div *ngIf="allServices | withLoading | async as allServices">
+                <div class="flex justify-center items-center">
+                  <ion-spinner *ngIf="allServices?.loading" name="crescent" mode="indeterminate"
+                    color="primary"></ion-spinner>
+                </div>
+                <ul *ngIf="allServices?.value && serviceUL"
+                  class="-mb-2 max-h-44 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800 bg-white drop-shadow-lg relative w-full"
+                  id="options" role="listbox">
+                  <li *ngFor="let service of (allServices?.value.customer_farms)" (click)="listClickedService(service)"
+                    class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200" role="option"
+                    tabindex="-1">
+                    <div class="flex items-center p-2">
+                      {{service.service}}
+                    </div>
+                  </li>
+                </ul>
+                <div *ngIf="allServices?.value?.customer_farms?.length === 0">
+                  <div
+                    class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200 text-gray-500 hover:text-gray-700 hover:font-semibold"
+                    disabled role="option" tabindex="-1"> No Service(s) found </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tractor Driver -->
+        <div role="dialog" aria-modal="true">
+          <div class="mb-4 relative z-50">
+            <div class="mx-auto max-w-full transform rounded-xl px-0  transition-all">
+              <label class="block text-sm font-medium text-gray-700 mb-1">Tractor Driver <span
+                  *ngIf="isDispatcherSelected" class="text-red-400">*</span></label>
+              <div class="flex items-center justify-between gap-x-2 rounded-md">
+                <input (keyup)="dispatcher_search$.next($event.target.value)" [value]="dispatcher_name"
+                  (click)="inputClickedDispatcher()" #dispatcherInput
+                  class="w-full px-4 py-2.5 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
+                  placeholder="Select tractor driver" role="" aria-expanded="false" aria-controls="options">
+              </div>
+
+              <div *ngIf="allDispatchers | withLoading | async as allDispatchers">
+                <div class="flex justify-center items-center">
+                  <ion-spinner *ngIf="allDispatchers?.loading" name="crescent" mode="indeterminate"
+                    color="primary"></ion-spinner>
+                </div>
+                <ul *ngIf="allDispatchers?.value && dispatcherUL"
+                  class="-mb-2 max-h-44 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800 bg-white drop-shadow-lg absolute w-full"
+                  id="options" role="listbox">
+                  <li *ngFor="let dispatcher of (allDispatchers?.value.employees)"
+                    (click)="listClickedDispatcher(dispatcher)"
+                    class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200" role="option"
+                    tabindex="-1">
+                    <div class="flex items-center p-2">
+                      {{dispatcher.first_name + ' ' + dispatcher.last_name}}
+                    </div>
+                  </li>
+                </ul>
+                <div *ngIf="allDispatchers?.value?.employees?.length === 0">
+                  <div
+                    class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200 text-gray-500 hover:text-gray-700 hover:font-semibold"
+                    disabled role="option" tabindex="-1"> Tractor Driver(s) found </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Field Address (if known) <span class="text-red-600"
+              *ngIf="this.createOrderDispatcher.get('fieldAddress').hasError('required')">*</span></label>
+          <input
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="fieldAddress" placeholder="Enter Field Address">
+        </div>
+
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Customer Phone <span class="text-red-600"
+              *ngIf="this.createOrderDispatcher.get('phone').hasError('required')">*</span></label>
+          <input
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="phone" [value]="" placeholder="Enter Customer Phone" readonly>
+        </div>
+
+      </div>
+      <ion-button [disabled]="this.createOrderDispatcher.invalid || (loadingSpinner | async)" expand="block"
+        class="mt-5 font-Lato text-white" (click)="navigateTo('/tabs/home/farming')">
+        <div *ngIf="(loadingSpinner | async) === false">Create New Work Order</div>
+        <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+      </ion-button>
+    </form>
+  </div>
+
+  <!-------------- Role Tractor Driver-------------------->
+  <div class="p-4" *ngIf="role.includes('Tractor Driver')">
+    <form [formGroup]="createOrderTDriver">
+      <div>
+
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Tractor Driver</label>
+          <input
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            [value]="employeeName? employeeName : ''" readonly>
+        </div>
+
+        <!-- Machinery ID-->
+        <div role="dialog" aria-modal="true">
+          <div class="mb-4 relative z-100">
+            <div class="mx-auto max-w-full transform rounded-xl px-0  transition-all">
+              <label class="block text-sm font-medium text-gray-700 mb-1">Machinery ID <span *ngIf="isMachinerySelected"
+                  class="text-red-400">*</span></label>
+              <div class="flex items-center justify-between gap-x-2 rounded-md">
+                <input (keyup)="machinery_search$.next($event.target.value)" [value]="machinery_name"
+                  (click)="inputClickedMachinery()" #machineryInput
+                  class="w-full px-4 py-2.5 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
+                  placeholder="Select Machinery" role="" aria-expanded="false" aria-controls="options">
+              </div>
+
+              <div *ngIf="allMachinery | withLoading | async as allMachinery">
+                <div class="flex justify-center items-center">
+                  <ion-spinner *ngIf="allMachinery?.loading" name="crescent" mode="indeterminate"
+                    color="primary"></ion-spinner>
+                </div>
+                <ul *ngIf="allMachinery?.value && machineryUL"
+                  class="mb-2 max-h-44 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800 bg-white drop-shadow-lg relative w-full"
+                  id="options" role="listbox">
+                  <li *ngFor="let machinery of (allMachinery?.value.machinery)"
+                    (click)="listClickedMachinery(machinery)"
+                    class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200" role="option"
+                    tabindex="-1">
+                    <div class="flex items-center p-2">
+                      {{machinery.type}}
+                    </div>
+                  </li>
+                </ul>
+                <div *ngIf="allMachinery?.value?.machinery?.length === 0">
+                  <div
+                    class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200 text-gray-500 hover:text-gray-700 hover:font-semibold"
+                    disabled role="option" tabindex="-1"> No Machinery(s) found </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Beginning Engine Hours<span class="text-red-600"
+              *ngIf="this.createOrderTDriver.get('beginningEngineHours').hasError('required')">*</span></label>
+          <input
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="beginningEngineHours" placeholder="Beginning Engine Hours" readonly>
+        </div>
+
+        <!-- Dispatcher -->
+        <div role="dialog" aria-modal="true">
+          <div class="mb-4 relative z-50">
+            <div class="mx-auto max-w-full transform rounded-xl px-0  transition-all">
+              <label class="block text-sm font-medium text-gray-700 mb-1">Dispatcher <span *ngIf="isDispatcherSelected"
+                  class="text-red-400">*</span></label>
+              <div class="flex items-center justify-between gap-x-2 rounded-md">
+                <input (keyup)="dispatcher_search$.next($event.target.value)" [value]="dispatcher_name"
+                  (click)="inputClickedDispatcher()" #dispatcherInput
+                  class="w-full px-4 py-2.5 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
+                  placeholder="Select Dispatcher" role="" aria-expanded="false" aria-controls="options">
+              </div>
+
+              <div *ngIf="allDispatchers | withLoading | async as allDispatchers">
+                <div class="flex justify-center items-center">
+                  <ion-spinner *ngIf="allDispatchers?.loading" name="crescent" mode="indeterminate"
+                    color="primary"></ion-spinner>
+                </div>
+                <ul *ngIf="allDispatchers?.value && dispatcherUL"
+                  class="-mb-2 max-h-44 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800 bg-white drop-shadow-lg absolute w-full"
+                  id="options" role="listbox">
+                  <li *ngFor="let dispatcher of (allDispatchers?.value.employees)"
+                    (click)="listClickedDispatcher(dispatcher)"
+                    class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200" role="option"
+                    tabindex="-1">
+                    <div class="flex items-center p-2">
+                      {{dispatcher.first_name + ' ' + dispatcher.last_name}}
+                    </div>
+                  </li>
+                </ul>
+                <div *ngIf="allDispatchers?.value?.employees?.length === 0">
+                  <div
+                    class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200 text-gray-500 hover:text-gray-700 hover:font-semibold"
+                    disabled role="option" tabindex="-1"> No Employees(s) found </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Customer-->
+        <div role="dialog" aria-modal="true">
+          <div class="mb-4 relative z-40">
+            <div class="mx-auto max-w-full transform rounded-xl px-0  transition-all">
+              <label class="block text-sm font-medium text-gray-700 mb-1">Customer Name <span *ngIf="isCustomerSelected"
+                  class="text-red-400">*</span></label>
+              <div class="flex items-center justify-between gap-x-2 rounded-md">
+                <input (keyup)="customer_search$.next($event.target.value)" [value]="customer_name"
+                  (click)="inputClickedCustomer()" #customerInput
+                  class="w-full px-4 py-2.5 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
+                  placeholder="Select Customer" role="" aria-expanded="false" aria-controls="options">
+              </div>
+
+              <div *ngIf="allCustomers | withLoading | async as allCustomers">
+                <div class="flex justify-center items-center">
+                  <ion-spinner *ngIf="allCustomers?.loading" name="crescent" mode="indeterminate"
+                    color="primary"></ion-spinner>
+                </div>
+                <ul *ngIf="allCustomers?.value && customerUL"
+                  class="-mb-2 max-h-44 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800 bg-white drop-shadow-lg absolute w-full"
+                  id="options" role="listbox">
+                  <li *ngFor="let customer of (allCustomers?.value.customers)" (click)="listClickedCustomer(customer)"
+                    class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200" role="option"
+                    tabindex="-1">
+                    <div class="flex items-center p-2">
+                      {{customer.customer_name}}
+                    </div>
+                  </li>
+                </ul>
+                <div *ngIf="allCustomers?.value?.customers?.length === 0" (onclick)="disableFields()">
+                  <div
+                    class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200 text-gray-500 hover:text-gray-700 hover:font-semibold"
+                    disabled role="option" tabindex="-1"> No Customer(s) found </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Farms -->
+        <div role="dialog" aria-modal="true">
+          <div class="mb-4 relative z-30">
+            <div class="mx-auto max-w-full transform rounded-xl px-0  transition-all">
+              <label class="block text-sm font-medium text-gray-700 mb-1">Farm <span *ngIf="isFarmSelected"
+                  class="text-red-400">*</span></label>
+              <div class="flex items-center justify-between gap-x-2 rounded-md">
+                <input (keyup)="farm_search$.next($event.target.value)" [value]="farm_name" (click)="inputClickedFarm()"
+                  #farmsInput
+                  class="{{isDisabled? 'pointer-events-none bg-gray-200 w-full px-4 py-2.5 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500': 'w-full px-4 py-2.5 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500'}}"
+                  placeholder="Select Farm" role="" aria-expanded="false" aria-controls="options">
+              </div>
+
+              <div *ngIf="allFarms | withLoading | async as allFarms">
+                <div class="flex justify-center items-center">
+                  <ion-spinner *ngIf="allFarms?.loading" name="crescent" mode="indeterminate"
+                    color="primary"></ion-spinner>
+                </div>
+                <ul *ngIf="allFarms?.value && farmUL"
+                  class="-mb-2 max-h-44 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800 bg-white drop-shadow-lg absolute w-full"
+                  id="options" role="listbox">
+                  <li *ngFor="let farm of (allFarms?.value.customer_farms)" (click)="listClickedFarm(farm)"
+                    class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200" role="option"
+                    tabindex="-1">
+                    <div class="flex items-center p-2">
+                      {{farm.name}}
+                    </div>
+                  </li>
+                </ul>
+                <div *ngIf="allFarms?.value?.customer_farms?.length === 0">
+                  <div
+                    class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200 text-gray-500 hover:text-gray-700 hover:font-semibold"
+                    disabled role="option" tabindex="-1"> No Farm(s) found </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Fields -->
+        <div role="dialog" aria-modal="true">
+          <div class="mb-4 relative z-20">
+            <div class="mx-auto max-w-full transform rounded-xl px-0  transition-all">
+              <label class="block text-sm font-medium text-gray-700 mb-1">Field <span *ngIf="isFieldSelected"
+                  class="text-red-400">*</span></label>
+              <div class="flex items-center justify-between gap-x-2 rounded-md">
+                <input (keyup)="field_search$.next($event.target.value)" [value]="field_name"
+                  (click)="inputClickedField()" #fieldsInput
+                  class="{{isFieldDisabled? 'pointer-events-none bg-gray-200 w-full px-4 py-2.5 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500': 'w-full px-4 py-2.5 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500'}}"
+                  placeholder="Select Field" role="" aria-expanded="false" aria-controls="options">
+              </div>
+
+              <div *ngIf="allFields | withLoading | async as allFields">
+                <div class="flex justify-center items-center">
+                  <ion-spinner *ngIf="allFields?.loading" name="crescent" mode="indeterminate"
+                    color="primary"></ion-spinner>
+                </div>
+                <ul *ngIf="allFields?.value && fieldUL"
+                  class="-mb-2 max-h-44 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800 bg-white drop-shadow-lg absolute w-full"
+                  id="options" role="listbox">
+                  <li *ngFor="let field of (allFields?.value.customer_fields)" (click)="listClickedField(field)"
+                    class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200" role="option"
+                    tabindex="-1">
+                    <div class="flex items-center p-2">
+                      {{field.field_name}}
+                    </div>
+                  </li>
+                </ul>
+                <div *ngIf="allFields?.value?.customer_fields?.length === 0">
+                  <div
+                    class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200 text-gray-500 hover:text-gray-700 hover:font-semibold"
+                    disabled role="option" tabindex="-1"> No Field(s) found </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">
+            State
+            <span
+              *ngIf="this.createOrderTDriver.get('state').hasError('required')" class="text-red-400">*</span>
+              </label>
+          <ion-select
+            class="mt-1 w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="state" placeholder="Select State">
+            <ion-select-option *ngFor="let state of states" [value]="state">{{state}}</ion-select-option>
+          </ion-select>
+        </div>
+
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Total Acres</label>
+          <input
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="totalAcres" readonly>
+        </div>
+
+        <!--Service-->
+        <div role="dialog" aria-modal="true">
+          <div class="mb-4 relative z-10">
+            <div class="mx-auto max-w-full transform rounded-xl px-0  transition-all">
+              <label class="block text-sm font-medium text-gray-700 mb-1">Service/Equipment Type<span *ngIf="isServiceSelected"
+                  class="text-red-400">*</span></label>
+              <div class="flex items-center justify-between gap-x-2 rounded-md">
+                <input (keyup)="service_search$.next($event.target.value)" [value]="service_name"
+                  (click)="inputClickedService()" #serviceInput
+                  class="w-full px-4 py-2.5 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
+                  placeholder="Select Field" role="" aria-expanded="false" aria-controls="options">
+              </div>
+
+              <div *ngIf="allServices | withLoading | async as allServices">
+                <div class="flex justify-center items-center">
+                  <ion-spinner *ngIf="allServices?.loading" name="crescent" mode="indeterminate"
+                    color="primary"></ion-spinner>
+                </div>
+                <ul *ngIf="allServices?.value && serviceUL"
+                  class="-mb-2 max-h-44 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800 bg-white drop-shadow-lg absolute w-full"
+                  id="options" role="listbox">
+                  <li *ngFor="let service of (allServices?.value.customer_farms)" (click)="listClickedService(service)"
+                    class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200" role="option"
+                    tabindex="-1">
+                    <div class="flex items-center p-2">
+                      {{service.service}}
+                    </div>
+                  </li>
+                </ul>
+                <div *ngIf="allServices?.value?.customer_farms?.length === 0">
+                  <div
+                    class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200 text-gray-500 hover:text-gray-700 hover:font-semibold"
+                    disabled role="option" tabindex="-1"> No Service(s) found </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Field
+            Address<span class="text-red-600"
+              *ngIf="this.createOrderTDriver.get('fieldAddress').hasError('required')">*</span></label>
+          <input
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="fieldAddress" placeholder="Enter Field Address">
+        </div>
+
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Customer Phone<span class="text-red-600"
+              *ngIf="this.createOrderTDriver.get('phone').hasError('required')">*</span></label>
+          <input
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="phone" placeholder="Enter Customer Phone" readonly>
+        </div>
+      </div>
+      <ion-button [disabled]="this.createOrderTDriver.invalid || (loadingSpinner | async)" expand="block"
+        class="mt-5 font-Lato text-white" (click)="navigateTo('/tabs/home/farming')">
+        <div *ngIf="(loadingSpinner | async) === false">Generate Ticket</div>
+        <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+      </ion-button>
+    </form>
+  </div>
+</ion-content>

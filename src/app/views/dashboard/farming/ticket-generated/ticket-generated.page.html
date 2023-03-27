@@ -1,0 +1,77 @@
+<app-header [title]="'Work Order Generated'" [color]="'farming'"></app-header>
+
+<ion-content>
+  <!-- <app-timer [value]="'22-10-2022'"></app-timer> -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title class="flex justify-center text-xl font-Lato">DHT Farming Sent Work Order</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-grid>
+
+        <!-- First Row -->
+        <ion-row class="h-20 flex content-center pl-4">
+          <ion-col size="6" class="flex flex-col">
+            <p class="font-Lato text-black font-bold font-14">Date</p>
+            <span class="font-Lato font-14">Sun 5, 2022</span>
+          </ion-col>
+          <ion-col size="6" class="flex flex-col">
+            <p class="font-Lato text-black font-bold font-14">Work Order #</p>
+            <span class="font-Lato font-14">12345</span>
+          </ion-col>
+        </ion-row>
+
+        <!-- Second Row -->
+        <ion-row class="h-20 flex content-center pl-4">
+          <ion-col size="6" class="flex flex-col">
+            <p class="font-Lato text-black font-bold font-14">Dispatcher</p>
+            <span class="font-Lato font-14">Mike</span>
+          </ion-col>
+          <ion-col size="6" class="flex flex-col">
+            <p class="font-Lato text-black font-bold font-14">Customer</p>
+            <span class="font-Lato font-14">Alen</span>
+          </ion-col>
+        </ion-row>
+
+        <!-- Third Row -->
+        <ion-row class="h-20 flex content-center pl-4">
+          <ion-col size="6" class="flex flex-col">
+            <p class="font-Lato text-black font-bold font-14">Farm</p>
+            <span class="font-Lato font-14">New Farm</span>
+          </ion-col>
+          <ion-col size="6" class="flex flex-col">
+            <p class="font-Lato text-black font-bold font-14">Field</p>
+            <span class="font-Lato font-14">New Field</span>
+          </ion-col>
+        </ion-row>
+
+        <!-- Fourth Row -->
+        <ion-row class="h-20 flex content-center pl-4">
+          <ion-col size="6" class="flex flex-col">
+            <p class="font-Lato text-black font-bold font-14">Service</p>
+            <span class="font-Lato font-14">DHT</span>
+          </ion-col>
+          <ion-col size="6" class="flex flex-col">
+            <p class="font-Lato text-black font-bold font-14">Tractor Driver</p>
+            <span class="font-Lato font-14">Michigan</span>
+          </ion-col>
+        </ion-row>
+
+        <ion-row class="h-20 flex content-center pl-4">
+          <ion-col size="6" class="flex flex-col">
+            <p class="font-Lato text-black font-bold font-14">Field Address</p>
+            <span class="font-Lato font-14">33</span>
+          </ion-col>
+          <ion-col size="6" class="flex flex-col">
+            <p class="font-Lato text-black font-bold font-14">Customer Phone</p>
+            <span class="font-Lato font-14">+925658</span>
+          </ion-col>
+        </ion-row>
+
+      </ion-grid>
+      <ion-button expand="block" class="mt-5 font-Lato  text-white" (click)="navigateTo('/tabs/home/farming')">Generate Work Order
+      </ion-button>
+
+    </ion-card-content>
+  </ion-card>
+</ion-content>
