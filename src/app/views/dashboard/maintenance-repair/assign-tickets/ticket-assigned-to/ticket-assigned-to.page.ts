@@ -50,6 +50,8 @@ export class TicketAssignedToPage implements OnInit {
   isEmployeeSelected_2: any = true;
   //#endregion
 
+  initialyCreated: any;
+
   public activeCheckInSpinner = new BehaviorSubject(false);
 
   private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -394,6 +396,7 @@ export class TicketAssignedToPage implements OnInit {
           console.log('RES:', res);
           if (res.status === 200) {
             // this.loadingSpinner.next(false);
+            this.initialyCreated = true;
 
             // this.router.navigateByUrl('/tabs/home/maintenance-repair/assign-tickets');
             // this.toastService.presentToast(
@@ -488,7 +491,7 @@ createDWR(){
   supervisor_id = this.assignTicket.get('assignedById').value;
 
  this.maintenanceRepairService
-  .createDWR(localStorage.getItem('employeeId'),this.ticketRecordId, this.assignTicket.get('assignedById').value,this.active_check_in_id)
+  .createDWR(localStorage.getItem('employeeId'),this.ticketRecordId, this.assignTicket.get('assignedById').value,this.active_check_in_id,this.initialyCreated)
   .subscribe(
     (res) => {
       console.log('RES:', res);

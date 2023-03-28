@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable prefer-const */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable @typescript-eslint/naming-convention */
@@ -433,7 +434,7 @@ export class CreateRepairORMaintenancePage implements OnInit {
   createDWR(){
 
    this.maintenanceRepairService
-    .createDWR(localStorage.getItem('employeeId'),this.ticketRecordId, this.createTicket.get('assignedById').value,this.active_check_in_id)
+    .createDWR(localStorage.getItem('employeeId'),this.ticketRecordId, this.createTicket.get('assignedById').value,this.active_check_in_id,'')
     .subscribe(
       (res) => {
         console.log('RES:', res);

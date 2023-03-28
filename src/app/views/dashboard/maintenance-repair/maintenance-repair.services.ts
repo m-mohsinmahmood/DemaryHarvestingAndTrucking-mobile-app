@@ -129,7 +129,8 @@ export class MaintenanceRepairService {
     employeeId: any,
     main_repair_ticket_id: any,
     supervisor_id: any,
-    dwrId){
+    dwrId,
+    initialyCreated: any){
     let data;
 
        data = {
@@ -138,7 +139,8 @@ export class MaintenanceRepairService {
         employeeId,
         supervisor_id,
         dwrId,
-        main_repair_ticket_id
+        main_repair_ticket_id,
+        initialyCreated
     };
     console.log('DATA:',data);
     return this.httpClient
