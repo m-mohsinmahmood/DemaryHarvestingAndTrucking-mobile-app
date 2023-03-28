@@ -56,7 +56,7 @@ export class DWRService {
       })
       .pipe(take(1));
   }
-  verify(operation: any,status: any, notes: any, dwrId: any){
+  verify(operation: any,status: any, notes: any, dwrId: any,employee_id: any){
     let params = new HttpParams();
     params = params.set('operation',operation);
     // params = params.set('status', status);
@@ -66,7 +66,8 @@ export class DWRService {
     data={
       status,
       notes,
-      dwrId
+      dwrId,
+      employee_id
     };
     console.log('DATA:',data);
 

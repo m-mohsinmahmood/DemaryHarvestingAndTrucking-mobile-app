@@ -22,6 +22,7 @@ notesForm: FormGroup;
 status: any;
 notes: any;
 dwr_type: any;
+mechanic_id: any;
 
   // behaviour subject for loader
   public loading = new BehaviorSubject(true);
@@ -60,8 +61,12 @@ dwr_type: any;
     this.dwrService.getDWRById(this.task_id,'getTicketData',this.dwr_type)
       .subscribe((res)=>{
         console.log('Res:',res);
+
           this.loading.next(true);
+
           this.data = res;
+          this.mechanic_id = res?.data[0]?.mechanic_id;
+          console.log('MECHANIUC:',this.mechanic_id);
           // for basic skills to get the sat/un-sat status
           if(this.data?.trainingData?.length > 0){
 
@@ -72,12 +77,6 @@ this.status = ((+this.data.trainingData[0].pullUpsInput_slb + +this.data.trainin
 ((+this.data.trainingData[0].pullUps_ps + +this.data.trainingData[0].encroach_ps < 3) && (this.data.trainingData[0].goal_ps === 'true') && (this.data.trainingData[0].finalPosition_ps === 'true')) &&
 ((+this.data.trainingData[0].pullUps_cou + +this.data.trainingData[0].encroach_cou < 3) && (this.data.trainingData[0].goal_cou === 'true') && (this.data.trainingData[0].finalPosition_cou === 'true'));
 
-    // console.log('Status:',((+this.data.trainingData[0].pullUpsInput_slb + +this.data.trainingData[0].encroachInput_slb < 3) && (this.data.trainingData[0].goal_slb === 'true') && (this.data.trainingData[0].finalPosition_slb === 'true')) &&
-    // ((+this.data.trainingData[0].pullUpsInput_ad + +this.data.trainingData[0].encroachInput_ad < 3) && (this.data.trainingData[0].goal_ad === 'true') && (this.data.trainingData[0].finalPosition_ad === 'true'))  &&
-    // ((+this.data.trainingData[0].encroach_osb + +this.data.trainingData[0].pullUps_osb < 3) && (this.data.trainingData[0].goal_osb === 'true') && (this.data.trainingData[0].finalPosition_osb === 'true')) &&
-    // ((+this.data.trainingData[0].pullUps_pb + +this.data.trainingData[0].encroach_pb < 3) && (this.data.trainingData[0].goal_pb === 'true') && (this.data.trainingData[0].finalPosition_pb === 'true')) &&
-    // ((+this.data.trainingData[0].pullUps_ps + +this.data.trainingData[0].encroach_ps < 3) && (this.data.trainingData[0].goal_ps === 'true') && (this.data.trainingData[0].finalPosition_ps === 'true')) &&
-    // ((+this.data.trainingData[0].pullUps_cou + +this.data.trainingData[0].encroach_cou < 3) && (this.data.trainingData[0].goal_cou === 'true') && (this.data.trainingData[0].finalPosition_cou === 'true')));
   }
     this.loading.next(false);
       });
@@ -88,13 +87,12 @@ this.status = ((+this.data.trainingData[0].pullUpsInput_slb + +this.data.trainin
     });
   }
   exit(){
-    // this.router.navigate(['/tabs/home/dwr/work-history']);
     this.location.historyGo(-1);
   }
   verify(){
     this.loadingSpinner.next(true);
     this.dwrService
-    .verify('changeDwrStatus', 'verify',this.notesForm.get('notes').value,this.task_id)
+    .verify('changeDwrStatus', 'verify',this.notesForm.get('notes').value,this.task_id,'')
     .subscribe(
       (res) => {
         console.log('RES:', res);
@@ -122,8 +120,9 @@ this.status = ((+this.data.trainingData[0].pullUpsInput_slb + +this.data.trainin
   }
   sendBack(){
     this.loadingSpinner.next(true);
+    console.log('IDDD:',this.mechanic_id);
     this.dwrService
-    .verify('changeDwrStatus', 'reassigned',this.notesForm.get('notes').value,this.task_id)
+    .verify('changeDwrStatus', 'reassigned',this.notesForm.get('notes').value,this.task_id,this.mechanic_id)
     .subscribe(
       (res) => {
         console.log('RES:', res);
