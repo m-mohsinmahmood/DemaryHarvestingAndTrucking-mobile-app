@@ -55,6 +55,7 @@ export class CreateRepairORMaintenancePage implements OnInit {
 
   active_check_in_id: any;
   ticketRecordId: any;
+  taskType: any;
 
   public loadingSpinner = new BehaviorSubject(false);
   public activeCheckInSpinner = new BehaviorSubject(false);
@@ -398,6 +399,10 @@ export class CreateRepairORMaintenancePage implements OnInit {
           if (res.status === 200) {
             this.ticketRecordId  = res.id.record_id;
 
+            // ticket nature
+            this.taskType = 'ticket created';
+
+
                // getting check-in id
                this.getCheckInID();
 
@@ -434,7 +439,7 @@ export class CreateRepairORMaintenancePage implements OnInit {
   createDWR(){
 
    this.maintenanceRepairService
-    .createDWR(localStorage.getItem('employeeId'),this.ticketRecordId, this.createTicket.get('assignedById').value,this.active_check_in_id,'')
+    .createDWR(localStorage.getItem('employeeId'),this.ticketRecordId, this.createTicket.get('assignedById').value,this.active_check_in_id,this.taskType)
     .subscribe(
       (res) => {
         console.log('RES:', res);

@@ -130,7 +130,7 @@ export class MaintenanceRepairService {
     main_repair_ticket_id: any,
     supervisor_id: any,
     dwrId,
-    initialyCreated: any){
+    taskType: any){
     let data;
 
        data = {
@@ -140,7 +140,7 @@ export class MaintenanceRepairService {
         supervisor_id,
         dwrId,
         main_repair_ticket_id,
-        initialyCreated
+        taskType
     };
     console.log('DATA:',data);
     return this.httpClient

@@ -24,6 +24,7 @@ export class CompleteExistingTicketPage implements OnInit {
   assignedTo: any;
 
   active_check_in_id: any;
+  taskType: any;
 
   // behaviour subject's for loader
   public loading = new BehaviorSubject(true);
@@ -111,6 +112,9 @@ export class CompleteExistingTicketPage implements OnInit {
           console.log('RES:', res);
           if (res.status === 200) {
 
+            // ticket nature
+            this.taskType = 'work done';
+
             // getting check-in id
             this.getCheckInID();
 
@@ -147,7 +151,7 @@ export class CompleteExistingTicketPage implements OnInit {
     supervisor_id = this.completeExistingTicketForm.get('assignedById').value;
 
     this.maintenanceRepairService
-      .createDWR(localStorage.getItem('employeeId'), this.ticketRecordId, this.completeExistingTicketForm.get('assignedById').value, this.active_check_in_id, false)
+      .createDWR(localStorage.getItem('employeeId'), this.ticketRecordId, this.completeExistingTicketForm.get('assignedById').value, this.active_check_in_id, this.taskType)
       .subscribe(
         (res) => {
           console.log('RES:', res);
