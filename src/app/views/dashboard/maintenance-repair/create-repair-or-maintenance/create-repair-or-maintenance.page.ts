@@ -1,3 +1,5 @@
+/* eslint-disable max-len */
+/* eslint-disable prefer-const */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
@@ -8,6 +10,7 @@ import { ToastService } from 'src/app/services/toast/toast.service';
 import { MaintenanceRepairService } from '../maintenance-repair.services';
 import { states } from 'src/JSON/state';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
+import { CheckInOutService } from 'src/app/components/check-in-out/check-in-out.service';
 
 @Component({
   selector: 'app-create-repair-or-maintenance',
@@ -50,7 +53,12 @@ export class CreateRepairORMaintenancePage implements OnInit {
   //#endregion
   states: string[];
 
+  active_check_in_id: any;
+  ticketRecordId: any;
+  taskType: any;
+
   public loadingSpinner = new BehaviorSubject(false);
+  public activeCheckInSpinner = new BehaviorSubject(false);
 
 
   private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -60,7 +68,8 @@ export class CreateRepairORMaintenancePage implements OnInit {
     private formBuilder: FormBuilder,
     private renderer: Renderer2,
     private maintenanceRepairService: MaintenanceRepairService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private dwrServices: CheckInOutService
   ) {
     this.renderer.listen('window', 'click', (e) => {
       if (e.target !== this.employeeInput.nativeElement) {
@@ -388,21 +397,78 @@ export class CreateRepairORMaintenancePage implements OnInit {
         (res) => {
           console.log('RES:', res);
           if (res.status === 200) {
-            this.loadingSpinner.next(false);
-            this.router.navigateByUrl('/tabs/home/maintenance-repair');
-            this.toastService.presentToast(
-              'Ticket has been generated',
-              'success'
-            );
+            this.ticketRecordId  = res.id.record_id;
+
+            // ticket nature
+            this.taskType = 'ticket created';
+
+
+               // getting check-in id
+               this.getCheckInID();
+
+            // this.loadingSpinner.next(false);
+            // this.router.navigateByUrl('/tabs/home/maintenance-repair');
+            // this.toastService.presentToast(
+            //   'Ticket has been generated',
+            //   'success'
+            // );
           } else {
             console.log('Something happened :)');
+            this.loadingSpinner.next(false);
             this.toastService.presentToast(res.mssage, 'danger');
           }
         },
         (err) => {
           console.log('ERROR::', err);
+          this.loadingSpinner.next(false);
           this.toastService.presentToast(err.mssage, 'danger');
         }
       );
+  }
+  getCheckInID(){
+    this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
+      this.activeCheckInSpinner.next(true);
+      this.active_check_in_id = workOrder.dwr[0].id;
+      this.activeCheckInSpinner.next(false);
+
+       // creating DWR
+      this.createDWR();
+    });
+
+  }
+  createDWR(){
+
+   this.maintenanceRepairService
+    .createDWR(localStorage.getItem('employeeId'),this.ticketRecordId, this.createTicket.get('assignedById').value,this.active_check_in_id,this.taskType)
+    .subscribe(
+      (res) => {
+        console.log('RES:', res);
+        if (res.status === 200) {
+
+         // to stop loader
+         this.loadingSpinner.next(false);
+
+
+          // tooltip
+          this.toastService.presentToast(
+           'Details have been submitted',
+           'success'
+         );
+
+
+       // navigating
+          this.router.navigateByUrl('/tabs/home/maintenance-repair');
+        } else {
+          console.log('Something happened :)');
+          this.loadingSpinner.next(false);
+          this.toastService.presentToast(res.mssage, 'danger');
+        }
+      },
+      (err) => {
+        console.log('ERROR::', err);
+        this.loadingSpinner.next(false);
+        this.toastService.presentToast(err.mssage, 'danger');
+      }
+    );
   }
 }

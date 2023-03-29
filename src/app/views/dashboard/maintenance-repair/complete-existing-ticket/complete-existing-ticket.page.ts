@@ -24,6 +24,7 @@ export class CompleteExistingTicketPage implements OnInit {
   assignedTo: any;
 
   active_check_in_id: any;
+  taskType: any;
 
   // behaviour subject's for loader
   public loading = new BehaviorSubject(true);
@@ -38,7 +39,7 @@ export class CompleteExistingTicketPage implements OnInit {
     private toastService: ToastService,
     private dwrServices: CheckInOutService
 
-    ) { }
+  ) { }
 
   ngOnInit() {
     this.activeRoute.queryParams.subscribe(param => {
@@ -53,7 +54,7 @@ export class CompleteExistingTicketPage implements OnInit {
 
 
   }
-  initForms(){
+  initForms() {
     this.completeExistingTicketForm = this.formBuilder.group({
       repairTicketId: [''],
       // empIssueReportedId: [''],
@@ -66,7 +67,7 @@ export class CompleteExistingTicketPage implements OnInit {
       severityType: [''],
       status: [''],
       description: [''],
-      summary: ['',[Validators.required]],
+      summary: ['', [Validators.required]],
     });
   }
   getExistingTicketRecord() {
@@ -79,97 +80,108 @@ export class CompleteExistingTicketPage implements OnInit {
         this.ticketData = res[0];
         this.loading.next(false);
 
-         // patching
-          this.completeExistingTicketForm.patchValue({
-            repairTicketId: this.ticketData.repairTicketId.substring(0,6),
-            assignedById: this.ticketData.assignedById,
-            assignedToId: this.ticketData.assignedToId,
-            empModule: this.ticketData.empModule,
-            equipID: this.ticketData.equipmentId,
-            city: this.ticketData.city,
-            state: this.ticketData.state,
-            issueCategory: this.ticketData.issueCategory,
-            severityType: this.ticketData.severityType,
-            status: this.ticketData.status,
-            description: this.ticketData.description,
-            summary: this.ticketData.summary,
-          });
-          this.assignedBy = this.ticketData.assignedBy;
-          this.assignedTo = this.ticketData.assignedTo;
+        // patching
+        this.completeExistingTicketForm.patchValue({
+          repairTicketId: this.ticketData.repairTicketId.substring(0, 6),
+          assignedById: this.ticketData.assignedById,
+          assignedToId: this.ticketData.assignedToId,
+          empModule: this.ticketData.empModule,
+          equipID: this.ticketData.equipmentId,
+          city: this.ticketData.city,
+          state: this.ticketData.state,
+          issueCategory: this.ticketData.issueCategory,
+          severityType: this.ticketData.severityType,
+          status: this.ticketData.status,
+          description: this.ticketData.description,
+          summary: this.ticketData.summary,
+        });
+        this.assignedBy = this.ticketData.assignedBy;
+        this.assignedTo = this.ticketData.assignedTo;
         // }
       });
   }
 
-  completTicket(){
+  completTicket() {
     console.log(this.completeExistingTicketForm.value);
     this.loadingSpinner.next(true);
 
     this.maintenanceRepairService
-      .ticket(this.completeExistingTicketForm.value, this.ticketRecordId,'complete')
+      .ticket(this.completeExistingTicketForm.value, this.ticketRecordId, 'complete')
       .subscribe(
         (res) => {
           console.log('RES:', res);
           if (res.status === 200) {
 
-          // getting check-in id
-         this.getCheckInID();
+            // ticket nature
+            this.taskType = 'work done';
+
+            // getting check-in id
+            this.getCheckInID();
 
           } else {
             console.log('Something happened :)');
+            this.loadingSpinner.next(false);
+
             this.toastService.presentToast(res.mssage, 'danger');
           }
         },
         (err) => {
           console.log('ERROR::', err);
+          this.loadingSpinner.next(false);
+
           this.toastService.presentToast(err.mssage, 'danger');
         }
       );
 
   }
-  getCheckInID(){
+  getCheckInID() {
     this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
       this.activeCheckInSpinner.next(true);
       this.active_check_in_id = workOrder.dwr[0].id;
       this.activeCheckInSpinner.next(false);
 
-       // creating DWR
+      // creating DWR
       this.createDWR();
     });
 
   }
 
-createDWR(){
-  let supervisor_id;
-  supervisor_id = this.completeExistingTicketForm.get('assignedById').value;
+  createDWR() {
+    let supervisor_id;
+    supervisor_id = this.completeExistingTicketForm.get('assignedById').value;
 
- this.maintenanceRepairService
-  .createDWR(localStorage.getItem('employeeId'),this.ticketRecordId, this.completeExistingTicketForm.get('assignedById').value,this.active_check_in_id)
-  .subscribe(
-    (res) => {
-      console.log('RES:', res);
-      if (res.status === 200) {
+    this.maintenanceRepairService
+      .createDWR(localStorage.getItem('employeeId'), this.ticketRecordId, this.completeExistingTicketForm.get('assignedById').value, this.active_check_in_id, this.taskType)
+      .subscribe(
+        (res) => {
+          console.log('RES:', res);
+          if (res.status === 200) {
 
-       // to stop loader
-        this.loadingSpinner.next(false);
+            // to stop loader
+            this.loadingSpinner.next(false);
 
-        // tooltip
-        this.toastService.presentToast(
-         'Paused ticket has been completed',
-         'success'
-       );
+            // tooltip
+            this.toastService.presentToast(
+              'Paused ticket has been completed',
+              'success'
+            );
 
-     // navigating
-    this.router.navigateByUrl('/tabs/home/maintenance-repair');
+            // navigating
+            this.router.navigateByUrl('/tabs/home/maintenance-repair');
           } else {
-        console.log('Something happened :)');
-        this.toastService.presentToast(res.mssage, 'danger');
-      }
-    },
-    (err) => {
-      console.log('ERROR::', err);
-      this.toastService.presentToast(err.mssage, 'danger');
-    }
-  );
-}
+            console.log('Something happened :)');
+            this.loadingSpinner.next(false);
+
+            this.toastService.presentToast(res.mssage, 'danger');
+          }
+        },
+        (err) => {
+          console.log('ERROR::', err);
+          this.loadingSpinner.next(false);
+
+          this.toastService.presentToast(err.mssage, 'danger');
+        }
+      );
+  }
 
 }
