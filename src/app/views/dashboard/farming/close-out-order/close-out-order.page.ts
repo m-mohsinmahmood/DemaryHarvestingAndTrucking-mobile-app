@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { FarmingService } from './../farming.service';
 import { ToastService } from 'src/app/services/toast/toast.service';
+import { CheckInOutService } from 'src/app/components/check-in-out/check-in-out.service';
 
 @Component({
   selector: 'app-close-out-order',
@@ -19,9 +20,12 @@ export class CloseOutOrderPage implements OnInit {
   dataLoaded = false;
   workOrderCount = 0;
   remainingAcres: any;
+  checkInData;
+  activeDwr: Observable<any>;
+
   public loadingSpinner = new BehaviorSubject(false);
 
-  constructor(private toast: ToastService, private formBuilder: FormBuilder, private router: Router, private farmingService: FarmingService, private renderer: Renderer2) {
+  constructor(private dwrServices: CheckInOutService, private toast: ToastService, private formBuilder: FormBuilder, private router: Router, private farmingService: FarmingService, private renderer: Renderer2) {
 
   }
 
@@ -36,6 +40,32 @@ export class CloseOutOrderPage implements OnInit {
   initDataRetrieval() {
     this.dataLoaded = false;
     this.workOrderCount = 0;
+
+    this.closeOutWorkOrder = this.formBuilder.group({
+      workOrderId: [this.workOrderId],
+      acresByService: ['', [Validators.required]],
+      acresCompleted: ['', [Validators.required]],
+      endingEngineHours: ['', [Validators.required]],
+      gpsAcresByService: ['', [Validators.required]],
+      hoursWorked: ['', [Validators.required]],
+      notes: ['', [Validators.required]],
+      module: [''],
+      dwrId: ['']
+    });
+
+    this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
+      console.log('Active Check In ', workOrder.dwr);
+      this.activeDwr = workOrder.dwr;
+      this.checkInData = this.activeDwr[0];
+
+      console.log("Check 1: ", workOrder.dwr[0].module);
+      console.log("Check 2: ", workOrder.dwr[0].id);
+
+      this.closeOutWorkOrder.patchValue({
+        module: workOrder.dwr[0].module,
+        dwrId: workOrder.dwr[0].id
+      })
+    });
 
     this.farmingService.getBeginningOfDay(localStorage.getItem('employeeId'), 'beginningOfDay', 'farming').subscribe(workOrder => {
       this.workOrderCount = workOrder.count;
@@ -61,16 +91,6 @@ export class CloseOutOrderPage implements OnInit {
         });
       });
     });
-
-    this.closeOutWorkOrder = this.formBuilder.group({
-      workOrderId: [this.workOrderId],
-      acresByService: ['', [Validators.required]],
-      acresCompleted: ['', [Validators.required]],
-      endingEngineHours: ['', [Validators.required]],
-      gpsAcresByService: ['', [Validators.required]],
-      hoursWorked: ['', [Validators.required]],
-      notes: ['', [Validators.required]]
-    });
   }
 
   navigateTo() {
@@ -94,6 +114,24 @@ export class CloseOutOrderPage implements OnInit {
           endingEngineHours: this.closeOutWorkOrder.get("endingEngineHours").value
         }
       );
+
+      this.farmingService.closeBeginningDay(this.closeOutWorkOrder.value, this.workOrder[0])
+        .subscribe(
+          (res: any) => {
+            console.log(res);
+
+            if (res.status === 200) {
+              this.toast.presentToast("Day has been closed successfully!", 'success');
+              this.router.navigateByUrl('/tabs/home/farming');
+              this.loadingSpinner.next(false)
+
+            }
+          },
+          (err) => {
+            this.toast.presentToast(err, 'danger');
+            this.loadingSpinner.next(false)
+          },
+        );
 
       this.farmingService.updateWorkOrder(this.closeOutWorkOrder.value, 'Tractor Driver', 'closeOutWorkOrder')
         .subscribe(
