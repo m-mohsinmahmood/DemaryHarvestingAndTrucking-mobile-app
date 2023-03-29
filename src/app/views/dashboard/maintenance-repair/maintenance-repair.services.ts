@@ -125,22 +125,12 @@ export class MaintenanceRepairService {
     })
     .pipe(take(1));
   }
-  // createDWR(employeeId: any, main_repair_ticket_id: any,supervisor_id: any){
-  //   const data = {
-  //     dwr_type: 'main-repair',
-  //     main_repair_ticket_id,
-  //     employeeId,
-  //     supervisor_id,
-  //   };
-  //   return this.httpClient
-  //     .post<any>(`api-1/dwr`, data)
-  //     .pipe(take(1));
-  // }
   createDWR(
     employeeId: any,
     main_repair_ticket_id: any,
     supervisor_id: any,
-    dwrId){
+    dwrId,
+    taskType: any){
     let data;
 
        data = {
@@ -149,13 +139,13 @@ export class MaintenanceRepairService {
         employeeId,
         supervisor_id,
         dwrId,
-        main_repair_ticket_id
+        main_repair_ticket_id,
+        taskType
     };
     console.log('DATA:',data);
     return this.httpClient
       .post<any>(`api-1/dwr`, data)
       .pipe(take(1));
   }
-
 
 }

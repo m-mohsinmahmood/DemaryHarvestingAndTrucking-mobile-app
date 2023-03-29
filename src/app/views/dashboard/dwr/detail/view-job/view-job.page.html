@@ -1087,7 +1087,7 @@
 
       <ion-row class="mb-1 h-16">
         <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
-          <p class="font-Lato text-black font-bold font-14">Equipment ID</p>
+          <p class="font-Lato text-black font-bold font-14">Equipment Name</p>
           <span class="font-Lato font-14">{{data.data[0].machinery_id | slice:0:8}}</span>
         </ion-col>
         <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
@@ -1133,7 +1133,7 @@
     <div *ngIf="notes">
       <ion-text class="text-sm font-semibold font-Lato text-black mt-2" >Supervisor Notes</ion-text>
       <ion-item lines="none" class="textarea">
-        <ion-textarea disabled [autoGrow]="true" class="h-10" [value]="notes">
+        <ion-textarea disabled [autoGrow]="true" class="" [value]="notes">
         </ion-textarea>
       </ion-item>
     </div>

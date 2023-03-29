@@ -50,6 +50,9 @@ export class TicketAssignedToPage implements OnInit {
   isEmployeeSelected_2: any = true;
   //#endregion
 
+  initialyCreated: any;
+  taskType: any;
+
   public activeCheckInSpinner = new BehaviorSubject(false);
 
   private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -393,13 +396,22 @@ export class TicketAssignedToPage implements OnInit {
         (res) => {
           console.log('RES:', res);
           if (res.status === 200) {
-            this.loadingSpinner.next(false);
+            // this.loadingSpinner.next(false);
 
-            this.router.navigateByUrl('/tabs/home/maintenance-repair/assign-tickets');
-            this.toastService.presentToast(
-              'Ticket has been assigned',
-              'success'
-            );
+            // this.initialyCreated = true;
+
+            // ticket nature
+            this.taskType = 'ticket created';
+
+            // this.router.navigateByUrl('/tabs/home/maintenance-repair/assign-tickets');
+            // this.toastService.presentToast(
+            //   'Ticket has been assigned',
+            //   'success'
+            // );
+
+             // getting check-in id
+             this.getCheckInID();
+
           } else {
             console.log('Something happened :)');
             this.toastService.presentToast(res.mssage, 'danger');
@@ -413,7 +425,7 @@ export class TicketAssignedToPage implements OnInit {
   }
   completTicket(){
     console.log(this.assignTicket.value);
-    this.loadingSpinnerComplete.next(true);
+    this.loadingSpinner.next(true);
 
     this.maintenanceRepairService
       .ticket(this.assignTicket.value, this.ticketRecordId,'complete')
@@ -424,6 +436,10 @@ export class TicketAssignedToPage implements OnInit {
 
              // getting check-in id
              this.getCheckInID();
+
+             // ticket nature
+             this.taskType = 'work done';
+
 
           } else {
             console.log('Something happened :)');
@@ -456,11 +472,13 @@ export class TicketAssignedToPage implements OnInit {
             );
           } else {
             console.log('Something happened :)');
+            this.loadingSpinner.next(false);
             this.toastService.presentToast(res.mssage, 'danger');
           }
         },
         (err) => {
           console.log('ERROR::', err);
+          this.loadingSpinner.next(false);
           this.toastService.presentToast(err.mssage, 'danger');
         }
       );
@@ -482,14 +500,14 @@ createDWR(){
   supervisor_id = this.assignTicket.get('assignedById').value;
 
  this.maintenanceRepairService
-  .createDWR(localStorage.getItem('employeeId'),this.ticketRecordId, this.assignTicket.get('assignedById').value,this.active_check_in_id)
+  .createDWR(localStorage.getItem('employeeId'),this.ticketRecordId, this.assignTicket.get('assignedById').value,this.active_check_in_id,this.taskType)
   .subscribe(
     (res) => {
       console.log('RES:', res);
       if (res.status === 200) {
 
        // to stop loader
-       this.loadingSpinnerComplete.next(false);
+       this.loadingSpinner.next(false);
 
 
         // tooltip
@@ -503,11 +521,13 @@ createDWR(){
         this.router.navigateByUrl('/tabs/home/maintenance-repair/assign-tickets');
       } else {
         console.log('Something happened :)');
+        this.loadingSpinner.next(false);
         this.toastService.presentToast(res.mssage, 'danger');
       }
     },
     (err) => {
       console.log('ERROR::', err);
+      this.loadingSpinner.next(false);
       this.toastService.presentToast(err.mssage, 'danger');
     }
   );

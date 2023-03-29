@@ -32,13 +32,31 @@
               </div>
             </div>
             <div *ngIf="(loading | async) === false">
-              <div *ngFor="let dwr of dwrs$">
-                <ion-card class="p-2 flex flex-col justify-between items-center" (click)="navigate('verify',dwr.dwr_id,dwr.dwr_type)">
+              <div *ngIf="dwrs$?.length === 0">
+                <ion-card class="p-2 flex flex-col justify-between items-center">
                   <ion-text class="font-Lato font-semibold text-lg text-3D8AA4">
-                    {{moment(dwr.created_at).format('MMMM DD, YYYY')}}
+                    No DWR Found
                   </ion-text>
-                  <ion-text class="font-Lato font-semibold text-black text-base mt-1">Module: <span class="font-Lato font-medium bg-3D8AA4 rounded-md text-white px-3 py-1">{{dwr.dwr_type | titlecase}}</span> </ion-text>
                 </ion-card>
+              </div>
+              <div *ngIf="dwrs$?.length > 0">
+                <div *ngFor="let dwr of dwrs$">
+
+                  <ion-card class="p-2 flex flex-col justify-between items-center" (click)="navigate('verify',dwr.dwr_id,dwr.dwr_type)">
+                    <ion-text class="font-Lato font-semibold text-lg text-3D8AA4 mb-2">
+                      {{moment(dwr.created_at).format('MMMM DD, YYYY')}}
+                    </ion-text>
+                    <div class="flex justify-between items-center w-full">
+                      <ion-text class="font-Lato font-semibold text-black text-base mt-1">Employee Name:</ion-text>
+                      <span class="font-Lato font-medium bg-3D8AA4 rounded-md text-white px-3 py-1">{{dwr.employee_name | titlecase}}</span>
+                    </div>
+                    <div class="flex justify-between items-center w-full mt-1">
+                      <ion-text class="font-Lato font-semibold text-black text-base mt-1">Module Name:</ion-text>
+                      <span class="font-Lato font-medium bg-3D8AA4 rounded-md text-white px-3 py-1">{{dwr.dwr_type | titlecase}}</span>
+                    </div>
+                </ion-card>
+                </div>
+
               </div>
             </div>
           <!-- DWR DAY BLOCK -->
@@ -67,14 +85,30 @@
           </div>
 
           <div *ngIf="(loading | async) === false">
-            <div *ngFor="let monthDWRS of monthDWRS$">
-              <ion-card class="p-2 flex flex-col justify-between items-center" (click)="navigate('verify',monthDWRS.dwr_id, monthDWRS.dwr_type)">
+            <div *ngIf="monthDWRS$?.length === 0">
+              <ion-card class="p-2 flex flex-col justify-between items-center">
                 <ion-text class="font-Lato font-semibold text-lg text-3D8AA4">
-                  {{moment(monthDWRS.created_at).format('MMMM DD, YYYY')}}
+                  No DWR Found
                 </ion-text>
-                <ion-text class="font-Lato font-semibold text-black text-base mt-1">Module: <span class="font-Lato font-medium bg-3D8AA4 rounded-md text-white px-3 py-1">{{monthDWRS.dwr_type | titlecase}}</span> </ion-text>
               </ion-card>
             </div>
+            <div *ngIf="monthDWRS$?.length > 0">
+            <div *ngFor="let monthDWRS of monthDWRS$">
+              <ion-card class="p-2 flex flex-col justify-between items-center" (click)="navigate('verify',monthDWRS.dwr_id, monthDWRS.dwr_type)">
+                  <ion-text class="font-Lato font-semibold text-lg text-3D8AA4 mb-2">
+                    {{moment(monthDWRS.created_at).format('MMMM DD, YYYY')}}
+                  </ion-text>
+                  <div class="flex justify-between items-center w-full">
+                    <ion-text class="font-Lato font-semibold text-black text-base mt-1">Employee Name:</ion-text>
+                    <span class="font-Lato font-medium bg-3D8AA4 rounded-md text-white px-3 py-1">{{monthDWRS.employee_name | titlecase}}</span>
+                  </div>
+                  <div class="flex justify-between items-center w-full mt-1">
+                    <ion-text class="font-Lato font-semibold text-black text-base mt-1">Module Name:</ion-text>
+                    <span class="font-Lato font-medium bg-3D8AA4 rounded-md text-white px-3 py-1">{{monthDWRS.dwr_type | titlecase}}</span>
+                  </div>
+              </ion-card>
+            </div>
+          </div>
           </div>
            <!-- DWR MONTH BLOCK -->
           </div>
