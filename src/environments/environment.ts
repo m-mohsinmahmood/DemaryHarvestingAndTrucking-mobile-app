@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  baseUrl: 'https://dht-dev.azure-api.net/dht-dev',
-  azureUrl: 'https://dht-dev.azurewebsites.net/api/',
+  baseUrl: 'https://dht-uat.azure-api.net/dht-dev',
+  azureUrl: 'https://dht-uat.azurewebsites.net/api/',
   firebase: {
     // apiKey: 'AIzaSyC5CKY8sq2fSRW9N_oQShdz_ossFbhLdXA',
     // authDomain: 'dht-sample-7c9b1.firebaseapp.com',
@@ -25,13 +25,13 @@ export const environment = {
   // measurementId: 'G-JBNLG5ZTLL'
 
   // dev account
-  apiKey: "AIzaSyCdMGmwBIclPi-IKUyzFkSMLqhlMYTJmvI",
-  authDomain: "dht-fb-dev.firebaseapp.com",
-  projectId: "dht-fb-dev",
-  storageBucket: "dht-fb-dev.appspot.com",
-  messagingSenderId: "595303405617",
-  appId: "1:595303405617:web:882b17fba69067596cdd10",
-  measurementId: "G-BD6QK30Y3Z"
+  apiKey: "AIzaSyDThjz9c6GvtJ43BlLZRUuUDv3aA95kgJM",
+  authDomain: "dht-fb-uat.firebaseapp.com",
+  projectId: "dht-fb-uat",
+  storageBucket: "dht-fb-uat.appspot.com",
+  messagingSenderId: "110558470348",
+  appId: "1:110558470348:web:116835049a4fe8f426a269",
+  measurementId: "G-NEN4HWDY3F"
 
         // apiKey: 'AIzaSyCdMGmwBIclPi-IKUyzFkSMLqhlMYTJmvI',
         // authDomain: 'dht-fb-dev.firebaseapp.com',
