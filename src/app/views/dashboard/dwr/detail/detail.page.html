@@ -173,17 +173,23 @@
     <div *ngIf="workHistoryData?.tasks.length !== 0">
       <div *ngFor="let tasks of workHistoryData?.tasks">
         <ion-card class="px-2 py-3" *ngIf="tasks.status !== 'reassigned'">
-          <div class="py-1 px-2">
-            <ion-text class="font-Lato font-semibold text-black text-base mt-1">Module: <span class="font-Lato font-medium bg-3D8AA4 rounded-md text-white px-3 py-1">{{tasks.dwr_type | titlecase}}</span> </ion-text>
+          <div class="py-0 px-2 flex justify-between">
+            <ion-text class="font-Lato font-semibold text-black text-base mt-1">Module:  </ion-text>
+            <span class="font-Lato font-medium bg-3D8AA4 rounded-md text-white px-3 py-1">{{tasks.dwr_type | titlecase}}</span>
           </div>
-          <div class="py-1 px-2">
-            <ion-text class="font-Lato font-semibold text-black text-base mt-1">Task ID: <span class="font-Lato font-medium rounded-md px-3 py-1">{{tasks.task_id | slice:0:23}}</span> </ion-text>
+          <div class="py-0 px-2 flex justify-between">
+            <ion-text class="font-Lato font-semibold text-black text-base mt-1">Task ID:  </ion-text>
+            <span class="font-Lato font-medium text-black text-base rounded-md px-3 py-1 ">{{tasks.task_id | slice:0:23}}</span>
+          </div>
+          <div class="py-0 px-2 flex justify-between">
+            <ion-text class="font-Lato font-semibold text-black text-base mt-1">Task Type:  </ion-text>
+            <ion-text class="text-black font-Lato text-sm font-medium underline-offset-4">{{tasks.taskType | titlecase}}</ion-text>
           </div>
 
           <div class="flex justify-between items-center mt-3 px-2 ">
             <ion-text class="text-3D8AA4 font-Lato text-sm font-medium underline underline-offset-4" (click)="navigate(tasks.task_id,'detail','',tasks.dwr_type)">View Detail</ion-text>
             <div>
-              <button class="bg-3D8AA4 text-3D8AA4 bg-opacity-20 rounded-md font-Lato text-sm px-4 py-2"  (click)="navigate(tasks.task_id,'send-back','',tasks.dwr_type)">Send Back</button>
+              <button *ngIf="tasks.taskType !== 'ticket created'"  class="bg-3D8AA4 text-3D8AA4 bg-opacity-20 rounded-md font-Lato text-sm px-4 py-2"  (click)="navigate(tasks.task_id,'send-back','',tasks.dwr_type)">Send Back</button>
               <button class="bg-3D8AA4 text-white rounded-md font-Lato text-sm px-4 py-2 ml-2"  (click)="navigate(tasks.task_id,'verify','',tasks.dwr_type)">Verify</button>
             </div>
           </div>

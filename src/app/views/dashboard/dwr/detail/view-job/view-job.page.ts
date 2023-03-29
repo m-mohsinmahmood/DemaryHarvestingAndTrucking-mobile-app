@@ -48,17 +48,7 @@ mechanic_id: any;
     });
     this.initForm();
 
-    // passing dummy job id from Customer_Job_Setup Table
-    // this.dwrService
-    //   .getJobById(this.task_id)
-    //   .subscribe((res) => {
-    //     this.loading.next(true);
-    //     console.log('res', res);
-    //     this.data = res;
-    //     this.loading.next(false);
-    //   });
-
-    this.dwrService.getDWRById(this.task_id,'getTicketData',this.dwr_type)
+    this.dwrService.getDWRById(this.task_id,'getTicketData',this.dwr_type,'','')
       .subscribe((res)=>{
         console.log('Res:',res);
 

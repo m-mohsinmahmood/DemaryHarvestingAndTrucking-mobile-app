@@ -19,6 +19,7 @@ export class DetailPage implements OnInit {
   dwr_id: any;
   role = '';
   dwr_type: any;
+  employee_id: any;
 
   // behaviour subject for loader
   public loading = new BehaviorSubject(true);
@@ -32,10 +33,8 @@ export class DetailPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    // this.type = this.router.getCurrentNavigation().extras.state.type;
-    // console.log('State:',this.router.getCurrentNavigation().extras.state);
 
-    //getting role
+    //getting employee details
     this.getEmployeeDetails();
 
     this.route.queryParams.subscribe((params)=>{
@@ -62,10 +61,12 @@ export class DetailPage implements OnInit {
   });
   }
   async ionViewDidEnter(){
+    this.getTickets();
     this.getEmployeeDetails();
   }
   getEmployeeDetails(){
     this.role = localStorage.getItem('role');
+    this.employee_id = localStorage.getItem('employeeId');
   }
   getJob(){
     this.router.navigateByUrl('/tabs/home/dwr/detail/view-job');
@@ -120,7 +121,16 @@ export class DetailPage implements OnInit {
     });
   }
   getTickets(){
-    this.dwrService.getDWRById(this.dwr_id,'getTasks',this.dwr_type)
+    console.log('type:', this.type);
+
+    let type;
+    console.log('type::', type);
+    if(this.type === 'verify') {type = 'getAssignedDWR';}
+    else{type = 'getMyDWR';}
+    console.log('type::', type);
+
+
+    this.dwrService.getDWRById(this.dwr_id,'getTasks',this.dwr_type, this.employee_id, type)
       .subscribe((res)=>{
         console.log('Res:',res);
           this.loading.next(true);

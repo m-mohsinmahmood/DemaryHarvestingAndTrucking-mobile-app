@@ -77,11 +77,14 @@ export class DWRService {
       })
       .pipe(take(1));
   }
-  getDWRById(id: string, operation: string,dwr_type) {
+  getDWRById(id: string, operation: string,dwr_type, employee_id: any, type: any) {
     let params = new HttpParams();
     params = params.set('operation', operation);
     params = params.set('taskId', id);
     params = params.set('dwr_type', dwr_type);
+    params = params.set('employeeId', employee_id);
+    params = params.set('type', type);
+
     return this.httpClient
       .get<any>('api-1/dwr', {
         params,
