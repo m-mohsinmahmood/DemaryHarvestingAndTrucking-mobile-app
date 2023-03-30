@@ -204,7 +204,6 @@ export class TrainingTasksPage implements OnInit {
         (res) => {
           console.log('RES:', res);
           if (res.status === 200) {
-            // this.loadingSpinner.next(false);
 
           // passing record id
           this.trainer_record_id = res.id.record_id;
@@ -215,11 +214,13 @@ export class TrainingTasksPage implements OnInit {
           } else {
             console.log('Something happened :)');
             this.toastService.presentToast(res.mssage, 'danger');
+            this.loadingSpinner.next(false);
           }
         },
         (err) => {
           console.log('ERROR::', err);
           this.toastService.presentToast(err.mssage, 'danger');
+          this.loadingSpinner.next(false);
         }
       );
   }
