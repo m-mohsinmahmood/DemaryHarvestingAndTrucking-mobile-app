@@ -65,8 +65,11 @@ mechanic_id: any;
           this.loading.next(true);
 
           this.data = res;
-          this.mechanic_id = res?.data[0]?.mechanic_id;
-          console.log('MECHANIUC:',this.mechanic_id);
+
+          // to get the mechanic ID
+          if(res?.data){
+            this.mechanic_id = res?.data[0]?.mechanic_id;
+          }
           // for basic skills to get the sat/un-sat status
           if(this.data?.trainingData?.length > 0){
 
