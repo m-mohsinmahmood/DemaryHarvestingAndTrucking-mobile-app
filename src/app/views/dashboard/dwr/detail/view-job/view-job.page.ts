@@ -55,7 +55,6 @@ mechanic_id: any;
           this.loading.next(true);
 
           this.data = res;
-
           // to get the mechanic ID
           if(res?.data){
             this.mechanic_id = res?.data[0]?.mechanic_id;

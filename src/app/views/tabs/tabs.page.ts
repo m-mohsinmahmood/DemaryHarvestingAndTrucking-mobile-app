@@ -40,6 +40,7 @@ export class TabsPage implements OnInit {
     if (route === 'profile') {
       this.resetAll();
       this.activeProfile = !this.activeProfile;
+      this.router.navigateByUrl('tabs/profile');
     }
   }
   resetAll() {

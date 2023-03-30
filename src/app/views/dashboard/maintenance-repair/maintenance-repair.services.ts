@@ -147,5 +147,16 @@ export class MaintenanceRepairService {
       .post<any>(`api-1/dwr`, data)
       .pipe(take(1));
   }
+  getAllTickets(entity, ticketType, employee_id){
+    let params = new HttpParams();
+    params = params.set('employee_id',employee_id);
+    params = params.set('entity',entity);
+    params = params.set('ticketType',ticketType);
+    return this.httpClient
+    .get<any>('api-1/main_repair', {
+      params,
+    })
+    .pipe(take(1));
+  }
 
 }

@@ -3,7 +3,48 @@
 <ion-content>
   <!-- <app-timer [value]="'01:12:45'"></app-timer> -->
 
+
   <div class="p-4">
+    <ion-text class="font-bold">Unassigned Tickets</ion-text>
+    <div *ngIf="(loading | async)=== true" class="h-64 w-full flex justify-center items-center">
+      <ion-spinner name="crescent"></ion-spinner>
+    </div>
+    <div *ngIf="(loading | async)=== false">
+      <div *ngIf="unassgnedData?.length <= 0 " class="flex justify-center items-center h-96">
+        <ion-text class="font-semibold">No Unassigned Tickets Found</ion-text>
+      </div>
+      <div *ngIf="unassgnedData?.length > 0">
+        <ion-card *ngFor="let unasignedValue of unassgnedData" class="px-6 py-2 m-0 mb-4 mt-4"
+          (click)="navigate(unasignedValue.id, 'assign')">
+          <div class="flex flex-col">
+            <div class="flex flex-row py-2">
+              <div class="w-8/12 flex flex-col">
+                <span class="text-lg text-black font-Lato font-semibold">Ticket # {{unasignedValue.repairTicketId}}</span>
+                <span class="font-Lato"> Status: {{unasignedValue.status}}</span>
+              </div>
+              <div class="w-4/12 flex justify-end rounded-3xl h-6 flex items-center justify-center bg-red-50">
+                <span class="text-sm text-red-500 font-Lato"> {{unasignedValue.severityType | titlecase}}</span>
+              </div>
+            </div>
+            <div class="mt-2.5 flex p-0">
+              <ion-grid class="p-0">
+                <ion-row>
+                  <ion-col size="8" class="p-0">
+                    <span class="text-sm font-Lato">Issue Type: </span>
+                    <span class="text-sm text-black font-Lato">{{unasignedValue.ticketType | titlecase}}</span>
+                  </ion-col>
+                  <ion-col size="4">
+                    <span class="text-sm font-Lato">{{unasignedValue.issueCategory | titlecase}}</span>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </div>
+          </div>
+        </ion-card>
+      </div>
+    </div>
+  </div>
+  <!-- <div class="p-4">
     <div class="segment-style mt-4">
       <ion-segment [(ngModel)]="segment" scrollable>
         <ion-segment-button value="unassigned" (click)="getTickets('unassignedTickets')">
@@ -176,5 +217,5 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 </ion-content>
