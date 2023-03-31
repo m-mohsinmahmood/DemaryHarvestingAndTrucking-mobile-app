@@ -465,7 +465,7 @@ export class TicketAssignedToPage implements OnInit {
           if (res.status === 200) {
             this.loadingSpinnerContinue.next(false);
 
-            this.router.navigateByUrl('/tabs/home/maintenance-repair/assign-tickets');
+            this.router.navigateByUrl('/tabs/home/maintenance-repair');
             this.toastService.presentToast(
               'Ticket has been paused',
               'success'
@@ -518,7 +518,7 @@ createDWR(){
 
 
      // navigating
-        this.router.navigateByUrl('/tabs/home/maintenance-repair/assign-tickets');
+        this.router.navigateByUrl('/tabs/home/maintenance-repair');
       } else {
         console.log('Something happened :)');
         this.loadingSpinner.next(false);
