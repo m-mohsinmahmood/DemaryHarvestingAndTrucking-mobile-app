@@ -5,40 +5,50 @@
   <!-- <app-timer [value]="'01:12:45'"></app-timer> -->
 
   <div class="p-4">
-    <ion-button class="font-Lato text-white w-full" expand="block" [routerLink]="['report-equip-issue']">
-      <ion-icon slot="start" name="add-outline"></ion-icon>
-      Report Equipment Issue
-    </ion-button>
-    <ion-button class="font-Lato text-white w-full" expand="block" [routerLink]="['assign-tickets']">
-      Assign Tickets</ion-button>
+    <ion-accordion-group>
+      <ion-accordion value="first">
+        <div class="accordionItem flex center items-center" slot="header">
+          <div>Items</div>
+          <div> <ion-icon slot="start" name="add-outline" size="12px"></ion-icon></div>
 
+        </div>
 
+        <div slot="content">
+          <ion-button class="font-Lato text-white w-full" expand="block" [routerLink]="['report-equip-issue']">
+            <ion-icon slot="start" name="add-outline"></ion-icon>
+            Report Equipment Issue
+          </ion-button>
+          <ion-button class="font-Lato text-white w-full" expand="block" [routerLink]="['assign-tickets']">
+            Assign Tickets</ion-button>
 
-    <div class="mt-8">
-      <ion-text class="font-bold ml-4">Create New Ticket</ion-text>
-      <ion-grid>
-        <ion-row>
-          <ion-col size="6">
-            <ion-button class="font-Lato text-white" expand="block" [routerLink]="['create-repair-or-maintenance']"
-              [queryParams]="{category: 'repair'}">
-              <ion-icon slot="start" name="add-outline"></ion-icon>
-              Repair
-            </ion-button>
-          </ion-col>
-          <ion-col size="6">
-            <ion-button class="font-Lato text-white" expand="block" [routerLink]="['create-repair-or-maintenance']"
-              [queryParams]="{category: 'maintenance'}">
-              <ion-icon slot="start" name="add-outline"></ion-icon>
-              Maintenance
-            </ion-button>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </div>
-
- <!-- MODEL -->
- <app-check-in-out [isModalOpen]="isModalOpen" [data]="activeDwr" *ngIf="activeDwr" [module]="'maintenance-repair'">
-</app-check-in-out>
+          <div class="mt-8">
+            <ion-text class="font-bold ml-4">Create New Ticket</ion-text>
+            <ion-grid>
+              <ion-row>
+                <ion-col size="6">
+                  <ion-button class="font-Lato text-white" expand="block"
+                    [routerLink]="['create-repair-or-maintenance']" [queryParams]="{category: 'repair'}">
+                    <ion-icon slot="start" name="add-outline"></ion-icon>
+                    Repair
+                  </ion-button>
+                </ion-col>
+                <ion-col size="6">
+                  <ion-button class="font-Lato text-white" expand="block"
+                    [routerLink]="['create-repair-or-maintenance']" [queryParams]="{category: 'maintenance'}">
+                    <ion-icon slot="start" name="add-outline"></ion-icon>
+                    Maintenance
+                  </ion-button>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </div>
+          <!-- MODEL -->
+          <app-check-in-out [isModalOpen]="isModalOpen" [data]="activeDwr" *ngIf="activeDwr"
+            [module]="'maintenance-repair'">
+          </app-check-in-out>
+        </div>
+      </ion-accordion>
+    </ion-accordion-group>
 
     <div class="mt-2">
       <ion-text class="font-bold">My Tickets</ion-text>
@@ -92,16 +102,19 @@
               <ion-row>
                 <ion-col size="4" class="flex justify-center">
                   <!-- <ion-text (click)="getData('all')" class="text-sm font-Lato ${{value === 'all'? 'border-3D8AA4 border-2': 'border-red border-2'}} rounded-sm w-16 text-center">All</ion-text> -->
-                  <ion-text (click)="handleChange('all')" class="${{value === 'all'? 'text-sm font-Lato border-3D8AA4 border-2 rounded-md px-2 py-1 text-center': 'text-sm font-Lato border-red border-2 rounded-md px-2 py-1 text-center'}}">All</ion-text>
+                  <ion-text (click)="handleChange('all')"
+                    class="${{value === 'all'? 'text-sm font-Lato border-3D8AA4 border-2 rounded-md px-2 py-1 text-center': 'text-sm font-Lato border-red border-2 rounded-md px-2 py-1 text-center'}}">All</ion-text>
 
                 </ion-col>
                 <ion-col size="4" class="flex justify-center">
                   <!-- <ion-text (click)="getData('assignedTickets')" class="text-sm font-Lato ${{value === 'assignedTickets'? 'border-3D8AA4 border-2': 'border-red border-2'}} rounded-sm w-20 text-center">Assigned</ion-text> -->
-                  <ion-text (click)="handleChange('assignedTickets')" class="${{value === 'assignedTickets'? 'text-sm font-Lato border-3D8AA4 border-2 rounded-md px-2 py-1 text-center': 'text-sm font-Lato border-red border-2 rounded-md px-2 py-1 text-center'}}">Assigned</ion-text>
+                  <ion-text (click)="handleChange('assignedTickets')"
+                    class="${{value === 'assignedTickets'? 'text-sm font-Lato border-3D8AA4 border-2 rounded-md px-2 py-1 text-center': 'text-sm font-Lato border-red border-2 rounded-md px-2 py-1 text-center'}}">Assigned</ion-text>
 
                 </ion-col>
                 <ion-col size="4" class="flex justify-center">
-                  <ion-text (click)="handleChange('continuedTickets')" class="${{value === 'continuedTickets'? 'text-sm font-Lato border-3D8AA4 border-2 rounded-md px-2 py-1 text-center': 'text-sm font-Lato border-red border-2 rounded-md px-2 py-1 text-center'}}">Paused</ion-text>
+                  <ion-text (click)="handleChange('continuedTickets')"
+                    class="${{value === 'continuedTickets'? 'text-sm font-Lato border-3D8AA4 border-2 rounded-md px-2 py-1 text-center': 'text-sm font-Lato border-red border-2 rounded-md px-2 py-1 text-center'}}">Paused</ion-text>
 
                   <!-- <ion-text (click)="getData('continuedTickets')" class="text-sm font-Lato ${{value === 'continuedTickets'? 'border-3D8AA4 border-2': 'border-red border-2'}} rounded-sm w-20 text-center">Paused</ion-text> -->
                 </ion-col>
@@ -127,7 +140,8 @@
                         <span class="font-Lato"> Status: {{repairTicket.status}}</span>
                       </div>
                       <div class="w-4/12 rounded-3xl h-6 flex items-center justify-center bg-red-50">
-                        <span class="text-sm text-red-500 font-Lato"> {{repairTicket.severityType | titlecase}}</span>
+                        <span class="text-sm text-red-500 font-Lato"> {{repairTicket.severityType |
+                          titlecase}}</span>
                       </div>
                     </div>
 
@@ -136,7 +150,8 @@
                         <ion-row>
                           <ion-col size="8" class="p-0">
                             <span class="text-sm font-Lato">Issue Type: </span>
-                            <span class="text-sm text-black font-Lato">{{repairTicket.ticketType | titlecase}}</span>
+                            <span class="text-sm text-black font-Lato">{{repairTicket.ticketType |
+                              titlecase}}</span>
                           </ion-col>
                           <ion-col size="4">
                             <span class="text-sm font-Lato">{{repairTicket.issueCategory | titlecase}}</span>
@@ -179,11 +194,13 @@
                         <ion-row>
                           <ion-col size="8" class="p-0">
                             <span class="text-sm font-Lato">Issue Type: </span>
-                            <span class="text-sm text-black font-Lato">{{maintenanceTicketData.ticketType | titlecase
+                            <span class="text-sm text-black font-Lato">{{maintenanceTicketData.ticketType |
+                              titlecase
                               }}</span>
                           </ion-col>
                           <ion-col size="4">
-                            <span class="text-sm font-Lato">{{maintenanceTicketData.issueCategory | titlecase}}</span>
+                            <span class="text-sm font-Lato">{{maintenanceTicketData.issueCategory |
+                              titlecase}}</span>
                           </ion-col>
                         </ion-row>
                       </ion-grid>
