@@ -5,53 +5,50 @@
   <!-- <app-timer [value]="'01:12:45'"></app-timer> -->
 
   <div class="p-4">
-    <ion-accordion-group>
-      <ion-accordion value="first">
-        <div class="accordionItem flex center items-center" slot="header">
-          <div class="ml-2 font-Lato font-semibold">Show Content</div>
-          <div class="ml-2"> <ion-icon slot="start" name="add-outline" class=""></ion-icon></div>
-        </div>
+      <ion-accordion-group expand="inset">
+        <ion-accordion >
+          <ion-item slot="header" color="rose">
+            <ion-label class="font-Lato font-semibold text-base">Action Menu</ion-label>
+          </ion-item>
+          <div slot="content" class="px-3 py-3 bg-white">
+            <ion-button class="font-Lato text-white w-full" expand="block" [routerLink]="['report-equip-issue']">
+              <ion-icon slot="start" name="add-outline"></ion-icon>
+              Report Equipment Issue
+            </ion-button>
+            <ion-button class="font-Lato text-white w-full" expand="block" [routerLink]="['assign-tickets']">
+              Assign Tickets</ion-button>
 
-        <div slot="content">
-          <ion-button class="font-Lato text-white w-full" expand="block" [routerLink]="['report-equip-issue']">
-            <ion-icon slot="start" name="add-outline"></ion-icon>
-            Report Equipment Issue
-          </ion-button>
-          <ion-button class="font-Lato text-white w-full" expand="block" [routerLink]="['assign-tickets']">
-            Assign Tickets</ion-button>
-
-          <div class="mt-8">
-            <ion-text class="font-bold ml-4">Create New Ticket</ion-text>
-            <ion-grid>
-              <ion-row>
-                <ion-col size="6">
-                  <ion-button class="font-Lato text-white" expand="block"
-                    [routerLink]="['create-repair-or-maintenance']" [queryParams]="{category: 'repair'}">
-                    <ion-icon slot="start" name="add-outline"></ion-icon>
-                    Repair
-                  </ion-button>
-                </ion-col>
-                <ion-col size="6">
-                  <ion-button class="font-Lato text-white" expand="block"
-                    [routerLink]="['create-repair-or-maintenance']" [queryParams]="{category: 'maintenance'}">
-                    <ion-icon slot="start" name="add-outline"></ion-icon>
-                    Maintenance
-                  </ion-button>
-                </ion-col>
-              </ion-row>
-            </ion-grid>
+            <div class="mt-8">
+              <ion-text class="font-bold ml-4">Create New Ticket</ion-text>
+              <ion-grid>
+                <ion-row>
+                  <ion-col size="6">
+                    <ion-button class="font-Lato text-white" expand="block"
+                      [routerLink]="['create-repair-or-maintenance']" [queryParams]="{category: 'repair'}">
+                      <ion-icon slot="start" name="add-outline"></ion-icon>
+                      Repair
+                    </ion-button>
+                  </ion-col>
+                  <ion-col size="6">
+                    <ion-button class="font-Lato text-white" expand="block"
+                      [routerLink]="['create-repair-or-maintenance']" [queryParams]="{category: 'maintenance'}">
+                      <ion-icon slot="start" name="add-outline"></ion-icon>
+                      Maintenance
+                    </ion-button>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </div>
+            <!-- MODEL -->
+            <app-check-in-out [isModalOpen]="isModalOpen" [data]="activeDwr" *ngIf="activeDwr"
+              [module]="'maintenance-repair'">
+            </app-check-in-out>
           </div>
-          <!-- MODEL -->
-          <app-check-in-out [isModalOpen]="isModalOpen" [data]="activeDwr" *ngIf="activeDwr"
-            [module]="'maintenance-repair'">
-          </app-check-in-out>
-        </div>
-      </ion-accordion>
-    </ion-accordion-group>
-
-    <div class="mt-2">
-      <ion-text class="font-bold">My Tickets</ion-text>
-      <div class="segment-style mt-4">
+        </ion-accordion>
+      </ion-accordion-group>
+    <div class="mt-4">
+      <ion-text class="font-bold ml-4">My Tickets</ion-text>
+      <div class="segment-style mt-2">
         <ion-segment [(ngModel)]="segment" scrollable>
           <ion-segment-button value="repair" (click)="getTickets('repair')">
             <div class="flex justify-center items-center">
@@ -63,7 +60,7 @@
               </span>
               <span *ngIf="(loading | async)=== false"
                 class="text-white w-8 h-4 rounded-full flex justify-center items-center">
-                {{repairTicketsData?.length}}
+                {{allRepairTicketsData?.length}}
               </span>
             </div>
           </ion-segment-button>
@@ -78,7 +75,7 @@
               </span>
               <span *ngIf="(loading | async)=== false"
                 class="text-white w-8 h-4 rounded-full flex justify-center items-center">
-                {{maintenanceTicketsData?.length}}
+                {{allMaintenanceTicketsData?.length}}
               </span>
             </div>
           </ion-segment-button>
@@ -88,34 +85,65 @@
           <div>
             <ion-grid>
               <ion-row>
-                <ion-col size="4" class="flex justify-center">
-                  <ion-text (click)="handleChange('all')" class="${{value === 'all'? 'text-sm font-Lato border-3D8AA4 border-2 rounded-md px-2 py-1 text-center': 'text-sm font-Lato border-red border-2 rounded-md px-2 py-1 text-center'}}">
-                    All
-                  </ion-text>
-                </ion-col>
-                <ion-col size="4" class="flex justify-center">
-                  <!-- <div class="flex justify-center items-center"> -->
-                    <ion-text (click)="handleChange('assignedTickets')" class="${{value === 'assignedTickets'? 'text-sm font-Lato border-3D8AA4 border-2 rounded-md px-2 py-1 w-20 flex justify-center items-center': 'text-sm font-Lato border-red border-2 rounded-md px-4 py-1 text-center'}}">
-                      Assigned
-                      <!-- <span *ngIf="(loading | async)=== true"
-                          class="text-white w-8 h-4 rounded-full flex justify-center items-center">
+                <ion-col size="4" >
+                  <div (click)="handleChange('all')"
+                    class="${{value === 'all'? 'flex justify-between items-center text-sm font-Lato border-3D8AA4 border-2 rounded-md px-1 py-1': 'flex justify-center items-center text-sm font-Lato border-2 rounded-md px-1 py-1'}}">
+                    <div class="flex justify-center items-center">
+                      <div class="">
+                        <ion-text class="text-sm font-Lato">
+                          All
+                      </ion-text></div>
+                      <div class="ml-2 bg-3D8AA4 rounded-lg">
+                        <span *ngIf="(loading | async)=== true" class="text-white w-8 h-4 rounded-full flex justify-center items-center">
                           <ion-skeleton-text [animated]="true"
                             style="width: 100%; height: 19px; border-radius: 5px; background-color: rgb(250, 250, 250);"></ion-skeleton-text>
                         </span>
-                        <span *ngIf="(loading | async)=== false"
-                          class="text-black w-8 h-4 rounded-full flex justify-center items-center">
-                          {{repairTicketsData?.length}}
-                        </span> -->
-                  </ion-text>
+                        <span *ngIf="(loading | async)=== false" class="text-white px-2 rounded-full">
+                          {{type === 'repair'? allRepairTicketsData?.length : allMaintenanceTicketsData?.length}}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
                 </ion-col>
-                <ion-col size="4" class="flex justify-center">
-                  <ion-text (click)="handleChange('continuedTickets')" class="${{value === 'continuedTickets'? 'text-sm font-Lato border-3D8AA4 border-2 rounded-md px-2 py-1 text-center': 'text-sm font-Lato border-red border-2 rounded-md px-2 py-1 text-center'}}">
-                    Paused
-                    <!-- <span *ngIf="(loading | async)=== false"
-                class="text-white w-8 h-4 rounded-full flex justify-center items-center">
-                {{repairTicketsData?.length}}
-              </span> -->
-                </ion-text>
+                <ion-col size="4">
+                  <div (click)="handleChange('assignedTickets')"
+                    class="${{value === 'assignedTickets'? 'flex justify-between items-center text-sm font-Lato border-3D8AA4 border-2 rounded-md px-2 py-1': 'flex justify-center items-center text-sm font-Lato border-2 rounded-md px-2 py-1'}}">
+                    <div class="flex justify-center items-center">
+                      <div class="">
+                        <ion-text class="text-sm font-Lato">
+                        Assigned
+                      </ion-text></div>
+                      <div class="ml-2 bg-3D8AA4 rounded-lg">
+                        <span *ngIf="(loading | async)=== true" class="text-white w-8 h-4 rounded-full flex justify-center items-center">
+                          <ion-skeleton-text [animated]="true"
+                            style="width: 100%; height: 19px; border-radius: 5px; background-color: rgb(250, 250, 250);"></ion-skeleton-text>
+                        </span>
+                        <span *ngIf="(loading | async)=== false" class="text-white px-2 rounded-full">
+                          {{type === 'repair'? assignedRepairTicketsData?.length : assignedMaintenanceTicketsData?.length}}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </ion-col>
+                <ion-col size="4" >
+                <div (click)="handleChange('continuedTickets')"
+                    class="${{value === 'continuedTickets'? 'flex justify-between items-center text-sm font-Lato border-3D8AA4 border-2 rounded-md px-2 py-1': 'flex justify-center items-center text-sm font-Lato border-2 rounded-md px-2 py-1'}}">
+                    <div class="flex justify-center items-center">
+                      <div class="">
+                        <ion-text class="text-sm font-Lato">
+                          Paused
+                      </ion-text></div>
+                      <div class="ml-2 bg-3D8AA4 rounded-lg">
+                        <span *ngIf="(loading | async)=== true" class="text-white w-8 h-4 rounded-full flex justify-center items-center">
+                          <ion-skeleton-text [animated]="true"
+                            style="width: 100%; height: 19px; border-radius: 5px; background-color: rgb(250, 250, 250);"></ion-skeleton-text>
+                        </span>
+                        <span *ngIf="(loading | async)=== false" class="text-white px-2 rounded-full">
+                          {{type === 'repair'? pausedRepairTicketsData?.length : pausedMaintenanceTicketsData?.length}}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
                 </ion-col>
               </ion-row>
             </ion-grid>
@@ -124,9 +152,6 @@
             <div *ngIf="(loading | async)=== true" class=" w-full flex justify-center items-center">
               <ion-spinner name="crescent"></ion-spinner>
             </div>
-            <!-- <div class="flex justify-end">
-              <ion-icon name="filter-outline" (click)="filter('repair')"></ion-icon>
-            </div> -->
             <div *ngIf="(loading | async)=== false">
               <div *ngIf="repairTicketsData?.length > 0">
                 <ion-card class="px-6 py-2 m-0 mb-4" *ngFor="let repairTicket of repairTicketsData"
@@ -179,7 +204,7 @@
                           {{maintenanceTicketData.repairTicketId.substring(0,6)}}</span>
                         <span class="font-Lato"> Status: {{maintenanceTicketData.status}}</span>
                       </div>
-                      <div class="w-4/12 flex justify-end rounded-3xl h-6 items-center bg-red-50">
+                      <div class="w-4/12 rounded-3xl h-6 flex items-center justify-center bg-red-50">
                         <span class="text-sm text-red-500 font-Lato"> {{maintenanceTicketData.severityType |
                           titlecase}}</span>
                       </div>

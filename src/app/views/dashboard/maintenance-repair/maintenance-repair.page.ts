@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { MaintenanceRepairService } from './maintenance-repair.services';
 import { CheckInOutService } from './../../../components/check-in-out/check-in-out.service';
+import { IonAccordionGroup } from '@ionic/angular';
 
 @Component({
   selector: 'app-maintenance-repair',
@@ -12,7 +13,16 @@ import { CheckInOutService } from './../../../components/check-in-out/check-in-o
 export class MaintenanceRepairPage implements OnInit {
   @ViewChild('sectionSelect') sectionSelect: any;
 
+
   segment = 'repair';
+  allRepairTicketsData: any;
+  assignedRepairTicketsData: any;
+  pausedRepairTicketsData: any;
+
+  allMaintenanceTicketsData: any;
+  assignedMaintenanceTicketsData: any;
+  pausedMaintenanceTicketsData: any;
+
   repairTicketsData: any;
   maintenanceTicketsData: any;
   isModalOpen;
@@ -37,12 +47,17 @@ export class MaintenanceRepairPage implements OnInit {
 
   ionViewWillEnter(){
     this.getTicketsData();
+    this.value = 'all';
   }
 
   getTicketsData(){
 this.getRepairAll();
+this.getRepairAssignedtickets();
+this.getRepairContinuedTickets();
 
 this.getMaintenanceAll();
+this.getMaintenanceAssignedtickets();
+this.getMaintenaceContinuedTickets();
 
    this.isModalOpen = false;
 
@@ -117,7 +132,7 @@ this.getMaintenanceAll();
     }
   }
   getData(value){
-    this.value = value
+    this.value = value;
     // if (entity === 'repair') {
     //   // repair tickets
     // // this.maintenanceRepairService
@@ -211,6 +226,7 @@ getRepairContinuedTickets(){
     console.log('repair continued tickets', res);
     this.loading.next(true);
     this.repairTicketsData = res;
+    this.pausedRepairTicketsData = res;
     this.loading.next(false);
   });
 }
@@ -221,6 +237,7 @@ getMaintenaceContinuedTickets(){
     console.log('maintenance continued tickets', res);
     this.loading.next(true);
     this.maintenanceTicketsData = res;
+    this.pausedMaintenanceTicketsData = res;
     this.loading.next(false);
   });
 }
@@ -234,6 +251,7 @@ getRepairAssignedtickets(){
     console.log('repair  assigned tickets', res);
     this.loading.next(true);
     this.repairTicketsData = res;
+    this.assignedRepairTicketsData = res;
     this.loading.next(false);
   });
 }
@@ -247,6 +265,7 @@ getMaintenanceAssignedtickets(){
     console.log('maintenance assigned tickets', res);
     this.loading.next(true);
     this.maintenanceTicketsData = res;
+    this.assignedMaintenanceTicketsData = res;
     this.loading.next(false);
   });
 }
@@ -256,6 +275,7 @@ getRepairAll(){
     console.log('all repair tickets', res);
     this.loading.next(true);
     this.repairTicketsData = res;
+    this.allRepairTicketsData = res;
     this.loading.next(false);
   });
 }
@@ -265,6 +285,7 @@ getMaintenanceAll(){
     console.log('all maintenance  tickets', res);
     this.loading.next(true);
     this.maintenanceTicketsData = res;
+    this.allMaintenanceTicketsData = res;
     this.loading.next(false);
   });
 }
