@@ -72,7 +72,7 @@ export class HeaderComponent implements OnInit {
       this.router.navigateByUrl('/tabs/home/training');
     }
     else if(this.routeValue === 'assign-ticket'){
-      this.router.navigateByUrl('/tabs/home/maintenance-repair/assign-tickets');
+      this.router.navigateByUrl('/tabs/home/maintenance-repair');
     }
     else if(this.routeValue === 'complete-maintenance-ticket'){
       this.router.navigateByUrl('/tabs/home/maintenance-repair');

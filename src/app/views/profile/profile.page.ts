@@ -6,10 +6,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./profile.page.scss'],
 })
 export class ProfilePage implements OnInit {
-
+isOpen = false
   constructor() { }
 
   ngOnInit() {
   }
+
+  // edit(){
+  //   this.isOpen = true
+  // }
 
 }

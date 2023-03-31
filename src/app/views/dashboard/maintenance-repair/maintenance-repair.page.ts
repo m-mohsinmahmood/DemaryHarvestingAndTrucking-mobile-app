@@ -95,13 +95,26 @@ this.getMaintenanceAll();
   //       this.loading.next(false);
   //     });
   // }
-  navigate(id: any, entity: any){
+  navigate(id: any, entity: any, data){
+    if(data.iscontinue === true){
       this.router.navigate(['/tabs/home/maintenance-repair/complete-existing-ticket'],{
         queryParams:{
           ticketRecordId: id,
           category: entity
         }
       });
+    }
+    else{
+      this.router.navigate(
+        ['/tabs/home/maintenance-repair/assign-tickets/ticket-assigned-to'],
+        {
+          queryParams: {
+            ticketRecordId: id,
+            entity
+          },
+        }
+      );
+    }
   }
   getData(value){
     this.value = value
@@ -166,7 +179,6 @@ this.getRepairContinuedTickets();
 // maintenance tickets (continued)
 else if( this.type === 'maintenance' && this.value === 'continuedTickets'){
   this.getMaintenaceContinuedTickets();
-  console.log('---------');
   }
 
     // repair tickets (assigned)
