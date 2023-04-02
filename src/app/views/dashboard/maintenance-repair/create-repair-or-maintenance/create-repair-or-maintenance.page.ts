@@ -88,6 +88,9 @@ export class CreateRepairORMaintenancePage implements OnInit {
   }
 
   ngOnInit() {
+    console.log('--',new Date().valueOf());
+    console.log('--',new Date().valueOf().toString().slice());
+    console.log('--',new Date().valueOf().toString().slice(0,6));
     this.activeRoute.queryParams.subscribe((param) => {
       this.category = param.category;
     });
