@@ -29,6 +29,7 @@ export class DashboardPage implements OnInit {
     private nav: Router,
     private activatedRoute: ActivatedRoute,
     private auth: AuthService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -36,19 +37,17 @@ export class DashboardPage implements OnInit {
     this.initDataRetrieval();
     console.log(localStorage.getItem('employeeId'));
     console.log(localStorage.getItem('role'));
+
   }
 
   async ionViewDidEnter() {
     this.initDataRetrieval();
-    console.log('ionViewDidEnter');
   }
   async ionViewWillEnter() {
     this.initDataRetrieval();
-    console.log('ionViewWillEnter');
   }
 
   initDataRetrieval() {
-
     this.selectform = this.formbuilder.group({
       select: [''],
     });

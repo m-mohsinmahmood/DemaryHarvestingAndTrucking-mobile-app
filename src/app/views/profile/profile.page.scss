@@ -7,3 +7,17 @@ ion-modal {
   --border-radius: 16px;
   --box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
 }
+ion-spinner {
+  --color: rgb(14 116 144);
+}
+.accordionItem::part(native) {
+  padding: 0px;
+  color: rgb(120,120,120);
+}
+ion-accordion{
+  background-color: rgb(240, 240, 240);
+}
+
+ion-accordion-group{
+  margin: 0px !important;
+}

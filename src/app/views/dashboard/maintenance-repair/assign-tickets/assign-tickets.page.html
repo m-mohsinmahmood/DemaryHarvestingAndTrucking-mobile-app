@@ -11,7 +11,7 @@
     </div>
     <div *ngIf="(loading | async)=== false">
       <div *ngIf="unassgnedData?.length <= 0 " class="flex justify-center items-center h-96">
-        <ion-text class="font-semibold">No Unassigned Tickets Found</ion-text>
+        <ion-text class="font-semibold">No Unassigned Ticket(s) Found</ion-text>
       </div>
       <div *ngIf="unassgnedData?.length > 0">
         <ion-card *ngFor="let unasignedValue of unassgnedData" class="px-6 py-2 m-0 mb-4 mt-4"

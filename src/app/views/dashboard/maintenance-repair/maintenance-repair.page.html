@@ -153,6 +153,9 @@
               <ion-spinner name="crescent"></ion-spinner>
             </div>
             <div *ngIf="(loading | async)=== false">
+              <div *ngIf="repairTicketsData?.length <= 0 " class="flex justify-center items-center h-96">
+                <ion-text class="font-semibold">No Ticket(s) Found</ion-text>
+              </div>
               <div *ngIf="repairTicketsData?.length > 0">
                 <ion-card class="px-6 py-2 m-0 mb-4" *ngFor="let repairTicket of repairTicketsData"
                   (click)="navigate(repairTicket.id,'repair', repairTicket)">
@@ -194,6 +197,10 @@
               <ion-spinner name="crescent"></ion-spinner>
             </div>
             <div *ngIf="(loading | async)=== false">
+
+              <div *ngIf="maintenanceTicketsData?.length <= 0 " class="flex justify-center items-center h-96">
+                <ion-text class="font-semibold">No Ticket(s) Found</ion-text>
+              </div>
               <div *ngIf="maintenanceTicketsData?.length > 0">
                 <ion-card class="px-6 py-2 m-0 mb-4 mt-0" (click)="navigate(maintenanceTicketData.id,'maintenance', maintenanceTicketData)"
                   *ngFor="let maintenanceTicketData of maintenanceTicketsData">

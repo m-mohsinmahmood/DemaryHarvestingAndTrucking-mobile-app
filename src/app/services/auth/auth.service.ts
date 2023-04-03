@@ -1,3 +1,5 @@
+/* eslint-disable object-shorthand */
+/* eslint-disable prefer-const */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/member-ordering */
@@ -109,9 +111,13 @@ export class AuthService {
       .then((user) => {
         // console.log('user', user);
         console.log('Firebase Id:',user.user.uid);
+
+        // localstorage
+        localStorage.setItem('fb_id',user.user.uid);
+
+        // getting employee details
         this.getEmployeeDetailsByFirbaseId(user.user.uid);
-        // this.isLoading.next(false);
-        // this.router.navigate(['tabs'], { replaceUrl: true });
+
       })
       .catch(async (err: FirebaseError) => {
         this.isLoading.next(false);
