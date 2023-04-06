@@ -74,6 +74,19 @@ export class DWRService {
       })
       .pipe(take(1));
   }
+  reassignDWR(operation: any,id){
+    let params = new HttpParams();
+    params = params.set('operation',operation);
+    params = params.set('id',id);
+
+    let data;
+
+    return this.httpClient
+      .patch<any>('api-1/dwr',data,{
+        params,
+      })
+      .pipe(take(1));
+  }
   getDWRById(id: string, operation: string,dwr_type, employee_id: any, type: any) {
     let params = new HttpParams();
     params = params.set('operation', operation);
@@ -138,14 +151,14 @@ export class DWRService {
     })
     .pipe(take(1));
   }
-  reassign(operation, id){
-        let params = new HttpParams();
-        params = params.set('operation',operation);
-        params = params.set('id',id);
-        return this.httpClient
-    .get<any>('api-1/dwr', {
-      params,
-    })
-    .pipe(take(1));
-  }
+  // reassign(operation, id){
+  //       let params = new HttpParams();
+  //       params = params.set('operation',operation);
+  //       params = params.set('id',id);
+  //       return this.httpClient
+  //   .patch<any>('api-1/dwr', {
+  //     params,
+  //   })
+  //   .pipe(take(1));
+  // }
 }

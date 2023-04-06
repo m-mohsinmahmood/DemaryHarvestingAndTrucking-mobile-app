@@ -390,18 +390,19 @@
           <ion-col size="6" (click)="reassign(data.id)">
             <div class="flex justify-end items-center">
               <div class="bg-gray-100 border-gray-500 border-2 rounded-md px-2 py-1">
-           <ion-text *ngIf="(loadingSpinner | async) === false" class="font-semibold text-xs text-gray-500">Reassign</ion-text>
-           <ion-spinner *ngIf="data.id === id && (loadingSpinner | async) === true" class="reassign" name="crescent"></ion-spinner>
-          </div>
+                <ion-text class="font-semibold text-xs text-gray-500">Reassign</ion-text>
+              </div>
+              <ion-spinner *ngIf="data.id === id && (loadingSpinner | async) === true" class="reassign"
+                  name="crescent"></ion-spinner>
             </div>
           </ion-col>
           <ion-col size="12" class="flex justify-between items-center">
             <ion-text class="font-semibold text-black font-Lato text-base">Log-in</ion-text>
-            <ion-text class="font-semibold text-black font-Lato text-sm">{{moment(data.login_time).format('DD/MM/YYYY hh:mm:ss')}}</ion-text>
+            <ion-text class="font-semibold text-black font-Lato text-sm">{{moment(data.login_time).format('DD/MM/YYYY hh:mm:ss A')}}</ion-text>
           </ion-col>
           <ion-col size="12" class="flex justify-between items-center">
             <ion-text class="font-semibold text-black font-Lato text-base">Log-out</ion-text>
-            <ion-text class="font-semibold text-black font-Lato text-sm">{{moment(data.logout_time).format('DD/MM/YYYY hh:mm:ss')}}</ion-text>
+            <ion-text class="font-semibold text-black font-Lato text-sm">{{moment(data.logout_time).format('DD/MM/YYYY hh:mm:ss A')}}</ion-text>
           </ion-col>
           <ion-col size="12" class="flex justify-between items-center">
             <ion-text class="font-semibold text-black font-Lato text-base">Total Hours</ion-text>
@@ -442,24 +443,25 @@
         <ion-card class="mx-2 my-1">
           <ion-card-content>
         <ion-row>
-          <ion-col size="8">
+          <ion-col size="8" >
             <ion-text class="bg-blue-100 border-blue-500 border-2 rounded-md px-2 py-1 font-semibold text-xs text-blue-500">MAINTENANCE & REPAIR</ion-text>
           </ion-col>
-          <ion-col size="4">
+          <ion-col size="4" (click)="reassign(data.id)">
             <div class="flex justify-end items-center">
               <div class="bg-gray-100 border-gray-500 border-2 rounded-md px-2 py-1">
            <ion-text class="font-semibold text-xs text-gray-500">Reassign</ion-text>
-           <!-- <ion-spinner class="reassign" name="crescent"></ion-spinner> -->
           </div>
+          <ion-spinner *ngIf="data.id === id && (loadingSpinner | async) === true" class="reassign"
+          name="crescent"></ion-spinner>
             </div>
           </ion-col>
           <ion-col size="12" class="flex justify-between items-center">
             <ion-text class="font-semibold text-black font-Lato text-base">Log-in</ion-text>
-            <ion-text class="font-semibold text-black font-Lato text-sm">{{moment(data.login_time).format('DD/MM/YYYY hh:mm:ss')}}</ion-text>
+            <ion-text class="font-semibold text-black font-Lato text-sm">{{moment(data.login_time).format('DD/MM/YYYY hh:mm:ss A')}}</ion-text>
           </ion-col>
           <ion-col size="12" class="flex justify-between items-center">
             <ion-text class="font-semibold text-black font-Lato text-base">Log-out</ion-text>
-            <ion-text class="font-semibold text-black font-Lato text-sm">{{moment(data.logout_time).format('DD/MM/YYYY hh:mm:ss')}}</ion-text>
+            <ion-text class="font-semibold text-black font-Lato text-sm">{{moment(data.logout_time).format('DD/MM/YYYY hh:mm:ss A')}}</ion-text>
           </ion-col>
           <ion-col size="12" class="flex justify-between items-center">
             <ion-text class="font-semibold text-black font-Lato text-base">Total Hours</ion-text>
@@ -505,12 +507,13 @@
           <ion-col size="6">
             <ion-text class="bg-blue-100 border-blue-500 border-2 rounded-md px-2 py-1 font-semibold text-xs text-blue-500">OTHER</ion-text>
           </ion-col>
-          <ion-col size="6">
+          <ion-col size="6" (click)="reassign(data.id)">
             <div class="flex justify-end items-center">
               <div class="bg-gray-100 border-gray-500 border-2 rounded-md px-2 py-1">
-           <ion-text class="font-semibold text-xs text-gray-500">Reassign</ion-text>
-           <!-- <ion-spinner class="reassign" name="crescent"></ion-spinner> -->
-          </div>
+                <ion-text class="font-semibold text-xs text-gray-500">Reassign</ion-text>
+              </div>
+              <ion-spinner *ngIf="data.id === id && (loadingSpinner | async) === true" class="reassign"
+                name="crescent"></ion-spinner>
             </div>
           </ion-col>
           <ion-col size="12" class="flex justify-between items-center">

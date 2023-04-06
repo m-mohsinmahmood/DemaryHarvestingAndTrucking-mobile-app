@@ -1,4 +1,4 @@
-
+-
 <app-header [title]="'Verify DWRs'" [color]="'dwr'" [routeValue]="'dwr-main'"></app-header>
   <ion-content>
     <!-- <app-timer [value]="'11:22:33'"></app-timer> -->
@@ -58,15 +58,22 @@
                           </div>
                         </ion-col>
                         <ion-col size="2" class="flex justify-center items-center" (click)="navigate('send-back',dwr.dwr_id,dwr.employee_Id )"><div class="w-10 h-10 bg-red-500 rounded-full flex justify-center items-center"><span class="font-semibold text-base text-white font-Lato">R</span></div></ion-col>
+
                         <ion-col size="2" class="flex justify-center items-center" (click)="verify(dwr.employee_Id,dwr.dwr_id)">
                            <div class="w-10 h-10 bg-green-500 rounded-full flex justify-center items-center">
-                            <span *ngIf="(loadingSpinner | async) === false" class="font-semibold text-base text-white font-Lato">V</span>
-                            <ion-spinner *ngIf="dwr.dwr_id === dwr_id && (loadingSpinner | async) === true" class="verify-loader" name="crescent"></ion-spinner>
+                            <span class="font-semibold text-base text-white font-Lato">V</span>
+                            <!-- <ion-spinner *ngIf="dwr.dwr_id === dwr_id && (loadingSpinner | async) === true" class="verify-loader" name="crescent"></ion-spinner> -->
                           </div>
+                          <!-- <div class="w-10 h-10 bg-green-500 rounded-full flex justify-center items-center" *ngIf="dwr.dwr_id !== dwr_id">
+                            <span *ngIf="(loadingSpinner | async) === false" class="font-semibold text-base text-white font-Lato">V</span>
+                          </div> -->
+                          <!-- <ion-spinner *ngIf="dwr.dwr_id === dwr_id && (loadingSpinner | async) === true" class="verify-loader" name="crescent"></ion-spinner> -->
                         </ion-col>
+
                         <ion-col size="2" class="flex justify-center items-center" (click)="navigate('detail',dwr.dwr_id,dwr.employee_Id )"> <div class="w-10 h-10 rounded-full flex justify-center items-center">
                           <ion-icon class="arrow-icon" name="arrow-forward-outline"></ion-icon>
-                        </div></ion-col>
+                        </div>
+                      </ion-col>
                           </ion-row>
                     </ion-grid>
                 </ion-card>

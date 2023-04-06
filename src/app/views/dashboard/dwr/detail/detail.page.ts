@@ -27,6 +27,7 @@ export class DetailPage implements OnInit {
   moment: any = moment;
   segment = 'all';
   id: any;
+  dwr_employee_id: any;
 
 
   // behaviour subject for loader
@@ -54,7 +55,7 @@ export class DetailPage implements OnInit {
       // this.dwr_id= params.dwr_id;
       // this.dwr_type= params.dwr_type;
       this.date = params.date;
-      this.employee_id = params.employee_id;
+      this.dwr_employee_id = params.employee_id;
       // this.dwrData = JSON.parse(params.dwrData);
     //   this.formType = params.formType;
     // this.evaluationType = params.evaluationType;
@@ -147,27 +148,19 @@ export class DetailPage implements OnInit {
     //       this.workHistoryData = res;
     //       this.loading.next(false);
     //   });
-    this.dwrService.getDWRDetails(this.employee_id,this.date,'getDWRDetails','day').subscribe((res)=>{
+    this.dwrService.getDWRDetails(this.dwr_employee_id,this.date,'getDWRDetails','day').subscribe((res)=>{
       this.loading.next(true);
       this.workHistoryData = res.dwr;
       this.loading.next(false);
-      console.log('--',res);
-      console.log('-------',this.workHistoryData);
 });
   }
   reassign(id){
-    console.log('---',id);
     this.id = id;
       // start loader
       this.loadingSpinner.next(true);
 
-      this.dwrService
-        .reassign(
-          'reassignDwr',
-          id
-        )
-        .subscribe(
-          (res) => {
+      this.dwrService.reassignDWR('reassignDwr',id)
+        .subscribe((res) => {
             if (res.status === 200) {
               this.loadingSpinner.next(false);
 

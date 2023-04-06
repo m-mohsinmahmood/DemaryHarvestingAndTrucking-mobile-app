@@ -111,8 +111,33 @@
           <ion-select
             class="mt-1 w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
             formControlName="issueCategory" placeholder="Select Category">
-            <ion-select-option value="electrical">Electrical</ion-select-option>
-            <ion-select-option value="mechanical">Mechanical</ion-select-option>
+            <div *ngIf="this.reportNewEquipIssue.get('ticketType').value === 'repair'">
+              <ion-select-option value="electrical">Electrical</ion-select-option>
+              <ion-select-option value="mechanical">Mechanical</ion-select-option>
+              <ion-select-option value="mechanical-repair">Mechanical Repair</ion-select-option>
+              <ion-select-option value="electrical-repair">Electrical Repair</ion-select-option>
+              <ion-select-option value="brake-repair">Brake Repair</ion-select-option>
+              <ion-select-option value="coolent-system-repair">Coolant System Repair</ion-select-option>
+              <ion-select-option value="other-repair">Other Repair</ion-select-option>
+              <ion-select-option value="brake-system-fluid-repair">Brake System Fluid Repair</ion-select-option>
+              <ion-select-option value="wheel alignment-inspection">Wheel Alignment/Inspection</ion-select-option>
+              <ion-select-option value="air-intake-service">Air Intake Service</ion-select-option>
+              <ion-select-option value="power-steering-fluid-flush">Power Steering Fluid Flush</ion-select-option>
+              <ion-select-option value="replace-belts-hoses">Replace Belts and Hoses</ion-select-option>
+              <ion-select-option value="timing-belt">Timing Belt</ion-select-option>
+              <ion-select-option value="shocks-shruts">Shocks & Struts</ion-select-option>
+              <ion-select-option value="brake-service">Brake Service</ion-select-option>
+              <ion-select-option value="drive-axle-boots-seals">Drive Axle Boots & Seals</ion-select-option>
+              <ion-select-option value="transmission-service">Transmission Service</ion-select-option>
+            </div>
+            <div *ngIf="this.reportNewEquipIssue.get('ticketType').value === 'maintenance'">
+              <ion-select-option value="lub-oil-filter">Lubrication, Oil & Filter</ion-select-option>
+              <ion-select-option value="air-filter-inspect-replace">Air Filter - Inspect Replace</ion-select-option>
+              <ion-select-option value="tire-rotation-inspection">Tire Rotation & Inspection</ion-select-option>
+              <ion-select-option value="maintenance-tuneup">Maintenance Tune-up</ion-select-option>
+              <ion-select-option value="tire-replacement-balance">Tire Replacement/Balance</ion-select-option>
+              <ion-select-option value="other-maintenace">Other Maintenance</ion-select-option>
+            </div>
           </ion-select>
         </div>
 
@@ -122,7 +147,16 @@
           <ion-select
             class="mt-1 w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
             formControlName="severityType" placeholder="Select Category">
-            <ion-select-option value="critical">Critical</ion-select-option>
+            <div *ngIf="this.reportNewEquipIssue.get('ticketType').value === 'repair'">
+              <ion-select-option value="mild-repair">Mild Repair</ion-select-option>
+              <ion-select-option value="moderate-repair">Moderate Repair</ion-select-option>
+              <ion-select-option value="critical-repair">Critical Repair</ion-select-option>
+            </div>
+            <div *ngIf="this.reportNewEquipIssue.get('ticketType').value === 'maintenance'">
+              <ion-select-option value="annual-maintenance">Annual Maintenance</ion-select-option>
+              <ion-select-option value="preventive-maintenance">Preventive Maintenance</ion-select-option>
+              <ion-select-option value="required-maintenance">Required Maintenance</ion-select-option>
+            </div>
           </ion-select>
         </div>
 
@@ -132,8 +166,17 @@
           <ion-select
             class="mt-1 w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
             formControlName="status" placeholder="Select Category">
-            <ion-select-option value="repair-reported">Repair Reported</ion-select-option>
-          </ion-select>
+            <div *ngIf="this.reportNewEquipIssue.get('ticketType').value === 'repair'">
+              <ion-select-option value="repair-in-process">Repair in process</ion-select-option>
+              <ion-select-option value="repair-on-hold">Repair on hold</ion-select-option>
+              <ion-select-option value="repair-completed">Repair completed</ion-select-option>
+            </div>
+            <div *ngIf="this.reportNewEquipIssue.get('ticketType').value === 'maintenance'">
+              <ion-select-option value="maintenance-in-process">Maintenance in process</ion-select-option>
+              <ion-select-option value="maintenance-on-hold">Maintenance on hold</ion-select-option>
+              <ion-select-option value="maintenance-completed">Maintenance completed</ion-select-option>
+            </div>
+           </ion-select>
         </div>
 
         <div class="col-span-12 mb-4">
