@@ -88,9 +88,6 @@ export class CreateRepairORMaintenancePage implements OnInit {
   }
 
   ngOnInit() {
-    console.log('--',new Date().valueOf());
-    console.log('--',new Date().valueOf().toString().slice());
-    console.log('--',new Date().valueOf().toString().slice(0,6));
     this.activeRoute.queryParams.subscribe((param) => {
       this.category = param.category;
     });
@@ -409,12 +406,6 @@ export class CreateRepairORMaintenancePage implements OnInit {
                // getting check-in id
                this.getCheckInID();
 
-            // this.loadingSpinner.next(false);
-            // this.router.navigateByUrl('/tabs/home/maintenance-repair');
-            // this.toastService.presentToast(
-            //   'Ticket has been generated',
-            //   'success'
-            // );
           } else {
             console.log('Something happened :)');
             this.loadingSpinner.next(false);

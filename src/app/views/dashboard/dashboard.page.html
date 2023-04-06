@@ -1,7 +1,8 @@
 <!-- ===================== Dashboard Starts =========================== -->
 <!-- <app-header [title]="'Dashboard'"></app-header> -->
 <ion-content *ngIf="(loading | async ) === true">
-  <div class="flex justify-center items-center h-full"><ion-spinner class="h-32 w-32" name="crescent"></ion-spinner>
+  <div class="flex justify-center items-center h-full">
+    <ion-spinner class="h-32 w-32" name="crescent"></ion-spinner>
   </div>
 </ion-content>
 <ion-content *ngIf="(loading | async ) === false">

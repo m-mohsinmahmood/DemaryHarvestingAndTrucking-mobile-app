@@ -124,19 +124,7 @@ export class TicketAssignedToPage implements OnInit {
         this.ticketData = res[0];
         this.loading.next(false);
 
-        //patching value's conditionally
-        // if(this.value === 'assign'){
-        //   this.assignTicket.patchValue({
-        //     repairTicketId: this.ticketData.repairTicketId,
-        //     equipID: this.ticketData.equipmentId,
-        //     city: this.ticketData.city,
-        //     state: this.ticketData.state,
-        //     issueCategory: this.ticketData.issueCategory,
-        //     severityType: this.ticketData.severityType,
-        //     status: this.ticketData.status,
-        //     description: this.ticketData.description,
-        //   });
-        // }else{
+
           this.assignTicket.patchValue({
             repairTicketId: this.ticketData.repairTicketId,
             assignedById: this.ticketData.assignedById,
@@ -165,8 +153,6 @@ export class TicketAssignedToPage implements OnInit {
         this.ticketData = res[0];
         this.loading.next(false);
 
-        //patching value's conditionally
-        // if(this.value === 'assign'){
           this.assignTicket.patchValue({
             repairTicketId: this.ticketData.repairTicketId,
             equipID: this.ticketData.equipmentId,
@@ -177,23 +163,7 @@ export class TicketAssignedToPage implements OnInit {
             status: this.ticketData.status,
             description: this.ticketData.description,
           });
-        // }else{
-        //   this.assignTicket.patchValue({
-        //     repairTicketId: this.ticketData.repairTicketId,
-        //     assignedById: this.ticketData.assignedById,
-        //     assignedToId: this.ticketData.assignedToId,
-        //     empModule: this.ticketData.empModule,
-        //     equipID: this.ticketData.equipmentId,
-        //     city: this.ticketData.city,
-        //     state: this.ticketData.state,
-        //     issueCategory: this.ticketData.issueCategory,
-        //     severityType: this.ticketData.severityType,
-        //     status: this.ticketData.status,
-        //     description: this.ticketData.description,
-        //   });
-        //   this.employee_name = this.ticketData.assignedBy;
-        //   this.employee_name_2 = this.ticketData.assignedTo;
-        // }
+
       });
   }
 
@@ -396,18 +366,9 @@ export class TicketAssignedToPage implements OnInit {
         (res) => {
           console.log('RES:', res);
           if (res.status === 200) {
-            // this.loadingSpinner.next(false);
-
-            // this.initialyCreated = true;
 
             // ticket nature
             this.taskType = 'ticket created';
-
-            // this.router.navigateByUrl('/tabs/home/maintenance-repair/assign-tickets');
-            // this.toastService.presentToast(
-            //   'Ticket has been assigned',
-            //   'success'
-            // );
 
              // getting check-in id
              this.getCheckInID();

@@ -78,11 +78,9 @@ export class WorkHistoryPage implements OnInit {
     this.isOpen = 'false';
   }
 
-  navigate(name: string, dwr_id: any,dwr_type) {
+  navigate(dwr_type) {
     this.router.navigate(['/tabs/home/dwr/detail'], {
       queryParams: {
-        type: name,
-        dwr_id,
         dwr_type
       },
     });

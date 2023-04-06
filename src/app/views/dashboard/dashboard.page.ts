@@ -150,5 +150,9 @@ export class DashboardPage implements OnInit {
       this.isModalOpen = false;
       this.nav.navigate(['training'], { relativeTo: this.activatedRoute });
     }
+    else if (this.activeDwr[0].module === 'other') {
+      this.isModalOpen = false;
+      this.nav.navigate(['others'], { relativeTo: this.activatedRoute });
+    }
   }
 }

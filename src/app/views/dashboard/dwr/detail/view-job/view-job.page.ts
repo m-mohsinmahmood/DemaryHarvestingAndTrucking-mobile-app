@@ -81,63 +81,63 @@ this.status = ((+this.data.trainingData[0].pullUpsInput_slb + +this.data.trainin
   exit(){
     this.location.historyGo(-1);
   }
-  verify(){
-    this.loadingSpinner.next(true);
-    this.dwrService
-    .verify('changeDwrStatus', 'verify',this.notesForm.get('notes').value,this.task_id,'')
-    .subscribe(
-      (res) => {
-        console.log('RES:', res);
-        if (res.status === 200) {
-          this.loadingSpinner.next(false);
+  // verify(){
+  //   this.loadingSpinner.next(true);
+  //   this.dwrService
+  //   .verify('changeDwrStatus', 'verify',this.notesForm.get('notes').value,this.task_id,'')
+  //   .subscribe(
+  //     (res) => {
+  //       console.log('RES:', res);
+  //       if (res.status === 200) {
+  //         this.loadingSpinner.next(false);
 
-          // toast
-          this.toastService.presentToast(res.mssage, 'task has been verified');
+  //         // toast
+  //         this.toastService.presentToast(res.mssage, 'task has been verified');
 
-          // navigating
-          this.location.back();
-
-
-        } else {
-          console.log('Something happened :)');
-          this.toastService.presentToast(res.mssage, 'danger');
-        }
-      },
-      (err) => {
-        console.log('ERROR::', err);
-        this.loadingSpinner.next(false);
-        this.toastService.presentToast(err.mssage, 'danger');
-      }
-    );
-  }
-  sendBack(){
-    this.loadingSpinner.next(true);
-    console.log('IDDD:',this.mechanic_id);
-    this.dwrService
-    .verify('changeDwrStatus', 'reassigned',this.notesForm.get('notes').value,this.task_id,this.mechanic_id)
-    .subscribe(
-      (res) => {
-        console.log('RES:', res);
-        if (res.status === 200) {
-          this.loadingSpinner.next(false);
-
-          // toast
-          this.toastService.presentToast(res.mssage, 'task has been verified');
-
-          // navigating
-          this.location.back();
+  //         // navigating
+  //         this.location.back();
 
 
-        } else {
-          console.log('Something happened :)');
-          this.toastService.presentToast(res.mssage, 'danger');
-        }
-      },
-      (err) => {
-        console.log('ERROR::', err);
-        this.loadingSpinner.next(false);
-        this.toastService.presentToast(err.mssage, 'danger');
-      }
-    );
-  }
+  //       } else {
+  //         console.log('Something happened :)');
+  //         this.toastService.presentToast(res.mssage, 'danger');
+  //       }
+  //     },
+  //     (err) => {
+  //       console.log('ERROR::', err);
+  //       this.loadingSpinner.next(false);
+  //       this.toastService.presentToast(err.mssage, 'danger');
+  //     }
+  //   );
+  // }
+  // sendBack(){
+  //   this.loadingSpinner.next(true);
+  //   console.log('IDDD:',this.mechanic_id);
+  //   this.dwrService
+  //   .verify('changeDwrStatus', 'reassigned',this.notesForm.get('notes').value,this.task_id,this.mechanic_id)
+  //   .subscribe(
+  //     (res) => {
+  //       console.log('RES:', res);
+  //       if (res.status === 200) {
+  //         this.loadingSpinner.next(false);
+
+  //         // toast
+  //         this.toastService.presentToast(res.mssage, 'task has been verified');
+
+  //         // navigating
+  //         this.location.back();
+
+
+  //       } else {
+  //         console.log('Something happened :)');
+  //         this.toastService.presentToast(res.mssage, 'danger');
+  //       }
+  //     },
+  //     (err) => {
+  //       console.log('ERROR::', err);
+  //       this.loadingSpinner.next(false);
+  //       this.toastService.presentToast(err.mssage, 'danger');
+  //     }
+  //   );
+  // }
 }

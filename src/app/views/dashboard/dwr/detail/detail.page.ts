@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DWRService } from '../dwr.service';
 import { BehaviorSubject, Observable } from 'rxjs';
+import * as moment from 'moment';
+import { ToastService } from 'src/app/services/toast/toast.service';
 
 @Component({
   selector: 'app-detail',
@@ -10,7 +12,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
   styleUrls: ['./detail.page.scss'],
 })
 export class DetailPage implements OnInit {
-  segment: any = 'view-tasks';
+  // segment: any = 'view-tasks';
   type: any;
 
   // data
@@ -20,15 +22,24 @@ export class DetailPage implements OnInit {
   role = '';
   dwr_type: any;
   employee_id: any;
+  dwrData: any;
+  date: any;
+  moment: any = moment;
+  segment = 'all';
+  id: any;
+
 
   // behaviour subject for loader
   public loading = new BehaviorSubject(true);
   public loaderModel = new BehaviorSubject(true);
+  public loadingSpinner = new BehaviorSubject(false);
 
   constructor(
     private router: Router,
     private dwrService: DWRService,
     private route: ActivatedRoute,
+    private toastService: ToastService
+
 
   ) { }
 
@@ -39,9 +50,12 @@ export class DetailPage implements OnInit {
 
     this.route.queryParams.subscribe((params)=>{
       console.log('PARAMS:',params);
-      this.type = params.type;
-      this.dwr_id= params.dwr_id;
-      this.dwr_type= params.dwr_type;
+      this.type = params.dwr_type;
+      // this.dwr_id= params.dwr_id;
+      // this.dwr_type= params.dwr_type;
+      this.date = params.date;
+      this.employee_id = params.employee_id;
+      // this.dwrData = JSON.parse(params.dwrData);
     //   this.formType = params.formType;
     // this.evaluationType = params.evaluationType;
     // this.trainee_id = params.trainee_id;
@@ -121,22 +135,64 @@ export class DetailPage implements OnInit {
     });
   }
   getTickets(){
-    console.log('type:', this.type);
 
     let type;
-    console.log('type::', type);
     if(this.type === 'verify') {type = 'getAssignedDWR';}
     else{type = 'getMyDWR';}
-    console.log('type::', type);
 
+    // this.dwrService.getDWRById(this.dwr_id,'getTasks',this.dwr_type, this.employee_id, type)
+    //   .subscribe((res)=>{
+    //     console.log('Res:',res);
+    //       this.loading.next(true);
+    //       this.workHistoryData = res;
+    //       this.loading.next(false);
+    //   });
+    this.dwrService.getDWRDetails(this.employee_id,this.date,'getDWRDetails','day').subscribe((res)=>{
+      this.loading.next(true);
+      this.workHistoryData = res.dwr;
+      this.loading.next(false);
+      console.log('--',res);
+      console.log('-------',this.workHistoryData);
+});
+  }
+  reassign(id){
+    console.log('---',id);
+    this.id = id;
+      // start loader
+      this.loadingSpinner.next(true);
 
-    this.dwrService.getDWRById(this.dwr_id,'getTasks',this.dwr_type, this.employee_id, type)
-      .subscribe((res)=>{
-        console.log('Res:',res);
-          this.loading.next(true);
-          this.workHistoryData = res;
-          this.loading.next(false);
-      });
+      this.dwrService
+        .reassign(
+          'reassignDwr',
+          id
+        )
+        .subscribe(
+          (res) => {
+            if (res.status === 200) {
+              this.loadingSpinner.next(false);
+
+              // calling again date DWR
+              this.getTickets();
+
+              this.toastService.presentToast(
+                'Ticket reassigned',
+                'success'
+              );
+              // this.router.navigateByUrl('/tabs/home/maintenance-repair');
+            } else {
+              console.log('Something happened :)');
+              this.toastService.presentToast(res.mssage, 'danger');
+              this.loadingSpinner.next(false);
+            }
+          },
+          (err) => {
+            this.toastService.presentToast(err.mssage, 'danger');
+            this.loadingSpinner.next(false);
+
+          }
+        );
+    }
+
   }
 
-}
+
