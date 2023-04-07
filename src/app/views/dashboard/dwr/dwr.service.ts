@@ -23,16 +23,15 @@ export class DWRService {
   ) {}
 
   getDWR(employeeId: string, date: any,
-    role: any,type: any) {
+    role: any,type: any, status: any) {
     let params = new HttpParams();
-        // params = params.set('operation','day');
     params = params.set('operation','getDWRToVerify');
     params = params.set('employeeId', employeeId);
     params = params.set('date', date);
-    // params = params.set('date', '03-28-2023');
     params = params.set('dateType', 'day');
     params = params.set('role', role);
     params = params.set('type', type);
+    params = params.set('status', status);
 
     return this.httpClient
       .get<any>('api-1/dwr', {
@@ -151,14 +150,18 @@ export class DWRService {
     })
     .pipe(take(1));
   }
-  // reassign(operation, id){
-  //       let params = new HttpParams();
-  //       params = params.set('operation',operation);
-  //       params = params.set('id',id);
-  //       return this.httpClient
-  //   .patch<any>('api-1/dwr', {
-  //     params,
-  //   })
-  //   .pipe(take(1));
-  // }
+  getDWRDetailsWithStatus(operation,date,dateType,employee_id,status){
+    let params = new HttpParams();
+    params = params.set('operation',operation);
+    params = params.set('date',date);
+    params = params.set('dateType',dateType);
+    params = params.set('employeeId',employee_id);
+    params = params.set('status',status);
+    return this.httpClient
+    .get<any>('api-1/dwr', {
+      params,
+    })
+    .pipe(take(1));
+  }
+
 }

@@ -9,6 +9,10 @@
     </div>
   </div>
     <div *ngIf="(loading | async) === false">
+      <div *ngIf="workHistoryData.length<=0" class="flex justify-center items-center h-56">
+        <ion-text class="font-Lato font-semibold text-base text-3D8AA4">No Ticket(s)</ion-text>
+      </div>
+      <div *ngIf="workHistoryData.length > 0">
       <div *ngFor="let data of workHistoryData">
       <ion-grid *ngIf="data?.module === 'farming'">
         <ion-card class="mx-2 my-1">
@@ -164,6 +168,7 @@
     </ion-card>
       </ion-grid>
     </div>
+  </div>
      </div>
 
 
@@ -171,45 +176,6 @@
 
 <!-- VERIFY -->
 <ion-content *ngIf="type === 'verify'">
-  <!-- <app-timer [value]="'11:22:33'"></app-timer> -->
-  <!-- <p class="font-semibold text-lg font-Lato ml-6 mt-2">Tasks Page</p> -->
-  <!-- Common Loader -->
-  <!-- <div *ngIf="(loading | async) === true">
-    <div class="h-56 flex justify-center items-center">
-      <ion-spinner name="crescent"></ion-spinner>
-    </div>
-  </div>
-   <div *ngIf="(loading | async) === false">
-    <div *ngIf="workHistoryData?.tasks.length === 0">
-        <p class="font-semibold text-lg flex justify-center items-center">No task Found</p>
-    </div>
-    <div *ngIf="workHistoryData?.tasks.length !== 0">
-      <div *ngFor="let tasks of workHistoryData?.tasks">
-        <ion-card class="px-2 py-3" *ngIf="tasks.status !== 'reassigned'">
-          <div class="py-0 px-2 flex justify-between">
-            <ion-text class="font-Lato font-semibold text-black text-base mt-1">Module:  </ion-text>
-            <span class="font-Lato font-medium bg-3D8AA4 rounded-md text-white px-3 py-1">{{tasks.dwr_type | titlecase}}</span>
-          </div>
-          <div class="py-0 px-2 flex justify-between">
-            <ion-text class="font-Lato font-semibold text-black text-base mt-1">Task ID:  </ion-text>
-            <span class="font-Lato font-medium text-black text-base rounded-md px-3 py-1 ">{{tasks.task_id | slice:0:23}}</span>
-          </div>
-          <div class="py-0 px-2 flex justify-between">
-            <ion-text class="font-Lato font-semibold text-black text-base mt-1">Task Type:  </ion-text>
-            <ion-text class="text-black font-Lato text-sm font-medium underline-offset-4">{{tasks.taskType | titlecase}}</ion-text>
-          </div>
-
-          <div class="flex justify-between items-center mt-3 px-2 ">
-            <ion-text class="text-3D8AA4 font-Lato text-sm font-medium underline underline-offset-4" (click)="navigate(tasks.task_id,'detail','',tasks.dwr_type)">View Detail</ion-text>
-            <div>
-              <button *ngIf="tasks.taskType !== 'ticket created'"  class="bg-3D8AA4 text-3D8AA4 bg-opacity-20 rounded-md font-Lato text-sm px-4 py-2"  (click)="navigate(tasks.task_id,'send-back','',tasks.dwr_type)">Send Back</button>
-              <button class="bg-3D8AA4 text-white rounded-md font-Lato text-sm px-4 py-2 ml-2"  (click)="navigate(tasks.task_id,'verify','',tasks.dwr_type)">Verify</button>
-            </div>
-          </div>
-        </ion-card>
-      </div>
-    </div>
-  </div> -->
   <div *ngIf="(loading | async) === true" class="h-full">
     <div class="flex justify-center items-center h-full bg-red">
       <ion-spinner class="" name="crescent"></ion-spinner>
@@ -314,7 +280,6 @@
       </ion-card-content>
     </ion-card>
       </ion-grid>
-
       <ion-grid *ngIf="data.module === 'other'">
         <ion-card class="mx-2 my-1">
           <ion-card-content>
@@ -379,6 +344,10 @@
     </div>
   </div>
     <div *ngIf="(loading | async) === false">
+      <div *ngIf="workHistoryData.length<=0" class="flex justify-center items-center h-56">
+        <ion-text class="font-Lato font-semibold text-base text-3D8AA4">No Ticket(s)</ion-text>
+      </div>
+      <div *ngIf="workHistoryData.length > 0">
       <div *ngFor="let data of workHistoryData">
       <ion-grid *ngIf="data?.module === 'farming'">
         <ion-card class="mx-2 my-1">
@@ -499,7 +468,6 @@
       </ion-card-content>
     </ion-card>
       </ion-grid>
-
       <ion-grid *ngIf="data.module === 'other'">
         <ion-card class="mx-2 my-1">
           <ion-card-content>
@@ -561,76 +529,69 @@
     </ion-card>
       </ion-grid>
     </div>
+  </div>
      </div>
 </ion-content>
 
 <!-- WORK-HISTORY -->
 <ion-content *ngIf="type === 'work-history'">
-  <!-- <app-timer [value]="'11:22:33'"></app-timer> -->
-  <!-- <p class="font-semibold text-lg font-Lato ml-6 mt-2">Tasks Page</p> -->
-    <!-- Common Loader -->
-    <!-- <div *ngIf="(loading | async) === true">
-      <div class="h-56 flex justify-center items-center">
-        <ion-spinner name="crescent"></ion-spinner>
-      </div>
-    </div> -->
     <div class="segment-style mt-2">
       <ion-segment [(ngModel)]="segment" scrollable>
-        <ion-segment-button value="all">
+        <ion-segment-button value="all" (click)="getDWRDetailsWithStatus('all')">
           <div class="flex justify-center items-center">
             <p class=" font-Lato">All</p>
-            <!-- <span *ngIf="(loading | async)=== true"
+            <span *ngIf="(loading | async)=== true"
               class="text-white w-8 h-4 rounded-full flex justify-center items-center">
               <ion-skeleton-text [animated]="true"
                 style="width: 100%; height: 19px; border-radius: 5px; background-color: rgb(250, 250, 250);"></ion-skeleton-text>
-            </span> -->
+            </span>
             <span *ngIf="(loading | async)=== false"
               class="text-white w-8 h-4 rounded-full flex justify-center items-center">
-              {{'90'}}
+              {{workHistoryData.length}}
             </span>
           </div>
         </ion-segment-button>
 
-        <ion-segment-button value="verified">
+        <ion-segment-button value="verified" (click)="getDWRDetailsWithStatus('verified')">
           <div class="flex justify-center items-center">
             <p class=" font-Lato">Verified</p>
-            <!-- <span *ngIf="(loading | async)=== true"
+            <span *ngIf="(loading | async)=== true"
               class="text-white w-8 h-4 rounded-full flex justify-center items-center">
               <ion-skeleton-text [animated]="true"
                 style="width: 100%; height: 19px; border-radius: 5px; background-color: rgb(250, 250, 250);"></ion-skeleton-text>
-            </span> -->
+            </span>
             <span *ngIf="(loading | async)=== false"
               class="text-white w-8 h-4 rounded-full flex justify-center items-center">
-              {{'99'}}
+              {{verifiedData?.length}}
             </span>
           </div>
         </ion-segment-button>
 
-        <ion-segment-button value="un-verified">
+        <ion-segment-button value="un-verified" (click)="getDWRDetailsWithStatus('pendingVerification')">
           <div class="flex justify-center items-center">
             <p class=" font-Lato">Unverified</p>
-            <!-- <span *ngIf="(loading | async)=== true"
+            <span *ngIf="(loading | async)=== true"
               class="text-white w-8 h-4 rounded-full flex justify-center items-center">
               <ion-skeleton-text [animated]="true"
                 style="width: 100%; height: 19px; border-radius: 5px; background-color: rgb(250, 250, 250);"></ion-skeleton-text>
-            </span> -->
+            </span>
             <span *ngIf="(loading | async)=== false"
               class="text-white w-8 h-4 rounded-full flex justify-center items-center">
-              {{'99'}}
+              {{unVerifiedData?.length}}
             </span>
           </div>
         </ion-segment-button>
-        <ion-segment-button value="reassigned">
+        <ion-segment-button value="reassigned" (click)="getDWRDetailsWithStatus('reassigned')">
           <div class="flex justify-center items-center">
             <p class=" font-Lato">Reassigned</p>
-            <!-- <span *ngIf="(loading | async)=== true"
+            <span *ngIf="(loading | async)=== true"
               class="text-white w-8 h-4 rounded-full flex justify-center items-center">
               <ion-skeleton-text [animated]="true"
                 style="width: 100%; height: 19px; border-radius: 5px; background-color: rgb(250, 250, 250);"></ion-skeleton-text>
-            </span> -->
+            </span>
             <span *ngIf="(loading | async)=== false"
               class="text-white w-8 h-4 rounded-full flex justify-center items-center">
-              {{'99'}}
+              {{reassignedData?.length}}
             </span>
           </div>
         </ion-segment-button>
@@ -638,16 +599,660 @@
 
       <div [ngSwitch]="segment" class="mt-4">
         <div *ngSwitchCase="'all'" class="overflow-scroll">
-          <p>ALL</p>
+          <div *ngIf="(loading | async) === true" class="h-full">
+            <div class="flex justify-center items-center h-full bg-red">
+              <ion-spinner class="" name="crescent"></ion-spinner>
+            </div>
+           </div>
+            <div *ngIf="(loading | async) === false">
+              <div *ngIf="workHistoryData.length<=0" class="flex justify-center items-center h-56">
+                <ion-text class="font-Lato font-semibold text-base text-3D8AA4">No Ticket(s)</ion-text>
+              </div>
+              <div *ngIf="workHistoryData.length > 0">
+                <div *ngFor="let data of workHistoryData">
+              <ion-grid *ngIf="data?.module === 'farming'">
+                <ion-card class="mx-2 my-1">
+                  <ion-card-content>
+                <ion-row>
+                  <ion-text class="bg-blue-100 border-blue-500 border-2 rounded-md px-2 py-1 font-semibold text-xs text-blue-500">FARMING</ion-text>
+                  <ion-col size="12" class="flex justify-between items-center">
+                    <ion-text class="font-semibold text-black font-Lato text-base">Log-in</ion-text>
+                    <ion-text class="font-semibold text-black font-Lato text-sm">{{moment(data.login_time).format('DD/MM/YYYY hh:mm:ss')}}</ion-text>
+                  </ion-col>
+                  <ion-col size="12" class="flex justify-between items-center">
+                    <ion-text class="font-semibold text-black font-Lato text-base">Log-out</ion-text>
+                    <ion-text class="font-semibold text-black font-Lato text-sm">{{moment(data.logout_time).format('DD/MM/YYYY hh:mm:ss')}}</ion-text>
+                  </ion-col>
+                  <ion-col size="12" class="flex justify-between items-center">
+                    <ion-text class="font-semibold text-black font-Lato text-base">Total Hours</ion-text>
+                    <ion-text class="font-semibold text-black font-Lato text-sm">{{data.total_hours}} Hours</ion-text>
+                  </ion-col>
+                 <ion-col size="12">
+                  <ion-accordion-group expand="inset">
+                    <ion-accordion value="first">
+                      <ion-item slot="header" color="rose" class="">
+                        <ion-label class="font-Lato font-semibold text-base">Tickets Details</ion-label>
+                      </ion-item>
+                      <div slot="content" class="px-3 py-3 bg-white" *ngFor="let item of data.tickets">
+                        <div class="flex justify-between items-center">
+                          <ion-text class="font-semibold text-black font-Lato text-base">Ticket ID</ion-text>
+                          <ion-text class="font-semibold text-black font-Lato text-sm">{{item.ticket_id | slice:0-8}}</ion-text>
+                          </div>
+                          <div class="flex justify-between items-center">
+                            <ion-text class="font-semibold text-black font-Lato text-base">Supervisor</ion-text>
+                            <ion-text class="font-semibold text-black font-Lato text-sm">{{item.supervisor_id | slice:0-8}}</ion-text>
+                            </div>
+                        <div class="flex justify-between items-center">
+                        <ion-text class="font-semibold text-black font-Lato text-base">Employee</ion-text>
+                        <ion-text class="font-semibold text-black font-Lato text-sm">{{item.employee_name}}</ion-text>
+                        </div>
+                        <div class="flex justify-between items-center">
+                          <ion-text class="font-semibold text-black font-Lato text-base">State</ion-text>
+                          <ion-text class="font-semibold text-black font-Lato text-sm">{{item.state? item.state : 'N/A'}}</ion-text>
+                          </div>
+                      </div>
+                    </ion-accordion>
+                    </ion-accordion-group>
+                  </ion-col>
+                </ion-row>
+              </ion-card-content>
+            </ion-card>
+              </ion-grid>
+              <ion-grid *ngIf="data.module === 'maintenance-repair'">
+                <ion-card class="mx-2 my-1">
+                  <ion-card-content>
+                <ion-row>
+                  <ion-text class="bg-blue-100 border-blue-500 border-2 rounded-md px-2 py-1 font-semibold text-xs text-blue-500">MAINTENANCE & REPAIR</ion-text>
+                  <ion-col size="12" class="flex justify-between items-center">
+                    <ion-text class="font-semibold text-black font-Lato text-base">Log-in</ion-text>
+                    <ion-text class="font-semibold text-black font-Lato text-sm">{{moment(data.login_time).format('DD/MM/YYYY hh:mm:ss')}}</ion-text>
+                  </ion-col>
+                  <ion-col size="12" class="flex justify-between items-center">
+                    <ion-text class="font-semibold text-black font-Lato text-base">Log-out</ion-text>
+                    <ion-text class="font-semibold text-black font-Lato text-sm">{{moment(data.logout_time).format('DD/MM/YYYY hh:mm:ss')}}</ion-text>
+                  </ion-col>
+                  <ion-col size="12" class="flex justify-between items-center">
+                    <ion-text class="font-semibold text-black font-Lato text-base">Total Hours</ion-text>
+                    <ion-text class="font-semibold text-black font-Lato text-sm">{{data.total_hours}} Hours</ion-text>
+                  </ion-col>
+
+                  <ion-col size="12">
+                    <ion-accordion-group expand="inset">
+                      <ion-accordion>
+                        <ion-item slot="header" color="">
+                          <ion-label class="font-Lato font-semibold text-base">Tickets Details</ion-label>
+                        </ion-item>
+                        <div slot="content" class="px-3 py-3 bg-white" *ngFor="let item of data.tickets">
+                          <div class="flex justify-between items-center">
+                            <ion-text class="font-semibold text-black font-Lato text-base">Ticket ID</ion-text>
+                            <ion-text class="font-semibold text-black font-Lato text-sm">{{item.ticket_id | slice:0-8}}</ion-text>
+                            </div>
+                            <div class="flex justify-between items-center">
+                              <ion-text class="font-semibold text-black font-Lato text-base">Supervisor</ion-text>
+                              <ion-text class="font-semibold text-black font-Lato text-sm">{{item.supervisor_id | slice:0-8}}</ion-text>
+                              </div>
+                          <div class="flex justify-between items-center">
+                          <ion-text class="font-semibold text-black font-Lato text-base">Employee</ion-text>
+                          <ion-text class="font-semibold text-black font-Lato text-sm">{{item.employee_name}}</ion-text>
+                          </div>
+                          <div class="flex justify-between items-center">
+                            <ion-text class="font-semibold text-black font-Lato text-base">State</ion-text>
+                            <ion-text class="font-semibold text-black font-Lato text-sm">{{item.state? item.state : 'N/A'}}</ion-text>
+                            </div>
+                        </div>
+                      </ion-accordion>
+                      </ion-accordion-group>
+                    </ion-col>
+                </ion-row>
+              </ion-card-content>
+            </ion-card>
+              </ion-grid>
+              <ion-grid *ngIf="data.module === 'other'">
+                <ion-card class="mx-2 my-1">
+                  <ion-card-content>
+                <ion-row>
+                  <ion-col size="12">
+                    <ion-text class="bg-blue-100 border-blue-500 border-2 rounded-md px-2 py-1 font-semibold text-xs text-blue-500">OTHER</ion-text>
+                  </ion-col>
+                  <ion-col size="12" class="flex justify-between items-center">
+                    <ion-text class="font-semibold text-black font-Lato text-base">Log-in</ion-text>
+                    <ion-text class="font-semibold text-black font-Lato text-sm">{{moment(data.login_time).format('DD/MM/YYYY hh:mm:ss A')}}</ion-text>
+                  </ion-col>
+                  <ion-col size="12" class="flex justify-between items-center">
+                    <ion-text class="font-semibold text-black font-Lato text-base">Log-out</ion-text>
+                    <ion-text class="font-semibold text-black font-Lato text-sm">{{moment(data.logout_time).format('DD/MM/YYYY hh:mm:ss A')}}</ion-text>
+                  </ion-col>
+                  <ion-col size="12" class="flex justify-between items-center">
+                    <ion-text class="font-semibold text-black font-Lato text-base">Total Hours</ion-text>
+                    <ion-text class="font-semibold text-black font-Lato text-sm">{{data.total_hours}} Hours</ion-text>
+                  </ion-col>
+
+                  <ion-col size="12">
+                    <ion-accordion-group expand="inset">
+                      <ion-accordion>
+                        <ion-item slot="header" color="">
+                          <ion-label class="font-Lato font-semibold text-base ml-0">Tickets Details</ion-label>
+                        </ion-item>
+                        <div slot="content" class="px-0 py-3 bg-white" *ngFor="let item of data.tickets">
+                          <div class="flex justify-between items-center">
+                            <ion-text class="font-semibold text-black font-Lato text-base">Ticket ID</ion-text>
+                            <ion-text class="font-semibold text-black font-Lato text-sm">{{item.ticket_id | slice:0-8}}</ion-text>
+                            </div>
+                            <div class="flex justify-between items-center">
+                              <ion-text class="font-semibold text-black font-Lato text-base">Supervisor</ion-text>
+                              <ion-text class="font-semibold text-black font-Lato text-sm">{{item.supervisor_id | slice:0-8}}</ion-text>
+                              </div>
+                          <div class="flex justify-between items-center">
+                          <ion-text class="font-semibold text-black font-Lato text-base">Employee</ion-text>
+                          <ion-text class="font-semibold text-black font-Lato text-sm">{{item.employee_name}}</ion-text>
+                          </div>
+                          <div class="flex justify-between items-center">
+                            <ion-text class="font-semibold text-black font-Lato text-base">State</ion-text>
+                            <ion-text class="font-semibold text-black font-Lato text-sm">{{item.state? item.state : 'N/A'}}</ion-text>
+                            </div>
+                        </div>
+                      </ion-accordion>
+                      </ion-accordion-group>
+                    </ion-col>
+                </ion-row>
+              </ion-card-content>
+            </ion-card>
+              </ion-grid>
+            </div>
+          </div>
+          </div>
         </div>
         <div *ngSwitchCase="'verified'" class="overflow-scroll">
-          <p>Verified</p>
+          <div *ngIf="(loading | async) === true" class="h-full">
+            <div class="flex justify-center items-center h-full bg-red">
+              <ion-spinner class="" name="crescent"></ion-spinner>
+            </div>
+           </div>
+            <div *ngIf="(loading | async) === false">
+              <div *ngIf="verifiedData.length<=0" class="flex justify-center items-center h-56">
+                <ion-text class="font-Lato font-semibold text-base text-3D8AA4">No Verified Ticket(s)</ion-text>
+              </div>
+              <div *ngIf="verifiedData.length > 0">
+                <div *ngFor="let data of verifiedData">
+                <ion-grid *ngIf="data?.module === 'farming'">
+                  <ion-card class="mx-2 my-1">
+                    <ion-card-content>
+                  <ion-row>
+                    <ion-text class="bg-blue-100 border-blue-500 border-2 rounded-md px-2 py-1 font-semibold text-xs text-blue-500">FARMING</ion-text>
+                    <ion-col size="12" class="flex justify-between items-center">
+                      <ion-text class="font-semibold text-black font-Lato text-base">Log-in</ion-text>
+                      <ion-text class="font-semibold text-black font-Lato text-sm">{{moment(data.login_time).format('DD/MM/YYYY hh:mm:ss')}}</ion-text>
+                    </ion-col>
+                    <ion-col size="12" class="flex justify-between items-center">
+                      <ion-text class="font-semibold text-black font-Lato text-base">Log-out</ion-text>
+                      <ion-text class="font-semibold text-black font-Lato text-sm">{{moment(data.logout_time).format('DD/MM/YYYY hh:mm:ss')}}</ion-text>
+                    </ion-col>
+                    <ion-col size="12" class="flex justify-between items-center">
+                      <ion-text class="font-semibold text-black font-Lato text-base">Total Hours</ion-text>
+                      <ion-text class="font-semibold text-black font-Lato text-sm">{{data.total_hours}} Hours</ion-text>
+                    </ion-col>
+                   <ion-col size="12">
+                    <ion-accordion-group expand="inset">
+                      <ion-accordion value="first">
+                        <ion-item slot="header" color="rose" class="">
+                          <ion-label class="font-Lato font-semibold text-base">Tickets Details</ion-label>
+                        </ion-item>
+                        <div slot="content" class="px-3 py-3 bg-white" *ngFor="let item of data.tickets">
+                          <div class="flex justify-between items-center">
+                            <ion-text class="font-semibold text-black font-Lato text-base">Ticket ID</ion-text>
+                            <ion-text class="font-semibold text-black font-Lato text-sm">{{item.ticket_id | slice:0-8}}</ion-text>
+                            </div>
+                            <div class="flex justify-between items-center">
+                              <ion-text class="font-semibold text-black font-Lato text-base">Supervisor</ion-text>
+                              <ion-text class="font-semibold text-black font-Lato text-sm">{{item.supervisor_id | slice:0-8}}</ion-text>
+                              </div>
+                          <div class="flex justify-between items-center">
+                          <ion-text class="font-semibold text-black font-Lato text-base">Employee</ion-text>
+                          <ion-text class="font-semibold text-black font-Lato text-sm">{{item.employee_name}}</ion-text>
+                          </div>
+                          <div class="flex justify-between items-center">
+                            <ion-text class="font-semibold text-black font-Lato text-base">State</ion-text>
+                            <ion-text class="font-semibold text-black font-Lato text-sm">{{item.state? item.state : 'N/A'}}</ion-text>
+                            </div>
+                        </div>
+                      </ion-accordion>
+                      </ion-accordion-group>
+                    </ion-col>
+                  </ion-row>
+                </ion-card-content>
+              </ion-card>
+                </ion-grid>
+                <ion-grid *ngIf="data.module === 'maintenance-repair'">
+                  <ion-card class="mx-2 my-1">
+                    <ion-card-content>
+                  <ion-row>
+                    <ion-text class="bg-blue-100 border-blue-500 border-2 rounded-md px-2 py-1 font-semibold text-xs text-blue-500">MAINTENANCE & REPAIR</ion-text>
+                    <ion-col size="12" class="flex justify-between items-center">
+                      <ion-text class="font-semibold text-black font-Lato text-base">Log-in</ion-text>
+                      <ion-text class="font-semibold text-black font-Lato text-sm">{{moment(data.login_time).format('DD/MM/YYYY hh:mm:ss')}}</ion-text>
+                    </ion-col>
+                    <ion-col size="12" class="flex justify-between items-center">
+                      <ion-text class="font-semibold text-black font-Lato text-base">Log-out</ion-text>
+                      <ion-text class="font-semibold text-black font-Lato text-sm">{{moment(data.logout_time).format('DD/MM/YYYY hh:mm:ss')}}</ion-text>
+                    </ion-col>
+                    <ion-col size="12" class="flex justify-between items-center">
+                      <ion-text class="font-semibold text-black font-Lato text-base">Total Hours</ion-text>
+                      <ion-text class="font-semibold text-black font-Lato text-sm">{{data.total_hours}} Hours</ion-text>
+                    </ion-col>
+
+                    <ion-col size="12">
+                      <ion-accordion-group expand="inset">
+                        <ion-accordion>
+                          <ion-item slot="header" color="">
+                            <ion-label class="font-Lato font-semibold text-base">Tickets Details</ion-label>
+                          </ion-item>
+                          <div slot="content" class="px-3 py-3 bg-white" *ngFor="let item of data.tickets">
+                            <div class="flex justify-between items-center">
+                              <ion-text class="font-semibold text-black font-Lato text-base">Ticket ID</ion-text>
+                              <ion-text class="font-semibold text-black font-Lato text-sm">{{item.ticket_id | slice:0-8}}</ion-text>
+                              </div>
+                              <div class="flex justify-between items-center">
+                                <ion-text class="font-semibold text-black font-Lato text-base">Supervisor</ion-text>
+                                <ion-text class="font-semibold text-black font-Lato text-sm">{{item.supervisor_id | slice:0-8}}</ion-text>
+                                </div>
+                            <div class="flex justify-between items-center">
+                            <ion-text class="font-semibold text-black font-Lato text-base">Employee</ion-text>
+                            <ion-text class="font-semibold text-black font-Lato text-sm">{{item.employee_name}}</ion-text>
+                            </div>
+                            <div class="flex justify-between items-center">
+                              <ion-text class="font-semibold text-black font-Lato text-base">State</ion-text>
+                              <ion-text class="font-semibold text-black font-Lato text-sm">{{item.state? item.state : 'N/A'}}</ion-text>
+                              </div>
+                          </div>
+                        </ion-accordion>
+                        </ion-accordion-group>
+                      </ion-col>
+                  </ion-row>
+                </ion-card-content>
+              </ion-card>
+                </ion-grid>
+                <ion-grid *ngIf="data.module === 'other'">
+                  <ion-card class="mx-2 my-1">
+                    <ion-card-content>
+                  <ion-row>
+                    <ion-col size="12">
+                      <ion-text class="bg-blue-100 border-blue-500 border-2 rounded-md px-2 py-1 font-semibold text-xs text-blue-500">OTHER</ion-text>
+                    </ion-col>
+                    <ion-col size="12" class="flex justify-between items-center">
+                      <ion-text class="font-semibold text-black font-Lato text-base">Log-in</ion-text>
+                      <ion-text class="font-semibold text-black font-Lato text-sm">{{moment(data.login_time).format('DD/MM/YYYY hh:mm:ss A')}}</ion-text>
+                    </ion-col>
+                    <ion-col size="12" class="flex justify-between items-center">
+                      <ion-text class="font-semibold text-black font-Lato text-base">Log-out</ion-text>
+                      <ion-text class="font-semibold text-black font-Lato text-sm">{{moment(data.logout_time).format('DD/MM/YYYY hh:mm:ss A')}}</ion-text>
+                    </ion-col>
+                    <ion-col size="12" class="flex justify-between items-center">
+                      <ion-text class="font-semibold text-black font-Lato text-base">Total Hours</ion-text>
+                      <ion-text class="font-semibold text-black font-Lato text-sm">{{data.total_hours}} Hours</ion-text>
+                    </ion-col>
+
+                    <ion-col size="12">
+                      <ion-accordion-group expand="inset">
+                        <ion-accordion>
+                          <ion-item slot="header" color="">
+                            <ion-label class="font-Lato font-semibold text-base ml-0">Tickets Details</ion-label>
+                          </ion-item>
+                          <div slot="content" class="px-0 py-3 bg-white" *ngFor="let item of data.tickets">
+                            <div class="flex justify-between items-center">
+                              <ion-text class="font-semibold text-black font-Lato text-base">Ticket ID</ion-text>
+                              <ion-text class="font-semibold text-black font-Lato text-sm">{{item.ticket_id | slice:0-8}}</ion-text>
+                              </div>
+                              <div class="flex justify-between items-center">
+                                <ion-text class="font-semibold text-black font-Lato text-base">Supervisor</ion-text>
+                                <ion-text class="font-semibold text-black font-Lato text-sm">{{item.supervisor_id | slice:0-8}}</ion-text>
+                                </div>
+                            <div class="flex justify-between items-center">
+                            <ion-text class="font-semibold text-black font-Lato text-base">Employee</ion-text>
+                            <ion-text class="font-semibold text-black font-Lato text-sm">{{item.employee_name}}</ion-text>
+                            </div>
+                            <div class="flex justify-between items-center">
+                              <ion-text class="font-semibold text-black font-Lato text-base">State</ion-text>
+                              <ion-text class="font-semibold text-black font-Lato text-sm">{{item.state? item.state : 'N/A'}}</ion-text>
+                              </div>
+                          </div>
+                        </ion-accordion>
+                        </ion-accordion-group>
+                      </ion-col>
+                  </ion-row>
+                </ion-card-content>
+              </ion-card>
+                </ion-grid>
+              </div>
+              </div>
+          </div>
         </div>
         <div *ngSwitchCase="'un-verified'" class="overflow-scroll">
-          <p>Unverified</p>
+          <div *ngIf="(loading | async) === true" class="h-full">
+            <div class="flex justify-center items-center h-full bg-red">
+              <ion-spinner class="" name="crescent"></ion-spinner>
+            </div>
+           </div>
+            <div *ngIf="(loading | async) === false">
+              <div *ngIf="unVerifiedData.length<=0" class="flex justify-center items-center h-56">
+                <ion-text class="font-Lato font-semibold text-base text-3D8AA4">No Un-verified Ticket(s)</ion-text>
+              </div>
+              <div *ngIf="unVerifiedData.length > 0">
+              <div *ngFor="let data of unVerifiedData">
+              <ion-grid *ngIf="data?.module === 'farming'">
+                <ion-card class="mx-2 my-1">
+                  <ion-card-content>
+                <ion-row>
+                  <ion-text class="bg-blue-100 border-blue-500 border-2 rounded-md px-2 py-1 font-semibold text-xs text-blue-500">FARMING</ion-text>
+                  <ion-col size="12" class="flex justify-between items-center">
+                    <ion-text class="font-semibold text-black font-Lato text-base">Log-in</ion-text>
+                    <ion-text class="font-semibold text-black font-Lato text-sm">{{moment(data.login_time).format('DD/MM/YYYY hh:mm:ss')}}</ion-text>
+                  </ion-col>
+                  <ion-col size="12" class="flex justify-between items-center">
+                    <ion-text class="font-semibold text-black font-Lato text-base">Log-out</ion-text>
+                    <ion-text class="font-semibold text-black font-Lato text-sm">{{moment(data.logout_time).format('DD/MM/YYYY hh:mm:ss')}}</ion-text>
+                  </ion-col>
+                  <ion-col size="12" class="flex justify-between items-center">
+                    <ion-text class="font-semibold text-black font-Lato text-base">Total Hours</ion-text>
+                    <ion-text class="font-semibold text-black font-Lato text-sm">{{data.total_hours}} Hours</ion-text>
+                  </ion-col>
+                 <ion-col size="12">
+                  <ion-accordion-group expand="inset">
+                    <ion-accordion value="first">
+                      <ion-item slot="header" color="rose" class="">
+                        <ion-label class="font-Lato font-semibold text-base">Tickets Details</ion-label>
+                      </ion-item>
+                      <div slot="content" class="px-3 py-3 bg-white" *ngFor="let item of data.tickets">
+                        <div class="flex justify-between items-center">
+                          <ion-text class="font-semibold text-black font-Lato text-base">Ticket ID</ion-text>
+                          <ion-text class="font-semibold text-black font-Lato text-sm">{{item.ticket_id | slice:0-8}}</ion-text>
+                          </div>
+                          <div class="flex justify-between items-center">
+                            <ion-text class="font-semibold text-black font-Lato text-base">Supervisor</ion-text>
+                            <ion-text class="font-semibold text-black font-Lato text-sm">{{item.supervisor_id | slice:0-8}}</ion-text>
+                            </div>
+                        <div class="flex justify-between items-center">
+                        <ion-text class="font-semibold text-black font-Lato text-base">Employee</ion-text>
+                        <ion-text class="font-semibold text-black font-Lato text-sm">{{item.employee_name}}</ion-text>
+                        </div>
+                        <div class="flex justify-between items-center">
+                          <ion-text class="font-semibold text-black font-Lato text-base">State</ion-text>
+                          <ion-text class="font-semibold text-black font-Lato text-sm">{{item.state? item.state : 'N/A'}}</ion-text>
+                          </div>
+                      </div>
+                    </ion-accordion>
+                    </ion-accordion-group>
+                  </ion-col>
+                </ion-row>
+              </ion-card-content>
+            </ion-card>
+              </ion-grid>
+              <ion-grid *ngIf="data.module === 'maintenance-repair'">
+                <ion-card class="mx-2 my-1">
+                  <ion-card-content>
+                <ion-row>
+                  <ion-text class="bg-blue-100 border-blue-500 border-2 rounded-md px-2 py-1 font-semibold text-xs text-blue-500">MAINTENANCE & REPAIR</ion-text>
+                  <ion-col size="12" class="flex justify-between items-center">
+                    <ion-text class="font-semibold text-black font-Lato text-base">Log-in</ion-text>
+                    <ion-text class="font-semibold text-black font-Lato text-sm">{{moment(data.login_time).format('DD/MM/YYYY hh:mm:ss')}}</ion-text>
+                  </ion-col>
+                  <ion-col size="12" class="flex justify-between items-center">
+                    <ion-text class="font-semibold text-black font-Lato text-base">Log-out</ion-text>
+                    <ion-text class="font-semibold text-black font-Lato text-sm">{{moment(data.logout_time).format('DD/MM/YYYY hh:mm:ss')}}</ion-text>
+                  </ion-col>
+                  <ion-col size="12" class="flex justify-between items-center">
+                    <ion-text class="font-semibold text-black font-Lato text-base">Total Hours</ion-text>
+                    <ion-text class="font-semibold text-black font-Lato text-sm">{{data.total_hours}} Hours</ion-text>
+                  </ion-col>
+
+                  <ion-col size="12">
+                    <ion-accordion-group expand="inset">
+                      <ion-accordion>
+                        <ion-item slot="header" color="">
+                          <ion-label class="font-Lato font-semibold text-base">Tickets Details</ion-label>
+                        </ion-item>
+                        <div slot="content" class="px-3 py-3 bg-white" *ngFor="let item of data.tickets">
+                          <div class="flex justify-between items-center">
+                            <ion-text class="font-semibold text-black font-Lato text-base">Ticket ID</ion-text>
+                            <ion-text class="font-semibold text-black font-Lato text-sm">{{item.ticket_id | slice:0-8}}</ion-text>
+                            </div>
+                            <div class="flex justify-between items-center">
+                              <ion-text class="font-semibold text-black font-Lato text-base">Supervisor</ion-text>
+                              <ion-text class="font-semibold text-black font-Lato text-sm">{{item.supervisor_id | slice:0-8}}</ion-text>
+                              </div>
+                          <div class="flex justify-between items-center">
+                          <ion-text class="font-semibold text-black font-Lato text-base">Employee</ion-text>
+                          <ion-text class="font-semibold text-black font-Lato text-sm">{{item.employee_name}}</ion-text>
+                          </div>
+                          <div class="flex justify-between items-center">
+                            <ion-text class="font-semibold text-black font-Lato text-base">State</ion-text>
+                            <ion-text class="font-semibold text-black font-Lato text-sm">{{item.state? item.state : 'N/A'}}</ion-text>
+                            </div>
+                        </div>
+                      </ion-accordion>
+                      </ion-accordion-group>
+                    </ion-col>
+                </ion-row>
+              </ion-card-content>
+            </ion-card>
+              </ion-grid>
+              <ion-grid *ngIf="data.module === 'other'">
+                <ion-card class="mx-2 my-1">
+                  <ion-card-content>
+                <ion-row>
+                  <ion-col size="12">
+                    <ion-text class="bg-blue-100 border-blue-500 border-2 rounded-md px-2 py-1 font-semibold text-xs text-blue-500">OTHER</ion-text>
+                  </ion-col>
+                  <ion-col size="12" class="flex justify-between items-center">
+                    <ion-text class="font-semibold text-black font-Lato text-base">Log-in</ion-text>
+                    <ion-text class="font-semibold text-black font-Lato text-sm">{{moment(data.login_time).format('DD/MM/YYYY hh:mm:ss A')}}</ion-text>
+                  </ion-col>
+                  <ion-col size="12" class="flex justify-between items-center">
+                    <ion-text class="font-semibold text-black font-Lato text-base">Log-out</ion-text>
+                    <ion-text class="font-semibold text-black font-Lato text-sm">{{moment(data.logout_time).format('DD/MM/YYYY hh:mm:ss A')}}</ion-text>
+                  </ion-col>
+                  <ion-col size="12" class="flex justify-between items-center">
+                    <ion-text class="font-semibold text-black font-Lato text-base">Total Hours</ion-text>
+                    <ion-text class="font-semibold text-black font-Lato text-sm">{{data.total_hours}} Hours</ion-text>
+                  </ion-col>
+
+                  <ion-col size="12">
+                    <ion-accordion-group expand="inset">
+                      <ion-accordion>
+                        <ion-item slot="header" color="">
+                          <ion-label class="font-Lato font-semibold text-base ml-0">Tickets Details</ion-label>
+                        </ion-item>
+                        <div slot="content" class="px-0 py-3 bg-white" *ngFor="let item of data.tickets">
+                          <div class="flex justify-between items-center">
+                            <ion-text class="font-semibold text-black font-Lato text-base">Ticket ID</ion-text>
+                            <ion-text class="font-semibold text-black font-Lato text-sm">{{item.ticket_id | slice:0-8}}</ion-text>
+                            </div>
+                            <div class="flex justify-between items-center">
+                              <ion-text class="font-semibold text-black font-Lato text-base">Supervisor</ion-text>
+                              <ion-text class="font-semibold text-black font-Lato text-sm">{{item.supervisor_id | slice:0-8}}</ion-text>
+                              </div>
+                          <div class="flex justify-between items-center">
+                          <ion-text class="font-semibold text-black font-Lato text-base">Employee</ion-text>
+                          <ion-text class="font-semibold text-black font-Lato text-sm">{{item.employee_name}}</ion-text>
+                          </div>
+                          <div class="flex justify-between items-center">
+                            <ion-text class="font-semibold text-black font-Lato text-base">State</ion-text>
+                            <ion-text class="font-semibold text-black font-Lato text-sm">{{item.state? item.state : 'N/A'}}</ion-text>
+                            </div>
+                        </div>
+                      </ion-accordion>
+                      </ion-accordion-group>
+                    </ion-col>
+                </ion-row>
+              </ion-card-content>
+            </ion-card>
+              </ion-grid>
+            </div>
+          </div>
+          </div>
         </div>
-        <div *ngSwitchCase="'reassignedd'" class="overflow-scroll">
-          <p>Reassigned</p>
+        <div *ngSwitchCase="'reassigned'" class="overflow-scroll">
+          <div *ngIf="(loading | async) === true" class="h-full">
+            <div class="flex justify-center items-center h-full bg-red">
+              <ion-spinner class="" name="crescent"></ion-spinner>
+            </div>
+           </div>
+            <div *ngIf="(loading | async) === false">
+              <div *ngIf="reassignedData.length<=0" class="flex justify-center items-center h-56">
+                <ion-text class="font-Lato font-semibold text-base text-3D8AA4">No Reassigned Ticket(s)</ion-text>
+              </div>
+              <div *ngIf="reassignedData.length > 0">
+              <div *ngFor="let data of reassignedData">
+              <ion-grid *ngIf="data?.module === 'farming'">
+                <ion-card class="mx-2 my-1">
+                  <ion-card-content>
+                <ion-row>
+                  <ion-text class="bg-blue-100 border-blue-500 border-2 rounded-md px-2 py-1 font-semibold text-xs text-blue-500">FARMING</ion-text>
+                  <ion-col size="12" class="flex justify-between items-center">
+                    <ion-text class="font-semibold text-black font-Lato text-base">Log-in</ion-text>
+                    <ion-text class="font-semibold text-black font-Lato text-sm">{{moment(data.login_time).format('DD/MM/YYYY hh:mm:ss')}}</ion-text>
+                  </ion-col>
+                  <ion-col size="12" class="flex justify-between items-center">
+                    <ion-text class="font-semibold text-black font-Lato text-base">Log-out</ion-text>
+                    <ion-text class="font-semibold text-black font-Lato text-sm">{{moment(data.logout_time).format('DD/MM/YYYY hh:mm:ss')}}</ion-text>
+                  </ion-col>
+                  <ion-col size="12" class="flex justify-between items-center">
+                    <ion-text class="font-semibold text-black font-Lato text-base">Total Hours</ion-text>
+                    <ion-text class="font-semibold text-black font-Lato text-sm">{{data.total_hours}} Hours</ion-text>
+                  </ion-col>
+                 <ion-col size="12">
+                  <ion-accordion-group expand="inset">
+                    <ion-accordion value="first">
+                      <ion-item slot="header" color="rose" class="">
+                        <ion-label class="font-Lato font-semibold text-base">Tickets Details</ion-label>
+                      </ion-item>
+                      <div slot="content" class="px-3 py-3 bg-white" *ngFor="let item of data.tickets">
+                        <div class="flex justify-between items-center">
+                          <ion-text class="font-semibold text-black font-Lato text-base">Ticket ID</ion-text>
+                          <ion-text class="font-semibold text-black font-Lato text-sm">{{item.ticket_id | slice:0-8}}</ion-text>
+                          </div>
+                          <div class="flex justify-between items-center">
+                            <ion-text class="font-semibold text-black font-Lato text-base">Supervisor</ion-text>
+                            <ion-text class="font-semibold text-black font-Lato text-sm">{{item.supervisor_id | slice:0-8}}</ion-text>
+                            </div>
+                        <div class="flex justify-between items-center">
+                        <ion-text class="font-semibold text-black font-Lato text-base">Employee</ion-text>
+                        <ion-text class="font-semibold text-black font-Lato text-sm">{{item.employee_name}}</ion-text>
+                        </div>
+                        <div class="flex justify-between items-center">
+                          <ion-text class="font-semibold text-black font-Lato text-base">State</ion-text>
+                          <ion-text class="font-semibold text-black font-Lato text-sm">{{item.state? item.state : 'N/A'}}</ion-text>
+                          </div>
+                      </div>
+                    </ion-accordion>
+                    </ion-accordion-group>
+                  </ion-col>
+                </ion-row>
+              </ion-card-content>
+            </ion-card>
+              </ion-grid>
+              <ion-grid *ngIf="data.module === 'maintenance-repair'">
+                <ion-card class="mx-2 my-1">
+                  <ion-card-content>
+                <ion-row>
+                  <ion-text class="bg-blue-100 border-blue-500 border-2 rounded-md px-2 py-1 font-semibold text-xs text-blue-500">MAINTENANCE & REPAIR</ion-text>
+                  <ion-col size="12" class="flex justify-between items-center">
+                    <ion-text class="font-semibold text-black font-Lato text-base">Log-in</ion-text>
+                    <ion-text class="font-semibold text-black font-Lato text-sm">{{moment(data.login_time).format('DD/MM/YYYY hh:mm:ss')}}</ion-text>
+                  </ion-col>
+                  <ion-col size="12" class="flex justify-between items-center">
+                    <ion-text class="font-semibold text-black font-Lato text-base">Log-out</ion-text>
+                    <ion-text class="font-semibold text-black font-Lato text-sm">{{moment(data.logout_time).format('DD/MM/YYYY hh:mm:ss')}}</ion-text>
+                  </ion-col>
+                  <ion-col size="12" class="flex justify-between items-center">
+                    <ion-text class="font-semibold text-black font-Lato text-base">Total Hours</ion-text>
+                    <ion-text class="font-semibold text-black font-Lato text-sm">{{data.total_hours}} Hours</ion-text>
+                  </ion-col>
+
+                  <ion-col size="12">
+                    <ion-accordion-group expand="inset">
+                      <ion-accordion>
+                        <ion-item slot="header" color="">
+                          <ion-label class="font-Lato font-semibold text-base">Tickets Details</ion-label>
+                        </ion-item>
+                        <div slot="content" class="px-3 py-3 bg-white" *ngFor="let item of data.tickets">
+                          <div class="flex justify-between items-center">
+                            <ion-text class="font-semibold text-black font-Lato text-base">Ticket ID</ion-text>
+                            <ion-text class="font-semibold text-black font-Lato text-sm">{{item.ticket_id | slice:0-8}}</ion-text>
+                            </div>
+                            <div class="flex justify-between items-center">
+                              <ion-text class="font-semibold text-black font-Lato text-base">Supervisor</ion-text>
+                              <ion-text class="font-semibold text-black font-Lato text-sm">{{item.supervisor_id | slice:0-8}}</ion-text>
+                              </div>
+                          <div class="flex justify-between items-center">
+                          <ion-text class="font-semibold text-black font-Lato text-base">Employee</ion-text>
+                          <ion-text class="font-semibold text-black font-Lato text-sm">{{item.employee_name}}</ion-text>
+                          </div>
+                          <div class="flex justify-between items-center">
+                            <ion-text class="font-semibold text-black font-Lato text-base">State</ion-text>
+                            <ion-text class="font-semibold text-black font-Lato text-sm">{{item.state? item.state : 'N/A'}}</ion-text>
+                            </div>
+                        </div>
+                      </ion-accordion>
+                      </ion-accordion-group>
+                    </ion-col>
+                </ion-row>
+              </ion-card-content>
+            </ion-card>
+              </ion-grid>
+              <ion-grid *ngIf="data.module === 'other'">
+                <ion-card class="mx-2 my-1">
+                  <ion-card-content>
+                <ion-row>
+                  <ion-col size="12">
+                    <ion-text class="bg-blue-100 border-blue-500 border-2 rounded-md px-2 py-1 font-semibold text-xs text-blue-500">OTHER</ion-text>
+                  </ion-col>
+                  <ion-col size="12" class="flex justify-between items-center">
+                    <ion-text class="font-semibold text-black font-Lato text-base">Log-in</ion-text>
+                    <ion-text class="font-semibold text-black font-Lato text-sm">{{moment(data.login_time).format('DD/MM/YYYY hh:mm:ss A')}}</ion-text>
+                  </ion-col>
+                  <ion-col size="12" class="flex justify-between items-center">
+                    <ion-text class="font-semibold text-black font-Lato text-base">Log-out</ion-text>
+                    <ion-text class="font-semibold text-black font-Lato text-sm">{{moment(data.logout_time).format('DD/MM/YYYY hh:mm:ss A')}}</ion-text>
+                  </ion-col>
+                  <ion-col size="12" class="flex justify-between items-center">
+                    <ion-text class="font-semibold text-black font-Lato text-base">Total Hours</ion-text>
+                    <ion-text class="font-semibold text-black font-Lato text-sm">{{data.total_hours}} Hours</ion-text>
+                  </ion-col>
+
+                  <ion-col size="12">
+                    <ion-accordion-group expand="inset">
+                      <ion-accordion>
+                        <ion-item slot="header" color="">
+                          <ion-label class="font-Lato font-semibold text-base ml-0">Tickets Details</ion-label>
+                        </ion-item>
+                        <div slot="content" class="px-0 py-3 bg-white" *ngFor="let item of data.tickets">
+                          <div class="flex justify-between items-center">
+                            <ion-text class="font-semibold text-black font-Lato text-base">Ticket ID</ion-text>
+                            <ion-text class="font-semibold text-black font-Lato text-sm">{{item.ticket_id | slice:0-8}}</ion-text>
+                            </div>
+                            <div class="flex justify-between items-center">
+                              <ion-text class="font-semibold text-black font-Lato text-base">Supervisor</ion-text>
+                              <ion-text class="font-semibold text-black font-Lato text-sm">{{item.supervisor_id | slice:0-8}}</ion-text>
+                              </div>
+                          <div class="flex justify-between items-center">
+                          <ion-text class="font-semibold text-black font-Lato text-base">Employee</ion-text>
+                          <ion-text class="font-semibold text-black font-Lato text-sm">{{item.employee_name}}</ion-text>
+                          </div>
+                          <div class="flex justify-between items-center">
+                            <ion-text class="font-semibold text-black font-Lato text-base">State</ion-text>
+                            <ion-text class="font-semibold text-black font-Lato text-sm">{{item.state? item.state : 'N/A'}}</ion-text>
+                            </div>
+                        </div>
+                      </ion-accordion>
+                      </ion-accordion-group>
+                    </ion-col>
+                </ion-row>
+              </ion-card-content>
+            </ion-card>
+              </ion-grid>
+            </div>
+          </div>
+          </div>
         </div>
       </div>
 

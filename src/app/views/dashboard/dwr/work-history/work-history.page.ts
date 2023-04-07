@@ -12,6 +12,7 @@ import { Observable } from 'rxjs';
 import { of } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { BehaviorSubject } from 'rxjs';
+import { ToastService } from 'src/app/services/toast/toast.service';
 
 @Component({
   selector: 'app-work-history',
@@ -46,7 +47,10 @@ export class WorkHistoryPage implements OnInit {
   // crew chief id
   crew_chief_id = '4b843edb-0b74-49a2-b3c7-d3884f5f6013';
   public loading = new BehaviorSubject(false);
-  constructor(private router: Router, private dwrService: DWRService) {
+  constructor(private router: Router,
+    private dwrService: DWRService,
+    private toastService: ToastService,
+    ) {
   }
 
   ngOnInit() {
@@ -78,10 +82,12 @@ export class WorkHistoryPage implements OnInit {
     this.isOpen = 'false';
   }
 
-  navigate(dwr_type) {
+  navigate(dwr_type,dwr_employee_id) {
     this.router.navigate(['/tabs/home/dwr/detail'], {
       queryParams: {
-        dwr_type
+        dwr_type,
+        date: this.date,
+        employee_id:dwr_employee_id
       },
     });
   }
@@ -91,123 +97,83 @@ export class WorkHistoryPage implements OnInit {
 
     this.dwrService
       .getDWR(
-        localStorage.getItem('employeeId'),
+        '',
         this.date,
         localStorage.getItem('role'),
-        'getMyDWR'
+        'getMyDWR',
+        'all'
       )
       .subscribe((res) => {
         console.log('RESPONSE:',res);
-        let newArray: any = [];
-
-        // combining in one array
-        if (res.traineeData.length === 0) {
-        } else {
-          for (let index = 0; index < res.traineeData.length; index++) {
-            newArray.push(res.traineeData[index]);
-          }
-        }
-
-        if (res.trainerData.length === 0) {
-        } else {
-          for (let index = 0; index < res.trainerData.length; index++) {
-            newArray.push(res.trainerData[index]);
-          }
-        }
-        if (res.trainingData.length === 0) {
-        } else {
-          for (let index = 0; index < res.trainingData.length; index++) {
-            newArray.push(res.trainingData[index]);
-          }
-        }
-        if (res.farmingData.length === 0) {
-        } else {
-          for (let index = 0; index < res.farmingData.length; index++) {
-            newArray.push(res.farmingData[index]);
-          }
-        }
-
-        if (res.maintenanceRepairData.length === 0) {
-        } else {
-          for (let index = 0; index < res.maintenanceRepairData.length; index++) {
-            newArray.push(res.maintenanceRepairData[index]);
-          }
-        }
-
-        // to remove common dwr_id's
-        const keys = ['dwr_id'];
-        const filteredData = newArray.filter(
-          (value, index, self) =>
-            self.findIndex((v) => keys.every((k) => v[k] === value[k])) ===
-            index
-        );
-           console.log('Filtered Data:',filteredData);
-        this.dwrs$ = filteredData;
+        this.dwrs$ = res;
 
         // to stop spinner
         this.loading.next(false);
+      },(err)=>{
+        this.loading.next(false);
+        this.toastService.presentToast(err.mssage, 'danger');
       });
   }
-  getDWRByMonth() {
-    // to statr spinner
-    this.loading.next(true);
+  // getDWRByMonth() {
+  //   // to statr spinner
+  //   this.loading.next(true);
 
-     this.dwrService.getMonthDWR(
-      localStorage.getItem('employeeId'),
-      this.monthValue,
-      this.yearValue,
-      localStorage.getItem('role'),
-      'getMyDWR'
-    ).subscribe((res)=>{
-      let newArray: any = [];
+  //    this.dwrService.getMonthDWR(
+  //     localStorage.getItem('employeeId'),
+  //     this.monthValue,
+  //     this.yearValue,
+  //     localStorage.getItem('role'),
+  //     'getMyDWR'
+  //   ).subscribe((res)=>{
+  //     let newArray: any = [];
 
-         // combining in one array
-         if (res.traineeData.length === 0) {
-        } else {
-          for (let index = 0; index < res.traineeData.length; index++) {
-            newArray.push(res.traineeData[index]);
-          }
-        }
+  //        // combining in one array
+  //        if (res.traineeData.length === 0) {
+  //       } else {
+  //         for (let index = 0; index < res.traineeData.length; index++) {
+  //           newArray.push(res.traineeData[index]);
+  //         }
+  //       }
 
-        if (res.trainerData.length === 0) {
-        } else {
-          for (let index = 0; index < res.trainerData.length; index++) {
-            newArray.push(res.trainerData[index]);
-          }
-        }
-        if (res.trainingData.length === 0) {
-        } else {
-          for (let index = 0; index < res.trainingData.length; index++) {
-            newArray.push(res.trainingData[index]);
-          }
-        }
-        if (res.farmingData.length === 0) {
-        } else {
-          for (let index = 0; index < res.farmingData.length; index++) {
-            newArray.push(res.farmingData[index]);
-          }
-        }
-        if (res.maintenanceRepairData.length === 0) {
-        } else {
-          for (let index = 0; index < res.maintenanceRepairData.length; index++) {
-            newArray.push(res.maintenanceRepairData[index]);
-          }
-        }
+  //       if (res.trainerData.length === 0) {
+  //       } else {
+  //         for (let index = 0; index < res.trainerData.length; index++) {
+  //           newArray.push(res.trainerData[index]);
+  //         }
+  //       }
+  //       if (res.trainingData.length === 0) {
+  //       } else {
+  //         for (let index = 0; index < res.trainingData.length; index++) {
+  //           newArray.push(res.trainingData[index]);
+  //         }
+  //       }
+  //       if (res.farmingData.length === 0) {
+  //       } else {
+  //         for (let index = 0; index < res.farmingData.length; index++) {
+  //           newArray.push(res.farmingData[index]);
+  //         }
+  //       }
+  //       if (res.maintenanceRepairData.length === 0) {
+  //       } else {
+  //         for (let index = 0; index < res.maintenanceRepairData.length; index++) {
+  //           newArray.push(res.maintenanceRepairData[index]);
+  //         }
+  //       }
 
-        // to remove common dwr_id's
-        const keys = ['dwr_id'];
-        const filteredData = newArray.filter(
-          (value, index, self) =>
-            self.findIndex((v) => keys.every((k) => v[k] === value[k])) ===
-            index
-        );
-        console.log(newArray);
-        console.log(filteredData);
+  //       // to remove common dwr_id's
+  //       const keys = ['dwr_id'];
+  //       const filteredData = newArray.filter(
+  //         (value, index, self) =>
+  //           self.findIndex((v) => keys.every((k) => v[k] === value[k])) ===
+  //           index
+  //       );
+  //       console.log(newArray);
+  //       console.log(filteredData);
 
-        this.monthDWRS$ = filteredData;
+  //       this.monthDWRS$ = filteredData;
 
-        // to stop spinner
-        this.loading.next(false);
-    });
-  }
+  //       // to stop spinner
+  //       this.loading.next(false);
+  //   });
+  // }
 }
