@@ -29,9 +29,6 @@ export class AssignTicketsPage implements OnInit {
     this.getTicketsData();
 
 }
-// ionViewDidEnter(){
-//     console.log('ionViewDidEnter');
-// }
 
   getTicketsData() {
     // unassigned tickets
@@ -43,26 +40,6 @@ export class AssignTicketsPage implements OnInit {
         this.unassgnedData = res;
         this.loading.next(false);
       });
-
-    // repair tickets
-    // this.maintenanceRepairService
-    //   .getRepairMaintenanceTickets(localStorage.getItem('employeeId'), 'repair')
-    //   .subscribe((res) => {
-    //     console.log('repair tickets', res);
-    //     this.loading.next(true);
-    //     this.repairTicketsData = res;
-    //     this.loading.next(false);
-    //   });
-
-    // maintenance tickets
-    // this.maintenanceRepairService
-    //   .getRepairMaintenanceTickets(localStorage.getItem('employeeId'), 'maintenance')
-    //   .subscribe((res) => {
-    //     console.log('maintenance tickets', res);
-    //     this.loading.next(true);
-    //     this.maintenanceTicketsData = res;
-    //     this.loading.next(false);
-    //   });
   }
   navigate(id, entity) {
     this.router.navigate(
@@ -75,42 +52,6 @@ export class AssignTicketsPage implements OnInit {
       }
     );
   }
-  // getTickets(entity) {
-  //   if (entity === 'repair') {
-  //     this.maintenanceRepairService
-  //       .getRepairMaintenanceTickets(
-  //         localStorage.getItem('employeeId'),
-  //         'repair'
-  //       )
-  //       .subscribe((res) => {
-  //         console.log('repair tickets', res);
-  //         this.loading.next(true);
-  //         this.repairTicketsData = res;
-  //         this.loading.next(false);
-  //       });
-  //   } else if (entity === 'maintenance') {
-  //     // for maintenance
-  //     this.maintenanceRepairService
-  //       .getRepairMaintenanceTickets(
-  //         localStorage.getItem('employeeId'),
-  //         'maintenance'
-  //       )
-  //       .subscribe((res) => {
-  //         console.log('maintenance tickets', res);
-  //         this.loading.next(true);
-  //         this.maintenanceTicketsData = res;
-  //         this.loading.next(false);
-  //       });
-  //   } else if (entity === 'unassignedTickets') {
-  //     // for unassigned tickets
-  //     this.maintenanceRepairService
-  //       .getTicketsById(localStorage.getItem('employeeId'), 'unassignedTickets')
-  //       .subscribe((res) => {
-  //         console.log('res', res);
-  //         this.loading.next(true);
-  //         this.unassgnedData = res;
-  //         this.loading.next(false);
-  //       });
-  //   }
-  // }
+
+
 }

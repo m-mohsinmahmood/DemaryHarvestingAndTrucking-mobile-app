@@ -10,6 +10,7 @@ import { OthersPage } from './others.page';
 import { HeaderModule } from 'src/app/components/header/header.module';
 import { TimerModule } from 'src/app/components/timer/timer.module';
 import { WithLoadingPipe } from 'src/app/pipes/general-pipes/with-loading.pipe';
+import { CheckInOutModule } from 'src/app/components/check-in-out/check-in-out.module';
 
 @NgModule({
   imports: [
@@ -19,6 +20,7 @@ import { WithLoadingPipe } from 'src/app/pipes/general-pipes/with-loading.pipe';
     OthersPageRoutingModule,
     HeaderModule,
     TimerModule,
+    CheckInOutModule,
     ReactiveFormsModule
   ],
   declarations: [OthersPage, WithLoadingPipe]

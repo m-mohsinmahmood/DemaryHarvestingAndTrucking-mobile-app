@@ -186,10 +186,13 @@ export class TraineePage implements OnInit {
 
       }else{
         console.log('Something happened :)');
+        this.loadingSpinner.next(false);
         this.toastService.presentToast(res.mssage,'danger');
       }
     },(err)=>{
       console.log('ERR:',err);
+      this.loadingSpinner.next(false);
+      this.toastService.presentToast(err.mssage,'danger');
     });
   }
 
@@ -323,11 +326,13 @@ export class TraineePage implements OnInit {
            this.router.navigateByUrl('/tabs/home/training');
          } else {
            console.log('Something happened :)');
+           this.loadingSpinner.next(false);
            this.toastService.presentToast(res.mssage, 'danger');
          }
        },
        (err) => {
          console.log('ERROR::', err);
+         this.loadingSpinner.next(false);
          this.toastService.presentToast(err.mssage, 'danger');
        }
      );

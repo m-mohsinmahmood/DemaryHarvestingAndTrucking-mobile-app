@@ -74,42 +74,6 @@ this.getMaintenaceContinuedTickets();
         });
   }
 
-  // getTicketsData() {
-  //   this.isModalOpen = false;
-
-  //       // Check-in/Check-out
-  //       this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
-  //         console.log('Active Check In ', workOrder.dwr);
-  //         this.activeDwr = workOrder.dwr;
-  //         this.data = this.activeDwr[0];
-
-  //         if (workOrder.dwr.length > 0)
-  //           {this.isModalOpen = false;}
-  //         else
-  //           {this.isModalOpen = true;}
-  //       });
-
-
-  //   // repair tickets
-  //   this.maintenanceRepairService
-  //     .getExistingRepairMaintenanceTickets(localStorage.getItem('employeeId'), 'continuedTickets','repair')
-  //     .subscribe((res) => {
-  //       console.log('repair tickets', res);
-  //       this.loading.next(true);
-  //       this.repairTicketsData = res;
-  //       this.loading.next(false);
-  //     });
-
-  //   // maintenance tickets
-  //   this.maintenanceRepairService
-  //     .getExistingRepairMaintenanceTickets(localStorage.getItem('employeeId'), 'continuedTickets', 'maintenance')
-  //     .subscribe((res) => {
-  //       console.log('maintenance tickets', res);
-  //       this.loading.next(true);
-  //       this.maintenanceTicketsData = res;
-  //       this.loading.next(false);
-  //     });
-  // }
   navigate(id: any, entity: any, data){
     if(data.iscontinue === true){
       this.router.navigate(['/tabs/home/maintenance-repair/complete-existing-ticket'],{
@@ -133,41 +97,8 @@ this.getMaintenaceContinuedTickets();
   }
   getData(value){
     this.value = value;
-    // if (entity === 'repair') {
-    //   // repair tickets
-    // // this.maintenanceRepairService
-    // // .getExistingRepairMaintenanceTickets(localStorage.getItem('employeeId'), 'continuedTickets','repair')
-    // // .subscribe((res) => {
-    // //   console.log('repair tickets', res);
-    // //   this.loading.next(true);
-    // //   this.repairTicketsData = res;
-    // //   this.loading.next(false);
-    // // });
-
-    // // this.type = 'repair';
-    // this.getRepairAll();
-    // } else {
-    //   // maintenance tickets
-    // // this.maintenanceRepairService
-    // // .getExistingRepairMaintenanceTickets(localStorage.getItem('employeeId'), 'continuedTickets', 'maintenance')
-    // // .subscribe((res) => {
-    // //   console.log('maintenance tickets', res);
-    // //   this.loading.next(true);
-    // //   this.maintenanceTicketsData = res;
-    // //   this.loading.next(false);
-    // // });
-    // // this.type = 'maintenance';
-    // this.getMaintenanceAll();
-    // }
-
   }
-  // filter(type){
-  //   this.sectionSelect.hidden = false;
-  //   this.sectionSelect.open();
-  //   this.type = type;
 
-
-  // }
   getTickets(type){
     this.type = type;
 

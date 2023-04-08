@@ -406,12 +406,6 @@ export class CreateRepairORMaintenancePage implements OnInit {
                // getting check-in id
                this.getCheckInID();
 
-            // this.loadingSpinner.next(false);
-            // this.router.navigateByUrl('/tabs/home/maintenance-repair');
-            // this.toastService.presentToast(
-            //   'Ticket has been generated',
-            //   'success'
-            // );
           } else {
             console.log('Something happened :)');
             this.loadingSpinner.next(false);

@@ -1,4 +1,3 @@
-
 <app-header [title]="'Verify DWRs'" [color]="'dwr'" [routeValue]="'dwr-main'"></app-header>
   <ion-content>
     <!-- <app-timer [value]="'11:22:33'"></app-timer> -->
@@ -17,7 +16,7 @@
                   class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                   placeholder="Enter date" readonly [value]="date">
               </div>
-              <ion-popover [dismissOnSelect]="true" trigger="click-trigger2" triggerAction="click">
+              <ion-popover trigger="click-trigger2" triggerAction="click">
                 <ng-template>
                   <ion-datetime (ionChange)="getDate($event)" presentation="date" size="cover"></ion-datetime>
                 </ng-template>
@@ -25,6 +24,7 @@
             </div>
             <ion-button expand="block" class="text-white rounded-md font-Lato text-sm px-2 py-0 ml-2 mt-1"
               (click)="getDWRByDate()">Get DWR</ion-button>
+
             <!-- DWR DAY BLOCK -->
             <div *ngIf="(loading | async) === true">
               <div class="flex justify-center items-center h-20 w-full">
@@ -32,28 +32,49 @@
               </div>
             </div>
             <div *ngIf="(loading | async) === false">
-              <div *ngIf="dwrs$?.length === 0">
+              <div *ngIf="dwrs$?.dwrSummary.length === 0">
                 <ion-card class="p-2 flex flex-col justify-between items-center">
                   <ion-text class="font-Lato font-semibold text-lg text-3D8AA4">
                     No DWR Found
                   </ion-text>
                 </ion-card>
               </div>
-              <div *ngIf="dwrs$?.length > 0">
-                <div *ngFor="let dwr of dwrs$">
+              <div *ngIf="dwrs$?.dwrSummary.length > 0">
+                <div *ngFor="let dwr of dwrs$.dwrSummary">
+                    <ion-card class="">
+                    <ion-grid>
+                      <ion-row>
+                        <ion-col size="6" class="">
+                          <div class="flex flex-col">
+                            <div>
+                              <span class="font-Lato font-bold rounded-md text-black py-1 w-auto">{{dwr.employee_name | titlecase}}</span>
+                            </div>
+                            <div class="mt-3">
+                              <ion-text class="font-Lato font-semibold text-black"> Total Hours
+                                <span class="font-Lato font-medium bg-3D8AA4 rounded-md text-white px-3 py-1">{{dwr.total_hours}}</span>
+                               </ion-text>
+                            </div>
+                          </div>
+                        </ion-col>
+                        <ion-col size="2" class="flex justify-center items-center" (click)="navigate('send-back',dwr.dwr_id,dwr.employee_Id )"><div class="w-10 h-10 bg-red-500 rounded-full flex justify-center items-center"><span class="font-semibold text-base text-white font-Lato">R</span></div></ion-col>
 
-                  <ion-card class="p-2 flex flex-col justify-between items-center" (click)="navigate('verify',dwr.dwr_id,dwr.dwr_type)">
-                    <ion-text class="font-Lato font-semibold text-lg text-3D8AA4 mb-2">
-                      {{moment(dwr.created_at).format('MMMM DD, YYYY')}}
-                    </ion-text>
-                    <div class="flex justify-between items-center w-full">
-                      <ion-text class="font-Lato font-semibold text-black text-base mt-1">Employee Name:</ion-text>
-                      <span class="font-Lato font-medium bg-3D8AA4 rounded-md text-white px-3 py-1">{{dwr.employee_name | titlecase}}</span>
-                    </div>
-                    <div class="flex justify-between items-center w-full mt-1">
-                      <ion-text class="font-Lato font-semibold text-black text-base mt-1">Module Name:</ion-text>
-                      <span class="font-Lato font-medium bg-3D8AA4 rounded-md text-white px-3 py-1">{{dwr.dwr_type | titlecase}}</span>
-                    </div>
+                        <ion-col size="2" class="flex justify-center items-center" (click)="verify(dwr.employee_Id,dwr.dwr_id)">
+                           <div class="w-10 h-10 bg-green-500 rounded-full flex justify-center items-center">
+                            <span class="font-semibold text-base text-white font-Lato">V</span>
+                            <!-- <ion-spinner *ngIf="dwr.dwr_id === dwr_id && (loadingSpinner | async) === true" class="verify-loader" name="crescent"></ion-spinner> -->
+                          </div>
+                          <!-- <div class="w-10 h-10 bg-green-500 rounded-full flex justify-center items-center" *ngIf="dwr.dwr_id !== dwr_id">
+                            <span *ngIf="(loadingSpinner | async) === false" class="font-semibold text-base text-white font-Lato">V</span>
+                          </div> -->
+                          <!-- <ion-spinner *ngIf="dwr.dwr_id === dwr_id && (loadingSpinner | async) === true" class="verify-loader" name="crescent"></ion-spinner> -->
+                        </ion-col>
+
+                        <ion-col size="2" class="flex justify-center items-center" (click)="navigate('detail',dwr.dwr_id,dwr.employee_Id )"> <div class="w-10 h-10 rounded-full flex justify-center items-center">
+                          <ion-icon class="arrow-icon" name="arrow-forward-outline"></ion-icon>
+                        </div>
+                      </ion-col>
+                          </ion-row>
+                    </ion-grid>
                 </ion-card>
                 </div>
 
@@ -71,7 +92,7 @@
               </div>
               <ion-popover trigger="click-trigger" triggerAction="click"  [isOpen]="isOpen">
                 <ng-template>
-                  <ion-datetime (ionChange)="getMonth($event)" presentation="month-year" size="cover"></ion-datetime>
+                  <ion-datetime (ionChange)="getMonth($event)" presentation="date" size="cover"></ion-datetime>
                 </ng-template>
               </ion-popover>
             </div>
