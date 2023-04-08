@@ -412,7 +412,7 @@ this.othersService.save(this.otherForm.value,'other')
          );
 
        // navigating
-          this.router.navigateByUrl('/tabs/home');
+          // this.router.navigateByUrl('/tabs/home');
         } else {
           console.log('Something happened :)');
           this.loadingSpinner.next(false);

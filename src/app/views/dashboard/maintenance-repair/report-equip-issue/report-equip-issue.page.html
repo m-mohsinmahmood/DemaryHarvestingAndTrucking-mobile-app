@@ -112,8 +112,7 @@
             class="mt-1 w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
             formControlName="issueCategory" placeholder="Select Category">
             <div *ngIf="this.reportNewEquipIssue.get('ticketType').value === 'repair'">
-              <ion-select-option value="electrical">Electrical</ion-select-option>
-              <ion-select-option value="mechanical">Mechanical</ion-select-option>
+
               <ion-select-option value="mechanical-repair">Mechanical Repair</ion-select-option>
               <ion-select-option value="electrical-repair">Electrical Repair</ion-select-option>
               <ion-select-option value="brake-repair">Brake Repair</ion-select-option>

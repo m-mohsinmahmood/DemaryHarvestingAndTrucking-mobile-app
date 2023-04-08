@@ -73,10 +73,12 @@ export class DWRService {
       })
       .pipe(take(1));
   }
-  reassignDWR(operation: any,id){
+  reassignDWR(operation: any,id,login_time,logout_time){
     let params = new HttpParams();
     params = params.set('operation',operation);
     params = params.set('id',id);
+    params = params.set('login_time',login_time);
+    params = params.set('logout_time',logout_time);
 
     let data;
 
@@ -138,12 +140,13 @@ export class DWRService {
     })
     .pipe(take(1));
   }
-  getDWRDetails(employee_id,date,operation,dateType){
+  getDWRDetails(employee_id,date,operation,dateType, status){
     let params = new HttpParams();
     params = params.set('operation',operation);
     params = params.set('employeeId',employee_id);
     params = params.set('date',date);
     params = params.set('dateType',dateType);
+    params = params.set('status',status);
     return this.httpClient
     .get<any>('api-1/dwr', {
       params,

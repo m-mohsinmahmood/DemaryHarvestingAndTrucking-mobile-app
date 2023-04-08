@@ -40,12 +40,8 @@ export class WorkHistoryPage implements OnInit {
   moment: any = moment;
 
   isOpen = 'false';
+  employee_id;
 
-  // kart operator id
-  kart_operator_id = 'f4cfa75b-7c14-4b68-a192-00d56c9f2022';
-
-  // crew chief id
-  crew_chief_id = '4b843edb-0b74-49a2-b3c7-d3884f5f6013';
   public loading = new BehaviorSubject(false);
   constructor(private router: Router,
     private dwrService: DWRService,
@@ -55,6 +51,8 @@ export class WorkHistoryPage implements OnInit {
 
   ngOnInit() {
     console.log('IS-OPEN:',this.isOpen);
+
+    this.employee_id = localStorage.getItem('employeeId');
 
     // call to render on-page
     // this.dwrs$ = this.dwrService.getDWR('f4cfa75b-7c14-4b68-a192-00d56c9f2022',this.date);

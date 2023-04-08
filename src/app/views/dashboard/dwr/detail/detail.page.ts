@@ -31,6 +31,12 @@ export class DetailPage implements OnInit {
   segment = 'all';
   id: any;
   dwr_employee_id: any;
+  dateLogin: any = new Date();
+  dateLogout: any = new Date();
+  dateLoginFormatted: any = moment(new Date()).format('YYYY-MM-DD hh:mm:ss A');
+  dateLogoutFormatted: any = moment(new Date()).format('YYYY-MM-DD hh:mm:ss A');
+  isOpen = false;
+
 
   // behaviour subject for loader
   public loading = new BehaviorSubject(true);
@@ -81,6 +87,9 @@ export class DetailPage implements OnInit {
       this.getUnVerified();
       this.getReassigned();
     }
+  }
+  async ionModalDidDismiss(){
+    this.isOpen = false;
   }
   getEmployeeDetails() {
     this.role = localStorage.getItem('role');
@@ -150,7 +159,7 @@ export class DetailPage implements OnInit {
     //       this.loading.next(false);
     //   });
     this.dwrService
-      .getDWRDetails(this.dwr_employee_id, this.date, 'getDWRDetails', 'day')
+      .getDWRDetails(this.dwr_employee_id, this.date, 'getDWRDetails', 'day','pendingVerification')
       .subscribe((res) => {
         this.loading.next(true);
         this.workHistoryData = res.dwr;
@@ -162,7 +171,7 @@ export class DetailPage implements OnInit {
     // start loader
     this.loadingSpinner.next(true);
 
-    this.dwrService.reassignDWR('reassignDwr', id).subscribe(
+    this.dwrService.reassignDWR('reassignDwr', id,'','').subscribe(
       (res) => {
         if (res.status === 200) {
           this.loadingSpinner.next(false);
@@ -228,6 +237,52 @@ getReassigned(){
     this.reassignedData = res.dwr;
     this.loading.next(false);
   });
+}
+getLoginDate(e){
+  console.log(e.detail.value);
+  this.dateLogin = e.detail.value;
+  this.dateLoginFormatted = moment(e.detail.value).format('MM-DD-YYYY hh:mm:ss A');
+}
+getLogoutDate(e){
+  this.dateLogout = e.detail.value;
+  this.dateLogoutFormatted = moment(e.detail.value).format('MM-DD-YYYY hh:mm:ss A');
+}
+openModel(){
+  this.isOpen = true;
+
+}
+edit(id){
+  console.log('id',id);
+  console.log(this.dateLogin);
+  console.log(this.dateLogout);
+
+  this.loadingSpinner.next(true);
+
+    this.dwrService.reassignDWR('editDwr', id,this.dateLogin,this.dateLogout).subscribe(
+      (res) => {
+        if (res.status === 200) {
+          this.loadingSpinner.next(false);
+
+          // calling reassigned tickets
+          this.getReassigned();
+
+          // close model
+          this.isOpen = false;
+
+
+          this.toastService.presentToast('Ticket reassigned', 'success');
+          // this.router.navigateByUrl('/tabs/home/maintenance-repair');
+        } else {
+          console.log('Something happened :)');
+          this.toastService.presentToast(res.mssage, 'danger');
+          this.loadingSpinner.next(false);
+        }
+      },
+      (err) => {
+        this.toastService.presentToast(err.mssage, 'danger');
+        this.loadingSpinner.next(false);
+      }
+    );
 }
 
 }
