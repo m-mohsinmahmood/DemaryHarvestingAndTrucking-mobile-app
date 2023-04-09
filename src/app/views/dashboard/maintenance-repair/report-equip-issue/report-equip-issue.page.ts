@@ -101,6 +101,13 @@ private _unsubscribeAll: Subject<any> = new Subject<any>();
       this.loading.next(false);
     });
   }
+  handleChange(e){
+console.log(e.detail.value);
+  this.reportNewEquipIssue.get('issueCategory').setValue('');
+  this.reportNewEquipIssue.get('severityType').setValue('');
+  this.reportNewEquipIssue.get('status').setValue('');
+
+  }
 
   submit() {
     console.log(this.reportNewEquipIssue.value);

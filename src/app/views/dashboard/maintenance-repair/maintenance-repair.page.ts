@@ -104,10 +104,14 @@ this.getMaintenaceContinuedTickets();
 
     if(type === 'repair'){
       this.value = 'all';
+      this.getRepairContinuedTickets();
+      this.getRepairAssignedtickets();
       this.getRepairAll();
     }
     if(type === 'maintenance'){
       this.value = 'all';
+      this.getMaintenaceContinuedTickets();
+      this.getMaintenanceAssignedtickets();
       this.getMaintenanceAll();
     }
   }
@@ -156,7 +160,7 @@ getRepairContinuedTickets(){
   .subscribe((res) => {
     console.log('repair continued tickets', res);
     this.loading.next(true);
-    this.repairTicketsData = res;
+    if(this.value === 'continuedTickets'){ this.repairTicketsData = res;}
     this.pausedRepairTicketsData = res;
     this.loading.next(false);
   });
@@ -167,7 +171,7 @@ getMaintenaceContinuedTickets(){
   .subscribe((res) => {
     console.log('maintenance continued tickets', res);
     this.loading.next(true);
-    this.maintenanceTicketsData = res;
+    if(this.value === 'continuedTickets'){ this.maintenanceTicketsData = res;}
     this.pausedMaintenanceTicketsData = res;
     this.loading.next(false);
   });
@@ -181,7 +185,7 @@ getRepairAssignedtickets(){
   .subscribe((res) => {
     console.log('repair  assigned tickets', res);
     this.loading.next(true);
-    this.repairTicketsData = res;
+    if(this.value === 'assignedTickets'){ this.repairTicketsData = res;}
     this.assignedRepairTicketsData = res;
     this.loading.next(false);
   });
@@ -195,7 +199,7 @@ getMaintenanceAssignedtickets(){
   .subscribe((res) => {
     console.log('maintenance assigned tickets', res);
     this.loading.next(true);
-    this.maintenanceTicketsData = res;
+    if(this.value === 'assignedTickets'){ this.maintenanceTicketsData = res;}
     this.assignedMaintenanceTicketsData = res;
     this.loading.next(false);
   });
