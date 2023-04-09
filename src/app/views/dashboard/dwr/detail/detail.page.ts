@@ -31,8 +31,8 @@ export class DetailPage implements OnInit {
   segment = 'all';
   id: any;
   dwr_employee_id: any;
-  dateLogin: any = new Date();
-  dateLogout: any = new Date();
+  dateLogin: any = moment(new Date()).format('YYYY-MM-DDTHH:mm:ssZ');
+  dateLogout: any = moment(new Date()).format('YYYY-MM-DDTHH:mm:ssZ');
   dateLoginFormatted: any = moment(new Date()).format('YYYY-MM-DD hh:mm:ss A');
   dateLogoutFormatted: any = moment(new Date()).format('YYYY-MM-DD hh:mm:ss A');
   isOpen = false;
@@ -252,9 +252,6 @@ openModel(){
 
 }
 edit(id){
-  console.log('id',id);
-  console.log(this.dateLogin);
-  console.log(this.dateLogout);
 
   this.loadingSpinner.next(true);
 

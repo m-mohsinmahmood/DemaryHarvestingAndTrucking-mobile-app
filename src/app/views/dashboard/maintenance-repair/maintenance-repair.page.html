@@ -166,7 +166,7 @@
                           {{repairTicket.repairTicketId.substring(0,6)}}</span>
                         <span class="font-Lato"> Status: {{repairTicket.status}}</span>
                       </div>
-                      <div class="w-4/12 rounded-3xl h-6 flex items-center justify-center bg-red-50">
+                      <div class="w-4/12 rounded-3xl h-6 flex items-center justify-center">
                         <span class="text-sm text-red-500 font-Lato"> {{repairTicket.severityType |
                           titlecase}}</span>
                       </div>
@@ -197,7 +197,6 @@
               <ion-spinner name="crescent"></ion-spinner>
             </div>
             <div *ngIf="(loading | async)=== false">
-
               <div *ngIf="maintenanceTicketsData?.length <= 0 " class="flex justify-center items-center h-96">
                 <ion-text class="font-semibold">No Ticket(s) Found</ion-text>
               </div>
@@ -211,7 +210,7 @@
                           {{maintenanceTicketData.repairTicketId.substring(0,6)}}</span>
                         <span class="font-Lato"> Status: {{maintenanceTicketData.status}}</span>
                       </div>
-                      <div class="w-4/12 rounded-3xl h-6 flex items-center justify-center bg-red-50">
+                      <div class="w-4/12 rounded-3xl h-6 flex items-center justify-center">
                         <span class="text-sm text-red-500 font-Lato"> {{maintenanceTicketData.severityType |
                           titlecase}}</span>
                       </div>
