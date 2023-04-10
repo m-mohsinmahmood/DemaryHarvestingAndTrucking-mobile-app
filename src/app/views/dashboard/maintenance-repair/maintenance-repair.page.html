@@ -39,13 +39,16 @@
                 </ion-row>
               </ion-grid>
             </div>
-            <!-- MODEL -->
-            <app-check-in-out [isModalOpen]="isModalOpen" [data]="activeDwr" *ngIf="activeDwr"
-              [module]="'maintenance-repair'">
-            </app-check-in-out>
+
           </div>
         </ion-accordion>
       </ion-accordion-group>
+
+       <!-- MODEL -->
+       <app-check-in-out [isModalOpen]="isModalOpen" [data]="activeDwr" *ngIf="activeDwr"
+       [module]="'maintenance-repair'">
+     </app-check-in-out>
+
     <div class="mt-4">
       <ion-text class="font-bold ml-4">My Tickets</ion-text>
       <div class="segment-style mt-2">
