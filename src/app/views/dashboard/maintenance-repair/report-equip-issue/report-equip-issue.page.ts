@@ -113,7 +113,7 @@ console.log(e.detail.value);
     console.log(this.reportNewEquipIssue.value);
     this.loadingSpinner.next(true);
 
-    this.maintenanceRepairService.save(this.reportNewEquipIssue.value,'report-issue')
+    this.maintenanceRepairService.save(this.reportNewEquipIssue.value,'report-issue','')
     .subscribe((res)=>{
       console.log('RES:',res);
       if(res.status === 200){

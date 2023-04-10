@@ -102,6 +102,7 @@ export class CompleteExistingTicketPage implements OnInit {
   }
 
   completTicket() {
+
     this.loadingSpinner.next(true);
     this.getCheckInID();
 
@@ -151,7 +152,6 @@ export class CompleteExistingTicketPage implements OnInit {
   createDWR() {
     let supervisor_id;
     supervisor_id = this.completeExistingTicketForm.get('assignedById').value;
-
     this.maintenanceRepairService
       .createDWR(localStorage.getItem('employeeId'), this.ticketRecordId, this.completeExistingTicketForm.get('assignedById').value, this.active_check_in_id, this.taskType)
       .subscribe(

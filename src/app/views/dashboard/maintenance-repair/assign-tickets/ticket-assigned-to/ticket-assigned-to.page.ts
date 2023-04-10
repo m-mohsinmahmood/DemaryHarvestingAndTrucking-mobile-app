@@ -401,11 +401,12 @@ export class TicketAssignedToPage implements OnInit {
         console.log('RES:', res);
         if (res.status === 200) {
 
+          // ticket nature
+          this.taskType = 'work done';
+
           // create DWR
            this.createDWR();
 
-           // ticket nature
-           this.taskType = 'work done';
 
 
         } else {

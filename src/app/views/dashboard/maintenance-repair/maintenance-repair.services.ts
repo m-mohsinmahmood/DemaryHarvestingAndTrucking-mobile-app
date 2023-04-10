@@ -106,9 +106,10 @@ export class MaintenanceRepairService {
     })
     .pipe(take(1));
   }
-  save(data, entity: any){
+  save(data, entity: any,active_check_in_id){
     let params=  new HttpParams();
     params = params.set('entity', entity);
+    params = params.set('dwr_id', active_check_in_id);
     return this.httpClient
     .post<any>('api-1/main_repair', data,{
       params
