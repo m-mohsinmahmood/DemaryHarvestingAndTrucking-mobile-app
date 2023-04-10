@@ -42,6 +42,8 @@ export class VerifyDwrsPage implements OnInit {
 
   dwr_id: any;
   dwr_employee_Id: any;
+
+  dummy = '34.586666666';
   public loading = new BehaviorSubject(false);
   public loadingSpinner = new BehaviorSubject(false);
 
