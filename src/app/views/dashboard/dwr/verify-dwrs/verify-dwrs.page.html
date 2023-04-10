@@ -10,13 +10,13 @@
         <div [ngSwitch]="segment">
           <div *ngSwitchCase="'day'">
             <div class="px-4">
-              <div class="col-span-12 mb-4 mt-2" id="click-trigger2">
+              <div class="col-span-12 mb-4 mt-2" id="getDate">
                 <label class="block text-sm font-medium text-gray-700">Select Date:</label>
-                <input id="click-trigger2"
+                <input
                   class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                   placeholder="Enter date" readonly [value]="date">
               </div>
-              <ion-popover trigger="click-trigger2" triggerAction="click">
+              <ion-popover trigger="getDate" triggerAction="click">
                 <ng-template>
                   <ion-datetime (ionChange)="getDate($event)" presentation="date" size="cover"></ion-datetime>
                 </ng-template>
@@ -41,7 +41,7 @@
               </div>
               <div *ngIf="dwrs$?.dwrSummary.length > 0">
                 <div *ngFor="let dwr of dwrs$.dwrSummary">
-                    <ion-card class="">
+                    <ion-card class="" *ngIf="dwr.supervisor_id === supervisor_id">
                     <ion-grid>
                       <ion-row>
                         <ion-col size="6" class="">
@@ -56,17 +56,16 @@
                             </div>
                           </div>
                         </ion-col>
-                        <ion-col size="2" class="flex justify-center items-center" (click)="navigate('send-back',dwr.dwr_id,dwr.employee_Id )"><div class="w-10 h-10 bg-red-500 rounded-full flex justify-center items-center"><span class="font-semibold text-base text-white font-Lato">R</span></div></ion-col>
+                      <ion-col size="2" class="flex justify-center items-center">
+                          <div *ngIf="dwr.employee_Id === dwr_employee_Id && (loadingSpinner | async) === true" class="w-10 h-10 bg-green-500 rounded-full flex justify-center items-center" >
+                            <ion-spinner  class="verify-loader" name="crescent"></ion-spinner>
+                          </div>
+                      </ion-col>
 
-                        <ion-col size="2" class="flex justify-center items-center" (click)="verify(dwr.employee_Id,dwr.dwr_id)">
+                        <ion-col  size="2"  class="flex justify-center items-center" (click)="verify(dwr.employee_Id,dwr.dwr_id)">
                            <div class="w-10 h-10 bg-green-500 rounded-full flex justify-center items-center">
                             <span class="font-semibold text-base text-white font-Lato">V</span>
-                            <!-- <ion-spinner *ngIf="dwr.dwr_id === dwr_id && (loadingSpinner | async) === true" class="verify-loader" name="crescent"></ion-spinner> -->
                           </div>
-                          <!-- <div class="w-10 h-10 bg-green-500 rounded-full flex justify-center items-center" *ngIf="dwr.dwr_id !== dwr_id">
-                            <span *ngIf="(loadingSpinner | async) === false" class="font-semibold text-base text-white font-Lato">V</span>
-                          </div> -->
-                          <!-- <ion-spinner *ngIf="dwr.dwr_id === dwr_id && (loadingSpinner | async) === true" class="verify-loader" name="crescent"></ion-spinner> -->
                         </ion-col>
 
                         <ion-col size="2" class="flex justify-center items-center" (click)="navigate('detail',dwr.dwr_id,dwr.employee_Id )"> <div class="w-10 h-10 rounded-full flex justify-center items-center">

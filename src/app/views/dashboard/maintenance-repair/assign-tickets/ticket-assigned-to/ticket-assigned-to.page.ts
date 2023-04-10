@@ -359,67 +359,72 @@ export class TicketAssignedToPage implements OnInit {
   submit() {
     this.loadingSpinner.next(true);
 
-    console.log(this.assignTicket.value);
+    this.getCheckInID();
+  }
+  submitData(){
     this.maintenanceRepairService
-      .ticket(this.assignTicket.value, this.ticketRecordId,'unassign')
-      .subscribe(
-        (res) => {
-          console.log('RES:', res);
-          if (res.status === 200) {
+    .ticket(this.assignTicket.value, this.ticketRecordId,'unassign','')
+    .subscribe(
+      (res) => {
+        console.log('RES:', res);
+        if (res.status === 200) {
 
-            // ticket nature
-            this.taskType = 'ticket created';
+          // ticket nature
+          this.taskType = 'ticket created';
 
-             // getting check-in id
-             this.getCheckInID();
+          // create DWR
+          this.createDWR();
 
-          } else {
-            console.log('Something happened :)');
-            this.toastService.presentToast(res.mssage, 'danger');
-          }
-        },
-        (err) => {
-          console.log('ERROR::', err);
-          this.toastService.presentToast(err.mssage, 'danger');
+        } else {
+          console.log('Something happened :)');
+          this.toastService.presentToast(res.mssage, 'danger');
         }
-      );
+      },
+      (err) => {
+        console.log('ERROR::', err);
+        this.toastService.presentToast(err.mssage, 'danger');
+      }
+    );
   }
   completTicket(){
     console.log(this.assignTicket.value);
     this.loadingSpinner.next(true);
 
+    this.getCheckInID();
+
+  }
+  completeticket(){
     this.maintenanceRepairService
-      .ticket(this.assignTicket.value, this.ticketRecordId,'complete')
-      .subscribe(
-        (res) => {
-          console.log('RES:', res);
-          if (res.status === 200) {
+    .ticket(this.assignTicket.value, this.ticketRecordId,'complete',this.active_check_in_id)
+    .subscribe(
+      (res) => {
+        console.log('RES:', res);
+        if (res.status === 200) {
 
-             // getting check-in id
-             this.getCheckInID();
+          // create DWR
+           this.createDWR();
 
-             // ticket nature
-             this.taskType = 'work done';
+           // ticket nature
+           this.taskType = 'work done';
 
 
-          } else {
-            console.log('Something happened :)');
-            this.toastService.presentToast(res.mssage, 'danger');
-          }
-        },
-        (err) => {
-          console.log('ERROR::', err);
-          this.toastService.presentToast(err.mssage, 'danger');
+        } else {
+          console.log('Something happened :)');
+          this.toastService.presentToast(res.mssage, 'danger');
         }
-      );
-
+      },
+      (err) => {
+        console.log('ERROR::', err);
+        this.toastService.presentToast(err.mssage, 'danger');
+      }
+    );
   }
   continue(){
     console.log(this.assignTicket.value);
     this.loadingSpinnerContinue.next(true);
 
     this.maintenanceRepairService
-      .ticket(this.assignTicket.value, this.ticketRecordId,'continue')
+      .ticket(this.assignTicket.value, this.ticketRecordId,'continue','')
       .subscribe(
         (res) => {
           console.log('RES:', res);
@@ -450,9 +455,11 @@ getCheckInID(){
     this.activeCheckInSpinner.next(true);
     this.active_check_in_id = workOrder.dwr[0].id;
     this.activeCheckInSpinner.next(false);
-
-     // creating DWR
-    this.createDWR();
+console.log(this.value);
+    if(this.value === 'assign'){
+      this.submitData();
+    }
+    this.completeticket();
   });
 
 }

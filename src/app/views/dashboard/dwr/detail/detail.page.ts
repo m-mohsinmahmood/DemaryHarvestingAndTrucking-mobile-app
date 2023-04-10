@@ -33,11 +33,13 @@ export class DetailPage implements OnInit {
   dwr_employee_id: any;
   dateLogin: any = moment(new Date()).format('YYYY-MM-DDTHH:mm:ssZ');
   dateLogout: any = moment(new Date()).format('YYYY-MM-DDTHH:mm:ssZ');
-  dateLoginFormatted: any = moment(new Date()).format('YYYY-MM-DD hh:mm:ss A');
-  dateLogoutFormatted: any = moment(new Date()).format('YYYY-MM-DD hh:mm:ss A');
+  dateLogoutFormatted: any = moment(new Date()).format('MM-DD-YYYY hh:mm:ss A');
+  dateLoginFormatted: any = moment(new Date()).format('MM-DD-YYYY hh:mm:ss A');
   isOpen = false;
-
-
+  isOpen2 = false;
+  isPopoverOpen = false;
+  model_id;
+  isModalOpen = false;
   // behaviour subject for loader
   public loading = new BehaviorSubject(true);
   public loaderModel = new BehaviorSubject(true);
@@ -52,7 +54,14 @@ export class DetailPage implements OnInit {
 
   ngOnInit() {
     //getting employee details
+  console.log(this.isModalOpen);
+
+    this.isModalOpen = false;
+
     this.getEmployeeDetails();
+
+    // this.dateLoginFormatted = moment(new Date()).format('MM-DD-YYYY hh:mm:ss A');
+    // this.dateLogoutFormatted = moment(new Date()).format('MM-DD-YYYY hh:mm:ss A');
 
     this.route.queryParams.subscribe((params) => {
       console.log('PARAMS:', params);
@@ -91,6 +100,10 @@ export class DetailPage implements OnInit {
   async ionModalDidDismiss(){
     this.isOpen = false;
   }
+  // async ionPopoverDidDismiss(){
+  //  this.isPopoverOpen = false;
+  // }
+
   getEmployeeDetails() {
     this.role = localStorage.getItem('role');
     this.employee_id = localStorage.getItem('employeeId');
@@ -179,8 +192,9 @@ export class DetailPage implements OnInit {
           // calling again date DWR
           this.getTickets();
 
+
+
           this.toastService.presentToast('Ticket reassigned', 'success');
-          // this.router.navigateByUrl('/tabs/home/maintenance-repair');
         } else {
           console.log('Something happened :)');
           this.toastService.presentToast(res.mssage, 'danger');
@@ -203,6 +217,7 @@ export class DetailPage implements OnInit {
   }
 }
 getAll(){
+  this.loading.next(true);
   this.dwrService
   .getDWRDetailsWithStatus('getDWRList',this.date, 'day', this.dwr_employee_id,'all')
   .subscribe((res) => {
@@ -212,6 +227,7 @@ getAll(){
   });
 }
 getVerified(){
+  this.loading.next(true);
   this.dwrService
   .getDWRDetailsWithStatus('getDWRList',this.date, 'day', this.dwr_employee_id,'verified')
   .subscribe((res) => {
@@ -221,6 +237,7 @@ getVerified(){
   });
 }
 getUnVerified(){
+  this.loading.next(true);
   this.dwrService
   .getDWRDetailsWithStatus('getDWRList',this.date, 'day', this.dwr_employee_id,'pendingVerification')
   .subscribe((res) => {
@@ -230,6 +247,7 @@ getUnVerified(){
   });
 }
 getReassigned(){
+  this.loading.next(true);
   this.dwrService
   .getDWRDetailsWithStatus('getDWRList',this.date, 'day', this.dwr_employee_id,'reassigned')
   .subscribe((res) => {
@@ -247,39 +265,83 @@ getLogoutDate(e){
   this.dateLogout = e.detail.value;
   this.dateLogoutFormatted = moment(e.detail.value).format('MM-DD-YYYY hh:mm:ss A');
 }
-openModel(){
+openModel(id){
   this.isOpen = true;
+  this.isModalOpen = true;
+
+  this.model_id = id;
+  console.log('Opening Model', this.isModalOpen);
+
 
 }
+// edit(id){
+
+//   this.loadingSpinner.next(true);
+
+//   // // close model
+//           // this.isOpen = false;
+//     this.dwrService.reassignDWR('editDwr', id,this.dateLogin,this.dateLogout).subscribe(
+//       (res) => {
+//         if (res.status === 200) {
+//           this.loadingSpinner.next(false);
+//           // calling reassigned tickets
+//           this.getReassigned();
+
+//           console.log('----',this.isOpen);
+//            // close model
+//            this.isOpen = false;
+//            console.log('----',this.isOpen);
+
+//           this.toastService.presentToast('Ticket edited', 'success');
+//         } else {
+//           console.log('Something happened :)');
+//           this.toastService.presentToast(res.mssage, 'danger');
+//           this.loadingSpinner.next(false);
+//           this.isOpen = false;
+//         }
+//       },
+//       (err) => {
+//         this.toastService.presentToast(err.mssage, 'danger');
+//         this.loadingSpinner.next(false);
+//         this.isOpen = false;
+//       }
+//     );
+// }
+
 edit(id){
 
   this.loadingSpinner.next(true);
+  // this.isOpen = false;
+  console.log(this.isModalOpen);
+  this.isOpen = false;
 
-    this.dwrService.reassignDWR('editDwr', id,this.dateLogin,this.dateLogout).subscribe(
-      (res) => {
-        if (res.status === 200) {
-          this.loadingSpinner.next(false);
-
-          // calling reassigned tickets
-          this.getReassigned();
-
-          // close model
-          this.isOpen = false;
-
-
-          this.toastService.presentToast('Ticket reassigned', 'success');
-          // this.router.navigateByUrl('/tabs/home/maintenance-repair');
-        } else {
-          console.log('Something happened :)');
-          this.toastService.presentToast(res.mssage, 'danger');
-          this.loadingSpinner.next(false);
-        }
-      },
-      (err) => {
-        this.toastService.presentToast(err.mssage, 'danger');
+  this.dwrService.reassignDWR('editDwr', id,this.dateLogin,this.dateLogout).subscribe(
+    (res) => {
+      if (res.status === 200) {
         this.loadingSpinner.next(false);
+  //       this.isModalOpen = false;
+  // console.log(this.isModalOpen);
+
+        // calling reassigned tickets
+        this.getReassigned();
+
+        // close model
+        this.isOpen = false;
+
+        this.toastService.presentToast('Ticket edited', 'success');
+      } else {
+        console.log('Something happened :)');
+        this.toastService.presentToast(res.mssage, 'danger');
+        this.loadingSpinner.next(false);
+        this.isOpen = false;
       }
-    );
+    },
+    (err) => {
+      this.toastService.presentToast(err.mssage, 'danger');
+      this.loadingSpinner.next(false);
+      this.isOpen = false;
+    }
+  );
 }
 
 }

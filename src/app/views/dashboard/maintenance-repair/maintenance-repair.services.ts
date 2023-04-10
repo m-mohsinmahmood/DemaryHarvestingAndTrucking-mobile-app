@@ -115,10 +115,11 @@ export class MaintenanceRepairService {
     })
     .pipe(take(1));
   }
-  ticket(data, ticketRecordId: any, entity){
+  ticket(data, ticketRecordId: any, entity,active_check_in_id){
     let params=  new HttpParams();
     params = params.set('ticketRecordId', ticketRecordId);
     params = params.set('entity', entity);
+    params = params.set('dwr_id', active_check_in_id);
     return this.httpClient
     .patch<any>('api-1/main_repair', data,{
       params
