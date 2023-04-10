@@ -9,17 +9,28 @@
     </div>
   </div>
     <div *ngIf="(loading | async) === false">
-      <div *ngIf="workHistoryData.length<=0" class="flex justify-center items-center h-56">
+      <div *ngIf="workHistoryData?.length<=0" class="flex justify-center items-center h-56">
         <ion-text class="font-Lato font-semibold text-base text-3D8AA4">No Ticket(s)</ion-text>
       </div>
-      <div *ngIf="workHistoryData.length > 0">
+      <div *ngIf="workHistoryData?.length > 0">
       <div *ngFor="let data of workHistoryData">
       <ion-grid *ngIf="data?.module === 'farming'">
         <ion-card class="mx-2 my-1">
           <ion-card-content>
         <ion-row>
-          <ion-col size="12">
-            <ion-text class="bg-blue-100 border-blue-500 border-2 rounded-md px-2 py-1 font-semibold text-xs text-blue-500">FARMING</ion-text>
+            <ion-col size="6" class="">
+              <div class="border-blue-500 border-2 rounded-md px-0 py-1 text-center w-min">
+                <ion-text class= "ml-1 mr-1 font-semibold text-xs text-blue-500">FARMING</ion-text>
+              </div>
+            </ion-col>
+            <ion-col size="6" (click)="reassign(data.id)">
+              <div class="flex justify-end items-center">
+                <div class="bg-gray-100 border-gray-500 border-2 rounded-md px-2 py-1">
+                  <ion-text class="font-semibold text-xs text-gray-500">Reassign</ion-text>
+                </div>
+                <ion-spinner *ngIf="data.id === id && (loadingSpinner | async) === true" class="reassign"
+                    name="crescent"></ion-spinner>
+              </div>
           </ion-col>
           <ion-col size="12" class="flex justify-between items-center">
             <ion-text class="font-semibold text-black font-Lato text-base">Log-in</ion-text>
@@ -46,7 +57,7 @@
                   </div>
                   <div class="flex justify-between items-center">
                     <ion-text class="font-semibold text-black font-Lato text-base">Supervisor</ion-text>
-                    <ion-text class="font-semibold text-black font-Lato text-sm">{{item.supervisor_id | slice:0-8}}</ion-text>
+                    <ion-text class="font-semibold text-black font-Lato text-sm">{{item.supervisor_name}}</ion-text>
                     </div>
                 <div class="flex justify-between items-center">
                 <ion-text class="font-semibold text-black font-Lato text-base">Employee</ion-text>
@@ -68,8 +79,19 @@
         <ion-card class="mx-2 my-1">
           <ion-card-content>
         <ion-row>
-          <ion-col size="112">
-            <ion-text class="bg-blue-100 border-blue-500 border-2 rounded-md px-2 py-1 font-semibold text-xs text-blue-500">MAINTENANCE & REPAIR</ion-text>
+          <ion-col size="6" class="">
+            <div class="border-blue-500 border-2 rounded-md px-0 py-1">
+              <ion-text class= "ml-1 font-semibold text-xs text-blue-500">MAINTENANCE & REPAIR</ion-text>
+            </div>
+          </ion-col>
+          <ion-col size="6" (click)="reassign(data.id)">
+            <div class="flex justify-end items-center">
+              <div class="bg-gray-100 border-gray-500 border-2 rounded-md px-2 py-1">
+                <ion-text class="font-semibold text-xs text-gray-500">Reassign</ion-text>
+              </div>
+              <ion-spinner *ngIf="data.id === id && (loadingSpinner | async) === true" class="reassign"
+                  name="crescent"></ion-spinner>
+            </div>
           </ion-col>
           <ion-col size="12" class="flex justify-between items-center">
             <ion-text class="font-semibold text-black font-Lato text-base">Log-in</ion-text>
@@ -97,7 +119,7 @@
                     </div>
                     <div class="flex justify-between items-center">
                       <ion-text class="font-semibold text-black font-Lato text-base">Supervisor</ion-text>
-                      <ion-text class="font-semibold text-black font-Lato text-sm">{{item.supervisor_id | slice:0-8}}</ion-text>
+                      <ion-text class="font-semibold text-black font-Lato text-sm">{{item.supervisor_name}}</ion-text>
                       </div>
                   <div class="flex justify-between items-center">
                   <ion-text class="font-semibold text-black font-Lato text-base">Employee</ion-text>
@@ -120,9 +142,20 @@
         <ion-card class="mx-2 my-1">
           <ion-card-content>
         <ion-row>
-          <ion-col size="12">
-            <ion-text class="bg-blue-100 border-blue-500 border-2 rounded-md px-2 py-1 font-semibold text-xs text-blue-500">OTHER</ion-text>
+          <ion-col size="6" class="">
+            <div class="border-blue-500 border-2 rounded-md px-0 py-1 text-center w-min">
+              <ion-text class= "ml-1 mr-1 font-semibold text-xs text-blue-500">OTHER</ion-text>
+            </div>
           </ion-col>
+          <ion-col size="6" (click)="reassign(data.id)">
+            <div class="flex justify-end items-center">
+              <div class="bg-gray-100 border-gray-500 border-2 rounded-md px-2 py-1">
+                <ion-text class="font-semibold text-xs text-gray-500">Reassign</ion-text>
+              </div>
+              <ion-spinner *ngIf="data.id === id && (loadingSpinner | async) === true" class="reassign"
+                  name="crescent"></ion-spinner>
+            </div>
+        </ion-col>
           <ion-col size="12" class="flex justify-between items-center">
             <ion-text class="font-semibold text-black font-Lato text-base">Log-in</ion-text>
             <ion-text class="font-semibold text-black font-Lato text-sm">{{moment(data.login_time).format('MM/DD/YYYY hh:mm:ss A')}}</ion-text>
@@ -149,7 +182,7 @@
                     </div>
                     <div class="flex justify-between items-center">
                       <ion-text class="font-semibold text-black font-Lato text-base">Supervisor</ion-text>
-                      <ion-text class="font-semibold text-black font-Lato text-sm">{{item.supervisor_id | slice:0-8}}</ion-text>
+                      <ion-text class="font-semibold text-black font-Lato text-sm">{{item.supervisor_name}}</ion-text>
                       </div>
                   <div class="flex justify-between items-center">
                   <ion-text class="font-semibold text-black font-Lato text-base">Employee</ion-text>
@@ -170,8 +203,6 @@
     </div>
   </div>
      </div>
-
-
 </ion-content>
 
 <!-- VERIFY -->
@@ -213,7 +244,7 @@
                   </div>
                   <div class="flex justify-between items-center">
                     <ion-text class="font-semibold text-black font-Lato text-base">Supervisor</ion-text>
-                    <ion-text class="font-semibold text-black font-Lato text-sm">{{item.supervisor_id | slice:0-8}}</ion-text>
+                    <ion-text class="font-semibold text-black font-Lato text-sm">{{item.supervisor_name}}</ion-text>
                     </div>
                 <div class="flex justify-between items-center">
                 <ion-text class="font-semibold text-black font-Lato text-base">Employee</ion-text>
@@ -262,7 +293,7 @@
                     </div>
                     <div class="flex justify-between items-center">
                       <ion-text class="font-semibold text-black font-Lato text-base">Supervisor</ion-text>
-                      <ion-text class="font-semibold text-black font-Lato text-sm">{{item.supervisor_id | slice:0-8}}</ion-text>
+                      <ion-text class="font-semibold text-black font-Lato text-sm">{{item.supervisor_name}}</ion-text>
                       </div>
                   <div class="flex justify-between items-center">
                   <ion-text class="font-semibold text-black font-Lato text-base">Employee</ion-text>
@@ -313,7 +344,7 @@
                     </div>
                     <div class="flex justify-between items-center">
                       <ion-text class="font-semibold text-black font-Lato text-base">Supervisor</ion-text>
-                      <ion-text class="font-semibold text-black font-Lato text-sm">{{item.supervisor_id | slice:0-8}}</ion-text>
+                      <ion-text class="font-semibold text-black font-Lato text-sm">{{item.supervisor_name}}</ion-text>
                       </div>
                   <div class="flex justify-between items-center">
                   <ion-text class="font-semibold text-black font-Lato text-base">Employee</ion-text>
@@ -344,10 +375,10 @@
     </div>
   </div>
     <div *ngIf="(loading | async) === false">
-      <div *ngIf="workHistoryData.length<=0" class="flex justify-center items-center h-56">
+      <div *ngIf="workHistoryData?.length<=0" class="flex justify-center items-center h-56">
         <ion-text class="font-Lato font-semibold text-base text-3D8AA4">No Ticket(s)</ion-text>
       </div>
-      <div *ngIf="workHistoryData.length > 0">
+      <div *ngIf="workHistoryData?.length > 0">
       <div *ngFor="let data of workHistoryData">
       <ion-grid *ngIf="data?.module === 'farming'">
         <ion-card class="mx-2 my-1">
@@ -390,7 +421,7 @@
                   </div>
                   <div class="flex justify-between items-center">
                     <ion-text class="font-semibold text-black font-Lato text-base">Supervisor</ion-text>
-                    <ion-text class="font-semibold text-black font-Lato text-sm">{{item.supervisor_id | slice:0-8}}</ion-text>
+                    <ion-text class="font-semibold text-black font-Lato text-sm">{{item.supervisor_name}}</ion-text>
                     </div>
                 <div class="flex justify-between items-center">
                 <ion-text class="font-semibold text-black font-Lato text-base">Employee</ion-text>
@@ -450,7 +481,7 @@
                     </div>
                     <div class="flex justify-between items-center">
                       <ion-text class="font-semibold text-black font-Lato text-base">Supervisor</ion-text>
-                      <ion-text class="font-semibold text-black font-Lato text-sm">{{item.supervisor_id | slice:0-8}}</ion-text>
+                      <ion-text class="font-semibold text-black font-Lato text-sm">{{item.supervisor_name}}</ion-text>
                       </div>
                   <div class="flex justify-between items-center">
                   <ion-text class="font-semibold text-black font-Lato text-base">Employee</ion-text>
@@ -510,7 +541,7 @@
                     </div>
                     <div class="flex justify-between items-center">
                       <ion-text class="font-semibold text-black font-Lato text-base">Supervisor</ion-text>
-                      <ion-text class="font-semibold text-black font-Lato text-sm">{{item.supervisor_id | slice:0-8}}</ion-text>
+                      <ion-text class="font-semibold text-black font-Lato text-sm">{{item.supervisor_name}}</ion-text>
                       </div>
                   <div class="flex justify-between items-center">
                   <ion-text class="font-semibold text-black font-Lato text-base">Employee</ion-text>
@@ -547,7 +578,7 @@
             </span>
             <span *ngIf="(loading | async)=== false"
               class="text-white w-8 h-4 rounded-full flex justify-center items-center">
-              {{workHistoryData.length}}
+              {{workHistoryData?.length}}
             </span>
           </div>
         </ion-segment-button>
@@ -599,16 +630,16 @@
 
       <div [ngSwitch]="segment" class="mt-4">
         <div *ngSwitchCase="'all'" class="overflow-scroll">
-          <div *ngIf="(loading | async) === true" class="h-full">
-            <div class="flex justify-center items-center h-full bg-red">
+          <div *ngIf="(loading | async) === true" >
+            <div class="flex justify-center items-center h-56">
               <ion-spinner class="" name="crescent"></ion-spinner>
             </div>
            </div>
             <div *ngIf="(loading | async) === false">
-              <div *ngIf="workHistoryData.length<=0" class="flex justify-center items-center h-56">
+              <div *ngIf="workHistoryData?.length<=0" class="flex justify-center items-center h-56">
                 <ion-text class="font-Lato font-semibold text-base text-3D8AA4">No Ticket(s)</ion-text>
               </div>
-              <div *ngIf="workHistoryData.length > 0">
+              <div *ngIf="workHistoryData?.length > 0">
                 <div *ngFor="let data of workHistoryData">
               <ion-grid *ngIf="data?.module === 'farming'">
                 <ion-card class="mx-2 my-1">
@@ -640,7 +671,7 @@
                           </div>
                           <div class="flex justify-between items-center">
                             <ion-text class="font-semibold text-black font-Lato text-base">Supervisor</ion-text>
-                            <ion-text class="font-semibold text-black font-Lato text-sm">{{item.supervisor_id | slice:0-8}}</ion-text>
+                            <ion-text class="font-semibold text-black font-Lato text-sm">{{item.supervisor_name}}</ion-text>
                             </div>
                         <div class="flex justify-between items-center">
                         <ion-text class="font-semibold text-black font-Lato text-base">Employee</ion-text>
@@ -689,7 +720,7 @@
                             </div>
                             <div class="flex justify-between items-center">
                               <ion-text class="font-semibold text-black font-Lato text-base">Supervisor</ion-text>
-                              <ion-text class="font-semibold text-black font-Lato text-sm">{{item.supervisor_id | slice:0-8}}</ion-text>
+                              <ion-text class="font-semibold text-black font-Lato text-sm">{{item.supervisor_name}}</ion-text>
                               </div>
                           <div class="flex justify-between items-center">
                           <ion-text class="font-semibold text-black font-Lato text-base">Employee</ion-text>
@@ -740,7 +771,7 @@
                             </div>
                             <div class="flex justify-between items-center">
                               <ion-text class="font-semibold text-black font-Lato text-base">Supervisor</ion-text>
-                              <ion-text class="font-semibold text-black font-Lato text-sm">{{item.supervisor_id | slice:0-8}}</ion-text>
+                              <ion-text class="font-semibold text-black font-Lato text-sm">{{item.supervisor_name}}</ion-text>
                               </div>
                           <div class="flex justify-between items-center">
                           <ion-text class="font-semibold text-black font-Lato text-base">Employee</ion-text>
@@ -763,16 +794,16 @@
           </div>
         </div>
         <div *ngSwitchCase="'verified'" class="overflow-scroll">
-          <div *ngIf="(loading | async) === true" class="h-full">
-            <div class="flex justify-center items-center h-full bg-red">
+          <div *ngIf="(loading | async) === true" >
+            <div class="flex justify-center items-center h-56">
               <ion-spinner class="" name="crescent"></ion-spinner>
             </div>
            </div>
             <div *ngIf="(loading | async) === false">
-              <div *ngIf="verifiedData.length<=0" class="flex justify-center items-center h-56">
+              <div *ngIf="verifiedData?.length<=0" class="flex justify-center items-center h-56">
                 <ion-text class="font-Lato font-semibold text-base text-3D8AA4">No Verified Ticket(s)</ion-text>
               </div>
-              <div *ngIf="verifiedData.length > 0">
+              <div *ngIf="verifiedData?.length > 0">
                 <div *ngFor="let data of verifiedData">
                 <ion-grid *ngIf="data?.module === 'farming'">
                   <ion-card class="mx-2 my-1">
@@ -804,7 +835,7 @@
                             </div>
                             <div class="flex justify-between items-center">
                               <ion-text class="font-semibold text-black font-Lato text-base">Supervisor</ion-text>
-                              <ion-text class="font-semibold text-black font-Lato text-sm">{{item.supervisor_id | slice:0-8}}</ion-text>
+                              <ion-text class="font-semibold text-black font-Lato text-sm">{{item.supervisor_name}}</ion-text>
                               </div>
                           <div class="flex justify-between items-center">
                           <ion-text class="font-semibold text-black font-Lato text-base">Employee</ion-text>
@@ -853,7 +884,7 @@
                               </div>
                               <div class="flex justify-between items-center">
                                 <ion-text class="font-semibold text-black font-Lato text-base">Supervisor</ion-text>
-                                <ion-text class="font-semibold text-black font-Lato text-sm">{{item.supervisor_id | slice:0-8}}</ion-text>
+                                <ion-text class="font-semibold text-black font-Lato text-sm">{{item.supervisor_name}}</ion-text>
                                 </div>
                             <div class="flex justify-between items-center">
                             <ion-text class="font-semibold text-black font-Lato text-base">Employee</ion-text>
@@ -904,7 +935,7 @@
                               </div>
                               <div class="flex justify-between items-center">
                                 <ion-text class="font-semibold text-black font-Lato text-base">Supervisor</ion-text>
-                                <ion-text class="font-semibold text-black font-Lato text-sm">{{item.supervisor_id | slice:0-8}}</ion-text>
+                                <ion-text class="font-semibold text-black font-Lato text-sm">{{item.supervisor_name}}</ion-text>
                                 </div>
                             <div class="flex justify-between items-center">
                             <ion-text class="font-semibold text-black font-Lato text-base">Employee</ion-text>
@@ -927,16 +958,16 @@
           </div>
         </div>
         <div *ngSwitchCase="'un-verified'" class="overflow-scroll">
-          <div *ngIf="(loading | async) === true" class="h-full">
-            <div class="flex justify-center items-center h-full bg-red">
+          <div *ngIf="(loading | async) === true" >
+            <div class="flex justify-center items-center h-56">
               <ion-spinner class="" name="crescent"></ion-spinner>
             </div>
            </div>
             <div *ngIf="(loading | async) === false">
-              <div *ngIf="unVerifiedData.length<=0" class="flex justify-center items-center h-56">
+              <div *ngIf="unVerifiedData?.length<=0" class="flex justify-center items-center h-56">
                 <ion-text class="font-Lato font-semibold text-base text-3D8AA4">No Un-verified Ticket(s)</ion-text>
               </div>
-              <div *ngIf="unVerifiedData.length > 0">
+              <div *ngIf="unVerifiedData?.length > 0">
               <div *ngFor="let data of unVerifiedData">
               <ion-grid *ngIf="data?.module === 'farming'">
                 <ion-card class="mx-2 my-1">
@@ -968,7 +999,7 @@
                           </div>
                           <div class="flex justify-between items-center">
                             <ion-text class="font-semibold text-black font-Lato text-base">Supervisor</ion-text>
-                            <ion-text class="font-semibold text-black font-Lato text-sm">{{item.supervisor_id | slice:0-8}}</ion-text>
+                            <ion-text class="font-semibold text-black font-Lato text-sm">{{item.supervisor_name}}</ion-text>
                             </div>
                         <div class="flex justify-between items-center">
                         <ion-text class="font-semibold text-black font-Lato text-base">Employee</ion-text>
@@ -1017,7 +1048,7 @@
                             </div>
                             <div class="flex justify-between items-center">
                               <ion-text class="font-semibold text-black font-Lato text-base">Supervisor</ion-text>
-                              <ion-text class="font-semibold text-black font-Lato text-sm">{{item.supervisor_id | slice:0-8}}</ion-text>
+                              <ion-text class="font-semibold text-black font-Lato text-sm">{{item.supervisor_name}}</ion-text>
                               </div>
                           <div class="flex justify-between items-center">
                           <ion-text class="font-semibold text-black font-Lato text-base">Employee</ion-text>
@@ -1068,7 +1099,7 @@
                             </div>
                             <div class="flex justify-between items-center">
                               <ion-text class="font-semibold text-black font-Lato text-base">Supervisor</ion-text>
-                              <ion-text class="font-semibold text-black font-Lato text-sm">{{item.supervisor_id | slice:0-8}}</ion-text>
+                              <ion-text class="font-semibold text-black font-Lato text-sm">{{item.supervisor_name}}</ion-text>
                               </div>
                           <div class="flex justify-between items-center">
                           <ion-text class="font-semibold text-black font-Lato text-base">Employee</ion-text>
@@ -1091,16 +1122,16 @@
           </div>
         </div>
         <div *ngSwitchCase="'reassigned'" class="overflow-scroll">
-          <div *ngIf="(loading | async) === true" class="h-full">
-            <div class="flex justify-center items-center h-full bg-red">
+          <div *ngIf="(loading | async) === true" >
+            <div class="flex justify-center items-center h-56">
               <ion-spinner class="" name="crescent"></ion-spinner>
             </div>
            </div>
             <div *ngIf="(loading | async) === false">
-              <div *ngIf="reassignedData.length<=0" class="flex justify-center items-center h-56">
+              <div *ngIf="reassignedData?.length<=0" class="flex justify-center items-center h-56">
                 <ion-text class="font-Lato font-semibold text-base text-3D8AA4">No Reassigned Ticket(s)</ion-text>
               </div>
-              <div *ngIf="reassignedData.length > 0">
+              <div *ngIf="reassignedData?.length > 0">
               <div *ngFor="let data of reassignedData">
               <ion-grid *ngIf="data?.module === 'farming'">
                 <ion-card class="mx-2 my-1">
@@ -1109,7 +1140,7 @@
                   <ion-col size="6">
                     <ion-text class="bg-blue-100 border-blue-500 border-2 rounded-md px-2 py-1 font-semibold text-xs text-blue-500">FARMING</ion-text>
                   </ion-col>
-                  <ion-col size="6" (click)="openModel()">
+                  <ion-col size="6" (click)="openModel(data.id)">
                     <div class="flex justify-end items-center">
                       <div class="bg-gray-100 border-gray-500 border-2 rounded-md px-2 py-1">
                         <ion-text class="font-semibold text-xs text-gray-500">Edit</ion-text>
@@ -1131,39 +1162,39 @@
                     <ion-text class="font-semibold text-black font-Lato text-base">Total Hours</ion-text>
                     <ion-text class="font-semibold text-black font-Lato text-sm">{{data.total_hours}} Hours</ion-text>
                   </ion-col>
-                  <ion-modal #model [isOpen]="isOpen" (ionModalDidDismiss)="ionModalDidDismiss()">
+                  <ion-modal #model [isOpen]="data.id === model_id && isOpen" (ionModalDidDismiss)="ionModalDidDismiss()">
                     <ng-template>
                       <div>
                       <div class="px-4 mt-3">
-                        <div class="col-span-12 mb-4 mt-2" id="click-trigger2">
+                        <div class="col-span-12 mb-4 mt-2" id="startDate">
                           <label class="block text-sm font-medium text-gray-700">Login Date/Time:</label>
-                          <input id="click-trigger2"
+                          <input
                             class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-                            placeholder="Enter date" readonly [value]="dateLoginFormatted">
+                            placeholder="Enter date" readonly  [value]="dateLoginFormatted">
                         </div>
-                        <ion-popover trigger="click-trigger2" triggerAction="click">
+                        <ion-popover trigger="startDate" triggerAction="click">
                           <ng-template>
                             <ion-datetime (ionChange)="getLoginDate($event)"  size="cover"></ion-datetime>
                           </ng-template>
                         </ion-popover>
                       </div>
                       <div class="px-4">
-                        <div class="col-span-12 mb-4 mt-2" id="click-trigger3">
+                        <div class="col-span-12 mb-4 mt-2" id="endDate">
                           <label class="block text-sm font-medium text-gray-700">Logout Date/Time:</label>
-                          <input id="click-trigger3"
+                          <input
                             class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                             placeholder="Enter date" readonly [value]="dateLogoutFormatted">
                         </div>
-                        <ion-popover trigger="click-trigger3" triggerAction="click">
+                        <ion-popover trigger="endDate" triggerAction="click">
                           <ng-template>
                             <ion-datetime (ionChange)="getLogoutDate($event)" size="cover"></ion-datetime>
                           </ng-template>
                         </ion-popover>
                       </div>
                       <ion-button expand="block" (click)="edit(data.id)" class="font-Lato text-white px-4">
-                        <div *ngIf="(loadingSpinner | async) === false">Edit and Send</div>
-                        <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+                        <div>Edit and Send</div>
                       </ion-button>
+
                     </div>
                     </ng-template>
                   </ion-modal>
@@ -1180,7 +1211,7 @@
                           </div>
                           <div class="flex justify-between items-center">
                             <ion-text class="font-semibold text-black font-Lato text-base">Supervisor</ion-text>
-                            <ion-text class="font-semibold text-black font-Lato text-sm">{{item.supervisor_id | slice:0-8}}</ion-text>
+                            <ion-text class="font-semibold text-black font-Lato text-sm">{{item.supervisor_name}}</ion-text>
                             </div>
                         <div class="flex justify-between items-center">
                         <ion-text class="font-semibold text-black font-Lato text-base">Employee</ion-text>
@@ -1202,10 +1233,12 @@
                 <ion-card class="mx-2 my-1">
                   <ion-card-content>
                 <ion-row>
-                  <ion-col size="6">
-                    <ion-text class="bg-blue-100 border-blue-500 border-2 rounded-md px-2 py-1 font-semibold text-xs text-blue-500">MAINTENANCE & REPAIR</ion-text>
+                  <ion-col size="6" class="">
+                    <div class="border-blue-500 border-2 rounded-md px-0 py-1">
+                      <ion-text class= "ml-1 font-semibold text-xs text-blue-500">MAINTENANCE & REPAIR</ion-text>
+                    </div>
                   </ion-col>
-                  <ion-col size="6" (click)="openModel()">
+                  <ion-col size="6" (click)="openModel(data.id)" >
                     <div class="flex justify-end items-center">
                       <div class="bg-gray-100 border-gray-500 border-2 rounded-md px-2 py-1">
                         <ion-text class="font-semibold text-xs text-gray-500">Edit</ion-text>
@@ -1227,42 +1260,44 @@
                     <ion-text class="font-semibold text-black font-Lato text-base">Total Hours</ion-text>
                     <ion-text class="font-semibold text-black font-Lato text-sm">{{data.total_hours}} Hours</ion-text>
                   </ion-col>
-                  <ion-modal #model [isOpen]="isOpen" (ionModalDidDismiss)="ionModalDidDismiss()">
-                    <ng-template>
-                      <div>
-                      <div class="px-4 mt-3">
-                        <div class="col-span-12 mb-4 mt-2" id="click-trigger2">
-                          <label class="block text-sm font-medium text-gray-700">Login Date/Time:</label>
-                          <input id="click-trigger2"
-                            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-                            placeholder="Enter date" readonly [value]="dateLoginFormatted">
-                        </div>
-                        <ion-popover trigger="click-trigger2" triggerAction="click">
-                          <ng-template>
-                            <ion-datetime (ionChange)="getLoginDate($event)"  size="cover"></ion-datetime>
-                          </ng-template>
-                        </ion-popover>
+                    <ion-modal [isOpen]="data.id === model_id && isOpen" (ionModalDidDismiss)="ionModalDidDismiss()">
+                      <ng-template>
+                        <div>
+                          <div class="px-4">
+                            <div class="col-span-12 mb-4 mt-2" >
+                              <label class="block text-sm font-medium text-gray-700">Login Date/Time:</label>
+                              <input id="startDate"
+                                class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                                placeholder="Enter date" readonly [value]="dateLoginFormatted">
+                            </div>
+                            <ion-popover trigger="startDate" triggerAction="click">
+                              <ng-template>
+                                <ion-datetime (ionChange)="getLoginDate($event)" size="cover"></ion-datetime>
+                              </ng-template>
+                            </ion-popover>
+                          </div>
+
+                          <div class="px-4">
+                            <div class="col-span-12 mb-4 mt-2" >
+                              <label class="block text-sm font-medium text-gray-700">Logout Date/Time:</label>
+                              <input id="endDate"
+                                class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                                placeholder="Enter date" readonly [value]="dateLogoutFormatted">
+                            </div>
+                            <ion-popover trigger="endDate" triggerAction="click">
+                              <ng-template>
+                                <ion-datetime (ionChange)="getLogoutDate($event)" size="cover"></ion-datetime>
+                              </ng-template>
+                            </ion-popover>
+                          </div>
+
+                        <ion-button expand="block" (click)="edit(data.id)" class="font-Lato text-white px-4">
+                          <div *ngIf="(loadingSpinner | async) === false">Edit and Send</div>
+                          <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+                        </ion-button>
                       </div>
-                      <div class="px-4">
-                        <div class="col-span-12 mb-4 mt-2" id="click-trigger3">
-                          <label class="block text-sm font-medium text-gray-700">Logout Date/Time:</label>
-                          <input id="click-trigger3"
-                            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-                            placeholder="Enter date" readonly [value]="dateLogoutFormatted">
-                        </div>
-                        <ion-popover trigger="click-trigger3" triggerAction="click">
-                          <ng-template>
-                            <ion-datetime (ionChange)="getLogoutDate($event)" size="cover"></ion-datetime>
-                          </ng-template>
-                        </ion-popover>
-                      </div>
-                      <ion-button expand="block" (click)="edit(data.id)" class="font-Lato text-white px-4">
-                        <div *ngIf="(loadingSpinner | async) === false">Edit and Send</div>
-                        <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
-                      </ion-button>
-                    </div>
-                    </ng-template>
-                  </ion-modal>
+                      </ng-template>
+                    </ion-modal>
 
                   <ion-col size="12">
                     <ion-accordion-group expand="inset">
@@ -1277,7 +1312,7 @@
                             </div>
                             <div class="flex justify-between items-center">
                               <ion-text class="font-semibold text-black font-Lato text-base">Supervisor</ion-text>
-                              <ion-text class="font-semibold text-black font-Lato text-sm">{{item.supervisor_id | slice:0-8}}</ion-text>
+                              <ion-text class="font-semibold text-black font-Lato text-sm">{{item.supervisor_name}}</ion-text>
                               </div>
                           <div class="flex justify-between items-center">
                           <ion-text class="font-semibold text-black font-Lato text-base">Employee</ion-text>
@@ -1302,7 +1337,7 @@
                   <ion-col size="6">
                     <ion-text class="bg-blue-100 border-blue-500 border-2 rounded-md px-2 py-1 font-semibold text-xs text-blue-500">OTHER</ion-text>
                   </ion-col>
-                  <ion-col size="6" (click)="openModel()">
+                  <ion-col size="6" (click)="openModel(data.id)">
                     <div class="flex justify-end items-center">
                       <div class="bg-gray-100 border-gray-500 border-2 rounded-md px-2 py-1">
                         <ion-text class="font-semibold text-xs text-gray-500">Edit</ion-text>
@@ -1324,43 +1359,45 @@
                     <ion-text class="font-semibold text-black font-Lato text-base">Total Hours</ion-text>
                     <ion-text class="font-semibold text-black font-Lato text-sm">{{data.total_hours}} Hours</ion-text>
                   </ion-col>
-                  <ion-modal #model [isOpen]="isOpen" (ionModalDidDismiss)="ionModalDidDismiss()">
+                  <ion-modal #model [isOpen]="data.id === model_id && isOpen" (ionModalDidDismiss)="ionModalDidDismiss()">
                     <ng-template>
                       <div>
                       <div class="px-4 mt-3">
-                        <div class="col-span-12 mb-4 mt-2" id="click-trigger2">
+                        <div class="col-span-12 mb-4 mt-2" >
                           <label class="block text-sm font-medium text-gray-700">Login Date/Time:</label>
-                          <input id="click-trigger2"
+                          <input id="startDate"
                             class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                             placeholder="Enter date" readonly [value]="dateLoginFormatted">
                         </div>
-                        <ion-popover trigger="click-trigger2" triggerAction="click">
+                        <ion-popover trigger="startDate" triggerAction="click">
                           <ng-template>
                             <ion-datetime (ionChange)="getLoginDate($event)"  size="cover"></ion-datetime>
                           </ng-template>
                         </ion-popover>
                       </div>
                       <div class="px-4">
-                        <div class="col-span-12 mb-4 mt-2" id="click-trigger3">
+                        <div class="col-span-12 mb-4 mt-2">
                           <label class="block text-sm font-medium text-gray-700">Logout Date/Time:</label>
-                          <input id="click-trigger3"
+                          <input id="endDate"
                             class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                             placeholder="Enter date" readonly [value]="dateLogoutFormatted">
                         </div>
-                        <ion-popover trigger="click-trigger3" triggerAction="click">
+                        <ion-popover trigger="endDate" triggerAction="click">
                           <ng-template>
                             <ion-datetime (ionChange)="getLogoutDate($event)" size="cover"></ion-datetime>
                           </ng-template>
                         </ion-popover>
                       </div>
-                      <ion-button expand="block" (click)="edit(data.id)" class="font-Lato text-white px-4">
-                        <div *ngIf="(loadingSpinner | async) === false">Edit and Send</div>
-                        <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+                      <ion-button expand="block" (click)="model.dismiss(); edit(data.id)" class="font-Lato text-white px-4">
+                        <!-- <div *ngIf="(loadingSpinner | async) === false">Edit and Send</div> -->
+                        <div>Edit</div>
+                        <!-- <div *ngIf="(loadingSpinner | async) === true">
+                          <ion-spinner name="crescent" class="edit" ></ion-spinner>
+                        </div> -->
                       </ion-button>
                     </div>
                     </ng-template>
                   </ion-modal>
-
                   <ion-col size="12">
                     <ion-accordion-group expand="inset">
                       <ion-accordion>
@@ -1374,7 +1411,7 @@
                             </div>
                             <div class="flex justify-between items-center">
                               <ion-text class="font-semibold text-black font-Lato text-base">Supervisor</ion-text>
-                              <ion-text class="font-semibold text-black font-Lato text-sm">{{item.supervisor_id | slice:0-8}}</ion-text>
+                              <ion-text class="font-semibold text-black font-Lato text-sm">{{item.supervisor_name}}</ion-text>
                               </div>
                           <div class="flex justify-between items-center">
                           <ion-text class="font-semibold text-black font-Lato text-base">Employee</ion-text>
@@ -1397,10 +1434,5 @@
           </div>
         </div>
       </div>
-
     </div>
-
-
-
-
 </ion-content>

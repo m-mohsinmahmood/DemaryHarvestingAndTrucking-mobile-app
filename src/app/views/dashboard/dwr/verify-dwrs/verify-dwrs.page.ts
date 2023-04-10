@@ -41,6 +41,7 @@ export class VerifyDwrsPage implements OnInit {
   MonthSubValue: any;
 
   dwr_id: any;
+  dwr_employee_Id: any;
   public loading = new BehaviorSubject(false);
   public loadingSpinner = new BehaviorSubject(false);
 
@@ -181,6 +182,8 @@ export class VerifyDwrsPage implements OnInit {
   }
   verify(employee_id,dwr_id) {
     this.dwr_id = dwr_id;
+    console.log(employee_id);
+    this.dwr_employee_Id = employee_id;
     // start loader
     this.loadingSpinner.next(true);
 
