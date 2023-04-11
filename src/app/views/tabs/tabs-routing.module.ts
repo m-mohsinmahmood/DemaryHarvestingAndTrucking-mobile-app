@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { TabsPage } from './tabs.page';
+import { ProfilePageModule } from './../profile/profile.module';
+
 
 const routes: Routes = [
   {
@@ -16,6 +18,10 @@ const routes: Routes = [
       {
         path: 'home',
         loadChildren: () => import ('../dashboard/dashboard.module').then(m => m.DashboardPageModule)
+      },
+      {
+        path: 'profile',
+        loadChildren: () => import ('../profile/profile.module').then(m => m.ProfilePageModule)
       }
     ]
   }
@@ -23,6 +29,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
+exports: [RouterModule],
 })
 export class TabsPageRoutingModule {}

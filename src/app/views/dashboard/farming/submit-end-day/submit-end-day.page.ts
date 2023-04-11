@@ -21,6 +21,7 @@ export class SubmitEndDayPage implements OnInit {
   activeDwr: Observable<any>;
   dwrLoaded = false;
   acresComp = false;
+  data;
 
   public loadingSpinner = new BehaviorSubject(false);
 
@@ -48,6 +49,13 @@ export class SubmitEndDayPage implements OnInit {
       module: [''],
       dwrId: ['']
     });
+
+    this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
+      console.log('Active Check In ', workOrder.dwr);
+      this.activeDwr = workOrder.dwr;
+      this.data = this.activeDwr[0];
+    });
+
 
     this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
       console.log('Active Check In ', workOrder.dwr);
@@ -124,7 +132,8 @@ export class SubmitEndDayPage implements OnInit {
       let updateWorkOrder = {
         workOrderId: this.workOrder[0].work_order_id,
         machineryID: this.workOrder[0].machinery_id,
-        endingEngineHours: this.submitEndDayWorkOrder.get("endingEngineHours").value
+        endingEngineHours: this.submitEndDayWorkOrder.get("endingEngineHours").value,
+        dwr_id: this.data.id
       }
 
       this.farmingService.updateWorkOrder(updateWorkOrder, 'Tractor Driver', 'submitEndingDay')

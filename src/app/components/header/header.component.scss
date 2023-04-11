@@ -5,18 +5,6 @@ ion-header {
     color: #fff;
     padding: 6px 0px;
     text-overflow:clip !important;
-    // white-space: unset;
-
-    //  text-overflow: ellipsis !important;
-    //  white-space: normal;
-    //  position: static;
-    // ion-title {
-    //   // text-overflow: ellipsis !important;
-    //   // white-space: normal;
-    //   // position: static;
-    //   // text-overflow: unset;
-    //   // white-space: unset;
-    // }
 
     &.harvesting {
       --background: #129476;
@@ -49,48 +37,12 @@ ion-header {
     &.preTripForm {
       --background: #3D8AA4;
     }
+    &.profile{
+      --background: #961818;
+    }
 
     ion-icon {
       zoom: 1.8;
     }
   }
 }
-ion-title{
-  // text-overflow: clip!important;
-  // white-space: none !important;
-  // overflow: none !important;
-  // background-color: red !important;
-  }
-
-// ion-title::part(shadow){
-// text-overflow: clip !important;
-// white-space: none !important;
-// overflow: none !important;
-// background-color: orange !important;
-// }
-// ion-title::part(native){
-//   text-overflow: clip !important;
-//   white-space: none !important;
-//   overflow: none !important;
-//   background-color: green !important;
-//   }
-
-  // ion-title::part(shadow){
-  //   text-overflow: clip !important;
-  //   white-space: none !important;
-  //   overflow: none !important;
-  //   background-color: green !important;
-  //   }
-//   ion-title::part(::shadow) {
-//     text-overflow: inherit;
-//     white-space: normal;
-//     background-color: #129476;
-//  }
-//  ion-title::part(native) {
-//   text-overflow: inherit;
-//   white-space: normal;
-//   background-color: #129476;
-// }
-//  ion-title {
-//   position: static;
-// }

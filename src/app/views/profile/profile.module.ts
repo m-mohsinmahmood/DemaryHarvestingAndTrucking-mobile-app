@@ -4,22 +4,20 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { DetailPageRoutingModule } from './detail-routing.module';
+import { ProfilePageRoutingModule } from './profile-routing.module';
 
-import { DetailPage } from './detail.page';
+import { ProfilePage } from './profile.page';
 import { HeaderModule } from 'src/app/components/header/header.module';
-import { TimerModule } from 'src/app/components/timer/timer.module';
 
 @NgModule({
   imports: [
-CommonModule,
+    CommonModule,
     FormsModule,
     IonicModule,
-    DetailPageRoutingModule,
+    ProfilePageRoutingModule,
     HeaderModule,
-    TimerModule,
     ReactiveFormsModule
   ],
-  declarations: [DetailPage]
+  declarations: [ProfilePage]
 })
-export class DetailPageModule {}
+export class ProfilePageModule {}

@@ -124,19 +124,7 @@ export class TicketAssignedToPage implements OnInit {
         this.ticketData = res[0];
         this.loading.next(false);
 
-        //patching value's conditionally
-        // if(this.value === 'assign'){
-        //   this.assignTicket.patchValue({
-        //     repairTicketId: this.ticketData.repairTicketId,
-        //     equipID: this.ticketData.equipmentId,
-        //     city: this.ticketData.city,
-        //     state: this.ticketData.state,
-        //     issueCategory: this.ticketData.issueCategory,
-        //     severityType: this.ticketData.severityType,
-        //     status: this.ticketData.status,
-        //     description: this.ticketData.description,
-        //   });
-        // }else{
+
           this.assignTicket.patchValue({
             repairTicketId: this.ticketData.repairTicketId,
             assignedById: this.ticketData.assignedById,
@@ -165,8 +153,6 @@ export class TicketAssignedToPage implements OnInit {
         this.ticketData = res[0];
         this.loading.next(false);
 
-        //patching value's conditionally
-        // if(this.value === 'assign'){
           this.assignTicket.patchValue({
             repairTicketId: this.ticketData.repairTicketId,
             equipID: this.ticketData.equipmentId,
@@ -177,23 +163,7 @@ export class TicketAssignedToPage implements OnInit {
             status: this.ticketData.status,
             description: this.ticketData.description,
           });
-        // }else{
-        //   this.assignTicket.patchValue({
-        //     repairTicketId: this.ticketData.repairTicketId,
-        //     assignedById: this.ticketData.assignedById,
-        //     assignedToId: this.ticketData.assignedToId,
-        //     empModule: this.ticketData.empModule,
-        //     equipID: this.ticketData.equipmentId,
-        //     city: this.ticketData.city,
-        //     state: this.ticketData.state,
-        //     issueCategory: this.ticketData.issueCategory,
-        //     severityType: this.ticketData.severityType,
-        //     status: this.ticketData.status,
-        //     description: this.ticketData.description,
-        //   });
-        //   this.employee_name = this.ticketData.assignedBy;
-        //   this.employee_name_2 = this.ticketData.assignedTo;
-        // }
+
       });
   }
 
@@ -389,83 +359,80 @@ export class TicketAssignedToPage implements OnInit {
   submit() {
     this.loadingSpinner.next(true);
 
-    console.log(this.assignTicket.value);
+    this.getCheckInID();
+  }
+  submitData(){
     this.maintenanceRepairService
-      .ticket(this.assignTicket.value, this.ticketRecordId,'unassign')
-      .subscribe(
-        (res) => {
-          console.log('RES:', res);
-          if (res.status === 200) {
-            // this.loadingSpinner.next(false);
+    .ticket(this.assignTicket.value, this.ticketRecordId,'unassign',this.active_check_in_id)
+    .subscribe(
+      (res) => {
+        console.log('RES:', res);
+        if (res.status === 200) {
 
-            // this.initialyCreated = true;
+          // ticket nature
+          this.taskType = 'ticket created';
 
-            // ticket nature
-            this.taskType = 'ticket created';
+          // create DWR
+          this.createDWR();
 
-            // this.router.navigateByUrl('/tabs/home/maintenance-repair/assign-tickets');
-            // this.toastService.presentToast(
-            //   'Ticket has been assigned',
-            //   'success'
-            // );
-
-             // getting check-in id
-             this.getCheckInID();
-
-          } else {
-            console.log('Something happened :)');
-            this.toastService.presentToast(res.mssage, 'danger');
-          }
-        },
-        (err) => {
-          console.log('ERROR::', err);
-          this.toastService.presentToast(err.mssage, 'danger');
+        } else {
+          console.log('Something happened :)');
+          this.toastService.presentToast(res.mssage, 'danger');
         }
-      );
+      },
+      (err) => {
+        console.log('ERROR::', err);
+        this.toastService.presentToast(err.mssage, 'danger');
+      }
+    );
   }
   completTicket(){
     console.log(this.assignTicket.value);
     this.loadingSpinner.next(true);
 
+    this.getCheckInID();
+
+  }
+  completeticket(){
     this.maintenanceRepairService
-      .ticket(this.assignTicket.value, this.ticketRecordId,'complete')
-      .subscribe(
-        (res) => {
-          console.log('RES:', res);
-          if (res.status === 200) {
+    .ticket(this.assignTicket.value, this.ticketRecordId,'complete',this.active_check_in_id)
+    .subscribe(
+      (res) => {
+        console.log('RES:', res);
+        if (res.status === 200) {
 
-             // getting check-in id
-             this.getCheckInID();
+          // ticket nature
+          this.taskType = 'work done';
 
-             // ticket nature
-             this.taskType = 'work done';
+          // create DWR
+           this.createDWR();
 
 
-          } else {
-            console.log('Something happened :)');
-            this.toastService.presentToast(res.mssage, 'danger');
-          }
-        },
-        (err) => {
-          console.log('ERROR::', err);
-          this.toastService.presentToast(err.mssage, 'danger');
+
+        } else {
+          console.log('Something happened :)');
+          this.toastService.presentToast(res.mssage, 'danger');
         }
-      );
-
+      },
+      (err) => {
+        console.log('ERROR::', err);
+        this.toastService.presentToast(err.mssage, 'danger');
+      }
+    );
   }
   continue(){
     console.log(this.assignTicket.value);
     this.loadingSpinnerContinue.next(true);
 
     this.maintenanceRepairService
-      .ticket(this.assignTicket.value, this.ticketRecordId,'continue')
+      .ticket(this.assignTicket.value, this.ticketRecordId,'continue','')
       .subscribe(
         (res) => {
           console.log('RES:', res);
           if (res.status === 200) {
             this.loadingSpinnerContinue.next(false);
 
-            this.router.navigateByUrl('/tabs/home/maintenance-repair/assign-tickets');
+            this.router.navigateByUrl('/tabs/home/maintenance-repair');
             this.toastService.presentToast(
               'Ticket has been paused',
               'success'
@@ -489,9 +456,12 @@ getCheckInID(){
     this.activeCheckInSpinner.next(true);
     this.active_check_in_id = workOrder.dwr[0].id;
     this.activeCheckInSpinner.next(false);
-
-     // creating DWR
-    this.createDWR();
+console.log(this.value);
+    if(this.value === 'assign'){
+      this.submitData();
+    }else{
+      this.completeticket();
+    }
   });
 
 }
@@ -518,7 +488,7 @@ createDWR(){
 
 
      // navigating
-        this.router.navigateByUrl('/tabs/home/maintenance-repair/assign-tickets');
+        this.router.navigateByUrl('/tabs/home/maintenance-repair');
       } else {
         console.log('Something happened :)');
         this.loadingSpinner.next(false);

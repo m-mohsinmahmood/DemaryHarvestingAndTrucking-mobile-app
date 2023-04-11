@@ -1,0 +1,15 @@
+ion-icon {
+  font-size: 29px;
+}
+
+.accordionItem::part(native) {
+  padding: 0px;
+  color: rgb(120,120,120);
+}
+ion-accordion{
+  background-color: rgb(240, 240, 240);
+}
+
+ion-accordion-group{
+  margin: 0px !important;
+}

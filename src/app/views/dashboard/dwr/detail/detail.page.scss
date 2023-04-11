@@ -1,30 +1,66 @@
 ion-item::part(native) {
-    background: #F2F3F5;
-    border-radius: 10px;
-  }
-  ion-spinner {
-    --color: #3D8AA4;
-    width: 50px;
-    height: 50px;
-  }
-  .segment-style {
-    ion-segment {
-      --background: #3D8AA4;
-      ion-segment-button {
-        min-width: unset;
-        color: #ffffff;
-        --border-color: none;
-        --indicator-color: none;
-        --indicator-box-shadow: 0px 0px 0px 2px #ffffff !important;
-        --border-radius: 5px !important;
-        font-family: 'Lato';
-        ion-label {
-          font-size: 12px;
-        }
-      }
-    }
+  background: #F2F3F5;
+  border-radius: 10px;
+}
 
-    .segment-button-checked {
-      color: #ffffff !important;
-    }
-  }
+ion-spinner {
+  --color: #3D8AA4;
+  width: 50px;
+  height: 50px;
+}
+
+ion-spinner.edit {
+  --color: #f3f3f3;
+  width: 25px;
+  height: 25px;
+  // margin-left: 5px;
+}
+
+ion-spinner.reassign {
+  --color: #666666;
+  width: 20px;
+  height: 20px;
+  margin-left: 5px;
+}
+
+.line {
+  height: 2px;
+  background-color: #dadada;
+  margin-top: 5px;
+}
+
+.accordionItem::part(native) {
+  padding: 0px;
+  color: rgb(120, 120, 120);
+}
+
+ion-accordion {
+  background-color: rgb(240, 240, 240);
+}
+
+ion-accordion-group {
+  margin: 0px !important;
+}
+
+ion-modal {
+  --height: 60%;
+  --width: 80%;
+  --border-radius: 16px;
+  --box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+ion-popover {
+  --width: 300px;
+}
+
+ion-textarea {
+  font-family: Lato !important;
+  padding-top: 0px;
+}
+
+ion-modal.supervisorModal{
+  --height: 45%;
+  --width: 80%;
+  --border-radius: 16px;
+  --box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
