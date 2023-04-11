@@ -59,6 +59,9 @@ export class VerifyDwrsPage implements OnInit {
     this.role = localStorage.getItem('role');
     this.supervisor_id = localStorage.getItem('employeeId');
   }
+  getFormattedHours(hours){
+    return hours.toFixed(2);
+  }
   goBack() {
     this.location.back();
   }
@@ -210,7 +213,6 @@ export class VerifyDwrsPage implements OnInit {
               'Ticket verified',
               'success'
             );
-            // this.router.navigateByUrl('/tabs/home/maintenance-repair');
           } else {
             console.log('Something happened :)');
             this.toastService.presentToast(res.mssage, 'danger');
