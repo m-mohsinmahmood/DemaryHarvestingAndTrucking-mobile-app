@@ -1,0 +1,152 @@
+<app-header [title]="'Profile'" [color]="'profile'"></app-header>
+
+<div *ngIf="(loading | async) === true" class="h-full flex justify-center items-center">
+  <ion-spinner name="crescent" class="h-32 w-32"></ion-spinner>
+</div>
+<ion-content *ngIf="(loading | async) === false">
+
+  <div class="mx-2 my-2">
+    <ion-accordion-group expand="inset">
+      <ion-accordion >
+        <ion-item slot="header" color="rose">
+          <ion-label class="font-Lato font-semibold text-base">Employee Info</ion-label>
+        </ion-item>
+        <div slot="content" class="px-0 pt-0 pb-3 bg-white">
+          <ion-card class="mt-0 mx-1">
+            <ion-card-content class="py-1 px-2">
+              <ion-grid>
+                <ion-row>
+                  <ion-col size="12" class="flex justify-center items-center">
+                    <div class="w-28 h-28 flex justify-center items-center">
+                      <img [src]="employeeData.avatar" alt="" srcset="" class="rounded-full w-28 h-28">
+                    </div>
+                  </ion-col>
+                  <ion-col size="12" class="flex justify-between items-center">
+                    <ion-text class="font-Lato font-semibold text-black text-base">First Name</ion-text>
+                    <ion-text class="font-Lato font-medium text-black text-base">{{employeeData.first_name}}</ion-text>
+                  </ion-col>
+                  <ion-col size="12" class="flex justify-between items-center">
+                    <ion-text class="font-Lato font-semibold text-black text-base">Last Name</ion-text>
+                    <ion-text class="font-Lato font-medium text-black text-base">{{employeeData.last_name}}</ion-text>
+                  </ion-col>
+                  <ion-col size="12" class="flex justify-between items-center">
+                    <ion-text class="font-Lato font-semibold text-black text-base">Email</ion-text>
+                    <ion-text class="font-Lato font-medium text-black text-base">{{employeeData.email}}</ion-text>
+                  </ion-col>
+                  <ion-col size="12" class="flex justify-between items-center">
+                    <ion-text class="font-Lato font-semibold text-black text-base">State</ion-text>
+                    <ion-text class="font-Lato font-medium text-black text-base">{{employeeData.state? employeeData.state : 'Null'}}</ion-text>
+                  </ion-col>
+                  <ion-col size="12" class="flex justify-between items-center">
+                    <ion-text class="font-Lato font-semibold text-black text-base">City</ion-text>
+                    <ion-text class="font-Lato font-medium text-black text-base">{{employeeData.town_city}}</ion-text>
+                  </ion-col>
+                   <ion-col size="12" class="flex justify-between items-center">
+                    <ion-text class="font-Lato font-semibold text-black text-base">Cell</ion-text>
+                    <ion-text class="font-Lato font-medium text-black text-base">{{employeeData.cell_phone_number?employeeData.cell_phone_number : 'Null'}}</ion-text>
+                  </ion-col>
+                  <ion-col size="12" class="flex justify-between items-center">
+                    <ion-text class="font-Lato font-semibold text-black text-base">Home</ion-text>
+                    <ion-text class="font-Lato font-medium text-black text-base"> {{employeeData.home_phone_number? employeeData.home_phone_number: 'Null'}}</ion-text>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </ion-card-content>
+          </ion-card>
+        </div>
+      </ion-accordion>
+    </ion-accordion-group>
+
+  </div>
+
+  <div class="mx-2 my-2">
+  <ion-accordion-group expand="inset">
+    <ion-accordion>
+      <ion-item slot="header" color="rose">
+        <ion-label class="font-Lato font-semibold text-base">Default Values</ion-label>
+      </ion-item>
+      <div slot="content" class="px-0 pt-0 pb-3 bg-white">
+        <ion-grid>
+          <ion-row class="px-2">
+            <ion-col size="6">
+
+            </ion-col>
+            <ion-col size="6" class="flex justify-end items-center" (click)="edit()">
+                <ion-text class="text-base font-Lato font-semibold text-black mr-2">Edit:</ion-text>
+                <ion-icon name="create-outline"></ion-icon>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+
+        <ion-card class="mt-2">
+          <ion-card-content class="py-1 px-1">
+           <ion-grid>
+            <ion-row>
+              <ion-col size="12" class="flex justify-between items-center">
+                <ion-text class="font-Lato font-semibold text-black text-base">State:</ion-text>
+                <ion-text class="font-Lato font-medium text-black text-base"> Ohio</ion-text>
+              </ion-col>
+              <ion-col size="12" class="flex justify-between items-center">
+                <ion-text class="font-Lato font-semibold text-black text-base">Destination:</ion-text>
+                <ion-text class="font-Lato font-medium text-black text-base"> Ohio</ion-text>
+              </ion-col>
+              <ion-col size="12" class="flex justify-between items-center">
+                <ion-text class="font-Lato font-semibold text-black text-base">Field:</ion-text>
+                <ion-text class="font-Lato font-medium text-black text-base"> Dummy Field</ion-text>
+              </ion-col>
+              <ion-col size="12" class="flex justify-between items-center">
+                <ion-text class="font-Lato font-semibold text-black text-base">Farm:</ion-text>
+                <ion-text class="font-Lato font-medium text-black text-base"> Dummy Farm</ion-text>
+              </ion-col>
+            </ion-row>
+           </ion-grid>
+          </ion-card-content>
+        </ion-card>
+      </div>
+    </ion-accordion>
+  </ion-accordion-group>
+</div>
+  <ion-modal [isOpen]="isOpen" (ionModalDidDismiss)="modalDismiss()">
+    <ng-template>
+      <div class="px-4 py-7" [formGroup]="editForm">
+        <div class="col-span-12">
+          <label class="block text-sm font-medium text-gray-700">State
+            <span class="text-red-600"
+            *ngIf="this.editForm.get('state').hasError('required')">*</span>
+          </label>
+          <input
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            placeholder="Enter state" formControlName="state">
+        </div>
+        <div class="col-span-12 mt-1">
+          <label class="block text-sm font-medium text-gray-700">Destination
+            <span class="text-red-600"
+            *ngIf="this.editForm.get('destination').hasError('required')">*</span>
+          </label>
+          <input
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            placeholder="Enter destination" formControlName="destination">
+        </div>
+        <div class="col-span-12 mt-1">
+          <label class="block text-sm font-medium text-gray-700">Field
+            <span class="text-red-600"
+            *ngIf="this.editForm.get('field').hasError('required')">*</span>
+          </label>
+          <input
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            placeholder="Enter field" formControlName="field">
+        </div>
+        <div class="col-span-12 mt-1">
+          <label class="block text-sm font-medium text-gray-700">Farm
+            <span class="text-red-600"
+            *ngIf="this.editForm.get('farm').hasError('required')">*</span>
+          </label>
+          <input
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            placeholder="Enter farm" formControlName="farm">
+        </div>
+        <ion-button class="font-Lato text-white mt-5" expand="block" (click)="update()">Update</ion-button>
+      </div>
+    </ng-template>
+  </ion-modal>
+</ion-content>

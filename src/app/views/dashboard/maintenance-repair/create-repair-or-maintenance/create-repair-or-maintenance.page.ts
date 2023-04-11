@@ -391,39 +391,8 @@ export class CreateRepairORMaintenancePage implements OnInit {
     console.log(this.createTicket.value);
     this.loadingSpinner.next(true);
 
-    this.maintenanceRepairService
-      .save(this.createTicket.value, this.category)
-      .subscribe(
-        (res) => {
-          console.log('RES:', res);
-          if (res.status === 200) {
-            this.ticketRecordId  = res.id.record_id;
+    this.getCheckInID();
 
-            // ticket nature
-            this.taskType = 'ticket created';
-
-
-               // getting check-in id
-               this.getCheckInID();
-
-            // this.loadingSpinner.next(false);
-            // this.router.navigateByUrl('/tabs/home/maintenance-repair');
-            // this.toastService.presentToast(
-            //   'Ticket has been generated',
-            //   'success'
-            // );
-          } else {
-            console.log('Something happened :)');
-            this.loadingSpinner.next(false);
-            this.toastService.presentToast(res.mssage, 'danger');
-          }
-        },
-        (err) => {
-          console.log('ERROR::', err);
-          this.loadingSpinner.next(false);
-          this.toastService.presentToast(err.mssage, 'danger');
-        }
-      );
   }
   getCheckInID(){
     this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
@@ -431,13 +400,42 @@ export class CreateRepairORMaintenancePage implements OnInit {
       this.active_check_in_id = workOrder.dwr[0].id;
       this.activeCheckInSpinner.next(false);
 
-       // creating DWR
-      this.createDWR();
+       // submitting
+      this.submitData();
     });
 
   }
-  createDWR(){
+  submitData(){
+    this.maintenanceRepairService
+    .save(this.createTicket.value, this.category,this.active_check_in_id)
+    .subscribe(
+      (res) => {
+        console.log('RES:', res);
+        if (res.status === 200) {
+          this.ticketRecordId  = res.id.record_id;
 
+          // ticket nature
+          this.taskType = 'ticket created';
+
+
+             // create DWR
+             this.createDWR();
+
+        } else {
+          console.log('Something happened :)');
+          this.loadingSpinner.next(false);
+          this.toastService.presentToast(res.mssage, 'danger');
+        }
+      },
+      (err) => {
+        console.log('ERROR::', err);
+        this.loadingSpinner.next(false);
+        this.toastService.presentToast(err.mssage, 'danger');
+      }
+    );
+  }
+
+  createDWR(){
    this.maintenanceRepairService
     .createDWR(localStorage.getItem('employeeId'),this.ticketRecordId, this.createTicket.get('assignedById').value,this.active_check_in_id,this.taskType)
     .subscribe(

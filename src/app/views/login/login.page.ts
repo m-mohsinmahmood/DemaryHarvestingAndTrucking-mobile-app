@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +16,7 @@ export class LoginPage implements OnInit {
   constructor(
     private router: Router,
     private auth: AuthService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
   ) {}
 
   ngOnInit() {
@@ -30,6 +31,7 @@ export class LoginPage implements OnInit {
   }
 
   login() {
+
     // eslint-disable-next-line prefer-const
     let { email, password } = this.loginForm.value;
     this.auth.loginWithEmailPassword(email, password);
