@@ -363,7 +363,7 @@ export class TicketAssignedToPage implements OnInit {
   }
   submitData(){
     this.maintenanceRepairService
-    .ticket(this.assignTicket.value, this.ticketRecordId,'unassign','')
+    .ticket(this.assignTicket.value, this.ticketRecordId,'unassign',this.active_check_in_id)
     .subscribe(
       (res) => {
         console.log('RES:', res);
@@ -459,8 +459,9 @@ getCheckInID(){
 console.log(this.value);
     if(this.value === 'assign'){
       this.submitData();
+    }else{
+      this.completeticket();
     }
-    this.completeticket();
   });
 
 }
