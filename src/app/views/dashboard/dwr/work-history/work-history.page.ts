@@ -60,9 +60,12 @@ export class WorkHistoryPage implements OnInit {
   ngOnDestroy(): void {
     // this.DWRSubValue.unsubscribe();
   }
+  getFormattedHours(hours){
+    return hours.toFixed(2);
+  }
   call(){
     console.log('CALLED');
-    this.isOpen = 'true'
+    this.isOpen = 'true';
   }
   getDate(e) {
     this.date = moment(e.detail.value).format('MM-DD-YYYY');

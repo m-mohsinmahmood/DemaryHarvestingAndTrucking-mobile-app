@@ -32,7 +32,9 @@ ion-spinner {
   --color: #3D8AA4;
 }
 ion-spinner.verify-loader {
-  --color: #ffffff;
+  --color: #3D8AA4  ;
+  width: 3em;
+  height: 3em;
 }
 ion-icon.arrow-icon{
     color: #3D8AA4;
