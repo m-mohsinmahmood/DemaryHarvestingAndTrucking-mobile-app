@@ -33,6 +33,18 @@ export class OthersService {
       })
       .pipe(take(1));
   }
+
+  getSupervisors(search: any) {
+    let params = new HttpParams();
+    params = params.set('entity', 'allSupervisors');
+    params = params.set('search', search);
+    return this.httpClient
+      .get<any>('api-1/dropdowns', {
+        params,
+      })
+      .pipe(take(1));
+  }
+
   getOthers(data: any, dwr_type: string): Observable<any> {
     data.dwr_type = dwr_type;
     return this.httpClient
