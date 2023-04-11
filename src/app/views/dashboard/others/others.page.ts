@@ -382,6 +382,10 @@ this.othersService.save(this.otherForm.value,'other')
        // creating DWR
         this.createDWR();
 
+        // this.otherForm.reset();
+        // this.supervisorInput.nativeElement.value = '';
+        //  this.isSupervisorSelected = true;
+
       }else{
         console.log('Something happened :)');
         this.loadingSpinner.next(false);
