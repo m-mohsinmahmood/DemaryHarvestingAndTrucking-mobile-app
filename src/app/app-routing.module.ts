@@ -9,7 +9,6 @@ import {
 } from '@angular/fire/auth-guard';
 
 const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['login']);
-// const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['tabs']);
 const redirectAuthorizedToHome = () => redirectLoggedInTo(['tabs']);
 
 const routes: Routes = [
@@ -19,16 +18,12 @@ const routes: Routes = [
     loadChildren: () =>
       import('./views/login/login.module').then((m) => m.LoginPageModule),
     ...canActivate(redirectAuthorizedToHome),
-    // loadChildren: () =>
-    //   import('./views/login/login.module').then((m) => m.LoginPageModule),
   },
   {
     path: 'tabs',
     loadChildren: () =>
       import('./views/tabs/tabs.module').then((m) => m.TabsPageModule),
     ...canActivate(redirectUnauthorizedToLogin),
-    // loadChildren: () =>
-    // import('./views/tabs/tabs.module').then((m) => m.TabsPageModule),
   },
   {
     path: 'complete-pre-check-form',
@@ -37,11 +32,13 @@ const routes: Routes = [
         './pages/complete-pre-check-form/complete-pre-check-form.module'
       ).then((m) => m.CompletePreCheckFormPageModule),
     ...canActivate(redirectUnauthorizedToLogin),
-    // loadChildren: () =>
-    // import(
-    //   './pages/complete-pre-check-form/complete-pre-check-form.module'
-    // ).then((m) => m.CompletePreCheckFormPageModule)
   },
+  {
+    path: 'profile',
+    loadChildren: () => import('./views/profile/profile.module').then( m => m.ProfilePageModule),
+    ...canActivate(redirectUnauthorizedToLogin)
+  },
+
 ];
 
 @NgModule({

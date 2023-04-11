@@ -5,6 +5,7 @@ import { CheckInOutService } from './../../components/check-in-out/check-in-out.
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { BehaviorSubject } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-dashboard',
@@ -15,8 +16,8 @@ export class DashboardPage implements OnInit {
   @ViewChild('popover') popover;
   isOpen = false;
 
-  empName: string = '';
-  role: string = '';
+  empName = '';
+  role = '';
   selectform: FormGroup;
   activeDwr: any;
   isModalOpen = false;
@@ -27,30 +28,26 @@ export class DashboardPage implements OnInit {
     private dwrServices: CheckInOutService,
     private nav: Router,
     private activatedRoute: ActivatedRoute,
-    private auth: AuthService
+    private auth: AuthService,
+    private router: Router
   ) { }
 
   ngOnInit() {
-    this.loading.next(true)
+    this.loading.next(true);
     this.initDataRetrieval();
-    console.log(localStorage.getItem("employeeId"));
-    console.log(localStorage.getItem("role"));
+    console.log(localStorage.getItem('employeeId'));
+    console.log(localStorage.getItem('role'));
 
-
-    console.log('On-INIT');
   }
 
   async ionViewDidEnter() {
     this.initDataRetrieval();
-    console.log('ionViewDidEnter');
   }
   async ionViewWillEnter() {
     this.initDataRetrieval();
-    console.log('ionViewWillEnter');
   }
 
   initDataRetrieval() {
-
     this.selectform = this.formbuilder.group({
       select: [''],
     });
@@ -62,9 +59,9 @@ export class DashboardPage implements OnInit {
       this.empName = localStorage.getItem('employeeName');
 
       if (this.activeDwr.length <= 0) {
-        this.role = localStorage.getItem("role");
+        this.role = localStorage.getItem('role');
         // to stop loading
-        this.loading.next(false)
+        this.loading.next(false);
         // this.selectform.patchValue({ select: this.role });
         // localStorage.setItem('role', this.role);
         // Original ID
@@ -82,7 +79,7 @@ export class DashboardPage implements OnInit {
         localStorage.setItem('employeeId', this.activeDwr[0].employee_id);
         this.isModalOpen = true;
         // to stop loading
-        this.loading.next(false)
+        this.loading.next(false);
         // console.log("Role: ", localStorage.getItem("role"));
         // console.log("ID :", localStorage.getItem("employeeId"));
       }
@@ -152,6 +149,10 @@ export class DashboardPage implements OnInit {
     else if (this.activeDwr[0].module === 'training') {
       this.isModalOpen = false;
       this.nav.navigate(['training'], { relativeTo: this.activatedRoute });
+    }
+    else if (this.activeDwr[0].module === 'other') {
+      this.isModalOpen = false;
+      this.nav.navigate(['others'], { relativeTo: this.activatedRoute });
     }
   }
 }

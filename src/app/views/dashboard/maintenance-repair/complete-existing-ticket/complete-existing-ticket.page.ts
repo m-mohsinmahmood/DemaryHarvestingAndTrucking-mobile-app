@@ -102,54 +102,56 @@ export class CompleteExistingTicketPage implements OnInit {
   }
 
   completTicket() {
-    console.log(this.completeExistingTicketForm.value);
+
     this.loadingSpinner.next(true);
-
-    this.maintenanceRepairService
-      .ticket(this.completeExistingTicketForm.value, this.ticketRecordId, 'complete')
-      .subscribe(
-        (res) => {
-          console.log('RES:', res);
-          if (res.status === 200) {
-
-            // ticket nature
-            this.taskType = 'work done';
-
-            // getting check-in id
-            this.getCheckInID();
-
-          } else {
-            console.log('Something happened :)');
-            this.loadingSpinner.next(false);
-
-            this.toastService.presentToast(res.mssage, 'danger');
-          }
-        },
-        (err) => {
-          console.log('ERROR::', err);
-          this.loadingSpinner.next(false);
-
-          this.toastService.presentToast(err.mssage, 'danger');
-        }
-      );
+    this.getCheckInID();
 
   }
+
   getCheckInID() {
     this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
       this.activeCheckInSpinner.next(true);
       this.active_check_in_id = workOrder.dwr[0].id;
       this.activeCheckInSpinner.next(false);
 
-      // creating DWR
-      this.createDWR();
+
+      // complete ticket
+      this.completeticket();
     });
 
   }
+  completeticket(){
+    this.maintenanceRepairService
+          .ticket(this.completeExistingTicketForm.value, this.ticketRecordId, 'complete',this.active_check_in_id)
+          .subscribe(
+            (res) => {
+              console.log('RES:', res);
+              if (res.status === 200) {
 
+                // ticket nature
+                this.taskType = 'work done';
+
+                // creating DWR
+                this.createDWR();
+
+              } else {
+                console.log('Something happened :)');
+                this.loadingSpinner.next(false);
+
+                this.toastService.presentToast(res.mssage, 'danger');
+              }
+            },
+            (err) => {
+              console.log('ERROR::', err);
+              this.loadingSpinner.next(false);
+
+              this.toastService.presentToast(err.mssage, 'danger');
+            }
+          );
+      }
   createDWR() {
     let supervisor_id;
     supervisor_id = this.completeExistingTicketForm.get('assignedById').value;
-
     this.maintenanceRepairService
       .createDWR(localStorage.getItem('employeeId'), this.ticketRecordId, this.completeExistingTicketForm.get('assignedById').value, this.active_check_in_id, this.taskType)
       .subscribe(

@@ -115,23 +115,23 @@ export class CloseOutOrderPage implements OnInit {
         }
       );
 
-      this.farmingService.closeBeginningDay(this.closeOutWorkOrder.value, this.workOrder[0])
-        .subscribe(
-          (res: any) => {
-            console.log(res);
+      // this.farmingService.closeBeginningDay(this.closeOutWorkOrder.value, this.workOrder[0])
+      //   .subscribe(
+      //     (res: any) => {
+      //       console.log(res);
 
-            if (res.status === 200) {
-              this.toast.presentToast("Day has been closed successfully!", 'success');
-              this.router.navigateByUrl('/tabs/home/farming');
-              this.loadingSpinner.next(false)
+      //       if (res.status === 200) {
+      //         this.toast.presentToast("Day has been closed successfully!", 'success');
+      //         this.router.navigateByUrl('/tabs/home/farming');
+      //         this.loadingSpinner.next(false)
 
-            }
-          },
-          (err) => {
-            this.toast.presentToast(err, 'danger');
-            this.loadingSpinner.next(false)
-          },
-        );
+      //       }
+      //     },
+      //     (err) => {
+      //       this.toast.presentToast(err, 'danger');
+      //       this.loadingSpinner.next(false)
+      //     },
+      //   );
 
       this.farmingService.updateWorkOrder(this.closeOutWorkOrder.value, 'Tractor Driver', 'closeOutWorkOrder')
         .subscribe(

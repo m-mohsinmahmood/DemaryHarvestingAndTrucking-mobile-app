@@ -1,18 +1,21 @@
+/* eslint-disable max-len */
+/* eslint-disable @angular-eslint/use-lifecycle-interface */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { OthersService } from './others.services';
-import { Observable, Subject, of } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { Renderer2 } from '@angular/core';
 import { states } from './../../../../JSON/state';
 import { ToastService } from 'src/app/services/toast/toast.service';
+import { CheckInOutService } from 'src/app/components/check-in-out/check-in-out.service';
 
 @Component({
   selector: 'app-others',
-  templateUrl: './others.page.html',
+  templateUrl: './other.page.html',
   styleUrls: ['./others.page.scss'],
 })
 export class OthersPage implements OnInit {
@@ -46,23 +49,36 @@ export class OthersPage implements OnInit {
   isSupervisorSelected: any = true;
 
   states: string[];
+  activeDwr: Observable<any>;
+  data;
+  isModalOpen;
+  record_id;
+
+  public activeCheckInSpinner = new BehaviorSubject(false);
+  public loadingSpinner = new BehaviorSubject(false);
+
+  active_check_in_id: any;
 
   // unsubscribe object
   private _unsubscribeAll: Subject<any> = new Subject<any>();
+
+
 
 
   constructor(private router: Router,
      private formBuilder: FormBuilder,
      private othersService: OthersService,
      private renderer: Renderer2,
-     private toastService: ToastService
+     private toastService: ToastService,
+     private dwrServices: CheckInOutService,
+
 
      ) {
       this.renderer.listen('window', 'click', (e) => {
-        if (e.target !== this.employeeInput.nativeElement) {
-          this.allEmployees = of([]);
-          this.employeeUL = false; // to hide the UL
-        }
+        // if (e.target !== this.employeeInput.nativeElement) {
+        //   this.allEmployees = of([]);
+        //   this.employeeUL = false; // to hide the UL
+        // }
         if (e.target !== this.supervisorInput.nativeElement) {
           this.allSupervisors = of([]);
           this.supervisorUL = false; // to hide the UL
@@ -71,35 +87,69 @@ export class OthersPage implements OnInit {
       }
 
   ngOnInit() {
-    this.otherForm = this.formBuilder.group({
-      employeeId: [''],
-      supervisor_id: [''],
-      state:[''],
-      apprTaskId: ['', Validators.required],
-      notesOther: ['', Validators.required],
-    });
+    this.initForm();
 
      // pasing states
      this.states = states;
 
     // subscription
-    this.employeeSearchSubscription();
+    // this.employeeSearchSubscription();
     this.supervisorSearchSubscription();
+
+    // check-in/check-out
+    this.checkInOut();
+
   }
   ngOnDestroy(): void {
     this._unsubscribeAll.next(null);
     this._unsubscribeAll.complete();
   }
+  initForm(){
+    // this.otherForm = this.formBuilder.group({
+    //   employeeId: [''],
+    //   supervisor_id: [''],
+    //   state:[''],
+    //   apprTaskId: ['', Validators.required],
+    //   notesOther: ['', Validators.required],
+    // });
+    this.otherForm = this.formBuilder.group({
+      state:['',Validators.required],
+      module: ['', Validators.required],
+      supervisor_id: [''],
+      notes_other: ['', Validators.required],
+      employee_id:[localStorage.getItem('employeeId')],
+      active_check_in_id: ['']
+    });
+  }
+checkInOut(){
+   // Check-in/Check-out
+   this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
+    console.log('Active Check In ', workOrder.dwr);
+    this.activeDwr = workOrder.dwr;
+    this.data = this.activeDwr[0];
 
+    if (workOrder.dwr.length > 0)
+      {this.isModalOpen = false;}
+    else
+      {this.isModalOpen = true;}
+  });
+}
   navigateTo() {
     console.log(this.otherForm.value);
     // this.router.navigateByUrl('/tabs/home');
+    this.loadingSpinner.next(true);
     this.othersService.getOthers(this.otherForm.value,'others')
     .subscribe(
       (res: any) => {
-          console.log('Response Change Field:',res);
+          console.log('Response:',res);
           if(res.status === 200){
-            this.toastService.presentToast('form has beed submitted','success');
+
+            this.record_id  = res.id.record_id;
+
+             // getting check-in id
+             this.getCheckInID();
+
+            // this.toastService.presentToast('form has beed submitted','success');
           }else{
             console.log('Something happened :)');
             this.toastService.presentToast(res.mssage,'danger');
@@ -225,7 +275,7 @@ export class OthersPage implements OnInit {
         // calling API
         this.allSupervisors = this.othersService.getEmployees(
           this.supervisorSearchValue,
-          'supervisor'
+          'Dispatcher'
         );
 
         // subscribing to show/hide field UL
@@ -261,7 +311,7 @@ export class OthersPage implements OnInit {
      // calling API
      this.allSupervisors = this.othersService.getEmployees(
       this.supervisorSearchValue,
-      'supervisor'
+      'Dispatcher'
     );
 
     // subscribing to show/hide field UL
@@ -280,20 +330,100 @@ export class OthersPage implements OnInit {
     console.log('Supervisor Object:', supervisor);
     // hiding UL
     this.supervisorUL = false;
-// passing name in select's input
-this.supervisorInput.nativeElement.value = supervisor.supervisor;
+
+    // passing name in select's input
+    this.supervisorInput.nativeElement.value = supervisor.first_name + ' ' + supervisor.last_name;
 
     // to enable submit button
     this.isSupervisorSelected = false;
 
     // assigning values in form
     this.otherForm.patchValue({
-      supervisor_id: supervisor.employee_id,
+      supervisor_id: supervisor.id,
     });
 
     // clearing array
     this.allSupervisors = of([]);
   }
   //#endregion
+submit(){
+  // to start the loader
+this.loadingSpinner.next(true);
 
+ // getting check-in id
+ this.getCheckInID();
+
+}
+getCheckInID(){
+  this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
+    this.activeCheckInSpinner.next(true);
+    this.active_check_in_id = workOrder.dwr[0].id;
+    this.activeCheckInSpinner.next(false);
+
+    // patching
+    this.otherForm.patchValue({
+      active_check_in_id: this.active_check_in_id
+    });
+
+    // data submit
+    this.submitData();
+
+  });
+
+}
+  submitData(){
+    console.log(this.otherForm.value);
+
+this.othersService.save(this.otherForm.value,'other')
+    .subscribe((res)=>{
+      console.log('res:',res);
+      this.record_id  = res.id.record_id;
+      if(res.status === 200){
+       // creating DWR
+        this.createDWR();
+
+      }else{
+        console.log('Something happened :)');
+        this.loadingSpinner.next(false);
+        this.toastService.presentToast(res.mssage,'danger');
+      }
+    },(err)=>{
+      console.log('ERR:',err);
+      this.loadingSpinner.next(false);
+      this.toastService.presentToast(err.mssage,'danger');
+    });
+  }
+  createDWR(){
+    console.log('RECORD ID:',this.record_id);
+   this.othersService
+    .createDWR(localStorage.getItem('employeeId'),this.record_id, this.otherForm.get('supervisor_id').value,this.active_check_in_id,'')
+    .subscribe(
+      (res) => {
+        console.log('RES:', res);
+        if (res.status === 200) {
+
+         // to stop loader
+         this.loadingSpinner.next(false);
+
+          // tooltip
+          this.toastService.presentToast(
+           'Details have been submitted',
+           'success'
+         );
+
+       // navigating
+          // this.router.navigateByUrl('/tabs/home');
+        } else {
+          console.log('Something happened :)');
+          this.loadingSpinner.next(false);
+          this.toastService.presentToast(res.mssage, 'danger');
+        }
+      },
+      (err) => {
+        console.log('ERROR::', err);
+        this.loadingSpinner.next(false);
+        this.toastService.presentToast(err.mssage, 'danger');
+      }
+    );
+  }
 }
