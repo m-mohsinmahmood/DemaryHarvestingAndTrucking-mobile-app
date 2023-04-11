@@ -14,13 +14,13 @@
       </div>
       <div *ngIf="workHistoryData?.length > 0">
       <div *ngFor="let data of workHistoryData">
-      <ion-grid *ngIf="data?.module === 'farming'">
+      <!-- <ion-grid *ngIf="data?.module === 'farming'"> -->
         <ion-card class="mx-2 my-1">
           <ion-card-content>
         <ion-row>
             <ion-col size="6" class="">
               <div class="border-blue-500 border-2 rounded-md px-0 py-1 text-center w-min">
-                <ion-text class= "ml-1 mr-1 font-semibold text-xs text-blue-500">FARMING</ion-text>
+                <ion-text class= "ml-1 mr-1 font-semibold text-xs text-blue-500">{{data.module | titlecase}}</ion-text>
               </div>
             </ion-col>
             <ion-col size="6" (click)="reassign(data.id)">
@@ -74,8 +74,8 @@
         </ion-row>
       </ion-card-content>
     </ion-card>
-      </ion-grid>
-      <ion-grid *ngIf="data.module === 'maintenance-repair'">
+      <!-- </ion-grid> -->
+      <!-- <ion-grid *ngIf="data.module === 'maintenance-repair'">
         <ion-card class="mx-2 my-1">
           <ion-card-content>
         <ion-row>
@@ -199,7 +199,7 @@
         </ion-row>
       </ion-card-content>
     </ion-card>
-      </ion-grid>
+      </ion-grid> -->
     </div>
   </div>
      </div>
@@ -214,11 +214,11 @@
    </div>
     <div *ngIf="(loading | async) === false">
       <div *ngFor="let data of workHistoryData">
-      <ion-grid *ngIf="data?.module === 'farming'">
+      <!-- <ion-grid *ngIf="data?.module === 'farming'"> -->
         <ion-card class="mx-2 my-1">
           <ion-card-content>
         <ion-row>
-          <ion-text class="bg-blue-100 border-blue-500 border-2 rounded-md px-2 py-1 font-semibold text-xs text-blue-500">FARMING</ion-text>
+          <ion-text class="bg-blue-100 border-blue-500 border-2 rounded-md px-2 py-1 font-semibold text-xs text-blue-500">{{data.module | titlecase}}</ion-text>
           <ion-col size="12" class="flex justify-between items-center">
             <ion-text class="font-semibold text-black font-Lato text-base">Log-in</ion-text>
             <ion-text class="font-semibold text-black font-Lato text-sm">{{moment(data.login_time).format('MM/DD/YYYY hh:mm:ss')}}</ion-text>
@@ -261,8 +261,8 @@
         </ion-row>
       </ion-card-content>
     </ion-card>
-      </ion-grid>
-      <ion-grid *ngIf="data.module === 'maintenance-repair'">
+      <!-- </ion-grid> -->
+      <!-- <ion-grid *ngIf="data.module === 'maintenance-repair'">
         <ion-card class="mx-2 my-1">
           <ion-card-content>
         <ion-row>
@@ -361,7 +361,7 @@
         </ion-row>
       </ion-card-content>
     </ion-card>
-      </ion-grid>
+      </ion-grid> -->
     </div>
 </div>
 </ion-content>
