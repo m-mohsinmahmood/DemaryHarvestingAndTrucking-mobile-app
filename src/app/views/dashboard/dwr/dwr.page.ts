@@ -15,7 +15,7 @@ export class DwrPage implements OnInit {
 
   ngOnInit() {
     // //getting role
-    // this.role = localStorage.getItem('role');
+    this.role = localStorage.getItem('role');
   }
   goBack(){
     this.location.back();
