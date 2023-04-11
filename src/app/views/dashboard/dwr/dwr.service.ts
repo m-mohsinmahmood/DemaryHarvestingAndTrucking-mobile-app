@@ -73,12 +73,14 @@ export class DWRService {
       })
       .pipe(take(1));
   }
-  reassignDWR(operation: any,id,login_time,logout_time){
+  reassignDWR(operation: any,id,login_time,logout_time, supervisorNotes, employeeNotes){
     let params = new HttpParams();
     params = params.set('operation',operation);
     params = params.set('id',id);
     params = params.set('login_time',login_time);
     params = params.set('logout_time',logout_time);
+    params = params.set('supervisor_notes',supervisorNotes);
+    params = params.set('employee_notes',employeeNotes);
 
     let data;
 
