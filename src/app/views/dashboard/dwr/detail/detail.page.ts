@@ -46,7 +46,7 @@ export class DetailPage implements OnInit {
   isModalOpen = false;
   isReassignModalOpen = false;
   reassignSupervisor: FormGroup;
-  reassignEmployee:FormGroup;
+  reassignEmployee: FormGroup;
 
   // behaviour subject for loader
   public loading = new BehaviorSubject(true);
@@ -64,12 +64,13 @@ export class DetailPage implements OnInit {
   ngOnInit() {
     //getting employee details
     this.reassignSupervisor = this.formBuilder.group({
-      supervisorNotes: ['', [Validators.required]]
+      supervisorNotes: ['', [Validators.required]],
+      employeeNotes: ['']
     });
 
     this.reassignEmployee = this.formBuilder.group({
       employeeNotes: ['', [Validators.required]],
-      supervisorNotes: ['', [Validators.required]]
+      supervisorNotes: ['']
     });
 
     console.log(this.isModalOpen);
@@ -85,14 +86,8 @@ export class DetailPage implements OnInit {
     this.route.queryParams.subscribe((params) => {
       console.log('PARAMS:', params);
       this.type = params.dwr_type;
-      // this.dwr_id= params.dwr_id;
-      // this.dwr_type= params.dwr_type;
       this.date = params.date;
       this.dwr_employee_id = params.employee_id;
-      // this.dwrData = JSON.parse(params.dwrData);
-      //   this.formType = params.formType;
-      // this.evaluationType = params.evaluationType;
-      // this.trainee_id = params.trainee_id;
 
       // conditionally checking types to render data
       if (this.type === 'verify' || this.type === 'send-back' || this.type === 'detail') {
@@ -204,7 +199,7 @@ export class DetailPage implements OnInit {
     // start loader
     this.loadingSpinner.next(true);
 
-    this.dwrService.reassignDWR('reassignDwr', id, '', '', '','').subscribe(
+    this.dwrService.reassignDWR('reassignDwr', id, '', '', '', '').subscribe(
       (res) => {
         if (res.status === 200) {
           this.loadingSpinner.next(false);
@@ -277,61 +272,73 @@ export class DetailPage implements OnInit {
         this.loading.next(false);
       });
   }
+
+
   getLoginDate(e) {
     console.log(e.detail.value);
     this.dateLogin = e.detail.value;
-    this.dateLoginFormatted = moment(e.detail.value).format('MM-DD-YYYY hh:mm:ss A');
+    // this.dateLoginFormatted = moment(e.detail.value).format('MM-DD-YYYYThh:mm:ss');
+    this.dateLoginFormatted = e.detail.value;
+
   }
   getLogoutDate(e) {
     this.dateLogout = e.detail.value;
-    this.dateLogoutFormatted = moment(e.detail.value).format('MM-DD-YYYY hh:mm:ss A');
+    // this.dateLogoutFormatted = moment(e.detail.value).format('MM-DD-YYYYThh:mm:ss');
+    this.dateLogoutFormatted = e.detail.value;
+
   }
-  openModel(id) {
+  openModel(id, data) {
     this.isOpen = true;
-    this.isModalOpen = true;
-
     this.model_id = id;
-    console.log('Opening Model', this.isModalOpen);
+
+    this.dateLoginFormatted = moment(data.login_time).format('YYYY-MM-DDTHH:mm:ss');
+    this.dateLogoutFormatted = moment(data.logout_time).format('YYYY-MM-DDTHH:mm:ss');
+    console.log(data);
+
+    this.reassignEmployee.patchValue({
+      supervisorNotes:data.supervisor_notes
+    })
   }
 
-  openReassignModel(id) {
+  openReassignModel(id, data) {
     this.isReassignModalOpen = true;
     this.reAssignmodel_id = id;
-    console.log('Opening Model', this.isReassignModalOpen);
-  }
+    this.reassignSupervisor.patchValue({
+      employeeNotes:data.employee_notes
+    })  }
 
-  editReassigned(id) {
-    this.loadingSpinner.next(true);
-    console.log(this.isReassignModalOpen);
-    this.isReassignModalOpen = false;
+    editReassigned(id) {
+      this.loadingSpinner.next(true);
+      console.log(this.isReassignModalOpen);
+      this.isReassignModalOpen = false;
 
-    this.id = id;
-    // start loader
-    this.loadingSpinner.next(true);
+      this.id = id;
+      // start loader
+      this.loadingSpinner.next(true);
 
-    this.dwrService.reassignDWR('reassignDwr', id, '', '', this.reassignSupervisor.get('supervisorNotes').value,'').subscribe(
-      (res) => {
-        if (res.status === 200) {
-          this.reassignSupervisor.reset();
-          this.loadingSpinner.next(false);
-          // calling again date DWR
-          this.getTickets();
-          this.isReassignModalOpen = false;
-          this.toastService.presentToast('Ticket reassigned', 'success');
-        } else {
-          console.log('Something happened :)');
-          this.toastService.presentToast(res.mssage, 'danger');
+      this.dwrService.reassignDWR('reassignDwr', id, '', '', this.reassignSupervisor.get('supervisorNotes').value,'').subscribe(
+        (res) => {
+          if (res.status === 200) {
+            this.reassignSupervisor.reset();
+            this.loadingSpinner.next(false);
+            // calling again date DWR
+            this.getTickets();
+            this.isReassignModalOpen = false;
+            this.toastService.presentToast('Ticket reassigned', 'success');
+          } else {
+            console.log('Something happened :)');
+            this.toastService.presentToast(res.mssage, 'danger');
+            this.loadingSpinner.next(false);
+            this.isReassignModalOpen = false;
+          }
+        },
+        (err) => {
+          this.toastService.presentToast(err.mssage, 'danger');
           this.loadingSpinner.next(false);
           this.isReassignModalOpen = false;
         }
-      },
-      (err) => {
-        this.toastService.presentToast(err.mssage, 'danger');
-        this.loadingSpinner.next(false);
-        this.isReassignModalOpen = false;
-      }
-    );
-  }
+      );
+    }
 
   edit(id) {
 
@@ -343,7 +350,7 @@ export class DetailPage implements OnInit {
       (res) => {
         if (res.status === 200) {
           this.loadingSpinner.next(false);
-
+          this.reassignEmployee.reset();
           // calling reassigned tickets
           this.getReassigned();
 
@@ -363,7 +370,9 @@ export class DetailPage implements OnInit {
         this.loadingSpinner.next(false);
         this.isOpen = false;
       }
+
     );
   }
-
 }
+
+

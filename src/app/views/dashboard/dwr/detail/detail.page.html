@@ -18,11 +18,11 @@
           <ion-card-content>
         <ion-row>
             <ion-col size="6" class="">
-              <div class="border-blue-500 border-2 rounded-md px-0 py-1 text-center w-min">
+              <div class="border-blue-500 border-2 rounded-md px-0 py-1 text-center">
                 <ion-text class= "ml-1 mr-1 font-semibold text-xs text-blue-500">{{data.module | titlecase}}</ion-text>
               </div>
             </ion-col>
-            <ion-col size="6" (click)="openReassignModel(data.id)">
+            <ion-col size="6" (click)="openReassignModel(data.id, data)">
               <div class="flex justify-end items-center">
                 <div class="bg-gray-100 border-gray-500 border-2 rounded-md px-2 py-1">
                   <ion-text class="font-semibold text-xs text-gray-500">Reassign</ion-text>
@@ -72,21 +72,32 @@
           </ion-col>
         </ion-row>
 
-        <ion-modal #modelToReassign backdropDismiss="false" [isOpen]="data.id === reAssignmodel_id && isReassignModalOpen" (ionModalDidDismiss)="ionModalDidDismiss()">
+        <ion-modal class="supervisorModal" #modelToReassign backdropDismiss="false" [isOpen]="data.id === reAssignmodel_id && isReassignModalOpen" (ionModalDidDismiss)="ionModalDidDismiss()">
           <ng-template>
             <div>
               <form [formGroup]="reassignSupervisor">
             <div class="px-4">
-              <div class="col-span-12 mb-4 mt-2" id="endDate">
-                <label class="block text-sm font-medium text-gray-700">Reassign Notes</label>
+              <div class="col-span-12 mb-4 mt-2" >
+                <label class="block text-sm font-medium text-gray-700">Supervisor Notes</label>
                 <ion-textarea [autoGrow]="true"
                   class="mt-2 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-                  [value]="supervisorNotes" formControlName="supervisorNotes"   placeholder="Enter Supervisor Notes"></ion-textarea>
+                  formControlName="supervisorNotes"   placeholder="Enter Supervisor Notes"></ion-textarea>
               </div>
+
+              <div class="col-span-12 mb-4 mt-2" >
+                <label class="block text-sm font-medium text-gray-700">Employee Notes</label>
+                <ion-textarea [autoGrow]="true"
+                  class="mt-2 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                  formControlName="employeeNotes"  readonly placeholder="Employee Notes"></ion-textarea>
+              </div>
+
             </div>
-            <ion-button expand="block" (click)="editReassigned(data.id)" class="mt-2 font-Lato text-white px-4">
-              <div>Edit and Send</div>
-            </ion-button>
+
+            <ion-button [disabled]="this.reassignSupervisor.invalid || (loadingSpinner | async)" expand="block"
+            class="mt-2 font-Lato text-white px-4" (click)="editReassigned(data.id)">
+            <div *ngIf="(loadingSpinner | async) === false">Edit and Send</div>
+            <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+          </ion-button>
             </form>
           </div>
           </ng-template>
@@ -623,14 +634,13 @@
               </div>
               <div *ngIf="reassignedData?.length > 0">
               <div *ngFor="let data of reassignedData">
-
                 <ion-card class="mx-2 my-1">
                   <ion-card-content>
                 <ion-row>
                   <ion-col size="6">
                     <ion-text class="bg-blue-100 border-blue-500 border-2 rounded-md px-2 py-1 font-semibold text-xs text-blue-500">{{data?.module | titlecase}}</ion-text>
                   </ion-col>
-                  <ion-col size="6" (click)="openModel(data.id)">
+                  <ion-col size="6" (click)="openModel(data.id, data)">
                     <div class="flex justify-end items-center">
                       <div class="bg-gray-100 border-gray-500 border-2 rounded-md px-2 py-1">
                         <ion-text class="font-semibold text-xs text-gray-500">Edit</ion-text>
@@ -660,24 +670,24 @@
                           <label class="block text-sm font-medium text-gray-700">Login Date/Time:</label>
                           <input
                             class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-                            placeholder="Enter date" readonly  [value]="dateLoginFormatted">
+                            placeholder="Enter date" readonly  [value]="moment(dateLoginFormatted).format('MM-DD-YYYY')">
                         </div>
                         <ion-popover trigger="startDate" triggerAction="click">
                           <ng-template>
-                            <ion-datetime (ionChange)="getLoginDate($event)"  size="cover"></ion-datetime>
+                            <ion-datetime [value]="dateLoginFormatted" (ionChange)="getLoginDate($event)"  size="cover"></ion-datetime>
                           </ng-template>
                         </ion-popover>
                       </div>
                       <div class="px-4">
                         <div class="col-span-12 mb-4 mt-2" id="endDate">
-                          <label class="block text-sm font-medium text-gray-700">Logout Date/Time:</label>
+                          <label class="block text-sm font-medium text-gray-700">Logout Date/Time: </label>
                           <input
                             class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-                            placeholder="Enter date" readonly [value]="dateLogoutFormatted">
+                            placeholder="Enter date" readonly [value]="moment(dateLogoutFormatted).format('MM-DD-YYYY')">
                         </div>
                         <ion-popover trigger="endDate" triggerAction="click">
                           <ng-template>
-                            <ion-datetime (ionChange)="getLogoutDate($event)" size="cover"></ion-datetime>
+                            <ion-datetime [value]="dateLogoutFormatted" (ionChange)="getLogoutDate($event)" size="cover"></ion-datetime>
                           </ng-template>
                         </ion-popover>
                       </div>
@@ -702,9 +712,11 @@
                         </div>
                         </form>
 
-                      <ion-button expand="block" (click)="edit(data.id)" class="font-Lato text-white px-4">
-                        <div>Edit and Send</div>
-                      </ion-button>
+                      <ion-button [disabled]="this.reassignEmployee.invalid || (loadingSpinner | async)" expand="block"
+                      class="font-Lato text-white px-4" (click)="edit(data.id)">
+                      <div *ngIf="(loadingSpinner | async) === false">Edit and Send</div>
+                      <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+                    </ion-button>
 
                     </div>
                     </ng-template>
