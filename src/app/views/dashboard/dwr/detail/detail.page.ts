@@ -39,7 +39,7 @@ export class DetailPage implements OnInit {
   isOpen2 = false;
   isPopoverOpen = false;
   model_id;
-  isModalOpen = false;
+
   // behaviour subject for loader
   public loading = new BehaviorSubject(true);
   public loaderModel = new BehaviorSubject(true);
@@ -54,10 +54,6 @@ export class DetailPage implements OnInit {
 
   ngOnInit() {
     //getting employee details
-  console.log(this.isModalOpen);
-
-    this.isModalOpen = false;
-
     this.getEmployeeDetails();
 
     // this.dateLoginFormatted = moment(new Date()).format('MM-DD-YYYY hh:mm:ss A');
@@ -66,14 +62,8 @@ export class DetailPage implements OnInit {
     this.route.queryParams.subscribe((params) => {
       console.log('PARAMS:', params);
       this.type = params.dwr_type;
-      // this.dwr_id= params.dwr_id;
-      // this.dwr_type= params.dwr_type;
       this.date = params.date;
       this.dwr_employee_id = params.employee_id;
-      // this.dwrData = JSON.parse(params.dwrData);
-      //   this.formType = params.formType;
-      // this.evaluationType = params.evaluationType;
-      // this.trainee_id = params.trainee_id;
 
       // conditionally checking types to render data
       if (this.type === 'verify' || this.type === 'send-back' || this.type === 'detail') {
@@ -259,68 +249,35 @@ getReassigned(){
 getLoginDate(e){
   console.log(e.detail.value);
   this.dateLogin = e.detail.value;
-  this.dateLoginFormatted = moment(e.detail.value).format('MM-DD-YYYY hh:mm:ss A');
+  // this.dateLoginFormatted = moment(e.detail.value).format('MM-DD-YYYYThh:mm:ss');
+  this.dateLoginFormatted = e.detail.value;
+
 }
 getLogoutDate(e){
   this.dateLogout = e.detail.value;
-  this.dateLogoutFormatted = moment(e.detail.value).format('MM-DD-YYYY hh:mm:ss A');
+  // this.dateLogoutFormatted = moment(e.detail.value).format('MM-DD-YYYYThh:mm:ss');
+   this.dateLogoutFormatted = e.detail.value;
+
 }
-openModel(id){
+openModel(id,data){
   this.isOpen = true;
-  this.isModalOpen = true;
-
   this.model_id = id;
-  console.log('Opening Model', this.isModalOpen);
 
+  this.dateLoginFormatted = moment(data.login_time).format('YYYY-MM-DDTHH:mm:ss');
+  this.dateLogoutFormatted = moment(data.logout_time).format('YYYY-MM-DDTHH:mm:ss');
 
 }
-// edit(id){
-
-//   this.loadingSpinner.next(true);
-
-//   // // close model
-//           // this.isOpen = false;
-//     this.dwrService.reassignDWR('editDwr', id,this.dateLogin,this.dateLogout).subscribe(
-//       (res) => {
-//         if (res.status === 200) {
-//           this.loadingSpinner.next(false);
-//           // calling reassigned tickets
-//           this.getReassigned();
-
-//           console.log('----',this.isOpen);
-//            // close model
-//            this.isOpen = false;
-//            console.log('----',this.isOpen);
-
-//           this.toastService.presentToast('Ticket edited', 'success');
-//         } else {
-//           console.log('Something happened :)');
-//           this.toastService.presentToast(res.mssage, 'danger');
-//           this.loadingSpinner.next(false);
-//           this.isOpen = false;
-//         }
-//       },
-//       (err) => {
-//         this.toastService.presentToast(err.mssage, 'danger');
-//         this.loadingSpinner.next(false);
-//         this.isOpen = false;
-//       }
-//     );
-// }
 
 edit(id){
 
   this.loadingSpinner.next(true);
-  // this.isOpen = false;
-  console.log(this.isModalOpen);
+  this.isOpen = false;
   this.isOpen = false;
 
   this.dwrService.reassignDWR('editDwr', id,this.dateLogin,this.dateLogout).subscribe(
     (res) => {
       if (res.status === 200) {
         this.loadingSpinner.next(false);
-  //       this.isModalOpen = false;
-  // console.log(this.isModalOpen);
 
         // calling reassigned tickets
         this.getReassigned();
@@ -343,5 +300,21 @@ edit(id){
     }
   );
 }
-
+// formatDate(){
+// console.log('Formattted calender date', moment('2023-04-11T07:03:54.121Z').format('YYYY-MM-DDTHH:mm:ss'));
+// this.dateLogoutFormatted = moment('2023-04-11T07:03:54.121Z').format('YYYY-MM-DDTHH:mm:ss');
 }
+// ionFocuss(){
+//   console.log('focus');
+// }
+// async ionFocus(){
+//   console.log('focdddus');
+// }
+// async ionModalWillPresent(){
+//   console.log('------------');
+// }
+// async ionModalWillDismiss(){
+//   console.log('----------------------');
+// }
+
+

@@ -39,22 +39,22 @@
                   </ion-text>
                 </ion-card>
               </div>
+              <div *ngIf="(loadingSpinner | async) === true">
+                <ion-grid>
+                  <ion-row>
+                  <ion-col size="2" class="flex justify-center items-center">
+                     <div  class="w-10 h-10 rounded-full flex justify-center items-center" >
+                       <ion-spinner  class="verify-loader" name="crescent"></ion-spinner>
+                    </div>
+                  </ion-col>
+                  <ion-col size="10" class="flex justify-start items-center">
+                    <ion-text class="font-Lato font-semibold text-lg text-3D8AA4">Fetching ... </ion-text>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </div>
               <div *ngIf="dwrs$?.dwrSummary.length > 0">
                 <div *ngFor="let dwr of dwrs$.dwrSummary">
-                  <ion-card *ngIf="dwr.employee_Id === dwr_employee_Id && (loadingSpinner | async) === true">
-                    <ion-grid>
-                      <ion-row>
-                        <ion-col size="8" class="flex justify-start items-center">
-                           <span class="font-Lato font-medium bg-3D8AA4 rounded-md text-white px-3 py-1">Fetching ... </span>
-                          </ion-col>
-                        <ion-col size="4" class="flex justify-center items-center">
-                           <div  class="w-10 h-10 rounded-full flex justify-center items-center" >
-                            <ion-spinner  class="verify-loader" name="crescent"></ion-spinner>
-                          </div>
-                        </ion-col>
-                      </ion-row>
-                    </ion-grid>
-                  </ion-card>
                     <ion-card class="" *ngIf="dwr.supervisor_id === supervisor_id">
                     <ion-grid>
                       <ion-row>
