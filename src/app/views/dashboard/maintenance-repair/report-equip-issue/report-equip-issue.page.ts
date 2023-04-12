@@ -148,12 +148,6 @@ this.toastService.presentToast(err.mssage,'danger');
         }
 
         // calling API
-        // this.allFields = this.harvestingService.getFields(
-        //   value,
-        //   'customerFields',
-        //   this.customerID,
-        //   this.farmID
-        // );
         this.allMachinery = this.maintenanceRepairService.getMachinery(
           value,
           'allMachinery'

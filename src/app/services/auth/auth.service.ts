@@ -163,15 +163,13 @@ getEmployeeDetailsByFirbaseId(fb_id){
     // setting in local storage
     localStorage.setItem('employeeId',res.id);
     localStorage.setItem('role',res.role);
+    localStorage.setItem('state',res.state);
     localStorage.setItem('employeeName',res.employee_name);
 
      //to stop loader
      this.isLoading.next(false);
      this.router.navigate(['tabs'], { replaceUrl: true });
 
-    // for manual
-    // localStorage.setItem('role','dispatcher');
-    // localStorage.setItem('employeeId', '5254e1f7-bedf-4166-bba7-8a64892dc28e');
   });
 }
   async refreshToken() {
