@@ -80,9 +80,6 @@ export class DetailPage implements OnInit {
 
     this.getEmployeeDetails();
 
-    // this.dateLoginFormatted = moment(new Date()).format('MM-DD-YYYY hh:mm:ss A');
-    // this.dateLogoutFormatted = moment(new Date()).format('MM-DD-YYYY hh:mm:ss A');
-
     this.route.queryParams.subscribe((params) => {
       console.log('PARAMS:', params);
       this.type = params.dwr_type;
@@ -104,7 +101,6 @@ export class DetailPage implements OnInit {
       this.getTickets();
     }
     else if (this.type === 'work-history') {
-      // this.getDWRDetailsWithStatus('all');
       this.getAll();
       this.getVerified();
       this.getUnVerified();
@@ -113,10 +109,8 @@ export class DetailPage implements OnInit {
   }
   async ionModalDidDismiss() {
     this.isOpen = false;
+    this.isReassignModalOpen = false;
   }
-  // async ionPopoverDidDismiss(){
-  //  this.isPopoverOpen = false;
-  // }
 
   getEmployeeDetails() {
     this.role = localStorage.getItem('role');
@@ -178,13 +172,6 @@ export class DetailPage implements OnInit {
       type = 'getMyDWR';
     }
 
-    // this.dwrService.getDWRById(this.dwr_id,'getTasks',this.dwr_type, this.employee_id, type)
-    //   .subscribe((res)=>{
-    //     console.log('Res:',res);
-    //       this.loading.next(true);
-    //       this.workHistoryData = res;
-    //       this.loading.next(false);
-    //   });
     this.dwrService
       .getDWRDetails(this.dwr_employee_id, this.date, 'getDWRDetails', 'day', 'pendingVerification')
       .subscribe((res) => {
@@ -277,13 +264,11 @@ export class DetailPage implements OnInit {
   getLoginDate(e) {
     console.log(e.detail.value);
     this.dateLogin = e.detail.value;
-    // this.dateLoginFormatted = moment(e.detail.value).format('MM-DD-YYYYThh:mm:ss');
     this.dateLoginFormatted = e.detail.value;
 
   }
   getLogoutDate(e) {
     this.dateLogout = e.detail.value;
-    // this.dateLogoutFormatted = moment(e.detail.value).format('MM-DD-YYYYThh:mm:ss');
     this.dateLogoutFormatted = e.detail.value;
 
   }
@@ -309,7 +294,6 @@ export class DetailPage implements OnInit {
 
     editReassigned(id) {
       this.loadingSpinner.next(true);
-      console.log(this.isReassignModalOpen);
       this.isReassignModalOpen = false;
 
       this.id = id;
