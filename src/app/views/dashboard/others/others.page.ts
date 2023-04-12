@@ -273,9 +273,8 @@ checkInOut(){
         }
 
         // calling API
-        this.allSupervisors = this.othersService.getEmployees(
-          this.supervisorSearchValue,
-          'Dispatcher'
+        this.allSupervisors = this.othersService.getSupervisors(
+          this.supervisorSearchValue
         );
 
         // subscribing to show/hide field UL
@@ -309,9 +308,8 @@ checkInOut(){
         : this.supervisorSearchValue;
 
      // calling API
-     this.allSupervisors = this.othersService.getEmployees(
-      this.supervisorSearchValue,
-      'Dispatcher'
+     this.allSupervisors = this.othersService.getSupervisors(
+      this.supervisorSearchValue
     );
 
     // subscribing to show/hide field UL
