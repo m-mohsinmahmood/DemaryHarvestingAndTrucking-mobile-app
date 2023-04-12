@@ -12,6 +12,7 @@ import { Renderer2 } from '@angular/core';
 import { states } from './../../../../JSON/state';
 import { ToastService } from 'src/app/services/toast/toast.service';
 import { CheckInOutService } from 'src/app/components/check-in-out/check-in-out.service';
+import { HarvestingService } from '../harvesting/harvesting.service';
 
 @Component({
   selector: 'app-others',
@@ -56,8 +57,10 @@ export class OthersPage implements OnInit {
 
   public activeCheckInSpinner = new BehaviorSubject(false);
   public loadingSpinner = new BehaviorSubject(false);
+  public loading = new BehaviorSubject(false);
 
   active_check_in_id: any;
+  state;
 
   // unsubscribe object
   private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -71,14 +74,11 @@ export class OthersPage implements OnInit {
      private renderer: Renderer2,
      private toastService: ToastService,
      private dwrServices: CheckInOutService,
+     private harvestingService: HarvestingService
 
 
      ) {
       this.renderer.listen('window', 'click', (e) => {
-        // if (e.target !== this.employeeInput.nativeElement) {
-        //   this.allEmployees = of([]);
-        //   this.employeeUL = false; // to hide the UL
-        // }
         if (e.target !== this.supervisorInput.nativeElement) {
           this.allSupervisors = of([]);
           this.supervisorUL = false; // to hide the UL
@@ -87,17 +87,37 @@ export class OthersPage implements OnInit {
       }
 
   ngOnInit() {
-    this.initForm();
+    // this.getEmployeeDetailsByFirbaseId();
+    this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).subscribe((res)=>{
+      this.loadingSpinner.next(true);
+      console.log('Employee Details:',res);
 
-     // pasing states
+      // setting in local storage
+      localStorage.setItem('state',res.state);
+      this.loadingSpinner.next(false);
+
+      console.log(this.loadingSpinner.getValue());
+      if(!this.loadingSpinner.getValue()){
+        console.log('CALLLEDDDDD');
+        this.state = localStorage.getItem('state');
+        this.initForm();
+
+        // pasing states
      this.states = states;
 
-    // subscription
-    // this.employeeSearchSubscription();
-    this.supervisorSearchSubscription();
+     // subscription
+     this.supervisorSearchSubscription();
 
-    // check-in/check-out
-    this.checkInOut();
+     // check-in/check-out
+     this.checkInOut();
+
+      }
+
+    });
+
+    // this.state = localStorage.getItem('state');
+    // this.initForm();
+
 
   }
   ngOnDestroy(): void {
@@ -105,15 +125,11 @@ export class OthersPage implements OnInit {
     this._unsubscribeAll.complete();
   }
   initForm(){
-    // this.otherForm = this.formBuilder.group({
-    //   employeeId: [''],
-    //   supervisor_id: [''],
-    //   state:[''],
-    //   apprTaskId: ['', Validators.required],
-    //   notesOther: ['', Validators.required],
-    // });
+    // if(this.state !== null){
+    //   this.otherForm
+    // }
     this.otherForm = this.formBuilder.group({
-      state:['',Validators.required],
+      state:[this.state !== 'null'? this.state: '',Validators.required],
       module: ['', Validators.required],
       supervisor_id: [''],
       notes_other: ['', Validators.required],
@@ -171,7 +187,7 @@ checkInOut(){
       )
       .subscribe((value: string) => {
         // passing for renderer2
-        console.log('---',value)
+        console.log('---',value);
         this.employeeSearchValue = value;
 
         // for asterik to look required
@@ -407,6 +423,16 @@ this.othersService.save(this.otherForm.value,'other')
          this.otherForm.reset();
         this.supervisorInput.nativeElement.value = '';
 
+        // this.getEmployeeDetailsByFirbaseId();
+        this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).subscribe((response)=>{
+          console.log('Employee Details:',response);
+
+          // setting in local storage
+          localStorage.setItem('state',response.state);
+          this.state = localStorage.getItem('state');
+          this.initForm();
+        });
+
           // tooltip
           this.toastService.presentToast(
            'Details have been submitted',
@@ -427,5 +453,16 @@ this.othersService.save(this.otherForm.value,'other')
         this.toastService.presentToast(err.mssage, 'danger');
       }
     );
+  }
+
+  getEmployeeDetailsByFirbaseId(){
+    this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).subscribe((res)=>{
+      console.log('Employee Details:',res);
+
+      // setting in local storage
+      localStorage.setItem('state',res.state);
+
+      // this.initForm();
+    });
   }
 }

@@ -1,5 +1,12 @@
 <app-header [title]="'Others'" [color]="'others'"></app-header>
-<ion-content>
+<!-- <ion-content *ngIf="(loadingSpinner | async ) === true">
+  <div class="flex justify-center items-center h-full">
+    <ion-spinner class="h-32 w-32" name="crescent"></ion-spinner>
+  </div> -->
+</ion-content>
+<!-- <ion-content *ngIf="(loadingSpinner | async ) === false"> -->
+  <ion-content>
+
   <!-- Check-In/Check-Out -->
   <app-check-in-out [isModalOpen]="isModalOpen" [data]="activeDwr" *ngIf="activeDwr"
   [module]="'other'">
@@ -9,11 +16,14 @@
   <form [formGroup]="otherForm">
   <div class="col-span-12 mb-4">
     <label class="block text-sm font-medium text-gray-700">State <span *ngIf="this.otherForm.get('state').hasError('required')" class="text-red-400" >*</span></label>
-    <ion-select
+    <ion-select *ngIf="this.state === 'null'"
       class="mt-1 w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
       formControlName="state" placeholder="Select State">
       <ion-select-option *ngFor="let state of states" [value]="state">{{state}}</ion-select-option>
     </ion-select>
+    <div *ngIf="this.state !== 'null'">
+      <ion-text>{{this.state}}</ion-text>
+    </div>
   </div>
   <div class="col-span-12 mb-4">
     <label class="ml-5" class="block text-sm font-medium text-gray-700">Category<span class="text-red-600"
