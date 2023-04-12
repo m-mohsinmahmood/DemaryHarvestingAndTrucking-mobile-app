@@ -3,7 +3,7 @@
   <div class="flex justify-center items-center h-full">
     <ion-spinner class="h-32 w-32" name="crescent"></ion-spinner>
   </div> -->
-</ion-content>
+<!-- </ion-content> -->
 <!-- <ion-content *ngIf="(loadingSpinner | async ) === false"> -->
   <ion-content>
 
@@ -14,16 +14,18 @@
 
 <div class="px-3 mt-2">
   <form [formGroup]="otherForm">
-  <div class="col-span-12 mb-4">
+    <div class="col-span-12 mb-4" *ngIf="(loading | async)=== true">
+      <label class="block text-sm font-medium text-gray-700">State
+        </label>
+         <ion-skeleton-text  [animated]="true" style="width: 100%; height: 39px; border-radius: 5px;"></ion-skeleton-text>
+    </div>
+  <div class="col-span-12 mb-4" *ngIf="(loading | async)=== false">
     <label class="block text-sm font-medium text-gray-700">State <span *ngIf="this.otherForm.get('state').hasError('required')" class="text-red-400" >*</span></label>
-    <ion-select *ngIf="this.state === 'null'"
+    <ion-select
       class="mt-1 w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
       formControlName="state" placeholder="Select State">
       <ion-select-option *ngFor="let state of states" [value]="state">{{state}}</ion-select-option>
     </ion-select>
-    <div *ngIf="this.state !== 'null'">
-      <ion-text>{{this.state}}</ion-text>
-    </div>
   </div>
   <div class="col-span-12 mb-4">
     <label class="ml-5" class="block text-sm font-medium text-gray-700">Category<span class="text-red-600"

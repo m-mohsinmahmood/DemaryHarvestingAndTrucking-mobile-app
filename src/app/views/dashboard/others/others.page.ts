@@ -57,7 +57,7 @@ export class OthersPage implements OnInit {
 
   public activeCheckInSpinner = new BehaviorSubject(false);
   public loadingSpinner = new BehaviorSubject(false);
-  public loading = new BehaviorSubject(false);
+  public loading = new BehaviorSubject(true);
 
   active_check_in_id: any;
   state;
@@ -89,15 +89,15 @@ export class OthersPage implements OnInit {
   ngOnInit() {
     // this.getEmployeeDetailsByFirbaseId();
     this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).subscribe((res)=>{
-      this.loadingSpinner.next(true);
+      this.loading.next(true);
       console.log('Employee Details:',res);
 
       // setting in local storage
       localStorage.setItem('state',res.state);
-      this.loadingSpinner.next(false);
+      this.loading.next(false);
 
-      console.log(this.loadingSpinner.getValue());
-      if(!this.loadingSpinner.getValue()){
+      console.log(this.loading.getValue());
+      if(!this.loading.getValue()){
         console.log('CALLLEDDDDD');
         this.state = localStorage.getItem('state');
         this.initForm();
@@ -115,8 +115,14 @@ export class OthersPage implements OnInit {
 
     });
 
-    // this.state = localStorage.getItem('state');
-    // this.initForm();
+    // subscription
+    this.supervisorSearchSubscription();
+
+    // check-in/check-out
+    this.checkInOut();
+
+    this.state = localStorage.getItem('state');
+    this.initForm();
 
 
   }
