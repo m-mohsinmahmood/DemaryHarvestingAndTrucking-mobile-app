@@ -54,8 +54,6 @@ export class WorkHistoryPage implements OnInit {
 
     this.employee_id = localStorage.getItem('employeeId');
 
-    // call to render on-page
-    // this.dwrs$ = this.dwrService.getDWR('f4cfa75b-7c14-4b68-a192-00d56c9f2022',this.date);
   }
   ngOnDestroy(): void {
     // this.DWRSubValue.unsubscribe();

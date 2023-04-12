@@ -72,7 +72,7 @@
           </ion-col>
         </ion-row>
 
-        <ion-modal class="supervisorModal" #modelToReassign backdropDismiss="false" [isOpen]="data.id === reAssignmodel_id && isReassignModalOpen" (ionModalDidDismiss)="ionModalDidDismiss()">
+        <ion-modal class="supervisorModal" #modelToReassign [isOpen]="data.id === reAssignmodel_id && isReassignModalOpen" (ionModalDidDismiss)="ionModalDidDismiss()">
           <ng-template>
             <div>
               <form [formGroup]="reassignSupervisor">
@@ -513,7 +513,7 @@
                   <ion-card class="mx-2 my-1">
                     <ion-card-content>
                   <ion-row>
-                    <ion-text class="bg-blue-100 border-blue-500 border-2 rounded-md px-2 py-1 font-semibold text-xs text-blue-500">{{data?.module | titileccse}}</ion-text>
+                    <ion-text class="bg-blue-100 border-blue-500 border-2 rounded-md px-2 py-1 font-semibold text-xs text-blue-500">{{data?.module | titlecase}}</ion-text>
                     <ion-col size="12" class="flex justify-between items-center">
                       <ion-text class="font-semibold text-black font-Lato text-base">Log-in</ion-text>
                       <ion-text class="font-semibold text-black font-Lato text-sm">{{moment(data.login_time).format('MM/DD/YYYY hh:mm:ss')}}</ion-text>
@@ -575,7 +575,7 @@
                 <ion-card class="mx-2 my-1">
                   <ion-card-content>
                 <ion-row>
-                  <ion-text class="bg-blue-100 border-blue-500 border-2 rounded-md px-2 py-1 font-semibold text-xs text-blue-500">{{data?.module | titileccse}}</ion-text>
+                  <ion-text class="bg-blue-100 border-blue-500 border-2 rounded-md px-2 py-1 font-semibold text-xs text-blue-500">{{data?.module | titlecase}}</ion-text>
                   <ion-col size="12" class="flex justify-between items-center">
                     <ion-text class="font-semibold text-black font-Lato text-base">Log-in</ion-text>
                     <ion-text class="font-semibold text-black font-Lato text-sm">{{moment(data.login_time).format('MM/DD/YYYY hh:mm:ss')}}</ion-text>
