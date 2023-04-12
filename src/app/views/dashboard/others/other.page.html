@@ -26,6 +26,7 @@
       <ion-select-option value="farming">Farming</ion-select-option>
       <ion-select-option value="training">Training</ion-select-option>
       <ion-select-option value="maintenance-repair">Maintenance & Repair</ion-select-option>
+      <ion-select-option value="other">Other</ion-select-option>
     </ion-select>
   </div>
 
@@ -34,7 +35,7 @@
     <div [ngClass]="'opacity-100 visible scale-100 ease-in duration-200'" class="mb-4 relative z-30">
       <div class="mx-auto max-w-full transform rounded-xl px-0 transition-all">
         <label class="block text-sm font-medium text-gray-700 mb-1">
-          Supervisor/Crew Chief/Dispatcher <span
+Directors/CC/Dispatcher/Trainers <span
             *ngIf="isSupervisorSelected" class="text-red-400">*</span></label>
         <div class="flex items-center justify-between gap-x-2 rounded-md">
           <input (keyup)="supervisorsearch$.next($event.target.value)" (click)="inputClickedsupervisor()"
