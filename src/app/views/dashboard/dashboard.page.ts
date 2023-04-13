@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { BehaviorSubject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { HarvestingService } from './harvesting/harvesting.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -30,7 +31,6 @@ export class DashboardPage implements OnInit {
     private nav: Router,
     private activatedRoute: ActivatedRoute,
     private auth: AuthService,
-    private router: Router
   ) { }
 
   ngOnInit() {
@@ -38,7 +38,6 @@ export class DashboardPage implements OnInit {
     this.initDataRetrieval();
     console.log(localStorage.getItem('employeeId'));
     console.log(localStorage.getItem('role'));
-
   }
 
   async ionViewDidEnter() {
@@ -63,12 +62,6 @@ export class DashboardPage implements OnInit {
         this.role = localStorage.getItem('role');
         // to stop loading
         this.loading.next(false);
-        // this.selectform.patchValue({ select: this.role });
-        // localStorage.setItem('role', this.role);
-        // Original ID
-        // localStorage.setItem('employeeId', localStorage.getItem("employeeId"));
-        // Testing ID
-        // localStorage.setItem('employeeId', '4b843edb-0b74-49a2-b3c7-d3884f5f6013');
 
         this.isModalOpen = false;
       }
@@ -81,8 +74,6 @@ export class DashboardPage implements OnInit {
         this.isModalOpen = true;
         // to stop loading
         this.loading.next(false);
-        // console.log("Role: ", localStorage.getItem("role"));
-        // console.log("ID :", localStorage.getItem("employeeId"));
       }
     });
 
@@ -131,27 +122,27 @@ export class DashboardPage implements OnInit {
 
   setOpen() {
 
-    if (this.activeDwr[0].module === 'farming') {
+    if (this.activeDwr[0].module_to_redirect === 'farming') {
       this.isModalOpen = false;
       this.nav.navigate(['farming'], { relativeTo: this.activatedRoute });
     }
-    else if (this.activeDwr[0].module === 'trucking') {
+    else if (this.activeDwr[0].module_to_redirect === 'trucking') {
       this.isModalOpen = false;
       this.nav.navigate(['trucking'], { relativeTo: this.activatedRoute });
     }
-    else if (this.activeDwr[0].module === 'harvesting') {
+    else if (this.activeDwr[0].module_to_redirect === 'harvesting') {
       this.isModalOpen = false;
       this.nav.navigate(['harvesting'], { relativeTo: this.activatedRoute });
     }
-    else if (this.activeDwr[0].module === 'maintenance-repair') {
+    else if (this.activeDwr[0].module_to_redirect === 'maintenance-repair') {
       this.isModalOpen = false;
       this.nav.navigate(['maintenance-repair'], { relativeTo: this.activatedRoute });
     }
-    else if (this.activeDwr[0].module === 'training') {
+    else if (this.activeDwr[0].module_to_redirect === 'training') {
       this.isModalOpen = false;
       this.nav.navigate(['training'], { relativeTo: this.activatedRoute });
     }
-    else if (this.activeDwr[0].module === 'other') {
+    else if (this.activeDwr[0].module_to_redirect === 'other') {
       this.isModalOpen = false;
       this.nav.navigate(['others'], { relativeTo: this.activatedRoute });
     }
