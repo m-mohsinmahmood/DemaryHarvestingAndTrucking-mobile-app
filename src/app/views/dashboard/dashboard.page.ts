@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { BehaviorSubject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { HarvestingService } from './harvesting/harvesting.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -21,6 +22,7 @@ export class DashboardPage implements OnInit {
   selectform: FormGroup;
   activeDwr: any;
   isModalOpen = false;
+  toShow = true;
   public loading = new BehaviorSubject(true);
 
   constructor(
@@ -29,7 +31,6 @@ export class DashboardPage implements OnInit {
     private nav: Router,
     private activatedRoute: ActivatedRoute,
     private auth: AuthService,
-    private router: Router
   ) { }
 
   ngOnInit() {
@@ -37,7 +38,6 @@ export class DashboardPage implements OnInit {
     this.initDataRetrieval();
     console.log(localStorage.getItem('employeeId'));
     console.log(localStorage.getItem('role'));
-
   }
 
   async ionViewDidEnter() {
@@ -62,12 +62,6 @@ export class DashboardPage implements OnInit {
         this.role = localStorage.getItem('role');
         // to stop loading
         this.loading.next(false);
-        // this.selectform.patchValue({ select: this.role });
-        // localStorage.setItem('role', this.role);
-        // Original ID
-        // localStorage.setItem('employeeId', localStorage.getItem("employeeId"));
-        // Testing ID
-        // localStorage.setItem('employeeId', '4b843edb-0b74-49a2-b3c7-d3884f5f6013');
 
         this.isModalOpen = false;
       }
@@ -80,8 +74,6 @@ export class DashboardPage implements OnInit {
         this.isModalOpen = true;
         // to stop loading
         this.loading.next(false);
-        // console.log("Role: ", localStorage.getItem("role"));
-        // console.log("ID :", localStorage.getItem("employeeId"));
       }
     });
 
@@ -102,25 +94,6 @@ export class DashboardPage implements OnInit {
     // assigning role
     this.role = e.target.value;
 
-    // Testing IDS
-    // if (localStorage.getItem('role') === 'dispatcher') { localStorage.setItem('employeeId', '5254e1f7-bedf-4166-bba7-8a64892dc28e'); }
-    // else if (localStorage.getItem('role') === 'truck-driver') { localStorage.setItem('employeeId', '7824d1d5-4fe6-4d96-9f75-325ab9e0af19'); }
-    // else if (localStorage.getItem('role') === 'tractor-driver') { localStorage.setItem('employeeId', '428809ee-9cc1-46f1-a238-6735a507ef3d'); }
-    // else if (localStorage.getItem('role') === 'crew-chief') { localStorage.setItem('employeeId', '4b843edb-0b74-49a2-b3c7-d3884f5f6013'); }
-    // else if (localStorage.getItem('role') === 'combine-operator') { localStorage.setItem('employeeId', '2212322b-0b74-49a2-b3c7-d3884f5f0013'); }
-    // else if (localStorage.getItem('role') === 'kart-operator') { localStorage.setItem('employeeId', '4b84222b-0b74-49a2-b3c7-d3884f5f0013'); }
-    // else if (localStorage.getItem('role') === 'mechanic') { localStorage.setItem('employeeId', '4543344b-0b74-49a2-b3c7-d3884f5f0013'); }
-    // else if (localStorage.getItem('role') === 'supervisor') { localStorage.setItem('employeeId', '4b44434b-0b74-49a2-b3c7-d3884f5f6013'); }
-
-    // Original IDS
-    // if (localStorage.getItem('role') === 'dispatcher') { localStorage.setItem('employeeId', 'e43cf3d6-faa4-47b8-a97b-c59a5738102c'); }
-    // else if (localStorage.getItem('role') === 'truck-driver') { localStorage.setItem('employeeId', '00277ae0-9534-473a-afe8-c648aa0e6d9d'); }
-    // else if (localStorage.getItem('role') === 'tractor-driver') { localStorage.setItem('employeeId', '33791177-05cf-4df9-8050-59d486f6be78'); }
-    // else if (localStorage.getItem('role') === 'crew-chief') { localStorage.setItem('employeeId', '8920a566-453c-47f0-82dc-21e74196bb98'); }
-    // else if (localStorage.getItem('role') === 'combine-operator') { localStorage.setItem('employeeId', '3ac2db42-d0c1-4493-a0cf-b19deb834f46'); }
-    // else if (localStorage.getItem('role') === 'mechanic') { localStorage.setItem('employeeId', '4543344b-0b74-49a2-b3c7-d3884f5f0013'); }
-    // else if (localStorage.getItem('role') === 'supervisor') { localStorage.setItem('employeeId', '4b44434b-0b74-49a2-b3c7-d3884f5f6013'); }
-    // else if (localStorage.getItem('role') === 'kart-operator') { localStorage.setItem('employeeId', 'f4cfa75b-7c14-4b68-a192-00d56c9f2022'); }
   }
 
   presentPopover(e: Event) {
@@ -130,27 +103,27 @@ export class DashboardPage implements OnInit {
 
   setOpen() {
 
-    if (this.activeDwr[0].module === 'farming') {
+    if (this.activeDwr[0].module_to_redirect === 'farming') {
       this.isModalOpen = false;
       this.nav.navigate(['farming'], { relativeTo: this.activatedRoute });
     }
-    else if (this.activeDwr[0].module === 'trucking') {
+    else if (this.activeDwr[0].module_to_redirect === 'trucking') {
       this.isModalOpen = false;
       this.nav.navigate(['trucking'], { relativeTo: this.activatedRoute });
     }
-    else if (this.activeDwr[0].module === 'harvesting') {
+    else if (this.activeDwr[0].module_to_redirect === 'harvesting') {
       this.isModalOpen = false;
       this.nav.navigate(['harvesting'], { relativeTo: this.activatedRoute });
     }
-    else if (this.activeDwr[0].module === 'maintenance-repair') {
+    else if (this.activeDwr[0].module_to_redirect === 'maintenance-repair') {
       this.isModalOpen = false;
       this.nav.navigate(['maintenance-repair'], { relativeTo: this.activatedRoute });
     }
-    else if (this.activeDwr[0].module === 'training') {
+    else if (this.activeDwr[0].module_to_redirect === 'training') {
       this.isModalOpen = false;
       this.nav.navigate(['training'], { relativeTo: this.activatedRoute });
     }
-    else if (this.activeDwr[0].module === 'other') {
+    else if (this.activeDwr[0].module_to_redirect === 'other') {
       this.isModalOpen = false;
       this.nav.navigate(['others'], { relativeTo: this.activatedRoute });
     }
