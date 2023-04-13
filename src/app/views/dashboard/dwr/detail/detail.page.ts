@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -33,11 +34,11 @@ export class DetailPage implements OnInit {
   segment = 'all';
   id: any;
   dwr_employee_id: any;
-  dateLogin: any = moment(new Date()).format('YYYY-MM-DDTHH:mm:ssZ');
-  dateLogout: any = moment(new Date()).format('YYYY-MM-DDTHH:mm:ssZ');
-  dateLogoutFormatted: any = moment(new Date()).format('MM-DD-YYYY hh:mm:ss A');
-  dateLoginFormatted: any = moment(new Date()).format('MM-DD-YYYY hh:mm:ss A');
-  supervisorNotes: string = '';
+  dateLogin: any = moment.utc().format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
+  dateLogout: any = moment.utc().format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
+  // dateLogoutFormatted: any = moment(new Date()).format('MM-DD-YYYY hh:mm:ss A');
+  // dateLoginFormatted: any = moment(new Date()).format('MM-DD-YYYY hh:mm:ss A');
+  supervisorNotes = '';
   isOpen = false;
   isOpen2 = false;
   isPopoverOpen = false;
@@ -262,27 +263,30 @@ export class DetailPage implements OnInit {
 
 
   getLoginDate(e) {
-    console.log(e.detail.value);
     this.dateLogin = e.detail.value;
     this.dateLoginFormatted = e.detail.value;
-
   }
   getLogoutDate(e) {
     this.dateLogout = e.detail.value;
     this.dateLogoutFormatted = e.detail.value;
-
   }
+
+
+
   openModel(id, data) {
     this.isOpen = true;
     this.model_id = id;
 
-    this.dateLoginFormatted = moment(data.login_time).format('YYYY-MM-DDTHH:mm:ss');
-    this.dateLogoutFormatted = moment(data.logout_time).format('YYYY-MM-DDTHH:mm:ss');
-    console.log(data);
+    this.dateLoginFormatted = data.login_time;
+    this.dateLogoutFormatted = data.logout_time;
+
+    this.dateLogin = data.login_time;
+    this.dateLogout = data.logout_time;
+
 
     this.reassignEmployee.patchValue({
       supervisorNotes:data.supervisor_notes
-    })
+    });
   }
 
   openReassignModel(id, data) {
@@ -290,7 +294,7 @@ export class DetailPage implements OnInit {
     this.reAssignmodel_id = id;
     this.reassignSupervisor.patchValue({
       employeeNotes:data.employee_notes
-    })  }
+    });  }
 
     editReassigned(id) {
       this.loadingSpinner.next(true);
@@ -307,7 +311,17 @@ export class DetailPage implements OnInit {
             this.loadingSpinner.next(false);
             // calling again date DWR
             this.getTickets();
+
+            // calling all tickets
+            this.getAll();
+           this.getVerified();
+           this.getUnVerified();
+           this.getReassigned();
+
+           // close modal
             this.isReassignModalOpen = false;
+
+            // toast
             this.toastService.presentToast('Ticket reassigned', 'success');
           } else {
             console.log('Something happened :)');
@@ -325,9 +339,13 @@ export class DetailPage implements OnInit {
     }
 
   edit(id) {
+    console.log('Start',this.dateLogin);
+    console.log('End',this.dateLogout);
+    // console.log(moment(this.dateLogin).utc().format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'));
+    // console.log(moment(this.dateLogout).utc().format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'));
+
 
     this.loadingSpinner.next(true);
-    console.log(this.isModalOpen);
     this.isOpen = false;
 
     this.dwrService.reassignDWR('editDwr', id, this.dateLogin, this.dateLogout, '', this.reassignEmployee.get('employeeNotes').value).subscribe(
@@ -337,6 +355,11 @@ export class DetailPage implements OnInit {
           this.reassignEmployee.reset();
           // calling reassigned tickets
           this.getReassigned();
+
+          this.getAll();
+           this.getVerified();
+           this.getUnVerified();
+           this.getReassigned();
 
           // close model
           this.isOpen = false;
@@ -354,7 +377,6 @@ export class DetailPage implements OnInit {
         this.loadingSpinner.next(false);
         this.isOpen = false;
       }
-
     );
   }
 }

@@ -41,6 +41,7 @@ export class WorkHistoryPage implements OnInit {
 
   isOpen = 'false';
   employee_id;
+  hasEmpId;
 
   public loading = new BehaviorSubject(false);
   constructor(private router: Router,
@@ -55,6 +56,10 @@ export class WorkHistoryPage implements OnInit {
     this.employee_id = localStorage.getItem('employeeId');
 
   }
+  async ionViewDidEnter() {
+    this.getDWRByDate();
+  }
+
   ngOnDestroy(): void {
     // this.DWRSubValue.unsubscribe();
   }
@@ -106,11 +111,20 @@ export class WorkHistoryPage implements OnInit {
         console.log('RESPONSE:',res);
         this.dwrs$ = res;
 
-        // to stop spinner
+         res.dwrSummary.some(obj => {
+          console.log('ressss',obj.employee_Id === localStorage.getItem('employeeId'));
+          Object.values(obj).includes(localStorage.getItem('employeeId'));
+         });
+
+        // if current employee/supervisor is included in array
+         this.hasEmpId = res.dwrSummary.some(obj => Object.values(obj).includes(localStorage.getItem('employeeId')));
+
+         // to stop spinner
         this.loading.next(false);
       },(err)=>{
         this.loading.next(false);
         this.toastService.presentToast(err.mssage, 'danger');
       });
   }
+  getDWRByMonth(){}
 }

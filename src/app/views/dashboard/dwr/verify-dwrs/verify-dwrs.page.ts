@@ -43,7 +43,8 @@ export class VerifyDwrsPage implements OnInit {
   dwr_id: any;
   dwr_employee_Id: any;
 
-  dummy = '34.586666666';
+  hasEmpId;
+
   public loading = new BehaviorSubject(false);
   public loadingSpinner = new BehaviorSubject(false);
 
@@ -58,6 +59,9 @@ export class VerifyDwrsPage implements OnInit {
     //getting role
     this.role = localStorage.getItem('role');
     this.supervisor_id = localStorage.getItem('employeeId');
+  }
+  async ionViewDidEnter() {
+    this.getDWRByDate();
   }
   getFormattedHours(hours){
     return hours.toFixed(2);
@@ -85,9 +89,15 @@ export class VerifyDwrsPage implements OnInit {
       .subscribe((res) => {
         this.dwrs$ = res;
 
+        // if current employee/supervisor is included in array
+         this.hasEmpId = res.dwrSummary.some(obj => Object.values(obj).includes(localStorage.getItem('employeeId')));
+
         // to stop spinner
         this.loading.next(false);
       });
+  }
+  getDWRByMonth(){
+
   }
   navigate(dwr_type: string, dwr_id: any, employee_id) {
     this.router.navigate(['/tabs/home/dwr/detail'], {
