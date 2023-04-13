@@ -27,7 +27,8 @@ export class CheckInOutComponent implements OnInit {
     let data = {
       employeeId: localStorage.getItem("employeeId"),
       role: localStorage.getItem("role"),
-      module: this.module
+      module: this.module,
+      moduleToRedirect:this.module
     }
 
     this.dwrServices.createNewDWR(data)

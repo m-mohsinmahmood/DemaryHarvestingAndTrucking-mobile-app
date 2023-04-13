@@ -9,7 +9,7 @@
             <ion-col size="4" class=" flex justify-center">
               <div></div>
             </ion-col>
-            <ion-col size="4" class=" flex justify-center"><span
+            <ion-col size="4" class="flex justify-center"><span
                 class="text-white font-semibold">Check-In</span></ion-col>
             <ion-col size="4" class="flex justify-end"><ion-icon name="close-outline"
                 (click)="model.dismiss(); closePopup()"></ion-icon></ion-col>
@@ -19,12 +19,16 @@
     </ion-header>
     <ion-content class="ion-padding">
 
-      <div class="flex justify-center mt-8">
-        <ion-button [disabled]=" (loadingSpinner | async)" class="text-white w-1/2" (click)="checkIn(); model.dismiss()"
-          expand="block">
-          <div *ngIf="(loadingSpinner | async) === false"> Check-In</div>
-          <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
-        </ion-button>
+      <div class="flex justify-center">
+        <div class="h-full w-full flex flex-col items-center">
+          <ion-button [disabled]=" (loadingSpinner | async)" class="text-white w-full" (click)="checkIn(); model.dismiss()">
+            <div *ngIf="(loadingSpinner | async) === false"> Check-In</div>
+            <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+          </ion-button>
+          <ion-button class="text-white w-full" (click)="model.dismiss(); closePopup()">
+            <div> Close</div>
+          </ion-button>
+        </div>
       </div>
     </ion-content>
   </ng-template>
