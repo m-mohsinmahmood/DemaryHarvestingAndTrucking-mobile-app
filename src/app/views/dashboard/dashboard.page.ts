@@ -21,6 +21,7 @@ export class DashboardPage implements OnInit {
   selectform: FormGroup;
   activeDwr: any;
   isModalOpen = false;
+  toShow = true;
   public loading = new BehaviorSubject(true);
 
   constructor(
