@@ -443,6 +443,12 @@ export class CreateRepairORMaintenancePage implements OnInit {
         console.log('RES:', res);
         if (res.status === 200) {
 
+          // form resetting
+          this.createTicket.reset();
+          this.employeeInput.nativeElement.value = '';
+          this.employeeInput2.nativeElement.value ='';
+          this.machineryInput.nativeElement.value = '';
+
          // to stop loader
          this.loadingSpinner.next(false);
 

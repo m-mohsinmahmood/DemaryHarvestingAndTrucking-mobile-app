@@ -87,7 +87,7 @@
       </ion-col>
     </div>
 
-    <div *ngIf="!toShow">
+    <!-- <div *ngIf="!toShow"> -->
       <ion-col size="4" class="flex flex-col" *ngIf="role.includes('Mechanic')">
         <div class="h-28 flex justify-center items-center">
           <ion-card class="card " [routerLink]="['maintenance-repair']" [ngStyle]="{'background-color':'#FF7272'}">
@@ -100,7 +100,7 @@
           <ion-text class="font-Lato">Maintenance & Repair</ion-text>
         </div>
       </ion-col>
-    </div>
+    <!-- </div> -->
 
     <div *ngIf="!toShow">
       <ion-col size="4" class="flex flex-col">

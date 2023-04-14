@@ -38,6 +38,8 @@
           <ion-col size="12" class="flex justify-between items-center">
             <ion-text class="font-semibold text-black font-Lato text-base">Log-out</ion-text>
             <ion-text class="font-semibold text-black font-Lato text-sm">{{moment.utc(data.logout_time).format('MM/DD/YYYY hh:mm:ss A')}}</ion-text>
+            <ion-text class="font-semibold text-black font-Lato text-sm">PPP{{moment.utc('2023-04-14T15:48:14.000').local().format('MM/DD/YYYY hh:mm:ss A')}}</ion-text>
+
           </ion-col>
           <ion-col size="12" class="flex justify-between items-center">
             <ion-text class="font-semibold text-black font-Lato text-base">Total Hours</ion-text>
@@ -74,7 +76,24 @@
 
         <ion-modal class="supervisorModal" #modelToReassign [isOpen]="data.id === reAssignmodel_id && isReassignModalOpen" (ionModalDidDismiss)="ionModalDidDismiss()">
           <ng-template>
-            <div>
+            <ion-header>
+              <div class="bg-3D8AA4">
+                <ion-grid>
+                  <ion-row>
+                    <ion-col size="4" class=" flex justify-center">
+                      <div></div>
+                    </ion-col>
+                    <ion-col size="4" class="flex justify-center"><span
+                        class="text-white font-semibold">Notes</span></ion-col>
+                    <ion-col size="4" class="flex justify-end">
+                      <ion-icon name="close-outline" (click)="modelToReassign.dismiss();">
+                      </ion-icon>
+                    </ion-col>
+                  </ion-row>
+                </ion-grid>
+              </div>
+            </ion-header>
+            <div class="">
               <form [formGroup]="reassignSupervisor">
             <div class="px-4">
               <div class="col-span-12 mb-4 mt-2" >
@@ -87,14 +106,13 @@
               <div class="col-span-12 mb-4 mt-2" >
                 <label class="block text-sm font-medium text-gray-700">Employee Notes</label>
                 <ion-textarea [autoGrow]="true"
-                  class="mt-2 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                  class="mt-2 mb-2 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                   formControlName="employeeNotes"  readonly placeholder="Employee Notes"></ion-textarea>
               </div>
-
             </div>
 
             <ion-button [disabled]="this.reassignSupervisor.invalid || (loadingSpinner | async)" expand="block"
-            class="mt-2 font-Lato text-white px-4" (click)="editReassigned(data.id)">
+            class="mt-2 mb-4 font-Lato text-white px-4" (click)="editReassigned(data.id)">
             <div *ngIf="(loadingSpinner | async) === false">Edit and Send</div>
             <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
           </ion-button>
@@ -102,7 +120,6 @@
           </div>
           </ng-template>
         </ion-modal>
-
       </ion-card-content>
     </ion-card>
     </div>
@@ -664,6 +681,23 @@
                   </ion-col>
                   <ion-modal #model [isOpen]="data.id === model_id && isOpen" (ionModalDidDismiss)="ionModalDidDismiss()">
                     <ng-template>
+                      <ion-header>
+                        <div class="bg-3D8AA4">
+                          <ion-grid>
+                            <ion-row>
+                              <ion-col size="4" class=" flex justify-center">
+                                <div></div>
+                              </ion-col>
+                              <ion-col size="4" class="flex justify-center"><span
+                                  class="text-white font-semibold">Notes</span></ion-col>
+                              <ion-col size="4" class="flex justify-end">
+                                <ion-icon name="close-outline" (click)="model.dismiss();">
+                                </ion-icon>
+                              </ion-col>
+                            </ion-row>
+                          </ion-grid>
+                        </div>
+                      </ion-header>
                       <div>
                       <div class="px-4 mt-3">
                         <div class="col-span-12 mb-4 mt-2" id="startDate">
@@ -713,7 +747,7 @@
                         </form>
 
                       <ion-button [disabled]="this.reassignEmployee.invalid || (loadingSpinner | async)" expand="block"
-                      class="font-Lato text-white px-4" (click)="edit(data.id)">
+                      class="font-Lato text-white px-4 mb-4" (click)="edit(data.id)">
                       <div *ngIf="(loadingSpinner | async) === false">Edit and Send</div>
                       <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
                     </ion-button>
