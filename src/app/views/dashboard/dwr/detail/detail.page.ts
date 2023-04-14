@@ -63,6 +63,44 @@ export class DetailPage implements OnInit {
   ) { }
 
   ngOnInit() {
+  //   const currentDate = moment.utc().format('YYYY-MM-DD HH:mm:ss');
+  //    console.log(currentDate);
+  //    console.log(currentDate);
+
+
+  //   const utcDate = moment.utc();
+  //   console.log(utcDate);
+  //   const localDate = utcDate.local();
+  //  console.log(localDate.format('YYYY-MM-DD HH:mm:ss'));
+
+//   console.log('Date',new Date());
+//   console.log('UTC Date',new Date());
+//   const localTime = moment(new Date()); // Assuming this is in local time
+// const utcTime = moment.utc(localTime);
+// console.log("Old Data: ",utcTime.format());
+
+
+
+
+// const originalDateString = new Date();
+
+// // Create a new Date object from the original date string
+// const originalDate = new Date(originalDateString);
+
+// // Get the year, month, day, hours, minutes, and seconds from the original date
+// const year = originalDate.getFullYear();
+// const month = originalDate.getMonth() + 1; // Month is zero-indexed, so we add 1
+// const day = originalDate.getDate();
+// const hours = originalDate.getHours();
+// const minutes = originalDate.getMinutes();
+// const seconds = originalDate.getSeconds();
+
+// // Format the new date string in the desired format
+// const newDateString = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')} ${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+// // Output the new date string
+// console.log("New Date: ",newDateString); // Output: 2023-04-14 15:28:42
+
     //getting employee details
     this.reassignSupervisor = this.formBuilder.group({
       supervisorNotes: ['', [Validators.required]],
@@ -261,7 +299,6 @@ export class DetailPage implements OnInit {
       });
   }
 
-
   getLoginDate(e) {
     this.dateLogin = e.detail.value;
     this.dateLoginFormatted = e.detail.value;
@@ -270,8 +307,6 @@ export class DetailPage implements OnInit {
     this.dateLogout = e.detail.value;
     this.dateLogoutFormatted = e.detail.value;
   }
-
-
 
   openModel(id, data) {
     this.isOpen = true;
@@ -311,12 +346,6 @@ export class DetailPage implements OnInit {
             this.loadingSpinner.next(false);
             // calling again date DWR
             this.getTickets();
-
-            // calling all tickets
-            this.getAll();
-           this.getVerified();
-           this.getUnVerified();
-           this.getReassigned();
 
            // close modal
             this.isReassignModalOpen = false;

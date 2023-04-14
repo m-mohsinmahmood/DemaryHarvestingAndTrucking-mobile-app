@@ -43,7 +43,7 @@ ion-accordion-group {
 }
 
 ion-modal {
-  --height: 60%;
+  --height: 62%;
   --width: 80%;
   --border-radius: 16px;
   --box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
@@ -59,8 +59,12 @@ ion-textarea {
 }
 
 ion-modal.supervisorModal{
-  --height: 45%;
+  --height: 42%;
   --width: 80%;
   --border-radius: 16px;
   --box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+ion-icon {
+  color: rgb(255, 255, 255);
+  font-size: 24px;
 }

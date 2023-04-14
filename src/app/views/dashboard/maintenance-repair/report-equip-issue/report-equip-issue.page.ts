@@ -117,8 +117,18 @@ console.log(e.detail.value);
     .subscribe((res)=>{
       console.log('RES:',res);
       if(res.status === 200){
+
+        // form resetting
+        this.reportNewEquipIssue.reset();
+        this.machineryInput.nativeElement.value = '';
+
+         // to stop loader
         this.loadingSpinner.next(false);
+
+        // toast
         this.toastService.presentToast('Issue has been reported','success');
+
+        // navigate
         this.router.navigateByUrl('/tabs/home/maintenance-repair');
       }else{
         console.log('Something happened :)');
