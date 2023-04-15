@@ -187,9 +187,13 @@ export class TrainingTasksPage implements OnInit {
       this.loading.next(false);
     });
   }
+submit(){
+  this.loadingSpinner.next(true);
+    // getting check-in id
+    this.getCheckInID();
 
-  submit() {
-    this.loadingSpinner.next(true);
+}
+  submitData() {
     // eslint-disable-next-line no-var
     // Form Data
     var formData: FormData = new FormData();
@@ -208,8 +212,8 @@ export class TrainingTasksPage implements OnInit {
           // passing record id
           this.trainer_record_id = res.id.record_id;
 
-          // getting check-in id
-          this.getCheckInID();
+          // create DWR
+          this.createDWR();
 
           } else {
             console.log('Something happened :)');
@@ -232,8 +236,8 @@ export class TrainingTasksPage implements OnInit {
       this.active_check_in_id = workOrder.dwr[0].id;
       this.activeCheckInSpinner.next(false);
 
-       // creating DWR
-      this.createDWR();
+       // submit data
+      this.submitData();
     });
 
   }
@@ -259,10 +263,12 @@ export class TrainingTasksPage implements OnInit {
           );
 
           //  navigating
-           this.router.navigateByUrl('/tabs/home/training');
+           this.router.navigateByUrl('/tabs/home/training/trainer');
          } else {
            console.log('Something happened :)');
            this.toastService.presentToast(res.mssage, 'danger');
+          this.loadingSpinner.next(false);
+
          }
        },
        (err) => {

@@ -153,6 +153,11 @@ export class SuspensionBrakesPage implements OnInit {
   exit(){
     this.loadingSpinner.next(true);
 
+    // get check-in ID
+    this.getCheckInID();
+
+  }
+  submitData(){
      //patching value
      this.preTripForm.patchValue({
       percentageSuspension: this.result
@@ -166,11 +171,8 @@ export class SuspensionBrakesPage implements OnInit {
           // // closing modal
           this.isModalOpen = false;
 
-             // spinner
-          this.loadingSpinner.next(false);
-
-          // getting check-in id
-          this.getCheckInID();
+          // create DWR
+          this.createDWR();
 
         } else {
           console.log('Something happened :)');
@@ -191,8 +193,8 @@ export class SuspensionBrakesPage implements OnInit {
       this.active_check_in_id = workOrder.dwr[0].id;
       this.activeCheckInSpinner.next(false);
 
-       // creating DWR
-      this.createDWR();
+        // submit data
+      this.submitData();
     });
 
   }
@@ -206,13 +208,16 @@ export class SuspensionBrakesPage implements OnInit {
          console.log('RES:', res);
          if (res.status === 200) {
 
+           // to stop loader
+           this.loadingSpinner.next(false);
+
            // tooltip
            this.toastService.presentToast(
             'Digital evaluation completed',
             'success'
           );
 
-          //  this.isModalOpen = false;
+
           //  navigating
         if (this.isModalOpen === false) {
           setTimeout(()=>{
