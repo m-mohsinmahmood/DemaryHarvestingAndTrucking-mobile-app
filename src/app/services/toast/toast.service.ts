@@ -17,7 +17,7 @@ export class ToastService {
       header,
       message: msg,
       position,
-      duration: duration ? duration : 5000,
+      duration: duration ? duration : 1000,
       color,
       cssClass:'custom-toast'
     });

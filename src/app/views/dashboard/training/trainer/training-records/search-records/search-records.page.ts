@@ -49,7 +49,7 @@ moment: any = moment;
         queryParams:{
           formType: x,
           recordId: record.record_id,
-          trainerName: record.trainee_name
+          trainerName: record.trainer_name
         }
       });
   }

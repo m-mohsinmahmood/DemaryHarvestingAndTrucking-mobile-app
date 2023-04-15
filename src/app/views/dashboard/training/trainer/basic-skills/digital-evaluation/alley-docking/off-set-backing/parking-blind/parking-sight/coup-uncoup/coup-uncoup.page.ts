@@ -122,8 +122,13 @@ export class CoupUncoupPage implements OnInit {
     edit(){
       this.isModalOpen = false;
     }
-    navigate() {
+    navigate(){
       this.loadingSpinner.next(true);
+
+         // get check-in ID
+         this.getCheckInID();
+    }
+    submitData() {
 
       // patching sat & un-sat results
   this.basicSkillForm.patchValue({
@@ -136,14 +141,6 @@ export class CoupUncoupPage implements OnInit {
         (res) => {
           console.log('RES:', res);
           if (res.status === 200) {
-             // closing modal
-          this.isModalOpen = false;
-
-          // // spinner
-          //   this.loadingSpinner.next(false);
-
-            // getting check-in id
-          this.getCheckInID();
 
             // creating DWR
            this.createDWR();
@@ -187,8 +184,8 @@ export class CoupUncoupPage implements OnInit {
         this.active_check_in_id = workOrder.dwr[0].id;
         this.activeCheckInSpinner.next(false);
 
-       // creating DWR
-      this.createDWR();
+       // submit data
+       this.submitData();
       });
 
     }
@@ -199,14 +196,19 @@ export class CoupUncoupPage implements OnInit {
        .subscribe(
          (res) => {
            if (res.status === 200) {
+
+             // spinner
+             this.loadingSpinner.next(false);
+
+            //  closing modal
+          this.isModalOpen = false;
+
             // tooltip
             this.toastService.presentToast(
               'Digital Evaluation completed',
               'success'
             );
 
-             // spinner
-             this.loadingSpinner.next(false);
 
             // navigating
           if (this.isModalOpen === false) {

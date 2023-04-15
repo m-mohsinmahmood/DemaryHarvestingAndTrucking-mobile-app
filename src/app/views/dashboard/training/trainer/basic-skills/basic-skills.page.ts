@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 /* eslint-disable no-var */
 /* eslint-disable max-len */
 /* eslint-disable no-underscore-dangle */
@@ -10,6 +11,7 @@ import { ToastService } from 'src/app/services/toast/toast.service';
 import { TrainingService } from '../../training.service';
 import { states } from 'src/JSON/state';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
+import { CheckInOutService } from 'src/app/components/check-in-out/check-in-out.service';
 
 @Component({
   selector: 'app-basic-skills',
@@ -49,8 +51,11 @@ export class BasicSkillsPage implements OnInit {
   // behaviour subject's for loader
   public loading = new BehaviorSubject(true);
   public loadingSpinner = new BehaviorSubject(false);
+  public activeCheckInSpinner = new BehaviorSubject(false);
 
   training_record_id: any;
+  active_check_in_id: any;
+
 
     //#region trainee drop-down variables
     allTrainees: Observable<any>;
@@ -80,6 +85,7 @@ export class BasicSkillsPage implements OnInit {
      //#endregion
 
 
+
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
   constructor( private formBuilder: FormBuilder,
@@ -87,7 +93,8 @@ export class BasicSkillsPage implements OnInit {
     private trainingService: TrainingService,
     private renderer: Renderer2,
     private toastService: ToastService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private dwrServices: CheckInOutService
     ) {
       this.renderer.listen('window', 'click', (e) => {
         if (e.target !== this.traineeInput.nativeElement) {
@@ -214,9 +221,14 @@ export class BasicSkillsPage implements OnInit {
       });
     }
   }
-  submit() {
-    console.log(this.basicSkillForm.value);
+  submit(){
     this.loadingSpinner.next(true);
+
+       // get check-in ID
+       this.getCheckInID();
+  }
+  submitData() {
+    console.log(this.basicSkillForm.value);
 
     // Form Data
     var formData: FormData = new FormData();
@@ -230,7 +242,12 @@ export class BasicSkillsPage implements OnInit {
       (res) => {
         console.log('RES:', res);
         if (res.status === 200) {
-          this.loadingSpinner.next(false);
+
+          // passing record id
+          this.training_record_id = res.id.record_id;
+
+           // create DWR
+           this.createDWR();
 
           this.toastService.presentToast(
             'Your details have been submitted',
@@ -265,8 +282,11 @@ export class BasicSkillsPage implements OnInit {
       (res) => {
         console.log('RES:', res);
         if (res.status === 200) {
+
+          // start loader
           this.loadingSpinner.next(false);
 
+          // tooltip
           this.toastService.presentToast(
             'Basic Skills evaluation has been started',
             'success'
@@ -276,7 +296,7 @@ export class BasicSkillsPage implements OnInit {
           this.router.navigate(['/tabs/home/training/trainer/basic-skills/digital-evaluation'],{
             queryParams:{
               training_record_id: res.id.training_record_id,
-              supervisor_id: this.data?.supervisor_id? this.data.supervisor_id : this.basicSkillForm.get('supervisor_id').value
+              supervisor_id: this.basicSkillForm.get('supervisor_id').value
 
              }
           });
@@ -284,6 +304,8 @@ export class BasicSkillsPage implements OnInit {
         } else {
           console.log('Something happened :)');
           this.toastService.presentToast(res.mssage, 'danger');
+          this.loadingSpinner.next(false);
+
         }
       },
       (err) => {
@@ -306,6 +328,53 @@ export class BasicSkillsPage implements OnInit {
       this.loading.next(false);
     });
   }
+  getCheckInID(){
+    this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
+      this.activeCheckInSpinner.next(true);
+      console.log('Active Check ID: ', workOrder.dwr[0].id);
+      this.active_check_in_id = workOrder.dwr[0].id;
+      this.activeCheckInSpinner.next(false);
+
+      // submit data
+      this.submitData();
+    });
+
+  }
+  createDWR(){
+    let supervisor_id;
+    supervisor_id = this.basicSkillForm.get('supervisor_id').value;
+    this.trainingService
+     .createDWR(this.trainer_id, this.training_record_id,'','','basic-skills','paper-form',supervisor_id,this.active_check_in_id)
+     .subscribe(
+       (res) => {
+         console.log('RES:', res);
+         if (res.status === 200) {
+
+          // to stop loader
+          this.loadingSpinner.next(false);
+
+
+           // tooltip
+           this.toastService.presentToast(
+            'Your details have been submitted',
+            'success'
+          );
+
+          //  navigating
+           this.router.navigateByUrl('/tabs/home/training/trainer');
+         } else {
+           console.log('Something happened :)');
+           this.toastService.presentToast(res.mssage, 'danger');
+         }
+       },
+       (err) => {
+         console.log('ERROR::', err);
+         this.toastService.presentToast('Fill the required fields or try again', 'danger');
+         this.loadingSpinner.next(false);
+
+       }
+     );
+ }
 
    //#region Trainee
    traineeSearchSubscription() {

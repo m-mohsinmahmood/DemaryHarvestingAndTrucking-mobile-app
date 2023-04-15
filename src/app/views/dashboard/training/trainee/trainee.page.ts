@@ -181,8 +181,8 @@ export class TraineePage implements OnInit {
       this.trainee_record_id  = res.id.record_id;
       if(res.status === 200){
 
-         // getting check-in id
-         this.getCheckInID();
+        //  // getting check-in id
+        //  this.getCheckInID();
 
       }else{
         console.log('Something happened :)');

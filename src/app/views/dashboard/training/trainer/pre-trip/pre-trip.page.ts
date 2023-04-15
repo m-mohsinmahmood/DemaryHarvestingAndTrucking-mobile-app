@@ -209,8 +209,15 @@ export class PreTripPage implements OnInit {
   }
 
   submit() {
-    console.log(this.preTrip.value);
+    // start loader
     this.loadingSpinner.next(true);
+
+    // get check-in ID
+    this.getCheckInID();
+
+  }
+  submitData(){
+    console.log(this.preTrip.value);
     // Form Data
     var formData: FormData = new FormData();
     formData.append('preTrip',JSON.stringify(this.preTrip.value));
@@ -226,8 +233,8 @@ export class PreTripPage implements OnInit {
           // passing record id
           this.training_record_id = res.id.record_id;
 
-          // getting check-in id
-          this.getCheckInID();
+          // create DWR
+          this.createDWR();
 
         } else {
           console.log('Something happened :)');
@@ -249,8 +256,8 @@ export class PreTripPage implements OnInit {
       this.active_check_in_id = workOrder.dwr[0].id;
       this.activeCheckInSpinner.next(false);
 
-       // creating DWR
-      this.createDWR();
+      // submit data
+      this.submitData();
     });
 
   }
@@ -314,7 +321,7 @@ export class PreTripPage implements OnInit {
           this.router.navigate(['/tabs/home/training/trainer/pre-trip/digital-form'],{
             queryParams:{
               training_record_id: res.id.training_record_id,
-              supervisor_id: this.data?.supervisor_id? this.data.supervisor_id : this.preTrip.get('supervisor_id').value
+              supervisor_id: this.preTrip.get('supervisor_id').value
             }
           });
         } else {

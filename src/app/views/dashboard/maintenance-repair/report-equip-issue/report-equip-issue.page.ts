@@ -132,11 +132,15 @@ console.log(e.detail.value);
         this.router.navigateByUrl('/tabs/home/maintenance-repair');
       }else{
         console.log('Something happened :)');
+        this.loadingSpinner.next(false);
+
         this.toastService.presentToast(res.mssage,'danger');
       }
     },(err)=>{
 console.log('ERROR::',err);
 this.toastService.presentToast(err.mssage,'danger');
+this.loadingSpinner.next(false);
+
 
     });
   }
@@ -223,7 +227,7 @@ this.toastService.presentToast(err.mssage,'danger');
 
     // assigning values in form
       this.reportNewEquipIssue.patchValue({
-        equipmentId: machinery.id
+        equipmentId: machinery.type
       });
 
     // clearing array
