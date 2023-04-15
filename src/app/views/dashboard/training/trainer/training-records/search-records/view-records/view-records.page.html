@@ -22,9 +22,9 @@
       <ion-text class="font-Lato text-sm text-9B9BA4">Total Time</ion-text>
       <!-- <ion-text class="font-Lato text-sm text-black font-semibold">{{moment().subtract(records?.endDatePreTrip,records?.created_at).format('HH:mm')}}</ion-text> -->
       <ion-text class="font-Lato text-sm text-black font-semibold" *ngIf="(loading | async) === false">
-        {{moment(records?.endDatePreTrip).diff(records?.created_at,'hours')?moment(records?.endDatePreTrip).diff(records?.created_at,'hours') : '00'}}:
-        {{moment(records?.endDatePreTrip).diff(records?.created_at,'minutes')?moment(records?.endDatePreTrip).diff(records?.created_at,'minutes'): '00'}}:
-        {{moment(records?.endDatePreTrip).diff(records?.created_at,'seconds')?moment(records?.endDatePreTrip).diff(records?.created_at,'seconds'): '00'}}
+        {{moment(records?.endDatePreTrip).diff(records?.created_at,'hours')?moment(records?.endDatePreTrip).diff(records?.created_at,'hours') : '00'}}h:
+        {{moment(records?.endDatePreTrip).diff(records?.created_at,'minutes')?moment(records?.endDatePreTrip).diff(records?.created_at,'minutes'): '00'}}m
+        <!-- {{moment(records?.endDatePreTrip).diff(records?.created_at,'seconds')?moment(records?.endDatePreTrip).diff(records?.created_at,'seconds'): '00'}} -->
       </ion-text>
 
     </div>
@@ -455,13 +455,13 @@
     </div>
     <ion-card class="p-3">
       <ion-card-content class="m-0 p-0">
-        <div class="mt-4">
+        <div class="mt-4" *ngIf="records.image_1 !== null">
           <img [src]="records.image_1"alt="" class="h-48 w-full object-contain">
         </div>
-        <div class="mt-4">
+        <div class="mt-4" *ngIf="records.image_2 !== null">
           <img [src]="records.image_2"alt="" class="h-48 w-full object-contain">
         </div>
-        <div class="mt-4">
+        <div class="mt-4" *ngIf="records.image_3 !== null">
           <img [src]="records.image_3"alt="" class="h-48 w-full object-contain">
         </div>
       </ion-card-content>
@@ -487,7 +487,7 @@
       <ion-text class="font-Lato text-sm text-black font-semibold" *ngIf="(loading | async) === false">
         {{moment(records?.endDateBasicSkill).diff(records?.created_at,'hours')}}h:
         {{moment(records?.endDateBasicSkill).diff(records?.created_at,'minutes')}}m:
-        {{moment(records?.endDateBasicSkill).diff(records?.created_at,'seconds')}}s
+        <!-- {{moment(records?.endDateBasicSkill).diff(records?.created_at,'seconds')}}s -->
       </ion-text>
     </div>
 
@@ -580,18 +580,18 @@
       </ion-text>
     </div>
     <div class="my-5 flex items-center justify-between">
-      <ion-text class="font-Lato text-9B9BA4 text-sm">Trainee</ion-text>
+      <ion-text class="font-Lato text-9B9BA4 text-sm">Trainer</ion-text>
       <ion-text class="font-Lato text-sm font-semibold text-black">{{trainerName}}</ion-text>
     </div>
     <ion-card class="p-3">
       <ion-card-content class="m-0 p-0">
-        <div class="mt-4">
+        <div class="mt-4" *ngIf="records.image_1 !== null">
           <img [src]="records.image_1"alt="" class="h-48 w-full object-contain">
         </div>
-        <div class="mt-4">
+        <div class="mt-4" *ngIf="records.image_2 !== null">
           <img [src]="records.image_2"alt="" class="h-48 w-full object-contain">
         </div>
-        <div class="mt-4">
+        <div class="mt-4" *ngIf="records.image_3 !== null">
           <img [src]="records.image_3"alt="" class="h-48 w-full object-contain">
         </div>
       </ion-card-content>
@@ -617,8 +617,8 @@
       <!-- <ion-text class="font-Lato text-sm text-black font-semibold">{{moment(records?.endDateRoadSkill).subtract(records?.created_at).format('')}}</ion-text> -->
       <ion-text class="font-Lato text-sm text-black font-semibold" *ngIf="(loading | async) === false">
         {{moment(records?.endDateRoadSkill).diff(records?.created_at,'hours')}}h:
-        {{moment(records?.endDateRoadSkill).diff(records?.created_at,'minutes')}}m:
-        {{moment(records?.endDateRoadSkill).diff(records?.created_at,'seconds')}}s
+        {{moment(records?.endDateRoadSkill).diff(records?.created_at,'minutes')}}m
+        <!-- {{moment(records?.endDateRoadSkill).diff(records?.created_at,'seconds')}}s -->
       </ion-text>
       <!-- <ion-text class="font-Lato text-sm text-black font-semibold">{{math.abs(records?.endDateRoadSkill - records?.created_at)}}}</ion-text> -->
 
@@ -774,18 +774,18 @@
       </ion-text>
     </div>
     <div class="my-5 flex items-center justify-between">
-      <ion-text class="font-Lato text-9B9BA4 text-sm">Trainee</ion-text>
+      <ion-text class="font-Lato text-9B9BA4 text-sm">Trainer</ion-text>
       <ion-text class="font-Lato text-sm font-semibold text-black">{{trainerName}}</ion-text>
     </div>
     <ion-card class="p-3">
       <ion-card-content class="m-0 p-0">
-        <div class="mt-4">
+        <div class="mt-4" *ngIf="records.image_1 !== null">
           <img [src]="records.image_1"alt="" class="h-48 w-full object-contain">
         </div>
-        <div class="mt-4">
+        <div class="mt-4" *ngIf="records.image_2 !== null">
           <img [src]="records.image_2"alt="" class="h-48 w-full object-contain">
         </div>
-        <div class="mt-4">
+        <div class="mt-4" *ngIf="records.image_3 !== null">
           <img [src]="records.image_3"alt="" class="h-48 w-full object-contain">
         </div>
       </ion-card-content>
@@ -841,20 +841,36 @@
         <div *ngFor="let record of records">
           <ion-row class="my-4" *ngIf="record.evaluation_type === 'pre-trip'">
             <ion-col size="4" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">CDL Pre-Trip Check</ion-text></ion-col>
-            <ion-col size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
-            <ion-col size="3" class="ion-text-start"><ion-text class="font-Lato font-semibold">{{record.enddatepretrip?.hours?record.enddatepretrip.hours: '0'}}h:{{record.enddatepretrip?.minutes?record.enddatepretrip.minutes : '0'}}m</ion-text></ion-col>
+              <ion-col size="5" class="ion-text-start" *ngIf="getPreTripSum(record)"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
+              <ion-col size="5" class="ion-text-start" *ngIf="!getPreTripSum(record)"><ion-text class="font-Lato text-E64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">UnSatisfactory</ion-text></ion-col>
+
+              <ion-col size="3" class="ion-text-start"><ion-text class="font-Lato font-semibold">{{record.enddatepretrip?.hours?record.enddatepretrip.hours: '0'}}h:{{record.enddatepretrip?.minutes?record.enddatepretrip.minutes : '0'}}m</ion-text></ion-col>
           </ion-row>
           <ion-row class="my-4" *ngIf="record.evaluation_type === 'basic-skills'">
             <ion-col size="4" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">CDL Basic Skills</ion-text></ion-col>
-            <ion-col size="5" class="ion-text-start" *ngIf="(((+record.satisfactoryStraightLineBacking + +record.satisfactoryAlleyDocking + +record.satisfactoryOffSetBacking + +record.satisfactoryParkingBlind + +record.satisfactoryCoupUncoup)/600)*100) > 50"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
-            <ion-col size="5" class="ion-text-start" *ngIf="(((+record.satisfactoryStraightLineBacking + +record.satisfactoryAlleyDocking + +record.satisfactoryOffSetBacking + +record.satisfactoryParkingBlind + +record.satisfactoryCoupUncoup)/600)*100) < 50"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
-            <ion-col size="3" class="ion-text-start"><ion-text class="font-Lato font-semibold">{{record.enddatebasicskill?.hours?record.enddatebasicskill.hours: '0'}}h:{{record.enddatebasicskill?.minutes?record.enddatebasicskill.minutes : '0'}}m</ion-text></ion-col>
+            <ion-col size="5" class="ion-text-start" *ngIf="getBasicSkillsSum(record)">
+              <ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text>
+            </ion-col>
+            <ion-col size="5" class="ion-text-start" *ngIf="!getBasicSkillsSum(record)">
+              <ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text>
+            </ion-col>
+            <ion-col size="3" class="ion-text-start">
+              <ion-text class="font-Lato font-semibold">{{record.enddatebasicskill?.hours?record.enddatebasicskill.hours: '0'}}h:{{record.enddatebasicskill?.minutes?record.enddatebasicskill.minutes : '0'}}m</ion-text>
+            </ion-col>
           </ion-row>
           <ion-row class="my-4" *ngIf="record.evaluation_type === 'road-skills'">
-            <ion-col size="4" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">CDL Road Trip Skills</ion-text></ion-col>
-            <ion-col size="5" class="ion-text-start" *ngIf="(((+record.satisfactoryRoadTesting)/100)*100) > 50"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
-            <ion-col size="5" class="ion-text-start" *ngIf="(((+record.satisfactoryRoadTesting)/100)*100) < 50"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
-            <ion-col size="3" class="ion-text-start"><ion-text class="font-Lato font-semibold">{{record.enddateroadskill?.hours?record.enddateroadskill.hours: '0'}}h:{{record.enddateroadskill?.minutes?record.enddateroadskill.minutes : '0'}}m</ion-text></ion-col>
+            <ion-col size="4" class="ion-text-start">
+              <ion-text class="font-Lato font-semibold text-black">CDL Road Trip Skills</ion-text>
+            </ion-col>
+            <ion-col size="5" class="ion-text-start" *ngIf="getRoadSkillsSum(record)">
+              <ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text>
+            </ion-col>
+            <ion-col size="5" class="ion-text-start" *ngIf="!getRoadSkillsSum(record)">
+              <ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text>
+            </ion-col>
+            <ion-col size="3" class="ion-text-start">
+              <ion-text class="font-Lato font-semibold">{{record.enddateroadskill?.hours?record.enddateroadskill.hours: '0'}}h:{{record.enddateroadskill?.minutes?record.enddateroadskill.minutes : '0'}}m</ion-text>
+            </ion-col>
           </ion-row>
         </div>
       </ion-grid>

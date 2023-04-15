@@ -456,7 +456,7 @@ getCheckInID(){
     this.activeCheckInSpinner.next(true);
     this.active_check_in_id = workOrder.dwr[0].id;
     this.activeCheckInSpinner.next(false);
-console.log(this.value);
+
     if(this.value === 'assign'){
       this.submitData();
     }else{
