@@ -62,7 +62,9 @@ export class ViewRecordsPage implements OnInit {
           this.loading.next(true);
           this.records = record;
           this.loading.next(false);
+          console.log('RECORD:::',this.records);
         });
+
     } else {
       // getting record by id for pre-trip, basic-skills,road-skills
       this.trainingService.getRecordById(this.recordId).subscribe((record) => {
@@ -75,6 +77,7 @@ export class ViewRecordsPage implements OnInit {
     // ((+this.records.pullUps_pb + +this.records.encroach_pb < 3) && (this.records.goal_pb === 'true') && (this.records.finalPosition_pb === 'true')) &&
     // ((+this.records.pullUps_ps + +this.records.encroach_ps < 3) && (this.records.goal_ps === 'true') && (this.records.finalPosition_ps === 'true')) &&
     // ((+this.records.pullUps_cou + +this.records.encroach_cou < 3) && (this.records.goal_cou === 'true') && (this.records.finalPosition_cou === 'true')));
+
 
     this.status =((+this.records.pullUpsInput_slb + +this.records.encroachInput_slb < 3) && (this.records.goal_slb === 'true') && (this.records.finalPosition_slb === 'true')) &&
     ((+this.records.pullUpsInput_ad + +this.records.encroachInput_ad < 3) && (this.records.goal_ad === 'true') && (this.records.finalPosition_ad === 'true'))  &&
@@ -139,6 +142,7 @@ export class ViewRecordsPage implements OnInit {
     });
   }
   getTotalTrainingHoursTime(records) {
+    console.log(records);
     let totalSum: any = '00:00:00';
     records.map((record) => {
       if (
@@ -200,4 +204,30 @@ export class ViewRecordsPage implements OnInit {
       ].join(':');
     }
   }
+  getPreTripSum(records){
+    return this.math.trunc(((+records?.percentageEngineCompartment + +records?.percentageInCab + +records?.percentageVehicleExternal + +records?.percentageCoupling + +records?.percentageSuspension)/500)*100) > 40;
+  }
+  getBasicSkillsSum(records){
+    return((+records.pullUpsInput_slb + +records.encroachInput_slb < 3) && (records.goal_slb === 'true') && (records.finalPosition_slb === 'true')) &&
+    ((+records.pullUpsInput_ad + +records.encroachInput_ad < 3) && (records.goal_ad === 'true') && (records.finalPosition_ad === 'true'))  &&
+    ((+records.encroach_osb + +records.pullUps_osb < 3) && (records.goal_osb === 'true') && (records.finalPosition_osb === 'true')) &&
+    ((+records.pullUps_pb + +records.encroach_pb < 3) && (records.goal_pb === 'true') && (records.finalPosition_pb === 'true')) &&
+    ((+records.pullUps_ps + +records.encroach_ps < 3) && (records.goal_ps === 'true') && (records.finalPosition_ps === 'true')) &&
+    ((+records.pullUps_cou + +records.encroach_cou < 3) && (records.goal_cou === 'true') && (records.finalPosition_cou === 'true'));
+  }
+  getRoadSkillsSum(records){
+   return ((records.leftTurnsInput < 3) && (records.leftTurns === 'true')) &&
+          ((records.rightTurnsInput < 3) && (records.rightTurns === 'true'))  &&
+          ((records.intersectionStopInput < 3) && (records.intersectionStop === 'true')) &&
+          ((records.intersectionThruInput < 3) && (records.intersectionThru === 'true')) &&
+          ((records.interstateInput < 3) && (records.interstate === 'true')) &&
+          ((records.urbanBusinessInput < 3) && (records.urbanBusiness === 'true')) &&
+          ((records.lanceChangesInput < 3) && (records.lanceChanges === 'true')) &&
+          ((records.curveInput < 3) && (records.curve === 'true')) &&
+          ((records.roadsideInput < 3) && (records.roadside === 'true')) &&
+          ((records.rrCrossingInput < 3) && (records.rrCrossing === 'true')) &&
+          ((records.signsInput < 3) && (records.signs === 'true')) &&
+          ((records.eLogPracticalInput < 3) && (records.generalDriving === 'true')) &&
+          ((records.generalDrivingInput < 3) && (records.eLogPractical === 'true'));
+        }
 }

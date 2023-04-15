@@ -209,10 +209,15 @@ export class RoadSkillsPage implements OnInit {
     }
   }
   submit(){
-
-    console.log(this.roadTestForm.value);
     this.loadingSpinner.next(true);
 
+       // get check-in ID
+       this.getCheckInID();
+
+  }
+  submitData(){
+
+    console.log(this.roadTestForm.value);
       // Form Data
       var formData: FormData = new FormData();
       formData.append('roadTestForm',JSON.stringify(this.roadTestForm.value));
@@ -228,24 +233,18 @@ export class RoadSkillsPage implements OnInit {
             // passing record id
             this.training_record_id = res.id.record_id;
 
-            // getting check-in id
-            this.getCheckInID();
-
-          // this.loadingSpinner.next(false);
-
-          // this.toastService.presentToast(
-          //   'Your details have been submitted',
-          //   'success'
-          // );
-          // this.router.navigateByUrl('/tabs/home/training/trainer');
+            // create DWR
+            this.createDWR();
 
         } else {
           console.log('Something happened :)');
+    this.loadingSpinner.next(false);
           this.toastService.presentToast('Fill the required fields or try again', 'danger');
         }
       },
       (err) => {
         console.log('ERROR::', err);
+    this.loadingSpinner.next(false);
         this.toastService.presentToast('Fill the required fields or try again', 'danger');
       }
     );
@@ -258,8 +257,8 @@ export class RoadSkillsPage implements OnInit {
       this.active_check_in_id = workOrder.dwr[0].id;
       this.activeCheckInSpinner.next(false);
 
-       // creating DWR
-      this.createDWR();
+        // submit data
+        this.submitData();
     });
 
   }
@@ -285,9 +284,10 @@ export class RoadSkillsPage implements OnInit {
           );
 
           //  navigating
-           this.router.navigateByUrl('/tabs/home/training');
+           this.router.navigateByUrl('/tabs/home/training/trainer');
          } else {
            console.log('Something happened :)');
+           this.loadingSpinner.next(false);
            this.toastService.presentToast(res.mssage, 'danger');
          }
        },
@@ -301,6 +301,8 @@ export class RoadSkillsPage implements OnInit {
  }
   continue(){
     console.log(this.roadTestForm.value);
+    this.loadingSpinner.next(true);
+
     // Form Data
     var formData: FormData = new FormData();
     formData.append('roadTestForm',JSON.stringify(this.roadTestForm.value));
@@ -310,6 +312,11 @@ export class RoadSkillsPage implements OnInit {
         console.log('RES:', res);
 
         if (res.status === 200) {
+
+          // stop loader
+         this.loadingSpinner.next(false);
+
+         //tooltip
           this.toastService.presentToast(
             'Digital evaluation has been started',
             'success'
@@ -319,7 +326,7 @@ export class RoadSkillsPage implements OnInit {
           this.router.navigate(['/tabs/home/training/trainer/road-skills/evaluation-form'],{
             queryParams:{
               training_record_id: res.id.training_record_id,
-              supervisor_id: this.data?.supervisor_id? this.data.supervisor_id : this.roadTestForm.get('supervisor_id').value
+              supervisor_id: this.roadTestForm.get('supervisor_id').value
             }
           });
 

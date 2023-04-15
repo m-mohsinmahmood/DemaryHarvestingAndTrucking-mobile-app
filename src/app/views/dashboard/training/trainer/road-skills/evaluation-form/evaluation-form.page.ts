@@ -166,9 +166,15 @@ totalUnSatisfactory = 0;
 
     // });
   }
-endEvaluation(){
+  endEvaluation(){
+    this.loadingSpinner.next(true);
+
+      // get check-in ID
+      this.getCheckInID();
+
+  }
+submitData(){
   console.log(this.evaluationFrom.value);
-  this.loadingSpinner.next(true);
 
   // patching sat & un-sat results
   this.evaluationFrom.patchValue({
@@ -183,28 +189,20 @@ endEvaluation(){
         // spinner
         this.loadingSpinner.next(false);
 
-      // getting check-in id
-      this.getCheckInID();
-
-    //   // creating DWR
-    //  this.createDWR();
-
-        // // tooltip
-        // this.toastService.presentToast(
-        //   'Evaluation ended',
-        //   'success'
-        // );
-
-        // // navigating
-        // this.router.navigateByUrl('/tabs/home/training/trainer');
+        // create DWR
+        this.createDWR();
 
       } else {
         console.log('Something happened :)');
+        this.loadingSpinner.next(false);
+
         this.toastService.presentToast(res.mssage, 'danger');
       }
     },
     (err) => {
       console.log('ERROR::', err);
+      this.loadingSpinner.next(false);
+
       this.toastService.presentToast(err.mssage, 'danger');
     }
   );
@@ -217,8 +215,8 @@ getCheckInID(){
     this.active_check_in_id = workOrder.dwr[0].id;
     this.activeCheckInSpinner.next(false);
 
-      // creating DWR
-      this.createDWR();
+     // submit data
+     this.submitData();
   });
 
 }
@@ -229,6 +227,10 @@ createDWR(){
    .subscribe(
      (res) => {
        if (res.status === 200) {
+
+      // to stop loader
+      this.loadingSpinner.next(false);
+
         // tooltip
         this.toastService.presentToast(
           'Evaluation ended',
