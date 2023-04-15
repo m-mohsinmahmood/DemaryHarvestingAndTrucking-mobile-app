@@ -466,7 +466,7 @@ export class PreTripPage implements OnInit {
         this.allSupervisors = this.trainingService.getEmployees(
           this.supervisorSearchValue,
           'allEmployees',
-          'Trainee'
+          'employee'
         );
 
         // subscribing to show/hide  UL
@@ -503,7 +503,7 @@ export class PreTripPage implements OnInit {
     this.allSupervisors = this.trainingService.getEmployees(
       this.supervisorSearchValue,
       'allEmployees',
-      'Supervisor'
+      'employee'
     );
 
     // subscribing to show/hide field UL
