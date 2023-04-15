@@ -40,11 +40,11 @@ export class TrainingService {
   getEmployees(
     search: string = '',
     entity: string = '',
-    role: string = '',
+    entityType: string = '',
   ) {
     let params = new HttpParams();
     params = params.set('entity', entity);
-    params = params.set('role', role);
+    params = params.set('entityType', entityType);
     params = params.set('search', search);
     return this.httpClient
       .get<any>('api-1/dropdowns', {
