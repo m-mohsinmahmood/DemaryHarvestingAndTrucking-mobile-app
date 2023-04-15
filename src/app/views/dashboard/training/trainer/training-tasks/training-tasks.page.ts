@@ -300,7 +300,7 @@ submit(){
         this.allEmployees = this.trainingService.getEmployees(
           this.employeeSearchValue,
           'allEmployees',
-          'Supervisor'
+          'employee'
         );
 
         // subscribing to show/hide field UL
@@ -337,7 +337,7 @@ submit(){
     this.allEmployees = this.trainingService.getEmployees(
       this.employeeSearchValue,
       'allEmployees',
-      'Supervisor'
+      'employee'
     );
 
     // subscribing to show/hide field UL
