@@ -486,7 +486,7 @@
       <ion-text class="font-Lato text-sm text-9B9BA4">Total Time</ion-text>
       <ion-text class="font-Lato text-sm text-black font-semibold" *ngIf="(loading | async) === false">
         {{moment(records?.endDateBasicSkill).diff(records?.created_at,'hours')}}h:
-        {{moment(records?.endDateBasicSkill).diff(records?.created_at,'minutes')}}m:
+        {{moment(records?.endDateBasicSkill).diff(records?.created_at,'minutes')}}m
         <!-- {{moment(records?.endDateBasicSkill).diff(records?.created_at,'seconds')}}s -->
       </ion-text>
     </div>
@@ -606,7 +606,8 @@
    <!-- DIGITAL FORM -->
   <div class="mx-4" *ngIf="records?.evaluation_form === 'digital-form' && records?.evaluation_type === 'road-skills'">
     <div class="mt-2 border-b-2 py-2">
-      <ion-text class="font-Lato font-semibold">October 21st, 2020</ion-text>
+      <ion-text class="font-Lato font-semibold">{{moment(records.created_at).format('MMMM DD, YYYY')}}
+      </ion-text>
     </div>
     <div class="my-5 flex items-center justify-between">
       <ion-text class="font-Lato text-9B9BA4 text-sm">Trainer</ion-text>
