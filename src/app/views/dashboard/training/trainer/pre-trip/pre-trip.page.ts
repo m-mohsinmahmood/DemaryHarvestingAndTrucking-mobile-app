@@ -140,7 +140,7 @@ export class PreTripPage implements OnInit {
     this.traineeSearchSubscription();
 
     // supervisor subscription
-    this.traineeSearchSubscription();
+    this.supervisorSearchSubscription();
   }
 
 
@@ -463,10 +463,8 @@ export class PreTripPage implements OnInit {
         }
 
         // calling API
-        this.allSupervisors = this.trainingService.getEmployees(
-          this.supervisorSearchValue,
-          'allEmployees',
-          'employee'
+        this.allSupervisors = this.trainingService.getSupervisors(
+          this.supervisorSearchValue
         );
 
         // subscribing to show/hide  UL
@@ -500,10 +498,8 @@ export class PreTripPage implements OnInit {
         : this.supervisorSearchValue;
 
     // calling API
-    this.allSupervisors = this.trainingService.getEmployees(
+    this.allSupervisors = this.trainingService.getSupervisors(
       this.supervisorSearchValue,
-      'allEmployees',
-      'employee'
     );
 
     // subscribing to show/hide field UL
