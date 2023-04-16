@@ -76,10 +76,10 @@
 <div [ngClass]="'opacity-100 visible ease-in duration-200'"  role="dialog" aria-modal="true">
   <div [ngClass]="'opacity-100 visible scale-100 ease-in duration-200'" class="mb-4 relative z-20">
     <div class="mx-auto max-w-full transform rounded-xl px-0 transition-all">
-      <label class="block text-sm font-medium text-gray-700 mb-1">Supervisor <span
+      <label class="block text-sm font-medium text-gray-700 mb-1">Directors/CC/Dispatcher/Trainers <span
           *ngIf="isSupervisorSelected" class="text-red-400">*</span></label>
       <div class="flex items-center justify-between gap-x-2 rounded-md">
-        <input (keyup)="traineeSearch$.next($event.target.value)" (click)="inputClickedSupervisor()"
+        <input (keyup)="supervisorSearch$.next($event.target.value)" (click)="inputClickedSupervisor()"
           [value]="supervisor_name" #supervisorInput
           class="{{isFieldDisabled? 'pointer-events-none bg-gray-200 w-full px-4 py-2 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500': 'w-full px-4 py-2 text-gray-900 placeholder:text-sm rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500'}}"
           placeholder="Select Supervisor" role="" aria-expanded="false" aria-controls="options">

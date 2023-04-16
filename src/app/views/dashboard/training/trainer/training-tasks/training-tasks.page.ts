@@ -297,10 +297,8 @@ submit(){
         }
 
         // calling API
-        this.allEmployees = this.trainingService.getEmployees(
+        this.allEmployees = this.trainingService.getSupervisors(
           this.employeeSearchValue,
-          'allEmployees',
-          'employee'
         );
 
         // subscribing to show/hide field UL
@@ -334,10 +332,8 @@ submit(){
         : this.employeeSearchValue;
 
     // calling API
-    this.allEmployees = this.trainingService.getEmployees(
+    this.allEmployees = this.trainingService.getSupervisors(
       this.employeeSearchValue,
-      'allEmployees',
-      'employee'
     );
 
     // subscribing to show/hide field UL

@@ -165,10 +165,17 @@ export class TraineePage implements OnInit {
       }
     );
   }
-  submit() {
+  submit (){
+// start loader
+this.loadingSpinner.next(true);
+
+// get check-in ID
+this.getCheckInID();
+
+  }
+  submitData() {
     console.log(this.traineeForm.value);
-    // to start the loader
-    this.loadingSpinner.next(true);
+
     // Form Data
     var formData: FormData = new FormData();
     formData.append('traineeForm',JSON.stringify(this.traineeForm.value));
@@ -181,8 +188,8 @@ export class TraineePage implements OnInit {
       this.trainee_record_id  = res.id.record_id;
       if(res.status === 200){
 
-        //  // getting check-in id
-        //  this.getCheckInID();
+          // create DWR
+          this.createDWR();
 
       }else{
         console.log('Something happened :)');
@@ -296,8 +303,8 @@ export class TraineePage implements OnInit {
       this.active_check_in_id = workOrder.dwr[0].id;
       this.activeCheckInSpinner.next(false);
 
-       // creating DWR
-      this.createDWR();
+       // submit data
+      this.submitData();
     });
 
   }
