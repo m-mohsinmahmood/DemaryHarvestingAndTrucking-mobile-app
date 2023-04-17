@@ -53,11 +53,18 @@ export class HeaderComponent implements OnInit {
       this.router.navigateByUrl('/tabs/home');
     }
     else if(
-         this.location.path().includes('training/trainer/pre-trip/digital-form') ||
         this.location.path().includes('training/trainer/road-skills/evaluation-form') ||
         this.location.path().includes('training/trainer/basic-skills/digital-evaluation')
         ){
-      this.location.historyGo(-2);
+      // this.location.historyGo(-2);
+      this.router.navigateByUrl('/tabs/home/training/trainer/basic-skills')
+
+    }
+    else if(
+         this.location.path().includes('training/trainer/pre-trip/digital-form')
+        ){
+      // this.location.historyGo(-1);
+      this.router.navigateByUrl('/tabs/home/training/trainer/basic-skills')
     }
     else if(this.routeValue === 'pre-trip' || this.routeValue === 'basic-skills'){
       this.router.navigateByUrl('/tabs/home/training/trainer');

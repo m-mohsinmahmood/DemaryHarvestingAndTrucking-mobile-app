@@ -81,13 +81,17 @@
 
         <div class="col-span-12 mb-4" *ngIf="(loading | async)=== false">
           <label class="block text-sm font-medium text-gray-500">State</label>
-          <ion-select
-          [value]="profileData.state"
-           disabled
+          <!-- <ion-select
+          [value]="'kkkkkkkk'"
+           formControlName="state"
             class="mt-1 w-full rounded-md text-gray-600 border bg-gray-300 border-gray-300 py-2 px-3 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-             placeholder="Select State">
+             >
             <ion-select-option *ngFor="let state of states" [value]="state">{{state}}</ion-select-option>
-          </ion-select>
+          </ion-select> -->
+          <ion-select
+          class="mt-1 w-full rounded-md text-gray-600 border bg-gray-300 border-gray-300 py-2 px-3 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"      formControlName="state" [disabled]="true" placeholder="Select State">
+      <ion-select-option *ngFor="let state of states" [value]="state">{{state}}</ion-select-option>
+    </ion-select>
         </div>
         <div class="col-span-12 mb-4" *ngIf="(loading | async)=== true">
           <label class="block text-sm font-medium text-gray-700">State

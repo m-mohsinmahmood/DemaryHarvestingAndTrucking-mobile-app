@@ -20,6 +20,7 @@ export class CouplingPage implements OnInit {
   isModalOpen = false;
     trainer_id;
     supervisor_id;
+    preTripFormData;
     public loadingSpinner = new BehaviorSubject(false);
 
   constructor(private formBuilder: FormBuilder,
@@ -128,6 +129,42 @@ export class CouplingPage implements OnInit {
   }
   getRoleAndID(){
     this.trainer_id = localStorage.getItem('employeeId');
+  }
+  getRecordById(){
+    this.trainingService.getRecordById(this.training_record_id)
+    .subscribe((res)=>{
+      console.log('RESPONSE:',res);
+
+        this.preTripFormData= res[0];
+
+        this.patchForm();
+
+    },(err)=>{
+      console.log('Something happened :)');
+      this.toastService.presentToast(err.mssage, 'danger');
+    });
+  }
+  patchForm(){
+    this.preTripForm.patchValue({
+      airConditioners: this.preTripFormData.airConditioners,
+      electricConnectors: this.preTripFormData.electricConnectors,
+      mountingBolts: this.preTripFormData.mountingBolts,
+      platformBase: this.preTripFormData.platformBase,
+      lockingJaws: this.preTripFormData.lockingJaws,
+      grease: this.preTripFormData.grease,
+      releaseArm: this.preTripFormData.releaseArm,
+      skidPlate: this.preTripFormData.skidPlate,
+      slidingPins: this.preTripFormData.slidingPins,
+      kingPin: this.preTripFormData.kingPin,
+      apron: this.preTripFormData.apron,
+      gap: this.preTripFormData.gap,
+      airLine: this.preTripFormData.airLine,
+      location: this.preTripFormData.location,
+      safetyDevices: this.preTripFormData.safetyDevices,
+      print: this.preTripFormData.print,
+      drawBar: this.preTripFormData.drawBar,
+      commentsCoupling:this.preTripFormData.commentsCoupling
+    });
   }
   next(){
     this.isModalOpen = true;

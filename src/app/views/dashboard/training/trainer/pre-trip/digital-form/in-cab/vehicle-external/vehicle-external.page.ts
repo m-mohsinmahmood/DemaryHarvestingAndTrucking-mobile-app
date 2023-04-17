@@ -20,7 +20,8 @@ export class VehicleExternalPage implements OnInit {
   isModalOpen = false;
 
     trainer_id;
-    supervisor_id
+    supervisor_id;
+    preTripFormData;
  public loadingSpinner = new BehaviorSubject(false);
 
 
@@ -42,8 +43,8 @@ export class VehicleExternalPage implements OnInit {
     this.route.queryParams.subscribe((params)=>{
       this.training_record_id = params.training_record_id;
       this.supervisor_id = params.supervisor_id;
-
     });
+    this.getRecordById();
   }
   initForm(){
     this.preTripForm = this.formBuilder.group({
@@ -134,7 +135,43 @@ export class VehicleExternalPage implements OnInit {
   getRoleAndID(){
     this.trainer_id = localStorage.getItem('employeeId');
   }
+  getRecordById(){
+    this.trainingService.getRecordById(this.training_record_id)
+    .subscribe((res)=>{
+      console.log('RESPONSE:',res);
 
+        this.preTripFormData= res[0];
+
+        this.patchForm();
+
+    },(err)=>{
+      console.log('Something happened :)');
+      this.toastService.presentToast(err.mssage, 'danger');
+    });
+  }
+  patchForm(){
+    this.preTripForm.patchValue({
+      lightFunctionVehicle: this.preTripFormData.lightFunctionVehicle,
+      lensReflector: this.preTripFormData.lensReflector,
+      door: this.preTripFormData.door,
+      fuelTank: this.preTripFormData.fuelTank,
+      leaks: this.preTripFormData.leaks,
+      steps: this.preTripFormData.steps,
+      frame: this.preTripFormData.frame,
+      driveShaft: this.preTripFormData.driveShaft,
+      tires: this.preTripFormData.tires,
+      rims: this.preTripFormData.rims,
+      lugNuts: this.preTripFormData.lugNuts,
+      axelHubSeal: this.preTripFormData.axelHubSeal,
+      bidSpacers: this.preTripFormData.bidSpacers,
+      batteryBox: this.preTripFormData.batteryBox,
+      exhaust: this.preTripFormData.exhaust,
+      headerBvd: this.preTripFormData.headerBvd,
+      landingGear: this.preTripFormData.landingGear,
+      commentsVehicle: this.preTripFormData.commentsVehicle,
+
+    });
+  }
   next(){
     this.isModalOpen = true;
   }

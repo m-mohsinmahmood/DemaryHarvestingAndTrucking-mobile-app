@@ -22,12 +22,11 @@ export class OffSetBackingPage implements OnInit {
   totalUnSatisfactory = 0;
   trainer_id;
   supervisor_id;
-    math = Math;
+  math = Math;
   training_record_id: any;
   training_record: any;
   checkValue: any;
   isModalOpen = false;
-
 
   public loadingSpinner = new BehaviorSubject(false);
 
@@ -72,6 +71,8 @@ export class OffSetBackingPage implements OnInit {
         straightLineBakingInput_osb: [''],
         alleyDocking_osb: [''],
         alleyDockingInput_osb: [''],
+        alleyDocking90_osb: [''],
+        alleyDockingInput90_osb: [''],
         offSetBacking_osb: [''],
         offSetBackingInput_osb: [''],
         parallelParkingBlind_osb: [''],
@@ -89,7 +90,6 @@ export class OffSetBackingPage implements OnInit {
         // for input fields
         sum = +value.pullUps_osb +value.encroach_osb + +sum;
         this.totalSatisfactory = sum;
-
          // for checkboxes
          if(value.goal_osb === 'true'){
           this.checkValue = (value.goal_osb === 'true' && value.finalPosition_osb === 'true' && (+value.pullUps_osb +value.encroach_osb  <= 2) === true? 'true': 'false');
@@ -173,6 +173,8 @@ export class OffSetBackingPage implements OnInit {
             straightLineBakingInput_osb: +this.training_record.pullUpsInput_slb + +this.training_record.encroachInput_slb,
             alleyDocking_osb: (+this.training_record.pullUpsInput_ad + +this.training_record.encroachInput_ad < 3) && (this.training_record.goal_ad === 'true') && (this.training_record.finalPosition_ad === 'true') === true? 'true': 'false',
             alleyDockingInput_osb: +this.training_record.pullUpsInput_ad + +this.training_record.encroachInput_ad,
+            alleyDocking90_osb: (+this.training_record.pullUpsInput_ad90 + +this.training_record.encroachInput_ad90 < 3) && (this.training_record.goal_ad90 === 'true') && (this.training_record.finalPosition_ad90 === 'true') === true? 'true': 'false',
+            alleyDockingInput90_osb: +this.training_record.pullUpsInput_ad90 + +this.training_record.encroachInput_ad90,
           });
         });
     }

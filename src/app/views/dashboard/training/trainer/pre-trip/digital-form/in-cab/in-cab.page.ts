@@ -21,6 +21,7 @@ export class InCabPage implements OnInit {
 
   trainer_id;
   supervisor_id;
+  preTripFormData;
  public loadingSpinner = new BehaviorSubject(false);
   constructor(
     private formBuilder: FormBuilder,
@@ -42,6 +43,9 @@ export class InCabPage implements OnInit {
       this.supervisor_id = params.supervisor_id;
 
     });
+
+    this.getRecordById();
+
   }
   initForm(){
     this.preTripForm = this.formBuilder.group({
@@ -134,7 +138,43 @@ export class InCabPage implements OnInit {
   }
   getRoleAndID(){
     this.trainer_id = localStorage.getItem('employeeId');
+  }
+  getRecordById(){
+    this.trainingService.getRecordById(this.training_record_id)
+    .subscribe((res)=>{
+      console.log('RESPONSE:',res);
 
+        this.preTripFormData= res[0];
+
+        this.patchForm();
+
+    },(err)=>{
+      console.log('Something happened :)');
+      this.toastService.presentToast(err.mssage, 'danger');
+    });
+  }
+  patchForm(){
+    this.preTripForm.patchValue({
+      safetyBelt: this.preTripFormData.safetyBelt,
+      coolantLevelCab: this.preTripFormData.coolantLevelCab,
+      emergencyEquipment: this.preTripFormData.emergencyEquipment,
+      safeStart: this.preTripFormData.safeStart,
+      temperatureGauge: this.preTripFormData.temperatureGauge,
+      oilPressure: this.preTripFormData.oilPressure,
+      voltMeter: this.preTripFormData.voltMeter,
+      airGaugeBuCo: this.preTripFormData.airGaugeBuCo,
+      indicators: this.preTripFormData.indicators,
+      horns: this.preTripFormData.horns,
+      defroster: this.preTripFormData.defroster,
+      windshield: this.preTripFormData.windshield,
+      wipersWash: this.preTripFormData.wipersWash,
+      parkBrake: this.preTripFormData.parkBrake,
+      svcBrake: this.preTripFormData.svcBrake,
+      leakTest: this.preTripFormData.leakTest,
+      abcLights: this.preTripFormData.abcLights,
+      lightFunction: this.preTripFormData.lightFunction,
+      commentsCab: this.preTripFormData.commentsCab,
+    });
   }
   next(){
     this.isModalOpen = true;

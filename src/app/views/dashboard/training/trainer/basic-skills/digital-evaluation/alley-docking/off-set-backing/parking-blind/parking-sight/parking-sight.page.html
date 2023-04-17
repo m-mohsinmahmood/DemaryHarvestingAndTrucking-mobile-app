@@ -144,7 +144,7 @@
         </div>
         <div class="border-b-4 py-4 pointer-events-none">
           <div class="flex flex-col justify-center">
-            <ion-text class="font-Lato font-semibold">Alley Docking (45/90)</ion-text>
+            <ion-text class="font-Lato font-semibold">Alley Docking (45)</ion-text>
             <div class="flex justify-between items-center mt-3">
               <ion-radio-group formControlName="alleyDocking_ps"
                 class="radio flex justify-center items-center">
@@ -162,6 +162,33 @@
                   <ion-input placeholder="Enter Value" type="number" formControlName="alleyDockingInput_ps"></ion-input>
                 </div>
                 <ion-text *ngIf="this.basicSkillForm.get('alleyDockingInput_ps').hasError('pattern')"
+                class=" text-sm text-red-500">
+                Enter between 1-5
+              </ion-text>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="border-b-4 py-4 pointer-events-none">
+          <div class="flex flex-col justify-center">
+            <ion-text class="font-Lato font-semibold">Alley Docking (90)</ion-text>
+            <div class="flex justify-between items-center mt-3">
+              <ion-radio-group formControlName="alleyDocking90_ps"
+                class="radio flex justify-center items-center">
+                <div class="flex justify-center items-center  mr-2">
+                  <ion-radio mode="md" value="true"></ion-radio>
+                  <ion-label class="font-Lato ml-1 text-sm">Satisfactory</ion-label>
+                </div>
+                <div class="flex justify-center items-center">
+                  <ion-radio mode="md" class="unsatisfactory" value="false"></ion-radio>
+                  <ion-label class="font-Lato ml-1 text-sm">Unsatisfactory</ion-label>
+                </div>
+              </ion-radio-group>
+              <div class="flex-col">
+                <div class="flex justify-center items-center w-28 border-2  rounded-lg px-2">
+                  <ion-input placeholder="Enter Value" type="number" formControlName="alleyDockingInput90_ps"></ion-input>
+                </div>
+                <ion-text *ngIf="this.basicSkillForm.get('alleyDockingInput90_ps').hasError('pattern')"
                 class=" text-sm text-red-500">
                 Enter between 1-5
               </ion-text>

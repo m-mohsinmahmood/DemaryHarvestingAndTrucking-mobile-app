@@ -103,6 +103,7 @@ export class TraineePage implements OnInit {
       image_1: [''],
       image_2: [''],
       image_3: [''],
+      dwr_id:['']
     });
   }
 
@@ -302,6 +303,11 @@ this.getCheckInID();
       this.activeCheckInSpinner.next(true);
       this.active_check_in_id = workOrder.dwr[0].id;
       this.activeCheckInSpinner.next(false);
+
+      // patch
+      this.traineeForm.patchValue({
+        dwr_id: this.active_check_in_id
+      });
 
        // submit data
       this.submitData();

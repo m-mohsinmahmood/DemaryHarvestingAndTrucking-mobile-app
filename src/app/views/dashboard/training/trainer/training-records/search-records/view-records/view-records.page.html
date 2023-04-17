@@ -508,10 +508,16 @@
       </ion-row>
 
       <ion-row class="my-4">
-        <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Alley Docking (45/90)</ion-text></ion-col>
+        <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Alley Docking (45)</ion-text></ion-col>
         <ion-col *ngIf="(+records.pullUpsInput_ad + +records.encroachInput_ad < 3) && (records.goal_ad === 'true') && (records.finalPosition_ad === 'true')" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
         <ion-col *ngIf="!((+records.pullUpsInput_ad + +records.encroachInput_ad < 3) && (records.goal_ad === 'true') && (records.finalPosition_ad === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
         <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{+records.pullUpsInput_ad + +records.encroachInput_ad}}</ion-text></ion-col>
+      </ion-row>
+      <ion-row class="my-4">
+        <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Alley Docking (90)</ion-text></ion-col>
+        <ion-col *ngIf="(+records.pullUpsInput_ad90 + +records.encroachInput_ad90 < 3) && (records.goal_ad90 === 'true') && (records.finalPosition_ad90 === 'true')" size="5" class="ion-text-start"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
+        <ion-col *ngIf="!((+records.pullUpsInput_ad90 + +records.encroachInput_ad90 < 3) && (records.goal_ad90 === 'true') && (records.finalPosition_ad90 === 'true'))" size="5" class="ion-text-start"><ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text></ion-col>
+        <ion-col size="1" class="ion-text-center"><ion-text class="font-Lato font-semibold">{{+records.pullUpsInput_ad90 + +records.encroachInput_ad90}}</ion-text></ion-col>
       </ion-row>
       <ion-row class="my-4">
         <ion-col size="6" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">Off Set Backing</ion-text></ion-col>

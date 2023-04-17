@@ -134,6 +134,7 @@ export class PreTripPage implements OnInit {
       image_1: [''],
       image_2: [''],
       image_3: [''],
+      dwr_id:['']
     });
 
     // trainee subscription
@@ -256,8 +257,17 @@ export class PreTripPage implements OnInit {
       this.active_check_in_id = workOrder.dwr[0].id;
       this.activeCheckInSpinner.next(false);
 
-      // submit data
-      this.submitData();
+      // patch
+      this.preTrip.patchValue({
+        dwr_id: this.active_check_in_id
+      });
+
+
+      if(this.preTrip.get('evaluation_form').value === 'paper-form'){
+        this.submitData();
+      }else{
+        this.startEvaluation();
+      }
     });
 
   }
@@ -297,10 +307,14 @@ export class PreTripPage implements OnInit {
        }
      );
  }
-  continue() {
-    console.log(this.preTrip.value);
-        this.loadingSpinner.next(true);
+ continue(){
+    // start loader
+    this.loadingSpinner.next(true);
 
+    // get check-in ID
+    this.getCheckInID();
+ }
+ startEvaluation() {
          // Form Data
         var formData: FormData = new FormData();
         formData.append('preTrip',JSON.stringify(this.preTrip.value));
@@ -327,6 +341,8 @@ export class PreTripPage implements OnInit {
         } else {
           console.log('Something happened :)');
           this.toastService.presentToast(res.mssage, 'danger');
+        this.loadingSpinner.next(false);
+
         }
       },
       (err) => {

@@ -11,6 +11,7 @@ import { ToastService } from 'src/app/services/toast/toast.service';
 import { states } from 'src/JSON/state';
 import { TrainingService } from '../../training.service';
 import { CheckInOutService } from 'src/app/components/check-in-out/check-in-out.service';
+import { BasicSkillsPage } from './../basic-skills/basic-skills.page';
 
 @Component({
   selector: 'app-road-skills',
@@ -147,6 +148,7 @@ export class RoadSkillsPage implements OnInit {
       image_1: [''],
       image_2: [''],
       image_3: [''],
+      dwr_id:['']
     });
   }
   onSelectedFiles(file, name) {
@@ -257,8 +259,16 @@ export class RoadSkillsPage implements OnInit {
       this.active_check_in_id = workOrder.dwr[0].id;
       this.activeCheckInSpinner.next(false);
 
-        // submit data
+      // patch
+      this.roadTestForm.patchValue({
+        dwr_id: this.active_check_in_id
+      });
+
+      if(this.roadTestForm.get('evaluation_form').value === 'paper-form'){
         this.submitData();
+      }else{
+        this.startEvaluation();
+      }
     });
 
   }
@@ -299,7 +309,14 @@ export class RoadSkillsPage implements OnInit {
        }
      );
  }
-  continue(){
+ continue(){
+    // start loader
+    this.loadingSpinner.next(true);
+
+    // get check-in ID
+    this.getCheckInID();
+ }
+ startEvaluation(){
     console.log(this.roadTestForm.value);
     this.loadingSpinner.next(true);
 
@@ -341,6 +358,7 @@ export class RoadSkillsPage implements OnInit {
       }
     );
   }
+
   getTrainer() {
     this.trainingService.getTrainerById(this.trainer_id).subscribe((res) => {
       this.loading.next(true);

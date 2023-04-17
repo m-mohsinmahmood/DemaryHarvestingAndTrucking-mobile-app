@@ -210,6 +210,7 @@ export class ViewRecordsPage implements OnInit {
   getBasicSkillsSum(records){
     return((+records.pullUpsInput_slb + +records.encroachInput_slb < 3) && (records.goal_slb === 'true') && (records.finalPosition_slb === 'true')) &&
     ((+records.pullUpsInput_ad + +records.encroachInput_ad < 3) && (records.goal_ad === 'true') && (records.finalPosition_ad === 'true'))  &&
+    ((+records.pullUpsInput_ad90 + +records.encroachInput_ad90 < 3) && (records.goal_ad90 === 'true') && (records.finalPosition_ad90 === 'true'))  &&
     ((+records.encroach_osb + +records.pullUps_osb < 3) && (records.goal_osb === 'true') && (records.finalPosition_osb === 'true')) &&
     ((+records.pullUps_pb + +records.encroach_pb < 3) && (records.goal_pb === 'true') && (records.finalPosition_pb === 'true')) &&
     ((+records.pullUps_ps + +records.encroach_ps < 3) && (records.goal_ps === 'true') && (records.finalPosition_ps === 'true')) &&

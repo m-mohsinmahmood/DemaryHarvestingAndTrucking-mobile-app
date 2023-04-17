@@ -22,6 +22,7 @@ export class DigitalFormPage implements OnInit {
   isModalOpen = false;
    // trainer id
  trainer_id;
+ preTripFormData;
  public loadingSpinner = new BehaviorSubject(false);
 
   constructor(private formBuilder: FormBuilder,
@@ -43,6 +44,9 @@ export class DigitalFormPage implements OnInit {
       this.training_record_id = params.training_record_id;
       this.supervisor_id = params.supervisor_id;
     });
+
+    this.getRecordById();
+
   }
   initForm(){
     this.preTripForm = this.formBuilder.group({
@@ -123,9 +127,7 @@ export class DigitalFormPage implements OnInit {
         sum = 1 + sum;
       }
 
-      console.log('total:',sum);
        this.result = Math.round((sum / 17) * 100);
-      console.log('Percentage:',this.result);
     });
   }
   async ionViewDidEnter() {
@@ -134,6 +136,42 @@ export class DigitalFormPage implements OnInit {
   getRoleAndID(){
     this.trainer_id = localStorage.getItem('employeeId');
 
+  }
+  getRecordById(){
+    this.trainingService.getRecordById(this.training_record_id)
+    .subscribe((res)=>{
+      console.log('RESPONSE:',res);
+
+        this.preTripFormData= res[0];
+
+        this.patchForm();
+
+    },(err)=>{
+      console.log('Something happened :)');
+      this.toastService.presentToast(err.mssage, 'danger');
+    });
+  }
+  patchForm(){
+    this.preTripForm.patchValue({
+      oilLevel: this.preTripFormData.oilLevel,
+      coolantLevelEngine: this.preTripFormData.coolantLevelEngine,
+      powerSteelingLevel: this.preTripFormData.powerSteelingLevel,
+      h20: this.preTripFormData.h20,
+      alternatorBelt: this.preTripFormData.alternatorBelt,
+      airCompresseorEngine: this.preTripFormData.airCompresseorEngine,
+      leaksHoses: this.preTripFormData.leaksHoses,
+      fanShroud: this.preTripFormData.fanShroud,
+      radiator: this.preTripFormData.radiator,
+      wiring: this.preTripFormData.wiring,
+      steeringBox: this.preTripFormData.steeringBox,
+      steeringLinkage: this.preTripFormData.steeringLinkage,
+      hosesSteering: this.preTripFormData.hosesSteering,
+      turbo: this.preTripFormData.turbo,
+      windowFluid: this.preTripFormData.windowFluid,
+      mirror: this.preTripFormData.mirror,
+      clutchCondition: this.preTripFormData.clutchCondition,
+      commentsEngine: this.preTripFormData.commentsEngine
+    });
   }
   next(){
     this.isModalOpen = true;

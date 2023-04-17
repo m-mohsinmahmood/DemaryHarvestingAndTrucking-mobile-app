@@ -158,6 +158,7 @@ export class BasicSkillsPage implements OnInit {
       image_1: [''],
       image_2: [''],
       image_3: [''],
+      dwr_id:['']
     });
   }
   onSelectedFiles(file, name) {
@@ -271,7 +272,14 @@ export class BasicSkillsPage implements OnInit {
     );
   }
   continue(){
+    // start loader
     this.loadingSpinner.next(true);
+
+    // get check-in ID
+    this.getCheckInID();
+
+  }
+  startEvaluation(){
 
     // Form Data
     var formData: FormData = new FormData();
@@ -335,8 +343,16 @@ export class BasicSkillsPage implements OnInit {
       this.active_check_in_id = workOrder.dwr[0].id;
       this.activeCheckInSpinner.next(false);
 
-      // submit data
-      this.submitData();
+       // patch
+       this.basicSkillForm.patchValue({
+        dwr_id: this.active_check_in_id
+      });
+
+      if(this.basicSkillForm.get('evaluation_form').value === 'paper-form'){
+        this.submitData();
+      }else{
+        this.startEvaluation();
+      }
     });
 
   }
@@ -658,6 +674,7 @@ export class BasicSkillsPage implements OnInit {
       this.data.is_digital_form_started &&
       !this.data.is_straight_line_backing_started &&
       !this.data.is_alley_backing_started &&
+      !this.data.is_alley_backing90_started &&
       !this.data.is_off_set_backing_started &&
       !this.data.is_parking_blind_started &&
       !this.data.is_parking_sight_started &&
@@ -676,6 +693,7 @@ export class BasicSkillsPage implements OnInit {
       this.data.is_digital_form_started &&
       this.data.is_straight_line_backing_started &&
       !this.data.is_alley_backing_started &&
+      !this.data.is_alley_backing90_started &&
       !this.data.is_off_set_backing_started &&
       !this.data.is_parking_blind_started &&
       !this.data.is_parking_sight_started &&
@@ -689,11 +707,31 @@ export class BasicSkillsPage implements OnInit {
         }
       });
     }
+    // Alley Docking 99
+    else if (
+      this.data.is_digital_form_started &&
+      this.data.is_straight_line_backing_started &&
+      this.data.is_alley_backing_started &&
+      !this.data.is_alley_backing90_started &&
+      !this.data.is_off_set_backing_started &&
+      !this.data.is_parking_blind_started &&
+      !this.data.is_parking_sight_started &&
+      !this.data.is_coup_uncoup_started
+    ) {
+      this.router.navigate(['/tabs/home/training/trainer/basic-skills/digital-evaluation/alley-docking/alley-docking90'],{
+        queryParams:{
+          training_record_id: this.data.id,
+          supervisor_id: this.data.supervisor_id,
+
+        }
+      });
+    }
     // Off Set Backing
     else if (
       this.data.is_digital_form_started &&
       this.data.is_straight_line_backing_started &&
       this.data.is_alley_backing_started &&
+      this.data.is_alley_backing90_started &&
       !this.data.is_off_set_backing_started &&
       !this.data.is_parking_blind_started &&
       !this.data.is_parking_sight_started &&
@@ -712,6 +750,7 @@ export class BasicSkillsPage implements OnInit {
       this.data.is_digital_form_started &&
       this.data.is_straight_line_backing_started &&
       this.data.is_alley_backing_started &&
+      this.data.is_alley_backing90_started &&
       this.data.is_off_set_backing_started &&
       !this.data.is_parking_blind_started &&
       !this.data.is_parking_sight_started &&
@@ -730,6 +769,7 @@ export class BasicSkillsPage implements OnInit {
       this.data.is_digital_form_started &&
       this.data.is_straight_line_backing_started &&
       this.data.is_alley_backing_started &&
+      this.data.is_alley_backing90_started &&
       this.data.is_off_set_backing_started &&
       this.data.is_parking_blind_started &&
       !this.data.is_parking_sight_started &&
@@ -748,6 +788,7 @@ export class BasicSkillsPage implements OnInit {
       this.data.is_digital_form_started &&
       this.data.is_straight_line_backing_started &&
       this.data.is_alley_backing_started &&
+      this.data.is_alley_backing90_started &&
       this.data.is_off_set_backing_started &&
       this.data.is_parking_blind_started &&
       this.data.is_parking_sight_started &&
