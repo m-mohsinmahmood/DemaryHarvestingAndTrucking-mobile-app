@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable max-len */
 import { Component, Input, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
@@ -13,7 +14,10 @@ export class HeaderComponent implements OnInit {
   @Input() title: any;
   @Input() color: any;
   @Input() routeValue: any;
-   previousUrl: string;
+  @Input() training_record_id: any;
+  @Input() supervisor_id: any;
+
+  //  previousUrl: string;
    routeString: string;
    private previousURL: string;
    private currentURL: string;
@@ -24,12 +28,9 @@ export class HeaderComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
      ) {
-      console.log('CHECK:',this.router.getCurrentNavigation()?.previousNavigation?.finalUrl?.toString());
-      this.previousUrl = this.router.getCurrentNavigation()?.previousNavigation?.finalUrl?.toString();
-      const previousRoute = this.activatedRoute.snapshot.data.previousRoute;
-
     }
   ngOnInit() {
+
   }
 
 
@@ -56,18 +57,42 @@ export class HeaderComponent implements OnInit {
         this.location.path().includes('training/trainer/road-skills/evaluation-form') ||
         this.location.path().includes('training/trainer/basic-skills/digital-evaluation')
         ){
-      // this.location.historyGo(-2);
-      this.router.navigateByUrl('/tabs/home/training/trainer/basic-skills')
+      this.router.navigateByUrl('/tabs/home/training/trainer/basic-skills');
 
     }
-    else if(
-         this.location.path().includes('training/trainer/pre-trip/digital-form')
-        ){
-      // this.location.historyGo(-1);
-      this.router.navigateByUrl('/tabs/home/training/trainer/basic-skills')
+
+    else if(this.routeValue === 'engine-compartment'){
+      this.router.navigateByUrl('/tabs/home/training/trainer/pre-trip');
     }
+    else if(this.routeValue === 'in-cab'){
+  this.router.navigate([ '/tabs/home/training/trainer/pre-trip/digital-form'],{
+    queryParams:{
+      training_record_id: this.training_record_id,
+      supervisor_id: this.supervisor_id
+    }
+  });
+ }
+ else if(this.routeValue === 'vehicle-external'){
+  this.router.navigate([ '/tabs/home/training/trainer/pre-trip/digital-form/in-cab/'],{
+    queryParams:{
+      training_record_id: this.training_record_id,
+      supervisor_id: this.supervisor_id
+    }
+  });
+ }
+ else if(this.routeValue === 'coupling'){
+  this.router.navigate([ '/tabs/home/training/trainer/pre-trip/digital-form/in-cab/vehicle-external'],{
+    queryParams:{
+      training_record_id: this.training_record_id,
+      supervisor_id: this.supervisor_id
+    }
+  });
+ }
+ else if(this.routeValue === 'basic-skills'){
+  this.location.back();
+}
     else if(this.routeValue === 'pre-trip' || this.routeValue === 'basic-skills'){
-      this.router.navigateByUrl('/tabs/home/training/trainer');
+      this.location.back();
     }
     else if(this.routeValue === 'view-records' || this.routeValue === 'search-records'){
       this.location.back();

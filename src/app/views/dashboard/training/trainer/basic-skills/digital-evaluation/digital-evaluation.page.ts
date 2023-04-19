@@ -16,7 +16,7 @@ export class DigitalEvaluationPage implements OnInit {
   basicSkillForm: FormGroup;
   value;
   buffer = 1;
-  progress = 0;
+  progress = 0.1428571428571429;
   text=0;
   feedbackValue: any;
 

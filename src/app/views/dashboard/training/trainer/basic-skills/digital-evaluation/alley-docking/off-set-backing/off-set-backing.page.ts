@@ -15,7 +15,7 @@ import { TrainingService } from 'src/app/views/dashboard/training/training.servi
 export class OffSetBackingPage implements OnInit {
 
   buffer = 1;
-  progress = 0.3333333333333334;
+  progress = 0.4285714285714287;
   feedbackValue: any;
   basicSkillForm: FormGroup;
   totalSatisfactory = 0;

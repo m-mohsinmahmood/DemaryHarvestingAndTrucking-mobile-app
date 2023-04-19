@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -5,6 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { ToastService } from 'src/app/services/toast/toast.service';
 import { TrainingService } from 'src/app/views/dashboard/training/training.service';
+import { CheckInOutService } from 'src/app/components/check-in-out/check-in-out.service';
 
 @Component({
   selector: 'app-coupling',
@@ -14,20 +16,25 @@ import { TrainingService } from 'src/app/views/dashboard/training/training.servi
 export class CouplingPage implements OnInit {
   preTripForm: FormGroup;
   buffer = 1;
-  progress = 0.6;
+  progress = 0.75;
   result: any = 0;
   training_record_id: any;
   isModalOpen = false;
     trainer_id;
     supervisor_id;
     preTripFormData;
+  active_check_in_id: any;
+
     public loadingSpinner = new BehaviorSubject(false);
+  public activeCheckInSpinner = new BehaviorSubject(false);
+
 
   constructor(private formBuilder: FormBuilder,
     private router:  Router,
     private trainingService: TrainingService,
     private toastService: ToastService,
     private route: ActivatedRoute,
+    private dwrServices: CheckInOutService
     ) { }
 
   ngOnInit() {
@@ -44,84 +51,66 @@ export class CouplingPage implements OnInit {
   initForm(){
     this.preTripForm = this.formBuilder.group({
       //Coupling
-      airConditioners: [false,[Validators.required]],
-      electricConnectors: [false,[Validators.required]],
-      mountingBolts: [false,[Validators.required]],
-      platformBase: [false,[Validators.required]],
-      lockingJaws: [false,[Validators.required]],
-      grease: [false,[Validators.required]],
-      releaseArm: [false,[Validators.required]],
-      skidPlate: [false,[Validators.required]],
-      slidingPins: [false,[Validators.required]],
-      kingPin: [false,[Validators.required]],
-      apron: [false,[Validators.required]],
-      gap: [false,[Validators.required]],
-      airLine: [false,[Validators.required]],
-      location: [false,[Validators.required]],
-      safetyDevices: [false,[Validators.required]],
-      print: [false,[Validators.required]],
-      drawBar: [false,[Validators.required]],
-      commentsCoupling: ['',[Validators.required]],
-      category:['coupling'],
-      percentageCoupling:[],
-   trainer_id:[this.trainer_id]
+
+  air_electrical_lines: [false,[Validators.required]],
+  glad_hands: [false,[Validators.required]],
+  clearence_lights: [false,[Validators.required]],
+  reflector_tape: [false,[Validators.required]],
+  chain_strap_attachment_bar: [false,[Validators.required]],
+  landing_gear: [false,[Validators.required]],
+  cargo_box: [false,[Validators.required]],
+  abs_lights: [false,[Validators.required]],
+  mud_flaps: [false,[Validators.required]],
+  // lights: [false,[Validators.required]],
+  docking_impact_frame: [false,[Validators.required]],
+  license_plate: [false,[Validators.required]],
+  commentsCoupling: ['',[Validators.required]],
+  category:['coupling'],
+  percentageCoupling:[],
+trainer_id:[this.trainer_id]
 
  });
  this.preTripForm.valueChanges.subscribe((value)=>{
    let sum = 0;
-   if(value.airConditioners){
+   if(value.air_electrical_lines){
      sum = 1 + sum;
    }
-   if(value.electricConnectors){
+   if(value.glad_hands){
      sum = 1 + sum;
    }
-   if(value.mountingBolts){
+   if(value.clearence_lights){
      sum = 1 + sum;
    }
-   if(value.platformBase){
-     sum = 1 + sum;
-   }
-   if(value.lockingJaws){
-     sum = 1 + sum;
-   }
-   if(value.grease){
-     sum = 1 + sum;
-   }
-   if(value.releaseArm){
-     sum = 1 + sum;
-   }
-   if(value.skidPlate){
-     sum = 1 + sum;
-   }
-   if(value.slidingPins){
-     sum = 1 + sum;
-   }
-   if(value.kingPin){
-     sum = 1 + sum;
-   }
-    if(value.apron){
-     sum = 1 + sum;
-   }
-    if(value.gap){
-     sum = 1 + sum;
-   }
-   if(value.airLine){
-     sum = 1 + sum;
-   }
-   if(value.location){
-     sum = 1 + sum;
-   }
-   if(value.safetyDevices){
-     sum = 1 + sum;
-   }
-   if(value.print){
-     sum = 1 + sum;
-   }
-   if(value.drawBar){
-     sum = 1 + sum;
-   }
+   if(value.reflector_tape){
+    sum = 1 + sum;
+  }
+  if(value.chain_strap_attachment_bar){
+    sum = 1 + sum;
+  }
+  if(value.landing_gear){
+    sum = 1 + sum;
+  }
+  if(value.cargo_box){
+    sum = 1 + sum;
+  }
+  if(value.abs_lights){
+    sum = 1 + sum;
+  }
+  if(value.mud_flaps){
+    sum = 1 + sum;
+  }
+  if(value.lights){
+    sum = 1 + sum;
+  }
+  if(value.docking_impact_frame){
+    sum = 1 + sum;
+  }
+  if(value.license_plate){
+    sum = 1 + sum;
+  }
+
    console.log('Sum:',sum);
-   this.result = Math.round((sum / 17) * 100);
+   this.result = Math.round((sum / 11) * 100);
  });
   }
   async ionViewDidEnter() {
@@ -145,25 +134,22 @@ export class CouplingPage implements OnInit {
     });
   }
   patchForm(){
+
+
     this.preTripForm.patchValue({
-      airConditioners: this.preTripFormData.airConditioners,
-      electricConnectors: this.preTripFormData.electricConnectors,
-      mountingBolts: this.preTripFormData.mountingBolts,
-      platformBase: this.preTripFormData.platformBase,
-      lockingJaws: this.preTripFormData.lockingJaws,
-      grease: this.preTripFormData.grease,
-      releaseArm: this.preTripFormData.releaseArm,
-      skidPlate: this.preTripFormData.skidPlate,
-      slidingPins: this.preTripFormData.slidingPins,
-      kingPin: this.preTripFormData.kingPin,
-      apron: this.preTripFormData.apron,
-      gap: this.preTripFormData.gap,
-      airLine: this.preTripFormData.airLine,
-      location: this.preTripFormData.location,
-      safetyDevices: this.preTripFormData.safetyDevices,
-      print: this.preTripFormData.print,
-      drawBar: this.preTripFormData.drawBar,
-      commentsCoupling:this.preTripFormData.commentsCoupling
+      air_electrical_lines: this.preTripFormData.air_electrical_lines=== 'true'? true: false,
+  glad_hands: this.preTripFormData.glad_hands=== 'true'? true: false,
+  clearence_lights: this.preTripFormData.clearence_lights=== 'true'? true: false,
+  reflector_tape: this.preTripFormData.reflector_tape=== 'true'? true: false,
+  chain_strap_attachment_bar: this.preTripFormData.chain_strap_attachment_bar=== 'true'? true: false,
+  landing_gear: this.preTripFormData.landing_gear=== 'true'? true: false,
+  cargo_box: this.preTripFormData.cargo_box=== 'true'? true: false,
+  abs_lights: this.preTripFormData.abs_lights=== 'true'? true: false,
+  mud_flaps: this.preTripFormData.mud_flaps=== 'true'? true: false,
+  // lights: this.preTripFormData.lights=== 'true'? true: false,
+  docking_impact_frame: this.preTripFormData.docking_impact_frame=== 'true'? true: false,
+  license_plate: this.preTripFormData.license_plate=== 'true'? true: false,
+  commentsCoupling: this.preTripFormData.commentsCoupling,
     });
   }
   next(){
@@ -172,9 +158,13 @@ export class CouplingPage implements OnInit {
   edit(){
     this.isModalOpen = false;
   }
-  submit(){
+  exit(){
     this.loadingSpinner.next(true);
 
+    // get check-in ID
+    this.getCheckInID();
+  }
+  submitData(){
     //patching value
     this.preTripForm.patchValue({
       percentageCoupling: this.result
@@ -185,39 +175,81 @@ export class CouplingPage implements OnInit {
       (res) => {
         console.log('RES:', res);
         if (res.status === 200) {
-          // closing modal
-          this.isModalOpen = false;
 
-           // spinner
-          this.loadingSpinner.next(false);
+          // create DWR
+          this.createDWR();
 
-          // tooltip
-          this.toastService.presentToast(
-            'Coupling details have been submitted',
-            'success'
-          );
-
-          // navigating
-        if (this.isModalOpen === false) {
-          setTimeout(()=>{
-            // navigating
-            this.router.navigate(['/tabs/home/training/trainer/pre-trip/digital-form/in-cab/vehicle-external/coupling/suspension-brakes'],{
-          queryParams:{
-            training_record_id: this.training_record_id,
-            supervisor_id: this.supervisor_id
-          }
-        });
-          },500);
-        }
         } else {
           console.log('Something happened :)');
           this.toastService.presentToast(res.mssage, 'danger');
+          this.loadingSpinner.next(false);
+
         }
       },
       (err) => {
         console.log('ERROR::', err);
         this.toastService.presentToast(err.mssage, 'danger');
+        this.loadingSpinner.next(false);
+
       }
     );
   }
+
+  getCheckInID(){
+    this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
+      this.activeCheckInSpinner.next(true);
+      console.log('Active Check ID: ', workOrder.dwr[0].id);
+      this.active_check_in_id = workOrder.dwr[0].id;
+      this.activeCheckInSpinner.next(false);
+
+        // submit data
+      this.submitData();
+    });
+
+  }
+  createDWR(){
+    console.log('check-in id:', this.active_check_in_id);
+    this.trainingService
+     .createDWR(this.trainer_id, this.training_record_id,'','','pre-trip','digital-form',this.supervisor_id,this.active_check_in_id)
+     .subscribe(
+       (res) => {
+         console.log('RES:', res);
+         if (res.status === 200) {
+
+           // to stop loader
+           this.loadingSpinner.next(false);
+
+            // closing modal
+          this.isModalOpen = false;
+
+           // tooltip
+           this.toastService.presentToast(
+            'Digital evaluation completed',
+            'success'
+          );
+
+
+
+        // navigating
+        if (this.isModalOpen === false) {
+          setTimeout(()=>{
+            this.router.navigate(['/tabs/home/training/trainer']);
+          },500);
+        }
+
+         } else {
+           console.log('Something happened :)');
+           this.toastService.presentToast(res.mssage, 'danger');
+           this.loadingSpinner.next(false);
+
+         }
+       },
+       (err) => {
+         console.log('ERROR::', err);
+         this.toastService.presentToast(err.mssage, 'danger');
+         this.loadingSpinner.next(false);
+
+       }
+     );
+ }
 }

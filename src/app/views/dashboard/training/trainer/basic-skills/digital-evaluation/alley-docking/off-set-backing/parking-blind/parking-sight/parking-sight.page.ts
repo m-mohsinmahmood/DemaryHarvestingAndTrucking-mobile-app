@@ -15,7 +15,7 @@ import { TrainingService } from 'src/app/views/dashboard/training/training.servi
 export class ParkingSightPage implements OnInit {
 
   buffer = 1;
-  progress = 0.6666666666666668;
+  progress = 0.8571428571428574;
   feedbackValue: any;
   basicSkillForm: FormGroup;
 

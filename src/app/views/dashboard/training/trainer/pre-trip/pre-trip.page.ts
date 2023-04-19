@@ -575,7 +575,6 @@ else if (
   this.data.is_digital_form_started &&
   this.data.is_engine_compartment_started &&
   !this.data.is_in_cab_started &&
-  !this.data.is_suspension_brakes_started &&
   !this.data.is_coupling_started &&
   !this.data.is_vehicle_external_started
 ) {
@@ -593,7 +592,6 @@ else if (
   this.data.is_digital_form_started &&
   this.data.is_engine_compartment_started &&
   this.data.is_in_cab_started &&
-  !this.data.is_suspension_brakes_started &&
   !this.data.is_coupling_started &&
   !this.data.is_vehicle_external_started
 ) {
@@ -612,8 +610,7 @@ else if (
   this.data.is_engine_compartment_started &&
   this.data.is_in_cab_started &&
   this.data.is_vehicle_external_started &&
-  !this.data.is_coupling_started &&
-  !this.data.is_suspension_brakes_started
+  !this.data.is_coupling_started
 ) {
   this.router.navigate(['/tabs/home/training/trainer/pre-trip/digital-form/in-cab/vehicle-external/coupling'],{
     queryParams:{
@@ -623,22 +620,6 @@ else if (
     }
   });
 }
-// Suspension & Brakes
-else if (
-  this.data.is_digital_form_started &&
-  this.data.is_engine_compartment_started &&
-  this.data.is_in_cab_started &&
-  this.data.is_vehicle_external_started &&
-  this.data.is_coupling_started &&
-  !this.data.is_suspension_brakes_started
-) {
 
-  this.router.navigate(['/tabs/home/training/trainer/pre-trip/digital-form/in-cab/vehicle-external/coupling/suspension-brakes'],{
-    queryParams:{
-      training_record_id: this.data.id,
-      supervisor_id: this.data.supervisor_id
-    }
-  });
-}
   }
 }

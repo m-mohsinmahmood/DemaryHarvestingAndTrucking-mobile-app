@@ -31,7 +31,7 @@ export class ViewRecordsPage implements OnInit {
 
   trainer_id;
   parseFloat: any;
-  status: any
+  status: any;
   constructor(
     private router: Router,
     private fromBuilder: FormBuilder,
@@ -70,13 +70,9 @@ export class ViewRecordsPage implements OnInit {
       this.trainingService.getRecordById(this.recordId).subscribe((record) => {
         this.loading.next(true);
         this.records = record[0];
+        this.loading.next(false);
+
         console.log('RECORD:', this.records);
-    //     console.log('VALUE:',((+this.records.pullUpsInput_slb + +this.records.encroachInput_slb < 3) && (this.records.goal_slb === 'true') && (this.records.finalPosition_slb === 'true')) &&
-    // ((+this.records.pullUpsInput_ad + +this.records.encroachInput_ad < 3) && (this.records.goal_ad === 'true') && (this.records.finalPosition_ad === 'true'))  &&
-    // ((+this.records.encroach_osb + +this.records.pullUps_osb < 3) && (this.records.goal_osb === 'true') && (this.records.finalPosition_osb === 'true')) &&
-    // ((+this.records.pullUps_pb + +this.records.encroach_pb < 3) && (this.records.goal_pb === 'true') && (this.records.finalPosition_pb === 'true')) &&
-    // ((+this.records.pullUps_ps + +this.records.encroach_ps < 3) && (this.records.goal_ps === 'true') && (this.records.finalPosition_ps === 'true')) &&
-    // ((+this.records.pullUps_cou + +this.records.encroach_cou < 3) && (this.records.goal_cou === 'true') && (this.records.finalPosition_cou === 'true')));
 
 
     this.status =((+this.records.pullUpsInput_slb + +this.records.encroachInput_slb < 3) && (this.records.goal_slb === 'true') && (this.records.finalPosition_slb === 'true')) &&
@@ -86,12 +82,7 @@ export class ViewRecordsPage implements OnInit {
     ((+this.records.pullUps_ps + +this.records.encroach_ps < 3) && (this.records.goal_ps === 'true') && (this.records.finalPosition_ps === 'true')) &&
     ((+this.records.pullUps_cou + +this.records.encroach_cou < 3) && (this.records.goal_cou === 'true') && (this.records.finalPosition_cou === 'true'));
 
-    // console.log('VALUE:',(!(+this.records.pullUpsInput_slb + +this.records.encroachInput_slb < 3) && (this.records.goal_slb === 'true') && (this.records.finalPosition_slb === 'true')) ||
-    // (!(+this.records.pullUpsInput_ad + +this.records.encroachInput_ad < 3) && (this.records.goal_ad === 'true') && (this.records.finalPosition_ad === 'true'))  ||
-    // (!(+this.records.encroach_osb + +this.records.pullUps_osb < 3) && (this.records.goal_osb === 'true') && (this.records.finalPosition_osb === 'true')) ||
-    // (!(+this.records.pullUps_pb + +this.records.encroach_pb < 3) && (this.records.goal_pb === 'true') && (this.records.finalPosition_pb === 'true')) ||
-    // (!(+this.records.pullUps_ps + +this.records.encroach_ps < 3) && (this.records.goal_ps === 'true') && (this.records.finalPosition_ps === 'true')) ||
-    // (!(+this.records.pullUps_cou + +this.records.encroach_cou < 3) && (this.records.goal_cou === 'true') && (this.records.finalPosition_cou === 'true')));
+
     this.loading.next(false);
       });
 
@@ -115,26 +106,6 @@ export class ViewRecordsPage implements OnInit {
   }
 
   initForms() {
-    this.preCheckForm = this.fromBuilder.group({
-      oilLevel: ['', [Validators.required]],
-      coolantLevel: ['', [Validators.required]],
-      steelingLevel: ['', [Validators.required]],
-      h20: ['', [Validators.required]],
-      alternatorBelt: ['', [Validators.required]],
-      airCompresseorEngine: ['', [Validators.required]],
-      leaksHoses: ['', [Validators.required]],
-      fanShroud: ['', [Validators.required]],
-      radiator: ['', [Validators.required]],
-      wiring: ['', [Validators.required]],
-      steeringBox: ['', [Validators.required]],
-      steeringLinkage: ['', [Validators.required]],
-      hosesSteering: ['', [Validators.required]],
-      turbo: ['', [Validators.required]],
-      windowFluid: ['', [Validators.required]],
-      mirror: ['', [Validators.required]],
-      clutchCondition: ['', [Validators.required]],
-      commentsEngine: ['', [Validators.required]],
-    });
 
     this.roadskillsForm = this.fromBuilder.group({
       trainerName: ['', [Validators.required]],
@@ -205,7 +176,7 @@ export class ViewRecordsPage implements OnInit {
     }
   }
   getPreTripSum(records){
-    return this.math.trunc(((+records?.percentageEngineCompartment + +records?.percentageInCab + +records?.percentageVehicleExternal + +records?.percentageCoupling + +records?.percentageSuspension)/500)*100) > 40;
+    return this.math.trunc(((+records?.percentageEngineCompartment + +records?.percentageInCab + +records?.percentageVehicleExternal + +records?.percentageCoupling)/400)*100) > 80;
   }
   getBasicSkillsSum(records){
     return((+records.pullUpsInput_slb + +records.encroachInput_slb < 3) && (records.goal_slb === 'true') && (records.finalPosition_slb === 'true')) &&

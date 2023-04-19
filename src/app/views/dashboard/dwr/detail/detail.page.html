@@ -33,12 +33,11 @@
           </ion-col>
           <ion-col size="12" class="flex justify-between items-center">
             <ion-text class="font-semibold text-black font-Lato text-base">Log-in</ion-text>
-            <ion-text class="font-semibold text-black font-Lato text-sm">{{moment.utc(data.login_time).format('MM/DD/YYYY hh:mm:ss A')}}</ion-text>
+            <ion-text class="font-semibold text-black font-Lato text-sm">{{moment.utc(data.login_time).local().format('MM/DD/YYYY hh:mm:ss A')}}</ion-text>
           </ion-col>
           <ion-col size="12" class="flex justify-between items-center">
             <ion-text class="font-semibold text-black font-Lato text-base">Log-out</ion-text>
-            <ion-text class="font-semibold text-black font-Lato text-sm">{{moment.utc(data.logout_time).format('MM/DD/YYYY hh:mm:ss A')}}</ion-text>
-            <!-- <ion-text class="font-semibold text-black font-Lato text-sm">PPP{{moment.utc('2023-04-14T15:48:14.000').local().format('MM/DD/YYYY hh:mm:ss A')}}</ion-text> -->
+            <ion-text class="font-semibold text-black font-Lato text-sm">{{moment(data.logout_time).local().format('MM/DD/YYYY hh:mm:ss A')}}</ion-text>
 
           </ion-col>
           <ion-col size="12" class="flex justify-between items-center">

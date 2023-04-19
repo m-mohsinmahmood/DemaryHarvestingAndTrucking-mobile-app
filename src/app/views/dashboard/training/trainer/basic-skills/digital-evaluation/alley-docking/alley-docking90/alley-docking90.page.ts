@@ -14,7 +14,7 @@ import { TrainingService } from 'src/app/views/dashboard/training/training.servi
 })
 export class AlleyDocking90Page implements OnInit {
   buffer = 1;
-  progress = 0.1666666666666667;
+  progress = 0.2857142857142858;
   feedbackValue: any;
   basicSkillForm: FormGroup;
   totalSatisfactory = 0;

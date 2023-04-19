@@ -15,7 +15,7 @@ import { BehaviorSubject } from 'rxjs';
 export class ParkingBlindPage implements OnInit {
 
   buffer = 1;
-  progress = 0.5000000000000001;
+  progress = 0.7142857142857145;
   feedbackValue: any;
   basicSkillForm: FormGroup;
 

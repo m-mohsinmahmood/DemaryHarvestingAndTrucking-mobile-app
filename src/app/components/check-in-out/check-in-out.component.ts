@@ -32,7 +32,8 @@ export class CheckInOutComponent implements OnInit {
       employeeId: localStorage.getItem('employeeId'),
       role: localStorage.getItem('role'),
       module: this.module,
-      moduleToRedirect:this.module
+      moduleToRedirect:this.module,
+      formattedDate: this.dateService.getDate()
     };
 
     this.dwrServices.createNewDWR(data)
@@ -61,7 +62,10 @@ export class CheckInOutComponent implements OnInit {
     console.log(this.data);
     this.loadingSpinner.next(true);
 
-    const data = { id: this.data[0].id };
+    const data = {
+      id: this.data[0].id,
+      formattedDate: this.dateService.getDate()
+     };
     this.dwrServices.updateDWR(data)
       .subscribe(
         (res: any) => {
