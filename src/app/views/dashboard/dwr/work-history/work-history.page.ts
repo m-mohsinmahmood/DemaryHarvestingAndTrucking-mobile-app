@@ -126,5 +126,22 @@ export class WorkHistoryPage implements OnInit {
         this.toastService.presentToast(err.mssage, 'danger');
       });
   }
-  getDWRByMonth(){}
+  getDWRByMonth(){
+    // this.dwrService
+    //   .getMonthDWR(
+    //     localStorage.getItem('employeeId'),
+    //     this.monthValue,
+    //     this.yearValue
+    //   )
+    //   .subscribe((res) => {
+    //     console.log('RESPONSE:',res);
+    //     this.monthDWRS$ = res;
+
+    //      // to stop spinner
+    //     this.loading.next(false);
+    //   },(err)=>{
+    //     this.loading.next(false);
+    //     this.toastService.presentToast(err.mssage, 'danger');
+    //   });
+  }
 }

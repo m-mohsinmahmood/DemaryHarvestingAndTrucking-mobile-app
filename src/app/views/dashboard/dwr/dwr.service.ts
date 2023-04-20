@@ -39,15 +39,15 @@ export class DWRService {
       })
       .pipe(take(1));
   }
-  getMonthDWR(employeeId: string, month: any, year: any, role: any, type: any) {
+  getMonthDWR(employeeId: string, month: any, year: any) {
     let params = new HttpParams();
-    params = params.set('operation','getDWR');
+    params = params.set('operation','getDWRToVerify');
     params = params.set('employeeId', employeeId);
     params = params.set('dateType', 'month');
     params = params.set('month', month);
     params = params.set('year', year);
-    params = params.set('role', role);
-    params = params.set('type', type);
+    // params = params.set('role', role);
+    // params = params.set('type', type);
 
     return this.httpClient
       .get<any>('api-1/dwr', {
