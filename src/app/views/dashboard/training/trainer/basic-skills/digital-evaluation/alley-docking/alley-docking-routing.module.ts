@@ -11,7 +11,11 @@ const routes: Routes = [
   {
     path: 'off-set-backing',
     loadChildren: () => import('./off-set-backing/off-set-backing.module').then( m => m.OffSetBackingPageModule)
+  },  {
+    path: 'alley-docking90',
+    loadChildren: () => import('./alley-docking90/alley-docking90.module').then( m => m.AlleyDocking90PageModule)
   }
+
 ];
 
 @NgModule({

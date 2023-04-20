@@ -118,6 +118,8 @@
         formControlName="is_completed_cdl_classroom" placeholder="Trainee Completed CDL Classroom">
         <ion-select-option value="yes">Yes</ion-select-option>
         <ion-select-option value="no">No</ion-select-option>
+        <ion-select-option value="n/a">N/A</ion-select-option>
+
       </ion-select>
     </div>
 
@@ -128,6 +130,8 @@
         formControlName="is_completed_group_practical" placeholder="Trainee Completed Group Practical">
         <ion-select-option value="yes">Yes</ion-select-option>
         <ion-select-option value="no">No</ion-select-option>
+        <ion-select-option value="n/a">N/A</ion-select-option>
+
       </ion-select>
     </div>
 
@@ -147,7 +151,7 @@
       <ion-select
         class="mt-1 w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
         formControlName="state" placeholder="Select State">
-        <ion-select-option *ngFor="let state of states" [value]="state">{{state}}</ion-select-option>
+        <ion-select-option *ngFor="let state of states">{{state}}</ion-select-option>
       </ion-select>
     </div>
     <ion-button class="upload-button"

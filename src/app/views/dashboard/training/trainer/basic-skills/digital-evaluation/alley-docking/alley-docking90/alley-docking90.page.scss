@@ -1,14 +1,16 @@
-ion-checkbox {
-  --size: 24px;
-  --background-checked: #3D8AA4;
-  --checkmark-color: rgb(255, 255, 255);
+.upload-button{
+  --background:none;
+    --color: #3D8AA4;
+    --border-radius: 10px;
+    --border-color: #3D8AA4;
+    --border-style: solid;
+    --border-width: 1px;
+    margin-top: 20px;
+    // margin-left: 9px;
+    ion-icon{
+      color: #3D8AA4;
+    }
 }
-
-ion-checkbox::part(container) {
-  border-radius: 6px;
-  border: 1px solid #3D8AA4;
-}
-
 ion-progress-bar {
   --background: #F2F3F5;
   --progress-background: #3D8AA4;
@@ -33,4 +35,7 @@ ion-modal::part(backdrop) {
 ion-modal ion-toolbar {
   --background: rgb(14 116 144);
   --color: white;
+}
+ion-spinner.main {
+  --color: rgb(14 116 144);
 }

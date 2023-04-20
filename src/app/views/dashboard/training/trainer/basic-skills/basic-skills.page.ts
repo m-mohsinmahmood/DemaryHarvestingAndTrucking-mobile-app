@@ -12,6 +12,7 @@ import { TrainingService } from '../../training.service';
 import { states } from 'src/JSON/state';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { CheckInOutService } from 'src/app/components/check-in-out/check-in-out.service';
+import { HarvestingService } from './../../../harvesting/harvesting.service';
 
 @Component({
   selector: 'app-basic-skills',
@@ -32,10 +33,12 @@ export class BasicSkillsPage implements OnInit {
   upload_1 = false;
   upload_2 = false;
   upload_3 = false;
- upload = true;
+  upload = true;
 
  // states
  states: string[];
+ state;
+  city;
 
  profileData: any;
 
@@ -94,7 +97,8 @@ export class BasicSkillsPage implements OnInit {
     private renderer: Renderer2,
     private toastService: ToastService,
     private route: ActivatedRoute,
-    private dwrServices: CheckInOutService
+    private dwrServices: CheckInOutService,
+    private harvestingService: HarvestingService
     ) {
       this.renderer.listen('window', 'click', (e) => {
         if (e.target !== this.traineeInput.nativeElement) {
@@ -115,16 +119,36 @@ export class BasicSkillsPage implements OnInit {
   ngOnInit() {
     this.value = 'paper-form';
 
+    // pasing states
+    this.states = states;
+
     this.initForms();
 
-   // getting id & role
-   this.getRoleAndID();
+     // to get city & state
+this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).subscribe((res)=>{
+  console.log('Employee Details:',res);
+  // setting in local storage
+  localStorage.setItem('state',res.state);
+  localStorage.setItem('city',res.city);
 
-     // pasing states
-     this.states = states;
+  // getting id & role
+ this.getRoleAndID();
 
-    // getting Trainer profile data
-    this.getTrainer();
+  // getting Trainer profile data
+  this.getTrainer();
+
+  this.initForms();
+
+});
+
+  //  // getting id & role
+  //  this.getRoleAndID();
+
+    //  // pasing states
+    //  this.states = states;
+
+    // // getting Trainer profile data
+    // this.getTrainer();
 
      // trainee subscription
      this.traineeSearchSubscription();
@@ -136,10 +160,18 @@ export class BasicSkillsPage implements OnInit {
      this.truckSearchSubscription();
   };
   async ionViewDidEnter() {
+    this.value = 'paper-form';
+    this.upload_1 = false;
+  this.upload_2 = false;
+  this.upload_3 = false;
+  this.upload = true;
+
     this.getRoleAndID();
   }
   getRoleAndID(){
     this.trainer_id = localStorage.getItem('employeeId');
+    this.state = localStorage.getItem('state');
+    this.city = localStorage.getItem('city');
   }
   initForms(){
     this.basicSkillForm = this.formBuilder.group({
@@ -153,11 +185,12 @@ export class BasicSkillsPage implements OnInit {
       odometerEndingMiles: ['',[Validators.required]],
       is_completed_cdl_classroom: ['',[Validators.required]],
       is_completed_group_practical: ['',[Validators.required]],
-      city: ['',[Validators.required]],
-      state: ['',[Validators.required]],
+      city: [this.city !== 'null'? this.city: '',[Validators.required]],
+      state: [this.state !== 'null'? this.state: '',[Validators.required]],
       image_1: [''],
       image_2: [''],
       image_3: [''],
+      dwr_id:['']
     });
   }
   onSelectedFiles(file, name) {
@@ -271,7 +304,14 @@ export class BasicSkillsPage implements OnInit {
     );
   }
   continue(){
+    // start loader
     this.loadingSpinner.next(true);
+
+    // get check-in ID
+    this.getCheckInID();
+
+  }
+  startEvaluation(){
 
     // Form Data
     var formData: FormData = new FormData();
@@ -335,8 +375,16 @@ export class BasicSkillsPage implements OnInit {
       this.active_check_in_id = workOrder.dwr[0].id;
       this.activeCheckInSpinner.next(false);
 
-      // submit data
-      this.submitData();
+       // patch
+       this.basicSkillForm.patchValue({
+        dwr_id: this.active_check_in_id
+      });
+
+      if(this.basicSkillForm.get('evaluation_form').value === 'paper-form'){
+        this.submitData();
+      }else{
+        this.startEvaluation();
+      }
     });
 
   }
@@ -353,6 +401,24 @@ export class BasicSkillsPage implements OnInit {
           // to stop loader
           this.loadingSpinner.next(false);
 
+
+          // form resetting
+          this.basicSkillForm.reset();
+          this.traineeInput.nativeElement.value = '';
+          this.truckInput.nativeElement.value = '';
+          this.supervisorInput.nativeElement.value = '';
+          this.value = 'paper-form';
+
+          // get city & state
+          this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).subscribe((response)=>{
+            console.log('Employee Details:',response);
+
+            // setting in local storage
+            localStorage.setItem('state',response.state);
+            this.state = localStorage.getItem('state');
+            this.city = localStorage.getItem('city');
+            this.initForms();
+          });
 
            // tooltip
            this.toastService.presentToast(
@@ -637,7 +703,7 @@ export class BasicSkillsPage implements OnInit {
     this.truckUL = false;
 
     // passing name in select's input
-    this.truckInput.nativeElement.value = truck.id;
+    this.truckInput.nativeElement.value = truck.name;
 
     // to enable submit button
     this.isTruckSelected = false;
@@ -658,6 +724,7 @@ export class BasicSkillsPage implements OnInit {
       this.data.is_digital_form_started &&
       !this.data.is_straight_line_backing_started &&
       !this.data.is_alley_backing_started &&
+      !this.data.is_alley_backing90_started &&
       !this.data.is_off_set_backing_started &&
       !this.data.is_parking_blind_started &&
       !this.data.is_parking_sight_started &&
@@ -676,6 +743,7 @@ export class BasicSkillsPage implements OnInit {
       this.data.is_digital_form_started &&
       this.data.is_straight_line_backing_started &&
       !this.data.is_alley_backing_started &&
+      !this.data.is_alley_backing90_started &&
       !this.data.is_off_set_backing_started &&
       !this.data.is_parking_blind_started &&
       !this.data.is_parking_sight_started &&
@@ -689,11 +757,31 @@ export class BasicSkillsPage implements OnInit {
         }
       });
     }
+    // Alley Docking 99
+    else if (
+      this.data.is_digital_form_started &&
+      this.data.is_straight_line_backing_started &&
+      this.data.is_alley_backing_started &&
+      !this.data.is_alley_backing90_started &&
+      !this.data.is_off_set_backing_started &&
+      !this.data.is_parking_blind_started &&
+      !this.data.is_parking_sight_started &&
+      !this.data.is_coup_uncoup_started
+    ) {
+      this.router.navigate(['/tabs/home/training/trainer/basic-skills/digital-evaluation/alley-docking/alley-docking90'],{
+        queryParams:{
+          training_record_id: this.data.id,
+          supervisor_id: this.data.supervisor_id,
+
+        }
+      });
+    }
     // Off Set Backing
     else if (
       this.data.is_digital_form_started &&
       this.data.is_straight_line_backing_started &&
       this.data.is_alley_backing_started &&
+      this.data.is_alley_backing90_started &&
       !this.data.is_off_set_backing_started &&
       !this.data.is_parking_blind_started &&
       !this.data.is_parking_sight_started &&
@@ -712,6 +800,7 @@ export class BasicSkillsPage implements OnInit {
       this.data.is_digital_form_started &&
       this.data.is_straight_line_backing_started &&
       this.data.is_alley_backing_started &&
+      this.data.is_alley_backing90_started &&
       this.data.is_off_set_backing_started &&
       !this.data.is_parking_blind_started &&
       !this.data.is_parking_sight_started &&
@@ -730,6 +819,7 @@ export class BasicSkillsPage implements OnInit {
       this.data.is_digital_form_started &&
       this.data.is_straight_line_backing_started &&
       this.data.is_alley_backing_started &&
+      this.data.is_alley_backing90_started &&
       this.data.is_off_set_backing_started &&
       this.data.is_parking_blind_started &&
       !this.data.is_parking_sight_started &&
@@ -748,6 +838,7 @@ export class BasicSkillsPage implements OnInit {
       this.data.is_digital_form_started &&
       this.data.is_straight_line_backing_started &&
       this.data.is_alley_backing_started &&
+      this.data.is_alley_backing90_started &&
       this.data.is_off_set_backing_started &&
       this.data.is_parking_blind_started &&
       this.data.is_parking_sight_started &&
