@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable max-len */
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastService } from 'src/app/services/toast/toast.service';
@@ -13,9 +13,8 @@ import { BehaviorSubject } from 'rxjs';
   styleUrls: ['./parking-blind.page.scss'],
 })
 export class ParkingBlindPage implements OnInit {
-
   buffer = 1;
-  progress = 0.5000000000000001;
+  progress = 0.7142857142857145;
   feedbackValue: any;
   basicSkillForm: FormGroup;
 
@@ -29,7 +28,10 @@ export class ParkingBlindPage implements OnInit {
   checkValue: any;
   isModalOpen = false;
 
+  // behaviour subject's
   public loadingSpinner = new BehaviorSubject(false);
+  // public loading = new BehaviorSubject(true);
+
 
   constructor(
     private formBuilder: FormBuilder,
@@ -38,7 +40,8 @@ export class ParkingBlindPage implements OnInit {
     private toastService: ToastService,
     private route: ActivatedRoute
 
-    ) { }
+    ) {
+    }
 
     ngOnInit() {
        // getting id & role
@@ -72,6 +75,8 @@ export class ParkingBlindPage implements OnInit {
         straightLineBakingInput_pb: [''],
         alleyDocking_pb: [''],
         alleyDockingInput_pb: [''],
+        alleyDocking90_pb: [''],
+        alleyDockingInput90_pb: [''],
         offSetBacking_pb: [''],
         offSetBackingInput_pb: [''],
         parallelParkingBlind_pb: [''],
@@ -166,6 +171,7 @@ export class ParkingBlindPage implements OnInit {
         .getRecordById(this.training_record_id)
         .subscribe((record) => {
           this.training_record = record[0];
+
           console.log('Record::', this.training_record);
           // patching
           this.basicSkillForm.patchValue({
@@ -173,6 +179,8 @@ export class ParkingBlindPage implements OnInit {
             straightLineBakingInput_pb: +this.training_record.pullUpsInput_slb + +this.training_record.encroachInput_slb,
             alleyDocking_pb: (+this.training_record.pullUpsInput_ad + +this.training_record.encroachInput_ad < 3) && (this.training_record.goal_ad === 'true') && (this.training_record.finalPosition_ad === 'true') === true? 'true': 'false',
             alleyDockingInput_pb: +this.training_record.pullUpsInput_ad + +this.training_record.encroachInput_ad,
+            alleyDocking90_pb: (+this.training_record.pullUpsInput_ad90 + +this.training_record.encroachInput_ad90 < 3) && (this.training_record.goal_ad90 === 'true') && (this.training_record.finalPosition_ad90 === 'true') === true? 'true': 'false',
+            alleyDockingInput90_pb: +this.training_record.pullUpsInput_ad90 + +this.training_record.encroachInput_ad90,
             offSetBacking_pb: (+this.training_record.pullUps_osb + +this.training_record.encroach_osb < 3) && (this.training_record.goal_osb === 'true') && (this.training_record.finalPosition_osb === 'true') === true? 'true': 'false',
             offSetBackingInput_pb: +this.training_record.pullUps_osb + +this.training_record.encroach_osb,
           });

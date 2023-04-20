@@ -1,12 +1,13 @@
 <app-header [title]="'Basic Skills Digital Evaluation Form'" [color]="'training'" [routeValue]="'basic-skills'"></app-header>
-<ion-content>
+
+<ion-content >
   <!-- <app-timer [value]="'23:00:00'"></app-timer> -->
   <div class="mx-4 my-2">
     <ion-progress-bar class="mb-2" [buffer]="buffer" [value]="progress"></ion-progress-bar>
-    <ion-text class="text-lg font-semibold justify-start flex font-Lato text-black ml-2">{{math.trunc(progress*6)}} of 6 Maneuvers
+    <ion-text class="text-lg font-semibold justify-start flex font-Lato text-black ml-2">3 of 7 Maneuvers
       Completed</ion-text>
   </div>
-<form class="mx-4" [formGroup]="basicSkillForm">
+<form class="mx-4" [formGroup]="basicSkillsForm">
       <div class="mt-5">
      <ion-text class="font-semibold font-Lato text-9B9BA4 text-xl">Off Set Backing</ion-text>
       </div>
@@ -21,7 +22,7 @@
               <div class="flex justify-center items-center w-28 border-2  rounded-lg px-2">
                 <ion-input placeholder="Enter Value" type="number" formControlName="pullUps_osb"></ion-input>
               </div>
-              <ion-text *ngIf="this.basicSkillForm.get('pullUps_osb').hasError('pattern')"
+              <ion-text *ngIf="this.basicSkillsForm.get('pullUps_osb').hasError('pattern')"
                 class=" text-sm text-red-500">
                 Enter between 0-5
               </ion-text>
@@ -33,7 +34,7 @@
               <div class="flex justify-center items-center w-28 border-2  rounded-lg px-2">
                 <ion-input placeholder="Enter Value" type="number" formControlName="encroach_osb"></ion-input>
               </div>
-              <ion-text *ngIf="this.basicSkillForm.get('encroach_osb').hasError('pattern')"
+              <ion-text *ngIf="this.basicSkillsForm.get('encroach_osb').hasError('pattern')"
               class=" text-sm text-red-500">
               Enter between 0-5
             </ion-text>
@@ -85,7 +86,7 @@
           <ion-text class="text-base font-semibold font-Lato">All Basic Skills</ion-text>
           <ion-text class="text-base font-Lato text-9B9BA4">Total Attempts</ion-text>
         </div>
-        <div class="border-b-4 py-4 pointer-events-none">
+        <div class="border-b-4 py-4 px-1 pointer-events-none">
           <div class="flex flex-col justify-center">
             <ion-text class="font-Lato font-semibold">Off Set Backing</ion-text>
             <div class="flex justify-between items-center mt-3">
@@ -104,7 +105,7 @@
                 <div class="flex justify-center items-center w-28 border-2  rounded-lg px-2">
                   <ion-input [value]="totalSatisfactory" placeholder="Enter Value" type="number" formControlName="offSetBackingInput_osb"></ion-input>
                 </div>
-                <ion-text *ngIf="this.basicSkillForm.get('offSetBackingInput_osb').hasError('pattern')"
+                <ion-text *ngIf="this.basicSkillsForm.get('offSetBackingInput_osb').hasError('pattern')"
                       class=" text-sm text-red-500">
                       Enter between 1-5
                     </ion-text>
@@ -112,10 +113,10 @@
             </div>
           </div>
         </div>
-        <div class="border-b-4 py-4 pointer-events-none">
+        <div class="py-4 my-2 pointer-events-none">
           <div class="flex flex-col justify-center">
             <ion-text class="font-Lato font-semibold">Straight Line Backing</ion-text>
-            <div class="flex justify-between items-center mt-3">
+            <div class="flex justify-between items-center mt- bg-gray-200 px-1 rounded-md">
               <ion-radio-group formControlName="straightLineBaking_osb"
                 class="radio flex justify-center items-center">
                 <div class="flex justify-center items-center  mr-2">
@@ -131,7 +132,7 @@
                 <div class="flex justify-center items-center w-28 border-2  rounded-lg px-2">
                   <ion-input placeholder="Enter Value" type="number" formControlName="straightLineBakingInput_osb">
                   </ion-input>
-                  <ion-text *ngIf="this.basicSkillForm.get('straightLineBakingInput_osb').hasError('pattern')"
+                  <ion-text *ngIf="this.basicSkillsForm.get('straightLineBakingInput_osb').hasError('pattern')"
                   class=" text-sm text-red-500">
                   Enter between 1-5
                 </ion-text>
@@ -140,10 +141,10 @@
             </div>
           </div>
         </div>
-        <div class="border-b-4 py-4 pointer-events-none">
+        <div class="py-4 my-2 pointer-events-none">
           <div class="flex flex-col justify-center">
-            <ion-text class="font-Lato font-semibold">Alley Docking (45/90)</ion-text>
-            <div class="flex justify-between items-center mt-3">
+            <ion-text class="font-Lato font-semibold">Alley Docking (45)</ion-text>
+            <div class="flex justify-between items-center mt-3 bg-gray-200 px-1 rounded-md">
               <ion-radio-group  formControlName="alleyDocking_osb"
                 class="radio flex justify-center items-center">
                 <div class="flex justify-center items-center  mr-2">
@@ -159,7 +160,34 @@
                 <div class="flex justify-center items-center w-28 border-2  rounded-lg px-2">
                   <ion-input placeholder="Enter Value" type="number" formControlName="alleyDockingInput_osb"></ion-input>
                 </div>
-                <ion-text *ngIf="this.basicSkillForm.get('alleyDockingInput_osb').hasError('pattern')"
+                <ion-text *ngIf="this.basicSkillsForm.get('alleyDockingInput_osb').hasError('pattern')"
+                    class=" text-sm text-red-500">
+                    Enter between 1-5
+                  </ion-text>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="py-4 my-2 pointer-events-none">
+          <div class="flex flex-col justify-center">
+            <ion-text class="font-Lato font-semibold">Alley Docking (90)</ion-text>
+            <div class="flex justify-between items-center mt-3 bg-gray-200 px-1 rounded-md">
+              <ion-radio-group  formControlName="alleyDocking90_osb"
+                class="radio flex justify-center items-center">
+                <div class="flex justify-center items-center  mr-2">
+                  <ion-radio mode="md" value="true"></ion-radio>
+                  <ion-label class="font-Lato ml-1 text-sm">Satisfactory</ion-label>
+                </div>
+                <div class="flex justify-center items-center">
+                  <ion-radio mode="md" class="unsatisfactory" value="false"></ion-radio>
+                  <ion-label class="font-Lato ml-1 text-sm">Unsatisfactory</ion-label>
+                </div>
+              </ion-radio-group>
+              <div class="flex-col">
+                <div class="flex justify-center items-center w-28 border-2  rounded-lg px-2">
+                  <ion-input placeholder="Enter Value" type="number" formControlName="alleyDockingInput90_osb"></ion-input>
+                </div>
+                <ion-text *ngIf="this.basicSkillsForm.get('alleyDockingInput_osb').hasError('pattern')"
                     class=" text-sm text-red-500">
                     Enter between 1-5
                   </ion-text>
@@ -188,7 +216,7 @@
                   <ion-input placeholder="Enter Value" type="number" formControlName="parallelParkingBlindInput_osb">
                   </ion-input>
                 </div>
-                <ion-text *ngIf="this.basicSkillForm.get('parallelParkingBlindInput_osb').hasError('pattern')"
+                <ion-text *ngIf="this.basicSkillsForm.get('parallelParkingBlindInput_osb').hasError('pattern')"
                 class=" text-sm text-red-500">
                 Enter between 1-5
               </ion-text>
@@ -238,7 +266,7 @@
                 <div class="flex justify-center items-center w-28 border-2  rounded-lg px-2">
                   <ion-input placeholder="Enter Value" type="number" formControlName="coupUncoupInput_osb"></ion-input>
                 </div>
-                <ion-text *ngIf="this.basicSkillForm.get('coupUncoupInput_osb').hasError('pattern')"
+                <ion-text *ngIf="this.basicSkillsForm.get('coupUncoupInput_osb').hasError('pattern')"
                 class=" text-sm text-red-500">
                 Enter between 1-5
               </ion-text>
@@ -250,7 +278,7 @@
 
       <ion-button
       expand="block"
-      [disabled]="basicSkillForm.invalid"
+      [disabled]="basicSkillsForm.invalid"
       class="close-out-button font-Lato mb-4 mt-0 mx-8 bg-opacity-10 text-white"
       (click)="next()">
       <div>Next</div>

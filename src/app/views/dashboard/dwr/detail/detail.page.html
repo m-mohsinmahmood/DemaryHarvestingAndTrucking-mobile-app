@@ -31,16 +31,26 @@
                     name="crescent"></ion-spinner>
               </div>
           </ion-col>
-          <ion-col size="12" class="flex justify-between items-center">
+          <!-- <ion-col size="12" class="flex justify-between items-center">
             <ion-text class="font-semibold text-black font-Lato text-base">Log-in</ion-text>
-            <ion-text class="font-semibold text-black font-Lato text-sm">{{moment.utc(data.login_time).format('MM/DD/YYYY hh:mm:ss A')}}</ion-text>
+            <ion-text class="font-semibold text-black font-Lato text-sm">{{moment.utc(data.login_time).local().format('MM/DD/YYYY hh:mm:ss A')}}</ion-text>
           </ion-col>
           <ion-col size="12" class="flex justify-between items-center">
             <ion-text class="font-semibold text-black font-Lato text-base">Log-out</ion-text>
-            <ion-text class="font-semibold text-black font-Lato text-sm">{{moment.utc(data.logout_time).format('MM/DD/YYYY hh:mm:ss A')}}</ion-text>
-            <!-- <ion-text class="font-semibold text-black font-Lato text-sm">PPP{{moment.utc('2023-04-14T15:48:14.000').local().format('MM/DD/YYYY hh:mm:ss A')}}</ion-text> -->
+            <ion-text class="font-semibold text-black font-Lato text-sm">{{moment(data.logout_time).local().format('MM/DD/YYYY hh:mm:ss A')}}</ion-text>
 
+          </ion-col> -->
+
+          <ion-col size="12" class="flex justify-between items-center">
+            <ion-text class="font-semibold text-black font-Lato text-base">Log-in</ion-text>
+            <ion-text class="font-semibold text-black font-Lato text-sm">{{newDate(data.login_time)}}</ion-text>
           </ion-col>
+          <ion-col size="12" class="flex justify-between items-center">
+            <ion-text class="font-semibold text-black font-Lato text-base">Log-out</ion-text>
+            <ion-text class="font-semibold text-black font-Lato text-sm">{{newDate(data.logout_time)}}</ion-text>
+          </ion-col>
+
+
           <ion-col size="12" class="flex justify-between items-center">
             <ion-text class="font-semibold text-black font-Lato text-base">Total Hours</ion-text>
             <ion-text class="font-semibold text-black font-Lato text-sm">{{data.total_hours}} Hours</ion-text>
@@ -140,13 +150,21 @@
           <ion-card-content>
         <ion-row>
           <ion-text class="bg-blue-700 border-blue-500 border-2 rounded-md px-2 py-1 font-semibold text-xs text-blue-500">{{data.module | titlecase}}</ion-text>
-          <ion-col size="12" class="flex justify-between items-center">
+          <!-- <ion-col size="12" class="flex justify-between items-center">
             <ion-text class="font-semibold text-black font-Lato text-base">Log-in</ion-text>
             <ion-text class="font-semibold text-black font-Lato text-sm">{{moment.utc(data.login_time).format('MM/DD/YYYY hh:mm:ss A')}}</ion-text>
           </ion-col>
           <ion-col size="12" class="flex justify-between items-center">
             <ion-text class="font-semibold text-black font-Lato text-base">Log-out</ion-text>
             <ion-text class="font-semibold text-black font-Lato text-sm">{{moment.utc(data.logout_time).format('MM/DD/YYYY hh:mm:ss A')}}</ion-text>
+          </ion-col> -->
+          <ion-col size="12" class="flex justify-between items-center">
+            <ion-text class="font-semibold text-black font-Lato text-base">Log-in</ion-text>
+            <ion-text class="font-semibold text-black font-Lato text-sm">{{newDate(data.login_time)}}</ion-text>
+          </ion-col>
+          <ion-col size="12" class="flex justify-between items-center">
+            <ion-text class="font-semibold text-black font-Lato text-base">Log-out</ion-text>
+            <ion-text class="font-semibold text-black font-Lato text-sm">{{newDate(data.login_out)}}</ion-text>
           </ion-col>
           <ion-col size="12" class="flex justify-between items-center">
             <ion-text class="font-semibold text-black font-Lato text-base">Total Hours</ion-text>
@@ -187,8 +205,7 @@
 </ion-content>
 
 <!-- SEND-BACK -->
-<ion-content *ngIf="type === 'send-back'">
-  <!-- <app-timer [value]="'11:22:33'"></app-timer> -->
+<!-- <ion-content *ngIf="type === 'send-back'">
   <div *ngIf="(loading | async) === true" class="h-full">
     <div class="flex justify-center items-center h-full">
       <ion-spinner class="" name="crescent"></ion-spinner>
@@ -382,7 +399,7 @@
     </div>
   </div>
      </div>
-</ion-content>
+</ion-content> -->
 
 <!-- WORK-HISTORY -->
 <ion-content *ngIf="type === 'work-history'">
@@ -466,13 +483,21 @@
                   <ion-card-content>
                 <ion-row>
                   <ion-text class="bg-blue-100 border-blue-500 border-2 rounded-md px-2 py-1 font-semibold text-xs text-blue-500">{{data?.module | titlecase}}</ion-text>
-                  <ion-col size="12" class="flex justify-between items-center">
+                  <!-- <ion-col size="12" class="flex justify-between items-center">
                     <ion-text class="font-semibold text-black font-Lato text-base">Log-in</ion-text>
                     <ion-text class="font-semibold text-black font-Lato text-sm">{{moment.utc(data.login_time).format('MM/DD/YYYY hh:mm:ss A')}}</ion-text>
                   </ion-col>
                   <ion-col size="12" class="flex justify-between items-center">
                     <ion-text class="font-semibold text-black font-Lato text-base">Log-out</ion-text>
                     <ion-text class="font-semibold text-black font-Lato text-sm">{{moment.utc(data.logout_time).format('MM/DD/YYYY hh:mm:ss A')}}</ion-text>
+                  </ion-col> -->
+                  <ion-col size="12" class="flex justify-between items-center">
+                    <ion-text class="font-semibold text-black font-Lato text-base">Log-in</ion-text>
+                    <ion-text class="font-semibold text-black font-Lato text-sm">{{newDate(data.login_time)}}</ion-text>
+                  </ion-col>
+                  <ion-col size="12" class="flex justify-between items-center">
+                    <ion-text class="font-semibold text-black font-Lato text-base">Log-out</ion-text>
+                    <ion-text class="font-semibold text-black font-Lato text-sm">{{newDate(data.logout_time)}}</ion-text>
                   </ion-col>
                   <ion-col size="12" class="flex justify-between items-center">
                     <ion-text class="font-semibold text-black font-Lato text-base">Total Hours</ion-text>
@@ -531,13 +556,21 @@
                     <ion-card-content>
                   <ion-row>
                     <ion-text class="bg-blue-100 border-blue-500 border-2 rounded-md px-2 py-1 font-semibold text-xs text-blue-500">{{data?.module | titlecase}}</ion-text>
-                    <ion-col size="12" class="flex justify-between items-center">
+                    <!-- <ion-col size="12" class="flex justify-between items-center">
                       <ion-text class="font-semibold text-black font-Lato text-base">Log-in</ion-text>
                       <ion-text class="font-semibold text-black font-Lato text-sm">{{moment.utc(data.login_time).format('MM/DD/YYYY hh:mm:ss A')}}</ion-text>
                     </ion-col>
                     <ion-col size="12" class="flex justify-between items-center">
                       <ion-text class="font-semibold text-black font-Lato text-base">Log-out</ion-text>
                       <ion-text class="font-semibold text-black font-Lato text-sm">{{moment.utc(data.logout_time).format('MM/DD/YYYY hh:mm:ss A')}}</ion-text>
+                    </ion-col> -->
+                    <ion-col size="12" class="flex justify-between items-center">
+                      <ion-text class="font-semibold text-black font-Lato text-base">Log-in</ion-text>
+                      <ion-text class="font-semibold text-black font-Lato text-sm">{{newDate(data.login_time)}}</ion-text>
+                    </ion-col>
+                    <ion-col size="12" class="flex justify-between items-center">
+                      <ion-text class="font-semibold text-black font-Lato text-base">Log-out</ion-text>
+                      <ion-text class="font-semibold text-black font-Lato text-sm">{{newDate(data.logout_time)}}</ion-text>
                     </ion-col>
                     <ion-col size="12" class="flex justify-between items-center">
                       <ion-text class="font-semibold text-black font-Lato text-base">Total Hours</ion-text>
@@ -593,13 +626,21 @@
                   <ion-card-content>
                 <ion-row>
                   <ion-text class="bg-blue-100 border-blue-500 border-2 rounded-md px-2 py-1 font-semibold text-xs text-blue-500">{{data?.module | titlecase}}</ion-text>
-                  <ion-col size="12" class="flex justify-between items-center">
+                  <!-- <ion-col size="12" class="flex justify-between items-center">
                     <ion-text class="font-semibold text-black font-Lato text-base">Log-in</ion-text>
                     <ion-text class="font-semibold text-black font-Lato text-sm">{{moment.utc(data.login_time).format('MM/DD/YYYY hh:mm:ss A')}}</ion-text>
                   </ion-col>
                   <ion-col size="12" class="flex justify-between items-center">
                     <ion-text class="font-semibold text-black font-Lato text-base">Log-out</ion-text>
                     <ion-text class="font-semibold text-black font-Lato text-sm">{{moment.utc(data.logout_time).format('MM/DD/YYYY hh:mm:ss A')}}</ion-text>
+                  </ion-col> -->
+                  <ion-col size="12" class="flex justify-between items-center">
+                    <ion-text class="font-semibold text-black font-Lato text-base">Log-in</ion-text>
+                    <ion-text class="font-semibold text-black font-Lato text-sm">{{newDate(date.login_time)}}</ion-text>
+                  </ion-col>
+                  <ion-col size="12" class="flex justify-between items-center">
+                    <ion-text class="font-semibold text-black font-Lato text-base">Log-out</ion-text>
+                    <ion-text class="font-semibold text-black font-Lato text-sm">{{newDate(date.logout_time)}}</ion-text>
                   </ion-col>
                   <ion-col size="12" class="flex justify-between items-center">
                     <ion-text class="font-semibold text-black font-Lato text-base">Total Hours</ion-text>
@@ -669,11 +710,11 @@
                   </ion-col>
                   <ion-col size="12" class="flex justify-between items-center">
                     <ion-text class="font-semibold text-black font-Lato text-base">Log-in</ion-text>
-                    <ion-text class="font-semibold text-black font-Lato text-sm">{{moment.utc(data.login_time).format('MM/DD/YYYY hh:mm:ss A')}}</ion-text>
+                    <ion-text class="font-semibold text-black font-Lato text-sm">{{newDate(data.login_time)}}</ion-text>
                   </ion-col>
                   <ion-col size="12" class="flex justify-between items-center">
                     <ion-text class="font-semibold text-black font-Lato text-base">Log-out</ion-text>
-                    <ion-text class="font-semibold text-black font-Lato text-sm">{{moment.utc(data.logout_time).format('MM/DD/YYYY hh:mm:ss A')}}</ion-text>
+                    <ion-text class="font-semibold text-black font-Lato text-sm">{{newDate(data.logout_time)}}</ion-text>
                   </ion-col>
                   <ion-col size="12" class="flex justify-between items-center">
                     <ion-text class="font-semibold text-black font-Lato text-base">Total Hours</ion-text>
@@ -704,7 +745,7 @@
                           <label class="block text-sm font-medium text-gray-700">Login Date/Time:</label>
                           <input
                             class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-                            placeholder="Enter date" readonly  [value]="moment.utc(dateLoginFormatted).format('MM-DD-YYYY')">
+                            placeholder="Enter date" readonly  [value]="newDate(dateLoginFormatted)">
                         </div>
                         <ion-popover trigger="startDate" triggerAction="click">
                           <ng-template>
@@ -717,7 +758,7 @@
                           <label class="block text-sm font-medium text-gray-700">Logout Date/Time:</label>
                           <input
                             class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-                            placeholder="Enter date" readonly [value]="moment.utc(dateLogoutFormatted).format('MM-DD-YYYY')">
+                            placeholder="Enter date" readonly [value]="newDate(dateLogoutFormatted)">
                         </div>
                         <ion-popover trigger="endDate" triggerAction="click">
                           <ng-template>

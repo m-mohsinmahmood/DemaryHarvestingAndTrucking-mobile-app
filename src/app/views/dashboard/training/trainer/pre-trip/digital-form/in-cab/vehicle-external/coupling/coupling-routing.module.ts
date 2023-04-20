@@ -8,10 +8,6 @@ const routes: Routes = [
     path: '',
     component: CouplingPage
   },
-  {
-    path: 'suspension-brakes',
-    loadChildren: () => import('./suspension-brakes/suspension-brakes.module').then( m => m.SuspensionBrakesPageModule)
-  }
 ];
 
 @NgModule({

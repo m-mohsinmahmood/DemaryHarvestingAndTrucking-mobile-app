@@ -5,16 +5,16 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { ToastService } from 'src/app/services/toast/toast.service';
-import { TrainingService } from '../../../../training.service';
+import { TrainingService } from 'src/app/views/dashboard/training/training.service';
 
 @Component({
-  selector: 'app-alley-docking',
-  templateUrl: './alley-docking.page.html',
-  styleUrls: ['./alley-docking.page.scss'],
+  selector: 'app-alley-docking90',
+  templateUrl: './alley-docking90.page.html',
+  styleUrls: ['./alley-docking90.page.scss'],
 })
-export class AlleyDockingPage implements OnInit {
+export class AlleyDocking90Page implements OnInit {
   buffer = 1;
-  progress = 0.1428571428571429;
+  progress = 0.2857142857142858;
   feedbackValue: any;
   basicSkillForm: FormGroup;
   totalSatisfactory = 0;
@@ -28,7 +28,7 @@ export class AlleyDockingPage implements OnInit {
 
   // behaviour subject's
   public loadingSpinner = new BehaviorSubject(false);
-  // public loading = new BehaviorSubject(true);
+  public loading = new BehaviorSubject(true);
   checkValue: any;
 
   constructor(
@@ -63,20 +63,22 @@ export class AlleyDockingPage implements OnInit {
   }
   initForms() {
     this.basicSkillForm = this.formBuilder.group({
-      pullUpsInput_ad: [
+      pullUpsInput_ad90: [
         null,
         [Validators.required, Validators.pattern('^([0-5])$')],
       ],
-      encroachInput_ad: [
+      encroachInput_ad90: [
         null,
         [Validators.required, Validators.pattern('^([0-5])$')],
       ],
-      goal_ad: [null, [Validators.required]],
-      finalPosition_ad: [null, [Validators.required]],
+      goal_ad90: [null, [Validators.required]],
+      finalPosition_ad90: [null, [Validators.required]],
       straightLineBacking_ad: [''],
-      straightLineBakingInput_ad: [''],
+      straightLineBakingInput_ad: [''], //<-
       alleyDocking_ad: [''],
       alleyDockingInput_ad: [''],
+      alleyDocking_ad90: [''],
+      alleyDockingInput_ad90: [''],
       offSetBacking_ad: [''],
       offSetBackingInput_ad: [''],
       parallelParkingBlind_ad: [''],
@@ -84,30 +86,32 @@ export class AlleyDockingPage implements OnInit {
       coupUncoup_ad: [''],
       coupUncoupInput_ad: [''],
       comments_ad: [''],
-      category: ['alley-docking'],
-      satisfactoryAlleyDocking: [],
-      unSatisfactoryAlleyDocking: [],
+      comments_ad90: [''],
+      category: ['alley-docking-90'],
+      satisfactoryAlleyDocking90: [],
+      unSatisfactoryAlleyDocking90: [],
       trainer_id: [this.trainer_id],
     });
     this.basicSkillForm.valueChanges.subscribe((value) => {
       let sum = 0;
+
         // for input fields
-        sum = +value.pullUpsInput_ad +value.encroachInput_ad + +sum;
+        sum = +value.pullUpsInput_ad90 +value.encroachInput_ad90 + +sum;
         this.totalSatisfactory = sum;
 
          // for checkboxes
-         if(value.goal_ad === 'true'){
-          this.checkValue = (value.goal_ad === 'true' && value.finalPosition_ad === 'true' && (+value.pullUpsInput_ad +value.encroachInput_ad  <= 2) === true? 'true': 'false');
-        }else{
-          this.checkValue = 'false';
-        }
-        if(value.finalPosition_ad === 'true'){
-          this.checkValue = (value.goal_ad === 'true' && value.finalPosition_ad === 'true' && (+value.pullUpsInput_ad +value.encroachInput_ad  <= 2) === true? 'true': 'false');
-        }else{
-          this.checkValue = 'false';
-        }
-        console.log(this.checkValue);
+         if(value.goal_ad90 === 'true'){
+          this.checkValue = (value.goal_ad90 === 'true' && value.finalPosition_ad90 === 'true' && (+value.pullUpsInput_ad90 +value.encroachInput_ad90  <= 2) === true? 'true': 'false');
 
+        }else{
+          this.checkValue = 'false';
+        }
+
+        if(value.finalPosition_ad90 === 'true'){
+          this.checkValue = (value.goal_ad90 === 'true' && value.finalPosition_ad90 === 'true' && (+value.pullUpsInput_ad90 +value.encroachInput_ad90  <= 2) === true? 'true': 'false');
+        }else{
+          this.checkValue = 'false';
+        }
 
     });
   }
@@ -125,8 +129,8 @@ export class AlleyDockingPage implements OnInit {
 
     // patching sat & un-sat results
     this.basicSkillForm.patchValue({
-      satisfactoryAlleyDocking: this.totalSatisfactory,
-      unSatisfactoryAlleyDocking: this.totalUnSatisfactory,
+      satisfactoryAlleyDocking90: this.totalSatisfactory,
+      unSatisfactoryAlleyDocking90: this.totalUnSatisfactory,
     });
 
     console.log(this.basicSkillForm.value);
@@ -153,7 +157,7 @@ export class AlleyDockingPage implements OnInit {
               setTimeout(()=>{
                 this.router.navigate(
                   [
-                    '/tabs/home/training/trainer/basic-skills/digital-evaluation/alley-docking/alley-docking90',
+                    '/tabs/home/training/trainer/basic-skills/digital-evaluation/alley-docking/off-set-backing',
                   ],
                   {
                     queryParams: {
@@ -179,12 +183,17 @@ export class AlleyDockingPage implements OnInit {
     this.trainingService
       .getRecordById(this.training_record_id)
       .subscribe((record) => {
+        this.loading.next(true);
         this.training_record = record[0];
+        this.loading.next(false);
+
 
         // patching
         this.basicSkillForm.patchValue({
           straightLineBacking_ad: (+this.training_record.pullUpsInput_slb + +this.training_record.encroachInput_slb < 3) && (this.training_record.goal_slb === 'true') && (this.training_record.finalPosition_slb === 'true') === true? 'true': 'false',
-          straightLineBakingInput_ad: +this.training_record.pullUpsInput_slb + +this.training_record.encroachInput_slb
+          straightLineBakingInput_ad: +this.training_record.pullUpsInput_slb + +this.training_record.encroachInput_slb,
+          alleyDocking_ad: (+this.training_record.pullUpsInput_ad + +this.training_record.encroachInput_ad < 3) && (this.training_record.goal_ad === 'true') && (this.training_record.finalPosition_ad === 'true') === true? 'true': 'false',
+          alleyDockingInput_ad: +this.training_record.pullUpsInput_ad + +this.training_record.encroachInput_ad,
         });
       });
   }

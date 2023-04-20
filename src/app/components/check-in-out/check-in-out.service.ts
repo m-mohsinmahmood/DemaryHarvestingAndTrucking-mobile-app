@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 import { HttpClient, HttpErrorResponse, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { take } from "rxjs/operators";

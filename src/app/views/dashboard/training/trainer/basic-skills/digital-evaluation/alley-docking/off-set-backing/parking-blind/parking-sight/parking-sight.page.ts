@@ -15,7 +15,7 @@ import { TrainingService } from 'src/app/views/dashboard/training/training.servi
 export class ParkingSightPage implements OnInit {
 
   buffer = 1;
-  progress = 0.6666666666666668;
+  progress = 0.8571428571428574;
   feedbackValue: any;
   basicSkillForm: FormGroup;
 
@@ -31,6 +31,7 @@ export class ParkingSightPage implements OnInit {
   isModalOpen = false;
 
   public loadingSpinner = new BehaviorSubject(false);
+  public loading = new BehaviorSubject(true);
 
 
   constructor(
@@ -74,6 +75,8 @@ export class ParkingSightPage implements OnInit {
         straightLineBakingInput_ps: [''],
         alleyDocking_ps: [''],
         alleyDockingInput_ps: [''],
+        alleyDocking90_ps: [''],
+        alleyDockingInput90_ps: [''],
         offSetBacking_ps: [''],
         offSetBackingInput_ps: [''],
         parallelParkingBlind_ps: [''],
@@ -170,6 +173,7 @@ export class ParkingSightPage implements OnInit {
         .getRecordById(this.training_record_id)
         .subscribe((record) => {
           this.training_record = record[0];
+
           console.log('Record::', this.training_record);
           // patching
           this.basicSkillForm.patchValue({
@@ -177,6 +181,8 @@ export class ParkingSightPage implements OnInit {
             straightLineBakingInput_ps: +this.training_record.pullUpsInput_slb + +this.training_record.encroachInput_slb,
             alleyDocking_ps: (+this.training_record.pullUpsInput_ad + +this.training_record.encroachInput_ad < 3) && (this.training_record.goal_ad === 'true') && (this.training_record.finalPosition_ad === 'true') === true? 'true': 'false',
             alleyDockingInput_ps: +this.training_record.pullUpsInput_ad + +this.training_record.encroachInput_ad,
+            alleyDocking90_ps: (+this.training_record.pullUpsInput_ad90 + +this.training_record.encroachInput_ad90 < 3) && (this.training_record.goal_ad90 === 'true') && (this.training_record.finalPosition_ad90 === 'true') === true? 'true': 'false',
+            alleyDockingInput90_ps: +this.training_record.pullUpsInput_ad90 + +this.training_record.encroachInput_ad90,
             offSetBacking_ps: (+this.training_record.encroach_osb + +this.training_record.encroach_osb < 3) && (this.training_record.goal_osb === 'true') && (this.training_record.finalPosition_osb === 'true') === true? 'true': 'false',
             offSetBackingInput_ps: +this.training_record.pullUps_osb + +this.training_record.encroach_osb,
             parallelParkingBlind_pb: (+this.training_record.pullUps_pb + +this.training_record.encroach_pb < 3) && (this.training_record.goal_pb === 'true') && (this.training_record.finalPosition_pb === 'true') === true? 'true': 'false',
