@@ -84,8 +84,13 @@ export class TrainingTasksPage implements OnInit {
 
     this.initForm();
 
-     // getting id & role
-   this.getRoleAndID();
+    // getting id & role
+  this.getRoleAndID();
+
+    // getting Trainer profile data
+    this.getTrainer();
+
+
 
     // passing value in training type
     if (this.route === 'Company Training') {
@@ -105,8 +110,7 @@ export class TrainingTasksPage implements OnInit {
     // pasing states
     this.states = states;
 
-    // getting Trainer profile data
-    this.getTrainer();
+
 
     // supervisor subscription
     this.employeeSearchSubscription();
@@ -123,6 +127,7 @@ export class TrainingTasksPage implements OnInit {
       image_2: [''],
       image_3: [''],
       notes: [''],
+      dwr_id:['']
     });
   }
   async ionViewDidEnter() {
@@ -177,6 +182,7 @@ export class TrainingTasksPage implements OnInit {
     this.trainingService.getTrainerById(this.trainer_id).subscribe((res) => {
       this.loading.next(true);
       this.profileData = res[0];
+      console.log('------------',res[0].state);
 
       // patching values
       this.trainingTasksForm.patchValue({
@@ -191,6 +197,7 @@ submit(){
   this.loadingSpinner.next(true);
     // getting check-in id
     this.getCheckInID();
+
 
 }
   submitData() {
@@ -235,6 +242,11 @@ submit(){
       console.log('Active Check ID: ', workOrder.dwr[0].id);
       this.active_check_in_id = workOrder.dwr[0].id;
       this.activeCheckInSpinner.next(false);
+
+      // patch
+      this.trainingTasksForm.patchValue({
+        dwr_id: this.active_check_in_id
+      });
 
        // submit data
       this.submitData();

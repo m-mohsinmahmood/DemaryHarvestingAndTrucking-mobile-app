@@ -1,91 +1,257 @@
 
-<app-header [title]="'Pre-Trip Check Digital Evaluation Form'" [color]="'training'" [routeValue]="'pre-trip'"></app-header>
+<app-header [title]="'Pre-Trip Check Digital Evaluation Form'" [color]="'training'" [routeValue]="'engine-compartment'" [training_record_id]="training_record_id" [supervisor_id]="supervisor_id"></app-header>
 
 <ion-content>
   <!-- <app-timer [value]="'01:23:45'"></app-timer> -->
 
     <div class="mx-4 my-2">
     <ion-progress-bar class="mb-2" [buffer]="buffer" [value]="progress" ></ion-progress-bar>
-    <ion-text class="text-lg font-semibold justify-start flex font-Lato text-black ">{{progress * 5}} of 5 Categories Completed</ion-text>
+    <ion-text class="text-lg font-semibold justify-start flex font-Lato text-black ">0 of 4 Categories Completed</ion-text>
   </div>
   <form [formGroup]="preTripForm">
-    <div class="mt-2 ml-3">
-      <ion-text *ngIf="value ==='engine/compartment'" class="font-semibold font-Lato text-9B9BA4 text-xl">Engine / Compartment</ion-text>
-      <ion-text *ngIf="value ==='incab'" class="font-semibold font-Lato text-9B9BA4 text-xl">In Cab</ion-text>
-      <ion-text *ngIf="value ==='vehicle/external'" class="font-semibold font-Lato text-9B9BA4 text-xl">Vehicle/External</ion-text>
-      <ion-text *ngIf="value ==='coupling'" class="font-semibold font-Lato text-9B9BA4 text-xl">Coupling</ion-text>
-      <ion-text *ngIf="value ==='suspension/brakes'" class="font-semibold font-Lato text-9B9BA4 text-xl">Suspension/Brakes</ion-text>
-  </div>
     <p class="text-lg font-semibold font-Lato mt-4 ml-4">Pre-Trip Check Items</p>
     <!-- Engine/Compartment -->
      <div class="mx-4" *ngIf="value === 'engine/compartment'">
-      <div class="flex justify-between items-center my-3">
-       <ion-text class="font-Lato font-medium">Oil Level</ion-text>
-        <ion-checkbox slot="start" formControlName="oilLevel"></ion-checkbox>
-      </div>
-      <div class="flex justify-between items-center my-3">
-        <ion-text class="font-Lato font-medium" >Coolant Level</ion-text>
-         <ion-checkbox slot="start" formControlName="coolantLevelEngine"></ion-checkbox>
+
+       <div class="flex justify-between items-center my-3">
+        <ion-text class="font-Lato font-medium">Leans</ion-text>
+         <ion-checkbox slot="start" formControlName="leans"></ion-checkbox>
        </div>
        <div class="flex justify-between items-center my-3">
-        <ion-text class="font-Lato font-medium">Power Steeling Level</ion-text>
-         <ion-checkbox slot="start" formControlName="powerSteelingLevel"></ion-checkbox>
+        <ion-text class="font-Lato font-medium">Leaks</ion-text>
+         <ion-checkbox slot="start" formControlName="leaks"></ion-checkbox>
        </div>
        <div class="flex justify-between items-center my-3">
-        <ion-text class="font-Lato font-medium">H20 Pump engine</ion-text>
-         <ion-checkbox slot="start" formControlName="h20"></ion-checkbox>
+        <ion-text class="font-Lato font-medium">Lights</ion-text>
+         <ion-checkbox slot="start" formControlName="lights"></ion-checkbox>
        </div>
        <div class="flex justify-between items-center my-3">
-        <ion-text class="font-Lato font-medium">Alternator Belt</ion-text>
-         <ion-checkbox slot="start" formControlName="alternatorBelt"></ion-checkbox>
+        <ion-text class="font-Lato font-medium">Hazards</ion-text>
+         <ion-checkbox slot="start" formControlName="hazards"></ion-checkbox>
        </div>
        <div class="flex justify-between items-center my-3">
-        <ion-text class="font-Lato font-medium">Air Compressor Engine</ion-text>
-         <ion-checkbox slot="start" formControlName="airCompresseorEngine"></ion-checkbox>
+        <ion-text class="font-Lato font-medium">Check that it is neutral</ion-text>
+         <ion-checkbox slot="start" formControlName="check_neutral"></ion-checkbox>
        </div>
        <div class="flex justify-between items-center my-3">
-        <ion-text class="font-Lato font-medium">Leaks & Hoses</ion-text>
-         <ion-checkbox slot="start" formControlName="leaksHoses"></ion-checkbox>
+        <ion-text class="font-Lato font-medium">Parkling brakes are on</ion-text>
+         <ion-checkbox slot="start" formControlName="parking_brakes"></ion-checkbox>
        </div>
        <div class="flex justify-between items-center my-3">
-        <ion-text class="font-Lato font-medium">Fan & Shroud</ion-text>
-         <ion-checkbox slot="start" formControlName="fanShroud"></ion-checkbox>
+        <ion-text class="font-Lato font-medium">Power Steering Level</ion-text>
+         <ion-checkbox slot="start" formControlName="power_steering_level"></ion-checkbox>
+       </div>
+       <div class="flex justify-between items-center my-3">
+        <ion-text class="font-Lato font-medium">Keys removed</ion-text>
+         <ion-checkbox slot="start" formControlName="keys_removed"></ion-checkbox>
+       </div>
+       <div class="flex justify-between items-center my-3">
+        <ion-text class="font-Lato font-medium">Outside windshield</ion-text>
+         <ion-checkbox slot="start" formControlName="outside_windshield"></ion-checkbox>
+       </div>
+       <div class="flex justify-between items-center my-3">
+        <ion-text class="font-Lato font-medium">Condition of wiper blade</ion-text>
+         <ion-checkbox slot="start" formControlName="wiper_condition"></ion-checkbox>
+       </div>
+       <div class="flex justify-between items-center my-3">
+        <ion-text class="font-Lato font-medium">Engine Oil</ion-text>
+         <ion-checkbox slot="start" formControlName="engine_oil"></ion-checkbox>
+       </div>
+       <div class="flex justify-between items-center my-3">
+        <ion-text class="font-Lato font-medium">Power steering level</ion-text>
+         <ion-checkbox slot="start" formControlName="power_steering_evel"></ion-checkbox>
+       </div>
+       <div class="flex justify-between items-center my-3">
+        <ion-text class="font-Lato font-medium">Wiring loom</ion-text>
+         <ion-checkbox slot="start" formControlName="wiring_loom"></ion-checkbox>
+       </div>
+       <div class="flex justify-between items-center my-3">
+        <ion-text class="font-Lato font-medium">Condition of frame</ion-text>
+         <ion-checkbox slot="start" formControlName="frame_condition"></ion-checkbox>
+       </div>
+       <div class="flex justify-between items-center my-3">
+        <ion-text class="font-Lato font-medium">Hub oil level</ion-text>
+         <ion-checkbox slot="start" formControlName="hub_oil_level"></ion-checkbox>
+       </div>
+       <div class="flex justify-between items-center my-3">
+        <ion-text class="font-Lato font-medium">Hub seal (outer)</ion-text>
+         <ion-checkbox slot="start" formControlName="hub_seal_outer"></ion-checkbox>
+       </div>
+       <div class="flex justify-between items-center my-3">
+        <ion-text class="font-Lato font-medium">Hub seal (inner)</ion-text>
+         <ion-checkbox slot="start" formControlName="hub_seal_inner"></ion-checkbox>
+       </div>
+       <div class="flex justify-between items-center my-3">
+        <ion-text class="font-Lato font-medium">Rim</ion-text>
+         <ion-checkbox slot="start" formControlName="rim"></ion-checkbox>
+       </div>
+       <div class="flex justify-between items-center my-3">
+        <ion-text class="font-Lato font-medium">Lug nuts</ion-text>
+         <ion-checkbox slot="start" formControlName="lug_nuts"></ion-checkbox>
+       </div>
+       <div class="flex justify-between items-center my-3">
+        <ion-text class="font-Lato font-medium">Valve sterms</ion-text>
+         <ion-checkbox slot="start" formControlName="valve_stems"></ion-checkbox>
+       </div>
+       <div class="flex justify-between items-center my-3">
+        <ion-text class="font-Lato font-medium">Side walls</ion-text>
+         <ion-checkbox slot="start" formControlName="side_walls"></ion-checkbox>
+       </div>
+       <div class="flex justify-between items-center my-3">
+        <ion-text class="font-Lato font-medium">Tread</ion-text>
+         <ion-checkbox slot="start" formControlName="tread"></ion-checkbox>
+       </div>
+       <div class="flex justify-between items-center my-3">
+        <ion-text class="font-Lato font-medium">Brake drum</ion-text>
+         <ion-checkbox slot="start" formControlName="brake_drum"></ion-checkbox>
+       </div>
+       <div class="flex justify-between items-center my-3">
+        <ion-text class="font-Lato font-medium">Brake pads</ion-text>
+         <ion-checkbox slot="start" formControlName="brake_pads"></ion-checkbox>
+       </div>
+       <div class="flex justify-between items-center my-3">
+        <ion-text class="font-Lato font-medium">Slack Adjuster</ion-text>
+         <ion-checkbox slot="start" formControlName="slack_adjuster"></ion-checkbox>
+       </div>
+       <div class="flex justify-between items-center my-3">
+        <ion-text class="font-Lato font-medium">Push rod</ion-text>
+         <ion-checkbox slot="start" formControlName="push_rod"></ion-checkbox>
+       </div>
+       <div class="flex justify-between items-center my-3">
+        <ion-text class="font-Lato font-medium">Brake chamber</ion-text>
+         <ion-checkbox slot="start" formControlName="brake_chamber"></ion-checkbox>
+       </div>
+       <div class="flex justify-between items-center my-3">
+        <ion-text class="font-Lato font-medium">Brake hoses</ion-text>
+         <ion-checkbox slot="start" formControlName="brake_hoses"></ion-checkbox>
+       </div>
+       <div class="flex justify-between items-center my-3">
+        <ion-text class="font-Lato font-medium">Air compressor</ion-text>
+         <ion-checkbox slot="start" formControlName="air_compressor"></ion-checkbox>
+       </div>
+       <div class="flex justify-between items-center my-3">
+        <ion-text class="font-Lato font-medium">Steering shaft</ion-text>
+         <ion-checkbox slot="start" formControlName="steering_shaft"></ion-checkbox>
+       </div>
+       <div class="flex justify-between items-center my-3">
+        <ion-text class="font-Lato font-medium">Universal joints</ion-text>
+         <ion-checkbox slot="start" formControlName="universal_joints"></ion-checkbox>
+       </div>
+       <div class="flex justify-between items-center my-3">
+        <ion-text class="font-Lato font-medium">Steering blocks</ion-text>
+         <ion-checkbox slot="start" formControlName="steering_blocks"></ion-checkbox>
+       </div>
+       <div class="flex justify-between items-center my-3">
+        <ion-text class="font-Lato font-medium">Steering linkages</ion-text>
+         <ion-checkbox slot="start" formControlName="steering_linkages"></ion-checkbox>
+       </div>
+       <div class="flex justify-between items-center my-3">
+        <ion-text class="font-Lato font-medium">Steering hoses</ion-text>
+         <ion-checkbox slot="start" formControlName="steering_hoses"></ion-checkbox>
+       </div>
+       <div class="flex justify-between items-center my-3">
+        <ion-text class="font-Lato font-medium">Steering pump</ion-text>
+         <ion-checkbox slot="start" formControlName="steering_pump"></ion-checkbox>
+       </div>
+       <div class="flex justify-between items-center my-3">
+        <ion-text class="font-Lato font-medium">Suspension mounts</ion-text>
+         <ion-checkbox slot="start" formControlName="suspension_mounts"></ion-checkbox>
+       </div>
+       <div class="flex justify-between items-center my-3">
+        <ion-text class="font-Lato font-medium">bushings</ion-text>
+         <ion-checkbox slot="start" formControlName="bushings"></ion-checkbox>
+       </div>
+       <div class="flex justify-between items-center my-3">
+        <ion-text class="font-Lato font-medium">Leaf Springs</ion-text>
+         <ion-checkbox slot="start" formControlName="leaf_springs"></ion-checkbox>
+       </div>
+       <div class="flex justify-between items-center my-3">
+        <ion-text class="font-Lato font-medium">U bolts</ion-text>
+         <ion-checkbox slot="start" formControlName="u_bolts"></ion-checkbox>
+       </div>
+       <div class="flex justify-between items-center my-3">
+        <ion-text class="font-Lato font-medium">Shock absorbers</ion-text>
+         <ion-checkbox slot="start" formControlName="shock_absorbers"></ion-checkbox>
+       </div>
+       <div class="flex justify-between items-center my-3">
+        <ion-text class="font-Lato font-medium">Clutch condition</ion-text>
+         <ion-checkbox slot="start" formControlName="clutch_condition"></ion-checkbox>
+       </div>
+       <div class="flex justify-between items-center my-3">
+        <ion-text class="font-Lato font-medium">Inter cooler ducts</ion-text>
+         <ion-checkbox slot="start" formControlName="inter_cooler_ducts"></ion-checkbox>
        </div>
        <div class="flex justify-between items-center my-3">
         <ion-text class="font-Lato font-medium">Radiator</ion-text>
          <ion-checkbox slot="start" formControlName="radiator"></ion-checkbox>
        </div>
        <div class="flex justify-between items-center my-3">
-        <ion-text class="font-Lato font-medium">Wiring</ion-text>
-         <ion-checkbox slot="start" formControlName="wiring"></ion-checkbox>
+        <ion-text class="font-Lato font-medium">Radiator fan</ion-text>
+         <ion-checkbox slot="start" formControlName="radiator_fan"></ion-checkbox>
        </div>
        <div class="flex justify-between items-center my-3">
-        <ion-text class="font-Lato font-medium">Steering Box</ion-text>
-         <ion-checkbox slot="start" formControlName="steeringBox"></ion-checkbox>
+        <ion-text class="font-Lato font-medium">Radiator Shroud</ion-text>
+         <ion-checkbox slot="start" formControlName="radiator_shroud"></ion-checkbox>
        </div>
        <div class="flex justify-between items-center my-3">
-        <ion-text class="font-Lato font-medium">Steering Linkage</ion-text>
-         <ion-checkbox slot="start" formControlName="steeringLinkage"></ion-checkbox>
+        <ion-text class="font-Lato font-medium">Radiator hoses</ion-text>
+         <ion-checkbox slot="start" formControlName="radiator_hoses"></ion-checkbox>
        </div>
        <div class="flex justify-between items-center my-3">
-        <ion-text class="font-Lato font-medium">Hoses(Steering)</ion-text>
-         <ion-checkbox slot="start" formControlName="hosesSteering"></ion-checkbox>
+        <ion-text class="font-Lato font-medium">AC pump</ion-text>
+         <ion-checkbox slot="start" formControlName="ac_pump"></ion-checkbox>
+       </div>
+       <div class="flex justify-between items-center my-3">
+        <ion-text class="font-Lato font-medium">Alternator</ion-text>
+         <ion-checkbox slot="start" formControlName="alternator"></ion-checkbox>
+       </div>
+       <div class="flex justify-between items-center my-3">
+        <ion-text class="font-Lato font-medium">Water pump</ion-text>
+         <ion-checkbox slot="start" formControlName="water_pump"></ion-checkbox>
+       </div>
+       <div class="flex justify-between items-center my-3">
+        <ion-text class="font-Lato font-medium">Coolant reservoir</ion-text>
+         <ion-checkbox slot="start" formControlName="coolant_reservoir"></ion-checkbox>
+       </div>
+       <div class="flex justify-between items-center my-3">
+        <ion-text class="font-Lato font-medium">Coolant level</ion-text>
+         <ion-checkbox slot="start" formControlName="coolant_level"></ion-checkbox>
+       </div>
+       <div class="flex justify-between items-center my-3">
+        <ion-text class="font-Lato font-medium">Windshield washer level</ion-text>
+         <ion-checkbox slot="start" formControlName="windshield_washer_level"></ion-checkbox>
        </div>
        <div class="flex justify-between items-center my-3">
         <ion-text class="font-Lato font-medium">Turbo</ion-text>
          <ion-checkbox slot="start" formControlName="turbo"></ion-checkbox>
        </div>
        <div class="flex justify-between items-center my-3">
-        <ion-text class="font-Lato font-medium">Window Fluid</ion-text>
-         <ion-checkbox slot="start" formControlName="windowFluid"></ion-checkbox>
+        <ion-text class="font-Lato font-medium">Exhaust system</ion-text>
+         <ion-checkbox slot="start" formControlName="exhaust_sysytem"></ion-checkbox>
        </div>
        <div class="flex justify-between items-center my-3">
-        <ion-text class="font-Lato font-medium">Mirror</ion-text>
-         <ion-checkbox slot="start" formControlName="mirror"></ion-checkbox>
+        <ion-text class="font-Lato font-medium">Step</ion-text>
+         <ion-checkbox slot="start" formControlName="step"></ion-checkbox>
        </div>
        <div class="flex justify-between items-center my-3">
-        <ion-text class="font-Lato font-medium">Clutch Condition</ion-text>
-         <ion-checkbox slot="start" formControlName="clutchCondition"></ion-checkbox>
+        <ion-text class="font-Lato font-medium">Battery Box</ion-text>
+         <ion-checkbox slot="start" formControlName="battery_box"></ion-checkbox>
+       </div>
+       <div class="flex justify-between items-center my-3">
+        <ion-text class="font-Lato font-medium">Mirrors</ion-text>
+         <ion-checkbox slot="start" formControlName="mirrors"></ion-checkbox>
+       </div>
+       <div class="flex justify-between items-center my-3">
+        <ion-text class="font-Lato font-medium">Hand rail</ion-text>
+         <ion-checkbox slot="start" formControlName="hand_rail"></ion-checkbox>
+       </div>
+       <div class="flex justify-between items-center my-3">
+        <ion-text class="font-Lato font-medium">Door</ion-text>
+         <ion-checkbox slot="start" formControlName="door"></ion-checkbox>
+       </div>
+       <div class="flex justify-between items-center my-3">
+        <ion-text class="font-Lato font-medium">Hinges</ion-text>
+         <ion-checkbox slot="start" formControlName="hinges"></ion-checkbox>
        </div>
        <ion-text class="text-sm font-semibold font-Lato text-black mt-2">Add Comments</ion-text>
          <ion-textarea [autoGrow]="true"
@@ -97,33 +263,10 @@
       <div class="ion-text-center my-5">
         <ion-text class="bg-3D8AA4 bg-opacity-10 text-3D8AA4 font-medium font-Lato border-2 border-opacity-60 rounded-lg border-3D8AA4 px-5 py-2">Score = {{result}}%</ion-text>
        </div>
-      <ion-button
-      expand="block"
-      class="close-out-button font-Lato mb-4 mt-0 mx-8 bg-opacity-10 text-white"
-      (click)="next()">
-      <div>Next</div>
+    <ion-button class="close-out-button font-Lato mb-4 mt-0 mx-8 bg-opacity-10 text-white" expand="block" (click)="submit()">
+      <div *ngIf="(loadingSpinner | async) === false">Next</div>
+      <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
     </ion-button>
 
   </form>
-
-  <!-- MODEL -->
-  <ion-modal #modal [isOpen]="isModalOpen" backdropDismiss="false">
-    <ng-template>
-      <ion-content class="ion-padding">
-        <ion-text class="flex justify-center items-center ion-text-center">
-          This is a one-time fill form. Please verify your readings before going to the next page.
-        </ion-text>
-        <div class="flex flex-col justify-center items-center mt-3">
-          <ion-button class="text-white w-full" expand="block" (click)="submit()">
-            <div *ngIf="(loadingSpinner | async) === false">Next</div>
-            <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
-          </ion-button>
-          <ion-button class="text-white w-full" expand="block" (click)="edit()">
-            Edit
-          </ion-button>
-        </div>
-      </ion-content>
-    </ng-template>
-  </ion-modal>
-  <!-- MODEL -->
 </ion-content>

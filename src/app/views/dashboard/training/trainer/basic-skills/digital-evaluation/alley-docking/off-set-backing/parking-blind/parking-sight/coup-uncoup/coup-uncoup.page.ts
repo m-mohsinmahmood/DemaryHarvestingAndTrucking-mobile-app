@@ -34,6 +34,7 @@ export class CoupUncoupPage implements OnInit {
 
   public loadingSpinner = new BehaviorSubject(false);
   public activeCheckInSpinner = new BehaviorSubject(false);
+  // public loading = new BehaviorSubject(true);
 
   constructor(
     private formBuilder: FormBuilder,
@@ -85,7 +86,7 @@ export class CoupUncoupPage implements OnInit {
         parallelParkingBlindInput_cou: [''],
         parallelParkingSight_cou: [''],
         parallelParkingSightInput_cou: [''],
-        coupUncoup_cou: [''],
+        coupUncoup_cou: [],
         coupUncoupInput_cou: [''],
         comments_cou:[''],
         category:['coup-uncoup'],
@@ -161,19 +162,22 @@ export class CoupUncoupPage implements OnInit {
         .getRecordById(this.training_record_id)
         .subscribe((record) => {
           this.training_record = record[0];
-          // patching
-          this.basicSkillForm.patchValue({
-            straightLineBacking_cou: (+this.training_record.pullUpsInput_slb + +this.training_record.encroachInput_slb < 3) && (this.training_record.goal_slb === 'true') && (this.training_record.finalPosition_slb === 'true') === true? 'true': 'false',
-            straightLineBackingInput_cou: +this.training_record.pullUpsInput_slb + +this.training_record.encroachInput_slb,
-            alleyDocking_cou: (+this.training_record.pullUpsInput_ad + +this.training_record.encroachInput_ad < 3) && (this.training_record.goal_ad === 'true') && (this.training_record.finalPosition_ad === 'true') === true? 'true': 'false',
-            alleyDockingInput_cou: +this.training_record.pullUpsInput_ad + +this.training_record.encroachInput_ad,
-            offSetBacking_cou: (+this.training_record.encroach_osb + +this.training_record.encroach_osb < 3) && (this.training_record.goal_osb === 'true') && (this.training_record.finalPosition_osb === 'true') === true? 'true': 'false',
-            offSetBackingInput_cou: +this.training_record.pullUps_osb + +this.training_record.encroach_osb,
-            parallelParkingBlind_cou: (+this.training_record.pullUps_pb + +this.training_record.encroach_pb < 3) && (this.training_record.goal_pb === 'true') && (this.training_record.finalPosition_pb === 'true') === true? 'true': 'false',
-            parallelParkingBlindInput_cou: +this.training_record.pullUps_pb + +this.training_record.encroach_pb,
-            parallelParkingSight_cou: (+this.training_record.pullUps_ps + +this.training_record.encroach_ps < 3) && (this.training_record.goal_ps === 'true') && (this.training_record.finalPosition_ps === 'true') === true? 'true': 'false',
-            parallelParkingSightInput_cou: +this.training_record.pullUps_ps + +this.training_record.encroach_ps,
-          });
+
+            // patching
+            this.basicSkillForm.patchValue({
+              straightLineBacking_cou: (+this.training_record.pullUpsInput_slb + +this.training_record.encroachInput_slb < 3) && (this.training_record.goal_slb === 'true') && (this.training_record.finalPosition_slb === 'true') === true? 'true': 'false',
+              straightLineBackingInput_cou: +this.training_record.pullUpsInput_slb + +this.training_record.encroachInput_slb,
+              alleyDocking_cou: (+this.training_record.pullUpsInput_ad + +this.training_record.encroachInput_ad < 3) && (this.training_record.goal_ad === 'true') && (this.training_record.finalPosition_ad === 'true') === true? 'true': 'false',
+              alleyDockingInput_cou: +this.training_record.pullUpsInput_ad + +this.training_record.encroachInput_ad,
+              offSetBacking_cou: (+this.training_record.encroach_osb + +this.training_record.encroach_osb < 3) && (this.training_record.goal_osb === 'true') && (this.training_record.finalPosition_osb === 'true') === true? 'true': 'false',
+              offSetBackingInput_cou: +this.training_record.pullUps_osb + +this.training_record.encroach_osb,
+              parallelParkingBlind_cou: (+this.training_record.pullUps_pb + +this.training_record.encroach_pb < 3) && (this.training_record.goal_pb === 'true') && (this.training_record.finalPosition_pb === 'true') === true? 'true': 'false',
+              parallelParkingBlindInput_cou: +this.training_record.pullUps_pb + +this.training_record.encroach_pb,
+              parallelParkingSight_cou: (+this.training_record.pullUps_ps + +this.training_record.encroach_ps < 3) && (this.training_record.goal_ps === 'true') && (this.training_record.finalPosition_ps === 'true') === true? 'true': 'false',
+              parallelParkingSightInput_cou: +this.training_record.pullUps_ps + +this.training_record.encroach_ps,
+            });
+
+
         });
     }
     getCheckInID(){

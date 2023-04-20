@@ -123,13 +123,9 @@ export class TrainingService {
     supervisor_id: any,
     dwrId){
     let data;
-    console.log('trainee_record_id',trainee_record_id);
-    console.log('training_record_id',training_record_id);
-    console.log('trainer_record_id',trainer_record_id);
-    console.log('dwrId',dwrId);
+
 
     if(trainee_record_id){
-      console.log('Block A');
        data = {
         dwr_type: 'training',
         module: 'training',
@@ -142,8 +138,6 @@ export class TrainingService {
       };
     }
      else if(training_record_id){
-      console.log('Block B');
-      console.log('dwrId::',dwrId);
          data = {
           dwr_type: 'training',
           module: 'training',
@@ -156,8 +150,6 @@ export class TrainingService {
         };
     }
     else if(trainer_record_id){
-      console.log('Block B');
-      console.log('dwrId::',dwrId);
          data = {
           dwr_type: 'training',
           module: 'training',
@@ -172,6 +164,7 @@ export class TrainingService {
     console.log('DATA:',data);
     return this.httpClient
       .post<any>(`api-1/dwr`, data)
+
       .pipe(take(1));
   }
   getMachinery(search: string = '', entity: string = '') {

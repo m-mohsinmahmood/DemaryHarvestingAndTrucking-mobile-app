@@ -1,3 +1,4 @@
+/* eslint-disable no-var */
 /* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Component, OnInit } from '@angular/core';
@@ -34,8 +35,8 @@ export class DetailPage implements OnInit {
   segment = 'all';
   id: any;
   dwr_employee_id: any;
-  dateLogin: any = moment.utc().format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
-  dateLogout: any = moment.utc().format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
+  dateLogin: any;
+  dateLogout: any;
   // dateLogoutFormatted: any = moment(new Date()).format('MM-DD-YYYY hh:mm:ss A');
   // dateLoginFormatted: any = moment(new Date()).format('MM-DD-YYYY hh:mm:ss A');
   supervisorNotes = '';
@@ -63,43 +64,6 @@ export class DetailPage implements OnInit {
   ) { }
 
   ngOnInit() {
-  //   const currentDate = moment.utc().format('YYYY-MM-DD HH:mm:ss');
-  //    console.log(currentDate);
-  //    console.log(currentDate);
-
-
-  //   const utcDate = moment.utc();
-  //   console.log(utcDate);
-  //   const localDate = utcDate.local();
-  //  console.log(localDate.format('YYYY-MM-DD HH:mm:ss'));
-
-//   console.log('Date',new Date());
-//   console.log('UTC Date',new Date());
-//   const localTime = moment(new Date()); // Assuming this is in local time
-// const utcTime = moment.utc(localTime);
-// console.log("Old Data: ",utcTime.format());
-
-
-
-
-// const originalDateString = new Date();
-
-// // Create a new Date object from the original date string
-// const originalDate = new Date(originalDateString);
-
-// // Get the year, month, day, hours, minutes, and seconds from the original date
-// const year = originalDate.getFullYear();
-// const month = originalDate.getMonth() + 1; // Month is zero-indexed, so we add 1
-// const day = originalDate.getDate();
-// const hours = originalDate.getHours();
-// const minutes = originalDate.getMinutes();
-// const seconds = originalDate.getSeconds();
-
-// // Format the new date string in the desired format
-// const newDateString = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')} ${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-
-// // Output the new date string
-// console.log("New Date: ",newDateString); // Output: 2023-04-14 15:28:42
 
     //getting employee details
     this.reassignSupervisor = this.formBuilder.group({
@@ -120,7 +84,6 @@ export class DetailPage implements OnInit {
     this.getEmployeeDetails();
 
     this.route.queryParams.subscribe((params) => {
-      console.log('PARAMS:', params);
       this.type = params.dwr_type;
       this.date = params.date;
       this.dwr_employee_id = params.employee_id;
@@ -166,7 +129,6 @@ export class DetailPage implements OnInit {
     });
   }
   getWordOrderById(work_order_id: any) {
-    console.log('Work Order Called');
     this.dwrService.getWordOrderById(work_order_id).subscribe((res) => {
       this.loaderModel.next(true);
       this.data = res;
@@ -177,7 +139,6 @@ export class DetailPage implements OnInit {
     this.dwrService
       .getMainenanceRepairTicketById(main_repair_ticket_id)
       .subscribe((res) => {
-        console.log('res::', res);
         this.loaderModel.next(true);
         this.data = res[0];
         this.loaderModel.next(false);
@@ -187,7 +148,6 @@ export class DetailPage implements OnInit {
     this.dwrService
       .gettrainingRecordById(training_record_id)
       .subscribe((res) => {
-        console.log('res::', res);
         this.loaderModel.next(true);
         this.data = res[0];
         this.loaderModel.next(false);
@@ -237,7 +197,6 @@ export class DetailPage implements OnInit {
 
           this.toastService.presentToast('Ticket reassigned', 'success');
         } else {
-          console.log('Something happened :)');
           this.toastService.presentToast(res.mssage, 'danger');
           this.loadingSpinner.next(false);
         }
@@ -300,23 +259,42 @@ export class DetailPage implements OnInit {
   }
 
   getLoginDate(e) {
+    // this.dateLogin = new Date(e.detail.value);
     this.dateLogin = e.detail.value;
     this.dateLoginFormatted = e.detail.value;
   }
   getLogoutDate(e) {
+    // this.dateLogout = new Date(e.detail.value);
     this.dateLogout = e.detail.value;
     this.dateLogoutFormatted = e.detail.value;
+
+  }
+  getIsoString(d){
+    var date = new Date(d);
+    var now_utc = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(),
+    date.getUTCDate(), date.getUTCHours(),
+    date.getUTCMinutes(), date.getUTCSeconds());
+    return date.toISOString();
   }
 
   openModel(id, data) {
     this.isOpen = true;
     this.model_id = id;
 
+    // this.dateLoginFormatted = new Date(data.login_time).toISOString();
+    // this.dateLogoutFormatted = new Date(data.logout_time).toISOString();
+
     this.dateLoginFormatted = data.login_time;
     this.dateLogoutFormatted = data.logout_time;
 
+    // this.dateLoginFormatted =  new Date(data.login_time);
+    // this.dateLogoutFormatted =  new Date(data.login_time);
+
     this.dateLogin = data.login_time;
     this.dateLogout = data.logout_time;
+
+    // this.dateLogin = new Date(data.login_time);
+    // this.dateLogout = new Date(data.login_time);
 
 
     this.reassignEmployee.patchValue({
@@ -353,7 +331,6 @@ export class DetailPage implements OnInit {
             // toast
             this.toastService.presentToast('Ticket reassigned', 'success');
           } else {
-            console.log('Something happened :)');
             this.toastService.presentToast(res.mssage, 'danger');
             this.loadingSpinner.next(false);
             this.isReassignModalOpen = false;
@@ -369,9 +346,10 @@ export class DetailPage implements OnInit {
 
   edit(id) {
     console.log('Start',this.dateLogin);
+    // console.log('Start Local:',moment(this.dateLogin).local().format('MM:DD:YYYY hh:mm:ss'));
     console.log('End',this.dateLogout);
-    // console.log(moment(this.dateLogin).utc().format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'));
-    // console.log(moment(this.dateLogout).utc().format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'));
+    // console.log('End Local:',moment(this.dateLogout).local().format('MM:DD:YYYY hh:mm:ss'));
+
 
 
     this.loadingSpinner.next(true);
@@ -395,7 +373,6 @@ export class DetailPage implements OnInit {
 
           this.toastService.presentToast('Ticket edited', 'success');
         } else {
-          console.log('Something happened :)');
           this.toastService.presentToast(res.mssage, 'danger');
           this.loadingSpinner.next(false);
           this.isOpen = false;
@@ -408,6 +385,14 @@ export class DetailPage implements OnInit {
       }
     );
   }
+
+  newDate(date){
+    return moment(date).format('MM/DD/YYYY hh:mm:ss');
+  }
+  newDatee(d){
+    return new Date(d);
+  }
+
 }
 
 
