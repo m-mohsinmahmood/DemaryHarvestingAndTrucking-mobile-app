@@ -13,6 +13,7 @@ import { Renderer2 } from '@angular/core';
 import { ToastService } from 'src/app/services/toast/toast.service';
 import { Router } from '@angular/router';
 import { CheckInOutService } from 'src/app/components/check-in-out/check-in-out.service';
+import { HarvestingService } from './../../harvesting/harvesting.service';
 
 @Component({
   selector: 'app-trainee',
@@ -27,6 +28,8 @@ export class TraineePage implements OnInit {
   upload_3 = false;
   traineeForm: FormGroup;
   states: string[];
+  state;
+  city;
   trainee_id;
   trainee_name: any;
 
@@ -57,7 +60,8 @@ export class TraineePage implements OnInit {
     private renderer: Renderer2,
     private toastService: ToastService,
     private router: Router,
-    private dwrServices: CheckInOutService
+    private dwrServices: CheckInOutService,
+    private harvestingService: HarvestingService
 
   ) {
     this.renderer.listen('window', 'click', (e) => {
@@ -69,34 +73,54 @@ export class TraineePage implements OnInit {
   }
 
   ngOnInit() {
-   this.initForm();
-
-   // getting id & role
-   this.getRoleAndID();
-
     // pasing states
     this.states = states;
 
-    // getting trainee details
-    this.getTrainee();
+   this.initForm();
+
+    // to get city & state
+this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).subscribe((res)=>{
+  console.log('Employee Details:',res);
+  // setting in local storage
+  localStorage.setItem('state',res.state);
+  localStorage.setItem('city',res.city);
+
+  // getting id & role
+ this.getRoleAndID();
+
+  // getting Trainer profile data
+  this.getTrainee();
+
+  this.initForm();
+
+});
+
+
+    // // getting trainee details
+    // this.getTrainee();
 
     // employee/trainer subscription
     this.employeeSearchSubscription();
   }
   async ionViewDidEnter() {
     this.getRoleAndID();
+    this.upload_1 = false;
+    this.upload_2 = false;
+    this.upload_3 = false;
   }
   getRoleAndID(){
     this.role = localStorage.getItem('role');
     this.trainee_id = localStorage.getItem('employeeId');
+    this.state = localStorage.getItem('state');
+    this.city = localStorage.getItem('city');
 
   }
   initForm(){
     this.traineeForm = this.formBuilder.group({
       trainee_id: [''],
       trainer_id: [''],
-      city: ['', [Validators.required]],
-      state: ['', [Validators.required]],
+      city: [this.city !== 'null'? this.city: '', [Validators.required]],
+      state: [this.state !== 'null'? this.state: '', [Validators.required]],
       training_type: ['', [Validators.required]],
       topic: [''],
       detail: [''],
@@ -166,7 +190,7 @@ export class TraineePage implements OnInit {
       }
     );
   }
-  submit (){
+  submit(){
 // start loader
 this.loadingSpinner.next(true);
 
@@ -328,12 +352,27 @@ this.getCheckInID();
           // to stop loader
           this.loadingSpinner.next(false);
 
+           // form resetting
+           this.traineeForm.reset();
+           this.employeeInput.nativeElement.value = '';
+
+
+            // get city & state
+          this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).subscribe((response)=>{
+            console.log('Employee Details:',response);
+
+            // setting in local storage
+            localStorage.setItem('state',response.state);
+            this.state = localStorage.getItem('state');
+            this.city = localStorage.getItem('city');
+            this.initForm();
+          });
+
            // tooltip
            this.toastService.presentToast(
             'Details have been submitted',
             'success'
           );
-
 
         // navigating
            this.router.navigateByUrl('/tabs/home/training');

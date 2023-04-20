@@ -204,27 +204,7 @@ export class InCabPage implements OnInit {
     });
   }
   patchForm(){
-    // this.preTripForm.patchValue({
-    //   safetyBelt: this.preTripFormData.safetyBelt,
-    //   coolantLevelCab: this.preTripFormData.coolantLevelCab,
-    //   emergencyEquipment: this.preTripFormData.emergencyEquipment,
-    //   safeStart: this.preTripFormData.safeStart,
-    //   temperatureGauge: this.preTripFormData.temperatureGauge,
-    //   oilPressure: this.preTripFormData.oilPressure,
-    //   voltMeter: this.preTripFormData.voltMeter,
-    //   airGaugeBuCo: this.preTripFormData.airGaugeBuCo,
-    //   indicators: this.preTripFormData.indicators,
-    //   horns: this.preTripFormData.horns,
-    //   defroster: this.preTripFormData.defroster,
-    //   windshield: this.preTripFormData.windshield,
-    //   wipersWash: this.preTripFormData.wipersWash,
-    //   parkBrake: this.preTripFormData.parkBrake,
-    //   svcBrake: this.preTripFormData.svcBrake,
-    //   leakTest: this.preTripFormData.leakTest,
-    //   abcLights: this.preTripFormData.abcLights,
-    //   lightFunction: this.preTripFormData.lightFunction,
-    //   commentsCab: this.preTripFormData.commentsCab,
-    // });
+
     this.preTripForm.patchValue({
       seat_belt: this.preTripFormData.seat_belt=== 'true'? true: false,
       loose_floor: this.preTripFormData.loose_floor=== 'true'? true: false,

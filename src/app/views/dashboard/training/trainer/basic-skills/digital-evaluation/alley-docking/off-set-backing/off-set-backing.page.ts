@@ -17,7 +17,7 @@ export class OffSetBackingPage implements OnInit {
   buffer = 1;
   progress = 0.4285714285714287;
   feedbackValue: any;
-  basicSkillForm: FormGroup;
+  basicSkillsForm: FormGroup;
   totalSatisfactory = 0;
   totalUnSatisfactory = 0;
   trainer_id;
@@ -28,7 +28,9 @@ export class OffSetBackingPage implements OnInit {
   checkValue: any;
   isModalOpen = false;
 
+  // behaviour subject's
   public loadingSpinner = new BehaviorSubject(false);
+  // public loading = new BehaviorSubject(true);
 
   constructor(
     private formBuilder: FormBuilder,
@@ -47,7 +49,6 @@ export class OffSetBackingPage implements OnInit {
 
       // query params
       this.route.queryParams.subscribe((params)=>{
-        console.log(params);
         this.training_record_id = params.training_record_id;
         this.supervisor_id = params.supervisor_id;
       });
@@ -62,7 +63,7 @@ export class OffSetBackingPage implements OnInit {
       this.trainer_id = localStorage.getItem('employeeId');
     }
     initForm(){
-      this.basicSkillForm = this.formBuilder.group({
+      this.basicSkillsForm = this.formBuilder.group({
         pullUps_osb: [null,[Validators.required,Validators.pattern(('^([0-5])$'))]],
         encroach_osb: [null,[Validators.required,Validators.pattern(('^([0-5])$'))]],
         goal_osb: ['',[Validators.required]],
@@ -85,7 +86,7 @@ export class OffSetBackingPage implements OnInit {
         unSatisfactoryOffSetBacking:[],
         trainer_id: [this.trainer_id]
       });
-      this.basicSkillForm.valueChanges.subscribe((value)=>{
+      this.basicSkillsForm.valueChanges.subscribe((value)=>{
         let sum = 0;
         // for input fields
         sum = +value.pullUps_osb +value.encroach_osb + +sum;
@@ -101,6 +102,7 @@ export class OffSetBackingPage implements OnInit {
         }else{
           this.checkValue = 'false';
         }
+
       });
     }
     addFeedback(){
@@ -116,12 +118,12 @@ export class OffSetBackingPage implements OnInit {
       this.loadingSpinner.next(true);
 
   // patching sat & un-sat results
-  this.basicSkillForm.patchValue({
+  this.basicSkillsForm.patchValue({
     satisfactoryOffSetBacking:this.totalSatisfactory,
     unSatisfactoryOffSetBacking:this.totalUnSatisfactory
   });
-      console.log(this.basicSkillForm.value);
-      this.trainingService.saveFroms(this.basicSkillForm.value, 'basic-skills').subscribe(
+      console.log(this.basicSkillsForm.value);
+      this.trainingService.saveFroms(this.basicSkillsForm.value, 'basic-skills').subscribe(
         (res) => {
           console.log('RES:', res);
           if (res.status === 200) {
@@ -168,7 +170,7 @@ export class OffSetBackingPage implements OnInit {
           this.training_record = record[0];
 
           // patching
-          this.basicSkillForm.patchValue({
+          this.basicSkillsForm.patchValue({
             straightLineBaking_osb: (+this.training_record.pullUpsInput_slb + +this.training_record.encroachInput_slb < 3) && (this.training_record.goal_slb === 'true') && (this.training_record.finalPosition_slb === 'true') === true? 'true': 'false',
             straightLineBakingInput_osb: +this.training_record.pullUpsInput_slb + +this.training_record.encroachInput_slb,
             alleyDocking_osb: (+this.training_record.pullUpsInput_ad + +this.training_record.encroachInput_ad < 3) && (this.training_record.goal_ad === 'true') && (this.training_record.finalPosition_ad === 'true') === true? 'true': 'false',

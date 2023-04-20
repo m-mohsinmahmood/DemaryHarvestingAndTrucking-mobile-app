@@ -96,9 +96,7 @@ export class OthersPage implements OnInit {
       localStorage.setItem('state',res.state);
       this.loading.next(false);
 
-      console.log(this.loading.getValue());
       if(!this.loading.getValue()){
-        console.log('CALLLEDDDDD');
         this.state = localStorage.getItem('state');
         this.initForm();
 

@@ -259,18 +259,18 @@ export class DetailPage implements OnInit {
   }
 
   getLoginDate(e) {
-    this.dateLogin = this.getUTCDate(e.detail.value);
-    console.log('UTC Login:',this.getUTCDate(e.detail.value));
+    // this.dateLogin = new Date(e.detail.value);
+    this.dateLogin = e.detail.value;
     this.dateLoginFormatted = e.detail.value;
   }
   getLogoutDate(e) {
-    this.dateLogout = this.getUTCDate(e.detail.value);
-    console.log('UTC Logout:',this.getUTCDate(e.detail.value));
+    // this.dateLogout = new Date(e.detail.value);
+    this.dateLogout = e.detail.value;
     this.dateLogoutFormatted = e.detail.value;
 
   }
-  getUTCDate(d){
-     var date = new Date(d);
+  getIsoString(d){
+    var date = new Date(d);
     var now_utc = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(),
     date.getUTCDate(), date.getUTCHours(),
     date.getUTCMinutes(), date.getUTCSeconds());
@@ -281,11 +281,20 @@ export class DetailPage implements OnInit {
     this.isOpen = true;
     this.model_id = id;
 
+    // this.dateLoginFormatted = new Date(data.login_time).toISOString();
+    // this.dateLogoutFormatted = new Date(data.logout_time).toISOString();
+
     this.dateLoginFormatted = data.login_time;
     this.dateLogoutFormatted = data.logout_time;
 
+    // this.dateLoginFormatted =  new Date(data.login_time);
+    // this.dateLogoutFormatted =  new Date(data.login_time);
+
     this.dateLogin = data.login_time;
     this.dateLogout = data.logout_time;
+
+    // this.dateLogin = new Date(data.login_time);
+    // this.dateLogout = new Date(data.login_time);
 
 
     this.reassignEmployee.patchValue({
@@ -337,9 +346,9 @@ export class DetailPage implements OnInit {
 
   edit(id) {
     console.log('Start',this.dateLogin);
-    console.log('Start Local:',moment(this.dateLogin).local().format('MM:DD:YYYY hh:mm:ss'));
+    // console.log('Start Local:',moment(this.dateLogin).local().format('MM:DD:YYYY hh:mm:ss'));
     console.log('End',this.dateLogout);
-    console.log('End Local:',moment(this.dateLogout).local().format('MM:DD:YYYY hh:mm:ss'));
+    // console.log('End Local:',moment(this.dateLogout).local().format('MM:DD:YYYY hh:mm:ss'));
 
 
 
@@ -376,6 +385,14 @@ export class DetailPage implements OnInit {
       }
     );
   }
+
+  newDate(date){
+    return moment(date).format('MM/DD/YYYY hh:mm:ss');
+  }
+  newDatee(d){
+    return new Date(d);
+  }
+
 }
 
 

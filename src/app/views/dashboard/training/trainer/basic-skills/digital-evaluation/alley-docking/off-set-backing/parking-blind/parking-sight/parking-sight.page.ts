@@ -31,6 +31,7 @@ export class ParkingSightPage implements OnInit {
   isModalOpen = false;
 
   public loadingSpinner = new BehaviorSubject(false);
+  public loading = new BehaviorSubject(true);
 
 
   constructor(
@@ -172,6 +173,7 @@ export class ParkingSightPage implements OnInit {
         .getRecordById(this.training_record_id)
         .subscribe((record) => {
           this.training_record = record[0];
+
           console.log('Record::', this.training_record);
           // patching
           this.basicSkillForm.patchValue({

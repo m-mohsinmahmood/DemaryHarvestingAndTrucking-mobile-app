@@ -1,5 +1,6 @@
 <app-header [title]="'Basic Skills Digital Evaluation Form'" [color]="'training'" [routeValue]="'basic-skills'"></app-header>
-<ion-content>
+
+<ion-content >
   <!-- <app-timer [value]="'23:00:00'"></app-timer> -->
   <div class="mx-4 my-2">
     <ion-progress-bar class="mb-2" [buffer]="buffer" [value]="progress"></ion-progress-bar>
@@ -104,21 +105,22 @@
               </ion-radio-group>
               <div class="flex-col">
                 <div class="flex justify-center items-center w-28 border-2  rounded-lg px-2">
-                  <ion-input [value]="totalSatisfactory" placeholder="Enter Value" type="number" formControlName="alleyDockingInput_ad"></ion-input>
+                  <ion-input [value]="totalSatisfactory" placeholder="Enter Value" type="number" formControlName="alleyDockingInput_ad">
+                  </ion-input>
                 </div>
                 <ion-text *ngIf="this.basicSkillForm.get('alleyDockingInput_ad').hasError('pattern')"
-                class=" text-sm text-red-500">
-                Enter between 1-5
-              </ion-text>
+                      class=" text-sm text-red-500">
+                      Enter between 1-5
+                    </ion-text>
               </div>
             </div>
           </div>
         </div>
 
-          <div class="border-b-4 py-4 pointer-events-none">
+        <div class="py-4 pointer-events-none">
           <div class="flex flex-col justify-center">
             <ion-text class="font-Lato font-semibold">Straight Line Backing</ion-text>
-            <div class="flex justify-between items-center mt-3">
+            <div class="flex justify-between items-center mt-3 bg-gray-200 px-1 rounded-md">
               <ion-radio-group formControlName="straightLineBacking_ad"
                 class="radio flex justify-center items-center">
                 <div class="flex justify-center items-center  mr-2">
@@ -142,7 +144,7 @@
             </div>
           </div>
         </div>
-        <div class="border-b-4 py-4 pointer-events-none">
+        <div class="border-b-4 py-4 px-1 pointer-events-none">
           <div class="flex flex-col justify-center">
             <ion-text class="font-Lato font-semibold">Alley Docking (90)</ion-text>
             <div class="flex justify-between items-center mt-3">
@@ -169,7 +171,8 @@
             </div>
           </div>
         </div>
-        <div class="border-b-4 py-4 pointer-events-none">
+
+        <div class="border-b-4 py-4 px-1 pointer-events-none">
           <div class="flex flex-col justify-center">
             <ion-text class="font-Lato font-semibold">Off Set Backing</ion-text>
             <div class="flex justify-between items-center mt-3">
@@ -196,7 +199,7 @@
             </div>
           </div>
         </div>
-        <div class="border-b-4 py-4 pointer-events-none">
+        <div class="border-b-4 py-4 px-1 pointer-events-none">
           <div class="flex flex-col justify-center">
             <ion-text class="font-Lato font-semibold">Parallel Paking Blind</ion-text>
             <div class="flex justify-between items-center mt-3">
@@ -224,7 +227,7 @@
             </div>
           </div>
         </div>
-        <div class="border-b-4 py-4 pointer-events-none">
+        <div class="border-b-4 py-4 px-1 pointer-events-none">
           <div class="flex flex-col justify-center">
             <ion-text class="font-Lato font-semibold">Parallel Paking sight</ion-text>
             <div class="flex justify-between items-center mt-3">
@@ -248,7 +251,7 @@
             </div>
           </div>
         </div>
-        <div class="border-b-4 py-4 pointer-events-none">
+        <div class="border-b-4 py-4 px-1 pointer-events-none">
           <div class="flex flex-col justify-center">
             <ion-text class="font-Lato font-semibold">Coupling & Uncoupling</ion-text>
             <div class="flex justify-between items-center mt-3">

@@ -28,7 +28,7 @@ export class AlleyDocking90Page implements OnInit {
 
   // behaviour subject's
   public loadingSpinner = new BehaviorSubject(false);
-  // public loading = new BehaviorSubject(true);
+  public loading = new BehaviorSubject(true);
   checkValue: any;
 
   constructor(
@@ -88,8 +88,6 @@ export class AlleyDocking90Page implements OnInit {
       comments_ad: [''],
       comments_ad90: [''],
       category: ['alley-docking-90'],
-      // satisfactoryAlleyDocking: [],
-      // unSatisfactoryAlleyDocking: [],
       satisfactoryAlleyDocking90: [],
       unSatisfactoryAlleyDocking90: [],
       trainer_id: [this.trainer_id],
@@ -185,7 +183,10 @@ export class AlleyDocking90Page implements OnInit {
     this.trainingService
       .getRecordById(this.training_record_id)
       .subscribe((record) => {
+        this.loading.next(true);
         this.training_record = record[0];
+        this.loading.next(false);
+
 
         // patching
         this.basicSkillForm.patchValue({

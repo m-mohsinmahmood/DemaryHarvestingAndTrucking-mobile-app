@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable max-len */
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastService } from 'src/app/services/toast/toast.service';
@@ -13,7 +13,6 @@ import { BehaviorSubject } from 'rxjs';
   styleUrls: ['./parking-blind.page.scss'],
 })
 export class ParkingBlindPage implements OnInit {
-
   buffer = 1;
   progress = 0.7142857142857145;
   feedbackValue: any;
@@ -29,7 +28,10 @@ export class ParkingBlindPage implements OnInit {
   checkValue: any;
   isModalOpen = false;
 
+  // behaviour subject's
   public loadingSpinner = new BehaviorSubject(false);
+  // public loading = new BehaviorSubject(true);
+
 
   constructor(
     private formBuilder: FormBuilder,
@@ -38,7 +40,8 @@ export class ParkingBlindPage implements OnInit {
     private toastService: ToastService,
     private route: ActivatedRoute
 
-    ) { }
+    ) {
+    }
 
     ngOnInit() {
        // getting id & role
@@ -168,6 +171,7 @@ export class ParkingBlindPage implements OnInit {
         .getRecordById(this.training_record_id)
         .subscribe((record) => {
           this.training_record = record[0];
+
           console.log('Record::', this.training_record);
           // patching
           this.basicSkillForm.patchValue({

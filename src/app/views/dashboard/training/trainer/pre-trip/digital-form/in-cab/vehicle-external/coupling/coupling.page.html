@@ -7,9 +7,7 @@
     <ion-progress-bar class="mb-2" [buffer]="buffer" [value]="progress" ></ion-progress-bar>
     <ion-text class="text-lg font-semibold justify-start flex font-Lato text-black ">3 of 4 Categories Completed</ion-text>
   </div>
-  <div class="mt-2 ml-3">
-    <ion-text class="font-semibold font-Lato text-9B9BA4 text-xl">Coupling</ion-text>
-</div>
+
 <form [formGroup]="preTripForm">
   <div class="mx-4">
 
@@ -69,13 +67,6 @@
   <div class="ion-text-center my-5">
     <ion-text class="bg-3D8AA4 bg-opacity-10 text-3D8AA4 font-medium font-Lato border-2 border-opacity-60 rounded-lg border-3D8AA4 px-5 py-2">Score = {{result}}%</ion-text>
    </div>
-  <!-- <ion-button expand="block"
-  [disabled]="loadingSpinner | async"
-  class="close-out-button font-Lato mb-4 mt-0 mx-8 bg-opacity-10 text-white"
-  (click)="submit()">
-  <div *ngIf="(loadingSpinner | async) === false">Next</div>
-  <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner></ion-button>
- -->
  <ion-button
       expand="block"
       class="close-out-button font-Lato mb-4 mt-0 mx-8 bg-opacity-10 text-white"
@@ -89,7 +80,7 @@
   <ng-template>
     <ion-content class="ion-padding">
       <ion-text class="flex justify-center items-center ion-text-center">
-        This is a one-time fill form. Please verify your readings before before ending.
+        This is a one-time fill form. Please verify your readings before ending.
       </ion-text>
       <div class="flex flex-col justify-center items-center mt-3">
         <ion-button class="text-white w-full" expand="block" (click)="exit()">

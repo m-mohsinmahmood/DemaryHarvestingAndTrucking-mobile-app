@@ -323,26 +323,7 @@ export class DigitalFormPage implements OnInit {
     });
   }
   patchForm(){
-    // this.preTripForm.patchValue({
-    //   oilLevel: this.preTripFormData.oilLevel,
-    //   coolantLevelEngine: this.preTripFormData.coolantLevelEngine,
-    //   powerSteelingLevel: this.preTripFormData.powerSteelingLevel,
-    //   h20: this.preTripFormData.h20,
-    //   alternatorBelt: this.preTripFormData.alternatorBelt,
-    //   airCompresseorEngine: this.preTripFormData.airCompresseorEngine,
-    //   leaksHoses: this.preTripFormData.leaksHoses,
-    //   fanShroud: this.preTripFormData.fanShroud,
-    //   radiator: this.preTripFormData.radiator,
-    //   wiring: this.preTripFormData.wiring,
-    //   steeringBox: this.preTripFormData.steeringBox,
-    //   steeringLinkage: this.preTripFormData.steeringLinkage,
-    //   hosesSteering: this.preTripFormData.hosesSteering,
-    //   turbo: this.preTripFormData.turbo,
-    //   windowFluid: this.preTripFormData.windowFluid,
-    //   mirror: this.preTripFormData.mirror,
-    //   clutchCondition: this.preTripFormData.clutchCondition,
-    //   commentsEngine: this.preTripFormData.commentsEngine
-    // });
+
     this.preTripForm.patchValue({
       leans: this.preTripFormData.leans=== 'true'? true: false,
       leaks: this.preTripFormData.leaks=== 'true'? true: false,

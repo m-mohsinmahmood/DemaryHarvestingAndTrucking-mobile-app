@@ -11,6 +11,7 @@ import { ToastService } from 'src/app/services/toast/toast.service';
 import { TrainingService } from '../../training.service';
 import { states } from 'src/JSON/state';
 import { CheckInOutService } from 'src/app/components/check-in-out/check-in-out.service';
+import { HarvestingService } from './../../../harvesting/harvesting.service';
 
 @Component({
   selector: 'app-pre-trip',
@@ -40,6 +41,7 @@ export class PreTripPage implements OnInit {
   role: any;
   // behaviour subject for loader
   public loading = new BehaviorSubject(true);
+  public loadingfirebase = new BehaviorSubject(true);
   public loadingSpinner = new BehaviorSubject(false);
 
 
@@ -50,6 +52,8 @@ export class PreTripPage implements OnInit {
   showModel: any= false;
   profileData: any;
   states: string[];
+  state;
+  city;
 
   //#region trainee drop-down variables
   allTrainees: Observable<any>;
@@ -83,7 +87,8 @@ export class PreTripPage implements OnInit {
     private renderer: Renderer2,
     private toastService: ToastService,
     private route: ActivatedRoute,
-    private dwrServices: CheckInOutService
+    private dwrServices: CheckInOutService,
+    private harvestingService: HarvestingService
 
 
   ) {
@@ -103,14 +108,27 @@ export class PreTripPage implements OnInit {
     // pasing states
     this.states = states;
 
-     // getting id & role
-   this.getRoleAndID();
-
-
     this.initForms();
 
-    // getting Trainer profile data
-    this.getTrainer();
+
+ // to get city & state
+this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).subscribe((res)=>{
+  console.log('Employee Details:',res);
+  // setting in local storage
+  localStorage.setItem('state',res.state);
+  localStorage.setItem('city',res.city);
+
+  // getting id & role
+ this.getRoleAndID();
+
+  // getting Trainer profile data
+  this.getTrainer();
+
+
+  this.initForms();
+});
+
+
   }
  async ionViewDidEnter() {
     this.getRoleAndID();
@@ -118,6 +136,8 @@ export class PreTripPage implements OnInit {
   getRoleAndID(){
     this.role = localStorage.getItem('role');
     this.trainer_id = localStorage.getItem('employeeId');
+    this.state = localStorage.getItem('state');
+    this.city = localStorage.getItem('city');
 
   }
   initForms() {
@@ -129,8 +149,8 @@ export class PreTripPage implements OnInit {
       supervisor_id: [''],
       is_completed_cdl_classroom: ['', [Validators.required]],
       is_completed_group_practical: ['', [Validators.required]],
-      city: ['', [Validators.required]],
-      state: ['', [Validators.required]],
+      city: [this.city !== 'null'? this.city: '', [Validators.required]],
+      state: [this.state !== 'null'? this.state: '', [Validators.required]],
       image_1: [''],
       image_2: [''],
       image_3: [''],
@@ -286,6 +306,18 @@ export class PreTripPage implements OnInit {
           this.loadingSpinner.next(false);
 
 
+          // get city & state
+          this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).subscribe((response)=>{
+            console.log('Employee Details:',response);
+
+            // setting in local storage
+            localStorage.setItem('state',response.state);
+            this.state = localStorage.getItem('state');
+            this.city = localStorage.getItem('city');
+            this.initForms();
+          });
+
+
            // tooltip
            this.toastService.presentToast(
             'Your details have been submitted',
@@ -293,7 +325,7 @@ export class PreTripPage implements OnInit {
           );
 
           //  navigating
-           this.router.navigateByUrl('/tabs/home/training');
+           this.router.navigateByUrl('/tabs/home/training/trainer');
          } else {
            console.log('Something happened :)');
            this.toastService.presentToast(res.mssage, 'danger');
@@ -622,4 +654,20 @@ else if (
 }
 
   }
+
+  // getEmployeeDetailsByFirbaseId(){
+
+  //   this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).subscribe((res)=>{
+  //     this.loadingfirebase.next(true);
+  //     console.log('Employee Details:',res);
+  //     this.loadingfirebase.next(false);
+  //     console.log(this.loadingfirebase.getValue());
+
+  //     // setting in local storage
+  //     localStorage.setItem('state',res.state);
+  //     localStorage.setItem('city',res.city);
+
+
+  //   });
+  // }
 }
