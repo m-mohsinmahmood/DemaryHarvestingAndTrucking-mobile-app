@@ -413,7 +413,7 @@ export class DigitalFormPage implements OnInit {
 
           // tooltip
           this.toastService.presentToast(
-            'Engine/Compartment details have been submitted',
+            'Category 1 details have been submitted',
             'success'
           );
 
