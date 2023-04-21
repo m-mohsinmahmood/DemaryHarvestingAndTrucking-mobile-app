@@ -91,9 +91,15 @@ export class VerifyDwrsPage implements OnInit {
 
         // to stop spinner
         this.loading.next(false);
-        // if current employee/supervisor is included in array
-        //  this.hasEmpId = res.dwrSummary.some(obj => Object.values(obj).includes(localStorage.getItem('employeeId')));
+        //if current employee/supervisor is included in array
+        //  res.dwrSummary.some((obj) =>{
+          // console.log(obj);
+          // console.log(obj.last_supervisor_id);
+          // Object.values(obj).includes(localStorage.getItem('employeeId'));
+        //  });
+        // this.hasEmpId = res.dwrSummary.some(obj =>Object.values(obj.last_supervisor_id).includes(localStorage.getItem('employeeId')));
 
+        //  console.log('Has employee:',this.hasEmpId);
       });
   }
   getDWRByMonth(){

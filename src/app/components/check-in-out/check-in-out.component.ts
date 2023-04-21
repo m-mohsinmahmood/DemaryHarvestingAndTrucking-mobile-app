@@ -3,7 +3,6 @@ import { CheckInOutService } from './check-in-out.service';
 import { ToastService } from 'src/app/services/toast/toast.service';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
-import { DateService } from './../../services/date/date.service';
 
 @Component({
   selector: 'app-check-in-out',
@@ -18,8 +17,7 @@ export class CheckInOutComponent implements OnInit {
 
   constructor(private router: Router,
     private dwrServices: CheckInOutService,
-    private toast: ToastService,
-    private dateService: DateService) {
+    private toast: ToastService) {
   }
 
   ngOnInit() {
@@ -32,8 +30,7 @@ export class CheckInOutComponent implements OnInit {
       employeeId: localStorage.getItem('employeeId'),
       role: localStorage.getItem('role'),
       module: this.module,
-      moduleToRedirect:this.module,
-      formattedDate: this.dateService.getDate()
+      moduleToRedirect: this.module,
     };
 
     this.dwrServices.createNewDWR(data)
@@ -57,15 +54,13 @@ export class CheckInOutComponent implements OnInit {
   }
 
   checkOut() {
-    console.log(this.dateService.getDate());
 
     console.log(this.data);
     this.loadingSpinner.next(true);
 
     const data = {
-      id: this.data[0].id,
-      formattedDate: this.dateService.getDate()
-     };
+      id: this.data[0].id
+    };
     this.dwrServices.updateDWR(data)
       .subscribe(
         (res: any) => {
@@ -84,7 +79,7 @@ export class CheckInOutComponent implements OnInit {
       );
   }
 
-  closePopup(){
+  closePopup() {
     this.router.navigateByUrl('/tabs/home');
   }
 

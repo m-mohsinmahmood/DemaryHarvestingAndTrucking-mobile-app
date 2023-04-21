@@ -265,7 +265,7 @@ export class InCabPage implements OnInit {
 
           // tooltip
           this.toastService.presentToast(
-            'In-cab details have been submitted',
+            'Category 2 details have been submitted',
             'success'
           );
 
