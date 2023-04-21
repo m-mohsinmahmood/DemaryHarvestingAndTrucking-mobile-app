@@ -260,12 +260,15 @@ export class DetailPage implements OnInit {
 
   getLoginDate(e) {
     // this.dateLogin = new Date(e.detail.value);
-    this.dateLogin = e.detail.value;
+    // this.dateLogin = e.detail.value;
+    this.dateLogin = moment(e.detail.value).utc().format('YYYY-MM-DDTHH:mm:ss[Z]');
     this.dateLoginFormatted = e.detail.value;
+
   }
   getLogoutDate(e) {
     // this.dateLogout = new Date(e.detail.value);
-    this.dateLogout = e.detail.value;
+    // this.dateLogout = e.detail.value;
+    this.dateLogout = moment(e.detail.value).utc().format('YYYY-MM-DDTHH:mm:ss[Z]');
     this.dateLogoutFormatted = e.detail.value;
 
   }
@@ -346,9 +349,7 @@ export class DetailPage implements OnInit {
 
   edit(id) {
     console.log('Start',this.dateLogin);
-    // console.log('Start Local:',moment(this.dateLogin).local().format('MM:DD:YYYY hh:mm:ss'));
     console.log('End',this.dateLogout);
-    // console.log('End Local:',moment(this.dateLogout).local().format('MM:DD:YYYY hh:mm:ss'));
 
 
 
@@ -387,10 +388,21 @@ export class DetailPage implements OnInit {
   }
 
   newDate(date){
-    return moment(date).format('MM/DD/YYYY hh:mm:ss');
+    return moment(date).format('MM/DD/YYYY hh:mm:ss A');
   }
-  newDatee(d){
-    return new Date(d);
+  convertDate(d){
+    // return new Date(d);
+    // return moment(d).format('MM/DD/YYYY hh:mm:ss');
+    // return moment.locale(d);
+//     var dateFormat = 'YYYY-DD-MM HH:mm:ss';
+// var testDateUtc = moment.utc(d);
+// var localDate = testDateUtc.local();
+// console.log(localDate.format(dateFormat));
+// return localDate.format(dateFormat);
+// return moment.utc(d).local().format('YYYY-MM-DDTHH:mm:ss');
+return moment.utc(d).local().format('YYYY-MM-DDTHH:mm:ssZ');
+
+
   }
 
 }

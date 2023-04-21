@@ -354,7 +354,7 @@ export class VehicleExternalPage implements OnInit {
           this.loadingSpinner.next(false);
 
           this.toastService.presentToast(
-            'Vehicle/External details have been submitted',
+            'Category 3 details have been submitted',
             'success'
           );
 
