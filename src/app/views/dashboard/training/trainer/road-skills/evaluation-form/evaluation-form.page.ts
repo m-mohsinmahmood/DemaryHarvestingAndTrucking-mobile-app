@@ -23,6 +23,8 @@ totalUnSatisfactory = 0;
  supervisor_id;
  training_record_id;
  active_check_in_id: any;
+ result;
+ finalResult;
 
  public loadingSpinner = new BehaviorSubject(false);
  public activeCheckInSpinner = new BehaviorSubject(false);
@@ -60,111 +62,67 @@ totalUnSatisfactory = 0;
   initForm(){
     this.evaluationFrom = this.formBuilder.group({
       leftTurns: ['',[Validators.required]],
-      leftTurnsInput: ['',[Validators.required,Validators.pattern('^([0-5])$')]],
+      leftTurnsInput: ['',[Validators.required,Validators.pattern('^([0-2])$')]],
       rightTurns: ['',[Validators.required]],
-      rightTurnsInput: ['',[Validators.required,Validators.pattern('^([0-5])$')]],
+      rightTurnsInput: ['',[Validators.required,Validators.pattern('^([0-2])$')]],
       intersectionStop: ['',[Validators.required]],
-      intersectionStopInput: ['',[Validators.required,Validators.pattern('^([0-5])$')]],
+      intersectionStopInput: ['',[Validators.required,Validators.pattern('^([0-2])$')]],
       intersectionThru: ['',[Validators.required]],
-      intersectionThruInput: ['',[Validators.required,Validators.pattern('^([0-5])$')]],
+      intersectionThruInput: ['',[Validators.required,Validators.pattern('^([0-2])$')]],
       interstate: ['',[Validators.required]],
-      interstateInput: ['',[Validators.required,Validators.pattern('^([0-5])$')]],
+      interstateInput: ['',[Validators.required,Validators.pattern('^([0-2])$')]],
       urbanBusiness: ['',[Validators.required]],
-      urbanBusinessInput: ['',[Validators.required,Validators.pattern('^([0-5])$')]],
+      urbanBusinessInput: ['',[Validators.required,Validators.pattern('^([0-2])$')]],
       lanceChanges: ['',[Validators.required]],
-      lanceChangesInput: ['',[Validators.required,Validators.pattern('^([0-5])$')]],
+      lanceChangesInput: ['',[Validators.required,Validators.pattern('^([0-2])$')]],
       curve: ['',[Validators.required]],
-      curveInput: ['',[Validators.required,Validators.pattern('^([0-5])$')]],
+      curveInput: ['',[Validators.required,Validators.pattern('^([0-2])$')]],
       roadside: ['',[Validators.required]],
-      roadsideInput: ['',[Validators.required,Validators.pattern('^([0-5])$')]],
+      roadsideInput: ['',[Validators.required,Validators.pattern('^([0-2])$')]],
       rrCrossing: ['',[Validators.required]],
-      rrCrossingInput: ['',[Validators.required,Validators.pattern('^([0-5])$')]],
+      rrCrossingInput: ['',[Validators.required,Validators.pattern('^([0-2])$')]],
       signs: ['',[Validators.required]],
-      signsInput: ['',[Validators.required,Validators.pattern('^([0-5])$')]],
+      signsInput: ['',[Validators.required,Validators.pattern('^([0-2])$')]],
       generalDriving: ['',[Validators.required]],
-      generalDrivingInput: ['',[Validators.required,Validators.pattern('^([0-5])$')]],
+      generalDrivingInput: ['',[Validators.required,Validators.pattern('^([0-2])$')]],
       eLogPractical: ['',[Validators.required]],
-      eLogPracticalInput: ['',[Validators.required,Validators.pattern('^([0-5])$')]],
+      eLogPracticalInput: ['',[Validators.required,Validators.pattern('^([0-2])$')]],
       category:['road-testing'],
       satisfactoryRoadTesting:[],
       unSatisfactoryRoadTesting:[],
       trainer_id: [this.trainer_id],
-
+      sumRoadSkills:[''],
+      finalResultRoadSkills:['']
 
     });
-    // this.evaluationFrom.valueChanges.subscribe((value) => {
-      // let sum = 0;
-      // let unSatSum = 0;
 
-      //     if(value.leftTurns === 'true'){
-      //       sum = +value.leftTurnsInput + sum;
-      //     }else{
-      //       unSatSum = +value.leftTurnsInput + unSatSum;
-      //     }
-      //     if(value.rightTurns === 'true'){
-      //       sum = +value.rightTurnsInput + sum;
-      //     }else{
-      //       unSatSum = +value.rightTurnsInput + unSatSum;
-      //     }
-      //     if(value.intersectionStop === 'true'){
-      //       sum = +value.intersectionStopInput + sum;
-      //     }else{
-      //       unSatSum = +value.intersectionStopInput + unSatSum;
-      //     }
-      //     if(value.intersectionThru === 'true'){
-      //       sum = +value.intersectionThruInput + sum;
-      //     }else{
-      //       unSatSum = +value.intersectionThruInput + unSatSum;
-      //     }
-      //     if(value.interstate === 'true'){
-      //       sum = +value.interstateInput + sum;
-      //     }else{
-      //       unSatSum = +value.interstateInput + unSatSum;
-      //     }
-      //     if(value.urbanBusiness === 'true'){
-      //       sum = +value.urbanBusinessInput + sum;
-      //     }else{
-      //       unSatSum = +value.urbanBusinessInput + unSatSum;
-      //     }
-      //     if(value.lanceChanges === 'true'){
-      //       sum = +value.lanceChangesInput + sum;
-      //     }else{
-      //       unSatSum = +value.lanceChangesInput + unSatSum;
-      //     }
-      //     if(value.curve === 'true'){
-      //       sum = +value.curveInput + sum;
-      //     }else{
-      //       unSatSum = +value.curveInput + unSatSum;
-      //     }
-      //     if(value.roadside === 'true'){
-      //       sum = +value.roadsideInput + sum;
-      //     }else{
-      //       unSatSum = +value.roadsideInput + unSatSum;
-      //     }
-      //     if(value.rrCrossing === 'true'){
-      //       sum = +value.rrCrossingInput + sum;
-      //     }else{
-      //       unSatSum = +value.rrCrossingInput + unSatSum;
-      //     }
-      //     if(value.signs === 'true'){
-      //       sum = +value.signsInput + sum;
-      //     }else{
-      //       unSatSum = +value.signsInput + unSatSum;
-      //     }
-      //     if(value.generalDriving === 'true'){
-      //       sum = +value.generalDrivingInput + sum;
-      //     }else{
-      //       unSatSum = +value.generalDrivingInput + unSatSum;
-      //     }
-      //     if(value.eLogPractical === 'true'){
-      //       sum = +value.eLogPracticalInput + sum;
-      //     }else{
-      //       unSatSum = +value.eLogPracticalInput + unSatSum;
-      //     }
-      //     this.totalSatisfactory = sum;
-      //     this.totalUnSatisfactory = unSatSum;
 
-    // });
+    this.evaluationFrom.valueChanges.subscribe((val)=>{
+      let sum = 0;
+      sum = +val.leftTurnsInput +
+      +val.rightTurnsInput +
+      +val.intersectionStopInput +
+      +val.intersectionThruInput +
+      +val.interstateInput +
+      +val.urbanBusinessInput +
+      +val.lanceChangesInput +
+      +val.curveInput +
+      +val.roadsideInput +
+      +val.rrCrossingInput +
+      +val.signsInput +
+      +val.generalDrivingInput +
+      +val.eLogPracticalInput + +sum;
+      this.result = sum;
+
+      if(
+        this.result <=25
+      ){
+        this.finalResult = true;
+      }
+      else{
+        this.finalResult = false;
+      }
+    });
   }
   endEvaluation(){
     this.loadingSpinner.next(true);
@@ -179,7 +137,9 @@ submitData(){
   // patching sat & un-sat results
   this.evaluationFrom.patchValue({
     satisfactoryRoadTesting:this.totalSatisfactory,
-    unSatisfactoryRoadTesting:this.totalUnSatisfactory
+    unSatisfactoryRoadTesting:this.totalUnSatisfactory,
+    sumRoadSkills: this.result,
+    finalResultRoadSkills: this.finalResult
   });
   console.log(this.evaluationFrom.value);
   this.trainingService.saveFroms(this.evaluationFrom.value, 'road-skills').subscribe(
