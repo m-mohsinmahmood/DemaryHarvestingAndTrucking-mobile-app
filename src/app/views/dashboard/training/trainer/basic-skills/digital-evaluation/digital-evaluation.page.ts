@@ -61,8 +61,8 @@ checkValue: any;
   }
   initForms(){
     this.basicSkillForm = this.formBuilder.group({
-      pullUpsInput_slb: [null,[Validators.required,Validators.pattern('^([0-5])$')]],
-      encroachInput_slb: [null,[Validators.required,Validators.pattern('^([0-5])$')]],
+      pullUpsInput_slb: ['',[Validators.required,Validators.pattern('^([0-9])$')]],
+      encroachInput_slb: [null,[Validators.required,Validators.pattern('^([0-9])$')]],
       goal_slb: ['',[Validators.required]],
       finalPosition_slb: ['',[Validators.required]],
       straightLineBacking_slb: [''],
@@ -88,17 +88,11 @@ checkValue: any;
       sum = +value.pullUpsInput_slb +value.encroachInput_slb + +sum;
       this.totalSatisfactory = sum;
 
-       // for checkboxes
-       if(value.goal_slb === 'true'){
-        this.checkValue = (value.goal_slb === 'true' && value.finalPosition_slb === 'true' && (+value.pullUpsInput_slb +value.encroachInput_slb  <= 2) === true? 'true': 'false');
+      if(value.goal_slb === 'true' && value.finalPosition_slb === 'true'){
+        this.checkValue = 'true';
       }else{
-        this.checkValue = 'false';
-      }
-      if(value.finalPosition_slb === 'true'){
-        this.checkValue = (value.goal_slb === 'true' && value.finalPosition_slb === 'true' && (+value.pullUpsInput_slb +value.encroachInput_slb  <= 2) === true? 'true': 'false');
-      }else{
-        this.checkValue = 'false';
-      }
+          this.checkValue = 'false';
+        }
     });
   }
   navigate() {
