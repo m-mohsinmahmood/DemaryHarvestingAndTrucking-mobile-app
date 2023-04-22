@@ -88,12 +88,10 @@ export class HeaderComponent implements OnInit {
     }
   });
  }
- else if(this.routeValue === 'basic-skills'){
-  this.location.back();
+ else if(this.routeValue === 'basic-skills' || this.routeValue === 'pre-trip'){
+  this.router.navigateByUrl('/tabs/home/training/trainer');
 }
-    else if(this.routeValue === 'pre-trip' || this.routeValue === 'basic-skills'){
-      this.location.back();
-    }
+
     else if(this.routeValue === 'view-records' || this.routeValue === 'search-records'){
       this.location.back();
     }

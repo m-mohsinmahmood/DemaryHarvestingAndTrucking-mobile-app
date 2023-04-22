@@ -1,10 +1,5 @@
 <app-header [title]="'Basic Skills Digital Evaluation Form'" [color]="'training'" [routeValue]="'basic-skills'"></app-header>
-<ion-content *ngIf="(loading | async ) === true">
-  <div class="flex justify-center items-center h-full">
-    <ion-spinner class="main h-32 w-32" name="crescent"></ion-spinner>
-  </div>
-</ion-content>
-<ion-content *ngIf="(loading | async ) === false">
+<ion-content >
   <!-- <app-timer [value]="'23:00:00'"></app-timer> -->
   <div class="mx-4 my-2">
     <ion-progress-bar class="mb-2" [buffer]="buffer" [value]="progress"></ion-progress-bar>
@@ -25,11 +20,11 @@
             <ion-text class="font-semibold font-Lato">Pull-Ups</ion-text>
             <div class="flex-col">
               <div class="flex justify-center items-center w-28 border-2  rounded-lg px-2">
-                <ion-input placeholder="Enter Value" type="number" formControlName="pullUpsInput_ad90"></ion-input>
+                <ion-input max="10" min="0" placeholder="Enter Value" type="number" formControlName="pullUpsInput_ad90"></ion-input>
               </div>
               <ion-text *ngIf="this.basicSkillForm.get('pullUpsInput_ad90').hasError('pattern')"
               class=" text-sm text-red-500">
-              Enter between 0-5
+              Enter between 0-9
             </ion-text>
             </div>
           </div>
@@ -37,11 +32,11 @@
             <ion-text class="font-semibold font-Lato">Encroach</ion-text>
             <div class="flex-col">
             <div class="flex justify-center items-center w-28 border-2  rounded-lg px-2">
-              <ion-input placeholder="Enter Value" type="number" formControlName="encroachInput_ad90"></ion-input>
+              <ion-input max="10" min="0" placeholder="Enter Value" type="number" formControlName="encroachInput_ad90"></ion-input>
             </div>
             <ion-text *ngIf="this.basicSkillForm.get('encroachInput_ad90').hasError('pattern')"
                 class=" text-sm text-red-500">
-                Enter between 0-5
+                Enter between 0-9
               </ion-text>
             </div>
           </div>

@@ -65,11 +65,11 @@ export class AlleyDockingPage implements OnInit {
     this.basicSkillForm = this.formBuilder.group({
       pullUpsInput_ad: [
         null,
-        [Validators.required, Validators.pattern('^([0-5])$')],
+        [Validators.required, Validators.pattern('^([0-9])$')],
       ],
       encroachInput_ad: [
         null,
-        [Validators.required, Validators.pattern('^([0-5])$')],
+        [Validators.required, Validators.pattern('^([0-9])$')],
       ],
       goal_ad: [null, [Validators.required]],
       finalPosition_ad: [null, [Validators.required]],
@@ -96,17 +96,11 @@ export class AlleyDockingPage implements OnInit {
         this.totalSatisfactory = sum;
 
          // for checkboxes
-         if(value.goal_ad === 'true'){
-          this.checkValue = (value.goal_ad === 'true' && value.finalPosition_ad === 'true' && (+value.pullUpsInput_ad +value.encroachInput_ad  <= 2) === true? 'true': 'false');
+        if(value.goal_ad === 'true' && value.finalPosition_ad === 'true'){
+          this.checkValue = 'true';
         }else{
-          this.checkValue = 'false';
-        }
-        if(value.finalPosition_ad === 'true'){
-          this.checkValue = (value.goal_ad === 'true' && value.finalPosition_ad === 'true' && (+value.pullUpsInput_ad +value.encroachInput_ad  <= 2) === true? 'true': 'false');
-        }else{
-          this.checkValue = 'false';
-        }
-        console.log(this.checkValue);
+            this.checkValue = 'false';
+          }
 
 
     });
@@ -183,7 +177,7 @@ export class AlleyDockingPage implements OnInit {
 
         // patching
         this.basicSkillForm.patchValue({
-          straightLineBacking_ad: (+this.training_record.pullUpsInput_slb + +this.training_record.encroachInput_slb < 3) && (this.training_record.goal_slb === 'true') && (this.training_record.finalPosition_slb === 'true') === true? 'true': 'false',
+          straightLineBacking_ad:  (this.training_record.goal_slb === 'true') && (this.training_record.finalPosition_slb === 'true') === true? 'true': 'false',
           straightLineBakingInput_ad: +this.training_record.pullUpsInput_slb + +this.training_record.encroachInput_slb
         });
       });

@@ -21,11 +21,11 @@
             <ion-text class="font-semibold font-Lato">Pull-Ups</ion-text>
             <div class="flex-col">
               <div class="flex justify-center items-center w-28 border-2  rounded-lg px-2">
-                <ion-input placeholder="Enter Value" type="number" formControlName="pullUps_pb"></ion-input>
+                <ion-input max="2" min="0" placeholder="Enter Value" type="number" formControlName="pullUps_pb"></ion-input>
               </div>
               <ion-text *ngIf="this.basicSkillForm.get('pullUps_pb').hasError('pattern')"
               class=" text-sm text-red-500">
-              Enter between 0-5
+              Enter between 0-9
             </ion-text>
             </div>
           </div>
@@ -33,11 +33,11 @@
             <ion-text class="font-semibold font-Lato">Encroach</ion-text>
             <div class="flex-col">
               <div class="flex justify-center items-center w-28 border-2  rounded-lg px-2">
-                <ion-input placeholder="Enter Value" type="number" formControlName="encroach_pb"></ion-input>
+                <ion-input max="2" min="0" placeholder="Enter Value" type="number" formControlName="encroach_pb"></ion-input>
               </div>
               <ion-text *ngIf="this.basicSkillForm.get('encroach_pb').hasError('pattern')"
                 class=" text-sm text-red-500">
-                Enter between 0-5
+                Enter between 0-9
               </ion-text>
             </div>
           </div>

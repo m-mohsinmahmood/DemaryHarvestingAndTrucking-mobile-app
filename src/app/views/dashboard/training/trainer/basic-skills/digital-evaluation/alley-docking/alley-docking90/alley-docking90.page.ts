@@ -65,11 +65,11 @@ export class AlleyDocking90Page implements OnInit {
     this.basicSkillForm = this.formBuilder.group({
       pullUpsInput_ad90: [
         null,
-        [Validators.required, Validators.pattern('^([0-5])$')],
+        [Validators.required, Validators.pattern('^([0-9])$')],
       ],
       encroachInput_ad90: [
         null,
-        [Validators.required, Validators.pattern('^([0-5])$')],
+        [Validators.required, Validators.pattern('^([0-9])$')],
       ],
       goal_ad90: [null, [Validators.required]],
       finalPosition_ad90: [null, [Validators.required]],
@@ -100,18 +100,23 @@ export class AlleyDocking90Page implements OnInit {
         this.totalSatisfactory = sum;
 
          // for checkboxes
-         if(value.goal_ad90 === 'true'){
-          this.checkValue = (value.goal_ad90 === 'true' && value.finalPosition_ad90 === 'true' && (+value.pullUpsInput_ad90 +value.encroachInput_ad90  <= 2) === true? 'true': 'false');
+        //  if(value.goal_ad90 === 'true'){
+        //   this.checkValue = (value.goal_ad90 === 'true' && value.finalPosition_ad90 === 'true' && (+value.pullUpsInput_ad90 +value.encroachInput_ad90  <= 2) === true? 'true': 'false');
 
-        }else{
-          this.checkValue = 'false';
-        }
+        // }else{
+        //   this.checkValue = 'false';
+        // }
 
-        if(value.finalPosition_ad90 === 'true'){
-          this.checkValue = (value.goal_ad90 === 'true' && value.finalPosition_ad90 === 'true' && (+value.pullUpsInput_ad90 +value.encroachInput_ad90  <= 2) === true? 'true': 'false');
+        // if(value.finalPosition_ad90 === 'true'){
+        //   this.checkValue = (value.goal_ad90 === 'true' && value.finalPosition_ad90 === 'true' && (+value.pullUpsInput_ad90 +value.encroachInput_ad90  <= 2) === true? 'true': 'false');
+        // }else{
+        //   this.checkValue = 'false';
+        // }
+        if(value.goal_ad90 === 'true' && value.finalPosition_ad90 === 'true'){
+          this.checkValue = 'true';
         }else{
-          this.checkValue = 'false';
-        }
+            this.checkValue = 'false';
+          }
 
     });
   }
@@ -183,16 +188,14 @@ export class AlleyDocking90Page implements OnInit {
     this.trainingService
       .getRecordById(this.training_record_id)
       .subscribe((record) => {
-        this.loading.next(true);
         this.training_record = record[0];
-        this.loading.next(false);
 
 
         // patching
         this.basicSkillForm.patchValue({
-          straightLineBacking_ad: (+this.training_record.pullUpsInput_slb + +this.training_record.encroachInput_slb < 3) && (this.training_record.goal_slb === 'true') && (this.training_record.finalPosition_slb === 'true') === true? 'true': 'false',
+          straightLineBacking_ad: (this.training_record.goal_slb === 'true') && (this.training_record.finalPosition_slb === 'true') === true? 'true': 'false',
           straightLineBakingInput_ad: +this.training_record.pullUpsInput_slb + +this.training_record.encroachInput_slb,
-          alleyDocking_ad: (+this.training_record.pullUpsInput_ad + +this.training_record.encroachInput_ad < 3) && (this.training_record.goal_ad === 'true') && (this.training_record.finalPosition_ad === 'true') === true? 'true': 'false',
+          alleyDocking_ad: (this.training_record.goal_ad === 'true') && (this.training_record.finalPosition_ad === 'true') === true? 'true': 'false',
           alleyDockingInput_ad: +this.training_record.pullUpsInput_ad + +this.training_record.encroachInput_ad,
         });
       });

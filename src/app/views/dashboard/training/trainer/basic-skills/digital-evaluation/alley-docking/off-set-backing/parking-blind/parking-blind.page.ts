@@ -67,8 +67,8 @@ export class ParkingBlindPage implements OnInit {
     }
     initForm(){
       this.basicSkillForm = this.formBuilder.group({
-        pullUps_pb: [null,[Validators.required,Validators.pattern(('^([0-5])$'))]],
-        encroach_pb: [null,[Validators.required,Validators.pattern(('^([0-5])$'))]],
+        pullUps_pb: [null,[Validators.required,Validators.pattern(('^([0-9])$'))]],
+        encroach_pb: [null,[Validators.required,Validators.pattern(('^([0-9])$'))]],
         goal_pb: ['',[Validators.required]],
         finalPosition_pb: ['',[Validators.required]],
         straightLineBaking_pb: [''],
@@ -97,16 +97,11 @@ export class ParkingBlindPage implements OnInit {
         this.totalSatisfactory = sum;
 
         // for checkboxes
-        if(value.goal_pb === 'true'){
-          this.checkValue = (value.goal_pb === 'true' && value.finalPosition_pb === 'true' && (+value.pullUps_pb +value.encroach_pb  <= 2) === true? 'true': 'false');
+        if(value.goal_pb === 'true' && value.finalPosition_pb === 'true'){
+          this.checkValue = 'true';
         }else{
-          this.checkValue = 'false';
-        }
-        if(value.finalPosition_pb === 'true'){
-          this.checkValue = (value.goal_pb === 'true' && value.finalPosition_pb === 'true' && (+value.pullUps_pb +value.encroach_pb  <= 2) === true? 'true': 'false');
-        }else{
-          this.checkValue = 'false';
-        }
+            this.checkValue = 'false';
+          }
       });
     }
     addFeedback(){
@@ -175,13 +170,13 @@ export class ParkingBlindPage implements OnInit {
           console.log('Record::', this.training_record);
           // patching
           this.basicSkillForm.patchValue({
-            straightLineBaking_pb: (+this.training_record.pullUpsInput_slb + +this.training_record.encroachInput_slb < 3) && (this.training_record.goal_slb === 'true') && (this.training_record.finalPosition_slb === 'true') === true? 'true': 'false',
+            straightLineBaking_pb: (this.training_record.goal_slb === 'true') && (this.training_record.finalPosition_slb === 'true') === true? 'true': 'false',
             straightLineBakingInput_pb: +this.training_record.pullUpsInput_slb + +this.training_record.encroachInput_slb,
-            alleyDocking_pb: (+this.training_record.pullUpsInput_ad + +this.training_record.encroachInput_ad < 3) && (this.training_record.goal_ad === 'true') && (this.training_record.finalPosition_ad === 'true') === true? 'true': 'false',
+            alleyDocking_pb: (this.training_record.goal_ad === 'true') && (this.training_record.finalPosition_ad === 'true') === true? 'true': 'false',
             alleyDockingInput_pb: +this.training_record.pullUpsInput_ad + +this.training_record.encroachInput_ad,
-            alleyDocking90_pb: (+this.training_record.pullUpsInput_ad90 + +this.training_record.encroachInput_ad90 < 3) && (this.training_record.goal_ad90 === 'true') && (this.training_record.finalPosition_ad90 === 'true') === true? 'true': 'false',
+            alleyDocking90_pb:  (this.training_record.goal_ad90 === 'true') && (this.training_record.finalPosition_ad90 === 'true') === true? 'true': 'false',
             alleyDockingInput90_pb: +this.training_record.pullUpsInput_ad90 + +this.training_record.encroachInput_ad90,
-            offSetBacking_pb: (+this.training_record.pullUps_osb + +this.training_record.encroach_osb < 3) && (this.training_record.goal_osb === 'true') && (this.training_record.finalPosition_osb === 'true') === true? 'true': 'false',
+            offSetBacking_pb:  (this.training_record.goal_osb === 'true') && (this.training_record.finalPosition_osb === 'true') === true? 'true': 'false',
             offSetBackingInput_pb: +this.training_record.pullUps_osb + +this.training_record.encroach_osb,
           });
         });

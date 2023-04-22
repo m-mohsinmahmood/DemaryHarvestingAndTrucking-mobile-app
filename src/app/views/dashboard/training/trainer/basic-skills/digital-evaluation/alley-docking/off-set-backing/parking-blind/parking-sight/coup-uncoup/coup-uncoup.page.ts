@@ -72,8 +72,8 @@ export class CoupUncoupPage implements OnInit {
     }
     initForm(){
       this.basicSkillForm = this.formBuilder.group({
-        pullUps_cou: [null,[Validators.required,Validators.pattern(('^([0-5])$'))]],
-        encroach_cou: [null,[Validators.required,Validators.pattern(('^([0-5])$'))]],
+        pullUps_cou: [null,[Validators.required,Validators.pattern(('^([0-9])$'))]],
+        encroach_cou: [null,[Validators.required,Validators.pattern(('^([0-9])$'))]],
         goal_cou: ['',[Validators.required]],
         finalPosition_cou: ['',[Validators.required]],
         straightLineBacking_cou: [''],
@@ -102,16 +102,11 @@ export class CoupUncoupPage implements OnInit {
         this.totalSatisfactory = sum;
 
         // for checkboxes
-        if(value.goal_cou === 'true'){
-          this.checkValue = (value.goal_cou === 'true' && value.finalPosition_cou === 'true' && (+value.pullUps_cou +value.encroach_cou  <= 2) === true? 'true': 'false');
+        if(value.goal_cou === 'true' && value.finalPosition_cou === 'true'){
+          this.checkValue = 'true';
         }else{
-          this.checkValue = 'false';
-        }
-        if(value.finalPosition_cou === 'true'){
-          this.checkValue = (value.goal_cou === 'true' && value.finalPosition_cou === 'true' && (+value.pullUps_cou +value.encroach_cou  <= 2) === true? 'true': 'false');
-        }else{
-          this.checkValue = 'false';
-        }
+            this.checkValue = 'false';
+          }
       });
     }
     addFeedback(){
@@ -165,15 +160,15 @@ export class CoupUncoupPage implements OnInit {
 
             // patching
             this.basicSkillForm.patchValue({
-              straightLineBacking_cou: (+this.training_record.pullUpsInput_slb + +this.training_record.encroachInput_slb < 3) && (this.training_record.goal_slb === 'true') && (this.training_record.finalPosition_slb === 'true') === true? 'true': 'false',
+              straightLineBacking_cou: (this.training_record.goal_slb === 'true') && (this.training_record.finalPosition_slb === 'true') === true? 'true': 'false',
               straightLineBackingInput_cou: +this.training_record.pullUpsInput_slb + +this.training_record.encroachInput_slb,
-              alleyDocking_cou: (+this.training_record.pullUpsInput_ad + +this.training_record.encroachInput_ad < 3) && (this.training_record.goal_ad === 'true') && (this.training_record.finalPosition_ad === 'true') === true? 'true': 'false',
+              alleyDocking_cou: (this.training_record.goal_ad === 'true') && (this.training_record.finalPosition_ad === 'true') === true? 'true': 'false',
               alleyDockingInput_cou: +this.training_record.pullUpsInput_ad + +this.training_record.encroachInput_ad,
-              offSetBacking_cou: (+this.training_record.encroach_osb + +this.training_record.encroach_osb < 3) && (this.training_record.goal_osb === 'true') && (this.training_record.finalPosition_osb === 'true') === true? 'true': 'false',
+              offSetBacking_cou: (this.training_record.goal_osb === 'true') && (this.training_record.finalPosition_osb === 'true') === true? 'true': 'false',
               offSetBackingInput_cou: +this.training_record.pullUps_osb + +this.training_record.encroach_osb,
-              parallelParkingBlind_cou: (+this.training_record.pullUps_pb + +this.training_record.encroach_pb < 3) && (this.training_record.goal_pb === 'true') && (this.training_record.finalPosition_pb === 'true') === true? 'true': 'false',
+              parallelParkingBlind_cou:  (this.training_record.goal_pb === 'true') && (this.training_record.finalPosition_pb === 'true') === true? 'true': 'false',
               parallelParkingBlindInput_cou: +this.training_record.pullUps_pb + +this.training_record.encroach_pb,
-              parallelParkingSight_cou: (+this.training_record.pullUps_ps + +this.training_record.encroach_ps < 3) && (this.training_record.goal_ps === 'true') && (this.training_record.finalPosition_ps === 'true') === true? 'true': 'false',
+              parallelParkingSight_cou: (this.training_record.goal_ps === 'true') && (this.training_record.finalPosition_ps === 'true') === true? 'true': 'false',
               parallelParkingSightInput_cou: +this.training_record.pullUps_ps + +this.training_record.encroach_ps,
             });
 
