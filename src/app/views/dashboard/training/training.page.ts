@@ -17,9 +17,12 @@ export class TrainingPage implements OnInit {
 
   ngOnInit() {
     this.getRoleAndID();
+    this.checkInOut();
   }
   async ionViewDidEnter() {
     this.getRoleAndID();
+    this.checkInOut();
+
   }
 
   getRoleAndID() {
@@ -28,14 +31,27 @@ export class TrainingPage implements OnInit {
     this.isModalOpen = false;
 
     // Check-in/Check-out
-    this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
-      console.log('Active Check In ', workOrder.dwr);
-      this.activeDwr = workOrder.dwr;
-      this.data = this.activeDwr[0];
+    // this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
+    //   console.log('Active Check In ', workOrder.dwr);
+    //   this.activeDwr = workOrder.dwr;
+    //   this.data = this.activeDwr[0];
 
-      if (workOrder.dwr.length > 0) { this.isModalOpen = false; }
-      else { this.isModalOpen = true; }
-    });
+    //   if (workOrder.dwr.length > 0) { this.isModalOpen = false; }
+    //   else { this.isModalOpen = true; }
+    // });
   }
+  checkInOut(){
+    // Check-in/Check-out
+    this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
+     console.log('Active Check In ', workOrder.dwr);
+     this.activeDwr = workOrder.dwr;
+     this.data = this.activeDwr[0];
+
+     if (workOrder.dwr.length > 0)
+       {this.isModalOpen = false;}
+     else
+       {this.isModalOpen = true;}
+   });
+ }
 
 }
