@@ -8,12 +8,13 @@ export const environment = {
   azureUrl: 'https://dht-prod.azurewebsites.net/api/',
 
   firebase: {
-    apiKey: "AIzaSyD5PQuHhPv-82wkMtoi05KVBLqxwrzOci4",
-    authDomain: "dht-fb-prod.firebaseapp.com",
-    projectId: "dht-fb-prod",
-    storageBucket: "dht-fb-prod.appspot.com",
-    messagingSenderId: "864143335811",
-    appId: "1:864143335811:web:aaa117ef3fddaa502796b6"
+    apiKey: "AIzaSyCdMGmwBIclPi-IKUyzFkSMLqhlMYTJmvI",
+    authDomain: "dht-fb-dev.firebaseapp.com",
+    projectId: "dht-fb-dev",
+    storageBucket: "dht-fb-dev.appspot.com",
+    messagingSenderId: "595303405617",
+    appId: "1:595303405617:web:882b17fba69067596cdd10",
+    measurementId: "G-BD6QK30Y3Z"
   },
 };
 
