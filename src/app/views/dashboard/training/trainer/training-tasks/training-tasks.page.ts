@@ -187,8 +187,8 @@ export class TrainingTasksPage implements OnInit {
       // patching values
       this.trainingTasksForm.patchValue({
         trainer_id: res[0].trainer_id,
-        city: res[0].town_city,
-        state: res[0].state,
+        city: res[0].town_city != null ? res[0].town_city : '',
+        state: res[0].state != null ? res[0].state : ''
       });
       this.loading.next(false);
     });
