@@ -25,11 +25,7 @@ export class Interceptor implements HttpInterceptor {
     let requestUrl = request.url;
     if (requestUrl.indexOf('api-1') !== -1) {
       // requestUrl = requestUrl.replace('api-1', 'http://localhost:7071/api');
-<<<<<<< HEAD
       requestUrl = requestUrl.replace('api-1', 'https://dht-uat.azurewebsites.net/api');
-=======
-      requestUrl = requestUrl.replace('api-1', 'https://dht-dev.azurewebsites.net/api');
->>>>>>> dev
     }
 
     request = request.clone({
