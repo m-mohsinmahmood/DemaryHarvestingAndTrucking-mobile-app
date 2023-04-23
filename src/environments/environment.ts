@@ -7,14 +7,13 @@ export const environment = {
   baseUrl: 'https://dht-prod.azure-api.net/dht-dev',
   azureUrl: 'https://dht-prod.azurewebsites.net/api/',
 
-  firebase: {
-    apiKey: "AIzaSyD5PQuHhPv-82wkMtoi05KVBLqxwrzOci4",
-    authDomain: "dht-fb-prod.firebaseapp.com",
-    projectId: "dht-fb-prod",
-    storageBucket: "dht-fb-prod.appspot.com",
-    messagingSenderId: "864143335811",
-    appId: "1:864143335811:web:aaa117ef3fddaa502796b6"
-  },
+  apiKey: "AIzaSyDThjz9c6GvtJ43BlLZRUuUDv3aA95kgJM",
+   authDomain: "dht-fb-uat.firebaseapp.com",
+   projectId: "dht-fb-uat",
+   storageBucket: "dht-fb-uat.appspot.com",
+   messagingSenderId: "110558470348",
+   appId: "1:110558470348:web:116835049a4fe8f426a269",
+   measurementId: "G-NEN4HWDY3F"
 };
 
 /*
