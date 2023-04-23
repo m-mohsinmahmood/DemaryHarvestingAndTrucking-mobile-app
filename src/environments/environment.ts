@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   baseUrl: 'https://dht-prod.azure-api.net/dht-dev',
   azureUrl: 'https://dht-prod.azurewebsites.net/api/',
-
+  firebase: {
   apiKey: "AIzaSyDThjz9c6GvtJ43BlLZRUuUDv3aA95kgJM",
    authDomain: "dht-fb-uat.firebaseapp.com",
    projectId: "dht-fb-uat",
@@ -14,6 +14,7 @@ export const environment = {
    messagingSenderId: "110558470348",
    appId: "1:110558470348:web:116835049a4fe8f426a269",
    measurementId: "G-NEN4HWDY3F"
+  }
 };
 
 /*
