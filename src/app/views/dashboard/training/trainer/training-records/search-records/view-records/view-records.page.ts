@@ -1,3 +1,4 @@
+/* eslint-disable no-var */
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 /* eslint-disable max-len */
 /* eslint-disable @angular-eslint/use-lifecycle-interface */
@@ -153,6 +154,41 @@ export class ViewRecordsPage implements OnInit {
       return '' + num;
     }
   }
+getPreTripSubtract(records){
+  var date1 = moment(records.created_at);
+var date2 = moment(records.endDatePreTrip);
+var diff = date2.diff(date1,'minutes');
+var date = this.toHoursAndMinutes(diff);
+return date;
+}
+
+getBasicSubtract(records){
+  var date1 = moment(records.created_at);
+var date2 = moment(records.endDateBasicSkill);
+var diff = date2.diff(date1,'minutes');
+var date = this.toHoursAndMinutes(diff);
+return date;
+}
+getRoadSubtract(records){
+  var date1 = moment(records.created_at);
+var date2 = moment(records.endDateRoadSkill);
+var diff = date2.diff(date1,'minutes');
+var date = this.toHoursAndMinutes(diff);
+return date;
+}
+
+
+
+toHoursAndMinutes(totalMinutes) {
+  const hours = Math.floor(totalMinutes / 60);
+  const minutes = totalMinutes % 60;
+  const seconds = totalMinutes % 60;
+  return `${this.padToTwoDigits(hours)}:${this.padToTwoDigits(minutes)}:${this.padToTwoDigits(seconds)}`;
+}
+padToTwoDigits(num) {
+  return num.toString().padStart(2, '0');
+}
+
 
   formatTime(seconds) {
     if (Number.isNaN(seconds)) {

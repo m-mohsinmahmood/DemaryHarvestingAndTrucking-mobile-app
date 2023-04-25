@@ -21,9 +21,11 @@
     <div class="flex justify-between items-center my-5">
       <ion-text class="font-Lato text-sm text-9B9BA4">Total Time</ion-text>
       <ion-text class="font-Lato text-sm text-black font-semibold" *ngIf="(loading | async) === false">
-        {{moment(records?.endDatePreTrip).diff(records?.created_at,'hours')?moment(records?.endDatePreTrip).diff(records?.created_at,'hours') : '00'}}h:
-        {{moment(records?.endDatePreTrip).diff(records?.created_at,'minutes')?moment(records?.endDatePreTrip).diff(records?.created_at,'minutes'): '00'}}m
+        <!-- {{moment(records?.endDatePreTrip).diff(records?.created_at,'hours')?moment(records?.endDatePreTrip).diff(records?.created_at,'hours') : '00'}}h: -->
+        <!-- {{moment(records?.endDatePreTrip).diff(records?.created_at,'minutes')?moment(records?.endDatePreTrip).diff(records?.created_at,'minutes'): '00'}}m -->
         <!-- {{moment(records?.endDatePreTrip).diff(records?.created_at,'seconds')?moment(records?.endDatePreTrip).diff(records?.created_at,'seconds'): '00'}} -->
+        {{getPreTripSubtract(records)}}
+        <!-- {{toHoursAndMinutes(100)}} -->
       </ion-text>
 
     </div>
@@ -721,9 +723,10 @@
     <div class="flex justify-between items-center my-5">
       <ion-text class="font-Lato text-sm text-9B9BA4">Total Time</ion-text>
       <ion-text class="font-Lato text-sm text-black font-semibold" *ngIf="(loading | async) === false">
-        {{moment(records?.endDateBasicSkill).diff(records?.created_at,'hours')}}h:
-        {{moment(records?.endDateBasicSkill).diff(records?.created_at,'minutes')}}m
+        <!-- {{moment(records?.endDateBasicSkill).diff(records?.created_at,'hours')}}h: -->
+        <!-- {{moment(records?.endDateBasicSkill).diff(records?.created_at,'minutes')}}m -->
         <!-- {{moment(records?.endDateBasicSkill).diff(records?.created_at,'seconds')}}s -->
+        {{getBasicSubtract(records)}}
       </ion-text>
     </div>
 
@@ -841,9 +844,10 @@
       <ion-text class="font-Lato text-sm text-9B9BA4">Total Time</ion-text>
       <!-- <ion-text class="font-Lato text-sm text-black font-semibold">{{moment(records?.endDateRoadSkill).subtract(records?.created_at).format('')}}</ion-text> -->
       <ion-text class="font-Lato text-sm text-black font-semibold" *ngIf="(loading | async) === false">
-        {{moment(records?.endDateRoadSkill).diff(records?.created_at,'hours')}}h:
-        {{moment(records?.endDateRoadSkill).diff(records?.created_at,'minutes')}}m
+        <!-- {{moment(records?.endDateRoadSkill).diff(records?.created_at,'hours')}}h: -->
+        <!-- {{moment(records?.endDateRoadSkill).diff(records?.created_at,'minutes')}}m -->
         <!-- {{moment(records?.endDateRoadSkill).diff(records?.created_at,'seconds')}}s -->
+        {{getRoadSubtract(records)}}
       </ion-text>
 
     </div>
