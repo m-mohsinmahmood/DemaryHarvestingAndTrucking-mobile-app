@@ -25,13 +25,13 @@ export const environment = {
   // measurementId: 'G-JBNLG5ZTLL'
 
   // dev account
-  apiKey: "AIzaSyCdMGmwBIclPi-IKUyzFkSMLqhlMYTJmvI",
-  authDomain: "dht-fb-dev.firebaseapp.com",
-  projectId: "dht-fb-dev",
-  storageBucket: "dht-fb-dev.appspot.com",
-  messagingSenderId: "595303405617",
-  appId: "1:595303405617:web:882b17fba69067596cdd10",
-  measurementId: "G-BD6QK30Y3Z"
+  apiKey: 'AIzaSyCdMGmwBIclPi-IKUyzFkSMLqhlMYTJmvI',
+  authDomain: 'dht-fb-dev.firebaseapp.com',
+  projectId: 'dht-fb-dev',
+  storageBucket: 'dht-fb-dev.appspot.com',
+  messagingSenderId: '595303405617',
+  appId: '1:595303405617:web:882b17fba69067596cdd10',
+  measurementId: 'G-BD6QK30Y3Z'
 
         // apiKey: 'AIzaSyCdMGmwBIclPi-IKUyzFkSMLqhlMYTJmvI',
         // authDomain: 'dht-fb-dev.firebaseapp.com',

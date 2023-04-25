@@ -28,7 +28,7 @@ export class TrainingPage implements OnInit {
   getRoleAndID() {
     this.role = localStorage.getItem('role');
 
-    this.isModalOpen = false;
+    // this.isModalOpen = false;
 
     // Check-in/Check-out
     // this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
