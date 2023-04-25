@@ -37,8 +37,8 @@ export class DetailPage implements OnInit {
   dwr_employee_id: any;
   dateLogin: any;
   dateLogout: any;
-  // dateLogoutFormatted: any = moment(new Date()).format('MM-DD-YYYY hh:mm:ss A');
-  // dateLoginFormatted: any = moment(new Date()).format('MM-DD-YYYY hh:mm:ss A');
+  dateLogoutFormatted;
+  dateLoginFormatted;
   supervisorNotes = '';
   isOpen = false;
   isOpen2 = false;
@@ -259,15 +259,13 @@ export class DetailPage implements OnInit {
   }
 
   getLoginDate(e) {
-    // this.dateLogin = new Date(e.detail.value);
-    // this.dateLogin = e.detail.value;
+
     this.dateLogin = moment(e.detail.value).utc().format('YYYY-MM-DDTHH:mm:ss[Z]');
     this.dateLoginFormatted = e.detail.value;
 
   }
   getLogoutDate(e) {
-    // this.dateLogout = new Date(e.detail.value);
-    // this.dateLogout = e.detail.value;
+
     this.dateLogout = moment(e.detail.value).utc().format('YYYY-MM-DDTHH:mm:ss[Z]');
     this.dateLogoutFormatted = e.detail.value;
 
@@ -284,20 +282,12 @@ export class DetailPage implements OnInit {
     this.isOpen = true;
     this.model_id = id;
 
-    // this.dateLoginFormatted = new Date(data.login_time).toISOString();
-    // this.dateLogoutFormatted = new Date(data.logout_time).toISOString();
-
     this.dateLoginFormatted = data.login_time;
     this.dateLogoutFormatted = data.logout_time;
-
-    // this.dateLoginFormatted =  new Date(data.login_time);
-    // this.dateLogoutFormatted =  new Date(data.login_time);
 
     this.dateLogin = data.login_time;
     this.dateLogout = data.logout_time;
 
-    // this.dateLogin = new Date(data.login_time);
-    // this.dateLogout = new Date(data.login_time);
 
 
     this.reassignEmployee.patchValue({
@@ -391,15 +381,6 @@ export class DetailPage implements OnInit {
     return moment(date).format('MM/DD/YYYY hh:mm:ss A');
   }
   convertDate(d){
-    // return new Date(d);
-    // return moment(d).format('MM/DD/YYYY hh:mm:ss');
-    // return moment.locale(d);
-//     var dateFormat = 'YYYY-DD-MM HH:mm:ss';
-// var testDateUtc = moment.utc(d);
-// var localDate = testDateUtc.local();
-// console.log(localDate.format(dateFormat));
-// return localDate.format(dateFormat);
-// return moment.utc(d).local().format('YYYY-MM-DDTHH:mm:ss');
 return moment.utc(d).local().format('YYYY-MM-DDTHH:mm:ssZ');
 
 
