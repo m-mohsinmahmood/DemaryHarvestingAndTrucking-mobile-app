@@ -1,3 +1,4 @@
+/* eslint-disable no-var */
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 /* eslint-disable max-len */
 /* eslint-disable @angular-eslint/use-lifecycle-interface */
@@ -74,15 +75,6 @@ export class ViewRecordsPage implements OnInit {
 
         console.log('RECORD:', this.records);
 
-
-    // this.status =((+this.records.pullUpsInput_slb + +this.records.encroachInput_slb < 3) && (this.records.goal_slb === 'true') && (this.records.finalPosition_slb === 'true')) &&
-    // ((+this.records.pullUpsInput_ad + +this.records.encroachInput_ad < 3) && (this.records.goal_ad === 'true') && (this.records.finalPosition_ad === 'true'))  &&
-    // ((+this.records.encroach_osb + +this.records.pullUps_osb < 3) && (this.records.goal_osb === 'true') && (this.records.finalPosition_osb === 'true')) &&
-    // ((+this.records.pullUps_pb + +this.records.encroach_pb < 3) && (this.records.goal_pb === 'true') && (this.records.finalPosition_pb === 'true')) &&
-    // ((+this.records.pullUps_ps + +this.records.encroach_ps < 3) && (this.records.goal_ps === 'true') && (this.records.finalPosition_ps === 'true')) &&
-    // ((+this.records.pullUps_cou + +this.records.encroach_cou < 3) && (this.records.goal_cou === 'true') && (this.records.finalPosition_cou === 'true'));
-
-
     this.loading.next(false);
       });
 
@@ -100,8 +92,6 @@ export class ViewRecordsPage implements OnInit {
   }
 
   exit() {
-    // console.log(this.preCheckForm.value);
-    // console.log(this.roadskillsForm.value);
     this.router.navigateByUrl('/tabs/home/training/trainer');
   }
 
@@ -164,6 +154,41 @@ export class ViewRecordsPage implements OnInit {
       return '' + num;
     }
   }
+getPreTripSubtract(records){
+  var date1 = moment(records.created_at);
+var date2 = moment(records.endDatePreTrip);
+var diff = date2.diff(date1,'minutes');
+var date = this.toHoursAndMinutes(diff);
+return date;
+}
+
+getBasicSubtract(records){
+  var date1 = moment(records.created_at);
+var date2 = moment(records.endDateBasicSkill);
+var diff = date2.diff(date1,'minutes');
+var date = this.toHoursAndMinutes(diff);
+return date;
+}
+getRoadSubtract(records){
+  var date1 = moment(records.created_at);
+var date2 = moment(records.endDateRoadSkill);
+var diff = date2.diff(date1,'minutes');
+var date = this.toHoursAndMinutes(diff);
+return date;
+}
+
+
+
+toHoursAndMinutes(totalMinutes) {
+  const hours = Math.floor(totalMinutes / 60);
+  const minutes = totalMinutes % 60;
+  const seconds = totalMinutes % 60;
+  return `${this.padToTwoDigits(hours)}:${this.padToTwoDigits(minutes)}:${this.padToTwoDigits(seconds)}`;
+}
+padToTwoDigits(num) {
+  return num.toString().padStart(2, '0');
+}
+
 
   formatTime(seconds) {
     if (Number.isNaN(seconds)) {
@@ -179,29 +204,6 @@ export class ViewRecordsPage implements OnInit {
     return this.math.trunc(((+records?.percentageEngineCompartment + +records?.percentageInCab + +records?.percentageVehicleExternal + +records?.percentageCoupling)/400)*100) > 80;
   }
   getBasicSkillsSum(records){
-    // return((+records.pullUpsInput_slb + +records.encroachInput_slb < 3) && (records.goal_slb === 'true') && (records.finalPosition_slb === 'true')) &&
-    // ((+records.pullUpsInput_ad + +records.encroachInput_ad < 3) && (records.goal_ad === 'true') && (records.finalPosition_ad === 'true'))  &&
-    // ((+records.pullUpsInput_ad90 + +records.encroachInput_ad90 < 3) && (records.goal_ad90 === 'true') && (records.finalPosition_ad90 === 'true'))  &&
-    // ((+records.encroach_osb + +records.pullUps_osb < 3) && (records.goal_osb === 'true') && (records.finalPosition_osb === 'true')) &&
-    // ((+records.pullUps_pb + +records.encroach_pb < 3) && (records.goal_pb === 'true') && (records.finalPosition_pb === 'true')) &&
-    // ((+records.pullUps_ps + +records.encroach_ps < 3) && (records.goal_ps === 'true') && (records.finalPosition_ps === 'true')) &&
-    // ((+records.pullUps_cou + +records.encroach_cou < 3) && (records.goal_cou === 'true') && (records.finalPosition_cou === 'true'));
-
    return +records.pullUpsInput_slb + + records.encroachInput_slb + +records.pullUpsInput_ad + +records.encroachInput_ad + +records.pullUpsInput_ad90 + +records.encroachInput_ad90 + +records.encroach_osb + +records.pullUps_osb + +records.pullUps_pb + +records.encroach_pb + +records.pullUps_ps + +records.encroach_ps + +records.pullUps_cou + +records.encroach_cou <= 24;
   }
-  // getRoadSkillsSum(records){
-  //  return ((records.leftTurnsInput < 3) && (records.leftTurns === 'true')) &&
-  //         ((records.rightTurnsInput < 3) && (records.rightTurns === 'true'))  &&
-  //         ((records.intersectionStopInput < 3) && (records.intersectionStop === 'true')) &&
-  //         ((records.intersectionThruInput < 3) && (records.intersectionThru === 'true')) &&
-  //         ((records.interstateInput < 3) && (records.interstate === 'true')) &&
-  //         ((records.urbanBusinessInput < 3) && (records.urbanBusiness === 'true')) &&
-  //         ((records.lanceChangesInput < 3) && (records.lanceChanges === 'true')) &&
-  //         ((records.curveInput < 3) && (records.curve === 'true')) &&
-  //         ((records.roadsideInput < 3) && (records.roadside === 'true')) &&
-  //         ((records.rrCrossingInput < 3) && (records.rrCrossing === 'true')) &&
-  //         ((records.signsInput < 3) && (records.signs === 'true')) &&
-  //         ((records.eLogPracticalInput < 3) && (records.generalDriving === 'true')) &&
-  //         ((records.generalDrivingInput < 3) && (records.eLogPractical === 'true'));
-  //       }
 }

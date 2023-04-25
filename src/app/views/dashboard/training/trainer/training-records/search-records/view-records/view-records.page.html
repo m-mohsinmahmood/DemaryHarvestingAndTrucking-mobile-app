@@ -20,17 +20,14 @@
     </div>
     <div class="flex justify-between items-center my-5">
       <ion-text class="font-Lato text-sm text-9B9BA4">Total Time</ion-text>
-      <!-- <ion-text class="font-Lato text-sm text-black font-semibold">{{moment().subtract(records?.endDatePreTrip,records?.created_at).format('HH:mm')}}</ion-text> -->
       <ion-text class="font-Lato text-sm text-black font-semibold" *ngIf="(loading | async) === false">
-        {{moment(records?.endDatePreTrip).diff(records?.created_at,'hours')?moment(records?.endDatePreTrip).diff(records?.created_at,'hours') : '00'}}h:
-        {{moment(records?.endDatePreTrip).diff(records?.created_at,'minutes')?moment(records?.endDatePreTrip).diff(records?.created_at,'minutes'): '00'}}m
-        <!-- {{moment(records?.endDatePreTrip).diff(records?.created_at,'seconds')?moment(records?.endDatePreTrip).diff(records?.created_at,'seconds'): '00'}} -->
+        {{getPreTripSubtract(records)}}
       </ion-text>
 
     </div>
     <div class="my-3"><ion-text class="font-Lato text-xl font-semibold">Evaluation Results</ion-text></div>
     <!-- <form [formGroup]="preCheckForm"> -->
-      <div class="my-3"><ion-text class="font-Lato font-semibold">Engine Compartment</ion-text></div>
+      <div class="my-3"><ion-text class="font-Lato font-semibold">Category 1</ion-text></div>
       <div class="flex justify-between items-center my-3">
         <ion-text class="font-Lato font-medium">Leans</ion-text>
          <ion-checkbox slot="start" disabled [checked]="records?.leans === 'true'? true: false"></ion-checkbox>
@@ -275,14 +272,14 @@
         <ion-text class="font-Lato text-lg font-bold">Score</ion-text>
         <ion-text class="font-Lato text-lg font-bold">{{records?.percentageEngineCompartment}}%</ion-text>
       </div>
-      <ion-text class="font-Lato mt-2 text-sm font-semibold text-black">Engine Compartment Notes</ion-text>
+      <ion-text class="font-Lato mt-2 text-sm font-semibold text-black">Catogory 1 Notes</ion-text>
       <ion-item lines="none" class="textarea">
         <ion-textarea [autoGrow]="true" disabled="" [value]="records?.commentsEngine"> </ion-textarea>
       </ion-item>
       <div class="thin-line mt-2"></div>
 
       <!-- IN CAB -->
-      <div class="my-3"><ion-text class="font-Lato text-xl font-semibold">In Cab</ion-text></div>
+      <div class="my-3"><ion-text class="font-Lato text-xl font-semibold">Category 2</ion-text></div>
       <div class="flex justify-between items-center my-3">
         <ion-text class="font-Lato font-medium">Seat belt</ion-text>
          <ion-checkbox slot="start"  disabled [checked]="records?.seat_belt" ></ion-checkbox>
@@ -407,13 +404,13 @@
         <ion-text class="font-Lato text-lg font-bold">Score</ion-text>
         <ion-text class="font-Lato text-lg font-bold">{{records?.percentageInCab}}%</ion-text>
       </div>
-      <ion-text class="font-Lato mt-2 text-sm font-semibold text-black">In Cab Notes</ion-text>
-      <ion-textarea [autoGrow]="true" class="my-2 rounded-lg border-2 px-1" disabled="" [value]="records?.commentsCab" placeholder="Add your comments here :)"> </ion-textarea>
+      <ion-text class="font-Lato mt-2 text-sm font-semibold text-black">Category 2 Notes</ion-text>
+      <ion-textarea [autoGrow]="true" class="my-2 rounded-lg border-2 px-1" disabled="" [value]="records?.commentsCab" placeholder=""> </ion-textarea>
       <div class="thin-line mt-3"></div>
       <!-- IN CAB -->
 
       <!-- VEHICLE /EXTERNAL -->
-      <div class="my-3"><ion-text class="font-Lato text-xl font-semibold">Vehicle/External</ion-text></div>
+      <div class="my-3"><ion-text class="font-Lato text-xl font-semibold">Category 3</ion-text></div>
       <div class="flex justify-between items-center my-3">
         <ion-text class="font-Lato font-medium">Fuel tank securement</ion-text>
          <ion-checkbox slot="start" disabled [checked]="records?.fuel_tank_sec" ></ion-checkbox>
@@ -611,14 +608,14 @@
         <ion-text class="font-Lato text-lg font-bold">Score</ion-text>
         <ion-text class="font-Lato text-lg font-bold">{{records?.percentageVehicleExternal}}%</ion-text>
       </div>
-      <ion-text class="font-Lato mt-2 text-sm font-semibold text-black">Vehicle/External Notes</ion-text>
-      <ion-textarea [autoGrow]="true" class="my-2 rounded-lg border-2 px-1" disabled="" [value]="records?.commentsVehicle" placeholder="Add your comments here :)"> </ion-textarea>
+      <ion-text class="font-Lato mt-2 text-sm font-semibold text-black">Category 3 Notes</ion-text>
+      <ion-textarea [autoGrow]="true" class="my-2 rounded-lg border-2 px-1" disabled="" [value]="records?.commentsVehicle" placeholder=""> </ion-textarea>
       <div class="thin-line mt-3"></div>
 
       <!-- VEHICLE /EXTERNAL -->
 
       <!-- COUPLING -->
-      <div class="my-3"><ion-text class="font-Lato text-xl font-semibold">Coupling</ion-text></div>
+      <div class="my-3"><ion-text class="font-Lato text-xl font-semibold">Category 4</ion-text></div>
       <div class="flex justify-between items-center my-3">
         <ion-text class="font-Lato font-medium">Air/electrical lines</ion-text>
          <ion-checkbox slot="start" disabled [checked]="records?.air_electrical_lines" ></ion-checkbox>
@@ -655,10 +652,6 @@
         <ion-text class="font-Lato font-medium">Mud flaps</ion-text>
          <ion-checkbox slot="start" disabled [checked]="records?.mud_flaps" ></ion-checkbox>
        </div>
-       <!-- <div class="flex justify-between items-center my-3">
-        <ion-text class="font-Lato font-medium">Lights</ion-text>
-         <ion-checkbox slot="start" disabled [checked]="records?.lights" ></ion-checkbox>
-       </div> -->
        <div class="flex justify-between items-center my-3">
         <ion-text class="font-Lato font-medium">Docking/impact frame</ion-text>
          <ion-checkbox slot="start" disabled [checked]="records?.docking_impact_frame" ></ion-checkbox>
@@ -671,97 +664,15 @@
         <ion-text class="font-Lato text-lg font-bold">Score</ion-text>
         <ion-text class="font-Lato text-lg font-bold">{{records?.percentageCoupling}}%</ion-text>
       </div>
-      <ion-text class="font-Lato mt-2 text-sm font-semibold text-black">Coupling Notes</ion-text>
-      <ion-textarea [autoGrow]="true" class="my-2 rounded-lg border-2 px-1" disabled="" [value]="records?.commentsCoupling" placeholder="Add your comments here :)"> </ion-textarea>
+      <ion-text class="font-Lato mt-2 text-sm font-semibold text-black">Category 4 Notes</ion-text>
+      <ion-textarea [autoGrow]="true" class="my-2 rounded-lg border-2 px-1" disabled="" [value]="records?.commentsCoupling" placeholder=""> </ion-textarea>
       <div class="thin-line mt-3"></div>
-
       <!-- COUPLING -->
-      <!-- SUSPENSION -->
-      <!-- <div class="my-3"><ion-text class="font-Lato text-xl font-semibold">Suspension</ion-text></div>
-      <div class="my-3 flex items-center justify-between">
-        <ion-text class="font-Lato font-medium">Springs (3)</ion-text>
-        <ion-checkbox disabled [checked]="records?.springs" slot="start"></ion-checkbox>
-      </div>
-      <div class="my-3 flex items-center justify-between">
-        <ion-text class="font-Lato font-medium">Air Bags (2)</ion-text>
-        <ion-checkbox disabled [checked]="records?.airBags" slot="start"></ion-checkbox>
-      </div>
-      <div class="my-3 flex items-center justify-between">
-        <ion-text class="font-Lato font-medium">Shocks (3)</ion-text>
-        <ion-checkbox disabled [checked]="records?.shocks" slot="start"></ion-checkbox>
-      </div>
-      <div class="my-3 flex items-center justify-between">
-        <ion-text class="font-Lato font-medium">V Bolts (3)</ion-text>
-        <ion-checkbox disabled [checked]="records?.vBolts" slot="start"></ion-checkbox>
-      </div>
-      <div class="my-3 flex items-center justify-between">
-        <ion-text class="font-Lato font-medium">Mounts (3)</ion-text>
-        <ion-checkbox disabled [checked]="records?.mounts" slot="start"></ion-checkbox>
-      </div>
-      <div class="my-3 flex items-center justify-between">
-        <ion-text class="font-Lato font-medium">Bushings (3)</ion-text>
-        <ion-checkbox disabled [checked]="records?.bushings" slot="start"></ion-checkbox>
-      </div>
-      <div class="my-3 flex items-center justify-between">
-        <ion-text class="font-Lato font-medium">Leaf Springs (3)</ion-text>
-        <ion-checkbox disabled [checked]="records?.leafSprings" slot="start"></ion-checkbox>
-      </div>
-      <div class="my-3 flex items-center justify-between">
-        <ion-text class="font-Lato font-medium">Slack Adjusters (3)</ion-text>
-        <ion-checkbox disabled [checked]="records?.slackAdjusters" slot="start"></ion-checkbox>
-      </div>
-      <div class="my-3 flex items-center justify-between">
-        <ion-text class="font-Lato font-medium">Crack Chamber (3)</ion-text>
-        <ion-checkbox disabled [checked]="records?.crackChammber" slot="start"></ion-checkbox>
-      </div>
-      <div class="my-3 flex items-center justify-between">
-        <ion-text class="font-Lato font-medium">Push Rod (3)</ion-text>
-        <ion-checkbox disabled [checked]="records?.pushRod" slot="start"></ion-checkbox>
-      </div>
-      <div class="my-3 flex items-center justify-between">
-        <ion-text class="font-Lato font-medium">Drums (3)</ion-text>
-        <ion-checkbox disabled [checked]="records?.drums" slot="start"></ion-checkbox>
-      </div>
-      <div class="my-3 flex items-center justify-between">
-        <ion-text class="font-Lato font-medium">Linings (3)</ion-text>
-        <ion-checkbox disabled [checked]="records?.linings" slot="start"></ion-checkbox>
-      </div>
-      <div class="my-3 flex items-center justify-between">
-        <ion-text class="font-Lato font-medium">Rotor (3)</ion-text>
-        <ion-checkbox disabled [checked]="records?.rotor" slot="start"></ion-checkbox>
-      </div>
-      <div class="my-3 flex items-center justify-between">
-        <ion-text class="font-Lato font-medium">Disc Pads (3)</ion-text>
-        <ion-checkbox disabled [checked]="records?.discPads" slot="start"></ion-checkbox>
-      </div>
-      <div class="my-3 flex items-center justify-between">
-        <ion-text class="font-Lato font-medium">Brake Hoses (2)</ion-text>
-        <ion-checkbox disabled [checked]="records?.brakeHoses" slot="start"></ion-checkbox>
-      </div>
-      <div class="my-3 flex items-center justify-between">
-        <ion-text class="font-Lato font-medium">5-Cams (2)</ion-text>
-        <ion-checkbox disabled [checked]="records?.cams" slot="start"></ion-checkbox>
-      </div>
-      <div class="my-3 flex items-center justify-between">
-        <ion-text class="font-Lato font-medium">Torque Arm (2)</ion-text>
-        <ion-checkbox disabled [checked]="records?.torqueArm" slot="start"></ion-checkbox>
-      </div>
-      <div class="my-3 flex items-center justify-between">
-        <ion-text class="font-Lato font-medium">Wheel Seals (2)</ion-text>
-        <ion-checkbox disabled [checked]="records?.wheelSeals" slot="start"></ion-checkbox>
-      </div>
-      <div class="my-3 flex items-center justify-between">
-        <ion-text class="font-Lato text-lg font-bold">Score</ion-text>
-        <ion-text class="font-Lato text-lg font-bold">{{records?.percentageSuspension}}%</ion-text>
-      </div>
-      <ion-text class="font-Lato mt-2 text-sm font-semibold text-black">Suspension Notes</ion-text>
-      <ion-textarea [autoGrow]="true" disabled="" [value]="records?.commentsSuspension" class="my-2 rounded-lg border-2 px-1" placeholder="Add your comments here"> </ion-textarea> -->
-      <!-- <div class="thin-line mt-3"></div> -->
+
       <div class="my-3 flex items-center justify-around">
         <ion-text class="font-Lato text-xl font-bold ">Total Score:</ion-text>
         <ion-text class="font-Lato text-xl font-bold ">{{math.trunc(((+records?.percentageEngineCompartment + +records?.percentageInCab + +records?.percentageVehicleExternal + +records?.percentageCoupling)/400)*100)}}%</ion-text>
       </div>
-      <!-- SUSPENSION -->
     <!-- </form> -->
     <ion-button expand="block" class="close-out-button font-Lato mx-8 mb-8 mt-4 bg-opacity-10 text-white" (click)="exit()">Exit</ion-button>
   </div>
@@ -808,9 +719,7 @@
     <div class="flex justify-between items-center my-5">
       <ion-text class="font-Lato text-sm text-9B9BA4">Total Time</ion-text>
       <ion-text class="font-Lato text-sm text-black font-semibold" *ngIf="(loading | async) === false">
-        {{moment(records?.endDateBasicSkill).diff(records?.created_at,'hours')}}h:
-        {{moment(records?.endDateBasicSkill).diff(records?.created_at,'minutes')}}m
-        <!-- {{moment(records?.endDateBasicSkill).diff(records?.created_at,'seconds')}}s -->
+        {{getBasicSubtract(records)}}
       </ion-text>
     </div>
 
@@ -926,13 +835,9 @@
     </div>
     <div class="flex justify-between items-center my-5">
       <ion-text class="font-Lato text-sm text-9B9BA4">Total Time</ion-text>
-      <!-- <ion-text class="font-Lato text-sm text-black font-semibold">{{moment(records?.endDateRoadSkill).subtract(records?.created_at).format('')}}</ion-text> -->
       <ion-text class="font-Lato text-sm text-black font-semibold" *ngIf="(loading | async) === false">
-        {{moment(records?.endDateRoadSkill).diff(records?.created_at,'hours')}}h:
-        {{moment(records?.endDateRoadSkill).diff(records?.created_at,'minutes')}}m
-        <!-- {{moment(records?.endDateRoadSkill).diff(records?.created_at,'seconds')}}s -->
+        {{getRoadSubtract(records)}}
       </ion-text>
-      <!-- <ion-text class="font-Lato text-sm text-black font-semibold">{{math.abs(records?.endDateRoadSkill - records?.created_at)}}}</ion-text> -->
 
     </div>
     <!-- LOADER -->
@@ -1036,13 +941,9 @@
         <div class="flex justify-between items-center mb-2">
           <ion-text class="font-Lato text-black font-semibold">Final Results:</ion-text>
           <ion-text class="font-Lato font-semibold text-white bg-3D8AA4 px-2 rounded-lg">{{records?.sumRoadSkills}}</ion-text>
-
           <ion-text *ngIf="records.finalResultRoadSkills === 'true'" class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text>
           <ion-text *ngIf="records.finalResultRoadSkills === 'false'" class="font-Lato text-e64646 bg-e64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text>
-
         </div>
-
-
       </ion-card-content>
       <ion-button *ngIf="(loading | async) === false" expand="block" class="close-out-button font-Lato mx-8 mb-8 mt-4 bg-opacity-10 text-white" (click)="exit()">Exit</ion-button>
     </ion-card>
