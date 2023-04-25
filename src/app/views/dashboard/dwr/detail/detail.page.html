@@ -94,8 +94,8 @@
                 </ion-grid>
               </div>
             </ion-header>
-            <div class="">
-              <form [formGroup]="reassignSupervisor">
+          <div class="overflow-y-auto">
+              <form [formGroup]="reassignSupervisor" class="">
             <div class="px-4">
               <div class="col-span-12 mb-4 mt-2" >
                 <label class="block text-sm font-medium text-gray-700">Supervisor Notes</label>
@@ -485,7 +485,7 @@
                     <ion-text class="font-semibold text-black font-Lato text-base">Total Hours</ion-text>
                     <ion-text class="font-semibold text-black font-Lato text-sm">{{data.total_hours}} Hours</ion-text>
                   </ion-col>
-                  <ion-modal #model [isOpen]="data.id === model_id && isOpen" (ionModalDidDismiss)="ionModalDidDismiss()">
+                  <ion-modal #model [isOpen]="data.id === model_id && isOpen" (ionModalDidDismiss)="ionModalDidDismiss()" >
                     <ng-template>
                       <ion-header>
                         <div class="bg-3D8AA4">
@@ -504,7 +504,8 @@
                           </ion-grid>
                         </div>
                       </ion-header>
-                      <div>
+                      <div class="overflow-y-auto">
+
                       <div class="px-4 mt-3">
                         <div class="col-span-12 mb-4 mt-2" id="startDate">
                           <label class="block text-sm font-medium text-gray-700">Login Date/Time:</label>
@@ -560,8 +561,7 @@
                       <div *ngIf="(loadingSpinner | async) === false">Edit and Send</div>
                       <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
                     </ion-button>
-
-                    </div>
+                  </div>
                     </ng-template>
                   </ion-modal>
                  <ion-col size="12">
