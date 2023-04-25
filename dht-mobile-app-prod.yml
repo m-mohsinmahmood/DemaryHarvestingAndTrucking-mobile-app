@@ -1,0 +1,26 @@
+trigger:
+- prod
+
+pool:
+  vmImage: ubuntu-latest
+  
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '16.17.0'
+  displayName: "Install NodeJS (16.17.0)"
+
+- script: |
+    npm install -g @angular/cli
+    npm install --force
+    ng run app:build
+  displayName: "Install Packages & Create Build"
+
+- task: AzureStaticWebApp@0
+  inputs:
+    app_location: 'www'
+    config_file_location: '/'
+    skip_app_build: true
+    skip_api_build: true
+    azure_static_web_apps_api_token: $(dht-prod-mobile-app-token)
+  displayName: "Deploy built app to Static Web App"

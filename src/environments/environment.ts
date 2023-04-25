@@ -4,8 +4,9 @@
 
 export const environment = {
   production: false,
-  baseUrl: 'https://dht-dev.azure-api.net/dht-dev',
-  azureUrl: 'https://dht-dev.azurewebsites.net/api/',
+  baseUrl: 'https://dht-prod.azure-api.net/dht-dev',
+  azureUrl: 'https://dht-prod.azurewebsites.net/api/',
+
   firebase: {
     // apiKey: 'AIzaSyC5CKY8sq2fSRW9N_oQShdz_ossFbhLdXA',
     // authDomain: 'dht-sample-7c9b1.firebaseapp.com',
