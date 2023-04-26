@@ -154,33 +154,33 @@ checkInOut(){
       {this.isModalOpen = true;}
   });
 }
-  navigateTo() {
-    console.log(this.otherForm.value);
-    // this.router.navigateByUrl('/tabs/home');
-    this.loadingSpinner.next(true);
-    this.othersService.getOthers(this.otherForm.value,'others')
-    .subscribe(
-      (res: any) => {
-          console.log('Response:',res);
-          if(res.status === 200){
+  // navigateTo() {
+  //   console.log(this.otherForm.value);
+  //   // this.router.navigateByUrl('/tabs/home');
+  //   this.loadingSpinner.next(true);
+  //   this.othersService.getOthers(this.otherForm.value,'others')
+  //   .subscribe(
+  //     (res: any) => {
+  //         console.log('Response:',res);
+  //         if(res.status === 200){
 
-            this.record_id  = res.id.record_id;
+  //           this.record_id  = res.id.record_id;
 
-             // getting check-in id
-             this.getCheckInID();
+  //            // getting check-in id
+  //            this.getCheckInID();
 
-            // this.toastService.presentToast('form has beed submitted','success');
-          }else{
-            console.log('Something happened :)');
-            this.toastService.presentToast(res.mssage,'danger');
-          }
-        },
-      (err) => {
-        this.toastService.presentToast(err.message,'danger');
-        console.log('Error:',err);
-      },
-     );
-  }
+  //           // this.toastService.presentToast('form has beed submitted','success');
+  //         }else{
+  //           console.log('Something happened :)');
+  //           this.toastService.presentToast(res.mssage,'danger');
+  //         }
+  //       },
+  //     (err) => {
+  //       this.toastService.presentToast(err.message,'danger');
+  //       console.log('Error:',err);
+  //     },
+  //    );
+  // }
     //#region Employee
    employeeSearchSubscription() {
     this.employeesearch$
