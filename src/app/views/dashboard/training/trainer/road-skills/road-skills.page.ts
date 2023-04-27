@@ -162,8 +162,6 @@ this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).su
       trainee_id: ['',[Validators.required]],
       supervisor_id: ['',[Validators.required]],
       truckId: ['',[Validators.required]],
-      odometerStartingMiles: ['',[Validators.required]],
-      odometerEndingMiles: ['',[Validators.required]],
       is_completed_cdl_classroom: ['',[Validators.required]],
       is_completed_group_practical: ['',[Validators.required]],
       city: [this.city !== 'null'? this.city: '',[Validators.required]],
