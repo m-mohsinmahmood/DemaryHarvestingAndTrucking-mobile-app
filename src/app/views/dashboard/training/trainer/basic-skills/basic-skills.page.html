@@ -340,7 +340,8 @@
   <div *ngIf="value === 'digital-form'">
   <ion-button expand="block"
   class="font-Lato text-white mb-4 mt-6 mx-8"
-  [disabled]="loadingSpinner | async"
+
+  [disabled]="basicSkillForm.invalid || isTraineeSelected || isSupervisorSelected || isTruckSelected || (loadingSpinner | async)"
    (click)="continue()">
     <div *ngIf="(loadingSpinner | async) === false">Continue</div>
     <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
