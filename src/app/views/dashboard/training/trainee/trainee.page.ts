@@ -1,3 +1,4 @@
+/* eslint-disable @angular-eslint/use-lifecycle-interface */
 /* eslint-disable max-len */
 /* eslint-disable prefer-const */
 /* eslint-disable no-var */
@@ -22,6 +23,8 @@ import { HarvestingService } from './../../harvesting/harvesting.service';
 })
 export class TraineePage implements OnInit {
   @ViewChild('employeeInput') employeeInput: ElementRef;
+  @ViewChild('supervisorInput') supervisorInput: ElementRef;
+
 
   upload_1 = false;
   upload_2 = false;
@@ -48,6 +51,15 @@ export class TraineePage implements OnInit {
   role: any;
   //#endregion
 
+   //#region supervisor drop-down variables
+  allSupervisors: Observable<any>;
+  supervisorSearch$ = new Subject();
+  supervisor_name: any = '';
+  supervisorSearchValue: any = '';
+  supervisorUL: any = false;
+  isSupervisorSelected: any = true;
+  //#endregion
+
   trainee_record_id: any;
   active_check_in_id: any;
   public activeCheckInSpinner = new BehaviorSubject(false);
@@ -68,6 +80,10 @@ export class TraineePage implements OnInit {
       if (e.target !== this.employeeInput.nativeElement) {
         this.allEmployees = of([]);
         this.employeeUL = false; // to hide the UL
+      }
+      if (e.target !== this.supervisorInput.nativeElement) {
+        this.allSupervisors = of([]);
+        this.supervisorUL = false; // to hide the UL
       }
     });
   }
@@ -93,17 +109,22 @@ this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).su
 
   this.initForm();
 
+
 });
-
-
-    // // getting trainee details
-    // this.getTrainee();
 
     // employee/trainer subscription
     this.employeeSearchSubscription();
+    this.supervisorSearchSubscription();
   }
+  ngAfterViewInit(): void {
+    this.setDefaultSupervisor();
+  }
+
   async ionViewDidEnter() {
+    this.initForm();
+
     this.getRoleAndID();
+
     this.upload_1 = false;
     this.upload_2 = false;
     this.upload_3 = false;
@@ -119,6 +140,7 @@ this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).su
     this.traineeForm = this.formBuilder.group({
       trainee_id: [''],
       trainer_id: [''],
+      supervisor_id: [''],
       city: [this.city !== 'null'? this.city: '', [Validators.required]],
       state: [this.state !== 'null'? this.state: '', [Validators.required]],
       training_type: ['', [Validators.required]],
@@ -128,6 +150,18 @@ this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).su
       image_2: [''],
       image_3: [''],
       dwr_id:['']
+    });
+  }
+  setDefaultSupervisor(){
+    // passing name in select's input to pre-fill
+    this.supervisorInput.nativeElement.value = 'Bill Demeray';
+
+    // to enable submit button to pre-fill
+    this.isSupervisorSelected = false;
+
+    // assigning values in form to pre-fill
+    this.traineeForm.patchValue({
+      supervisor_id: 'f676c59d-5e39-4051-a730-b907ccce1f48',
     });
   }
 
@@ -322,6 +356,95 @@ this.getCheckInID();
   }
   //#endregion
 
+  //#region Supervisor
+  supervisorSearchSubscription() {
+    this.supervisorSearch$
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        takeUntil(this._unsubscribeAll)
+      )
+      .subscribe((value: string) => {
+        // passing for renderer2
+        this.supervisorSearchValue = value;
+
+        // for asterik to look required
+        if (value === '') {
+          this.isSupervisorSelected = true;
+        }
+
+        // calling API
+        this.allSupervisors = this.trainingService.getSupervisors(
+          this.supervisorSearchValue
+        );
+
+        // subscribing to show/hide  UL
+        this.allSupervisors.subscribe((supervisor) => {
+          console.log('supervisor:', supervisor);
+
+          if (supervisor.count === 0) {
+            // hiding UL
+            this.supervisorUL = false;
+          } else {
+            this.supervisorUL = true;
+          }
+        });
+      });
+  }
+  inputClickedSupervisor() {
+    // getting the serch value to check if there's a value in input
+    this.supervisorSearch$
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        takeUntil(this._unsubscribeAll)
+      )
+      .subscribe((v) => {
+        this.supervisorSearchValue = v;
+      });
+
+    const value =
+      this.supervisorSearchValue === undefined
+        ? this.supervisor_name
+        : this.supervisorSearchValue;
+
+    // calling API
+    this.allSupervisors = this.trainingService.getSupervisors(
+      this.supervisorSearchValue,
+    );
+
+    // subscribing to show/hide field UL
+    this.allSupervisors.subscribe((supervisor) => {
+      console.log('supervisor:', supervisor);
+      if (supervisor.count === 0) {
+        // hiding UL
+        this.supervisorUL = false;
+      } else {
+        // showing UL
+        this.supervisorUL = true;
+      }
+    });
+  }
+  listClickedSupervisor(supervisor) {
+    console.log('supervisor Object:', supervisor);
+    // hiding UL
+    this.supervisorUL = false;
+
+    // passing name in select's input
+    this.supervisorInput.nativeElement.value = supervisor.first_name + ' ' + supervisor.last_name;
+
+    // to enable submit button
+    this.isSupervisorSelected = false;
+
+    // assigning values in form
+    this.traineeForm.patchValue({
+      supervisor_id: supervisor.id,
+    });
+
+    // clearing array
+    this.allSupervisors = of([]);
+  }
+  //#endregion
   getCheckInID(){
     this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
       this.activeCheckInSpinner.next(true);
@@ -341,7 +464,7 @@ this.getCheckInID();
 
   createDWR(){
      let supervisor_id;
-     supervisor_id = this.traineeForm.get('trainer_id').value
+     supervisor_id = this.traineeForm.get('trainer_id').value;
     this.trainingService
      .createDWR(this.trainee_id,'', this.trainee_record_id,'','','',supervisor_id,this.active_check_in_id)
      .subscribe(
