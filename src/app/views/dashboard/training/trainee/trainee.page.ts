@@ -62,6 +62,7 @@ export class TraineePage implements OnInit {
 
   trainee_record_id: any;
   active_check_in_id: any;
+  hasOther = false;
   public activeCheckInSpinner = new BehaviorSubject(false);
 
   private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -112,7 +113,7 @@ this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).su
 
 });
 
-    // employee/trainer subscription
+    // employee/trainer/supervisor subscription
     this.employeeSearchSubscription();
     this.supervisorSearchSubscription();
   }
@@ -140,7 +141,8 @@ this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).su
     this.traineeForm = this.formBuilder.group({
       trainee_id: [''],
       trainer_id: [''],
-      supervisor_id: [''],
+      trainer_third_party: [''],
+      supervisor_id: ['f676c59d-5e39-4051-a730-b907ccce1f48'],
       city: [this.city !== 'null'? this.city: '', [Validators.required]],
       state: [this.state !== 'null'? this.state: '', [Validators.required]],
       training_type: ['', [Validators.required]],
@@ -149,6 +151,7 @@ this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).su
       image_1: [''],
       image_2: [''],
       image_3: [''],
+      notes: [''],
       dwr_id:['']
     });
   }
@@ -158,15 +161,9 @@ this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).su
 
     // to enable submit button to pre-fill
     this.isSupervisorSelected = false;
-
-    // assigning values in form to pre-fill
-    this.traineeForm.patchValue({
-      supervisor_id: 'f676c59d-5e39-4051-a730-b907ccce1f48',
-    });
   }
 
   onSelectedFiles(file, name) {
-    console.log('file:', file.target.files);
 
     if (name === 'upload_1') {
       this.upload_1 = !this.upload_1;
@@ -209,7 +206,6 @@ this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).su
     this.trainingService.getTrainee(this.trainee_id).subscribe(
       (res) => {
         this.loading.next(true);
-        console.log('res:::',res);
         this.trainee_name = res[0].first_name + ' ' + res[0].last_name;
         this.loading.next(false);
 
@@ -351,6 +347,10 @@ this.getCheckInID();
       trainer_id: employee.id,
     });
 
+    if(employee.first_name === 'Other'){
+      this.hasOther= true;
+    }
+
     // clearing array
     this.allEmployees = of([]);
   }
@@ -441,6 +441,8 @@ this.getCheckInID();
       supervisor_id: supervisor.id,
     });
 
+
+
     // clearing array
     this.allSupervisors = of([]);
   }
@@ -464,7 +466,7 @@ this.getCheckInID();
 
   createDWR(){
      let supervisor_id;
-     supervisor_id = this.traineeForm.get('trainer_id').value;
+     supervisor_id = this.traineeForm.get('supervisor_id').value;
     this.trainingService
      .createDWR(this.trainee_id,'', this.trainee_record_id,'','','',supervisor_id,this.active_check_in_id)
      .subscribe(

@@ -1,3 +1,4 @@
+/* eslint-disable @angular-eslint/use-lifecycle-interface */
 /* eslint-disable prefer-const */
 /* eslint-disable no-var */
 /* eslint-disable no-underscore-dangle */
@@ -149,6 +150,16 @@ this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).su
     this.upload = false;
     this.value = 'paper-form';
   }
+  ngAfterViewInit(): void {
+    this.setDefaultSupervisor();
+  }
+  setDefaultSupervisor(){
+    // passing name in select's input to pre-fill
+    this.supervisorInput.nativeElement.value = 'Bill Demeray';
+
+    // to enable submit button to pre-fill
+    this.isSupervisorSelected = false;
+  }
   getRoleAndID(){
     this.trainer_id = localStorage.getItem('employeeId');
     this.state = localStorage.getItem('state');
@@ -160,10 +171,11 @@ this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).su
       evaluation_form: ['',[Validators.required]],
       trainer_id: ['',[Validators.required]],
       trainee_id: ['',[Validators.required]],
-      supervisor_id: ['',[Validators.required]],
+      clp: ['N/A',[Validators.required]],
+      supervisor_id: ['f676c59d-5e39-4051-a730-b907ccce1f48'],
       truckId: ['',[Validators.required]],
-      is_completed_cdl_classroom: ['',[Validators.required]],
-      is_completed_group_practical: ['',[Validators.required]],
+      is_completed_cdl_classroom: [''],
+      is_completed_group_practical: [''],
       city: [this.city !== 'null'? this.city: '',[Validators.required]],
       state: [this.state !== 'null'? this.state: '',[Validators.required]],
       image_1: [''],
