@@ -27,6 +27,8 @@ export class ViewRecordsPage implements OnInit {
   math = Math;
   total;
   date: any;
+  startDate: any;
+  endDate: any;
   // behaviour subject
   public loading = new BehaviorSubject(true);
 
@@ -46,11 +48,14 @@ export class ViewRecordsPage implements OnInit {
 
     //query params
     this.route.queryParams.subscribe((params) => {
+      console.log(params);
       this.formType = params.formType;
       this.recordId = params.recordId;
       this.trainerName = params.trainerName;
       this.trainee_id = params.trainee_id;
-      this.date = params.date;
+      // this.date = params.date;
+      this.startDate = params.startDate;
+      this.endDate = params.endDate;
     });
 
     this.initForms();
@@ -58,7 +63,8 @@ export class ViewRecordsPage implements OnInit {
     if (this.formType === 'summary') {
       // getting record by id for summary
       this.trainingService
-        .getSummary(this.trainee_id, this.trainer_id, 'summary', this.date)
+        // .getSummary(this.trainee_id, this.trainer_id, 'summary', this.date)
+        .getSummary(this.trainee_id, this.trainer_id, 'summary', this.startDate, this.endDate)
         .subscribe((record) => {
           this.loading.next(true);
           this.records = record;

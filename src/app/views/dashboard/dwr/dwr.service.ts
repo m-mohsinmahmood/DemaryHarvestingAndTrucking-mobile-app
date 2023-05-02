@@ -165,7 +165,9 @@ export class DWRService {
     let params = new HttpParams();
     params = params.set('operation',operation);
     params = params.set('employeeId',employee_id);
-    params = params.set('date',date);
+    params = params.set('date',date); // (comment)
+    params = params.set('startDate',moment(date).startOf('day').toISOString(),);
+    params = params.set('endDate',moment(date).endOf('day').toISOString());
     params = params.set('dateType',dateType);
     params = params.set('status',status);
     return this.httpClient
