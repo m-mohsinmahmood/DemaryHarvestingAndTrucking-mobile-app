@@ -8,6 +8,7 @@ import {
 import { Injectable } from '@angular/core';
 import { take } from 'rxjs/operators';
 import { AlertService } from 'src/app/alert/alert.service';
+import * as moment from 'moment';
 
 @Injectable({
   providedIn: 'root',
@@ -176,7 +177,9 @@ export class DWRService {
   getDWRDetailsWithStatus(operation,date,dateType,employee_id,status){
     let params = new HttpParams();
     params = params.set('operation',operation);
-    params = params.set('date',date);
+    // params = params.set('date',date); // (comment)
+    params = params.set('startDate',moment(date).startOf('day').toISOString(),);
+    params = params.set('endDate',moment(date).endOf('day').toISOString());
     params = params.set('dateType',dateType);
     params = params.set('employeeId',employee_id);
     params = params.set('status',status);
