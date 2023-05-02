@@ -83,9 +83,8 @@ export class VerifyDwrsPage implements OnInit {
   getDWRByDate() {
     // to start spinner
     this.loading.next(true);
-
     this.DWRSubValue = this.dwrService
-      .getDWR('', this.date, '', '','pendingVerification')
+      .getDWRNew('', moment(this.date).startOf('day').toISOString(), moment(this.date).endOf('day').toISOString(), '', '','pendingVerification')
       .subscribe((res) => {
         this.dwrs$ = res;
 

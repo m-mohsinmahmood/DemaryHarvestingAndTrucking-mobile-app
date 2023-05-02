@@ -100,9 +100,10 @@ export class WorkHistoryPage implements OnInit {
     this.loading.next(true);
 
     this.dwrService
-      .getDWR(
+      .getDWRNew(
         '',
-        this.date,
+        moment(this.date).startOf('day').toISOString(),
+        moment(this.date).endOf('day').toISOString(),
         localStorage.getItem('role'),
         'getMyDWR',
         'all'

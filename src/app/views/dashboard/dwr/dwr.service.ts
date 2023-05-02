@@ -39,6 +39,24 @@ export class DWRService {
       })
       .pipe(take(1));
   }
+  getDWRNew(employeeId: string, startDate: string, endDate: string,
+    role: any,type: any, status: any) {
+    let params = new HttpParams();
+    params = params.set('operation','getDWRToVerify');
+    params = params.set('employeeId', employeeId);
+    params = params.set('startDate', startDate);
+    params = params.set('endDate', endDate);
+    params = params.set('dateType', 'day');
+    params = params.set('role', role);
+    params = params.set('type', type);
+    params = params.set('status', status);
+
+    return this.httpClient
+      .get<any>('api-1/dwr', {
+        params,
+      })
+      .pipe(take(1));
+  }
   getMonthDWR(employeeId: string, month: any, year: any) {
     let params = new HttpParams();
     params = params.set('operation','getDWRToVerify');
