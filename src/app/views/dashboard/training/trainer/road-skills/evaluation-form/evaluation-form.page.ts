@@ -62,31 +62,33 @@ totalUnSatisfactory = 0;
   initForm(){
     this.evaluationFrom = this.formBuilder.group({
       leftTurns: ['',[Validators.required]],
-      leftTurnsInput: ['',[Validators.required,Validators.pattern('^([0-5])$')]],
+      leftTurnsInput: ['0',[Validators.required,Validators.pattern('^([0-5])$')]],
       rightTurns: ['',[Validators.required]],
-      rightTurnsInput: ['',[Validators.required,Validators.pattern('^([0-5])$')]],
+      rightTurnsInput: ['0',[Validators.required,Validators.pattern('^([0-5])$')]],
       intersectionStop: ['',[Validators.required]],
-      intersectionStopInput: ['',[Validators.required,Validators.pattern('^([0-5])$')]],
+      intersectionStopInput: ['0',[Validators.required,Validators.pattern('^([0-5])$')]],
       intersectionThru: ['',[Validators.required]],
-      intersectionThruInput: ['',[Validators.required,Validators.pattern('^([0-5])$')]],
+      intersectionThruInput: ['0',[Validators.required,Validators.pattern('^([0-5])$')]],
       interstate: ['',[Validators.required]],
-      interstateInput: ['',[Validators.required,Validators.pattern('^([0-5])$')]],
+      interstateInput: ['0',[Validators.required,Validators.pattern('^([0-5])$')]],
       urbanBusiness: ['',[Validators.required]],
-      urbanBusinessInput: ['',[Validators.required,Validators.pattern('^([0-5])$')]],
+      urbanBusinessInput: ['0',[Validators.required,Validators.pattern('^([0-5])$')]],
       lanceChanges: ['',[Validators.required]],
-      lanceChangesInput: ['',[Validators.required,Validators.pattern('^([0-5])$')]],
+      lanceChangesInput: ['0',[Validators.required,Validators.pattern('^([0-5])$')]],
       curve: ['',[Validators.required]],
-      curveInput: ['',[Validators.required,Validators.pattern('^([0-5])$')]],
+      curveInput: ['0',[Validators.required,Validators.pattern('^([0-5])$')]],
       roadside: ['',[Validators.required]],
-      roadsideInput: ['',[Validators.required,Validators.pattern('^([0-5])$')]],
+      roadsideInput: ['0',[Validators.required,Validators.pattern('^([0-5])$')]],
       rrCrossing: ['',[Validators.required]],
-      rrCrossingInput: ['',[Validators.required,Validators.pattern('^([0-5])$')]],
+      rrCrossingInput: ['0',[Validators.required,Validators.pattern('^([0-5])$')]],
       signs: ['',[Validators.required]],
-      signsInput: ['',[Validators.required,Validators.pattern('^([0-5])$')]],
+      signsInput: ['0',[Validators.required,Validators.pattern('^([0-5])$')]],
       generalDriving: ['',[Validators.required]],
-      generalDrivingInput: ['',[Validators.required,Validators.pattern('^([0-5])$')]],
+      generalDrivingInput: ['0',[Validators.required,Validators.pattern('^([0-5])$')]],
       eLogPractical: ['',[Validators.required]],
-      eLogPracticalInput: ['',[Validators.required,Validators.pattern('^([0-5])$')]],
+      eLogPracticalInput: ['0',[Validators.required,Validators.pattern('^([0-5])$')]],
+      cognizantDriving: ['',[Validators.required]],
+      cognizantDrivingInput: ['0',[Validators.required,Validators.pattern('^([0-5])$')]],
       category:['road-testing'],
       satisfactoryRoadTesting:[],
       unSatisfactoryRoadTesting:[],
@@ -111,7 +113,8 @@ totalUnSatisfactory = 0;
       +val.rrCrossingInput +
       +val.signsInput +
       +val.generalDrivingInput +
-      +val.eLogPracticalInput + +sum;
+      +val.eLogPracticalInput +
+      +val.cognizantDrivingInput +sum;
       this.result = sum;
 
       if(
