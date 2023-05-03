@@ -417,7 +417,7 @@ this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).su
 
       // patching values
       this.roadTestForm.patchValue({
-        trainer_id: res[0].trainer_id,
+        trainer_id: res.summary[0].trainer_id,
       });
       this.loading.next(false);
     });

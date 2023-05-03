@@ -405,7 +405,7 @@ this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).su
 
       // patching values
       this.preTrip.patchValue({
-        trainer_id: res[0].trainer_id,
+        trainer_id: res.summary[0].trainer_id,
       });
       this.loading.next(false);
     });

@@ -205,8 +205,9 @@ this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).su
   getTrainee() {
     this.trainingService.getTrainee(this.trainee_id).subscribe(
       (res) => {
+        console.log('RES',res);
         this.loading.next(true);
-        this.trainee_name = res[0].first_name + ' ' + res[0].last_name;
+        this.trainee_name = res.summary[0].first_name + ' ' + res.summary[0].last_name;
         this.loading.next(false);
 
         // patching trainee id
