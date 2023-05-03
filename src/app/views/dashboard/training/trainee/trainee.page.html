@@ -62,6 +62,14 @@
         </div>
        <!-- TRAINER DROPDOWN -->
 
+       <div class="col-span-12 mb-4" *ngIf="hasOther">
+        <label class="block text-sm font-medium text-gray-700">Trainer name (third party)
+          </label>
+        <input
+          class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+          formControlName="trainer_third_party" placeholder="Enter Trainer (Third Party)">
+      </div>
+
 
         <!-- SUPERVISOR DROPDOWN -->
     <div [ngClass]="'opacity-100 visible ease-in duration-200'"  role="dialog" aria-modal="true">
@@ -103,15 +111,7 @@
     </div>
    <!-- SUPERVISOR DROPDOWN -->
 
-   <div class="col-span-12 mb-4" *ngIf="hasOther">
-    <label class="block text-sm font-medium text-gray-700">Trainer name (third party)
-      <!-- <span
-        *ngIf="this.traineeForm.get('trainer_third_party').hasError('required')" class="text-red-400">*</span> -->
-      </label>
-    <input
-      class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-      formControlName="trainer_third_party" placeholder="Enter Trainer (Third Party)">
-  </div>
+
 
         <div class="col-span-12 mb-4">
           <label class="block text-sm font-medium text-gray-700">City
@@ -143,7 +143,6 @@
             formControlName="training_type" placeholder="Type of Training">
             <ion-select-option value="company-training">Company Training</ion-select-option>
             <ion-select-option value="safety-training">Safety Training</ion-select-option>
-            <!-- <ion-select-option value="cdl-training">CDL Training</ion-select-option> -->
           </ion-select>
         </div>
 
@@ -165,8 +164,7 @@
 
         <div class="col-span-12 mb-4" *ngIf="this.traineeForm.get('topic').value === 'other'">
           <label class="block text-sm font-medium text-gray-700">Detail
-            <!-- <span
-              *ngIf="this.traineeForm.get('detail').hasError('required')" class="text-red-400">*</span> -->
+
             </label>
           <input
             class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"

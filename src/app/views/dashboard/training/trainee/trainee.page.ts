@@ -349,6 +349,8 @@ this.getCheckInID();
 
     if(employee.first_name === 'Other'){
       this.hasOther= true;
+    }else{
+      this.hasOther= false;
     }
 
     // clearing array

@@ -8,7 +8,7 @@
     <form class="mx-2" [formGroup]="basicSkillForm">
 
       <div class="col-span-12 mb-4 mt-2">
-        <label class="block text-sm font-medium text-gray-700">Type of Evaluation Form</label>
+        <label class="block text-sm font-medium text-gray-700">Type of Evaluation Form <span *ngIf="this.basicSkillForm.get('evaluation_form').hasError('required')" class="text-red-400">*</span></label>
         <ion-select
           class="mt-1 w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
           formControlName="evaluation_form" placeholder="Select Evaluation Form" (ionChange)="onSelect($event)">
@@ -164,7 +164,7 @@
        </div>
      </div>
      <!-- TRUCKS DROPDOWN -->
-      <div class="col-span-12 mb-4">
+      <!-- <div class="col-span-12 mb-4">
         <label class="block text-sm font-medium text-gray-700">Odometer Begining Miles<span *ngIf="this.basicSkillForm.get('odometerStartingMiles').hasError('required')" class="text-red-400">*</span></label>
         <input
           class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
@@ -175,7 +175,7 @@
         <input
           class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
           formControlName="odometerEndingMiles" placeholder="Enter begining miles">
-      </div>
+      </div> -->
 
       <div class="col-span-12 mb-4">
         <label class="block text-sm font-medium text-gray-700">Trainee Completed CDL Classroom <span *ngIf="this.basicSkillForm.get('is_completed_cdl_classroom').hasError('required')" class="text-red-400">*</span></label>
