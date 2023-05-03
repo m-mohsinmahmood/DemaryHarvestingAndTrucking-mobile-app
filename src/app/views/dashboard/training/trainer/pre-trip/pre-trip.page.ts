@@ -1,3 +1,4 @@
+/* eslint-disable @angular-eslint/use-lifecycle-interface */
 /* eslint-disable prefer-const */
 /* eslint-disable no-var */
 /* eslint-disable no-underscore-dangle */
@@ -130,6 +131,10 @@ this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).su
 
 
   }
+  ngAfterViewInit(): void {
+    this.setDefaultSupervisor();
+  }
+
  async ionViewDidEnter() {
     this.getRoleAndID();
   }
@@ -146,7 +151,8 @@ this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).su
       evaluation_form: ['', [Validators.required]],
       trainer_id: [''],
       trainee_id: [''],
-      supervisor_id: [''],
+      clp: ['N/A',[Validators.required]],
+      supervisor_id: ['f676c59d-5e39-4051-a730-b907ccce1f48'],
       is_completed_cdl_classroom: ['', [Validators.required]],
       is_completed_group_practical: ['', [Validators.required]],
       city: [this.city != null ? this.city: '', [Validators.required]],
@@ -163,7 +169,13 @@ this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).su
     // supervisor subscription
     this.supervisorSearchSubscription();
   }
+  setDefaultSupervisor(){
+    // passing name in select's input to pre-fill
+    this.supervisorInput.nativeElement.value = 'Bill Demeray';
 
+    // to enable submit button to pre-fill
+    this.isSupervisorSelected = false;
+  }
 
   onSelectedFiles(file, name) {
     if (name === 'upload_1') {

@@ -21,3 +21,10 @@ ion-item::part(native){
 ion-spinner {
   --color: #ffffff;
 }
+ion-textarea {
+  font-family: Lato !important;
+}
+ion-item::part(native) {
+  background: #F2F3F5;
+  border-radius: 10px;
+}
