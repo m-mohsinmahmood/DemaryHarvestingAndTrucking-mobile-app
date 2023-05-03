@@ -33,6 +33,7 @@ export class ViewRecordsPage implements OnInit {
   basicSkillTime;
   roadSkillTime;
   preTripAndRoadSkillTime;
+  btw_range;
   // behaviour subject
   public loading = new BehaviorSubject(true);
 
@@ -71,7 +72,8 @@ export class ViewRecordsPage implements OnInit {
         .getSummary(this.trainee_id, this.trainer_id, 'summary',moment(this.startDate).startOf('day').toISOString(),moment(this.endDate).endOf('day').toISOString())
         .subscribe((record) => {
           this.loading.next(true);
-          this.records = record;
+          this.records = record.summary;
+          this.btw_range = record.BTWRange;
 
           this.getSeperateTrainingTime(this.records);
           this.loading.next(false);
