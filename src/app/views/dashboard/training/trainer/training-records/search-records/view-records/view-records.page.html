@@ -1026,7 +1026,7 @@
               <ion-col size="5" class="ion-text-start" *ngIf="getPreTripSum(record)"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
               <ion-col size="5" class="ion-text-start" *ngIf="!getPreTripSum(record)"><ion-text class="font-Lato text-E64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">UnSatisfactory</ion-text></ion-col>
 
-              <ion-col size="3" class="ion-text-start"><ion-text class="font-Lato font-semibold">{{record.enddatepretrip?.hours?record.enddatepretrip.hours: '0'}}h:{{record.enddatepretrip?.minutes?record.enddatepretrip.minutes : '0'}}m</ion-text></ion-col>
+              <ion-col size="3" class="ion-text-start"><ion-text class="font-Lato font-semibold">{{record.enddatepretrip?.hours?record.enddatepretrip.hours: '0'}}h:{{record.enddatepretrip?.minutes?record.enddatepretrip.minutes : '0'}}m: {{record.enddatepretrip?.seconds?record.enddatepretrip.seconds : '0'}}</ion-text></ion-col>
           </ion-row>
           <ion-row class="my-4" *ngIf="record.evaluation_type === 'basic-skills'">
             <ion-col size="4" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">CDL Basic Skills</ion-text></ion-col>
@@ -1037,7 +1037,7 @@
               <ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text>
             </ion-col>
             <ion-col size="3" class="ion-text-start">
-              <ion-text class="font-Lato font-semibold">{{record.enddatebasicskill?.hours?record.enddatebasicskill.hours: '0'}}h:{{record.enddatebasicskill?.minutes?record.enddatebasicskill.minutes : '0'}}m</ion-text>
+              <ion-text class="font-Lato font-semibold">{{record.enddatebasicskill?.hours?record.enddatebasicskill.hours: '0'}}h:{{record.enddatebasicskill?.minutes?record.enddatebasicskill.minutes : '0'}}m: {{record.enddatebasicskill?.seconds?record.enddatebasicskill.seconds : '0'}}s</ion-text>
             </ion-col>
           </ion-row>
           <ion-row class="my-4" *ngIf="record.evaluation_type === 'road-skills'">
@@ -1051,17 +1051,33 @@
               <ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text>
             </ion-col>
             <ion-col size="3" class="ion-text-start">
-              <ion-text class="font-Lato font-semibold">{{record?.enddateroadskill?.hours?record.enddateroadskill.hours: '0'}}h:{{record?.enddateroadskill?.minutes?record.enddateroadskill.minutes : '0'}}m</ion-text>
+              <ion-text class="font-Lato font-semibold">{{record?.enddateroadskill?.hours?record.enddateroadskill.hours: '0'}}h:{{record?.enddateroadskill?.minutes?record.enddateroadskill.minutes : '0'}}m: {{record?.enddateroadskill?.seconds?record.enddateroadskill.seconds : '0'}}s</ion-text>
             </ion-col>
           </ion-row>
         </div>
       </ion-grid>
 
-      <ion-card>
+      <!-- <ion-card>
         <ion-card-content >
           <div class="mb-0 flex items-center justify-between">
             <ion-text class="font-Lato font-semibold">Total Training Time:</ion-text>
             <ion-text class="font-Lato px-3 py-1 text-sm font-semibold text-black"> {{getTotalTrainingHoursTime(records)}} </ion-text>
+          </div>
+        </ion-card-content>
+      </ion-card> -->
+      <ion-card>
+        <ion-card-content >
+          <div class="mb-0 flex items-center justify-between">
+            <ion-text class="font-Lato font-semibold">BTW Range</ion-text>
+            <ion-text class="font-Lato px-3 py-1 text-sm font-semibold text-black"> {{getPretripBasicTotalHoursTime(records)}} </ion-text>
+          </div>
+        </ion-card-content>
+      </ion-card>
+      <ion-card>
+        <ion-card-content >
+          <div class="mb-0 flex items-center justify-between">
+            <ion-text class="font-Lato font-semibold">BTW Road:</ion-text>
+            <ion-text class="font-Lato px-3 py-1 text-sm font-semibold text-black"> {{getRoadTotalTrainingHoursTime(records)}} </ion-text>
           </div>
         </ion-card-content>
       </ion-card>

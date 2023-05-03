@@ -146,6 +146,83 @@ export class ViewRecordsPage implements OnInit {
     });
     return totalSum;
   }
+  getPretripBasicTotalHoursTime(records){
+    console.log(records);
+    let totalSum: any = '00:00:00';
+    records.map((record) => {
+      if (
+        record.evaluation_type === 'pre-trip' &&
+        record.enddatepretrip !== null
+      ) {
+        totalSum = this.formatTime(
+          this.timestrToSec(totalSum) +
+            this.timestrToSec(moment(record.enddatepretrip).format('HH:mm:ss'))
+        );
+      }
+      if (
+        record.evaluation_type === 'basic-skills' &&
+        record.enddatebasicskill !== null
+      ) {
+        totalSum = this.formatTime(
+          this.timestrToSec(totalSum) +
+            this.timestrToSec(
+              moment(record.enddatebasicskill).format('HH:mm:ss')
+            )
+        );
+      }
+      // if (
+      //   record.evaluation_type === 'road-skills' &&
+      //   record.enddateroadskill !== null
+      // ) {
+      //   totalSum = this.formatTime(
+      //     this.timestrToSec(totalSum) +
+      //       this.timestrToSec(
+      //         moment(record.enddateroadskill).format('HH:mm:ss')
+      //       )
+      //   );
+      // }
+    });
+    return totalSum;
+  }
+  getRoadTotalTrainingHoursTime(records){
+    console.log(records);
+    let totalSum: any = '00:00:00';
+    records.map((record) => {
+      // if (
+      //   record.evaluation_type === 'pre-trip' &&
+      //   record.enddatepretrip !== null
+      // ) {
+      //   totalSum = this.formatTime(
+      //     this.timestrToSec(totalSum) +
+      //       this.timestrToSec(moment(record.enddatepretrip).format('HH:mm:ss'))
+      //   );
+      // }
+      // if (
+      //   record.evaluation_type === 'basic-skills' &&
+      //   record.enddatebasicskill !== null
+      // ) {
+      //   totalSum = this.formatTime(
+      //     this.timestrToSec(totalSum) +
+      //       this.timestrToSec(
+      //         moment(record.enddatebasicskill).format('HH:mm:ss')
+      //       )
+      //   );
+      // }
+      if (
+        record.evaluation_type === 'road-skills' &&
+        record.enddateroadskill !== null
+      ) {
+        totalSum = this.formatTime(
+          this.timestrToSec(totalSum) +
+            this.timestrToSec(
+              moment(record.enddateroadskill).format('HH:mm:ss')
+            )
+        );
+      }
+    });
+    return totalSum;
+
+  }
   timestrToSec(timestr) {
     if (timestr !== 0) {
       const parts = timestr.split(':');
