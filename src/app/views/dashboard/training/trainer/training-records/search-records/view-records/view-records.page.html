@@ -1010,11 +1010,11 @@
     </div>
     <div class="my-5 flex items-center justify-between">
       <ion-text class="font-Lato text-9B9BA4 text-sm font-semibold">Startdate</ion-text>
-      <ion-text class="font-Lato text-sm font-semibold text-black">{{moment(startDate).format('DD-MM-YYYY')}}</ion-text>
+      <ion-text class="font-Lato text-sm font-semibold text-black">{{moment(startDate).format('MM-DD-YYYY')}}</ion-text>
     </div>
     <div class="my-5 flex items-center justify-between">
       <ion-text class="font-Lato text-9B9BA4 text-sm font-semibold">Enddate</ion-text>
-      <ion-text class="font-Lato text-sm font-semibold text-black">{{moment(endDate).format('DD-MM-YYYY')}}</ion-text>
+      <ion-text class="font-Lato text-sm font-semibold text-black">{{moment(endDate).format('MM-DD-YYYY')}}</ion-text>
     </div>
     <ion-grid *ngIf="(loading | async) === true">
       <div class="flex h-64 w-full items-center justify-center">
@@ -1120,7 +1120,7 @@
         <ion-card-content >
           <div class="mb-0 flex items-center justify-between">
             <ion-text class="font-Lato font-semibold">BTW Range</ion-text>
-            <ion-text class="font-Lato px-3 py-1 text-sm font-semibold text-black"> {{preTripAndRoadSkillTime}} </ion-text>
+            <ion-text class="font-Lato px-3 py-1 text-sm font-semibold text-black"> {{btw_range.days?btw_range.days: '0'}}d:{{btw_range.hours?btw_range.hours: '0'}}h:{{btw_range.minutes?btw_range.minutes: '0'}}m{{btw_range.seconds?btw_range.seconds: '0'}}s </ion-text>
           </div>
         </ion-card-content>
       </ion-card>
