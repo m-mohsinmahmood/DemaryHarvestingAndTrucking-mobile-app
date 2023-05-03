@@ -990,17 +990,25 @@
       <ion-text class="font-Lato text-9B9BA4 text-sm font-semibold">Trainee</ion-text>
       <ion-text class="font-Lato text-sm font-semibold text-black">{{records[0]?.trainee_name}}</ion-text>
     </div>
-    <div class="my-3 flex items-center justify-between" *ngIf="(loading |async) === true">
+    <!-- <div class="my-3 flex items-center justify-between" *ngIf="(loading |async) === true">
       <ion-text class="font-Lato text-9B9BA4"> Trainer</ion-text>
       <ion-skeleton-text [animated]="true" style="width: 40%; height: 19px; border-radius: 5px;"></ion-skeleton-text>
-    </div>
-    <div class="my-5 flex items-center justify-between" *ngIf="(loading |async) === false">
+    </div> -->
+    <!-- <div class="my-5 flex items-center justify-between" *ngIf="(loading |async) === false">
       <ion-text class="font-Lato text-9B9BA4 text-sm font-semibold">Trainer</ion-text>
       <ion-text class="font-Lato text-sm font-semibold text-black">{{records[0]?.trainer_name}}</ion-text>
-    </div>
+    </div> -->
     <div class="my-5 flex items-center justify-between">
       <ion-text class="font-Lato text-9B9BA4 text-sm font-semibold">Evaluation Form</ion-text>
       <ion-text class="font-Lato text-sm font-semibold text-black">Summary</ion-text>
+    </div>
+    <div class="my-5 flex items-center justify-between">
+      <ion-text class="font-Lato text-9B9BA4 text-sm font-semibold">Startdate</ion-text>
+      <ion-text class="font-Lato text-sm font-semibold text-black">{{moment(startDate).format('DD-MM-YYYY')}}</ion-text>
+    </div>
+    <div class="my-5 flex items-center justify-between">
+      <ion-text class="font-Lato text-9B9BA4 text-sm font-semibold">Enddate</ion-text>
+      <ion-text class="font-Lato text-sm font-semibold text-black">{{moment(endDate).format('DD-MM-YYYY')}}</ion-text>
     </div>
     <ion-grid *ngIf="(loading | async) === true">
       <div class="flex h-64 w-full items-center justify-center">
@@ -1012,21 +1020,21 @@
     <ion-grid>
       <ion-row class="bg-d9d9d95c py-2 px-2">
         <ion-col size="5" class="ion-text-start"><ion-text class="font-Lato text-black font-semibold">Skill</ion-text></ion-col>
-        <ion-col size="4" class="ion-text-center"><ion-text class="font-Lato text-black font-semibold">S/U</ion-text></ion-col>
+        <ion-col size="4" class="ion-text-center"><ion-text class="font-Lato text-black font-semibold"><span class="text-project-green font-Lato">S</span> / <span class="text-E64646 font-Lato">U</span></ion-text></ion-col>
         <ion-col size="3" class="ion-text-end"><ion-text class="font-Lato text-black font-semibold">Time</ion-text></ion-col>
       </ion-row>
     </ion-grid>
     <ion-grid>
       </ion-grid>
 
-      <ion-grid *ngIf="records.length > 0">
+      <!-- <ion-grid *ngIf="records.length > 0">
         <div *ngFor="let record of records">
           <ion-row class="my-4" *ngIf="record.evaluation_type === 'pre-trip'">
             <ion-col size="4" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">CDL Pre-Trip Check</ion-text></ion-col>
               <ion-col size="5" class="ion-text-start" *ngIf="getPreTripSum(record)"><ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">Satisfactory</ion-text></ion-col>
               <ion-col size="5" class="ion-text-start" *ngIf="!getPreTripSum(record)"><ion-text class="font-Lato text-E64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">UnSatisfactory</ion-text></ion-col>
 
-              <ion-col size="3" class="ion-text-start"><ion-text class="font-Lato font-semibold">{{record.enddatepretrip?.hours?record.enddatepretrip.hours: '0'}}h:{{record.enddatepretrip?.minutes?record.enddatepretrip.minutes : '0'}}m: {{record.enddatepretrip?.seconds?record.enddatepretrip.seconds : '0'}}</ion-text></ion-col>
+              <ion-col size="3" class="ion-text-start"><ion-text class="font-Lato font-semibold text-sm">{{record.enddatepretrip?.hours?record.enddatepretrip.hours: '0'}}h:{{record.enddatepretrip?.minutes?record.enddatepretrip.minutes : '0'}}m: {{record.enddatepretrip?.seconds?record.enddatepretrip.seconds : '0'}}s</ion-text></ion-col>
           </ion-row>
           <ion-row class="my-4" *ngIf="record.evaluation_type === 'basic-skills'">
             <ion-col size="4" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">CDL Basic Skills</ion-text></ion-col>
@@ -1037,7 +1045,7 @@
               <ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text>
             </ion-col>
             <ion-col size="3" class="ion-text-start">
-              <ion-text class="font-Lato font-semibold">{{record.enddatebasicskill?.hours?record.enddatebasicskill.hours: '0'}}h:{{record.enddatebasicskill?.minutes?record.enddatebasicskill.minutes : '0'}}m: {{record.enddatebasicskill?.seconds?record.enddatebasicskill.seconds : '0'}}s</ion-text>
+              <ion-text class="font-Lato font-semibold text-sm">{{record.enddatebasicskill?.hours?record.enddatebasicskill.hours: '0'}}h:{{record.enddatebasicskill?.minutes?record.enddatebasicskill.minutes : '0'}}m: {{record.enddatebasicskill?.seconds?record.enddatebasicskill.seconds : '0'}}s</ion-text>
             </ion-col>
           </ion-row>
           <ion-row class="my-4" *ngIf="record.evaluation_type === 'road-skills'">
@@ -1051,7 +1059,44 @@
               <ion-text class="font-Lato text-e64646 bg-E64646 rounded-full bg-opacity-10 px-3 py-1 text-sm">Unsatisfactory</ion-text>
             </ion-col>
             <ion-col size="3" class="ion-text-start">
-              <ion-text class="font-Lato font-semibold">{{record?.enddateroadskill?.hours?record.enddateroadskill.hours: '0'}}h:{{record?.enddateroadskill?.minutes?record.enddateroadskill.minutes : '0'}}m: {{record?.enddateroadskill?.seconds?record.enddateroadskill.seconds : '0'}}s</ion-text>
+              <ion-text class="font-Lato font-semibold text-sm">{{record?.enddateroadskill?.hours?record.enddateroadskill.hours: '0'}}h:{{record?.enddateroadskill?.minutes?record.enddateroadskill.minutes : '0'}}m: {{record?.enddateroadskill?.seconds?record.enddateroadskill.seconds : '0'}}s</ion-text>
+            </ion-col>
+          </ion-row>
+        </div>
+      </ion-grid> -->
+      <ion-grid *ngIf="records.length > 0">
+        <div *ngFor="let record of records">
+          <ion-row class="my-4" *ngIf="record.evaluation_type === 'pre-trip'">
+            <ion-col size="5" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">CDL Pre-Trip Check</ion-text></ion-col>
+              <ion-col size="3" class="ion-text-start">
+                <ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">
+                 <span class="font-Lato text-project-green text-base font-semibold">{{record.preTripSatisfactoryCount}} </span> / <span class="font-Lato text-E64646 text-base font-semibold">{{record.preTripUnSatisfactoryCount}}</span>
+                </ion-text>
+              </ion-col>
+              <ion-col size="4" class="ion-text-start"><ion-text class="font-Lato font-semibold text-sm">{{record?.preTripTime?.days? record?.preTripTime?.days:'0'}}d:{{record?.preTripTime?.hours?record?.preTripTime?.hours:'0'}}h:{{record?.preTripTime?.minutes?record?.preTripTime?.minutes:'0'}}m:{{record?.preTripTime?.seconds?record?.preTripTime?.seconds:'0'}}s</ion-text></ion-col>
+          </ion-row>
+          <ion-row class="my-4" *ngIf="record.evaluation_type === 'basic-skills'">
+            <ion-col size="5" class="ion-text-start"><ion-text class="font-Lato font-semibold text-black">CDL Basic Skills</ion-text></ion-col>
+            <ion-col size="3" class="ion-text-start">
+              <ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">
+                <span class="font-Lato text-project-green text-base font-semibold">{{record.basicSkillsSatisfactoryCount}}</span> / <span class="font-Lato text-E64646 text-base font-semibold">{{record.basicSkillsUnSatisfactoryCount}}</span>
+              </ion-text>
+            </ion-col>
+            <ion-col size="4" class="ion-text-start">
+                <ion-text class="font-Lato font-semibold text-sm">{{record?.basicSkillTime?.days?record?.basicSkillTime?.days : '0'}}d:{{record?.basicSkillTime?.hours?record?.basicSkillTime?.hours : '0'}}h:{{record?.basicSkillTime?.minutes?record?.basicSkillTime?.minutes: '0'}}m:{{record?.basicSkillTime?.seconds?record?.basicSkillTime?.seconds:'0'}}s</ion-text>
+            </ion-col>
+          </ion-row>
+          <ion-row class="my-4" *ngIf="record.evaluation_type === 'road-skills'">
+            <ion-col size="5" class="ion-text-start">
+              <ion-text class="font-Lato font-semibold text-black">CDL Road Trip Skills</ion-text>
+            </ion-col>
+            <ion-col size="3" class="ion-text-start">
+              <ion-text class="font-Lato text-project-green bg-project-green rounded-full bg-opacity-10 px-3 py-1 text-sm">
+                <span class="font-Lato text-project-green text-base font-semibold">{{record.roadSkillsSatisfactoryCount }} </span>/ <span class="font-Lato text-E64646 text-base font-semibold">{{ record.roadSkillsUnSatisfactoryCount}}</span>
+              </ion-text>
+            </ion-col>
+            <ion-col size="4" class="ion-text-start">
+              <ion-text class="font-Lato font-semibold text-sm">{{record?.roadSkillTime?.days?record?.roadSkillTime?.days : '0'}}d:{{record?.roadSkillTime?.hours?record?.roadSkillTime?.hours : '0'}}h:{{record?.roadSkillTime?.minutes?record?.roadSkillTime?.minutes: '0'}}m:{{record?.roadSkillTime?.seconds?record?.roadSkillTime?.seconds:'0'}}s</ion-text>
             </ion-col>
           </ion-row>
         </div>
@@ -1069,15 +1114,19 @@
         <ion-card-content >
           <div class="mb-0 flex items-center justify-between">
             <ion-text class="font-Lato font-semibold">BTW Range</ion-text>
-            <ion-text class="font-Lato px-3 py-1 text-sm font-semibold text-black"> {{getPretripBasicTotalHoursTime(records)}} </ion-text>
+            <ion-text class="font-Lato px-3 py-1 text-sm font-semibold text-black"> {{preTripAndRoadSkillTime}} </ion-text>
           </div>
         </ion-card-content>
       </ion-card>
       <ion-card>
         <ion-card-content >
           <div class="mb-0 flex items-center justify-between">
-            <ion-text class="font-Lato font-semibold">BTW Road:</ion-text>
-            <ion-text class="font-Lato px-3 py-1 text-sm font-semibold text-black"> {{getRoadTotalTrainingHoursTime(records)}} </ion-text>
+            <ion-text class="font-Lato font-semibold">BTW Road</ion-text>
+            <div *ngFor="let record of records">
+              <div *ngIf="record.evaluation_type === 'road-skills'">
+                <ion-text class="font-Lato px-3 py-1 text-sm font-semibold text-black"> {{record?.roadSkillTime?.days?record?.roadSkillTime?.days : '0'}}d:{{record?.roadSkillTime?.hours?record?.roadSkillTime?.hours : '0'}}h:{{record?.roadSkillTime?.minutes?record?.roadSkillTime?.minutes: '0'}}m:{{record?.roadSkillTime?.seconds?record?.roadSkillTime?.seconds:'0'}}s</ion-text>
+              </div>
+            </div>
           </div>
         </ion-card-content>
       </ion-card>

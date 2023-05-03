@@ -29,6 +29,10 @@ export class ViewRecordsPage implements OnInit {
   date: any;
   startDate: any;
   endDate: any;
+  preTripTime;
+  basicSkillTime;
+  roadSkillTime;
+  preTripAndRoadSkillTime;
   // behaviour subject
   public loading = new BehaviorSubject(true);
 
@@ -64,10 +68,12 @@ export class ViewRecordsPage implements OnInit {
       // getting record by id for summary
       this.trainingService
         // .getSummary(this.trainee_id, this.trainer_id, 'summary', this.date)
-        .getSummary(this.trainee_id, this.trainer_id, 'summary', this.startDate, this.endDate)
+        .getSummary(this.trainee_id, this.trainer_id, 'summary',moment(this.startDate).startOf('day').toISOString(),moment(this.endDate).endOf('day').toISOString())
         .subscribe((record) => {
           this.loading.next(true);
           this.records = record;
+
+          this.getSeperateTrainingTime(this.records);
           this.loading.next(false);
           console.log('RECORD:::',this.records);
         });
@@ -108,119 +114,135 @@ export class ViewRecordsPage implements OnInit {
       totalTime: ['', [Validators.required]],
     });
   }
-  getTotalTrainingHoursTime(records) {
-    console.log(records);
-    let totalSum: any = '00:00:00';
-    records.map((record) => {
-      if (
-        record.evaluation_type === 'pre-trip' &&
-        record.enddatepretrip !== null
-      ) {
-        totalSum = this.formatTime(
-          this.timestrToSec(totalSum) +
-            this.timestrToSec(moment(record.enddatepretrip).format('HH:mm:ss'))
-        );
-      }
-      if (
-        record.evaluation_type === 'basic-skills' &&
-        record.enddatebasicskill !== null
-      ) {
-        totalSum = this.formatTime(
-          this.timestrToSec(totalSum) +
-            this.timestrToSec(
-              moment(record.enddatebasicskill).format('HH:mm:ss')
-            )
-        );
-      }
-      if (
-        record.evaluation_type === 'road-skills' &&
-        record.enddateroadskill !== null
-      ) {
-        totalSum = this.formatTime(
-          this.timestrToSec(totalSum) +
-            this.timestrToSec(
-              moment(record.enddateroadskill).format('HH:mm:ss')
-            )
-        );
-      }
-    });
-    return totalSum;
+  getSeperateTrainingTime(records){
+    // if(records.evaluation_type === 'pre-trip'){
+      // this.getPreTripTotalTrainingHoursTime(records);
+    // }
+    // if(records.evaluation_type === 'basic-skills'){
+      // this.getBasicSkillTotalTrainingHoursTime(records);
+    // }
+    // if(records.evaluation_type === 'road-trip'){
+      // this.getRoadTotalTrainingHoursTime(records);
+    // }
+
+    this.getPretripBasicTotalHoursTime(records);
+    this.getRoadTotalTrainingHoursTime(records);
   }
+  // getTotalTrainingHoursTime(records) {
+  //   let totalSum: any = '00:00:00';
+  //   records.map((record) => {
+  //     if (
+  //       record.evaluation_type === 'pre-trip' &&
+  //       record.enddatepretrip !== null
+  //     ) {
+  //       totalSum = this.formatTime(
+  //         this.timestrToSec(totalSum) +
+  //           this.timestrToSec(moment(record.enddatepretrip).format('HH:mm:ss'))
+  //       );
+  //     }
+  //     if (
+  //       record.evaluation_type === 'basic-skills' &&
+  //       record.enddatebasicskill !== null
+  //     ) {
+  //       totalSum = this.formatTime(
+  //         this.timestrToSec(totalSum) +
+  //           this.timestrToSec(
+  //             moment(record.enddatebasicskill).format('HH:mm:ss')
+  //           )
+  //       );
+  //     }
+  //     if (
+  //       record.evaluation_type === 'road-skills' &&
+  //       record.enddateroadskill !== null
+  //     ) {
+  //       totalSum = this.formatTime(
+  //         this.timestrToSec(totalSum) +
+  //           this.timestrToSec(
+  //             moment(record.enddateroadskill).format('HH:mm:ss')
+  //           )
+  //       );
+  //     }
+  //   });
+  //   return totalSum;
+  // }
   getPretripBasicTotalHoursTime(records){
-    console.log(records);
     let totalSum: any = '00:00:00';
     records.map((record) => {
       if (
         record.evaluation_type === 'pre-trip' &&
-        record.enddatepretrip !== null
+        record.preTripTime !== null
       ) {
         totalSum = this.formatTime(
           this.timestrToSec(totalSum) +
-            this.timestrToSec(moment(record.enddatepretrip).format('HH:mm:ss'))
+            this.timestrToSec(moment(record.preTripTime).format('HH:mm:ss'))
         );
       }
       if (
         record.evaluation_type === 'basic-skills' &&
-        record.enddatebasicskill !== null
+        record.basicSkillTime !== null
       ) {
         totalSum = this.formatTime(
           this.timestrToSec(totalSum) +
             this.timestrToSec(
-              moment(record.enddatebasicskill).format('HH:mm:ss')
+              moment(record.basicSkillTime).format('HH:mm:ss')
             )
         );
       }
-      // if (
-      //   record.evaluation_type === 'road-skills' &&
-      //   record.enddateroadskill !== null
-      // ) {
-      //   totalSum = this.formatTime(
-      //     this.timestrToSec(totalSum) +
-      //       this.timestrToSec(
-      //         moment(record.enddateroadskill).format('HH:mm:ss')
-      //       )
-      //   );
-      // }
     });
-    return totalSum;
+    this.preTripAndRoadSkillTime =  totalSum;
   }
+  // getPreTripTotalTrainingHoursTime(records){
+  //   let totalSum: any = '00:00:00';
+  //   records.map((record) => {
+  //     if (
+  //       record.evaluation_type === 'pre-trip' &&
+  //       record.enddatepretrip !== null
+  //     ) {
+  //       totalSum = this.formatTime(
+  //         this.timestrToSec(totalSum) +
+  //           this.timestrToSec(
+  //             moment(record.enddatepretrip).format('HH:mm:ss')
+  //           )
+  //       );
+  //     }
+  //   });
+  //   this.preTripTime= totalSum;
+
+  // }
+  // getBasicSkillTotalTrainingHoursTime(records){
+  //   let totalSum: any = '00:00:00';
+  //   records.map((record) => {
+  //     if (
+  //       record.evaluation_type === 'basic-skills' &&
+  //       record.enddatebasicskill !== null
+  //     ) {
+  //       totalSum = this.formatTime(
+  //         this.timestrToSec(totalSum) +
+  //           this.timestrToSec(
+  //             moment(record.enddatebasicskill).format('HH:mm:ss')
+  //           )
+  //       );
+  //     }
+  //   });
+  //   this.basicSkillTime= totalSum;
+
+  // }
   getRoadTotalTrainingHoursTime(records){
-    console.log(records);
     let totalSum: any = '00:00:00';
     records.map((record) => {
-      // if (
-      //   record.evaluation_type === 'pre-trip' &&
-      //   record.enddatepretrip !== null
-      // ) {
-      //   totalSum = this.formatTime(
-      //     this.timestrToSec(totalSum) +
-      //       this.timestrToSec(moment(record.enddatepretrip).format('HH:mm:ss'))
-      //   );
-      // }
-      // if (
-      //   record.evaluation_type === 'basic-skills' &&
-      //   record.enddatebasicskill !== null
-      // ) {
-      //   totalSum = this.formatTime(
-      //     this.timestrToSec(totalSum) +
-      //       this.timestrToSec(
-      //         moment(record.enddatebasicskill).format('HH:mm:ss')
-      //       )
-      //   );
-      // }
       if (
         record.evaluation_type === 'road-skills' &&
-        record.enddateroadskill !== null
+        record.roadSkillTime !== null
       ) {
         totalSum = this.formatTime(
           this.timestrToSec(totalSum) +
             this.timestrToSec(
-              moment(record.enddateroadskill).format('HH:mm:ss')
+              moment(record.roadSkillTime).format('HH:mm:ss')
             )
         );
       }
     });
-    return totalSum;
+    this.roadSkillTime= totalSum;
 
   }
   timestrToSec(timestr) {
@@ -229,7 +251,6 @@ export class ViewRecordsPage implements OnInit {
       return parts[0] * 3600 + parts[1] * 60 + +parts[2];
     }
   }
-
   pad(num) {
     if (num < 10) {
       return '0' + num;
@@ -237,6 +258,7 @@ export class ViewRecordsPage implements OnInit {
       return '' + num;
     }
   }
+
 getPreTripSubtract(records){
   var date1 = moment(records.created_at);
 var date2 = moment(records.endDatePreTrip);
@@ -244,7 +266,6 @@ var diff = date2.diff(date1,'minutes');
 var date = this.toHoursAndMinutes(diff);
 return date;
 }
-
 getBasicSubtract(records){
   var date1 = moment(records.created_at);
 var date2 = moment(records.endDateBasicSkill);
@@ -259,8 +280,6 @@ var diff = date2.diff(date1,'minutes');
 var date = this.toHoursAndMinutes(diff);
 return date;
 }
-
-
 
 toHoursAndMinutes(totalMinutes) {
   const hours = Math.floor(totalMinutes / 60);
