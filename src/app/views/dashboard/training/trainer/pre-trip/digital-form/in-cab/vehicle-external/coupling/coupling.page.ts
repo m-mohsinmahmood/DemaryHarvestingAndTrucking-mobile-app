@@ -22,7 +22,6 @@ export class CouplingPage implements OnInit {
   isModalOpen = false;
     trainer_id;
     supervisor_id;
-    preTripFormData;
   active_check_in_id: any;
 
     public loadingSpinner = new BehaviorSubject(false);
@@ -115,43 +114,10 @@ trainer_id:[this.trainer_id]
   }
   async ionViewDidEnter() {
     this.getRoleAndID();
-    this.getRecordById();
+    // this.getRecordById();
   }
   getRoleAndID(){
     this.trainer_id = localStorage.getItem('employeeId');
-  }
-  getRecordById(){
-    this.trainingService.getRecordById(this.training_record_id)
-    .subscribe((res)=>{
-      console.log('RESPONSE:',res);
-
-        this.preTripFormData= res[0];
-
-        this.patchForm();
-
-    },(err)=>{
-      console.log('Something happened :)');
-      this.toastService.presentToast(err.mssage, 'danger');
-    });
-  }
-  patchForm(){
-
-
-    this.preTripForm.patchValue({
-      air_electrical_lines: this.preTripFormData.air_electrical_lines=== 'true'? true: false,
-  glad_hands: this.preTripFormData.glad_hands=== 'true'? true: false,
-  clearence_lights: this.preTripFormData.clearence_lights=== 'true'? true: false,
-  reflector_tape: this.preTripFormData.reflector_tape=== 'true'? true: false,
-  chain_strap_attachment_bar: this.preTripFormData.chain_strap_attachment_bar=== 'true'? true: false,
-  landing_gear: this.preTripFormData.landing_gear=== 'true'? true: false,
-  cargo_box: this.preTripFormData.cargo_box=== 'true'? true: false,
-  abs_lights: this.preTripFormData.abs_lights=== 'true'? true: false,
-  mud_flaps: this.preTripFormData.mud_flaps=== 'true'? true: false,
-  // lights: this.preTripFormData.lights=== 'true'? true: false,
-  docking_impact_frame: this.preTripFormData.docking_impact_frame=== 'true'? true: false,
-  license_plate: this.preTripFormData.license_plate=== 'true'? true: false,
-  commentsCoupling: this.preTripFormData.commentsCoupling !== 'null'? this.preTripFormData.commentsCoupling: '',
-    });
   }
   next(){
     this.isModalOpen = true;
