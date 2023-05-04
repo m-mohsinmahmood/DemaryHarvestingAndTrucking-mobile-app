@@ -212,7 +212,7 @@ this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).su
 
         // patching trainee id
         this.traineeForm.patchValue({
-          trainee_id: res[0].trainee_id
+          trainee_id: res.summary[0].trainee_id
         });
       },
       (err) => {

@@ -163,7 +163,7 @@ export class OffSetBackingPage implements OnInit {
       this.trainingService
         .getRecordById(this.training_record_id)
         .subscribe((record) => {
-          this.training_record = record[0];
+          this.training_record = record.summary[0];
 
           // patching
           this.basicSkillsForm.patchValue({

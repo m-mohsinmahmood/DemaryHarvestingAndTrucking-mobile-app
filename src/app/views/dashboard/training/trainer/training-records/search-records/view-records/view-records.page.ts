@@ -77,17 +77,15 @@ export class ViewRecordsPage implements OnInit {
 
           this.getSeperateTrainingTime(this.records);
           this.loading.next(false);
-          console.log('RECORD:::',this.records);
         });
 
     } else {
       // getting record by id for pre-trip, basic-skills,road-skills
       this.trainingService.getRecordById(this.recordId).subscribe((record) => {
+        console.log(record);
         this.loading.next(true);
-        this.records = record[0];
+        this.records = record.summary[0];
         this.loading.next(false);
-
-        console.log('RECORD:', this.records);
 
     this.loading.next(false);
       });

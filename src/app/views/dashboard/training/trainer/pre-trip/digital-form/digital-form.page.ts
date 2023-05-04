@@ -311,14 +311,12 @@ export class DigitalFormPage implements OnInit {
   getRecordById(){
     this.trainingService.getRecordById(this.training_record_id)
     .subscribe((res)=>{
-      console.log('RESPONSE:',res);
 
-        this.preTripFormData= res[0];
+        this.preTripFormData= res.summary[0];
 
         this.patchForm();
 
     },(err)=>{
-      console.log('Something happened :)');
       this.toastService.presentToast(err.mssage, 'danger');
     });
   }

@@ -32,7 +32,6 @@ moment: any = moment;
   ) { }
   ngOnInit() {
     this.route.queryParams.subscribe((params)=>{
-      console.log('PARAMS:',params);
       this.formType = params.formType;
     this.evaluationType = params.evaluationType;
     this.trainee_id = params.trainee_id;
@@ -42,8 +41,7 @@ moment: any = moment;
     this.getRecords();
   }
   navigate(x: any,record: any){
-    console.log('form Type:',x);
-    console.log('Record:',record);
+
     this.router.navigate(['/tabs/home/training/trainer/training-records/search-records/view-records'],
       {
         queryParams:{
@@ -57,9 +55,8 @@ getRecords(){
       this.trainingService
     .getRecordsById(this.trainee_id,this.formType,this.evaluationType)
     .subscribe((res)=>{
-      console.log('Records:',res);
       this.loading.next(true);
-      this.records = res;
+      this.records = res.summary;
       this.loading.next(false);
     });
     }
