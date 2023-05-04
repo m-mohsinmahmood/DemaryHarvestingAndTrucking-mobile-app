@@ -149,7 +149,7 @@ trainer_id:[this.trainer_id]
   // lights: this.preTripFormData.lights=== 'true'? true: false,
   docking_impact_frame: this.preTripFormData.docking_impact_frame=== 'true'? true: false,
   license_plate: this.preTripFormData.license_plate=== 'true'? true: false,
-  commentsCoupling: this.preTripFormData.commentsCoupling,
+  commentsCoupling: this.preTripFormData.commentsCoupling !== 'null'? this.preTripFormData.commentsCoupling: '',
     });
   }
   next(){

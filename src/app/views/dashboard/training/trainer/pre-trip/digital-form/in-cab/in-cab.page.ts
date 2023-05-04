@@ -234,7 +234,7 @@ export class InCabPage implements OnInit {
       front_external_lights: this.preTripFormData.front_external_lights=== 'true'? true: false,
       trailer_lights: this.preTripFormData.trailer_lights=== 'true'? true: false,
       rear_external_lights: this.preTripFormData.rear_external_lights=== 'true'? true: false,
-      commentsCab: this.preTripFormData.commentsCab,
+      commentsCab: this.preTripFormData.commentsCab !== 'null'?this.preTripFormData.commentsCab: '',
     });
   }
   next(){
