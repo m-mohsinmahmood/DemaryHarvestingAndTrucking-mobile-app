@@ -31,7 +31,7 @@ export class PreTripPage implements OnInit {
   upload_1 = false;
   upload_2 = false;
   upload_3 = false;
-  upload = true;
+  // upload = true;
 
   // model
  isModalOpen = false;
@@ -215,16 +215,16 @@ this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).su
       }
     }
   }
-  uploadClick() {
-    this.upload = !this.upload;
-  }
+  // uploadClick() {
+  //   this.upload = !this.upload;
+  // }
   onSelect(e) {
     console.log(e.target.value);
     if (e.target.value === 'paper-form') {
       this.value = e.target.value;
     } else {
       // Digital Form
-      this.upload = false;
+      // this.upload = false;
       this.value = e.target.value;
 
       this.trainingService.getData('pre-trip',this.trainer_id).subscribe((res) => {
@@ -667,19 +667,4 @@ else if (
 
   }
 
-  // getEmployeeDetailsByFirbaseId(){
-
-  //   this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).subscribe((res)=>{
-  //     this.loadingfirebase.next(true);
-  //     console.log('Employee Details:',res);
-  //     this.loadingfirebase.next(false);
-  //     console.log(this.loadingfirebase.getValue());
-
-  //     // setting in local storage
-  //     localStorage.setItem('state',res.state);
-  //     localStorage.setItem('city',res.city);
-
-
-  //   });
-  // }
 }

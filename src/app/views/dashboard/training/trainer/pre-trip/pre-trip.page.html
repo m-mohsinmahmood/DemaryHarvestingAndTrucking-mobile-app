@@ -161,14 +161,13 @@
       </ion-select>
     </div>
     <ion-button class="upload-button"
-     (click)="uploadClick()"
      *ngIf="value === 'paper-form'"
     class="text-white">
       <ion-icon name="add-outline"></ion-icon>
         Upload Form
     </ion-button>
 <!-- For Paper Form -->
-<div *ngIf="value === 'paper-form' && upload">
+<div *ngIf="value === 'paper-form'">
   <div class="ml-1 mt-4">
     <ion-label class="font font-medium text-aaaaaa">Training docs (upload here)</ion-label>
   </div>
