@@ -274,7 +274,7 @@
       </div>
       <ion-text class="font-Lato mt-2 text-sm font-semibold text-black">Catogory 1 Notes</ion-text>
       <ion-item lines="none" class="textarea">
-        <ion-textarea [autoGrow]="true" disabled="" [value]="records?.commentsEngine"> </ion-textarea>
+        <ion-textarea [autoGrow]="true" disabled="" [value]="records?.commentsEngine !== 'null'?records.commentsEngine: ''"> </ion-textarea>
       </ion-item>
       <div class="thin-line mt-2"></div>
 
@@ -405,7 +405,7 @@
         <ion-text class="font-Lato text-lg font-bold">{{records?.percentageInCab}}%</ion-text>
       </div>
       <ion-text class="font-Lato mt-2 text-sm font-semibold text-black">Category 2 Notes</ion-text>
-      <ion-textarea [autoGrow]="true" class="my-2 rounded-lg border-2 px-1" disabled="" [value]="records?.commentsCab" placeholder=""> </ion-textarea>
+      <ion-textarea [autoGrow]="true" class="my-2 rounded-lg border-2 px-1" disabled="" [value]="records?.commentsCab !== 'null'?records.commentsCab: ''" placeholder=""> </ion-textarea>
       <div class="thin-line mt-3"></div>
       <!-- IN CAB -->
 
@@ -609,7 +609,7 @@
         <ion-text class="font-Lato text-lg font-bold">{{records?.percentageVehicleExternal}}%</ion-text>
       </div>
       <ion-text class="font-Lato mt-2 text-sm font-semibold text-black">Category 3 Notes</ion-text>
-      <ion-textarea [autoGrow]="true" class="my-2 rounded-lg border-2 px-1" disabled="" [value]="records?.commentsVehicle" placeholder=""> </ion-textarea>
+      <ion-textarea [autoGrow]="true" class="my-2 rounded-lg border-2 px-1" disabled="" [value]="records?.commentsVehicle !== 'null'?records.commentsVehicle: ''" placeholder=""> </ion-textarea>
       <div class="thin-line mt-3"></div>
 
       <!-- VEHICLE /EXTERNAL -->
@@ -665,7 +665,7 @@
         <ion-text class="font-Lato text-lg font-bold">{{records?.percentageCoupling}}%</ion-text>
       </div>
       <ion-text class="font-Lato mt-2 text-sm font-semibold text-black">Category 4 Notes</ion-text>
-      <ion-textarea [autoGrow]="true" class="my-2 rounded-lg border-2 px-1" disabled="" [value]="records?.commentsCoupling" placeholder=""> </ion-textarea>
+      <ion-textarea [autoGrow]="true" class="my-2 rounded-lg border-2 px-1" disabled="" [value]="records?.commentsCoupling !== 'null'?records.commentsCoupling: ''" placeholder=""> </ion-textarea>
       <div class="thin-line mt-3"></div>
       <!-- COUPLING -->
 
@@ -1120,7 +1120,7 @@
         <ion-card-content >
           <div class="mb-0 flex items-center justify-between">
             <ion-text class="font-Lato font-semibold">BTW Range</ion-text>
-            <ion-text class="font-Lato px-3 py-1 text-sm font-semibold text-black"> {{btw_range.days?btw_range.days: '0'}}d:{{btw_range.hours?btw_range.hours: '0'}}h:{{btw_range.minutes?btw_range.minutes: '0'}}m{{btw_range.seconds?btw_range.seconds: '0'}}s </ion-text>
+            <ion-text class="font-Lato px-3 py-1 text-sm font-semibold text-black"> {{btw_range.days?btw_range.days: '0'}}d:{{btw_range.hours?btw_range.hours: '0'}}h:{{btw_range.minutes?btw_range.minutes: '0'}}m:{{btw_range.seconds?btw_range.seconds: '0'}}s </ion-text>
           </div>
         </ion-card-content>
       </ion-card>
