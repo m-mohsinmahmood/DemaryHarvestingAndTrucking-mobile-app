@@ -381,7 +381,7 @@ export class DigitalFormPage implements OnInit {
       hand_rail: this.preTripFormData.hand_rail=== 'true'? true: false,
       door: this.preTripFormData.door=== 'true'? true: false,
       hinges: this.preTripFormData.hinges=== 'true'? true: false,
-      commentsEngine: this.preTripFormData.commentsEngine,
+      commentsEngine: this.preTripFormData.commentsEngine !== 'null'?this.preTripFormData.commentsEngine: '',
     });
   }
   next(){

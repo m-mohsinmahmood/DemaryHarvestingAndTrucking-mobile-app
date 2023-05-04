@@ -323,7 +323,7 @@ export class VehicleExternalPage implements OnInit {
       torison_bars: this.preTripFormData.torison_bars === 'true'? true:false,
       mud_flaps: this.preTripFormData.mud_flaps === 'true'? true:false,
       rear_lights: this.preTripFormData.rear_lights === 'true'? true:false,
-      commentsVehicle: this.preTripFormData.commentsVehicle,
+      commentsVehicle: this.preTripFormData.commentsVehicle !== 'null'? this.preTripFormData.commentsVehicle: '',
     });
   }
   next(){
