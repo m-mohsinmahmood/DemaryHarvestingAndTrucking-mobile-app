@@ -100,18 +100,6 @@ export class AlleyDocking90Page implements OnInit {
         this.totalSatisfactory = sum;
 
          // for checkboxes
-        //  if(value.goal_ad90 === 'true'){
-        //   this.checkValue = (value.goal_ad90 === 'true' && value.finalPosition_ad90 === 'true' && (+value.pullUpsInput_ad90 +value.encroachInput_ad90  <= 2) === true? 'true': 'false');
-
-        // }else{
-        //   this.checkValue = 'false';
-        // }
-
-        // if(value.finalPosition_ad90 === 'true'){
-        //   this.checkValue = (value.goal_ad90 === 'true' && value.finalPosition_ad90 === 'true' && (+value.pullUpsInput_ad90 +value.encroachInput_ad90  <= 2) === true? 'true': 'false');
-        // }else{
-        //   this.checkValue = 'false';
-        // }
         if(value.goal_ad90 === 'true' && value.finalPosition_ad90 === 'true'){
           this.checkValue = 'true';
         }else{
@@ -188,7 +176,7 @@ export class AlleyDocking90Page implements OnInit {
     this.trainingService
       .getRecordById(this.training_record_id)
       .subscribe((record) => {
-        this.training_record = record[0];
+        this.training_record = record.summary[0];
 
 
         // patching
