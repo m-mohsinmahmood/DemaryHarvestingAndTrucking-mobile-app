@@ -115,6 +115,7 @@ trainer_id:[this.trainer_id]
   }
   async ionViewDidEnter() {
     this.getRoleAndID();
+    this.getRecordById();
   }
   getRoleAndID(){
     this.trainer_id = localStorage.getItem('employeeId');
