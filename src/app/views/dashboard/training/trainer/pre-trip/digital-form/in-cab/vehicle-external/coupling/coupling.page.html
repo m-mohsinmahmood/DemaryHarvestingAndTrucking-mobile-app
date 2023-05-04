@@ -1,0 +1,98 @@
+<app-header [title]="'Pre-Trip Check Digital Evaluation Form'" [color]="'training'" [routeValue]="'coupling'" [training_record_id]="training_record_id" [supervisor_id]="supervisor_id"></app-header>
+
+
+<ion-content>
+  <!-- <app-timer [value]="'01:23:45'"></app-timer> -->
+  <div class="mx-4 my-2">
+    <ion-progress-bar class="mb-2" [buffer]="buffer" [value]="progress" ></ion-progress-bar>
+    <ion-text class="text-lg font-semibold justify-start flex font-Lato text-black ">3 of 4 Categories Completed</ion-text>
+  </div>
+
+<form [formGroup]="preTripForm">
+  <div class="mx-4">
+
+     <div class="flex justify-between items-center my-3">
+      <ion-text class="font-Lato font-medium">Air/electrical lines</ion-text>
+       <ion-checkbox slot="start" formControlName="air_electrical_lines"></ion-checkbox>
+     </div>
+     <div class="flex justify-between items-center my-3">
+      <ion-text class="font-Lato font-medium">Glad hands</ion-text>
+       <ion-checkbox slot="start" formControlName="glad_hands"></ion-checkbox>
+     </div>
+     <div class="flex justify-between items-center my-3">
+      <ion-text class="font-Lato font-medium">Clearence lights</ion-text>
+       <ion-checkbox slot="start" formControlName="clearence_lights"></ion-checkbox>
+     </div>
+     <div class="flex justify-between items-center my-3">
+      <ion-text class="font-Lato font-medium">Reflector tape</ion-text>
+       <ion-checkbox slot="start" formControlName="reflector_tape"></ion-checkbox>
+     </div>
+     <div class="flex justify-between items-center my-3">
+      <ion-text class="font-Lato font-medium">Chain/strap attachment bar</ion-text>
+       <ion-checkbox slot="start" formControlName="chain_strap_attachment_bar"></ion-checkbox>
+     </div>
+     <div class="flex justify-between items-center my-3">
+      <ion-text class="font-Lato font-medium">Landing gear</ion-text>
+       <ion-checkbox slot="start" formControlName="landing_gear"></ion-checkbox>
+     </div>
+     <div class="flex justify-between items-center my-3">
+      <ion-text class="font-Lato font-medium">Cargo box</ion-text>
+       <ion-checkbox slot="start" formControlName="cargo_box"></ion-checkbox>
+     </div>
+     <div class="flex justify-between items-center my-3">
+      <ion-text class="font-Lato font-medium">ABS lights</ion-text>
+       <ion-checkbox slot="start" formControlName="abs_lights"></ion-checkbox>
+     </div>
+     <div class="flex justify-between items-center my-3">
+      <ion-text class="font-Lato font-medium">Mud flaps</ion-text>
+       <ion-checkbox slot="start" formControlName="mud_flaps"></ion-checkbox>
+     </div>
+
+     <div class="flex justify-between items-center my-3">
+      <ion-text class="font-Lato font-medium">Docking/impact frame</ion-text>
+       <ion-checkbox slot="start" formControlName="docking_impact_frame"></ion-checkbox>
+     </div>
+     <div class="flex justify-between items-center my-3">
+      <ion-text class="font-Lato font-medium">License plate</ion-text>
+       <ion-checkbox slot="start" formControlName="license_plate"></ion-checkbox>
+     </div>
+
+     <ion-text class="text-sm font-semibold font-Lato text-black mt-2">Add Comments</ion-text>
+       <ion-textarea [autoGrow]="true"
+       formControlName="commentsCoupling"
+       class="border-2 rounded-lg my-2 px-1"
+       placeholder="Add your comments here">
+       </ion-textarea>
+  </div>
+  <div class="ion-text-center my-5">
+    <ion-text class="bg-3D8AA4 bg-opacity-10 text-3D8AA4 font-medium font-Lato border-2 border-opacity-60 rounded-lg border-3D8AA4 px-5 py-2">Score = {{result}}%</ion-text>
+   </div>
+ <ion-button
+      expand="block"
+      class="close-out-button font-Lato mb-4 mt-0 mx-8 bg-opacity-10 text-white"
+      (click)="next()">
+      <div>Next</div>
+    </ion-button>
+
+</form>
+ <!-- MODEL -->
+ <ion-modal #modal [isOpen]="isModalOpen" backdropDismiss="false">
+  <ng-template>
+    <ion-content class="ion-padding">
+      <ion-text class="flex justify-center items-center ion-text-center">
+        This is a one-time fill form. Please verify your readings before ending.
+      </ion-text>
+      <div class="flex flex-col justify-center items-center mt-3">
+        <ion-button class="text-white w-full" expand="block" (click)="exit()">
+          <div *ngIf="(loadingSpinner | async) === false">End Evaluation</div>
+          <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+        </ion-button>
+        <ion-button class="text-white w-full" expand="block" (click)="edit()">
+          Edit
+        </ion-button>
+      </div>
+    </ion-content>
+  </ng-template>
+</ion-modal>
+<!-- MODEL -->
+</ion-content>
