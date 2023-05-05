@@ -215,16 +215,12 @@ this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).su
       }
     }
   }
-  // uploadClick() {
-  //   this.upload = !this.upload;
-  // }
+
   onSelect(e) {
     console.log(e.target.value);
     if (e.target.value === 'paper-form') {
       this.value = e.target.value;
     } else {
-      // Digital Form
-      // this.upload = false;
       this.value = e.target.value;
 
       this.trainingService.getData('pre-trip',this.trainer_id).subscribe((res) => {
@@ -314,9 +310,10 @@ this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).su
          console.log('RES:', res);
          if (res.status === 200) {
 
-          // to stop loader
-          this.loadingSpinner.next(false);
-
+          //form reset
+          this.preTrip.reset();
+          this.traineeInput.nativeElement.value = '';
+          this.supervisorInput.nativeElement.value = '';
 
           // get city & state
           this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).subscribe((response)=>{
@@ -329,12 +326,14 @@ this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).su
             this.initForms();
           });
 
-
            // tooltip
            this.toastService.presentToast(
             'Your details have been submitted',
             'success'
           );
+
+           // to stop loader
+           this.loadingSpinner.next(false);
 
           //  navigating
            this.router.navigateByUrl('/tabs/home/training/trainer');
@@ -368,8 +367,16 @@ this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).su
       (res) => {
         console.log('RES:', res);
         if (res.status === 200) {
+
+         //form reset
+         this.preTrip.reset();
+         this.traineeInput.nativeElement.value = '';
+         this.supervisorInput.nativeElement.value = '';
+
+         // stop loader
         this.loadingSpinner.next(false);
 
+        // tooltip
           this.toastService.presentToast(
             'Digital evaluation has been started',
             'success'

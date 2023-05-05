@@ -257,6 +257,7 @@ export class VehicleExternalPage implements OnInit {
   }
   async ionViewDidEnter() {
     this.getRoleAndID();
+    this.getRecordById();
   }
   getRoleAndID(){
     this.trainer_id = localStorage.getItem('employeeId');
@@ -345,8 +346,8 @@ export class VehicleExternalPage implements OnInit {
       (res) => {
         console.log('RES:', res);
         if (res.status === 200) {
-          // closing modal
-          this.isModalOpen = false;
+           // form reset
+           this.preTripForm.reset();
 
           // spinner
           this.loadingSpinner.next(false);
@@ -357,16 +358,13 @@ export class VehicleExternalPage implements OnInit {
           );
 
           // navigating
-        if (this.isModalOpen === false) {
-          setTimeout(()=>{
             this.router.navigate(['/tabs/home/training/trainer/pre-trip/digital-form/in-cab/vehicle-external/coupling'],{
               queryParams:{
                 training_record_id: this.training_record_id,
                 supervisor_id: this.supervisor_id
               }
             });
-          },500);
-        }
+
         } else {
           console.log('Something happened :)');
           this.toastService.presentToast(res.mssage, 'danger');
