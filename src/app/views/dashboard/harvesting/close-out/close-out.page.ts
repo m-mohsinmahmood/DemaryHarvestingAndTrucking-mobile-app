@@ -27,7 +27,7 @@ export class CloseOutPage implements OnInit {
   closeJobFormCrew: FormGroup;
   closeJobFormCombine: FormGroup;
   closeJobFormKart: FormGroup;
-  date: any = moment(new Date()).format('DD-MM-YYYY');
+  date;
   customerData: any;
   isLoading: any;
   role: any;
@@ -38,6 +38,10 @@ export class CloseOutPage implements OnInit {
   farm_name: string;
   isFarmSelected: boolean;
   isFieldDisabled: boolean;
+  customerName;
+  state;
+  farm;
+  crop;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -324,6 +328,7 @@ export class CloseOutPage implements OnInit {
   }
 
   listClickedCustomer(customer) {
+    console.log(customer);
     // clearing array
     this.allCustomers = of([]);
     // this.allFarms = of([]);
@@ -341,10 +346,21 @@ export class CloseOutPage implements OnInit {
     // assigning values in form
     if (localStorage.getItem('role').includes('Crew Chief')) {
       this.closeJobFormCrew.patchValue({
-        customerId: customer.id,
-        phone: customer.phone_number
+        // customerId: customer.id,
+        phone: customer.phone_number,
+        crop_id: customer.crop_id,
+        customer_id: customer.customer_id,
+        farm_id: customer.farm_id,
+        state:customer.state,
       });
-    }
+
+      this.customerName = customer.customer_name;
+      this.state = customer.state;
+      this.farm = customer.farm_name;
+      this.crop = customer.crop_name;
+      this.date = customer.created_at;
+      // this.crew_chief = customer.crew_chief
+  }
 
     // passing name in select's input
     this.customerInput.nativeElement.value = customer.job_id;
