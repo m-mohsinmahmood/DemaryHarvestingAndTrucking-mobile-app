@@ -121,6 +121,11 @@ export class DetailPage implements OnInit {
   getJob() {
     this.router.navigateByUrl('/tabs/home/dwr/detail/view-job');
   }
+  getHours(loginTime, logoutTime) {
+    logoutTime = new Date(logoutTime).getTime() / 1000; // Convert logout_time to Unix timestamp
+    loginTime = new Date(loginTime).getTime() / 1000; // Convert login_time to Unix timestamp
+    return Math.abs(logoutTime - loginTime) / 3600; // Calculate the time difference in seconds
+    }
   getJobById(job_id: any) {
     this.dwrService.getJobById(job_id).subscribe((res) => {
       this.loaderModel.next(true);
