@@ -119,12 +119,17 @@ this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).su
   }
   ngAfterViewInit(): void {
     this.setDefaultSupervisor();
+
   }
 
   async ionViewDidEnter() {
-    this.initForm();
+
 
     this.getRoleAndID();
+  this.getTrainee(); // getting Trainer profile data
+    this.initForm();
+    this.setDefaultSupervisor();
+
 
     this.upload_1 = false;
     this.upload_2 = false;
@@ -212,7 +217,9 @@ this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).su
 
         // patching trainee id
         this.traineeForm.patchValue({
-          trainee_id: res.summary[0].trainee_id
+          trainee_id: res.summary[0].trainee_id,
+          city: res.summary[0].town_city != null ? res.summary[0].town_city : '',
+        state: res.summary[0].state != null ? res.summary[0].state : ''
         });
       },
       (err) => {
@@ -483,6 +490,8 @@ this.getCheckInID();
            // form resetting
            this.traineeForm.reset();
            this.employeeInput.nativeElement.value = '';
+           this.supervisorInput.nativeElement.value = '';
+           this.isEmployeeSelected = true;
 
 
             // get city & state
