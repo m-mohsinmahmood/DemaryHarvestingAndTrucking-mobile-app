@@ -58,9 +58,12 @@ export class AssignRolesPage implements OnInit {
   data: any;
   activeJobs: 0;
   sub;
+  deleteId;
 
   public loadingSpinner = new BehaviorSubject(false);
   public loadingSpinner2 = new BehaviorSubject(false);
+  public deleteSpinner = new BehaviorSubject(false);
+
 
 
   private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -90,14 +93,14 @@ export class AssignRolesPage implements OnInit {
   }
 
   async ionViewDidLeave() {
-    this.DataDestroy();
+    // this.DataDestroy();
   }
 
   DataDestroy() {
     // Unsubscribe from all subscriptions
     this._unsubscribeAll.next(null);
     this._unsubscribeAll.complete();
-    this.sub.unsubscribe();
+    // this.sub.unsubscribe();
   }
 
   ngOnInit() {
@@ -158,9 +161,19 @@ export class AssignRolesPage implements OnInit {
         (res: any) => {
           console.log('Response:', res);
           if (res.status === 200) {
+            // clearing combine input
+            this.combineInput.nativeElement.value = '';
+
+            // to look asterik
+            this.isCombineSelected = true;
+
+
+            // toast
+            this.toastService.presentToast(res.message, 'success');
+
+            // stop loader
             this.loadingSpinner.next(false);
 
-            this.toastService.presentToast(res.message, 'success');
 
             console.log(res.message);
           } else {
@@ -189,10 +202,18 @@ export class AssignRolesPage implements OnInit {
         (res: any) => {
           console.log('Response:', res);
           if (res.status === 200) {
-            this.loadingSpinner2.next(false);
+
+            // clearing cart input
+            this.cartInput.nativeElement.value = '';
+
+            // to look asterik
+            this.isCartSelected = true;
+
+            // toast
             this.toastService.presentToast(res.message, 'success');
 
-            console.log(res.message);
+            // stop loader
+            this.loadingSpinner2.next(false);
           } else {
             console.log('Something happened :)');
           }
@@ -209,10 +230,13 @@ export class AssignRolesPage implements OnInit {
   //#region comnine
 
   removeCrewMember(id) {
-    let data = {
-      id: id,
+    this.deleteId = id;
+    const data = {
+      id,
       operation: 'removeAssignedRole'
-    }
+    };
+    // start loader
+    this.deleteSpinner.next(true);
 
     this.harvestingService.removeAssignedRole(data)
       .subscribe(
@@ -227,6 +251,10 @@ export class AssignRolesPage implements OnInit {
                   if (res.status === 200) {
                     console.log('RESPONSE:', res);
                     this.data = res;
+
+                    // stop loader
+                 this.deleteSpinner.next(false);
+
                   } else {
                     console.log('Something happened :)');
                   }
@@ -325,6 +353,7 @@ export class AssignRolesPage implements OnInit {
   }
 
   listClickedCombine(combine) {
+
     // hiding UL
     this.combineUL = false;
 
@@ -334,6 +363,8 @@ export class AssignRolesPage implements OnInit {
     // to enable submit button
     // if (this.activeJobData?.customer_job.length > 0) { this.isCombineSelected = false; }
 
+    this.isCombineSelected = false;
+
     // assigning values in form
     this.assignFormCombine.patchValue({
       combine_operator_id: combine.id,
@@ -341,6 +372,7 @@ export class AssignRolesPage implements OnInit {
 
     // clearing array
     this.allCombineOperators = of([]);
+
   }
   //#endregion
 
@@ -428,6 +460,8 @@ export class AssignRolesPage implements OnInit {
     // to enable submit button
     // if (this.activeJobData?.customer_job.length > 0) { this.isCartSelected = false; }
 
+    this.isCartSelected = false;
+
     // assigning values in form
     this.assignFormKart.patchValue({
       cart_operator_id: cart.id,
@@ -452,7 +486,7 @@ export class AssignRolesPage implements OnInit {
       .subscribe(
         (res: any) => {
           if (res.status === 200) {
-            console.log('Kart Operators:', res);
+            console.log('Combine Operators:', res);
             this.data = res;
 
           } else {
