@@ -316,6 +316,20 @@ export class HarvestingService {
       .pipe(take(1));
   }
 
+  getCombineCartOperator(search: string = '', operation: string = '', role: string = '') {
+    this._httpClient
+    let params = new HttpParams();
+    params = params.set('search', search);
+    params = params.set('operation', operation);
+    params = params.set('role', role);
+
+    return this._httpClient
+      .get<any>('api-1/customer-job-setup', {
+        params,
+      })
+      .pipe(take(1));
+  }
+
   createTicket(data: any) {
     return this._httpClient
       .post(`api-1/harvesting-ticket`, data)
@@ -521,6 +535,24 @@ export class HarvestingService {
     params = params.set('search', search);
     return this._httpClient
       .get<any>(`api-1/havesting-kart-operator`, {
+        params,
+      })
+      .pipe(take(1));
+  }
+
+  getInvoicedJobs(
+    operation: string = '',
+    role: string = '',
+    employeeId: string = '',
+  ) {
+    this._httpClient
+    let params = new HttpParams();
+    params = params.set('operation', operation);
+    params = params.set('role', role);
+    params = params.set('employeeId', employeeId);
+
+    return this._httpClient
+      .get<any>('api-1/customer-job-setup', {
         params,
       })
       .pipe(take(1));

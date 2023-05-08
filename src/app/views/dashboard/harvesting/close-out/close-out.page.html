@@ -10,6 +10,8 @@
       <ion-card-content *ngIf="!isLoading">
         <ion-grid>
           <ion-row>
+            <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Today's Date</ion-col>
+            <ion-col size="6" class="text-sm font-Lato">{{customerData?.customer_job[0]?.created_at}}</ion-col>
             <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Customer Name</ion-col>
             <ion-col size="6" class="text-sm font-Lato">{{customerData?.customer_job[0]?.customer_name}}</ion-col>
             <ion-col size="6" class="text-sm text-black font-Lato font-semibold">State</ion-col>
@@ -18,7 +20,7 @@
             <ion-col size="6" class="text-sm font-Lato">{{customerData?.customer_job[0]?.farm_name}} </ion-col>
             <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Crop</ion-col>
             <ion-col size="6" class="text-sm font-Lato">{{customerData?.customer_job[0]?.crop}} </ion-col>
-            <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Current Field</ion-col>
+            <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Crew Chief</ion-col>
             <ion-col size="6" class="text-sm font-Lato">{{customerData?.customer_job[0]?.field_name}} </ion-col>
           </ion-row>
         </ion-grid>
@@ -26,6 +28,10 @@
       <ion-card-content *ngIf="isLoading">
         <ion-grid>
           <ion-row>
+            <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Today's Date</ion-col>
+            <ion-col size="6" class="text-sm font-Lato">
+              <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
+            </ion-col>
             <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Customer Name</ion-col>
             <ion-col size="6" class="text-sm font-Lato">
               <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
@@ -42,7 +48,7 @@
             <ion-col size="6" class="text-sm font-Lato">
               <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
             </ion-col>
-            <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Current Field</ion-col>
+            <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Crew Chief</ion-col>
             <ion-col size="6" class="text-sm font-Lato">
               <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
             </ion-col>
@@ -72,15 +78,15 @@
               <ul *ngIf="allCustomers?.value && customerUL"
                 class="-mb-2 max-h-44 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800 bg-white drop-shadow-lg relative w-full"
                 id="options" role="listbox">
-                <li *ngFor="let customer of (allCustomers?.value.customers)" (click)="listClickedCustomer(customer)"
+                <li *ngFor="let customer of (allCustomers?.value.jobs)" (click)="listClickedCustomer(customer)"
                   class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200" role="option"
                   tabindex="-1">
                   <div class="flex items-center p-2">
-                    {{customer.customer_name}}
+                    {{customer.created_at|date:"yy-MM"}}-{{customer.customer_name}}-{{customer.farm_name}}-{{customer.crop_name}}
                   </div>
                 </li>
               </ul>
-              <div *ngIf="allCustomers?.value?.customers?.length === 0" (onclick)="disableFields()">
+              <div *ngIf="allCustomers?.value?.jobs?.length === 0" (onclick)="disableFields()">
                 <div
                   class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200 text-gray-500 hover:text-gray-700 hover:font-semibold"
                   disabled role="option" tabindex="-1"> No Invoiced Job(s) found </div>

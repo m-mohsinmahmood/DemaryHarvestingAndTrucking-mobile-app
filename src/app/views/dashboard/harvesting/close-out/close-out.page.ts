@@ -232,8 +232,8 @@ export class CloseOutPage implements OnInit {
     }
   }
 
-   //  #region Customer
-   customerSearchSubscription() {
+  //  #region Customer
+  customerSearchSubscription() {
     // clearing array to show only spiner
     this.allCustomers = of([]);
 
@@ -250,11 +250,11 @@ export class CloseOutPage implements OnInit {
         // for asterik to look required
         if (value === '') { this.isCustomerSelected = true; }
 
-        // this.allCustomers = this.farmingService.getCustomers(
-        //   value,
-        //   'true',
-        //   'allCustomers'
-        // );
+        this.allCustomers = this.harvestingservice.getInvoicedJobs(
+          'getInvoicedJobs',
+          this.role,
+          localStorage.getItem('employeeId')
+        );
         // showing UL
         this.customerUL = true;
 
@@ -295,11 +295,11 @@ export class CloseOutPage implements OnInit {
         : this.customerSearchValue;
 
     // calling API
-    // this.allCustomers = this.farmingService.getCustomers(
-    //   value,
-    //   'true',
-    //   'allCustomers'
-    // );
+    this.allCustomers = this.harvestingservice.getInvoicedJobs(
+      'getInvoicedJobs',
+      this.role,
+      localStorage.getItem('employeeId')
+    );
 
     // subscribing to disable & enable farm, crop inputs
     this.allCustomers.subscribe((customers) => {
@@ -339,20 +339,15 @@ export class CloseOutPage implements OnInit {
     this.customerUL = false;
 
     // assigning values in form
-    if (localStorage.getItem('role').includes('Dispatcher')) {
+    if (localStorage.getItem('role').includes('Crew Chief')) {
       this.closeJobFormCrew.patchValue({
         customerId: customer.id,
         phone: customer.phone_number
       });
     }
-    else {
-      this.closeJobFormCrew.patchValue({
-        customerId: customer.id,
-        phone: customer.phone_number
-      });
-    }
+
     // passing name in select's input
-    this.customerInput.nativeElement.value = customer.customer_name;
+    this.customerInput.nativeElement.value = customer.job_id;
 
     // passing name in customer-search-value in Rendered2 for checks 
     this.customerSearchValue = customer.customer_name;
@@ -361,8 +356,6 @@ export class CloseOutPage implements OnInit {
 
     // passing the customer id to  select farm & crop id
     this.customerId = customer.id;
-    console.log(this.customer_name);
-    console.log(this.customerId);
 
   }
   //#endregion

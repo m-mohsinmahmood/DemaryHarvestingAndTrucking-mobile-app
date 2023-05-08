@@ -296,9 +296,9 @@ export class AssignRolesPage implements OnInit {
         }
 
         // calling API
-        this.allCombineOperators = this.harvestingService.getEmployees(
+        this.allCombineOperators = this.harvestingService.getCombineCartOperator(
           this.combineSearchValue,
-          'allEmployees',
+          'getCombineCartOperator',
           'Combine Operator'
         );
 
@@ -334,9 +334,9 @@ export class AssignRolesPage implements OnInit {
         : this.combineSearchValue;
 
     // calling API
-    this.allCombineOperators = this.harvestingService.getEmployees(
+    this.allCombineOperators = this.harvestingService.getCombineCartOperator(
       this.combineSearchValue,
-      'allEmployees',
+      'getCombineCartOperator',
       'Combine Operator'
     );
 
@@ -394,9 +394,9 @@ export class AssignRolesPage implements OnInit {
         }
 
         // calling API
-        this.allCartOperators = this.harvestingService.getEmployees(
+        this.allCombineOperators = this.harvestingService.getCombineCartOperator(
           this.cartSearchValue,
-          'allEmployees',
+          'getCombineCartOperator',
           'Kart Operator'
         );
 
@@ -430,11 +430,11 @@ export class AssignRolesPage implements OnInit {
         : this.cartSearchValue;
 
     // calling API
-    this.allCartOperators = this.harvestingService.getEmployees(
+    this.allCombineOperators = this.harvestingService.getCombineCartOperator(
       this.cartSearchValue,
-      'allEmployees',
+      'getCombineCartOperator',
       'Kart Operator'
-    );
+      );
 
     // subscribing to show/hide field UL
     this.allCartOperators.subscribe((cartOperators) => {
