@@ -96,9 +96,9 @@ export class JobSetupPage implements OnInit {
   ) {
     this.renderer.listen('window', 'click', (e) => {
       if (e.target !== this.customerInput.nativeElement) {
-        console.log('Customer',this.customerSearchValue);
-        console.log('isCustomerSelected',this.isCustomerSelected === false);
-        console.log('isCustomerSelected',this.isCustomerSelected);
+        console.log('Customer', this.customerSearchValue);
+        console.log('isCustomerSelected', this.isCustomerSelected === false);
+        console.log('isCustomerSelected', this.isCustomerSelected);
         if (this.customerSearchValue === '' || this.isCustomerSelected === true) {
           console.log('if called');
           this.isDisabled = true;
@@ -123,7 +123,7 @@ export class JobSetupPage implements OnInit {
         console.log('Farm', this.farmSearchValue);
         // this.allFarmsClicked = of([]);
         // this.farmUL = false; // to hide the UL
-        console.log('farmSearchValue',this.farmSearchValue);
+        console.log('farmSearchValue', this.farmSearchValue);
         console.log('isFarmSelected', this.isFarmSelected);
         if (this.farmSearchValue === '' || this.farmSearchValue === undefined || this.isFarmSelected === true) {
           this.isFieldDisabled = true;
@@ -142,7 +142,7 @@ export class JobSetupPage implements OnInit {
         // // console.log('Field');
         // this.allFields = of([]);
         // this.fieldUL = false; // to hide the UL
-        console.log('fieldSearchValue',this.fieldSearchValue);
+        console.log('fieldSearchValue', this.fieldSearchValue);
         if (this.fieldSearchValue === '' || this.farmSearchValue === undefined) {
           // this.createOrderDispatcher.patchValue({
           //   totalAcres: null
@@ -178,7 +178,7 @@ export class JobSetupPage implements OnInit {
 
   initObservables() {
     this.subscribe = this.harvestingService.customerJobSetup$.subscribe((res) => {
-      console.log('Response',res);
+      console.log('Response', res);
       this.customerData = res;
     });
 
@@ -203,19 +203,23 @@ export class JobSetupPage implements OnInit {
       crop_id: [''],
       field_id: [''],
       is_close: [false],
-
+      total_acres: [''],
+      total_gps_acres: ['']
     });
   }
+
   goBack() {
     this.location.back();
   }
+
   submit() {
-    this.jobSetupForm.value.changeFarmFieldCrop = true;
+    if (this.customerData?.customer_job[0]?.id)
+      this.jobSetupForm.value.changeFarmFieldCrop = true;
+
     this.jobSetupForm.value.closeJob = true;
     this.jobSetupForm.value.newJobSetup = true;
-    this.jobSetupForm.value.job_id = this.customerData?.customer_job[0].id;
 
-    console.log("iddddddL: ",this.customerData?.customer_job[0].id);
+    this.jobSetupForm.value.job_id = this.customerData?.customer_job[0]?.id;
 
     this.loadingSpinner.next(true);
     console.log(this.jobSetupForm.value);
@@ -275,10 +279,10 @@ export class JobSetupPage implements OnInit {
             this.isFieldDisabled = true;
 
             // for asterik
-          this.isCustomerSelected = true;
-          this.isFarmSelected = true;
-          this.isCropSelected = true;
-          this.isFieldSelected = true;
+            this.isCustomerSelected = true;
+            this.isFarmSelected = true;
+            this.isCropSelected = true;
+            this.isFieldSelected = true;
 
             // passing empty string for Renderer2 condition
             this.farmSearchValue = '';
@@ -638,8 +642,8 @@ export class JobSetupPage implements OnInit {
     // passing name in select's input
     this.field_name = field.field_name;
 
-        // passing name in customer-search-value in Rendered2 for checks
-        this.fieldInput.nativeElement.value = field.field_name;
+    // passing name in customer-search-value in Rendered2 for checks
+    this.fieldInput.nativeElement.value = field.field_name;
 
     // to enable submit button
     this.isFieldSelected = false;
