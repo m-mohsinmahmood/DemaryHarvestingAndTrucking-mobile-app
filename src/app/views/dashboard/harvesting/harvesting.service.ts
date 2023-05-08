@@ -234,7 +234,7 @@ export class HarvestingService {
       );
   }
 
-    getKartOperatorCrewChief(entity, employeeId) {
+  getKartOperatorCrewChief(entity, employeeId) {
     return this._httpClient
       .get(
         `api-1/havesting-kart-operator?operation=${entity}&employeeId=${employeeId}`
@@ -505,6 +505,12 @@ export class HarvestingService {
       .get<any>(`api-1/customer-job-setup`, {
         params,
       })
+      .pipe(take(1));
+  }
+
+  removeAssignedRole(data: any) {
+    return this._httpClient
+      .patch(`api-1/customer-job-setup`, data)
       .pipe(take(1));
   }
 

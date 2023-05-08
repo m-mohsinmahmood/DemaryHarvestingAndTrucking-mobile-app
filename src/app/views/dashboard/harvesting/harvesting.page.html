@@ -1,17 +1,17 @@
-<app-header [title]="role.includes('Crew Chief')? 'Crew Tasks' : ''
+<app-header [title]="role.includes('Crew Chief')? 'Crew Chief Tasks' : ''
 || role.includes('Combine Operator')? 'Combine Operator Tasks': ''
 || role.includes('Kart Operator')? 'Kart Operator Tasks' : ''
 || role.includes('Truck Driver')? 'Truck Driver Tasks' : ''" [color]="'harvesting'" [routeValue]="'harvesting'"></app-header>
 
 <!-- Crew-Tasks -->
 <ion-content *ngIf="role.includes('Crew Chief')">
-  <p class="text-xl font-bold font-Lato mt-8 ml-7">Job Set-up</p>
+  <p class="text-xl font-bold font-Lato mt-8 ml-7">Job Set-up and Completion</p>
   <ion-grid>
     <ion-row>
       <ion-col size="12">
         <ion-card class="card" [routerLink]="['job-setup']">
           <ion-card-content>
-            <p class="font-15px font-bold font-Lato">Customer Job Set-up and Completion</p>
+            <p class="font-15px font-bold font-Lato">Set-up Invoiced Job</p>
           </ion-card-content>
         </ion-card>
       </ion-col>
@@ -22,24 +22,24 @@
           </ion-card-content>
         </ion-card>
       </ion-col>
-      <ion-col size="12">
+      <!-- <ion-col size="12">
         <ion-card class="card" [routerLink]="['change-farm']">
           <ion-card-content>
             <p class="font-15px font-bold font-Lato">Change Farm/Crop</p>
           </ion-card-content>
         </ion-card>
-      </ion-col>
+      </ion-col> -->
       <ion-col size="12">
         <ion-card class="card" [routerLink]="['close-out']">
           <ion-card-content>
-            <p class="font-15px font-bold font-Lato">Close-out Customer Job</p>
+            <p class="font-15px font-bold font-Lato">Close-out Invoiced Job</p>
           </ion-card-content>
         </ion-card>
       </ion-col>
     </ion-row>
   </ion-grid>
-  <p class="text-xl font-bold font-Lato mt-8 ml-7">Combining Tasks</p>
-  <ion-grid>
+  <!-- <p class="text-xl font-bold font-Lato mt-8 ml-7">Combining Tasks</p> -->
+  <!-- <ion-grid>
     <ion-row>
       <ion-col size="12">
         <ion-card class="card" [routerLink]="['start-job']" [disabled]="workOrderCount > 0">
@@ -64,7 +64,7 @@
         </ion-card>
       </ion-col>
     </ion-row>
-  </ion-grid>
+  </ion-grid> -->
 
   <!-- MODEL -->
   <app-check-in-out [isModalOpen]="isModalOpen" [data]="activeDwr" *ngIf="activeDwr" [module]="'harvesting'">

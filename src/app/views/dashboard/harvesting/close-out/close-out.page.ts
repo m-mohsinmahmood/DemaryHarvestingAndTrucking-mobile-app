@@ -1,12 +1,13 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import * as moment from 'moment';
 // import * as moment from 'moment';
 import { HarvestingService } from './../harvesting.service';
 import { ToastService } from 'src/app/services/toast/toast.service';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, of } from 'rxjs';
 import { Router } from '@angular/router';
+import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-close-out',
@@ -14,6 +15,15 @@ import { Router } from '@angular/router';
   styleUrls: ['./close-out.page.scss'],
 })
 export class CloseOutPage implements OnInit {
+  @ViewChild('customerInput') customerInput: ElementRef;
+  isCustomerSelected: any = true;
+  customer_search$ = new Subject();
+  customer_name: any = '';
+  customerSearchValue: any;
+  allCustomers: Observable<any>;
+  customerUL: any = false;
+  customerId: any;
+
   closeJobFormCrew: FormGroup;
   closeJobFormCombine: FormGroup;
   closeJobFormKart: FormGroup;
@@ -24,17 +34,45 @@ export class CloseOutPage implements OnInit {
   sub;
   loadingSub;
   public loadingSpinner = new BehaviorSubject(false);
+  isDisabled: boolean;
+  farm_name: string;
+  isFarmSelected: boolean;
+  isFieldDisabled: boolean;
 
   constructor(
     private formBuilder: FormBuilder,
     private harvestingservice: HarvestingService,
     private toastService: ToastService,
-    private router: Router
-  ) { }
+    private router: Router,
+    private renderer: Renderer2
+  ) {
+    if (localStorage.getItem('role').includes('Crew Chief')) {
+      this.renderer.listen('window', 'click', (e) => {
+        if (e.target !== this.customerInput.nativeElement) {
+          if (this.customerSearchValue === '' || this.customerSearchValue === undefined) {
+            this.isDisabled = true;
+            this.farm_name = '';
+            this.customerUL = false; // to hide the UL
+            this.isCustomerSelected = true;
+            this.isFarmSelected = true;
+            this.isFieldDisabled = true;
+          }
+          else {
+            this.isDisabled = false;
+            this.allCustomers = of([]); // to clear array     
+            this.customerUL = false; // to hide the UL
+          }
+        }
+      });
+    }
+  }
+
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
   ngOnInit() {
     // getting role
+    this.customerSearchSubscription();
+
     this.role = localStorage.getItem('role');
 
     this.initForms();
@@ -192,5 +230,144 @@ export class CloseOutPage implements OnInit {
         },
       );
     }
+  }
+
+   //  #region Customer
+   customerSearchSubscription() {
+    // clearing array to show only spiner
+    this.allCustomers = of([]);
+
+    this.customer_search$
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        takeUntil(this._unsubscribeAll)
+      )
+      .subscribe((value: string) => {
+        // passing for renderer2       
+        this.customerSearchValue = value;
+
+        // for asterik to look required
+        if (value === '') { this.isCustomerSelected = true; }
+
+        // this.allCustomers = this.farmingService.getCustomers(
+        //   value,
+        //   'true',
+        //   'allCustomers'
+        // );
+        // showing UL
+        this.customerUL = true;
+
+        // subscribing to disable & enable farm, crop inputs
+        this.allCustomers.subscribe((customers) => {
+          if (customers.count === 0) {
+            console.log('customers:', customers.count);
+            this.isDisabled = true;
+            this.isFieldDisabled = true
+
+            // clearing the input values in farm, crop after getting disabled
+
+            // this.crop_name = '';
+
+            // hiding UL
+            this.customerUL = false;
+          } else {
+            this.isDisabled = false;
+          }
+        });
+      });
+  }
+  inputClickedCustomer() {
+    // getting the serch value to check if there's a value in input
+    this.customer_search$
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        takeUntil(this._unsubscribeAll)
+      )
+      .subscribe((v) => {
+        this.customerSearchValue = v;
+      });
+
+    const value =
+      this.customerSearchValue === undefined
+        ? this.customer_name
+        : this.customerSearchValue;
+
+    // calling API
+    // this.allCustomers = this.farmingService.getCustomers(
+    //   value,
+    //   'true',
+    //   'allCustomers'
+    // );
+
+    // subscribing to disable & enable farm, crop inputs
+    this.allCustomers.subscribe((customers) => {
+      console.log(customers);
+
+      // this.isDisabled = customers.count === 0 ? true : false;
+      if (customers.count === 0) {
+        this.isDisabled = true;
+
+        // clearing the input values in farm, crop after getting disabled
+        // this.farm_name = '';
+        // this.crop_name = '';
+
+        // hiding UL
+        this.customerUL = false;
+      } else {
+        this.isDisabled = false;
+        // showing UL
+        this.customerUL = true;
+      }
+    });
+  }
+
+  listClickedCustomer(customer) {
+    // clearing array
+    this.allCustomers = of([]);
+    // this.allFarms = of([]);
+    // this.allFarmsClicked = of([]);
+    // this.allCrops = of([]);
+    // this.allCropsClicked = of([]);
+
+    // clearing value from farm & crop input
+    // this.farm_name = '';
+    // this.crop_name = '';
+
+    // hiding UL
+    this.customerUL = false;
+
+    // assigning values in form
+    if (localStorage.getItem('role').includes('Dispatcher')) {
+      this.closeJobFormCrew.patchValue({
+        customerId: customer.id,
+        phone: customer.phone_number
+      });
+    }
+    else {
+      this.closeJobFormCrew.patchValue({
+        customerId: customer.id,
+        phone: customer.phone_number
+      });
+    }
+    // passing name in select's input
+    this.customerInput.nativeElement.value = customer.customer_name;
+
+    // passing name in customer-search-value in Rendered2 for checks 
+    this.customerSearchValue = customer.customer_name;
+    // to enable submit button
+    this.isCustomerSelected = false;
+
+    // passing the customer id to  select farm & crop id
+    this.customerId = customer.id;
+    console.log(this.customer_name);
+    console.log(this.customerId);
+
+  }
+  //#endregion
+
+  disableFields() {
+    this.isDisabled = true;
   }
 }

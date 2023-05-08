@@ -7,9 +7,9 @@
     <form [formGroup]="assignFormCombine">
       <!-- Combine Operator -->
       <div class="px-2">
-        <div [ngClass]="'opacity-100 visible ease-in duration-200'"  role="dialog" aria-modal="true">
+        <div [ngClass]="'opacity-100 visible ease-in duration-200'" role="dialog" aria-modal="true">
 
-          <div [ngClass]="'opacity-100 visible scale-100 ease-in duration-200'" class="mb-4 relative z-20">
+          <div [ngClass]="'opacity-100 visible scale-100 ease-in duration-200'" class="mb-4 relative z-30">
             <div class="mx-auto max-w-full transform rounded-xl px-0 transition-all">
               <label class="block text-sm font-medium text-gray-700 mb-1">Combine Operator <span
                   *ngIf="isCombineSelected" class="text-red-400">*</span></label>
@@ -20,7 +20,7 @@
                   placeholder="Select Combine" role="" aria-expanded="false" aria-controls="options">
               </div>
 
-              <div *ngIf="allCombineOperators | withLoading | async as allCombineOperators" >
+              <div *ngIf="allCombineOperators | withLoading | async as allCombineOperators">
                 <div class="flex justify-center items-center">
                   <ion-spinner *ngIf="allCombineOperators?.loading" name="crescent" mode="indeterminate"
                     color="primary"></ion-spinner>
@@ -30,11 +30,12 @@
                   id="options" role="listbox">
                   <li *ngFor="let combineOperators of (allCombineOperators?.value.employees)"
                     (click)="listClickedCombine(combineOperators)"
-                    class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200" role="option"
-                    tabindex="-1">
+                    [ngClass]="combineOperators.dht_supervisor_id == '' ? 'cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200':'disabledLi'"
+                    role="option" tabindex="-1">
                     <div class="flex items-center p-2">
                       {{combineOperators.first_name}} {{combineOperators.last_name}}
                     </div>
+
                   </li>
                 </ul>
                 <div *ngIf="combineUL?.value?.employees?.length === 0">
@@ -48,19 +49,19 @@
         </div>
       </div>
 
-      <ion-button expand="block" [disabled]="isCombineSelected || (loadingSpinner | async)" class="font-Lato font-white text-white mt-4 mb-4"
+      <ion-button expand="block" [disabled]="(loadingSpinner | async)" class="font-Lato font-white text-white mt-4 mb-4"
         (click)="addCombine()">
         <div *ngIf="(loadingSpinner | async) === false"> Add Combine Operator</div>
-            <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+        <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
 
       </ion-button>
     </form>
     <!-- Kart Operator -->
     <form [formGroup]="assignFormKart">
       <div class="px-2">
-        <div [ngClass]="'opacity-100 visible ease-in duration-200'"  role="dialog" aria-modal="true">
+        <div [ngClass]="'opacity-100 visible ease-in duration-200'" role="dialog" aria-modal="true">
 
-          <div [ngClass]="'opacity-100 visible scale-100 ease-in duration-200'" class="mb-4 relative z-10">
+          <div [ngClass]="'opacity-100 visible scale-100 ease-in duration-200'" class="mb-4 relative z-20">
             <div class="mx-auto max-w-full transform rounded-xl px-0 transition-all">
               <label class="block text-sm font-medium text-gray-700 mb-1">Cart Operator <span *ngIf="isCartSelected"
                   class="text-red-400">*</span></label>
@@ -71,7 +72,7 @@
                   placeholder="Select Kart" role="" aria-expanded="false" aria-controls="options">
               </div>
 
-              <div *ngIf="allCartOperators | withLoading | async as allCartOperators" >
+              <div *ngIf="allCartOperators | withLoading | async as allCartOperators">
                 <div class="flex justify-center items-center">
                   <ion-spinner *ngIf="allCartOperators?.loading" name="crescent" mode="indeterminate"
                     color="primary"></ion-spinner>
@@ -81,10 +82,11 @@
                   id="options" role="listbox">
                   <li *ngFor="let cartOperators of (allCartOperators?.value.employees)"
                     (click)="listClickedCart(cartOperators)"
-                    class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200" role="option"
-                    tabindex="-1">
+                    [ngClass]="cartOperators.dht_supervisor_id == '' ? 'cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200':'disabledLi'"
+                    role="option" tabindex="-1">
                     <div class="flex items-center p-2">
                       {{cartOperators.first_name}} {{cartOperators.last_name}}
+
                     </div>
                   </li>
                 </ul>
@@ -99,23 +101,23 @@
         </div>
 
       </div>
-      <ion-button expand="block" [disabled]="isCartSelected || (loadingSpinner2 | async)" class="font-Lato font-white text-white mt-4"
+      <ion-button expand="block" [disabled]="(loadingSpinner2 | async)" class="font-Lato font-white text-white mt-4"
         (click)="addKart()">
         <div *ngIf="(loadingSpinner2 | async) === false">Add Kart Operator</div>
-            <ion-spinner name="crescent" *ngIf="(loadingSpinner2 | async)"></ion-spinner>
+        <ion-spinner name="crescent" *ngIf="(loadingSpinner2 | async)"></ion-spinner>
       </ion-button>
     </form>
     <ion-card class="card">
       <ion-grid>
-        <ion-row >
-          <ion-col size="6"  (click)="onClick('Combine Operator')">
+        <ion-row>
+          <ion-col size="6" (click)="onClick('Combine Operator')">
             <div
               class=" pl-2 pt-1 border rounded-md {{value === 'Combine Operator'? 'border-3D8AA4 border-2':''}} bg-gray-200">
               <h1 class="font-Lato text-xs font-semibold">Combine Operator</h1>
               <span class="font-Lato text-xs font-semibold">{{data?.assigned_roles[0].combine_operator}}</span>
             </div>
           </ion-col>
-          <ion-col size="6"  (click)="onClick('cart-operator')">
+          <ion-col size="6" (click)="onClick('cart-operator')">
             <div
               class=" pl-2 pt-1 border rounded-md {{value === 'cart-operator'? 'border-3D8AA4 border-2':''}} bg-gray-200">
               <h1 class="font-Lato text-xs font-semibold">Kart Operator</h1>
@@ -124,31 +126,35 @@
           </ion-col>
         </ion-row>
         <div *ngIf="value === 'Combine Operator'">
-          <ion-row *ngFor="let data of data?.employees" class="m-1">
-              <ion-col *ngIf="data.role.includes('Combine Operator')" size="6" class="p-5 border-b-2">
-                <div class="font-Lato font-semibold">{{data.first_name}} </div>
-              </ion-col>
-              <ion-col *ngIf="data.role.includes('Combine Operator')" size="6" class="p-5 border-b-2">
-                <div class="font-Lato">{{data.last_name}}</div>
-              </ion-col>
+          <ion-row *ngFor="let data of data?.employees" class="m-1 flex content-center items-center">
+            <ion-col size="9" *ngIf="data.role.includes('Combine Operator')">
+              <div class="font-Lato font-semibold">{{data.first_name}} {{data.last_name}} </div>
+            </ion-col>
+
+            <ion-col size="3">
+              <ion-button (click)="removeCrewMember(data.id)">
+                <ion-icon class="text-white" name="trash-outline"> </ion-icon>
+              </ion-button>
+            </ion-col>
+
           </ion-row>
         </div>
 
         <div *ngIf="value === 'cart-operator'">
-          <ion-row *ngFor="let data of data?.employees" class="m-1">
-              <ion-col *ngIf="data.role.includes('Kart Operator')" size="6" class="p-5 border-b-2">
-                <div class="font-Lato font-semibold">{{data.first_name}} </div>
-              </ion-col>
-              <ion-col *ngIf="data.role.includes('Kart Operator')" size="6" class="p-5 border-b-2">
-                <div class="font-Lato">{{data.last_name}}</div>
-              </ion-col>
+          <ion-row *ngFor="let data of data?.employees" class="m-1 flex content-center items-center">
+            <ion-col *ngIf="data.role.includes('Kart Operator')" size="9">
+              <div class="font-Lato font-semibold">{{data.first_name}} {{data.last_name}} </div>
+            </ion-col>
+
+            <ion-col size="3">
+              <ion-button (click)="removeCrewMember(data.id)">
+                <ion-icon class="text-white" name="trash-outline"> </ion-icon>
+              </ion-button>
+            </ion-col>
           </ion-row>
-
-
         </div>
+
       </ion-grid>
     </ion-card>
-    <!-- <ion-button expand="block" class="font-Lato font-white text-white mt-4">Save</ion-button> -->
-
   </div>
 </ion-content>

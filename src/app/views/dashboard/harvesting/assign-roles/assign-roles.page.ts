@@ -24,7 +24,6 @@ export class AssignRolesPage implements OnInit {
   @ViewChild('combineInput') combineInput: ElementRef;
   @ViewChild('cartInput') cartInput: ElementRef;
 
-
   assignFormCombine: FormGroup;
   assignFormKart: FormGroup;
 
@@ -54,7 +53,6 @@ export class AssignRolesPage implements OnInit {
 
   // for selected
   value = 'Combine Operator';
-  activeJobData;
 
   // data
   data: any;
@@ -76,12 +74,11 @@ export class AssignRolesPage implements OnInit {
   ) {
     this.renderer.listen('window', 'click', (e) => {
       if (e.target !== this.combineInput.nativeElement) {
-        // console.log('Combine');
         this.allCombineOperators = of([]);
         this.combineUL = false; // to hide the UL
       }
+
       if (e.target !== this.cartInput.nativeElement) {
-        // console.log('Cart');
         this.allCartOperators = of([]);
         this.cartUL = false; // to hide the UL
       }
@@ -109,6 +106,7 @@ export class AssignRolesPage implements OnInit {
       crew_chief_id: [localStorage.getItem('employeeId')],
       combine_operator_id: [''],
     });
+
     this.assignFormKart = this.formBuilder.group({
       crew_chief_id: [localStorage.getItem('employeeId')],
       cart_operator_id: [''],
@@ -119,13 +117,13 @@ export class AssignRolesPage implements OnInit {
 
     //api call
 
-    this.harvestingService.getJobSetup('Crew Chief', localStorage.getItem('employeeId'), '');
-    this.sub = this.harvestingService.customerJobSetup$.subscribe((res) => {
-      console.log(res);
+    // this.harvestingService.getJobSetup('Crew Chief', localStorage.getItem('employeeId'), '');
+    // this.sub = this.harvestingService.customerJobSetup$.subscribe((res) => {
+    //   console.log(res);
 
-      this.activeJobData = res;
-      console.log(this.activeJobData?.customer_job.length);
-    });
+    //   this.activeJobData = res;
+    //   console.log(this.activeJobData?.customer_job.length);
+    // });
 
     this.harvestingService.getRoles(111, 111, localStorage.getItem('employeeId'))
       .subscribe(
@@ -133,7 +131,6 @@ export class AssignRolesPage implements OnInit {
           if (res.status === 200) {
             console.log('RESPONSE:', res);
             this.data = res;
-            this.activeJobs = res;
           } else {
             console.log('Something happened :)');
           }
@@ -150,7 +147,7 @@ export class AssignRolesPage implements OnInit {
 
   addCombine() {
 
-    this.assignFormCombine.value.job_id = this.activeJobData?.customer_job[0].id;
+    // this.assignFormCombine.value.job_id = this.activeJobData?.customer_job[0].id;
     this.assignFormCombine.value.employee_id = this.assignFormCombine.get('combine_operator_id').value;
 
     console.log(this.assignFormCombine.value);
@@ -174,14 +171,15 @@ export class AssignRolesPage implements OnInit {
           console.log('Error:', err);
           // this.handleError(err);
         },
-        ()=>{
+        () => {
           this.getCombineOperators();
         }
       );
   }
+
   addKart() {
 
-    this.assignFormKart.value.job_id = this.activeJobData?.customer_job[0].id;
+    // this.assignFormKart.value.job_id = this.activeJobData?.customer_job[0].id;
     this.assignFormKart.value.employee_id = this.assignFormKart.get('cart_operator_id').value;
 
     console.log(this.assignFormKart.value);
@@ -209,6 +207,50 @@ export class AssignRolesPage implements OnInit {
       );
   }
   //#region comnine
+
+  removeCrewMember(id) {
+    let data = {
+      id: id,
+      operation: 'removeAssignedRole'
+    }
+
+    this.harvestingService.removeAssignedRole(data)
+      .subscribe(
+        (res: any) => {
+          console.log('Response:', res);
+          if (res.status === 200) {
+            this.toastService.presentToast(res.message, 'success');
+
+            this.harvestingService.getRoles(111, 111, localStorage.getItem('employeeId'))
+              .subscribe(
+                (res: any) => {
+                  if (res.status === 200) {
+                    console.log('RESPONSE:', res);
+                    this.data = res;
+                  } else {
+                    console.log('Something happened :)');
+                  }
+                },
+                (err) => {
+                  console.log('Error:', err);
+                  this.toastService.presentToast(err, 'danger');
+                },
+              );
+
+          } else {
+            console.log('Something happened :)');
+          }
+        },
+        (err) => {
+          console.log('Error:', err);
+          // this.handleError(err);
+        },
+        () => {
+          this.getKartOPerators();
+        }
+      );
+  }
+
   combineSearchSubscription() {
     this.combine_search$
       .pipe(
@@ -245,6 +287,7 @@ export class AssignRolesPage implements OnInit {
         });
       });
   }
+
   inputClickedCombine() {
     // getting the serch value to check if there's a value in input
     this.combine_search$
@@ -280,8 +323,8 @@ export class AssignRolesPage implements OnInit {
       }
     });
   }
+
   listClickedCombine(combine) {
-    console.log('Combine Object:', combine);
     // hiding UL
     this.combineUL = false;
 
@@ -289,7 +332,7 @@ export class AssignRolesPage implements OnInit {
     this.combineInput.nativeElement.value = combine.first_name + ' ' + combine.last_name;
 
     // to enable submit button
-    if (this.activeJobData?.customer_job.length > 0) { this.isCombineSelected = false; }
+    // if (this.activeJobData?.customer_job.length > 0) { this.isCombineSelected = false; }
 
     // assigning values in form
     this.assignFormCombine.patchValue({
@@ -300,6 +343,7 @@ export class AssignRolesPage implements OnInit {
     this.allCombineOperators = of([]);
   }
   //#endregion
+
   //#region Cart
   cartSearchSubscription() {
     this.cart_search$
@@ -326,8 +370,6 @@ export class AssignRolesPage implements OnInit {
 
         // subscribing to show/hide field UL
         this.allCartOperators.subscribe((cartOperators) => {
-          console.log('Cart:', cartOperators);
-
           if (cartOperators.count === 0) {
             // hiding UL
             this.cartUL = false;
@@ -337,6 +379,7 @@ export class AssignRolesPage implements OnInit {
         });
       });
   }
+
   inputClickedCart() {
     // getting the serch value to check if there's a value in input
     this.cart_search$
@@ -373,6 +416,7 @@ export class AssignRolesPage implements OnInit {
       }
     });
   }
+
   listClickedCart(cart) {
     console.log('Cart Object:', cart);
     // hiding UL
@@ -382,7 +426,7 @@ export class AssignRolesPage implements OnInit {
     this.cartInput.nativeElement.value = cart.first_name + ' ' + cart.last_name;
 
     // to enable submit button
-    if (this.activeJobData?.customer_job.length > 0) { this.isCartSelected = false; }
+    // if (this.activeJobData?.customer_job.length > 0) { this.isCartSelected = false; }
 
     // assigning values in form
     this.assignFormKart.patchValue({
@@ -402,45 +446,47 @@ export class AssignRolesPage implements OnInit {
       this.getKartOPerators();
     }
   }
-  getCombineOperators(){
-    this.harvestingService.getRoles(111, 111, localStorage.getItem('employeeId'))
-        .subscribe(
-          (res: any) => {
-            if (res.status === 200) {
-              console.log('Kart Operators:', res);
-              this.data = res;
 
-            } else {
-              console.log('Something happened :)');
-            }
-          },
-          (err) => {
-            console.log('Error:', err);
-            this.toastService.presentToast(err, 'danger');
-          },
-        );
-  }
-  getKartOPerators(){
+  getCombineOperators() {
     this.harvestingService.getRoles(111, 111, localStorage.getItem('employeeId'))
-        .subscribe(
-          (res: any) => {
+      .subscribe(
+        (res: any) => {
+          if (res.status === 200) {
             console.log('Kart Operators:', res);
-            if (res.status === 200) {
-              // this.toastService.presentToast('', 'success');
-              // console.log(res.message);
-              console.log('Kart Operators:', res);
-              this.data = res;
+            this.data = res;
 
-            } else {
-              console.log('Something happened :)');
-            }
-          },
-          (err) => {
-            console.log('Error:', err);
-            this.toastService.presentToast(err, 'danger');
+          } else {
+            console.log('Something happened :)');
+          }
+        },
+        (err) => {
+          console.log('Error:', err);
+          this.toastService.presentToast(err, 'danger');
+        },
+      );
+  }
 
-            // this.handleError(err);
-          },
-        );
+  getKartOPerators() {
+    this.harvestingService.getRoles(111, 111, localStorage.getItem('employeeId'))
+      .subscribe(
+        (res: any) => {
+          console.log('Kart Operators:', res);
+          if (res.status === 200) {
+            // this.toastService.presentToast('', 'success');
+            // console.log(res.message);
+            console.log('Kart Operators:', res);
+            this.data = res;
+
+          } else {
+            console.log('Something happened :)');
+          }
+        },
+        (err) => {
+          console.log('Error:', err);
+          this.toastService.presentToast(err, 'danger');
+
+          // this.handleError(err);
+        },
+      );
   }
 }

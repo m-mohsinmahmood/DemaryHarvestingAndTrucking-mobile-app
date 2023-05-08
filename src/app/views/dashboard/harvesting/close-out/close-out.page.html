@@ -1,4 +1,4 @@
-<app-header [title]="'Close-out Customer Job'" [color]="'harvesting'"></app-header>
+<app-header [title]="'Close-out (Invoiced) Job'" [color]="'harvesting'"></app-header>
 
 <ion-content *ngIf="role === 'Crew Chief'">
   <!-- <app-timer [value]="'23:00:12'"></app-timer> -->
@@ -51,6 +51,44 @@
       </ion-card-content>
     </ion-card>
     <form [formGroup]="closeJobFormCrew">
+
+      <div role="dialog" aria-modal="true">
+        <div class="mb-4 relative z-80">
+          <div class="mx-auto max-w-full transform rounded-xl px-0  transition-all">
+            <label class="block text-sm font-medium text-gray-700 mb-1">Invoiced Jobs<span *ngIf="isCustomerSelected"
+                class="text-red-400">*</span></label>
+            <div class="flex items-center justify-between gap-x-2 rounded-md">
+              <input (keyup)="customer_search$.next($event.target.value)" [value]="customer_name"
+                (click)="inputClickedCustomer()" #customerInput
+                class="w-full px-4 py-2.5 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
+                placeholder="Select Invoiced Jobs" role="" aria-expanded="false" aria-controls="options">
+            </div>
+
+            <div *ngIf="allCustomers | withLoading | async as allCustomers">
+              <div class="flex justify-center items-center">
+                <ion-spinner *ngIf="allCustomers?.loading" name="crescent" mode="indeterminate"
+                  color="primary"></ion-spinner>
+              </div>
+              <ul *ngIf="allCustomers?.value && customerUL"
+                class="-mb-2 max-h-44 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800 bg-white drop-shadow-lg relative w-full"
+                id="options" role="listbox">
+                <li *ngFor="let customer of (allCustomers?.value.customers)" (click)="listClickedCustomer(customer)"
+                  class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200" role="option"
+                  tabindex="-1">
+                  <div class="flex items-center p-2">
+                    {{customer.customer_name}}
+                  </div>
+                </li>
+              </ul>
+              <div *ngIf="allCustomers?.value?.customers?.length === 0" (onclick)="disableFields()">
+                <div
+                  class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200 text-gray-500 hover:text-gray-700 hover:font-semibold"
+                  disabled role="option" tabindex="-1"> No Invoiced Job(s) found </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <div class="px-2">
         <div class="col-span-12 mb-4">
