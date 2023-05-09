@@ -167,9 +167,8 @@ export class ParkingSightPage implements OnInit {
       this.trainingService
         .getRecordById(this.training_record_id)
         .subscribe((record) => {
-          this.training_record = record[0];
+          this.training_record = record.summary[0];
 
-          console.log('Record::', this.training_record);
           // patching
           this.basicSkillForm.patchValue({
             straightLineBaking_ps: (this.training_record.goal_slb === 'true') && (this.training_record.finalPosition_slb === 'true') === true? 'true': 'false',

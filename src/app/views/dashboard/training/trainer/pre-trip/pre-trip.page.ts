@@ -1,3 +1,4 @@
+/* eslint-disable @angular-eslint/use-lifecycle-interface */
 /* eslint-disable prefer-const */
 /* eslint-disable no-var */
 /* eslint-disable no-underscore-dangle */
@@ -30,7 +31,7 @@ export class PreTripPage implements OnInit {
   upload_1 = false;
   upload_2 = false;
   upload_3 = false;
-  upload = true;
+  // upload = true;
 
   // model
  isModalOpen = false;
@@ -130,6 +131,10 @@ this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).su
 
 
   }
+  ngAfterViewInit(): void {
+    this.setDefaultSupervisor();
+  }
+
  async ionViewDidEnter() {
     this.getRoleAndID();
   }
@@ -146,7 +151,8 @@ this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).su
       evaluation_form: ['', [Validators.required]],
       trainer_id: [''],
       trainee_id: [''],
-      supervisor_id: [''],
+      clp: ['N/A',[Validators.required]],
+      supervisor_id: ['f676c59d-5e39-4051-a730-b907ccce1f48'],
       is_completed_cdl_classroom: ['', [Validators.required]],
       is_completed_group_practical: ['', [Validators.required]],
       city: [this.city != null ? this.city: '', [Validators.required]],
@@ -163,7 +169,13 @@ this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).su
     // supervisor subscription
     this.supervisorSearchSubscription();
   }
+  setDefaultSupervisor(){
+    // passing name in select's input to pre-fill
+    this.supervisorInput.nativeElement.value = 'Bill Demeray';
 
+    // to enable submit button to pre-fill
+    this.isSupervisorSelected = false;
+  }
 
   onSelectedFiles(file, name) {
     if (name === 'upload_1') {
@@ -203,16 +215,12 @@ this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).su
       }
     }
   }
-  uploadClick() {
-    this.upload = !this.upload;
-  }
+
   onSelect(e) {
     console.log(e.target.value);
     if (e.target.value === 'paper-form') {
       this.value = e.target.value;
     } else {
-      // Digital Form
-      this.upload = false;
       this.value = e.target.value;
 
       this.trainingService.getData('pre-trip',this.trainer_id).subscribe((res) => {
@@ -302,9 +310,10 @@ this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).su
          console.log('RES:', res);
          if (res.status === 200) {
 
-          // to stop loader
-          this.loadingSpinner.next(false);
-
+          //form reset
+          this.preTrip.reset();
+          this.traineeInput.nativeElement.value = '';
+          this.supervisorInput.nativeElement.value = '';
 
           // get city & state
           this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).subscribe((response)=>{
@@ -317,12 +326,14 @@ this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).su
             this.initForms();
           });
 
-
            // tooltip
            this.toastService.presentToast(
             'Your details have been submitted',
             'success'
           );
+
+           // to stop loader
+           this.loadingSpinner.next(false);
 
           //  navigating
            this.router.navigateByUrl('/tabs/home/training/trainer');
@@ -356,8 +367,16 @@ this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).su
       (res) => {
         console.log('RES:', res);
         if (res.status === 200) {
+
+         //form reset
+         this.preTrip.reset();
+         this.traineeInput.nativeElement.value = '';
+         this.supervisorInput.nativeElement.value = '';
+
+         // stop loader
         this.loadingSpinner.next(false);
 
+        // tooltip
           this.toastService.presentToast(
             'Digital evaluation has been started',
             'success'
@@ -393,7 +412,7 @@ this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).su
 
       // patching values
       this.preTrip.patchValue({
-        trainer_id: res[0].trainer_id,
+        trainer_id: res.summary[0].trainer_id,
       });
       this.loading.next(false);
     });
@@ -655,19 +674,4 @@ else if (
 
   }
 
-  // getEmployeeDetailsByFirbaseId(){
-
-  //   this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).subscribe((res)=>{
-  //     this.loadingfirebase.next(true);
-  //     console.log('Employee Details:',res);
-  //     this.loadingfirebase.next(false);
-  //     console.log(this.loadingfirebase.getValue());
-
-  //     // setting in local storage
-  //     localStorage.setItem('state',res.state);
-  //     localStorage.setItem('city',res.city);
-
-
-  //   });
-  // }
 }

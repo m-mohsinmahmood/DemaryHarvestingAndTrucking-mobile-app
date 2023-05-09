@@ -257,6 +257,7 @@ export class VehicleExternalPage implements OnInit {
   }
   async ionViewDidEnter() {
     this.getRoleAndID();
+    this.getRecordById();
   }
   getRoleAndID(){
     this.trainer_id = localStorage.getItem('employeeId');
@@ -264,14 +265,12 @@ export class VehicleExternalPage implements OnInit {
   getRecordById(){
     this.trainingService.getRecordById(this.training_record_id)
     .subscribe((res)=>{
-      console.log('RESPONSE:',res);
 
-        this.preTripFormData= res[0];
+        this.preTripFormData= res.summary[0];
 
         this.patchForm();
 
     },(err)=>{
-      console.log('Something happened :)');
       this.toastService.presentToast(err.mssage, 'danger');
     });
   }
@@ -325,7 +324,7 @@ export class VehicleExternalPage implements OnInit {
       torison_bars: this.preTripFormData.torison_bars === 'true'? true:false,
       mud_flaps: this.preTripFormData.mud_flaps === 'true'? true:false,
       rear_lights: this.preTripFormData.rear_lights === 'true'? true:false,
-      commentsVehicle: this.preTripFormData.commentsVehicle,
+      commentsVehicle: this.preTripFormData.commentsVehicle !== 'null'? this.preTripFormData.commentsVehicle: '',
     });
   }
   next(){
@@ -347,8 +346,8 @@ export class VehicleExternalPage implements OnInit {
       (res) => {
         console.log('RES:', res);
         if (res.status === 200) {
-          // closing modal
-          this.isModalOpen = false;
+           // form reset
+           this.preTripForm.reset();
 
           // spinner
           this.loadingSpinner.next(false);
@@ -359,16 +358,13 @@ export class VehicleExternalPage implements OnInit {
           );
 
           // navigating
-        if (this.isModalOpen === false) {
-          setTimeout(()=>{
             this.router.navigate(['/tabs/home/training/trainer/pre-trip/digital-form/in-cab/vehicle-external/coupling'],{
               queryParams:{
                 training_record_id: this.training_record_id,
                 supervisor_id: this.supervisor_id
               }
             });
-          },500);
-        }
+
         } else {
           console.log('Something happened :)');
           this.toastService.presentToast(res.mssage, 'danger');

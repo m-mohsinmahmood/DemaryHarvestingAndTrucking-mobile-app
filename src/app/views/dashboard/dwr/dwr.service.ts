@@ -8,6 +8,7 @@ import {
 import { Injectable } from '@angular/core';
 import { take } from 'rxjs/operators';
 import { AlertService } from 'src/app/alert/alert.service';
+import * as moment from 'moment';
 
 @Injectable({
   providedIn: 'root',
@@ -28,6 +29,24 @@ export class DWRService {
     params = params.set('operation','getDWRToVerify');
     params = params.set('employeeId', employeeId);
     params = params.set('date', date);
+    params = params.set('dateType', 'day');
+    params = params.set('role', role);
+    params = params.set('type', type);
+    params = params.set('status', status);
+
+    return this.httpClient
+      .get<any>('api-1/dwr', {
+        params,
+      })
+      .pipe(take(1));
+  }
+  getDWRNew(employeeId: string, startDate: string, endDate: string,
+    role: any,type: any, status: any) {
+    let params = new HttpParams();
+    params = params.set('operation','getDWRToVerify');
+    params = params.set('employeeId', employeeId);
+    params = params.set('startDate', startDate);
+    params = params.set('endDate', endDate);
     params = params.set('dateType', 'day');
     params = params.set('role', role);
     params = params.set('type', type);
@@ -146,7 +165,9 @@ export class DWRService {
     let params = new HttpParams();
     params = params.set('operation',operation);
     params = params.set('employeeId',employee_id);
-    params = params.set('date',date);
+    params = params.set('date',date); // (comment)
+    params = params.set('startDate',moment(date).startOf('day').toISOString(),);
+    params = params.set('endDate',moment(date).endOf('day').toISOString());
     params = params.set('dateType',dateType);
     params = params.set('status',status);
     return this.httpClient
@@ -158,7 +179,9 @@ export class DWRService {
   getDWRDetailsWithStatus(operation,date,dateType,employee_id,status){
     let params = new HttpParams();
     params = params.set('operation',operation);
-    params = params.set('date',date);
+    // params = params.set('date',date); // (comment)
+    params = params.set('startDate',moment(date).startOf('day').toISOString(),);
+    params = params.set('endDate',moment(date).endOf('day').toISOString());
     params = params.set('dateType',dateType);
     params = params.set('employeeId',employee_id);
     params = params.set('status',status);

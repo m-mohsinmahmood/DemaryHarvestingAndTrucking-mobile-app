@@ -185,6 +185,7 @@ export class InCabPage implements OnInit {
   }
   async ionViewDidEnter() {
     this.getRoleAndID();
+    this.getRecordById();
   }
   getRoleAndID(){
     this.trainer_id = localStorage.getItem('employeeId');
@@ -192,14 +193,12 @@ export class InCabPage implements OnInit {
   getRecordById(){
     this.trainingService.getRecordById(this.training_record_id)
     .subscribe((res)=>{
-      console.log('RESPONSE:',res);
 
-        this.preTripFormData= res[0];
+        this.preTripFormData= res.summary[0];
 
         this.patchForm();
 
     },(err)=>{
-      console.log('Something happened :)');
       this.toastService.presentToast(err.mssage, 'danger');
     });
   }
@@ -236,7 +235,7 @@ export class InCabPage implements OnInit {
       front_external_lights: this.preTripFormData.front_external_lights=== 'true'? true: false,
       trailer_lights: this.preTripFormData.trailer_lights=== 'true'? true: false,
       rear_external_lights: this.preTripFormData.rear_external_lights=== 'true'? true: false,
-      commentsCab: this.preTripFormData.commentsCab,
+      commentsCab: this.preTripFormData.commentsCab !== 'null'?this.preTripFormData.commentsCab: '',
     });
   }
   next(){
@@ -257,8 +256,8 @@ export class InCabPage implements OnInit {
       (res) => {
         console.log('RES:', res);
         if (res.status === 200) {
-          // closing modal
-          this.isModalOpen = false;
+          // form reset
+          this.preTripForm.reset();
 
           // spinner
           this.loadingSpinner.next(false);
@@ -270,16 +269,13 @@ export class InCabPage implements OnInit {
           );
 
           // navigating
-        if (this.isModalOpen === false) {
-          setTimeout(()=>{
             this.router.navigate(['/tabs/home/training/trainer/pre-trip/digital-form/in-cab/vehicle-external'],{
               queryParams:{
                 training_record_id: this.training_record_id,
                 supervisor_id: this.supervisor_id
               }
             });
-          },500);
-        }
+
         } else {
           console.log('Something happened :)');
           this.toastService.presentToast(res.mssage, 'danger');

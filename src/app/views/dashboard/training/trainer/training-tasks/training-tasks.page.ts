@@ -1,3 +1,4 @@
+/* eslint-disable @angular-eslint/use-lifecycle-interface */
 /* eslint-disable prefer-const */
 /* eslint-disable no-debugger */
 /* eslint-disable no-var */
@@ -115,10 +116,13 @@ export class TrainingTasksPage implements OnInit {
     // supervisor subscription
     this.employeeSearchSubscription();
   }
+  ngAfterViewInit(): void {
+    this.setDefaultSupervisor();
+  }
   initForm(){
     this.trainingTasksForm = this.formBuilder.group({
       trainer_id: [''],
-      supervisor_id: [''],
+      supervisor_id: ['f676c59d-5e39-4051-a730-b907ccce1f48'],
       city: [''],
       state: [''],
       training_type: [''],
@@ -136,6 +140,13 @@ export class TrainingTasksPage implements OnInit {
   getRoleAndID(){
     this.role = localStorage.getItem('role');
     this.trainer_id = localStorage.getItem('employeeId');
+  }
+  setDefaultSupervisor(){
+    // passing name in select's input to pre-fill
+    this.employeeInput.nativeElement.value = 'Bill Demeray';
+
+    // to enable submit button to pre-fill
+    this.isEmployeeSelected = false;
   }
 
   onSelectedFiles(file, name) {
@@ -181,14 +192,13 @@ export class TrainingTasksPage implements OnInit {
   getTrainer() {
     this.trainingService.getTrainerById(this.trainer_id).subscribe((res) => {
       this.loading.next(true);
-      this.profileData = res[0];
-      console.log('------------',res[0].state);
+      this.profileData = res.summary[0];
 
       // patching values
       this.trainingTasksForm.patchValue({
-        trainer_id: res[0].trainer_id,
-        city: res[0].town_city != null ? res[0].town_city : '',
-        state: res[0].state != null ? res[0].state : ''
+        trainer_id: res.summary[0].trainer_id,
+        city: res.summary[0].town_city != null ? res.summary[0].town_city : '',
+        state: res.summary[0].state != null ? res.summary[0].state : ''
       });
       this.loading.next(false);
     });

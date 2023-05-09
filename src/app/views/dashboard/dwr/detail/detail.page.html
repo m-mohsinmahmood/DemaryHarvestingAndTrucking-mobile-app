@@ -44,7 +44,7 @@
 
           <ion-col size="12" class="flex justify-between items-center">
             <ion-text class="font-semibold text-black font-Lato text-base">Total Hours</ion-text>
-            <ion-text class="font-semibold text-black font-Lato text-sm">{{data.total_hours}} Hours</ion-text>
+            <ion-text class="font-semibold text-black font-Lato text-sm">{{getHours(data.logout_time,data.login_time).toFixed(2)}} Hours</ion-text>
           </ion-col>
          <ion-col size="12">
           <ion-accordion-group expand="inset">
@@ -151,7 +151,7 @@
           </ion-col>
           <ion-col size="12" class="flex justify-between items-center">
             <ion-text class="font-semibold text-black font-Lato text-base">Total Hours</ion-text>
-            <ion-text class="font-semibold text-black font-Lato text-sm">{{data.total_hours}} Hours</ion-text>
+            <ion-text class="font-semibold text-black font-Lato text-sm">{{getHours(data.logout_time,data.login_time).toFixed(2)}} Hours</ion-text>
           </ion-col>
          <ion-col size="12">
           <ion-accordion-group expand="inset">
@@ -280,7 +280,7 @@
                   </ion-col>
                   <ion-col size="12" class="flex justify-between items-center">
                     <ion-text class="font-semibold text-black font-Lato text-base">Total Hours</ion-text>
-                    <ion-text class="font-semibold text-black font-Lato text-sm">{{data.total_hours}} Hours</ion-text>
+                    <ion-text class="font-semibold text-black font-Lato text-sm">{{getHours(data.logout_time,data.login_time).toFixed(2)}} Hours</ion-text>
                   </ion-col>
                  <ion-col size="12">
                   <ion-accordion-group expand="inset">
@@ -346,7 +346,7 @@
                     </ion-col>
                     <ion-col size="12" class="flex justify-between items-center">
                       <ion-text class="font-semibold text-black font-Lato text-base">Total Hours</ion-text>
-                      <ion-text class="font-semibold text-black font-Lato text-sm">{{data.total_hours}} Hours</ion-text>
+                      <ion-text class="font-semibold text-black font-Lato text-sm">{{getHours(data.logout_time,data.login_time).toFixed(2)}} Hours</ion-text>
                     </ion-col>
                    <ion-col size="12">
                     <ion-accordion-group expand="inset">
@@ -409,7 +409,7 @@
                   </ion-col>
                   <ion-col size="12" class="flex justify-between items-center">
                     <ion-text class="font-semibold text-black font-Lato text-base">Total Hours</ion-text>
-                    <ion-text class="font-semibold text-black font-Lato text-sm">{{data.total_hours}} Hours</ion-text>
+                    <ion-text class="font-semibold text-black font-Lato text-sm">{{getHours(data.logout_time,data.login_time).toFixed(2)}} Hours</ion-text>
                   </ion-col>
                  <ion-col size="12">
                   <ion-accordion-group expand="inset">
@@ -483,7 +483,7 @@
                   </ion-col>
                   <ion-col size="12" class="flex justify-between items-center">
                     <ion-text class="font-semibold text-black font-Lato text-base">Total Hours</ion-text>
-                    <ion-text class="font-semibold text-black font-Lato text-sm">{{data.total_hours}} Hours</ion-text>
+                    <ion-text class="font-semibold text-black font-Lato text-sm">{{getHours(data.logout_time,data.login_time).toFixed(2)}} Hours</ion-text>
                   </ion-col>
                   <ion-modal #model [isOpen]="data.id === model_id && isOpen" (ionModalDidDismiss)="ionModalDidDismiss()" >
                     <ng-template>

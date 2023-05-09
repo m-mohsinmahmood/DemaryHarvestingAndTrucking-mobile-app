@@ -62,6 +62,57 @@
         </div>
        <!-- TRAINER DROPDOWN -->
 
+       <div class="col-span-12 mb-4" *ngIf="hasOther">
+        <label class="block text-sm font-medium text-gray-700">Trainer name (third party)
+          </label>
+        <input
+          class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+          formControlName="trainer_third_party" placeholder="Enter Trainer (Third Party)">
+      </div>
+
+
+        <!-- SUPERVISOR DROPDOWN -->
+    <div [ngClass]="'opacity-100 visible ease-in duration-200'"  role="dialog" aria-modal="true">
+      <div [ngClass]="'opacity-100 visible scale-100 ease-in duration-200'" class="mb-4 relative z-10">
+        <div class="mx-auto max-w-full transform rounded-xl px-0 transition-all">
+          <label class="block text-sm font-medium text-gray-700 mb-1">Directors/CC/Dispatcher/Trainers <span
+              *ngIf="isSupervisorSelected" class="text-red-400">*</span></label>
+          <div class="flex items-center justify-between gap-x-2 rounded-md">
+            <input (keyup)="supervisorSearch$.next($event.target.value)" (click)="inputClickedSupervisor()"
+              [value]="supervisor_name" #supervisorInput
+              class="{{isFieldDisabled? 'pointer-events-none bg-gray-200 w-full px-4 py-2 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500': 'w-full px-4 py-2 text-gray-900 placeholder:text-sm rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500'}}"
+              placeholder="Select Supervisor" role="" aria-expanded="false" aria-controls="options">
+          </div>
+
+          <div *ngIf="allSupervisors | withLoading | async as allSupervisors" >
+            <div class="flex justify-center items-center">
+              <ion-spinner *ngIf="allSupervisors?.loading" name="crescent" mode="indeterminate"
+                color="primary"></ion-spinner>
+            </div>
+            <ul *ngIf="allSupervisors?.value && supervisorUL"
+              class="-mb-2 max-h-44 scroll-py-2 shadow-sm shadow-slate-500 overflow-y-auto py-2 text-sm text-gray-800 bg-white absolute w-full"
+              id="options" role="listbox">
+              <li *ngFor="let supervisor of (allSupervisors?.value.employees)"
+                (click)="listClickedSupervisor(supervisor)"
+                class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200" role="option" tabindex="-1">
+                <div class="flex items-center p-2">
+                  {{supervisor.first_name}} {{supervisor.last_name}}
+                </div>
+              </li>
+            </ul>
+            <div *ngIf="allSupervisors?.value?.employees?.length === 0">
+              <p disabled
+                class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200 text-gray-500 hover:text-gray-700 hover:font-semibold">
+                No Supervisor (s) found </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+   <!-- SUPERVISOR DROPDOWN -->
+
+
+
         <div class="col-span-12 mb-4">
           <label class="block text-sm font-medium text-gray-700">City
             <span
@@ -92,7 +143,6 @@
             formControlName="training_type" placeholder="Type of Training">
             <ion-select-option value="company-training">Company Training</ion-select-option>
             <ion-select-option value="safety-training">Safety Training</ion-select-option>
-            <ion-select-option value="cdl-training">CDL Training</ion-select-option>
           </ion-select>
         </div>
 
@@ -114,13 +164,18 @@
 
         <div class="col-span-12 mb-4" *ngIf="this.traineeForm.get('topic').value === 'other'">
           <label class="block text-sm font-medium text-gray-700">Detail
-            <!-- <span
-              *ngIf="this.traineeForm.get('detail').hasError('required')" class="text-red-400">*</span> -->
+
             </label>
           <input
             class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
             formControlName="detail" placeholder="Enter detail">
         </div>
+        <ion-text class="text-sm font-semibold font-Lato text-black mt-2">Notes</ion-text>
+      <ion-item lines="none" class="textarea">
+        <ion-textarea [autoGrow]="true" formControlName="notes">
+        </ion-textarea>
+      </ion-item>
+
 
         <div class="ml-2 mt-4">
           <ion-label class="font font-medium text-aaaaaa">Training docs (upload here)</ion-label>

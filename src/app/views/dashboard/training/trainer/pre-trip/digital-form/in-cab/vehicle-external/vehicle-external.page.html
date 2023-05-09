@@ -202,14 +202,6 @@
         <ion-text class="font-Lato font-medium">Rear lights</ion-text>
          <ion-checkbox slot="start" formControlName="rear_lights"></ion-checkbox>
        </div>
-
-
-
-
-
-
-
-
        <ion-text class="text-sm font-semibold font-Lato text-black mt-2">Add Comments</ion-text>
          <ion-textarea [autoGrow]="true"
          formControlName="commentsVehicle"
@@ -220,7 +212,7 @@
       <div class="ion-text-center my-5">
         <ion-text class="bg-3D8AA4 bg-opacity-10 text-3D8AA4 font-medium font-Lato border-2 border-opacity-60 rounded-lg border-3D8AA4 px-5 py-2">Score = {{result}}%</ion-text>
        </div>
-          <ion-button class="close-out-button font-Lato mb-4 mt-0 mx-8 bg-opacity-10 text-white" expand="block" (click)="submit()">
+          <ion-button [disabled]="loadingSpinner |async" class="close-out-button font-Lato mb-4 mt-0 mx-8 bg-opacity-10 text-white" expand="block" (click)="submit()">
             <div *ngIf="(loadingSpinner | async) === false">Next</div>
             <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
           </ion-button>

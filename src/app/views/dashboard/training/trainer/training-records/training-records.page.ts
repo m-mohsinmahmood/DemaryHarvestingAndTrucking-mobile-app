@@ -22,7 +22,10 @@ export class TrainingRecordsPage implements OnInit {
   formType;
   evaluationType;
   recordsFrom: FormGroup;
-  date: any = moment(new Date()).format('YYYY-MM-DD');
+  // date: any = moment(new Date()).format('YYYY-MM-DD');
+  startDate: any = moment(new Date()).format('YYYY-MM-DD');
+  endDate: any = moment(new Date()).format('YYYY-MM-DD');
+
   public loading = new BehaviorSubject(false);
   //#region trainee drop-down variables
   allTrainees: Observable<any>;
@@ -55,7 +58,9 @@ export class TrainingRecordsPage implements OnInit {
       trainee_id: [''],
       evaluation_type: ['', [Validators.required]],
       evaluation_form: ['', [Validators.required]],
-      date: [moment(new Date()).format('YYYY-MM-DD'), [Validators.required]],
+      // date: [moment(new Date()).format('YYYY-MM-DD'), [Validators.required]],
+      startDate: [moment(new Date()).format('YYYY-MM-DD'), [Validators.required]],
+      endDate: [moment(new Date()).format('YYYY-MM-DD'), [Validators.required]],
     });
     // checking required value
     this.recordsFrom.valueChanges.subscribe((value) => {
@@ -63,15 +68,17 @@ export class TrainingRecordsPage implements OnInit {
         this.recordsFrom.get('evaluation_form').setValidators(null);
         this.recordsFrom.get('evaluation_form').setErrors(null);
       } else {
-        this.recordsFrom
-          .get('evaluation_type')
-          .setValidators([Validators.required]);
-        this.recordsFrom
-          .get('evaluation_form')
-          .setValidators([Validators.required]);
+        this.recordsFrom.get('evaluation_type').setValidators([Validators.required]);
+        this.recordsFrom.get('evaluation_form').setValidators([Validators.required]);
 
-          this.recordsFrom.get('date').setValidators(null);
-          this.recordsFrom.get('date').setErrors(null)
+          // this.recordsFrom.get('date').setValidators(null);
+          // this.recordsFrom.get('date').setErrors(null);
+
+          this.recordsFrom.get('startDate').setValidators(null);
+          this.recordsFrom.get('startDate').setErrors(null);
+
+          this.recordsFrom.get('endDate').setValidators(null);
+          this.recordsFrom.get('endDate').setErrors(null);
       }
     });
 
@@ -84,19 +91,26 @@ export class TrainingRecordsPage implements OnInit {
   onSelectEvaluation(e) {
     this.evaluationType = e.target.value;
   }
-  getDate(e) {
-    this.date = moment(e.detail.value).format('YYYY-MM-DD');
-    console.log(this.date);
+  getStartDate(e) {
+    this.startDate = moment(e.detail.value).format('YYYY-MM-DD');
+    console.log(this.startDate);
     this.recordsFrom.patchValue({
-      date: this.date
-    })
+      startDate: this.startDate
+    });
+  }
+  getEndDate(e) {
+    this.endDate = moment(e.detail.value).format('YYYY-MM-DD');
+    console.log(this.endDate);
+    this.recordsFrom.patchValue({
+      endDate: this.endDate
+    });
   }
 
   navigate() {
     console.log(this.recordsFrom.value);
     this.loading.next(true);
     if (this.formType === 'summary') {
-      this.loading.next(false)
+      this.loading.next(false);
       this.router.navigate(
         [
           '/tabs/home/training/trainer/training-records/search-records/view-records',
@@ -106,7 +120,9 @@ export class TrainingRecordsPage implements OnInit {
             formType: this.formType,
             evaluationType: 'summary',
             trainee_id: this.recordsFrom.get('trainee_id').value,
-            date: this.recordsFrom.get('date').value,
+            // date: this.recordsFrom.get('date').value,
+            startDate: this.recordsFrom.get('startDate').value,
+            endDate: this.recordsFrom.get('endDate').value,
           },
         }
       );

@@ -141,14 +141,6 @@ this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).su
 
 });
 
-  //  // getting id & role
-  //  this.getRoleAndID();
-
-    //  // pasing states
-    //  this.states = states;
-
-    // // getting Trainer profile data
-    // this.getTrainer();
 
      // trainee subscription
      this.traineeSearchSubscription();
@@ -168,6 +160,9 @@ this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).su
 
     this.getRoleAndID();
   }
+  ngAfterViewInit(): void {
+    this.setDefaultSupervisor();
+  }
   getRoleAndID(){
     this.trainer_id = localStorage.getItem('employeeId');
     this.state = localStorage.getItem('state');
@@ -178,13 +173,13 @@ this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).su
       evaluation_form: ['',[Validators.required]],
       trainer_id: [''],
       trainee_id: [''],
-      clp: [''], //<-
-      supervisor_id: [''],
+      clp: ['N/A',[Validators.required]],
+      supervisor_id: ['f676c59d-5e39-4051-a730-b907ccce1f48'],
       truckId: [''],
-      odometerStartingMiles: ['',[Validators.required]],
-      odometerEndingMiles: ['',[Validators.required]],
-      is_completed_cdl_classroom: ['',[Validators.required]],
-      is_completed_group_practical: ['',[Validators.required]],
+      // odometerStartingMiles: ['',[Validators.required]],
+      // odometerEndingMiles: ['',[Validators.required]],
+      is_completed_cdl_classroom: [''],
+      is_completed_group_practical: [''],
       city: [this.city !== 'null'? this.city: '',[Validators.required]],
       state: [this.state !== 'null'? this.state: '',[Validators.required]],
       image_1: [''],
@@ -192,6 +187,13 @@ this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).su
       image_3: [''],
       dwr_id:['']
     });
+  }
+  setDefaultSupervisor(){
+    // passing name in select's input to pre-fill
+    this.supervisorInput.nativeElement.value = 'Bill Demeray';
+
+    // to enable submit button to pre-fill
+    this.isSupervisorSelected = false;
   }
   onSelectedFiles(file, name) {
     if (name === 'upload_1') {
@@ -363,7 +365,7 @@ this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).su
 
       // patching values
       this.basicSkillForm.patchValue({
-        trainer_id: res[0].trainer_id,
+        trainer_id: res.summary[0].trainer_id,
       });
       this.loading.next(false);
     });

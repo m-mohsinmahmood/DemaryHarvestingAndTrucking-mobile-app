@@ -7,11 +7,11 @@ const routes: Routes = [
   {
     path: '',
     component: VehicleExternalPage
-  },
-  {
+  },  {
     path: 'coupling',
     loadChildren: () => import('./coupling/coupling.module').then( m => m.CouplingPageModule)
-  }
+  },
+
 ];
 
 @NgModule({
