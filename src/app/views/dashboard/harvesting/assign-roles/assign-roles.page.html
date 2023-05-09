@@ -30,7 +30,7 @@
                   id="options" role="listbox">
                   <li *ngFor="let combineOperators of (allCombineOperators?.value.employees)"
                     (click)="listClickedCombine(combineOperators)"
-                    [ngClass]="combineOperators.dht_supervisor_id === '' ? 'cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200':'disabledLi'"
+                    [ngClass]="combineOperators.dht_supervisor_id === '' ? 'disabledLi':'cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200'"
                     role="option" tabindex="-1">
                     <div class="flex items-center p-2">
                       {{combineOperators.first_name}} {{combineOperators.last_name}}
@@ -49,8 +49,8 @@
         </div>
       </div>
 
-      <ion-button expand="block" [disabled]="(loadingSpinner | async) || isCombineSelected" class="font-Lato font-white text-white mt-4 mb-4"
-        (click)="addCombine()">
+      <ion-button expand="block" [disabled]="(loadingSpinner | async) || isCombineSelected"
+        class="font-Lato font-white text-white mt-4 mb-4" (click)="addCombine()">
         <div *ngIf="(loadingSpinner | async) === false"> Add Combine Operator</div>
         <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
 
@@ -82,7 +82,7 @@
                   id="options" role="listbox">
                   <li *ngFor="let cartOperators of (allCartOperators?.value.employees)"
                     (click)="listClickedCart(cartOperators)"
-                    [ngClass]="cartOperators.dht_supervisor_id === '' ? 'cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200':'disabledLi'"
+                    [ngClass]="cartOperators.dht_supervisor_id === '' ? 'disabledLi':'cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200'"
                     role="option" tabindex="-1">
                     <div class="flex items-center p-2">
                       {{cartOperators.first_name}} {{cartOperators.last_name}}
@@ -101,8 +101,8 @@
         </div>
 
       </div>
-      <ion-button expand="block" [disabled]="(loadingSpinner2 | async) || isCartSelected" class="font-Lato font-white text-white mt-4"
-        (click)="addKart()">
+      <ion-button expand="block" [disabled]="(loadingSpinner2 | async) || isCartSelected"
+        class="font-Lato font-white text-white mt-4" (click)="addKart()">
         <div *ngIf="(loadingSpinner2 | async) === false">Add Cart Operator</div>
         <ion-spinner name="crescent" *ngIf="(loadingSpinner2 | async)"></ion-spinner>
       </ion-button>
@@ -132,7 +132,8 @@
             </ion-col>
 
             <ion-col size="3" *ngIf="data.role.includes('Combine Operator')">
-              <ion-button (click)="removeCrewMember(data.id)" [disabled]="(deleteSpinner | async) && data.id === deleteId">
+              <ion-button (click)="removeCrewMember(data.id)"
+                [disabled]="(deleteSpinner | async) && data.id === deleteId">
                 <ion-icon class="text-white" name="trash-outline"> </ion-icon>
                 <ion-spinner name="crescent" *ngIf="(deleteSpinner | async) && data.id === deleteId"></ion-spinner>
               </ion-button>
@@ -147,7 +148,8 @@
             </ion-col>
 
             <ion-col size="3" *ngIf="data.role.includes('Kart Operator')">
-              <ion-button (click)="removeCrewMember(data.id)" [disabled]="(deleteSpinner | async) && data.id === deleteId">
+              <ion-button (click)="removeCrewMember(data.id)"
+                [disabled]="(deleteSpinner | async) && data.id === deleteId">
                 <ion-icon class="text-white" name="trash-outline"> </ion-icon>
                 <ion-spinner name="crescent" *ngIf="(deleteSpinner | async) && data.id === deleteId"></ion-spinner>
               </ion-button>
