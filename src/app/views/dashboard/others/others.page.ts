@@ -23,29 +23,28 @@ export class OthersPage implements OnInit {
   @ViewChild('employeeInput') employeeInput: ElementRef;
   @ViewChild('supervisorInput') supervisorInput: ElementRef;
 
-
   otherForm: FormGroup;
-   // observables
-   allEmployees: Observable<any>;
-   allSupervisors: Observable<any>;
+  // observables
+  allEmployees: Observable<any>;
+  allSupervisors: Observable<any>;
 
   // subjects
   employeesearch$ = new Subject();
   supervisorsearch$ = new Subject();
 
-   // input values
+  // input values
   employee_name: any = '';
   supervisor_name: any = '';
 
-    // input's search values
-  employeeSearchValue: any ='';
+  // input's search values
+  employeeSearchValue: any = '';
   supervisorSearchValue: any = '';
 
-    // to show UL's
+  // to show UL's
   employeeUL: any = false;
   supervisorUL: any = false;
 
-    // for invalid
+  // for invalid
   isEmployeeSelected: any = true;
   isSupervisorSelected: any = true;
 
@@ -65,52 +64,68 @@ export class OthersPage implements OnInit {
   // unsubscribe object
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
-
-
-
   constructor(private router: Router,
-     private formBuilder: FormBuilder,
-     private othersService: OthersService,
-     private renderer: Renderer2,
-     private toastService: ToastService,
-     private dwrServices: CheckInOutService,
-     private harvestingService: HarvestingService
-
-
-     ) {
-      this.renderer.listen('window', 'click', (e) => {
-        if (e.target !== this.supervisorInput.nativeElement) {
-          this.allSupervisors = of([]);
-          this.supervisorUL = false; // to hide the UL
-        }
-      });
+    private formBuilder: FormBuilder,
+    private othersService: OthersService,
+    private renderer: Renderer2,
+    private toastService: ToastService,
+    private dwrServices: CheckInOutService,
+    private harvestingService: HarvestingService
+  ) {
+    this.renderer.listen('window', 'click', (e) => {
+      if (e.target !== this.supervisorInput.nativeElement) {
+        this.allSupervisors = of([]);
+        this.supervisorUL = false; // to hide the UL
       }
+    });
+  }
 
   ngOnInit() {
+    this.initDataRetrieval();
+  }
+
+  async ionViewDidEnter() {
+    this.initDataRetrieval();
+  }
+
+  initDataRetrieval() {
+    this.employee_name = '';
+    this.supervisor_name = '';
+    this.employeeSearchValue = '';
+    this.supervisorSearchValue = '';
+    this.employeeUL = false;
+    this.supervisorUL = false;
+    this.isEmployeeSelected = true;
+    this.isSupervisorSelected = true;
+    this.states = [];
+    this.activeDwr = null;
+    this.data = null;
+    this.isModalOpen = false;
+    this.active_check_in_id = null;
+
     // this.getEmployeeDetailsByFirbaseId();
-    this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).subscribe((res)=>{
+    this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).subscribe((res) => {
       this.loading.next(true);
-      console.log('Employee Details:',res);
+
+      console.log('Employee Details:', res);
 
       // setting in local storage
-      localStorage.setItem('state',res.state);
+      localStorage.setItem('state', res.state);
       this.loading.next(false);
 
-      if(!this.loading.getValue()){
+      if (!this.loading.getValue()) {
         this.state = localStorage.getItem('state');
         this.initForm();
 
         // pasing states
-     this.states = states;
+        this.states = states;
 
-     // subscription
-     this.supervisorSearchSubscription();
+        // subscription
+        this.supervisorSearchSubscription();
 
-     // check-in/check-out
-     this.checkInOut();
-
+        // check-in/check-out
+        this.checkInOut();
       }
-
     });
 
     // subscription
@@ -121,68 +136,46 @@ export class OthersPage implements OnInit {
 
     this.state = localStorage.getItem('state');
     this.initForm();
-
-
   }
+
   ngOnDestroy(): void {
     this._unsubscribeAll.next(null);
     this._unsubscribeAll.complete();
   }
-  initForm(){
-    // if(this.state !== null){
-    //   this.otherForm
-    // }
+
+  initForm() {
     this.otherForm = this.formBuilder.group({
-      state:[this.state !== 'null'? this.state: '',Validators.required],
+      state: [this.state !== 'null' ? this.state : '', Validators.required],
       module: ['', Validators.required],
       supervisor_id: [''],
       notes_other: ['', Validators.required],
-      employee_id:[localStorage.getItem('employeeId')],
+      employee_id: [localStorage.getItem('employeeId')],
       active_check_in_id: ['']
     });
   }
-checkInOut(){
-   // Check-in/Check-out
-   this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
-    console.log('Active Check In ', workOrder.dwr);
-    this.activeDwr = workOrder.dwr;
-    this.data = this.activeDwr[0];
 
-    if (workOrder.dwr.length > 0)
-      {this.isModalOpen = false;}
-    else
-      {this.isModalOpen = true;}
-  });
-}
-  // navigateTo() {
-  //   console.log(this.otherForm.value);
-  //   // this.router.navigateByUrl('/tabs/home');
-  //   this.loadingSpinner.next(true);
-  //   this.othersService.getOthers(this.otherForm.value,'others')
-  //   .subscribe(
-  //     (res: any) => {
-  //         console.log('Response:',res);
-  //         if(res.status === 200){
+  checkInOut() {
+    // Check-in/Check-out
 
-  //           this.record_id  = res.id.record_id;
+    this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
+      console.log('Active Check In ', workOrder.dwr);
+      this.activeDwr = workOrder.dwr;
+      this.data = this.activeDwr[0];
 
-  //            // getting check-in id
-  //            this.getCheckInID();
+      if (workOrder.dwr.length > 0) {
+        this.isModalOpen = false;
+      }
+      else {
+        this.isModalOpen = true;
+      }
 
-  //           // this.toastService.presentToast('form has beed submitted','success');
-  //         }else{
-  //           console.log('Something happened :)');
-  //           this.toastService.presentToast(res.mssage,'danger');
-  //         }
-  //       },
-  //     (err) => {
-  //       this.toastService.presentToast(err.message,'danger');
-  //       console.log('Error:',err);
-  //     },
-  //    );
-  // }
-    //#region Employee
-   employeeSearchSubscription() {
+      console.log("Modal Val: ", this.isModalOpen);
+
+    });
+  }
+
+  //#region Employee
+  employeeSearchSubscription() {
     this.employeesearch$
       .pipe(
         debounceTime(500),
@@ -191,7 +184,7 @@ checkInOut(){
       )
       .subscribe((value: string) => {
         // passing for renderer2
-        console.log('---',value);
+        console.log('---', value);
         this.employeeSearchValue = value;
 
         // for asterik to look required
@@ -218,6 +211,7 @@ checkInOut(){
         });
       });
   }
+
   inputClickedEmployee() {
     // getting the serch value to check if there's a value in input
     this.employeesearch$
@@ -253,6 +247,7 @@ checkInOut(){
       }
     });
   }
+
   listClickedEmployee(employee) {
     console.log('Employee Object:', employee);
     // hiding UL
@@ -260,7 +255,7 @@ checkInOut(){
 
     // passing name in select's input
     this.employeeInput.nativeElement.value =
-    employee.first_name + ' ' + employee.last_name;
+      employee.first_name + ' ' + employee.last_name;
 
     // to enable submit button
     this.isEmployeeSelected = false;
@@ -275,8 +270,8 @@ checkInOut(){
   }
   //#endregion
 
-   //#region Supervisor
-   supervisorSearchSubscription() {
+  //#region Supervisor
+  supervisorSearchSubscription() {
     this.supervisorsearch$
       .pipe(
         debounceTime(500),
@@ -310,6 +305,7 @@ checkInOut(){
         });
       });
   }
+
   inputClickedsupervisor() {
     // getting the serch value to check if there's a value in input
     this.supervisorsearch$
@@ -327,8 +323,8 @@ checkInOut(){
         ? this.supervisor_name
         : this.supervisorSearchValue;
 
-     // calling API
-     this.allSupervisors = this.othersService.getSupervisors(
+    // calling API
+    this.allSupervisors = this.othersService.getSupervisors(
       this.supervisorSearchValue
     );
 
@@ -344,6 +340,7 @@ checkInOut(){
       }
     });
   }
+
   listClickedSupervisor(supervisor) {
     console.log('Supervisor Object:', supervisor);
     // hiding UL
@@ -364,109 +361,108 @@ checkInOut(){
     this.allSupervisors = of([]);
   }
   //#endregion
-submit(){
-  // to start the loader
-this.loadingSpinner.next(true);
 
- // getting check-in id
- this.getCheckInID();
+  submit() {
+    // to start the loader
+    this.loadingSpinner.next(true);
 
-}
-getCheckInID(){
-  this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
-    this.activeCheckInSpinner.next(true);
-    this.active_check_in_id = workOrder.dwr[0].id;
-    this.activeCheckInSpinner.next(false);
+    // getting check-in id
+    this.getCheckInID();
+  }
 
-    // patching
-    this.otherForm.patchValue({
-      active_check_in_id: this.active_check_in_id
-    });
+  getCheckInID() {
+    this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
+      this.activeCheckInSpinner.next(true);
+      this.active_check_in_id = workOrder.dwr[0].id;
+      this.activeCheckInSpinner.next(false);
 
-    // data submit
-    this.submitData();
+      // patching
+      this.otherForm.patchValue({
+        active_check_in_id: this.active_check_in_id
+      });
 
-  });
-
-}
-  submitData(){
-    console.log(this.otherForm.value);
-
-this.othersService.save(this.otherForm.value,'other')
-    .subscribe((res)=>{
-      console.log('res:',res);
-      this.record_id  = res.id.record_id;
-      if(res.status === 200){
-       // creating DWR
-        this.createDWR();
-
-      }else{
-        console.log('Something happened :)');
-        this.loadingSpinner.next(false);
-        this.toastService.presentToast(res.mssage,'danger');
-      }
-    },(err)=>{
-      console.log('ERR:',err);
-      this.loadingSpinner.next(false);
-      this.toastService.presentToast(err.mssage,'danger');
+      // data submit
+      this.submitData();
     });
   }
-  createDWR(){
-    console.log('RECORD ID:',this.record_id);
-   this.othersService
-    .createDWR(localStorage.getItem('employeeId'),this.record_id, this.otherForm.get('supervisor_id').value,this.active_check_in_id,'')
-    .subscribe(
-      (res) => {
-        console.log('RES:', res);
+
+  submitData() {
+    console.log(this.otherForm.value);
+
+    this.othersService.save(this.otherForm.value, 'other')
+      .subscribe((res) => {
+        console.log('res:', res);
+        this.record_id = res.id.record_id;
         if (res.status === 200) {
+          // creating DWR
+          this.createDWR();
 
-         // to stop loader
-         this.loadingSpinner.next(false);
-
-         // form resetting
-         this.otherForm.reset();
-        this.supervisorInput.nativeElement.value = '';
-
-        // this.getEmployeeDetailsByFirbaseId();
-        this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).subscribe((response)=>{
-          console.log('Employee Details:',response);
-
-          // setting in local storage
-          localStorage.setItem('state',response.state);
-          this.state = localStorage.getItem('state');
-          this.initForm();
-        });
-
-          // tooltip
-          this.toastService.presentToast(
-           'Details have been submitted',
-           'success'
-         );
-
-       // navigating
-          // this.router.navigateByUrl('/tabs/home');
         } else {
           console.log('Something happened :)');
           this.loadingSpinner.next(false);
           this.toastService.presentToast(res.mssage, 'danger');
         }
-      },
-      (err) => {
-        console.log('ERROR::', err);
+      }, (err) => {
+        console.log('ERR:', err);
         this.loadingSpinner.next(false);
         this.toastService.presentToast(err.mssage, 'danger');
-      }
-    );
+      });
   }
 
-  getEmployeeDetailsByFirbaseId(){
-    this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).subscribe((res)=>{
-      console.log('Employee Details:',res);
+  createDWR() {
+    console.log('RECORD ID:', this.record_id);
+    this.othersService
+      .createDWR(localStorage.getItem('employeeId'), this.record_id, this.otherForm.get('supervisor_id').value, this.active_check_in_id, '')
+      .subscribe(
+        (res) => {
+          console.log('RES:', res);
+          if (res.status === 200) {
 
+            // to stop loader
+            this.loadingSpinner.next(false);
+
+            // form resetting
+            this.otherForm.reset();
+            this.supervisorInput.nativeElement.value = '';
+
+            // this.checkInOut();
+
+            this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).subscribe((response) => {
+
+              // setting in local storage
+              localStorage.setItem('state', response.state);
+              this.state = localStorage.getItem('state');
+              this.initForm();
+              this.activeDwr = null;
+              this.isModalOpen = true;
+              this.checkInOut();
+            });
+
+            // tooltip
+            this.toastService.presentToast(
+              'Details have been submitted',
+              'success'
+            );
+
+            // navigating
+          } else {
+            console.log('Something happened :)');
+            this.loadingSpinner.next(false);
+            this.toastService.presentToast(res.mssage, 'danger');
+          }
+        },
+        (err) => {
+          console.log('ERROR::', err);
+          this.loadingSpinner.next(false);
+          this.toastService.presentToast(err.mssage, 'danger');
+        }
+      );
+  }
+
+  getEmployeeDetailsByFirbaseId() {
+    this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).subscribe((res) => {
       // setting in local storage
-      localStorage.setItem('state',res.state);
-
-      // this.initForm();
+      localStorage.setItem('state', res.state);
     });
   }
 }
