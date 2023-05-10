@@ -42,6 +42,7 @@ export class CloseOutPage implements OnInit {
   state;
   farm;
   crop;
+  crewChiefName;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -88,13 +89,14 @@ export class CloseOutPage implements OnInit {
     // Unsubscribe from all subscriptions
     this._unsubscribeAll.next(null);
     this._unsubscribeAll.complete();
-    this.sub.unsubscribe();
-    this.loadingSub.unsubscribe();
+    // this.sub.unsubscribe();
+    // this.loadingSub.unsubscribe();
   }
 
   initForms() {
     this.closeJobFormCrew = this.formBuilder.group({
-      customer_id: [],
+      job_id: [''],
+      customer_id: [''],
       crew_chief_id: localStorage.getItem('employeeId'),
       is_close_crew: [true],
       total_acres: ['', [Validators.required]],
@@ -119,59 +121,59 @@ export class CloseOutPage implements OnInit {
       total_gps_acres: ['', [Validators.required]],
     });
   }
+
   initApis() {
 
-    if (this.role.includes('Crew Chief')) {
-      console.log(localStorage.getItem('employeeId'));
+    // if (this.role.includes('Crew Chief')) {
+    //   console.log(localStorage.getItem('employeeId'));
 
-      this.harvestingservice.getJobSetup('Crew Chief', localStorage.getItem('employeeId'));
-    }
+    //   // this.harvestingservice.getJobSetup('Crew Chief', localStorage.getItem('employeeId'));
+    // }
   }
-  initObservables() {
-    this.sub = this.harvestingservice.customerJobSetup$.subscribe((res) => {
-      console.log(res);
-      this.customerData = res;
-      // For Crew Chief
-      if (this.role.includes('Crew Chief')) {
-        this.closeJobFormCrew.patchValue({
-          customer_id: this.customerData?.customer_job[0]?.customer_id,
-          state: this.customerData?.customer_job[0]?.state,
-          farm_id: this.customerData?.customer_job[0]?.farm_id,
-          crop_id: this.customerData?.customer_job[0]?.crop_id,
-          field_id: this.customerData?.customer_job[0]?.field_id
-        });
-      }
-      // For combine operator
-      else if (this.role.includes('Combine Operator')) {
-        this.closeJobFormCombine.patchValue({
-          customer_id: this.customerData?.customer_job[0]?.customer_id
-        });
-      }
-      // For kart operator
-      else if (this.role.includes('Kart Operator')) {
-        this.closeJobFormKart.patchValue({
-          customer_id: this.customerData?.customer_job[0]?.customer_id
-        });
-      }
 
-    });
-    this.loadingSub = this.harvestingservice.customerLoading$.subscribe((val) => {
-      console.log('value', val);
-      this.isLoading = val;
-    });
+  initObservables() {
+    // this.sub = this.harvestingservice.customerJobSetup$.subscribe((res) => {
+    //   console.log(res);
+    //   this.customerData = res;
+    //   // For Crew Chief
+    //   if (this.role.includes('Crew Chief')) {
+    //     this.closeJobFormCrew.patchValue({
+    //       customer_id: this.customerData?.customer_job[0]?.customer_id,
+    //       state: this.customerData?.customer_job[0]?.state,
+    //       farm_id: this.customerData?.customer_job[0]?.farm_id,
+    //       crop_id: this.customerData?.customer_job[0]?.crop_id,
+    //       field_id: this.customerData?.customer_job[0]?.field_id
+    //     });
+    //   }
+    //   // For combine operator
+    //   else if (this.role.includes('Combine Operator')) {
+    //     this.closeJobFormCombine.patchValue({
+    //       customer_id: this.customerData?.customer_job[0]?.customer_id
+    //     });
+    //   }
+    //   // For kart operator
+    //   else if (this.role.includes('Kart Operator')) {
+    //     this.closeJobFormKart.patchValue({
+    //       customer_id: this.customerData?.customer_job[0]?.customer_id
+    //     });
+    //   }
+
+    // });
+    // this.loadingSub = this.harvestingservice.customerLoading$.subscribe((val) => {
+    //   console.log('value', val);
+    //   this.isLoading = val;
+    // });
   }
   submit() {
     // console.log(this.closeJobFormCombine.value);
     // console.log(this.closeJobFormKart.value);
 
-    this.closeJobFormCrew.value.changeFarmFieldCrop = true;
+    // this.closeJobFormCrew.value.changeFarmFieldCrop = true;
     this.closeJobFormCrew.value.closeJob = true;
 
     console.log(this.closeJobFormCrew.value);
 
     if (this.role.includes('Crew Chief')) {
-      this.closeJobFormCrew.value.job_id = this.customerData?.customer_job[0]?.id;
-
       this.loadingSpinner.next(true);
       this.harvestingservice.createJob(this.closeJobFormCrew.value).subscribe(
         (res: any) => {
@@ -180,6 +182,13 @@ export class CloseOutPage implements OnInit {
             this.loadingSpinner.next(false);
 
             this.closeJobFormCrew.reset();
+            this.customerName = '';
+            this.state = '';
+            this.farm = '';
+            this.crop = '';
+            this.crewChiefName = '';
+            this.date = '';
+            this.customerInput.nativeElement.value = '';
             this.toastService.presentToast(res.message, 'success');
 
             // navigating
@@ -346,12 +355,11 @@ export class CloseOutPage implements OnInit {
     // assigning values in form
     if (localStorage.getItem('role').includes('Crew Chief')) {
       this.closeJobFormCrew.patchValue({
-        // customerId: customer.id,
-        phone: customer.phone_number,
+        job_id: customer.job_id,
         crop_id: customer.crop_id,
         customer_id: customer.customer_id,
         farm_id: customer.farm_id,
-        state:customer.state,
+        state: customer.state,
       });
 
       this.customerName = customer.customer_name;
@@ -359,8 +367,8 @@ export class CloseOutPage implements OnInit {
       this.farm = customer.farm_name;
       this.crop = customer.crop_name;
       this.date = customer.created_at;
-      // this.crew_chief = customer.crew_chief
-  }
+      this.crewChiefName = customer.crew_chief_name
+    }
 
     // passing name in select's input
     this.customerInput.nativeElement.value = customer.job_id;
