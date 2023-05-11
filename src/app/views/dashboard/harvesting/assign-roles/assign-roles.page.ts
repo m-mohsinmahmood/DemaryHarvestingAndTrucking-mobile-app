@@ -117,7 +117,7 @@ export class AssignRolesPage implements OnInit {
 
     // combine subscription
     this.combineSearchSubscription();
-
+    this.cartSearchSubscription();
     //api call
 
     // this.harvestingService.getJobSetup('Crew Chief', localStorage.getItem('employeeId'), '');
@@ -394,7 +394,8 @@ export class AssignRolesPage implements OnInit {
         }
 
         // calling API
-        this.allCombineOperators = this.harvestingService.getCombineCartOperator(
+
+        this.allCartOperators = this.harvestingService.getCombineCartOperator(
           this.cartSearchValue,
           'getCombineCartOperator',
           'Kart Operator'
@@ -430,7 +431,7 @@ export class AssignRolesPage implements OnInit {
         : this.cartSearchValue;
 
     // calling API
-    this.allCombineOperators = this.harvestingService.getCombineCartOperator(
+    this.allCartOperators = this.harvestingService.getCombineCartOperator(
       this.cartSearchValue,
       'getCombineCartOperator',
       'Kart Operator'

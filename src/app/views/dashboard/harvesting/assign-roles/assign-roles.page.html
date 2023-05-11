@@ -30,7 +30,7 @@
                   id="options" role="listbox">
                   <li *ngFor="let combineOperators of (allCombineOperators?.value.employees)"
                     (click)="listClickedCombine(combineOperators)"
-                    [ngClass]="combineOperators.dht_supervisor_id === '' ? 'disabledLi':'cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200'"
+                    [ngClass]="combineOperators.dht_supervisor_id == '' ? 'disabledLi':'cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200'"
                     role="option" tabindex="-1">
                     <div class="flex items-center p-2">
                       {{combineOperators.first_name}} {{combineOperators.last_name}}

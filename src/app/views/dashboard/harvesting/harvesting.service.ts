@@ -4,16 +4,14 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable no-underscore-dangle */
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, Subject, throwError } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { take, tap } from 'rxjs/operators';
 import { AlertService } from 'src/app/alert/alert.service';
 import {
   HttpClient,
-  HttpErrorResponse,
   HttpParams,
 } from '@angular/common/http';
 import { ToastService } from 'src/app/services/toast/toast.service';
-import { takeUntil } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -322,6 +320,8 @@ export class HarvestingService {
     params = params.set('search', search);
     params = params.set('operation', operation);
     params = params.set('role', role);
+
+    console.log("Service:" ,role);
 
     return this._httpClient
       .get<any>('api-1/customer-job-setup', {
