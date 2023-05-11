@@ -23,6 +23,9 @@ export class OthersPage implements OnInit {
   @ViewChild('employeeInput') employeeInput: ElementRef;
   @ViewChild('supervisorInput') supervisorInput: ElementRef;
 
+  private initDataRetrievalExecuted = false;
+  private ionViewRetrievalExecuted = true;
+
   otherForm: FormGroup;
   // observables
   allEmployees: Observable<any>;
@@ -82,11 +85,23 @@ export class OthersPage implements OnInit {
   }
 
   ngOnInit() {
-    this.initDataRetrieval();
+    if (!this.initDataRetrievalExecuted) {
+      this.initDataRetrieval();
+      this.initDataRetrievalExecuted = true;
+      console.log("On Init");
+    }
   }
 
   async ionViewDidEnter() {
-    this.initDataRetrieval();
+    if (!this.ionViewRetrievalExecuted) {
+      this.initDataRetrieval();
+      this.ionViewRetrievalExecuted = true;
+      console.log("Ion view did enter");
+    }
+  }
+
+  async ionViewDidLeave(){
+    this.ionViewRetrievalExecuted = false;
   }
 
   initDataRetrieval() {
@@ -177,9 +192,10 @@ export class OthersPage implements OnInit {
         this.isModalOpen = true;
       }
 
-      console.log("Modal Val: ", this.isModalOpen);
+      console.log("dasdasc Modal Val: ", this.isModalOpen);
 
     });
+
   }
 
   //#region Employee
