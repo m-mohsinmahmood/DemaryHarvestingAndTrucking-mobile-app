@@ -315,7 +315,15 @@ export class JobSetupPage implements OnInit {
         // passing for renderer2
         this.customerSearchValue = value;
         // for asterik to look required
-        if (value === '') { this.isCustomerSelected = true; }
+        if (value === '') {
+          this.isCustomerSelected = true;
+          this.farmInput.nativeElement.value = '';
+          this.cropInput.nativeElement.value = '';
+          this.isDisabled = true;
+          this.isFarmSelected = true;
+          this.isCropSelected = true;
+
+         }
 
 
         this.allCustomers = this.harvestingService.getCustomers(value, 'allCustomers');

@@ -145,20 +145,23 @@ role.includes('Truck Driver')? 'Enter Begining of Day Work Data' : ''" [color]="
   <div class="p-4">
     <ion-card class="m-0 mb-2">
       <ion-card-header>
-        <ion-card-title class="font-Lato">Customer Profile</ion-card-title>
+        <ion-card-title class="font-Lato">Job Profile</ion-card-title>
       </ion-card-header>
       <ion-card-content *ngIf="(isLoadingCustomer$ | async) === false">
         <ion-grid>
           <ion-row>
+            <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Created at</ion-col>
+            <ion-col size="6" class="text-sm font-Lato">{{date | date:'YYYY-MM-dd'}}</ion-col>
             <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Customer Name</ion-col>
-            <ion-col size="6"
-              class="text-sm flex font-Lato ">{{this.customerData.customer_job[0]?.customer_name}}</ion-col>
+            <ion-col size="6" class="text-sm flex font-Lato ">{{customerName}}</ion-col>
             <ion-col size="6" class="text-sm text-black font-Lato font-semibold">State</ion-col>
-            <ion-col size="6" class="text-sm flex font-Lato">{{this?.customerData?.customer_job[0]?.state}}</ion-col>
+            <ion-col size="6" class="text-sm flex font-Lato">{{state}}</ion-col>
             <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Farm</ion-col>
-            <ion-col size="6" class="text-sm flex font-Lato">{{this?.customerData?.customer_job[0]?.farm_name}} </ion-col>
+            <ion-col size="6" class="text-sm flex font-Lato">{{farm}} </ion-col>
             <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Crop</ion-col>
-            <ion-col size="6" class="text-sm flex font-Lato">{{this?.customerData?.customer_job[0]?.crop}}</ion-col>
+            <ion-col size="6" class="text-sm flex font-Lato">{{crop}}</ion-col>
+            <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Crew Chief</ion-col>
+            <ion-col size="6" class="text-sm font-Lato">{{crewChiefName}} </ion-col>
           </ion-row>
         </ion-grid>
       </ion-card-content>
@@ -189,11 +192,49 @@ role.includes('Truck Driver')? 'Enter Begining of Day Work Data' : ''" [color]="
     <form [formGroup]="startJobFormCombine">
       <div class="px-2">
 
-        <div class="col-span-12 mb-4">
+        <!-- <div class="col-span-12 mb-4">
           <label class="block text-sm font-medium text-gray-700">Field Name</label>
           <input
             class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
             formControlName="field_name" readonly>
+        </div> -->
+
+        <div role="dialog" aria-modal="true">
+          <div class="mb-4 relative z-80">
+            <div class="mx-auto max-w-full transform rounded-xl px-0  transition-all">
+              <label class="block text-sm font-medium text-gray-700 mb-1">Invoiced Jobs<span *ngIf="isJobSelected"
+                  class="text-red-400">*</span></label>
+              <div class="flex items-center justify-between gap-x-2 rounded-md">
+                <input (keyup)="job_search$.next($event.target.value)" [value]="job_name"
+                  (click)="inputClickedJob()" #jobInput
+                  class="w-full px-4 py-2.5 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
+                  placeholder="Select Invoiced Jobs" role="" aria-expanded="false" aria-controls="options">
+              </div>
+
+              <div *ngIf="allJobs | withLoading | async as allJobs">
+                <div class="flex justify-center items-center">
+                  <ion-spinner *ngIf="allJobs?.loading" name="crescent" mode="indeterminate"
+                    color="primary"></ion-spinner>
+                </div>
+                <ul *ngIf="allJobs?.value && jobUL"
+                  class="-mb-2 max-h-44 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800 bg-white drop-shadow-lg relative w-full"
+                  id="options" role="listbox">
+                  <li *ngFor="let job of (allJobs?.value.jobs)" (click)="listClickedJob(job)"
+                    class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200" role="option"
+                    tabindex="-1">
+                    <div class="flex items-center p-2">
+                      {{job.created_at|date:"yy-MM"}}-{{job.customer_name}}-{{job.farm_name}}-{{job.crop_name}}
+                    </div>
+                  </li>
+                </ul>
+                <div *ngIf="allJobs?.value?.jobs?.length === 0">
+                  <div
+                    class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200 text-gray-500 hover:text-gray-700 hover:font-semibold"
+                    disabled role="option" tabindex="-1"> No Invoiced Job(s) found </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- Machinery -->
@@ -242,7 +283,7 @@ role.includes('Truck Driver')? 'Enter Begining of Day Work Data' : ''" [color]="
         <!-- Machinery -->
 
         <div class="col-span-12 mb-4">
-          <label class="block text-sm font-medium text-gray-700">Confirm Begining Engine Hours <span
+          <label class="block text-sm font-medium text-gray-700">Separator Hours <span
               *ngIf="this.startJobFormCombine.get('beginningEngineHours').hasError('required')"
               class="text-red-400">*</span></label>
           <input readonly
@@ -251,7 +292,7 @@ role.includes('Truck Driver')? 'Enter Begining of Day Work Data' : ''" [color]="
         </div>
 
         <div class="col-span-12 mb-4">
-          <label class="block text-sm font-medium text-gray-700">Confirm Begining Separator Hours <span
+          <label class="block text-sm font-medium text-gray-700">Engine Hours <span
               *ngIf="this.startJobFormCombine.get('beginning_separator_hours').hasError('required')"
               class="text-red-400">*</span></label>
           <input type="number"
@@ -259,16 +300,16 @@ role.includes('Truck Driver')? 'Enter Begining of Day Work Data' : ''" [color]="
             formControlName="beginning_separator_hours" placeholder="Confirm Begining Separator Hours">
         </div>
 
-        <div class="col-span-12 mb-4">
+        <!-- <div class="col-span-12 mb-4">
           <label class="block text-sm font-medium text-gray-700">Field Acres <span
               *ngIf="this.startJobFormCombine.get('field_acres').hasError('required')"
               class="text-red-400">*</span></label>
           <input type="number"
             class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
             formControlName="field_acres" placeholder="Enter Field Acres" readonly>
-        </div>
+        </div> -->
         <ion-button expand="block" class="mt-5 font-Lato text-white"
-          [disabled]="startJobFormCombine.invalid || (loadingSpinner | async)" (click)="submit()">
+          [disabled]="startJobFormCombine.invalid || isJobSelected || isMachineSelected || (loadingSpinner | async)" (click)="submit()">
           <div *ngIf="(loadingSpinner | async) === false">Save</div>
           <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
         </ion-button>

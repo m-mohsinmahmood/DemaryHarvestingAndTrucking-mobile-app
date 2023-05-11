@@ -257,7 +257,7 @@ export class CloseOutPage implements OnInit {
         takeUntil(this._unsubscribeAll)
       )
       .subscribe((value: string) => {
-        // passing for renderer2       
+        // passing for renderer2
         this.customerSearchValue = value;
 
         // for asterik to look required
