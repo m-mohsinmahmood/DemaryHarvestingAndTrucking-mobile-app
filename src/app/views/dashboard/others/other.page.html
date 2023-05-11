@@ -2,7 +2,7 @@
   <ion-content>
 
   <!-- Check-In/Check-Out -->
-  <app-check-in-out [isModalOpen]="isModalOpen" [data]="activeDwr" *ngIf="activeDwr"
+  <app-check-in-out [isModalOpen]="isModalOpen" [data]="activeDwr" *ngIf="activeDwr && !submitted"
   [module]="'other'">
 </app-check-in-out>
 

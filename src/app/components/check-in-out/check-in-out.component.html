@@ -35,7 +35,7 @@
   </ng-template>
 </ion-modal>
 
-<ion-row *ngIf="data?.length > 0 && module !== 'other'">
+<ion-row *ngIf="data?.length > 0">
   <ion-card-header class="mx-1 font-bold"> Check-Out</ion-card-header>
   <ion-col size="12">
     <ion-card class=" bg-greenBtn" (click)="checkOut()" [disabled]="data?.length <= 0 || (loadingSpinner | async)">
