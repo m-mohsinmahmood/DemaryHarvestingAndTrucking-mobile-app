@@ -117,7 +117,6 @@ export class AssignRolesPage implements OnInit {
 
     // combine & cart subscription
     this.combineSearchSubscription();
-    this.cartSearchSubscription();
 
     //api call
 
@@ -395,7 +394,8 @@ export class AssignRolesPage implements OnInit {
         }
 
         // calling API
-        this.allCombineOperators = this.harvestingService.getCombineCartOperator(
+
+        this.allCartOperators = this.harvestingService.getCombineCartOperator(
           this.cartSearchValue,
           'getCombineCartOperator',
           'Kart Operator'
@@ -431,7 +431,7 @@ export class AssignRolesPage implements OnInit {
         : this.cartSearchValue;
 
     // calling API
-    this.allCombineOperators = this.harvestingService.getCombineCartOperator(
+    this.allCartOperators = this.harvestingService.getCombineCartOperator(
       this.cartSearchValue,
       'getCombineCartOperator',
       'Kart Operator'

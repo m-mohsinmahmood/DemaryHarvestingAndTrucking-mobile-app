@@ -169,20 +169,53 @@ export class JobSetupPage implements OnInit {
     this.states = states;
     this.initApis();
     this.initObservables();
+
+    this.getCreatedJobData();
+
     this.customerSearchSubscription();
     this.farmSearchSubscription();
     this.cropSearchSubscription();
     this.directorSearchSubscription();
     // this.fieldSearchSubscription();
   }
+  async ionViewDidEnter() {
+    this.getCreatedJobData();
+  }
+  getCreatedJobData(){
+    this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).subscribe((res)=>{
+      console.log('Employee Details:',res);
+
+      this.jobSetupForm.patchValue({
+        director_id: res.director_id,
+        state: res.state,
+        customer_id: res.customer_id,
+        farm_id: res.farm_id,
+        crop_id: res.crop_id,
+        crew_chief_id: localStorage.getItem('employeeId'),
+        employee_id:localStorage.getItem('employeeId'),
+      });
+
+      this.cropInput.nativeElement.value = res.crop_name;
+      this.farmInput.nativeElement.value = res.farm_name;
+      this.customerInput.nativeElement.value = res.customer_name;
+      this.directorInput.nativeElement.value = res.director_name;
+
+      this.isCustomerSelected = false;
+      this.isDirectorSelected = false;
+      this.isFarmSelected = false;
+      this.isCropSelected = false;
+
+      this.isDisabled = false;
+
+      this.customerID = res.customer_id;
+
+      this.customerSearchValue = res.customer_name;
+    });
+  }
 
   initApis() {
     // getting for Crew Chief only
     // this.harvestingService.getJobSetup('Crew Chief', localStorage.getItem('employeeId'));
-        // to get city & state
-// this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).subscribe((res)=>{
-//   console.log('Employee Details:',res);
-// });
   }
 
   initObservables() {
@@ -205,6 +238,7 @@ export class JobSetupPage implements OnInit {
   initForms() {
     this.jobSetupForm = this.formBuilder.group({
       crew_chief_id: [localStorage.getItem('employeeId')],
+      employee_id:[localStorage.getItem('employeeId')],
       state: ['', [Validators.required]],
       customer_id: [''],
       farm_id: [''],
@@ -243,6 +277,11 @@ export class JobSetupPage implements OnInit {
             this.farm_name = '';
             this.crop_name = '';
             this.farm_name = '';
+            this.directorInput.nativeElement.value = '';
+            this.customerInput.nativeElement.value = '';
+            this.farmInput.nativeElement.value = '';
+            this.cropInput.nativeElement.value = '';
+
             // this.field_name = '';
             this.toastService.presentToast(res.message, 'success');
             this.router.navigate(['/tabs/home/harvesting']);
