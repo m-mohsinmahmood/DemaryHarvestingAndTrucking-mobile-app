@@ -179,6 +179,10 @@ export class JobSetupPage implements OnInit {
   initApis() {
     // getting for Crew Chief only
     // this.harvestingService.getJobSetup('Crew Chief', localStorage.getItem('employeeId'));
+        // to get city & state
+// this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).subscribe((res)=>{
+//   console.log('Employee Details:',res);
+// });
   }
 
   initObservables() {
@@ -732,9 +736,14 @@ inputClickedDirector() {
     if (directors.count === 0) {
       // hiding UL
       this.directorUL = false;
+     this.isDirectorSelected = true;
+
+
     } else {
       // showing UL
       this.directorUL = true;
+      this.isDirectorSelected = false;
+
     }
   });
 }
