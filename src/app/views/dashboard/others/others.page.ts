@@ -53,6 +53,7 @@ export class OthersPage implements OnInit {
   data;
   isModalOpen;
   record_id;
+  submitted;
 
   public activeCheckInSpinner = new BehaviorSubject(false);
   public loadingSpinner = new BehaviorSubject(false);
@@ -102,8 +103,19 @@ export class OthersPage implements OnInit {
     this.data = null;
     this.isModalOpen = false;
     this.active_check_in_id = null;
+    this.submitted = false;
 
     // this.getEmployeeDetailsByFirbaseId();
+
+    // subscription
+    this.supervisorSearchSubscription();
+
+    // check-in/check-out
+    this.checkInOut();
+
+    // this.state = localStorage.getItem('state');
+    this.initForm();
+
     this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).subscribe((res) => {
       this.loading.next(true);
 
@@ -115,27 +127,23 @@ export class OthersPage implements OnInit {
 
       if (!this.loading.getValue()) {
         this.state = localStorage.getItem('state');
-        this.initForm();
+        this.otherForm.patchValue({
+          state: this.state
+        })
+        // this.initForm();
 
         // pasing states
         this.states = states;
 
         // subscription
-        this.supervisorSearchSubscription();
+        // this.supervisorSearchSubscription();
 
         // check-in/check-out
-        this.checkInOut();
+        // this.checkInOut();
       }
     });
 
-    // subscription
-    this.supervisorSearchSubscription();
 
-    // check-in/check-out
-    this.checkInOut();
-
-    this.state = localStorage.getItem('state');
-    this.initForm();
   }
 
   ngOnDestroy(): void {
@@ -365,6 +373,7 @@ export class OthersPage implements OnInit {
   submit() {
     // to start the loader
     this.loadingSpinner.next(true);
+    this.submitted = true;
 
     // getting check-in id
     this.getCheckInID();
@@ -425,17 +434,16 @@ export class OthersPage implements OnInit {
             this.otherForm.reset();
             this.supervisorInput.nativeElement.value = '';
 
-            // this.checkInOut();
-
             this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).subscribe((response) => {
 
               // setting in local storage
               localStorage.setItem('state', response.state);
               this.state = localStorage.getItem('state');
               this.initForm();
-              this.activeDwr = null;
-              this.isModalOpen = true;
-              this.checkInOut();
+              this.router.navigateByUrl('/tabs/home');
+              // this.activeDwr = null;
+              // this.isModalOpen = true;
+              // this.checkInOut();
             });
 
             // tooltip
