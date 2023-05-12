@@ -109,8 +109,8 @@ export class StartJobPage implements OnInit {
     this.role = localStorage.getItem('role');
 
     this.initForms();
-    this.initApis();
-    this.initObservables();
+    // this.initApis();
+    // this.initObservables();
 
     // subscriptioln for fields
     // this.fieldSearchSubscription();
@@ -134,7 +134,7 @@ export class StartJobPage implements OnInit {
     // Unsubscribe from all subscriptions
     this._unsubscribeAll.next(null);
     this._unsubscribeAll.complete();
-    this.sub.unsubscribe();
+    // this.sub.unsubscribe();
     // this.isLoadingCustomer$.unsubscribe();
 
   }
@@ -150,23 +150,19 @@ export class StartJobPage implements OnInit {
       beginningEngineHours: ['', [Validators.required]],
       field_id: [''],
       employeeId: [''],
-      workOrderId: ['']
+      job_id: ['']
     });
     this.startJobFormCombine = this.formBuilder.group({
       machineryId: ['', [Validators.required]],
-      workOrderId: [''],
       beginning_separator_hours: ['', [Validators.required]],
       beginningEngineHours: ['', [Validators.required]],
-      // field_id: [''],
-      // field_acres: [''],
       employeeId: [localStorage.getItem('employeeId')],
-      // field_name: ['']
       customer_id:[''],
       state:[''],
       farm_id:[''],
       crop_id:[''],
       crew_chief_id:[''],
-      job_id:['']
+      jobId:['']
     });
     this.startJobFormKart = this.formBuilder.group({
       machineryId: [''],
@@ -715,7 +711,7 @@ export class StartJobPage implements OnInit {
     // assigning values in form
     // if (localStorage.getItem('role').includes('Crew Chief')) {
       this.startJobFormCombine.patchValue({
-        job_id: job.job_id,
+        jobId: job.job_id,
         crop_id: job.crop_id,
         customer_id: job.customer_id,
         farm_id: job.farm_id,
