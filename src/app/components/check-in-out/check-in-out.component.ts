@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CheckInOutService } from './check-in-out.service';
 import { ToastService } from 'src/app/services/toast/toast.service';
 import { Router } from '@angular/router';
@@ -21,6 +21,7 @@ export class CheckInOutComponent implements OnInit {
   }
 
   ngOnInit() {
+
   }
 
   checkIn() {
