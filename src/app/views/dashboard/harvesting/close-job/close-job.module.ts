@@ -9,6 +9,7 @@ import { CloseJobPageRoutingModule } from './close-job-routing.module';
 import { CloseJobPage } from './close-job.page';
 import { HeaderModule } from 'src/app/components/header/header.module';
 import { TimerModule } from 'src/app/components/timer/timer.module';
+import { WithLoadingPipe } from 'src/app/pipes/general-pipes/with-loading.pipe';
 
 @NgModule({
   imports: [
@@ -20,6 +21,6 @@ CommonModule,
     TimerModule,
     ReactiveFormsModule
   ],
-  declarations: [CloseJobPage]
+  declarations: [CloseJobPage,WithLoadingPipe]
 })
 export class CloseJobPageModule {}

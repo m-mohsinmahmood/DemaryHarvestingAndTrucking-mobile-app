@@ -1,12 +1,15 @@
+/* eslint-disable @typescript-eslint/member-ordering */
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable @typescript-eslint/naming-convention */
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { Location } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HarvestingService } from './../harvesting.service';
 import { ToastService } from 'src/app/services/toast/toast.service';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, of } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
+import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-close-job',
@@ -14,6 +17,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./close-job.page.scss'],
 })
 export class CloseJobPage implements OnInit {
+  @ViewChild('jobInput') jobInput: ElementRef;
+
   role = '';
   closeJobFormCrew: FormGroup;
   closeJobFormCombine: FormGroup;
@@ -27,6 +32,21 @@ export class CloseJobPage implements OnInit {
   sub;
   truckId;
 
+   // job variables
+   allJobs: Observable<any>;
+   job_search$ = new Subject();
+   job_name: any = '';
+   jobSearchValue: any = '';
+   jobUL: any = false;
+   isJobSelected: any = true;
+
+   customerName;
+  state;
+  farm;
+  crop;
+  crewChiefName;
+  date;
+
   public loadingSpinner = new BehaviorSubject(false);
 
   constructor(
@@ -35,9 +55,18 @@ export class CloseJobPage implements OnInit {
     private harvestingService: HarvestingService,
     private toastService: ToastService,
     private activeRoute: ActivatedRoute,
-    private router: Router
-  ) {
+    private router: Router,
+    private renderer: Renderer2,
 
+  ) {
+    if (localStorage.getItem('role').includes('Combine Operator')) {
+      this.renderer.listen('window', 'click', (e) => {
+        if (e.target !== this.jobInput.nativeElement) {
+          this.allJobs = of([]);
+          this.jobUL = false; // to hide the UL
+        }
+      });
+    }
   }
 
   ngOnInit() {
@@ -47,6 +76,9 @@ export class CloseJobPage implements OnInit {
     this.initForms();
     this.initApis();
     this.initObservables();
+
+    this.jobSearchSubscription();
+
   }
 
   private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -152,9 +184,14 @@ export class CloseJobPage implements OnInit {
     this.closeJobFormCombine = this.formBuilder.group({
       ending_separator_hours: ['', [Validators.required]],
       endingEngineHours: ['', [Validators.required]],
-      employeeId: localStorage.getItem('employeeId')
+      employeeId: [localStorage.getItem('employeeId')],
+      customer_id:[''],
+      state:[''],
+      farm_id:[''],
+      crop_id:[''],
+      crew_chief_id:[''],
+      jobId:['']
     });
-
     this.closeJobFormKart = this.formBuilder.group({
       endingEngineHours: ['', [Validators.required]],
       employeeId: localStorage.getItem('employeeId'),
@@ -388,4 +425,112 @@ export class CloseJobPage implements OnInit {
 
     }
   }
+  //#region job
+  jobSearchSubscription() {
+    this.job_search$
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        takeUntil(this._unsubscribeAll)
+      )
+      .subscribe((value: string) => {
+        // passing for renderer2
+        this.jobSearchValue = value;
+        // for asterik to look required
+        if (value === '') {
+          this.isJobSelected = true;
+        }
+
+        // calling API
+        this.allJobs = this.harvestingService.getInvoicedJobs(
+          'getInvoicedJobs',
+          'Combine Operator',
+          localStorage.getItem('employeeId')
+        );
+
+        // subscribing to show/hide machine UL
+        this.allJobs.subscribe((job) => {
+          if (job.count === 0) {
+            // hiding UL
+            this.jobUL = false;
+            this.isJobSelected = true;
+          } else {
+            this.jobUL = true;
+          }
+        });
+      });
+  }
+  inputClickedJob() {
+    // getting the serch value to check if there's a value in input
+    this.job_search$
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        takeUntil(this._unsubscribeAll)
+      )
+      .subscribe((v) => {
+        this.jobSearchValue = v;
+      });
+
+    const value =
+      this.jobSearchValue === undefined
+        ? this.job_name
+        : this.jobSearchValue;
+
+    // calling API
+    this.allJobs = this.harvestingService.getInvoicedJobs(
+      'getInvoicedJobs',
+      this.role,
+      localStorage.getItem('employeeId')
+    );
+
+    // subscribing to show/hide field UL
+    this.allJobs.subscribe((job) => {
+      console.log(job);
+      if (job.count === 0) {
+        // hiding UL
+        this.jobUL = false;
+      } else {
+        // showing UL
+        this.jobUL = true;
+      }
+    });
+  }
+  listClickedJob(job) {
+    console.log(job);
+    // hiding UL
+    this.jobUL = false;
+
+    // assigning values in form
+    // if (localStorage.getItem('role').includes('Crew Chief')) {
+      this.closeJobFormCombine.patchValue({
+        jobId: job.job_id,
+        crop_id: job.crop_id,
+        customer_id: job.customer_id,
+        farm_id: job.farm_id,
+        state: job.state,
+      });
+
+      this.customerName = job.customer_name;
+      this.state = job.state;
+      this.farm = job.farm_name;
+      this.crop = job.crop_name;
+      this.date = job.created_at;
+      this.crewChiefName = job.crew_chief_name;
+    // }
+
+    // passing name in select's input
+    this.jobInput.nativeElement.value = job.job_id;
+
+    // passing name in job-search-value in Rendered2 for checks 
+    this.jobSearchValue = job.customer_name;
+
+    // to enable submit button
+    this.isJobSelected = false;
+
+  }
+
+  //#endregion
 }
+
+
