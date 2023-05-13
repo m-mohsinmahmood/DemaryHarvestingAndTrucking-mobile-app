@@ -1,5 +1,5 @@
 <app-header [title]="role.includes('Crew Chief')? 'Submit End of Day Work Data' : '' ||
-  role.includes('Combine Operator')? 'Submit End of Day Work Data': '' ||
+  role.includes('Combine Operator')? 'Submit End of Day/Job Work Data': '' ||
   role.includes('Kart Operator')? 'Submit End of Day Work Data' : '' ||
 role.includes('Truck Driver')? 'Submit End of Day Work Data' : ''" [color]="'harvesting'"></app-header>
 
@@ -48,7 +48,7 @@ role.includes('Truck Driver')? 'Submit End of Day Work Data' : ''" [color]="'har
 
     <ion-card class="m-0 mb-2">
       <ion-card-header>
-        <ion-card-title class="font-Lato">Customer Profile</ion-card-title>
+        <ion-card-title class="font-Lato">Job Profile</ion-card-title>
       </ion-card-header>
       <ion-card-content *ngIf="(isLoadingCustomer$ | async) === false">
         <ion-grid>

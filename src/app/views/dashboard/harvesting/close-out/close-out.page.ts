@@ -100,7 +100,6 @@ export class CloseOutPage implements OnInit {
       crew_chief_id: localStorage.getItem('employeeId'),
       is_close_crew: [true],
       total_acres: ['', [Validators.required]],
-      total_gps_acres: ['', [Validators.required]],
       state: [''],
       farm_id: [''],
       crop_id: [''],

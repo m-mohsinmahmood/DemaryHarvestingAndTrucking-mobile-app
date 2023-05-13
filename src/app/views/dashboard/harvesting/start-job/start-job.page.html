@@ -1,5 +1,5 @@
 <app-header [title]="role.includes('Crew Chief')? 'Enter Begining of Day Work Data' : '' ||
-role.includes('Combine Operator')? 'Enter Field Data': '' ||
+role.includes('Combine Operator')? 'Enter Beginning of Day/Job Work Data': '' ||
 role.includes('Kart Operator')? 'Enter Begining of Day Work Data' : '' ||
 role.includes('Truck Driver')? 'Enter Begining of Day Work Data' : ''" [color]="'harvesting'"></app-header>
 
@@ -165,39 +165,10 @@ role.includes('Truck Driver')? 'Enter Begining of Day Work Data' : ''" [color]="
           </ion-row>
         </ion-grid>
       </ion-card-content>
-      <!-- <ion-card-content *ngIf="(isLoadingCustomer$ | async) === true">
-        <ion-grid>
-          <ion-row>
 
-            <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Customer Name</ion-col>
-            <ion-col size="6" class="text-sm flex justify-end font-Lato ">
-              <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
-            </ion-col>
-            <ion-col size="6" class="text-sm text-black font-Lato font-semibold">State</ion-col>
-            <ion-col size="6" class="text-sm flex justify-end font-Lato">
-              <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
-            </ion-col>
-            <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Farm</ion-col>
-            <ion-col size="6" class="text-sm flex justify-end font-Lato">
-              <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
-            </ion-col>
-            <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Crop</ion-col>
-            <ion-col size="6" class="text-sm flex justify-end font-Lato">
-              <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-card-content> -->
     </ion-card>
     <form [formGroup]="startJobFormCombine">
       <div class="px-2">
-
-        <!-- <div class="col-span-12 mb-4">
-          <label class="block text-sm font-medium text-gray-700">Field Name</label>
-          <input
-            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-            formControlName="field_name" readonly>
-        </div> -->
 
         <div role="dialog" aria-modal="true">
           <div class="mb-4 relative z-80">
@@ -283,17 +254,7 @@ role.includes('Truck Driver')? 'Enter Begining of Day Work Data' : ''" [color]="
         <!-- Machinery -->
 
         <div class="col-span-12 mb-4">
-          <label class="block text-sm font-medium text-gray-700">Engine Hours <span
-              *ngIf="this.startJobFormCombine.get('beginningEngineHours').hasError('required')"
-              class="text-red-400">*</span></label>
-          <input type="number"
-            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-            readonly formControlName="beginningEngineHours" placeholder="Confirm Begining Separator Hours">
-        </div>
-
-
-        <div class="col-span-12 mb-4">
-          <label class="block text-sm font-medium text-gray-700">Separator Hours <span
+          <label class="block text-sm font-medium text-gray-700">Confirm Beginning Separator Hours <span
               *ngIf="this.startJobFormCombine.get('beginning_separator_hours').hasError('required')"
               class="text-red-400">*</span></label>
           <input
@@ -301,15 +262,15 @@ role.includes('Truck Driver')? 'Enter Begining of Day Work Data' : ''" [color]="
             formControlName="beginning_separator_hours" placeholder="Confirm Begining Engine Hours">
         </div>
 
-
-        <!-- <div class="col-span-12 mb-4">
-          <label class="block text-sm font-medium text-gray-700">Field Acres <span
-              *ngIf="this.startJobFormCombine.get('field_acres').hasError('required')"
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Confirm Beginning Engine Hours <span
+              *ngIf="this.startJobFormCombine.get('beginningEngineHours').hasError('required')"
               class="text-red-400">*</span></label>
           <input type="number"
             class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-            formControlName="field_acres" placeholder="Enter Field Acres" readonly>
-        </div> -->
+            readonly formControlName="beginningEngineHours" placeholder="Confirm Begining Separator Hours">
+        </div>
+
         <ion-button expand="block" class="mt-5 font-Lato text-white"
           [disabled]="startJobFormCombine.invalid || isJobSelected || isMachineSelected || (loadingSpinner | async)"
           (click)="submit()">

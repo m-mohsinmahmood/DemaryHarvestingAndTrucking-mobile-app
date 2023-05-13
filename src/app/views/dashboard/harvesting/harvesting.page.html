@@ -1,6 +1,6 @@
 <app-header [title]="role.includes('Crew Chief')? 'Crew Chief Tasks' : ''
 || role.includes('Combine Operator')? 'Combine Operator Tasks': ''
-|| role.includes('Kart Operator')? 'Kart Operator Tasks' : ''
+|| role.includes('Kart Operator')? 'Cart Operator Tasks' : ''
 || role.includes('Truck Driver')? 'Truck Driver Tasks' : ''" [color]="'harvesting'" [routeValue]="'harvesting'"></app-header>
 
 <!-- Crew-Tasks -->
@@ -22,13 +22,7 @@
           </ion-card-content>
         </ion-card>
       </ion-col>
-      <!-- <ion-col size="12">
-        <ion-card class="card" [routerLink]="['change-farm']">
-          <ion-card-content>
-            <p class="font-15px font-bold font-Lato">Change Farm/Crop</p>
-          </ion-card-content>
-        </ion-card>
-      </ion-col> -->
+
       <ion-col size="12">
         <ion-card class="card" [routerLink]="['close-out']">
           <ion-card-content>
@@ -38,33 +32,6 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-  <!-- <p class="text-xl font-bold font-Lato mt-8 ml-7">Combining Tasks</p> -->
-  <!-- <ion-grid>
-    <ion-row>
-      <ion-col size="12">
-        <ion-card class="card" [routerLink]="['start-job']" [disabled]="workOrderCount > 0">
-          <ion-card-content>
-            <p class="font-15px font-bold font-Lato">Enter Begining of Day Work Data</p>
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-      <ion-col size="12">
-        <ion-card class="card" [routerLink]="['change-field']">
-          <ion-card-content>
-            <p class="font-15px font-bold font-Lato">Change Field</p>
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-      <ion-col size="12">
-        <ion-card class="card" [routerLink]="['close-job',activeTicket?.workOrders[0]]"
-          [disabled]="workOrderCount <= 0">
-          <ion-card-content>
-            <p class="font-15px font-bold font-Lato">Submit End of Day Work Data</p>
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-    </ion-row>
-  </ion-grid> -->
 
   <!-- MODEL -->
   <app-check-in-out [isModalOpen]="isModalOpen" [data]="activeDwr" *ngIf="activeDwr" [module]="'harvesting'">
@@ -91,7 +58,6 @@
           </ion-card-content>
         </ion-card>
       </ion-col>
-
     </ion-row>
 
     <!-- MODEL -->
@@ -102,20 +68,22 @@
 
 <!-- Kart Operator Tasks -->
 <ion-content *ngIf="role.includes('Kart Operator')">
-  <p class="text-xl font-bold font-Lato mt-8 ml-7">Kart Operator Tasks</p>
+  <p class="text-xl font-bold font-Lato mt-8 ml-7">Cart Operator Tasks</p>
   <ion-grid>
     <ion-row>
-      <ion-col size="12">
-        <ion-card class="card" [routerLink]="['driver-setup']">
-          <ion-card-content>
-            <p class="font-15px font-bold font-Lato">Truck Driver Set-up</p>
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
+
       <ion-col size="12">
         <ion-card class="card" [disabled]="workOrderCount > 0" [routerLink]="['start-job']">
           <ion-card-content>
-            <p class="font-15px font-bold font-Lato">Enter Begining of Day work Data</p>
+            <p class="font-15px font-bold font-Lato">Enter Begining of Day/Job Work Data</p>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+
+      <ion-col size="12">
+        <ion-card class="card" [routerLink]="['driver-setup']">
+          <ion-card-content>
+            <p class="font-15px font-bold font-Lato">Add/Delete Truck Drivers</p>
           </ion-card-content>
         </ion-card>
       </ion-col>
@@ -124,7 +92,7 @@
         <ion-card class="card" [disabled]="workOrderCount <= 0"
           [routerLink]="['close-job', activeTicket?.workOrders[0]]">
           <ion-card-content>
-            <p class="font-15px font-bold font-Lato">Submit End of Day Work Data</p>
+            <p class="font-15px font-bold font-Lato">Submit End of Day/Job Work Data</p>
           </ion-card-content>
         </ion-card>
       </ion-col>
@@ -137,11 +105,11 @@
       <ion-col size="12">
         <ion-card class="card" (click)="navigate('ticket')">
           <ion-card-content>
-            <p class="font-15px font-bold font-Lato">Create Delivery Tickets</p>
+            <p class="font-15px font-bold font-Lato">Create/Print Delivery Tickets</p>
           </ion-card-content>
         </ion-card>
       </ion-col>
-      <ion-col size="12">
+      <!-- <ion-col size="12">
         <ion-card class="card" [routerLink]="['verify-ticket']">
           <ion-card-content>
             <div class="flex justify-center items-center">
@@ -156,13 +124,6 @@
                 <ion-spinner name="crescent"></ion-spinner>
               </div>
             </div>
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-      <!-- <ion-col size="12">
-        <ion-card class="card" (click)="navigate('reassign-ticket')">
-          <ion-card-content>
-            <p class="font-15px font-bold font-Lato">Reassign Delivery Tickets</p>
           </ion-card-content>
         </ion-card>
       </ion-col> -->
@@ -200,8 +161,6 @@
           <ion-card-content>
             <div class="flex justify-center items-center">
               <p class="font-15px font-bold font-Lato">Complete Delivery Tickets</p>
-              <!-- <span -->
-              <!-- class="text-white font-semibold ml-2 bg-project-green w-7 h-7 rounded-full flex justify-center items-center">6</span> -->
             </div>
           </ion-card-content>
         </ion-card>
