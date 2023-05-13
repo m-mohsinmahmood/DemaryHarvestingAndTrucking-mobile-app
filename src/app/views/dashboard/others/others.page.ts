@@ -88,7 +88,6 @@ export class OthersPage implements OnInit {
     if (!this.initDataRetrievalExecuted) {
       this.initDataRetrieval();
       this.initDataRetrievalExecuted = true;
-      console.log("On Init");
     }
   }
 
@@ -96,7 +95,6 @@ export class OthersPage implements OnInit {
     if (!this.ionViewRetrievalExecuted) {
       this.initDataRetrieval();
       this.ionViewRetrievalExecuted = true;
-      console.log("Ion view did enter");
     }
   }
 
@@ -133,8 +131,6 @@ export class OthersPage implements OnInit {
 
     this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).subscribe((res) => {
       this.loading.next(true);
-
-      console.log('Employee Details:', res);
 
       // setting in local storage
       localStorage.setItem('state', res.state);
@@ -181,23 +177,19 @@ export class OthersPage implements OnInit {
     // Check-in/Check-out
 
     this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
-      console.log('Active Check In ', workOrder.dwr);
       this.activeDwr = workOrder.dwr;
       this.data = this.activeDwr[0];
 
       if (workOrder.dwr.length > 0) {
         this.isModalOpen = false;
         this.dwrServices.getTicketsPerDwr('getTicketsPerDwr', this.data.id).subscribe(dwr => {
-          console.log("DWR Count: ", dwr);
           this.ticketsPerDwr = dwr.dwr_count[0].count;
-          console.log("DWR Count: ", this.ticketsPerDwr);
         });
       }
       else {
         this.isModalOpen = true;
       }
 
-      console.log("dasdasc Modal Val: ", this.isModalOpen);
 
     });
 
@@ -213,7 +205,6 @@ export class OthersPage implements OnInit {
       )
       .subscribe((value: string) => {
         // passing for renderer2
-        console.log('---', value);
         this.employeeSearchValue = value;
 
         // for asterik to look required
@@ -229,7 +220,6 @@ export class OthersPage implements OnInit {
 
         // subscribing to show/hide field UL
         this.allEmployees.subscribe((employees) => {
-          console.log('Employees:', employees);
 
           if (employees.count === 0) {
             // hiding UL
@@ -266,7 +256,6 @@ export class OthersPage implements OnInit {
 
     // subscribing to show/hide field UL
     this.allEmployees.subscribe((employees) => {
-      console.log('Employees:', employees);
       if (employees.count === 0) {
         // hiding UL
         this.employeeUL = false;
@@ -278,7 +267,6 @@ export class OthersPage implements OnInit {
   }
 
   listClickedEmployee(employee) {
-    console.log('Employee Object:', employee);
     // hiding UL
     this.employeeUL = false;
 
@@ -323,7 +311,6 @@ export class OthersPage implements OnInit {
 
         // subscribing to show/hide field UL
         this.allSupervisors.subscribe((supervisors) => {
-          console.log('supervisors:', supervisors);
 
           if (supervisors.count === 0) {
             // hiding UL
@@ -359,7 +346,6 @@ export class OthersPage implements OnInit {
 
     // subscribing to show/hide field UL
     this.allSupervisors.subscribe((supervisors) => {
-      console.log('supervisors:', supervisors);
       if (supervisors.count === 0) {
         // hiding UL
         this.supervisorUL = false;
@@ -371,7 +357,6 @@ export class OthersPage implements OnInit {
   }
 
   listClickedSupervisor(supervisor) {
-    console.log('Supervisor Object:', supervisor);
     // hiding UL
     this.supervisorUL = false;
 
@@ -416,35 +401,29 @@ export class OthersPage implements OnInit {
   }
 
   submitData() {
-    console.log(this.otherForm.value);
 
     this.othersService.save(this.otherForm.value, 'other')
       .subscribe((res) => {
-        console.log('res:', res);
         this.record_id = res.id.record_id;
         if (res.status === 200) {
           // creating DWR
           this.createDWR();
 
         } else {
-          console.log('Something happened :)');
           this.loadingSpinner.next(false);
           this.toastService.presentToast(res.mssage, 'danger');
         }
       }, (err) => {
-        console.log('ERR:', err);
         this.loadingSpinner.next(false);
         this.toastService.presentToast(err.mssage, 'danger');
       });
   }
 
   createDWR() {
-    console.log('RECORD ID:', this.record_id);
     this.othersService
       .createDWR(localStorage.getItem('employeeId'), this.record_id, this.otherForm.get('supervisor_id').value, this.active_check_in_id, '')
       .subscribe(
         (res) => {
-          console.log('RES:', res);
           if (res.status === 200) {
 
             // to stop loader
@@ -457,14 +436,10 @@ export class OthersPage implements OnInit {
             this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).subscribe((response) => {
 
               this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
-                console.log('Active Check In ', workOrder.dwr);
                 this.data = workOrder.dwr[0];
-                console.log("ID: ", this.data.id);
 
                 this.dwrServices.getTicketsPerDwr('getTicketsPerDwr', this.data.id).subscribe(dwr => {
-                  console.log("DWR Count: ", dwr);
                   this.ticketsPerDwr = dwr.dwr_count[0].count;
-                  console.log("DWR Count: ", this.ticketsPerDwr);
 
                   // setting in local storage
                   localStorage.setItem('state', response.state);
@@ -481,13 +456,11 @@ export class OthersPage implements OnInit {
             });
 
           } else {
-            console.log('Something happened :)');
             this.loadingSpinner.next(false);
             this.toastService.presentToast(res.mssage, 'danger');
           }
         },
         (err) => {
-          console.log('ERROR::', err);
           this.loadingSpinner.next(false);
           this.toastService.presentToast(err.mssage, 'danger');
         }
