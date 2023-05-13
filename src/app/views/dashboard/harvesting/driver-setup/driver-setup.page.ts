@@ -103,9 +103,10 @@ export class DriverSetupPage implements OnInit {
 
         // calling API
         this.allTruckDrivers =
-          this.harvestingService.getKartOperatorTruckDriversDropdown(
-            'truckDriversDropDown',
-            this.driverSearchValue
+          this.harvestingService.getCombineCartOperator(
+            this.driverSearchValue,
+            'getCombineCartOperator',
+            'Truck Driver'
           );
 
         // subscribing to show/hide field UL
@@ -127,46 +128,46 @@ export class DriverSetupPage implements OnInit {
 
   addTruckDriver() {
 
-    let crew_chief_id = '';
+    // let crew_chief_id = '';
 
-    this.harvestingService.getKartOperatorCrewChief('getKartOpCrewChief', localStorage.getItem('employeeId')).subscribe(param => {
-      crew_chief_id = param[0].id;
+    // this.harvestingService.getKartOperatorCrewChief('getKartOpCrewChief', localStorage.getItem('employeeId')).subscribe(param => {
+    // crew_chief_id = param[0].id;
 
-      this.harvestingService.getJobTesting2(
-        'Kart Operator',
-        localStorage.getItem('employeeId'),
-        crew_chief_id
-      );
+    // this.harvestingService.getJobTesting2(
+    //   'Kart Operator',
+    //   localStorage.getItem('employeeId'),
+    //   crew_chief_id
+    // );
 
-      this.initObservables()
+    this.initObservables()
 
-      this.customerJobSetupLoading2.subscribe(param => {
-        if (param === false) {
+    // this.customerJobSetupLoading2.subscribe(param => {
+    //   if (param === false) {
 
-          let raw = {
-            driverIds: this.driverSetupForm.get('truck_driver').value,
-            kartOperatorId: localStorage.getItem('employeeId'),
-            operation: 'addTruckDrivers',
-            job_id: this.job_id
-          };
+    let raw = {
+      driverIds: this.driverSetupForm.get('truck_driver').value,
+      kartOperatorId: localStorage.getItem('employeeId'),
+      operation: 'addTruckDrivers'
+      // job_id: this.job_id
+    };
 
-          console.log(raw);
+    console.log(raw);
 
-          this.harvestingService
-            .kartOperatorAddTruckDriver('addTruckDrivers', raw)
-            .subscribe(
-              (response: any) => {
-                this.getKartOperatorTruckDrivers();
-              },
-              (err) => {
-                console.log('Error:', err);
-              }
-            );
+    this.harvestingService
+      .kartOperatorAddTruckDriver('addTruckDrivers', raw)
+      .subscribe(
+        (response: any) => {
+          this.getKartOperatorTruckDrivers();
+        },
+        (err) => {
+          console.log('Error:', err);
         }
+      );
+    // }
 
-      })
+    // })
 
-    });
+    // });
   }
 
   initObservables() {
@@ -207,9 +208,10 @@ export class DriverSetupPage implements OnInit {
 
     // calling API
     this.allTruckDrivers =
-      this.harvestingService.getKartOperatorTruckDriversDropdown(
-        'truckDriversDropDown',
-        value
+      this.harvestingService.getCombineCartOperator(
+        this.driverSearchValue,
+        'getCombineCartOperator',
+        'Truck Driver'
       );
 
     this.allTruckDrivers.subscribe((driver) => {
