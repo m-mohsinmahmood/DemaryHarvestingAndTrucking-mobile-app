@@ -76,7 +76,7 @@
   <ion-grid>
     <ion-row>
       <ion-col size="12">
-        <ion-card class="card" [routerLink]="['start-job']" [disabled]="">
+        <ion-card class="card" [disabled]="workOrderCount > 0" [routerLink]="['start-job']">
           <ion-card-content>
             <p class="font-15px font-bold font-Lato">Enter Beg of Day/Job Work Data</p>
           </ion-card-content>

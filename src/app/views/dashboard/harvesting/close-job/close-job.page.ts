@@ -10,6 +10,7 @@ import { BehaviorSubject, Observable, Subject, of } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
+import { CheckInOutService } from 'src/app/components/check-in-out/check-in-out.service';
 
 @Component({
   selector: 'app-close-job',
@@ -17,8 +18,6 @@ import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
   styleUrls: ['./close-job.page.scss'],
 })
 export class CloseJobPage implements OnInit {
-  @ViewChild('jobInput') jobInput: ElementRef;
-
   role = '';
   closeJobFormCrew: FormGroup;
   closeJobFormCombine: FormGroup;
@@ -32,15 +31,7 @@ export class CloseJobPage implements OnInit {
   sub;
   truckId;
 
-   // job variables
-   allJobs: Observable<any>;
-   job_search$ = new Subject();
-   job_name: any = '';
-   jobSearchValue: any = '';
-   jobUL: any = false;
-   isJobSelected: any = true;
-
-   customerName;
+  customerName;
   state;
   farm;
   crop;
@@ -57,16 +48,10 @@ export class CloseJobPage implements OnInit {
     private activeRoute: ActivatedRoute,
     private router: Router,
     private renderer: Renderer2,
+    private dwrServices: CheckInOutService
 
   ) {
-    if (localStorage.getItem('role').includes('Combine Operator')) {
-      this.renderer.listen('window', 'click', (e) => {
-        if (e.target !== this.jobInput.nativeElement) {
-          this.allJobs = of([]);
-          this.jobUL = false; // to hide the UL
-        }
-      });
-    }
+
   }
 
   ngOnInit() {
@@ -76,9 +61,6 @@ export class CloseJobPage implements OnInit {
     this.initForms();
     this.initApis();
     this.initObservables();
-
-    this.jobSearchSubscription();
-
   }
 
   private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -112,6 +94,7 @@ export class CloseJobPage implements OnInit {
         'harvesting'
       );
     }
+
     else if (this.role.includes('Combine Operator')) {
       this.activeRoute.params.subscribe((param) => {
         console.log("Kart Operator Data: ", param);
@@ -123,6 +106,15 @@ export class CloseJobPage implements OnInit {
         'beginningOfDayHarvesting',
         'harvesting'
       );
+
+      this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
+        console.log('Active Check In ', workOrder.dwr);
+
+        this.closeJobFormCombine.patchValue({
+          module: workOrder.dwr[0].module,
+          dwrId: workOrder.dwr[0].id
+        })
+      });
     }
 
     else if (this.role.includes('Truck Driver')) {
@@ -155,7 +147,16 @@ export class CloseJobPage implements OnInit {
       console.log('res', res);
       this.customerData = res;
       if (this.customerData?.workOrders) {
-        // this.customerData = res;
+
+        if (this.role.includes('Combine Operator')) {
+
+          this.date = this.customerData.workOrders[0].created_at;
+          this.customerName = this.customerData.workOrders[0].customer_name;
+          this.state = this.customerData.workOrders[0].state;
+          this.farm = this.customerData.workOrders[0].farm_name;
+          this.crop = this.customerData.workOrders[0].crop_name;
+          this.crewChiefName = this.customerData.workOrders[0].crew_chief_name;
+        }
 
         if (this.role.includes('Kart Operator')) {
           this.closeJobFormKart.patchValue({
@@ -185,12 +186,14 @@ export class CloseJobPage implements OnInit {
       ending_separator_hours: ['', [Validators.required]],
       endingEngineHours: ['', [Validators.required]],
       employeeId: [localStorage.getItem('employeeId')],
-      customer_id:[''],
-      state:[''],
-      farm_id:[''],
-      crop_id:[''],
-      crew_chief_id:[''],
-      jobId:['']
+      customer_id: [''],
+      state: [''],
+      farm_id: [''],
+      crop_id: [''],
+      crew_chief_id: [''],
+      jobId: [''],
+      module: [''],
+      dwrId: ['']
     });
     this.closeJobFormKart = this.formBuilder.group({
       endingEngineHours: ['', [Validators.required]],
@@ -284,9 +287,9 @@ export class CloseJobPage implements OnInit {
       const dayClosed = {
         jobId: this.customerData.workOrders[0].id,
         endingEngineHours: this.closeJobFormCombine.get('endingEngineHours').value,
-        ending_separator_hours: this.closeJobFormCombine.get(
-          'ending_separator_hours'
-        ).value,
+        ending_separator_hours: this.closeJobFormCombine.get('ending_separator_hours').value,
+        module: this.closeJobFormCombine.get('module').value,
+        dwrId: this.closeJobFormCombine.get('dwrId').value,
       };
       this.loadingSpinner.next(true);
       this.harvestingService.closeBeginningDay(dayClosed).subscribe(
@@ -425,112 +428,6 @@ export class CloseJobPage implements OnInit {
 
     }
   }
-  //#region job
-  jobSearchSubscription() {
-    this.job_search$
-      .pipe(
-        debounceTime(500),
-        distinctUntilChanged(),
-        takeUntil(this._unsubscribeAll)
-      )
-      .subscribe((value: string) => {
-        // passing for renderer2
-        this.jobSearchValue = value;
-        // for asterik to look required
-        if (value === '') {
-          this.isJobSelected = true;
-        }
-
-        // calling API
-        this.allJobs = this.harvestingService.getInvoicedJobs(
-          'getInvoicedJobs',
-          'Combine Operator',
-          localStorage.getItem('employeeId')
-        );
-
-        // subscribing to show/hide machine UL
-        this.allJobs.subscribe((job) => {
-          if (job.count === 0) {
-            // hiding UL
-            this.jobUL = false;
-            this.isJobSelected = true;
-          } else {
-            this.jobUL = true;
-          }
-        });
-      });
-  }
-  inputClickedJob() {
-    // getting the serch value to check if there's a value in input
-    this.job_search$
-      .pipe(
-        debounceTime(500),
-        distinctUntilChanged(),
-        takeUntil(this._unsubscribeAll)
-      )
-      .subscribe((v) => {
-        this.jobSearchValue = v;
-      });
-
-    const value =
-      this.jobSearchValue === undefined
-        ? this.job_name
-        : this.jobSearchValue;
-
-    // calling API
-    this.allJobs = this.harvestingService.getInvoicedJobs(
-      'getInvoicedJobs',
-      this.role,
-      localStorage.getItem('employeeId')
-    );
-
-    // subscribing to show/hide field UL
-    this.allJobs.subscribe((job) => {
-      console.log(job);
-      if (job.count === 0) {
-        // hiding UL
-        this.jobUL = false;
-      } else {
-        // showing UL
-        this.jobUL = true;
-      }
-    });
-  }
-  listClickedJob(job) {
-    console.log(job);
-    // hiding UL
-    this.jobUL = false;
-
-    // assigning values in form
-    // if (localStorage.getItem('role').includes('Crew Chief')) {
-      this.closeJobFormCombine.patchValue({
-        jobId: job.job_id,
-        crop_id: job.crop_id,
-        customer_id: job.customer_id,
-        farm_id: job.farm_id,
-        state: job.state,
-      });
-
-      this.customerName = job.customer_name;
-      this.state = job.state;
-      this.farm = job.farm_name;
-      this.crop = job.crop_name;
-      this.date = job.created_at;
-      this.crewChiefName = job.crew_chief_name;
-    // }
-
-    // passing name in select's input
-    this.jobInput.nativeElement.value = job.job_id;
-
-    // passing name in job-search-value in Rendered2 for checks 
-    this.jobSearchValue = job.customer_name;
-
-    // to enable submit button
-    this.isJobSelected = false;
-
-  }
-
-  //#endregion
 }
 
 
