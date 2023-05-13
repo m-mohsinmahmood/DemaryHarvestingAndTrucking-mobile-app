@@ -56,7 +56,7 @@ export class OthersPage implements OnInit {
   data;
   isModalOpen;
   record_id;
-  submitted;
+  ticketsPerDwr = 0;
 
   public activeCheckInSpinner = new BehaviorSubject(false);
   public loadingSpinner = new BehaviorSubject(false);
@@ -118,7 +118,7 @@ export class OthersPage implements OnInit {
     this.data = null;
     this.isModalOpen = false;
     this.active_check_in_id = null;
-    this.submitted = false;
+    this.ticketsPerDwr = 0;
 
     // this.getEmployeeDetailsByFirbaseId();
 
@@ -187,6 +187,11 @@ export class OthersPage implements OnInit {
 
       if (workOrder.dwr.length > 0) {
         this.isModalOpen = false;
+        this.dwrServices.getTicketsPerDwr('getTicketsPerDwr', this.data.id).subscribe(dwr => {
+          console.log("DWR Count: ", dwr);
+          this.ticketsPerDwr = dwr.dwr_count[0].count;
+          console.log("DWR Count: ", this.ticketsPerDwr);
+        });
       }
       else {
         this.isModalOpen = true;
@@ -389,7 +394,6 @@ export class OthersPage implements OnInit {
   submit() {
     // to start the loader
     this.loadingSpinner.next(true);
-    this.submitted = true;
 
     // getting check-in id
     this.getCheckInID();
@@ -452,23 +456,30 @@ export class OthersPage implements OnInit {
 
             this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).subscribe((response) => {
 
-              // setting in local storage
-              localStorage.setItem('state', response.state);
-              this.state = localStorage.getItem('state');
-              this.initForm();
-              this.router.navigateByUrl('/tabs/home');
-              // this.activeDwr = null;
-              // this.isModalOpen = true;
-              // this.checkInOut();
+              this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
+                console.log('Active Check In ', workOrder.dwr);
+                this.data = workOrder.dwr[0];
+                console.log("ID: ", this.data.id);
+
+                this.dwrServices.getTicketsPerDwr('getTicketsPerDwr', this.data.id).subscribe(dwr => {
+                  console.log("DWR Count: ", dwr);
+                  this.ticketsPerDwr = dwr.dwr_count[0].count;
+                  console.log("DWR Count: ", this.ticketsPerDwr);
+
+                  // setting in local storage
+                  localStorage.setItem('state', response.state);
+                  this.state = localStorage.getItem('state');
+                  this.initForm();
+
+                  // tooltip
+                  this.toastService.presentToast(
+                    'Details have been submitted',
+                    'success'
+                  );
+                })
+              });
             });
 
-            // tooltip
-            this.toastService.presentToast(
-              'Details have been submitted',
-              'success'
-            );
-
-            // navigating
           } else {
             console.log('Something happened :)');
             this.loadingSpinner.next(false);
