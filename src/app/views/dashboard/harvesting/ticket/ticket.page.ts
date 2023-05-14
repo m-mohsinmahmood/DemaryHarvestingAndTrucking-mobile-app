@@ -27,6 +27,8 @@ export class TicketPage implements OnInit {
   @ViewChild('fieldInput') fieldInput: ElementRef;
   // @ViewChild('machineryInput') machineryInput: ElementRef;
   @ViewChild('jobInput') jobInput: ElementRef;
+  @ViewChild('field_split_load_input') field_split_load_input: ElementRef;
+
 
 
   role: any;
@@ -42,36 +44,48 @@ export class TicketPage implements OnInit {
   allTruckDrivers: Observable<any>;
   allKartOperators: Observable<any>;
   allFields: Observable<any>;
+  allSplitLoadFields: Observable<any>;
 
   // subjects
   trick_driver_search$ = new Subject();
   kart_operator_search$ = new Subject();
   field_search$ = new Subject();
+  field_split_load_search$ = new Subject();
+
 
   // input values
   trick_driver_name: any = '';
   kart_operator_name: any = '';
   field_name: any = '';
+  field_split_load_name: any = '';
+
 
   // input's search values
   truckDriverSearchValue: any;
   kartOperatorSearchValue: any;
   fieldSearchValue: any;
+  fieldSplitLoadSearchValue: any;
+
 
   // to show UL's
   truckDriverUL: any = false;
   kartOperatorUL: any = false;
   fieldUL: any = false;
+  fieldSplitLoadUL: any = false;
+
 
   // for invalid
   isTruckDriverSelected: any = true;
   isKartOperatorSelected: any = true;
   isFieldSelected: any = true;
+  isFieldSplitLoadSelected: any = true;
+
 
   // Profile variables
   customerData: any;
   isLoading: any;
   isFieldDisabled: any = false;
+  isFieldSplitLoadDisabled: any = false;
 
   //reassign variables
   reassignTicketData: any;
@@ -136,6 +150,10 @@ export class TicketPage implements OnInit {
           this.allJobs = of([]);
           this.jobUL = false; // to hide the UL
         }
+        else if (e.target !== this.field_split_load_input.nativeElement) {
+          this.allSplitLoadFields = of([]);
+          this.fieldSplitLoadUL = false; // to hide the UL
+        }
       });
     }
   }
@@ -173,7 +191,7 @@ export class TicketPage implements OnInit {
       truck_driver_company: ['', [Validators.required]],
       truckId: [''],
       kart_scale_weight_split: ['', [Validators.required]],
-      field_load_split: ['', [Validators.required]],
+      field_load_split: [''],
       status: ['sent'],
       working_status: ['pending'],
       // customerId: [''],
@@ -203,6 +221,7 @@ export class TicketPage implements OnInit {
       this.fieldSearchSubscription();
       // this.machineSearchSubscription();
       this.jobSearchSubscription();
+      this.fieldSplitLoadSearchSubscription();
 
 
       this.initApis();
@@ -212,7 +231,14 @@ export class TicketPage implements OnInit {
       this.initTicketByIdObservables();
     }
   }
-
+// formReset(){
+//   this.deliveryTicketForm.reset();
+//   this.truckInput.nativeElement.value = '';
+//   this.kartInput.nativeElement.value = '';
+//   this.fieldInput.nativeElement.value = '';
+//   this.jobInput.nativeElement.value = '';
+//   this.field_split_load_input.nativeElement.value = '';
+// }
   initApis() {
     let crew_chief_id = '';
     this.harvestingService.getKartOperatorCrewChief('getKartOpCrewChief', localStorage.getItem('employeeId')).subscribe(param => {
@@ -268,6 +294,7 @@ export class TicketPage implements OnInit {
     // });
   }
   async ionViewDidEnter() {
+    // this.formReset();
     this.getCreatedJobData();
   }
   getCreatedJobData(){
@@ -352,15 +379,28 @@ export class TicketPage implements OnInit {
         .subscribe((response: any) => {
           // console.log('response', response);
           if (response?.status === 200) {
+            // stop loader
             this.loadingSpinner.next(false);
-            // this.deliveryTicketForm.reset();
-            this.trick_driver_name = '';
+
+            // toast
             this.toastService.presentToast(
               'Delivery Ticket has been created.',
               'success'
             );
+
             // navigating
             this.router.navigateByUrl('/tabs/home/harvesting');
+
+            // form reset
+            this.deliveryTicketForm.reset();
+            this.trick_driver_name = '';
+            this.truckInput.nativeElement.value = '';
+            this.kartInput.nativeElement.value = '';
+            this.fieldInput.nativeElement.value = '';
+            this.jobInput.nativeElement.value = '';
+            this.field_split_load_input.nativeElement.value = '';
+            this.isSplitTrue = false;
+
           } else {
             console.log('Something happened :)');
             this.loadingSpinner.next(false);
@@ -612,9 +652,108 @@ export class TicketPage implements OnInit {
     // clearing array
     this.allFields = of([]);
   }
+  //#endregion
 
+  //#region Field Split Load
+  fieldSplitLoadSearchSubscription() {
+    this.field_split_load_search$
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        takeUntil(this._unsubscribeAll)
+      )
+      .subscribe((value: string) => {
+        // passing for renderer2
+        this.fieldSplitLoadSearchValue = value;
 
+        // for asterik to look required
+        if (value === '') {
+          this.isFieldSplitLoadSelected = true;
+        }
 
+        // calling API
+        this.allSplitLoadFields = this.harvestingService.getFields(
+          value,
+          'customerFields',
+          this.customer_id,
+          this.farm_id
+        );
+
+        // subscribing to show/hide field UL
+        this.allSplitLoadFields.subscribe((fields) => {
+          if (fields.count === 0) {
+            // hiding UL
+            this.fieldSplitLoadUL = false;
+
+            // for asterik to look required
+            this.isFieldSplitLoadSelected = true;
+          } else {
+            this.fieldSplitLoadUL = true;
+          }
+        });
+      });
+  }
+  inputClickedFieldSplitLoad() {
+    // getting the serch value to check if there's a value in input
+    this.field_split_load_search$
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        takeUntil(this._unsubscribeAll)
+      )
+      .subscribe((v) => {
+        this.fieldSplitLoadSearchValue = v;
+      });
+
+    const value =
+      this.fieldSplitLoadSearchValue === undefined
+        ? this.field_split_load_name
+        : this.fieldSplitLoadSearchValue;
+
+    // calling API // need id to check
+    this.allSplitLoadFields = this.harvestingService.getFields(
+      value,
+      'customerFields',
+      this.customer_id,
+      this.farm_id
+    );
+
+    // subscribing to show/hide field UL
+    this.allSplitLoadFields.subscribe((fields) => {
+      console.log('first', fields);
+      if (fields.count === 0) {
+        // hiding UL
+        this.fieldSplitLoadUL = false;
+      } else {
+        // showing UL
+        this.fieldSplitLoadUL = true;
+      }
+    });
+  }
+  listClickedFieldSplitLoad(field) {
+    this.deliveryTicketForm.patchValue({
+      field_load_split: field?.field_id,
+      // field: field?.field_name,
+    });
+    // hiding UL
+    this.fieldSplitLoadUL = false;
+
+    // passing name in select's input
+    this.field_split_load_input.nativeElement.value = field.field_name;
+
+    // to enable submit button
+    this.isFieldSplitLoadSelected = false;
+
+    // // assigning values in form conditionally
+    // if (this.role.includes('Cart Operator')) {
+    //   this.deliveryTicketForm.patchValue({
+    //     field_id_new: field.field_id,
+    //   });
+    // }
+
+    // clearing array
+    this.allSplitLoadFields = of([]);
+  }
   //#endregion
 
   //#region Truck ID
