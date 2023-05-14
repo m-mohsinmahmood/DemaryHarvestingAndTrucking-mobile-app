@@ -57,7 +57,7 @@
 
       </ion-button>
     </form>
-    <!-- Kart Operator -->
+    <!-- Cart Operator -->
     <form [formGroup]="assignFormKart">
       <div class="px-2">
         <div [ngClass]="'opacity-100 visible ease-in duration-200'" role="dialog" aria-modal="true">
@@ -145,11 +145,11 @@
 
         <div *ngIf="value === 'cart-operator'">
           <ion-row *ngFor="let data of data?.employees" class="m-1 flex content-center items-center">
-            <ion-col *ngIf="data.role.includes('Kart Operator')" size="9">
+            <ion-col *ngIf="data.role.includes('Cart Operator')" size="9">
               <div class="font-Lato font-semibold">{{data.first_name}} {{data.last_name}} </div>
             </ion-col>
 
-            <ion-col size="3" *ngIf="data.role.includes('Kart Operator')">
+            <ion-col size="3" *ngIf="data.role.includes('Cart Operator')">
               <ion-button (click)="removeCrewMember(data.id)"
                 [disabled]="(deleteSpinner | async) && data.id === deleteId">
                 <ion-icon class="text-white" name="trash-outline"> </ion-icon>

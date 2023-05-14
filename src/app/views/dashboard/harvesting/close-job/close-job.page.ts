@@ -84,7 +84,7 @@ export class CloseJobPage implements OnInit {
   initApis() {
     if (this.role.includes('Crew Chief')) {
       this.activeRoute.params.subscribe((param) => {
-        console.log("Kart Operator Data: ", param);
+        console.log("Cart Operator Data: ", param);
         this.truckId = param.machinery_id;
       });
 
@@ -97,7 +97,7 @@ export class CloseJobPage implements OnInit {
 
     else if (this.role.includes('Combine Operator')) {
       this.activeRoute.params.subscribe((param) => {
-        console.log("Kart Operator Data: ", param);
+        console.log("Cart Operator Data: ", param);
         this.truckId = param.machinery_id;
       });
 
@@ -128,9 +128,9 @@ export class CloseJobPage implements OnInit {
       });
     }
 
-    else if (this.role.includes('Kart Operator')) {
+    else if (this.role.includes('Cart Operator')) {
       this.activeRoute.params.subscribe((param) => {
-        console.log("Kart Operator Data: ", param);
+        console.log("Cart Operator Data: ", param);
         this.truckId = param.machinery_id;
       });
 
@@ -148,7 +148,7 @@ export class CloseJobPage implements OnInit {
       this.customerData = res;
       if (this.customerData?.workOrders) {
 
-        if (this.role.includes('Combine Operator')) {
+        if (this.role.includes('Combine Operator') || this.role.includes('Cart Operator') ) {
 
           this.date = this.customerData.workOrders[0].created_at;
           this.customerName = this.customerData.workOrders[0].customer_name;
@@ -158,7 +158,7 @@ export class CloseJobPage implements OnInit {
           this.crewChiefName = this.customerData.workOrders[0].crew_chief_name;
         }
 
-        if (this.role.includes('Kart Operator')) {
+        if (this.role.includes('Cart Operator')) {
           this.closeJobFormKart.patchValue({
             // passing to pre-filled
             jobId: this.customerData?.workOrders[0]?.id,
@@ -313,7 +313,7 @@ export class CloseJobPage implements OnInit {
       );
     }
 
-    if (localStorage.getItem('role').includes('Kart Operator')) {
+    if (localStorage.getItem('role').includes('Cart Operator')) {
       console.log('customerData', this.customerData);
       console.log('this.closeJobFormKart', this.closeJobFormKart.value);
       this.loadingSpinner.next(true);
@@ -322,7 +322,7 @@ export class CloseJobPage implements OnInit {
         .updateEndingOfDayJobSetup({
           operation: 'endingOfDay',
           jobId: this.truckId,
-          role: 'Kart Operator',
+          role: 'Cart Operator',
           endingEngineHours: this.closeJobFormKart.get('endingEngineHours').value
         })
         .subscribe(

@@ -266,7 +266,7 @@ export class ChangeFieldPage implements OnInit {
         field_id_new: field.field_id,
         total_acres: field.acres
       });
-    } else if (this.role.includes('Kart Operator')) {
+    } else if (this.role.includes('Cart Operator')) {
       this.changeFieldFormKart.patchValue({
         field_id_new: field.field_id,
       });
@@ -308,7 +308,7 @@ export class ChangeFieldPage implements OnInit {
         );
     }
 
-    else if (this.role.includes('Kart Operator')) {
+    else if (this.role.includes('Cart Operator')) {
       this.harvestingService.changeField(this.changeFieldFormKart.value)
         .subscribe(
           (res: any) => {

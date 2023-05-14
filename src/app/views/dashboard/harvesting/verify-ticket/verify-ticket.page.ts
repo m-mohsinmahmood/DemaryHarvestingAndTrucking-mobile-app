@@ -60,8 +60,8 @@ export class VerifyTicketPage implements OnInit {
     this.role = localStorage.getItem('role');
 
     // passing the segment value conditionally
-    this.segment = this.role.includes('Kart Operator') ? 'sent' : 'received';
-    if (this.role.includes('Kart Operator')) {
+    this.segment = this.role.includes('Cart Operator') ? 'sent' : 'received';
+    if (this.role.includes('Cart Operator')) {
       this.initSentApis();
       this.initSentObservables();
     }
@@ -75,8 +75,8 @@ export class VerifyTicketPage implements OnInit {
     this.role = localStorage.getItem('role');
 
     // passing the segment value conditionally
-    this.segment = this.role.includes('Kart Operator') ? 'sent' : 'received';
-    if (this.role.includes('Kart Operator')) {
+    this.segment = this.role.includes('Cart Operator') ? 'sent' : 'received';
+    if (this.role.includes('Cart Operator')) {
       this.initSentApis();
       this.initSentObservables();
     }
@@ -87,7 +87,7 @@ export class VerifyTicketPage implements OnInit {
   }
 
   initSentApis() {
-    if (this.role.includes('Kart Operator')) {
+    if (this.role.includes('Cart Operator')) {
       this.harvestingService.kartOperatorGetTickets(
         localStorage.getItem('employeeId'),
         'sent'
@@ -106,7 +106,7 @@ export class VerifyTicketPage implements OnInit {
   }
 
   initPendingApis() {
-    if (this.role.includes('Kart Operator')) {
+    if (this.role.includes('Cart Operator')) {
       this.harvestingService.kartOperatorGetTickets(
         localStorage.getItem('employeeId'),
         'pending'

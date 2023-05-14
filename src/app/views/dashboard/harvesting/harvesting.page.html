@@ -1,6 +1,6 @@
 <app-header [title]="role.includes('Crew Chief')? 'Crew Chief Tasks' : ''
 || role.includes('Combine Operator')? 'Combine Operator Tasks': ''
-|| role.includes('Kart Operator')? 'Cart Operator Tasks' : ''
+|| role.includes('Cart Operator')? 'Cart Operator Tasks' : ''
 || role.includes('Truck Driver')? 'Truck Driver Tasks' : ''" [color]="'harvesting'" [routeValue]="'harvesting'"></app-header>
 
 <!-- Crew-Tasks -->
@@ -66,8 +66,8 @@
   </ion-grid>
 </ion-content>
 
-<!-- Kart Operator Tasks -->
-<ion-content *ngIf="role.includes('Kart Operator')">
+<!-- Cart Operator Tasks -->
+<ion-content *ngIf="role.includes('Cart Operator')">
   <p class="text-xl font-bold font-Lato mt-8 ml-7">Cart Operator Tasks</p>
   <ion-grid>
     <ion-row>

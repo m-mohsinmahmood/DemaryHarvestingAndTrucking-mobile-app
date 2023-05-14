@@ -1,11 +1,11 @@
 <app-header
-  [title]="role.includes('Kart Operator') && !isReassign? 'Create Delivery Ticket' : '' ||
-  role.includes('Kart Operator') && isReassign? 'Reassign Delivery Ticket': ''"
+  [title]="role.includes('Cart Operator') && !isReassign? 'Create Delivery Ticket' : '' ||
+  role.includes('Cart Operator') && isReassign? 'Reassign Delivery Ticket': ''"
   [color]="'harvesting'"
 ></app-header>
 
 <!-- Kart-Operator -->
-<ion-content *ngIf="role.includes('Kart Operator') && !isReassign ">
+<ion-content *ngIf="role.includes('Cart Operator') && !isReassign ">
   <!-- <app-timer [value]="'12:11:19'"></app-timer> -->
   <div class="p-4">
     <ion-card class="m-0 mb-4">
@@ -188,7 +188,7 @@
 </ion-content>
 
 
-<ion-content *ngIf="role.includes('Kart Operator') && isReassign">
+<ion-content *ngIf="role.includes('Cart Operator') && isReassign">
   <!-- <app-timer [value]="'12:11:19'"></app-timer> -->
   <div class="p-4">
     <ion-card class="m-0 mb-4">
@@ -303,8 +303,8 @@
               <input readonly class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" [value]="reassignTicketData.kart_scale_weight" placeholder="Delivery Ticket Number" />
             </div>
             <div class="col-span-12 mb-4">
-              <label class="block text-sm font-medium text-gray-700">Kart Operator Name</label>
-              <input readonly class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" [value]="reassignTicketData.kart_first_name + ' ' + reassignTicketData.kart_last_name" placeholder="Kart Operator Name" />
+              <label class="block text-sm font-medium text-gray-700">Cart Operator Name</label>
+              <input readonly class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" [value]="reassignTicketData.kart_first_name + ' ' + reassignTicketData.kart_last_name" placeholder="Cart Operator Name" />
             </div>
 
             <div class="col-span-12 mb-4">
@@ -345,8 +345,8 @@
           </div>
 
           <div class="col-span-12 mb-4">
-            <label class="block text-sm font-medium text-gray-700">Kart Operator Name</label>
-            <input readonly class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" [value]="" placeholder="Kart Operator Name" />
+            <label class="block text-sm font-medium text-gray-700">Cart Operator Name</label>
+            <input readonly class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" [value]="" placeholder="Cart Operator Name" />
           </div>
 
           <div class="col-span-12 mb-4">
@@ -404,7 +404,7 @@
               <ion-skeleton-text [animated]="true" style="width: 100%;height: 30px;"></ion-skeleton-text>
             </div>
             <!-- <div class="col-span-12 mb-4">
-                <label class="block text-sm font-medium text-gray-700">Kart Operator Name <span
+                <label class="block text-sm font-medium text-gray-700">Cart Operator Name <span
                     *ngIf="this.deliveryTicketForm.get('kartoperatorName').hasError('required')"
                     class="text-red-400">*</span></label>
                 <input
@@ -450,7 +450,7 @@
           </div>
 
           <div class="col-span-12 mb-4">
-            <label class="block text-sm font-medium text-gray-700">Kart Operator Name</label>
+            <label class="block text-sm font-medium text-gray-700">Cart Operator Name</label>
             <ion-skeleton-text [animated]="true" style="width: 100%;height: 30px;"></ion-skeleton-text>
           </div>
 

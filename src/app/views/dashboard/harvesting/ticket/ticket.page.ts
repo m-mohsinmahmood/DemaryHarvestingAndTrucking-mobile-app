@@ -184,7 +184,7 @@ export class TicketPage implements OnInit {
       crew_chief_id = param[0].id;
 
       this.harvestingService.getJobTesting2(
-        'Kart Operator',
+        'Cart Operator',
         localStorage.getItem('employeeId'),
         crew_chief_id
       );
@@ -468,7 +468,7 @@ export class TicketPage implements OnInit {
     this.isFieldSelected = false;
 
     // assigning values in form conditionally
-    if (this.role.includes('Kart Operator')) {
+    if (this.role.includes('Cart Operator')) {
       // this.changeFieldFormKart.patchValue({
       //   field_id_new: field.field_id,
       // });

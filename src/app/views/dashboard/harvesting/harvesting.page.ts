@@ -67,7 +67,7 @@ export class HarvestingPage implements OnInit {
         });
     }
 
-    if (this.role.includes('Kart Operator')) {
+    if (this.role.includes('Cart Operator')) {
       // Call to get pending tickets
       this.harvestingService.kartOperatorGetTickets(
         localStorage.getItem('employeeId'),
@@ -82,7 +82,7 @@ export class HarvestingPage implements OnInit {
         .subscribe((workOrder) => {
           this.activeTicket = workOrder;
           this.workOrderCount = workOrder.count;
-          console.log('Current DWR of Kart Operator :', workOrder);
+          console.log('Current DWR of Cart Operator :', workOrder);
         });
     }
 
@@ -141,13 +141,13 @@ export class HarvestingPage implements OnInit {
         });
     }
 
-    if (this.role.includes('Kart Operator')) {
+    if (this.role.includes('Cart Operator')) {
       //call for dwr
       this.harvestingService.getBeginningOfDay2(localStorage.getItem('employeeId'), 'beginningOfDay', 'harvesting')
         .subscribe((workOrder) => {
           this.activeTicket = workOrder;
           this.workOrderCount = workOrder.count;
-          console.log('Current DWR of Kart Operator :', workOrder);
+          console.log('Current DWR of Cart Operator :', workOrder);
         });
     }
 

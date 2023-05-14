@@ -528,7 +528,7 @@ export class HarvestingService {
       .pipe(take(1));
   }
 
-  // Kart Operator APIs
+  // Cart Operator APIs
   getKartOperatorTruckDriversDropdown(operation: string, search: string = '') {
     let params = new HttpParams();
     params = params.set('operation', operation);

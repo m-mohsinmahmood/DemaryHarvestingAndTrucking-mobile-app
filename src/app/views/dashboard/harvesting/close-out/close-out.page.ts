@@ -64,7 +64,7 @@ export class CloseOutPage implements OnInit {
           }
           else {
             this.isDisabled = false;
-            this.allCustomers = of([]); // to clear array     
+            this.allCustomers = of([]); // to clear array
             this.customerUL = false; // to hide the UL
           }
         }
@@ -150,8 +150,8 @@ export class CloseOutPage implements OnInit {
     //       customer_id: this.customerData?.customer_job[0]?.customer_id
     //     });
     //   }
-    //   // For kart operator
-    //   else if (this.role.includes('Kart Operator')) {
+    //   // For Cart Operator
+    //   else if (this.role.includes('Cart Operator')) {
     //     this.closeJobFormKart.patchValue({
     //       customer_id: this.customerData?.customer_job[0]?.customer_id
     //     });
@@ -220,7 +220,7 @@ export class CloseOutPage implements OnInit {
           console.log('Error in Close-Out Job:', err.message);
         },
       );
-    } else if (this.role.includes('Kart Operator')) {
+    } else if (this.role.includes('Cart Operator')) {
       this.loadingSpinner.next(true);
       this.harvestingservice.closeOutJob(this.closeJobFormKart.value).subscribe(
         (res: any) => {
@@ -372,7 +372,7 @@ export class CloseOutPage implements OnInit {
     // passing name in select's input
     this.customerInput.nativeElement.value = customer.job_id;
 
-    // passing name in customer-search-value in Rendered2 for checks 
+    // passing name in customer-search-value in Rendered2 for checks
     this.customerSearchValue = customer.customer_name;
     // to enable submit button
     this.isCustomerSelected = false;

@@ -398,7 +398,7 @@ export class AssignRolesPage implements OnInit {
         this.allCartOperators = this.harvestingService.getCombineCartOperator(
           this.cartSearchValue,
           'getCombineCartOperator',
-          'Kart Operator'
+          'Cart Operator'
         );
 
         // subscribing to show/hide field UL
@@ -434,7 +434,7 @@ export class AssignRolesPage implements OnInit {
     this.allCartOperators = this.harvestingService.getCombineCartOperator(
       this.cartSearchValue,
       'getCombineCartOperator',
-      'Kart Operator'
+      'Cart Operator'
       );
 
     // subscribing to show/hide field UL
@@ -505,11 +505,11 @@ export class AssignRolesPage implements OnInit {
     this.harvestingService.getRoles(111, 111, localStorage.getItem('employeeId'))
       .subscribe(
         (res: any) => {
-          console.log('Kart Operators:', res);
+          console.log('Cart Operators:', res);
           if (res.status === 200) {
             // this.toastService.presentToast('', 'success');
             // console.log(res.message);
-            console.log('Kart Operators:', res);
+            console.log('Cart Operators:', res);
             this.data = res;
 
           } else {
