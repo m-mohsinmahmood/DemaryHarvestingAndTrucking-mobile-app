@@ -760,7 +760,6 @@ export class StartJobPage implements OnInit {
     // this.customerId = customer.id;
 
   }
-
   //#endregion
 }
 
