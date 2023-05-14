@@ -24,7 +24,7 @@ export class TicketPage implements OnInit {
   @ViewChild('truckInput') truckInput: ElementRef;
   @ViewChild('kartInput') kartInput: ElementRef;
   @ViewChild('fieldInput') fieldInput: ElementRef;
-  @ViewChild('machineryInput') machineryInput: ElementRef;
+  // @ViewChild('machineryInput') machineryInput: ElementRef;
   @ViewChild('jobInput') jobInput: ElementRef;
 
 
@@ -35,6 +35,7 @@ export class TicketPage implements OnInit {
 
   deliveryTicketForm: FormGroup;
   deliveryTicketReassignForm: FormGroup;
+  cartOperatorName;
 
   // observables
   allTruckDrivers: Observable<any>;
@@ -76,12 +77,12 @@ export class TicketPage implements OnInit {
   isLoadingTicket$: Observable<any>;
 
   // machinery variables
-  allMachinery: Observable<any>;
-  machine_search$ = new Subject();
-  machine_name: any = '';
-  machineSearchValue: any = '';
-  machineUL: any = false;
-  isMachineSelected: any = true;
+  // allMachinery: Observable<any>;
+  // machine_search$ = new Subject();
+  // machine_name: any = '';
+  // machineSearchValue: any = '';
+  // machineUL: any = false;
+  // isMachineSelected: any = true;
 
     // job variables
     allJobs: Observable<any>;
@@ -154,6 +155,7 @@ export class TicketPage implements OnInit {
 
   ngOnInit() {
     this.role = localStorage.getItem('role');
+    this.cartOperatorName = localStorage.getItem("employeeName");
     this.isReassign =
       this.router.getCurrentNavigation().extras?.state?.reassign;
 
@@ -198,7 +200,7 @@ export class TicketPage implements OnInit {
       // Search
       this.truckDriverSearchSubscription();
       this.fieldSearchSubscription();
-      this.machineSearchSubscription();
+      // this.machineSearchSubscription();
       this.jobSearchSubscription();
 
 
@@ -548,92 +550,92 @@ export class TicketPage implements OnInit {
   //#endregion
 
   //#region Truck ID
-  machineSearchSubscription() {
-    this.machine_search$
-      .pipe(
-        debounceTime(500),
-        distinctUntilChanged(),
-        takeUntil(this._unsubscribeAll)
-      )
-      .subscribe((value: string) => {
-        // passing for renderer2
-        this.machineSearchValue = value;
-        // for asterik to look required
-        if (value === '') {
-          this.isMachineSelected = true;
-        }
+  // machineSearchSubscription() {
+  //   this.machine_search$
+  //     .pipe(
+  //       debounceTime(500),
+  //       distinctUntilChanged(),
+  //       takeUntil(this._unsubscribeAll)
+  //     )
+  //     .subscribe((value: string) => {
+  //       // passing for renderer2
+  //       this.machineSearchValue = value;
+  //       // for asterik to look required
+  //       if (value === '') {
+  //         this.isMachineSelected = true;
+  //       }
 
-        this.allMachinery = this.harvestingService.getMachinery(
-          value,
-          'allMotorizedVehicles'
-        );
+  //       this.allMachinery = this.harvestingService.getMachinery(
+  //         value,
+  //         'allMotorizedVehicles'
+  //       );
 
-        // subscribing to show/hide machine UL
-        this.allMachinery.subscribe((machine) => {
-          if (machine.count === 0) {
-            // hiding UL
-            this.machineUL = false;
-            this.isMachineSelected = true;
-          } else {
-            this.machineUL = true;
-          }
-        });
-      });
-  }
-  inputClickedMachinery() {
-    // getting the serch value to check if there's a value in input
-    this.machine_search$
-      .pipe(
-        debounceTime(500),
-        distinctUntilChanged(),
-        takeUntil(this._unsubscribeAll)
-      )
-      .subscribe((v) => {
-        this.machineSearchValue = v;
-      });
+  //       // subscribing to show/hide machine UL
+  //       this.allMachinery.subscribe((machine) => {
+  //         if (machine.count === 0) {
+  //           // hiding UL
+  //           this.machineUL = false;
+  //           this.isMachineSelected = true;
+  //         } else {
+  //           this.machineUL = true;
+  //         }
+  //       });
+  //     });
+  // }
+  // inputClickedMachinery() {
+  //   // getting the serch value to check if there's a value in input
+  //   this.machine_search$
+  //     .pipe(
+  //       debounceTime(500),
+  //       distinctUntilChanged(),
+  //       takeUntil(this._unsubscribeAll)
+  //     )
+  //     .subscribe((v) => {
+  //       this.machineSearchValue = v;
+  //     });
 
-    const value =
-      this.machineSearchValue === undefined
-        ? this.machine_name
-        : this.machineSearchValue;
+  //   const value =
+  //     this.machineSearchValue === undefined
+  //       ? this.machine_name
+  //       : this.machineSearchValue;
 
-    // calling API
-    this.allMachinery = this.harvestingService.getMachinery(
-      value,
-      'allMotorizedVehicles'
-    );
+  //   // calling API
+  //   this.allMachinery = this.harvestingService.getMachinery(
+  //     value,
+  //     'allMotorizedVehicles'
+  //   );
 
-    // subscribing to show/hide field UL
-    this.allMachinery.subscribe((machinery) => {
-      console.log('--', machinery);
-      if (machinery.count === 0) {
-        // hiding UL
-        this.machineUL = false;
-      } else {
-        // showing UL
-        this.machineUL = true;
-      }
-    });
-  }
-  listClickedMachiney(machinery) {
-    console.log('Machinery Object:', machinery);
-    // hiding UL
-    this.machineUL = false;
+  //   // subscribing to show/hide field UL
+  //   this.allMachinery.subscribe((machinery) => {
+  //     console.log('--', machinery);
+  //     if (machinery.count === 0) {
+  //       // hiding UL
+  //       this.machineUL = false;
+  //     } else {
+  //       // showing UL
+  //       this.machineUL = true;
+  //     }
+  //   });
+  // }
+  // listClickedMachiney(machinery) {
+  //   console.log('Machinery Object:', machinery);
+  //   // hiding UL
+  //   this.machineUL = false;
 
-    // passing name in select's input
-    this.machineryInput.nativeElement.value = machinery.type;
+  //   // passing name in select's input
+  //   this.machineryInput.nativeElement.value = machinery.type;
 
-    // to enable submit button
-    this.isMachineSelected = false;
+  //   // to enable submit button
+  //   this.isMachineSelected = false;
 
-    // assigning values in form conditionally
-    this.deliveryTicketForm.patchValue({
-      truckId: machinery?.id,
-    });
+  //   // assigning values in form conditionally
+  //   this.deliveryTicketForm.patchValue({
+  //     truckId: machinery?.id,
+  //   });
 
-    // clearing array
-    // this.allMachinery = of([]);
-  }
+  //   // clearing array
+  //   // this.allMachinery = of([]);
+  // }
   //#endregion
 
 //#region job
