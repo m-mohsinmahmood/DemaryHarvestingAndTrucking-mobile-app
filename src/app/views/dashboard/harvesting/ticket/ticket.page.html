@@ -152,19 +152,7 @@
           <ion-label class="font">Split Load</ion-label>
         </ion-item>
 
-        <div *ngIf="!isSplitTrue">
-          <div class="col-span-12 mb-4">
-            <label class="block text-sm font-medium text-gray-700">Kart Scale Weight (optional) <span *ngIf="this.deliveryTicketForm.get('kartScaleWeight').hasError('required')" class="text-red-400">*</span></label>
-            <input type="number" class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" formControlName="kartScaleWeight" placeholder="Kart Scale Weight (optional)" />
-          </div>
-        </div>
-
         <div *ngIf="isSplitTrue">
-          <div class="col-span-12 mb-4">
-            <label class="block text-sm font-medium text-gray-700">Split Load <span *ngIf="this.deliveryTicketForm.get('splitLoad')?.hasError('required')" class="text-red-400">*</span></label>
-            <input type="number" class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" formControlName="splitLoad" placeholder="Split Load" />
-          </div>
-
           <div class="col-span-12 mb-4">
             <label class="block text-sm font-medium text-gray-700">Kart Scale Weight (Split Load) <span *ngIf="this.deliveryTicketForm.get('kart_scale_weight_split')?.hasError('required')" class="text-red-400">*</span></label>
             <input type="number" class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" formControlName="kart_scale_weight_split" placeholder="Kart Scale Weight (Split Load)" />

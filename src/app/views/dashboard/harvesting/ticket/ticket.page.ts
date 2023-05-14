@@ -169,8 +169,6 @@ export class TicketPage implements OnInit {
       kartOperatorId: ['', [Validators.required]],
       truck_driver_company: ['', [Validators.required]],
       truckId: [''],
-      splitLoad: ['', [Validators.required]],
-      kartScaleWeight: ['', [Validators.required]],
       kart_scale_weight_split: ['', [Validators.required]],
       field_load_split: ['', [Validators.required]],
       status: ['sent'],
