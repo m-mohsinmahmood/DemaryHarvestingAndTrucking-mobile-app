@@ -313,8 +313,9 @@ export class OthersPage implements OnInit {
         this.allSupervisors.subscribe((supervisors) => {
 
           if (supervisors.count === 0) {
-            // hiding UL
-            this.supervisorUL = false;
+
+            this.supervisorUL = false; // hiding UL
+            this.isSupervisorSelected = true;  // for asterik to look required
           } else {
             this.supervisorUL = true;
           }
