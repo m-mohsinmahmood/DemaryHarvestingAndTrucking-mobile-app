@@ -86,12 +86,13 @@ Directors/CC/Dispatcher/Trainers <span
 </div>
 <div>
  <ion-button
-      [disabled]="this.otherForm.invalid || (loadingSpinner | async) || isSupervisorSelected"
+      [disabled]="this.otherForm.invalid || ticketsPerDwr > 0 || (loadingSpinner | async) || isSupervisorSelected"
       class="font-Lato text-white mt-8"
       expand="block"
         (click)="submit()">
         <div *ngIf="(loadingSpinner | async) === false">Save and Submit</div>
         <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner> </ion-button>
+        <label *ngIf="ticketsPerDwr > 0" class="block text-sm font-medium text-red-700">You need to check-out first before creating another ticket</label>
 </div>
 
 </form>

@@ -41,6 +41,20 @@ export class CheckInOutService {
       })
       .pipe(take(1));
   }
+
+  getTicketsPerDwr(operation: string, dwrId: string) {
+    this._httpClient
+    let params = new HttpParams();
+
+    params = params.set('operation', operation);
+    params = params.set('id', dwrId);
+
+    return this._httpClient
+      .get<any>('api-1/dwr_employees', {
+        params,
+      })
+      .pipe(take(1));
+  }
 }
 
 
