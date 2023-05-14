@@ -1,3 +1,4 @@
+/* eslint-disable @angular-eslint/use-lifecycle-interface */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable @typescript-eslint/naming-convention */
 import {
@@ -98,6 +99,8 @@ export class TicketPage implements OnInit {
   crop;
   crewChiefName;
   date;
+  customer_id;
+  farm_id;
 
   add_location_overlay = true;
   sub;
@@ -155,7 +158,7 @@ export class TicketPage implements OnInit {
 
   ngOnInit() {
     this.role = localStorage.getItem('role');
-    this.cartOperatorName = localStorage.getItem("employeeName");
+    this.cartOperatorName = localStorage.getItem('employeeName');
     this.isReassign =
       this.router.getCurrentNavigation().extras?.state?.reassign;
 
@@ -223,6 +226,15 @@ export class TicketPage implements OnInit {
         crew_chief_id
       );
     });
+
+    // this.harvestingService.getBeginningOfDay(
+    //   localStorage.getItem('employeeId'),
+    //   'beginningOfDayHarvesting',
+    //   'harvesting'
+    // );
+
+    this.getCreatedJobData();
+
   }
 
   initObservables() {
@@ -239,8 +251,51 @@ export class TicketPage implements OnInit {
         this.patchForm();
       }
     });
-  }
 
+    // this.sub = this.harvestingService.customer$.subscribe((res) => {
+    //   console.log('res', res);
+    //   this.customerData = res;
+    //   if (this.customerData?.workOrders) {
+    //     if (this.role.includes('Cart Operator') ) {
+    //       this.date = this.customerData?.workOrders[0]?.created_at;
+    //       this.customerName = this.customerData?.workOrders[0]?.customer_name;
+    //       this.state = this.customerData?.workOrders[0]?.state;
+    //       this.farm = this.customerData?.workOrders[0]?.farm_name;
+    //       this.crop = this.customerData?.workOrders[0]?.crop_name;
+    //       this.crewChiefName = this.customerData?.workOrders[0]?.crew_chief_name;
+    //       // this.customer_id = this.customerData?.workOrders[0]?.customer_id;
+    //       // this.farm_id = this.customerData?.workOrders[0]?.farm_id;
+    //     }
+    //   }
+    // });
+  }
+  async ionViewDidEnter() {
+    this.getCreatedJobData();
+  }
+  getCreatedJobData(){
+    this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).subscribe((res)=>{
+      console.log('Employee Details:',res);
+      this.deliveryTicketForm.patchValue({
+        // kartOperatorId: localStorage.getItem('employeeId'),
+        // customerId: this.customerData.customer_job[0]?.customer_id,
+        // state: this.customerData.customer_job[0]?.state,
+        // farmId: this.customerData.customer_job[0]?.farm_id,
+        // cropId: this.customerData.customer_job[0]?.crop_id,
+        // cropName: this.customerData.customer_job[0]?.crop,
+        // fieldId: this.customerData.customer_job[0]?.field_id,
+        // field: this.customerData.customer_job[0]?.field_name,
+        destination:  res.destination,
+        truckDriverId:  res.truck_driver_id,
+        // destination:  res.destination,
+      });
+
+      // passing name in select's input
+      this.truckInput.nativeElement.value = res.truck_driver_name;
+
+       // to enable submit button
+        this.isTruckDriverSelected = false;
+    });
+  }
   patchForm() {
     console.log('patchForm');
 
@@ -254,6 +309,7 @@ export class TicketPage implements OnInit {
       fieldId: this.customerData.customer_job[0]?.field_id,
       field: this.customerData.customer_job[0]?.field_name,
     });
+    console.log(this.deliveryTicketForm.value);
   }
 
   patchReassignForm() {
@@ -309,9 +365,13 @@ export class TicketPage implements OnInit {
             this.router.navigateByUrl('/tabs/home/harvesting');
           } else {
             console.log('Something happened :)');
+            this.loadingSpinner.next(false);
+
           }
         },
-          (err) => { console.log('Error:', err); }
+          (err) => { console.log('Error:', err);
+          this.loadingSpinner.next(false);
+        }
         );
     } else {
       console.log(
@@ -337,10 +397,14 @@ export class TicketPage implements OnInit {
 
             } else {
               console.log('Something happened :)');
+            this.loadingSpinner.next(false);
+
             }
           },
           (err) => {
             console.log('Error:', err);
+            this.loadingSpinner.next(false);
+
           }
         );
     }
@@ -414,6 +478,8 @@ export class TicketPage implements OnInit {
           if (truckDrivers.length === 0) {
             // hiding UL
             this.truckDriverUL = false;
+
+            this.isTruckDriverSelected = true;
           } else {
             this.truckDriverUL = true;
           }
@@ -449,6 +515,44 @@ export class TicketPage implements OnInit {
 
 
   //#region Field
+  fieldSearchSubscription() {
+    this.field_search$
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        takeUntil(this._unsubscribeAll)
+      )
+      .subscribe((value: string) => {
+        // passing for renderer2
+        this.fieldSearchValue = value;
+
+        // for asterik to look required
+        if (value === '') {
+          this.isFieldSelected = true;
+        }
+
+        // calling API
+        this.allFields = this.harvestingService.getFields(
+          value,
+          'customerFields',
+          this.customer_id,
+          this.farm_id
+        );
+
+        // subscribing to show/hide field UL
+        this.allFields.subscribe((fields) => {
+          if (fields.count === 0) {
+            // hiding UL
+            this.fieldUL = false;
+
+            // for asterik to look required
+            this.isFieldSelected = true;
+          } else {
+            this.fieldUL = true;
+          }
+        });
+      });
+  }
   inputClickedField() {
     // getting the serch value to check if there's a value in input
     this.field_search$
@@ -470,8 +574,8 @@ export class TicketPage implements OnInit {
     this.allFields = this.harvestingService.getFields(
       value,
       'customerFields',
-      this.customerData.customer_job[0].customer_id,
-      this.customerData.customer_job[0].farm_id
+      this.customer_id,
+      this.farm_id
     );
 
     // subscribing to show/hide field UL
@@ -486,7 +590,6 @@ export class TicketPage implements OnInit {
       }
     });
   }
-
   listClickedField(field) {
     this.deliveryTicketForm.patchValue({
       fieldId: field?.field_id,
@@ -501,52 +604,19 @@ export class TicketPage implements OnInit {
     // to enable submit button
     this.isFieldSelected = false;
 
-    // assigning values in form conditionally
-    if (this.role.includes('Cart Operator')) {
-      // this.changeFieldFormKart.patchValue({
-      //   field_id_new: field.field_id,
-      // });
-    }
+    // // assigning values in form conditionally
+    // if (this.role.includes('Cart Operator')) {
+    //   this.deliveryTicketForm.patchValue({
+    //     field_id_new: field.field_id,
+    //   });
+    // }
 
     // clearing array
     this.allFields = of([]);
   }
 
-  fieldSearchSubscription() {
-    this.field_search$
-      .pipe(
-        debounceTime(500),
-        distinctUntilChanged(),
-        takeUntil(this._unsubscribeAll)
-      )
-      .subscribe((value: string) => {
-        // passing for renderer2
-        this.fieldSearchValue = value;
 
-        // for asterik to look required
-        if (value === '') {
-          this.isFieldSelected = true;
-        }
 
-        // calling API
-        this.allFields = this.harvestingService.getFields(
-          value,
-          'customerFields',
-          this.customerData.customer_job[0].customer_id,
-          this.customerData.customer_job[0].farm_id
-        );
-
-        // subscribing to show/hide field UL
-        this.allFields.subscribe((fields) => {
-          if (fields.count === 0) {
-            // hiding UL
-            this.fieldUL = false;
-          } else {
-            this.fieldUL = true;
-          }
-        });
-      });
-  }
   //#endregion
 
   //#region Truck ID
@@ -733,6 +803,8 @@ listClickedJob(job) {
     this.crop = job.crop_name;
     this.date = job.created_at;
     this.crewChiefName = job.crew_chief_name;
+    this.customer_id = job.customer_id;
+    this.farm_id = job.farm_id;
 
   // passing name in select's input
   this.jobInput.nativeElement.value = job.job_id;

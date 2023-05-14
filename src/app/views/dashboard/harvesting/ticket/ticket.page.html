@@ -230,10 +230,10 @@
 
       </div>
       <ion-button expand="block" class="font-Lato mt-5 text-white"
-      *ngIf="!isReassign && !isSplitTrue" (click)="submit()"
+      *ngIf="!isReassign && !isSplitTrue"
       >
-        <div *ngIf="(loadingSpinner | async) === false">Print</div>
-        <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+        <div >Print</div>
+        <!-- <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner> -->
       </ion-button>
 
       <ion-button expand="block" class="font-Lato mt-5 text-white"
