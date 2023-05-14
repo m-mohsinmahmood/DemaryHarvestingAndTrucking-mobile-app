@@ -139,6 +139,15 @@ export class CloseJobPage implements OnInit {
         'beginningOfDayHarvesting',
         'harvesting'
       );
+
+      this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
+        console.log('Active Check In ', workOrder.dwr);
+
+        this.closeJobFormKart.patchValue({
+          module: workOrder.dwr[0].module,
+          dwrId: workOrder.dwr[0].id
+        })
+      });
     }
   }
 
@@ -199,6 +208,8 @@ export class CloseJobPage implements OnInit {
       endingEngineHours: ['', [Validators.required]],
       employeeId: localStorage.getItem('employeeId'),
       jobId: [''],
+      module: [''],
+      dwrId: ['']
     });
     this.closeJobFormTruck = this.formBuilder.group({
       ending_odometer_miles: ['', [Validators.required]],

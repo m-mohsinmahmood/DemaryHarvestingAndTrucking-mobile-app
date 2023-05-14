@@ -11,6 +11,7 @@ import { Location } from '@angular/common';
 import { Observable, of, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { HarvestingService } from './../harvesting.service';
+import { ToastService } from 'src/app/services/toast/toast.service';
 
 @Component({
   selector: 'app-driver-setup',
@@ -31,6 +32,7 @@ export class DriverSetupPage implements OnInit {
   driverSearchValue: any = '';
   driverUL: any = false;
   allTruckDrivers: Observable<any>;
+  deleteId;
 
   getAllDrivers;
   job_id;
@@ -42,7 +44,8 @@ export class DriverSetupPage implements OnInit {
     private location: Location,
     private formBuilder: FormBuilder,
     private renderer: Renderer2,
-    private harvestingService: HarvestingService
+    private harvestingService: HarvestingService,
+    private toastService: ToastService
   ) {
     this.renderer.listen('window', 'click', (e) => {
       if (e.target !== this.driverInput.nativeElement) {
@@ -174,7 +177,8 @@ export class DriverSetupPage implements OnInit {
     this.customerJobSetupLoading2 = this.harvestingService.customerJobSetupLoading2$;
     this.harvestingService.customerJobSetup2$.subscribe(res => {
 
-      this.data = res
+      this.data = res;
+
       this.customerJobSetupLoading2.subscribe((loadValue) => {
         if (loadValue === true) {
 
@@ -224,9 +228,41 @@ export class DriverSetupPage implements OnInit {
     });
   }
 
+  removeCrewMember(id) {
+    this.deleteId = id;
+    const data = {
+      id,
+      operation: 'removeAssignedRole'
+    };
+    // start loader
+
+    this.harvestingService.removeAssignedRole(data)
+      .subscribe(
+        (res: any) => {
+          console.log('Response:', res);
+          if (res.status === 200) {
+            this.toastService.presentToast(res.message, 'success');
+            this.getKartOperatorTruckDrivers();
+
+          } else {
+            console.log('Something happened :)');
+          }
+        },
+        (err) => {
+          console.log('Error:', err);
+          // this.handleError(err);
+        },
+        () => {
+          this.getKartOperatorTruckDrivers();
+        }
+      );
+  }
+
   selectedDriver(driver) {
+    console.log(driver);
+
     this.driverUL = false;
-    this.driverInput.nativeElement.value = driver.name;
+    this.driverInput.nativeElement.value = driver.first_name + ' ' + driver.last_name;
     this.isTruckDriverSelected = false;
     this.driverSetupForm.controls['truck_driver'].setValue(driver.id ?? '');
   }
