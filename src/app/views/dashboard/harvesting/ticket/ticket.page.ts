@@ -186,27 +186,36 @@ export class TicketPage implements OnInit {
       loadedMiles: ['', [Validators.required]],
       field: [''],
       split_load_check: [false,],
-      delivery_ticket_number: ['', [Validators.required]],
-      kartOperatorId: ['', [Validators.required]],
-      truck_driver_company: ['', [Validators.required]],
+      delivery_ticket_number: [''],
+      kartOperatorId: [''],
+      truck_driver_company: [''],
       truckId: [''],
-      kart_scale_weight_split: ['', [Validators.required]],
+      kart_scale_weight_split: [''],
       field_load_split: [''],
       status: ['sent'],
       working_status: ['pending'],
-      // customerId: [''],
-      // state: [''],
-      // farmId: [''],
-      // cropId: [''],
       cropName: [''],
       fieldId: [''],
-      employeeId: [localStorage.getItem('employeeId')],
+      employeeId: [''],
       customer_id:[''],
       state:[''],
       farm_id:[''],
       crop_id:[''],
       crew_chief_id:[''],
       jobId:['']
+    });
+
+    this.deliveryTicketForm.valueChanges.subscribe((value)=>{
+      console.log(value);
+      if(!value.split_load_check){
+        console.log('hahahaahahah');
+        this.deliveryTicketForm.get('kart_scale_weight_split').setValidators(null);
+        this.deliveryTicketForm.get('kart_scale_weight_split').setErrors(null);
+      }else{
+        console.log('heheheheeheh');
+        this.deliveryTicketForm.get('kart_scale_weight_split').setValidators([Validators.required]);
+        this.deliveryTicketForm.get('kart_scale_weight_split').setValidators([Validators.required]);
+      }
     });
 
 
@@ -231,14 +240,7 @@ export class TicketPage implements OnInit {
       this.initTicketByIdObservables();
     }
   }
-// formReset(){
-//   this.deliveryTicketForm.reset();
-//   this.truckInput.nativeElement.value = '';
-//   this.kartInput.nativeElement.value = '';
-//   this.fieldInput.nativeElement.value = '';
-//   this.jobInput.nativeElement.value = '';
-//   this.field_split_load_input.nativeElement.value = '';
-// }
+
   initApis() {
     let crew_chief_id = '';
     this.harvestingService.getKartOperatorCrewChief('getKartOpCrewChief', localStorage.getItem('employeeId')).subscribe(param => {
@@ -294,7 +296,6 @@ export class TicketPage implements OnInit {
     // });
   }
   async ionViewDidEnter() {
-    // this.formReset();
     this.getCreatedJobData();
   }
   getCreatedJobData(){
@@ -368,6 +369,7 @@ export class TicketPage implements OnInit {
 
   buttton() {
     this.isSplitTrue = !this.isSplitTrue;
+    console.log(this.deliveryTicketForm.get('split_load_check').value);
   }
 
   submit() {
@@ -550,7 +552,6 @@ export class TicketPage implements OnInit {
   }
 
   //#endregion
-
 
   //#region Field
   fieldSearchSubscription() {

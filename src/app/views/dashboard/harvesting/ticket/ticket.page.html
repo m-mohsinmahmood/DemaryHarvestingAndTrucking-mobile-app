@@ -187,10 +187,6 @@
         </div>
         <!-- FIELD SPLIT LOAD DROPDOWN -->
 
-          <!-- <div class="col-span-12 mb-4">
-            <label class="block text-sm font-medium text-gray-700">Field (Split Load) <span *ngIf="this.deliveryTicketForm.get('field_load_split')?.hasError('required')" class="text-red-400">*</span></label>
-            <input type="number" class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" formControlName="field_load_split" placeholder="Field (Split Load)" />
-          </div> -->
         </div>
 
           <!-- Truck Driver -->
@@ -220,31 +216,6 @@
           </div>
           <!-- Truck Driver -->
 
-        <!-- <div [ngClass]="add_location_overlay ? 'opacity-100 visible ease-in duration-200' : 'opacity-0 invisible ease-out duration-300'"  role="dialog" aria-modal="true">
-          <div [ngClass]="add_location_overlay ? 'opacity-100 visible scale-100 ease-in duration-200' : 'opacity-0 invisible scale-95 ease-out duration-300'" class="relative z-30 mb-4">
-            <div class="mx-auto max-w-full transform rounded-xl px-0 transition-all">
-              <label class="mb-1 block text-sm font-medium text-gray-700">Truck ID: <span *ngIf="isMachineSelected" class="text-red-400">*</span></label>
-              <div class="flex items-center justify-between gap-x-2 rounded-md">
-                <input (keyup)="machine_search$.next($event.target.value)" (click)="inputClickedMachinery()" [value]="machine_name" #machineryInput class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder:text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500" placeholder="Select Truck" role="" aria-expanded="false" aria-controls="options" />
-              </div>
-
-              <div *ngIf="allMachinery | withLoading | async as allMachinery" >
-                <div class="flex items-center justify-center">
-                  <ion-spinner *ngIf="allMachinery?.loading" name="crescent" mode="indeterminate" color="primary"></ion-spinner>
-                </div>
-                <ul *ngIf="allMachinery?.value && machineUL" class="absolute -mb-2 max-h-48 w-full scroll-py-2 overflow-y-auto bg-white py-2 text-sm text-gray-800" id="options" role="listbox">
-                  <li *ngFor="let machinery of (allMachinery?.value.machinery)" (click)="listClickedMachiney(machinery)" class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200" role="option" tabindex="-1">
-                    <div class="flex items-center p-2">{{machinery.type}}</div>
-                  </li>
-                </ul>
-                <div *ngIf="allMachinery?.value?.machinery?.length === 0">
-                  <p disabled class="cursor-pointer select-none rounded-md px-4 py-2 text-gray-500 hover:bg-gray-200 hover:font-semibold hover:text-gray-700">No Truck(s) found</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div> -->
-
       </div>
       <ion-button expand="block" class="font-Lato mt-5 text-white"
       *ngIf="!isReassign && !isSplitTrue"
@@ -252,20 +223,21 @@
         <div >Print</div>
         <!-- <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner> -->
       </ion-button>
-
       <ion-button expand="block" class="font-Lato mt-5 text-white"
-      *ngIf="!isReassign" (click)="submit()"
+      *ngIf="!isReassign && !isSplitTrue" (click)="submit()"
+      [disabled]="deliveryTicketForm.invalid || isJobSelected || isFieldSelected || isTruckDriverSelected"
       >
         <div *ngIf="(loadingSpinner | async) === false">Generate and Send Ticket</div>
         <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
       </ion-button>
 
-      <!-- <ion-button expand="block" class="font-Lato mt-5 text-white"
+      <ion-button expand="block" class="font-Lato mt-5 text-white"
       *ngIf="!isReassign && isSplitTrue"
+      [disabled]="deliveryTicketForm.invalid || isJobSelected || isFieldSelected  || isFieldSplitLoadSelected"
        (click)="submit()">
         <div *ngIf="(loadingSpinner | async) === false">Generate Duplicate Ticket</div>
         <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
-      </ion-button> -->
+      </ion-button>
 
       <ion-button expand="block" class="font-Lato mt-5 text-white" *ngIf="isReassign" (click)="submit()">Reassign Delivery Ticket</ion-button>
     </form>
