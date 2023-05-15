@@ -29,8 +29,6 @@ export class TicketPage implements OnInit {
   @ViewChild('jobInput') jobInput: ElementRef;
   @ViewChild('field_split_load_input') field_split_load_input: ElementRef;
 
-
-
   role: any;
   isReassign: boolean;
   // isSplitTrue = false;
@@ -185,7 +183,7 @@ export class TicketPage implements OnInit {
       destination: ['', [Validators.required]],
       loadedMiles: ['', [Validators.required]],
       field: [''],
-      split_load_check: [false,],
+      split_load_check: [false],
       delivery_ticket_number: [''],
       kartOperatorId: [''],
       truck_driver_company: [''],

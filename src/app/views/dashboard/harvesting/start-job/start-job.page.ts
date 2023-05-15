@@ -22,7 +22,6 @@ export class StartJobPage implements OnInit {
   @ViewChild('machineryInput') machineryInput: ElementRef;
   @ViewChild('jobInput') jobInput: ElementRef;
 
-
   role: any;
 
   // Forms
@@ -77,6 +76,7 @@ export class StartJobPage implements OnInit {
   crop;
   crewChiefName;
   date;
+  truck_driver_name;
 
   public loadingSpinner = new BehaviorSubject(false);
   private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -107,6 +107,7 @@ export class StartJobPage implements OnInit {
     console.log("Start Job Page 1");
 
     this.role = localStorage.getItem('role');
+    this.truck_driver_name = localStorage.getItem('employeeName');
 
     this.initForms();
     // this.initApis();
@@ -157,24 +158,24 @@ export class StartJobPage implements OnInit {
       beginning_separator_hours: ['', [Validators.required]],
       beginningEngineHours: ['', [Validators.required]],
       employeeId: [localStorage.getItem('employeeId')],
-      customer_id:[''],
-      state:[''],
-      farm_id:[''],
-      crop_id:[''],
-      crew_chief_id:[''],
-      jobId:['']
+      customer_id: [''],
+      state: [''],
+      farm_id: [''],
+      crop_id: [''],
+      crew_chief_id: [''],
+      jobId: ['']
     });
     this.startJobFormKart = this.formBuilder.group({
       machineryId: [''],
       // job_id: [''],
       beginningEngineHours: ['', [Validators.required]],
       employeeId: [localStorage.getItem('employeeId')],
-      customer_id:[''],
-      state:[''],
-      farm_id:[''],
-      crop_id:[''],
-      crew_chief_id:[''],
-      jobId:['']
+      customer_id: [''],
+      state: [''],
+      farm_id: [''],
+      crop_id: [''],
+      crew_chief_id: [''],
+      jobId: ['']
     });
     this.startJobFormTruck = this.formBuilder.group({
       workOrderId: [''],
@@ -740,12 +741,12 @@ export class StartJobPage implements OnInit {
       });
     }
 
-      this.customerName = job.customer_name;
-      this.state = job.state;
-      this.farm = job.farm_name;
-      this.crop = job.crop_name;
-      this.date = job.created_at;
-      this.crewChiefName = job.crew_chief_name;
+    this.customerName = job.customer_name;
+    this.state = job.state;
+    this.farm = job.farm_name;
+    this.crop = job.crop_name;
+    this.date = job.created_at;
+    this.crewChiefName = job.crew_chief_name;
 
     // passing name in select's input
     this.jobInput.nativeElement.value = job.job_id;
