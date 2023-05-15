@@ -205,6 +205,7 @@ export class TicketPage implements OnInit {
       jobId:['']
     });
 
+    // custom validation for 'kart_scale_weight_split'
     this.deliveryTicketForm.valueChanges.subscribe((value)=>{
       console.log(value);
       if(!value.split_load_check){
@@ -302,18 +303,12 @@ export class TicketPage implements OnInit {
     this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).subscribe((res)=>{
       console.log('Employee Details:',res);
       this.deliveryTicketForm.patchValue({
-        // kartOperatorId: localStorage.getItem('employeeId'),
-        // customerId: this.customerData.customer_job[0]?.customer_id,
-        // state: this.customerData.customer_job[0]?.state,
-        // farmId: this.customerData.customer_job[0]?.farm_id,
-        // cropId: this.customerData.customer_job[0]?.crop_id,
-        // cropName: this.customerData.customer_job[0]?.crop,
-        // fieldId: this.customerData.customer_job[0]?.field_id,
-        // field: this.customerData.customer_job[0]?.field_name,
         destination:  res.destination,
         truckDriverId:  res.truck_driver_id,
-        // destination:  res.destination,
       });
+
+      //loaded miles
+      this.deliveryTicketForm.controls.loadedMiles.setValue(res.loaded_miles);
 
       // passing name in select's input
       this.truckInput.nativeElement.value = res.truck_driver_name;
@@ -323,8 +318,6 @@ export class TicketPage implements OnInit {
     });
   }
   patchForm() {
-    console.log('patchForm');
-
     this.deliveryTicketForm.patchValue({
       kartOperatorId: localStorage.getItem('employeeId'),
       customerId: this.customerData.customer_job[0]?.customer_id,
