@@ -103,7 +103,7 @@
     </div>
 
     <!-- <div *ngIf="!toShow"> -->
-      <ion-col size="4" class="flex flex-col" *ngIf="role.includes('Trainer') || role.includes('Trainee')">
+      <ion-col size="4" class="flex flex-col" *ngIf="role.includes('Trainer') || role.includes('Director')">
         <div class="h-28 flex justify-center items-center">
           <ion-card class="card" [routerLink]="['training']" [ngStyle]="{'background-color':'#0CA3C7'}">
             <ion-card-content>
