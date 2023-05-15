@@ -360,7 +360,15 @@ export class TicketPage implements OnInit {
 
   buttton() {
     this.isSplitTrue = !this.isSplitTrue;
-    console.log(this.deliveryTicketForm.get('split_load_check').value);
+    // console.log(this.deliveryTicketForm.get('split_load_check').value);
+
+    if(!this.isSplitTrue){
+this.deliveryTicketForm.controls.kart_scale_weight_split.setValue(''); //empty field name
+this.field_split_load_input.nativeElement.value = ''; // emplty name in select's input
+this.deliveryTicketForm.controls.field_load_split.setValue(''); //empty id in form for payload
+this.isFieldSplitLoadSelected = true; // to enable submit button
+
+    }
   }
 
   submit() {
@@ -949,6 +957,5 @@ listClickedJob(job) {
 
 }
 //#endregion
-
 
 }

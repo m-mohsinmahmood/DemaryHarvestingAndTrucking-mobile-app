@@ -168,7 +168,9 @@
             <div class="mx-auto max-w-full transform rounded-xl px-0 transition-all">
               <label class="mb-1 block text-sm font-medium text-gray-700">Field (Split Load)<span *ngIf="isFieldSplitLoadSelected" class="text-red-400">*</span></label>
               <div class="flex items-center justify-between gap-x-2 rounded-md">
-                <input (keyup)="field_split_load_search$.next($event.target.value)" (click)="inputClickedFieldSplitLoad()" [value]="field_split_load_name" #field_split_load_input class="{{isFieldSplitLoadDisabled? 'pointer-events-none bg-gray-200 w-full px-4 py-2.5 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500': 'w-full px-4 py-2.5 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500'}}" placeholder="Select Field Split Load" role="" aria-expanded="false" aria-controls="options" />
+                <input (keyup)="field_split_load_search$.next($event.target.value)" (click)="inputClickedFieldSplitLoad()" [value]="field_split_load_name" #field_split_load_input
+                class="{{isJobSelected? 'pointer-events-none bg-gray-200 w-full px-4 py-2.5 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500': 'w-full px-4 py-2.5 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500'}}"
+                 placeholder="Select Field Split Load" role="" aria-expanded="false" aria-controls="options" />
               </div>
 
               <div *ngIf="allSplitLoadFields | withLoading | async as allSplitLoadFields" >
