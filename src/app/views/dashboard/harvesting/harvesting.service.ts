@@ -4,16 +4,14 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable no-underscore-dangle */
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, Subject, throwError } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { take, tap } from 'rxjs/operators';
 import { AlertService } from 'src/app/alert/alert.service';
 import {
   HttpClient,
-  HttpErrorResponse,
   HttpParams,
 } from '@angular/common/http';
 import { ToastService } from 'src/app/services/toast/toast.service';
-import { takeUntil } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -234,7 +232,7 @@ export class HarvestingService {
       );
   }
 
-    getKartOperatorCrewChief(entity, employeeId) {
+  getKartOperatorCrewChief(entity, employeeId) {
     return this._httpClient
       .get(
         `api-1/havesting-kart-operator?operation=${entity}&employeeId=${employeeId}`
@@ -311,6 +309,22 @@ export class HarvestingService {
     params = params.set('search', search);
     return this._httpClient
       .get<any>('api-1/dropdowns', {
+        params,
+      })
+      .pipe(take(1));
+  }
+
+  getCombineCartOperator(search: string = '', operation: string = '', role: string = '') {
+    this._httpClient
+    let params = new HttpParams();
+    params = params.set('search', search);
+    params = params.set('operation', operation);
+    params = params.set('role', role);
+
+    console.log("Service:" ,role);
+
+    return this._httpClient
+      .get<any>('api-1/customer-job-setup', {
         params,
       })
       .pipe(take(1));
@@ -508,13 +522,37 @@ export class HarvestingService {
       .pipe(take(1));
   }
 
-  // Kart Operator APIs
+  removeAssignedRole(data: any) {
+    return this._httpClient
+      .patch(`api-1/customer-job-setup`, data)
+      .pipe(take(1));
+  }
+
+  // Cart Operator APIs
   getKartOperatorTruckDriversDropdown(operation: string, search: string = '') {
     let params = new HttpParams();
     params = params.set('operation', operation);
     params = params.set('search', search);
     return this._httpClient
       .get<any>(`api-1/havesting-kart-operator`, {
+        params,
+      })
+      .pipe(take(1));
+  }
+
+  getInvoicedJobs(
+    operation: string = '',
+    role: string = '',
+    employeeId: string = '',
+  ) {
+    this._httpClient
+    let params = new HttpParams();
+    params = params.set('operation', operation);
+    params = params.set('role', role);
+    params = params.set('employeeId', employeeId);
+
+    return this._httpClient
+      .get<any>('api-1/customer-job-setup', {
         params,
       })
       .pipe(take(1));

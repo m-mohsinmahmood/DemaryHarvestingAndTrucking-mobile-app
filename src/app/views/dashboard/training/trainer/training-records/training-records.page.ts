@@ -71,9 +71,6 @@ export class TrainingRecordsPage implements OnInit {
         this.recordsFrom.get('evaluation_type').setValidators([Validators.required]);
         this.recordsFrom.get('evaluation_form').setValidators([Validators.required]);
 
-          // this.recordsFrom.get('date').setValidators(null);
-          // this.recordsFrom.get('date').setErrors(null);
-
           this.recordsFrom.get('startDate').setValidators(null);
           this.recordsFrom.get('startDate').setErrors(null);
 

@@ -39,9 +39,9 @@
   <!-- =============================== Top Cards =============================== -->
   <ion-grid class="p-2.5">
     <ion-row>
-      <div *ngIf="!toShow">
+      <!-- <div *ngIf="!toShow"> -->
       <ion-col size="4" class="flex flex-col"
-        *ngIf="role.includes('Crew Chief')  || role.includes('Kart Operator') || role.includes('Combine Operator') || role.includes('Truck Driver')">
+        *ngIf="role.includes('Crew Chief')  || role.includes('Cart Operator') || role.includes('Combine Operator') || role.includes('Truck Driver')">
         <div class="h-28 flex justify-center items-center">
           <ion-card class="card" [routerLink]="['harvesting']" [ngStyle]="{'background-color':'#129476'}">
             <ion-card-content>
@@ -53,7 +53,7 @@
           <ion-text class="font-Lato">Harvesting</ion-text>
         </div>
       </ion-col>
-    </div>
+    <!-- </div> -->
 
 
     <div *ngIf="!toShow">
