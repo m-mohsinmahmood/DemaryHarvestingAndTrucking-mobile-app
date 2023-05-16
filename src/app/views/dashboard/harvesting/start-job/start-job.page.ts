@@ -180,9 +180,14 @@ export class StartJobPage implements OnInit {
     this.startJobFormTruck = this.formBuilder.group({
       workOrderId: [''],
       truck_id: ['', [Validators.required]],
-      crew_chief_id: [''],
       begining_odometer_miles: ['', [Validators.required]],
-      employeeId: ['']
+      employeeId: [localStorage.getItem('employeeId')],
+      customer_id: [''],
+      state: [''],
+      farm_id: [''],
+      crop_id: [''],
+      crew_chief_id: [''],
+      jobId: ['']
     });
   }
 
@@ -741,6 +746,19 @@ export class StartJobPage implements OnInit {
       });
     }
 
+     // patching for Cart Operator
+    else if (localStorage.getItem('role').includes('Truck Driver')) {
+      this.startJobFormTruck.patchValue({
+        jobId: job.job_id,
+        crop_id: job.crop_id,
+        customer_id: job.customer_id,
+        farm_id: job.farm_id,
+        state: job.state,
+        crew_chief_id: job.crew_chief_id,
+
+      });
+    }
+
     this.customerName = job.customer_name;
     this.state = job.state;
     this.farm = job.farm_name;
@@ -756,9 +774,6 @@ export class StartJobPage implements OnInit {
 
     // to enable submit button
     this.isJobSelected = false;
-
-    // passing the customer id to  select farm & crop id
-    // this.customerId = customer.id;
 
   }
   //#endregion

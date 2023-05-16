@@ -95,6 +95,7 @@ export class CloseJobPage implements OnInit {
       );
     }
 
+
     else if (this.role.includes('Combine Operator')) {
       this.activeRoute.params.subscribe((param) => {
         console.log("Cart Operator Data: ", param);
@@ -126,6 +127,12 @@ export class CloseJobPage implements OnInit {
         console.log(param);
         this.truckId = param.truck_id;
       });
+
+      this.harvestingService.getBeginningOfDay(
+        localStorage.getItem('employeeId'),
+        'beginningOfDayHarvesting',
+        'harvesting'
+      );
     }
 
     else if (this.role.includes('Cart Operator')) {
@@ -157,7 +164,7 @@ export class CloseJobPage implements OnInit {
       this.customerData = res;
       if (this.customerData?.workOrders) {
 
-        if (this.role.includes('Combine Operator') || this.role.includes('Cart Operator') ) {
+        if (this.role.includes('Combine Operator') || this.role.includes('Cart Operator')  || this.role.includes('Truck Driver') ) {
 
           this.date = this.customerData.workOrders[0].created_at;
           this.customerName = this.customerData.workOrders[0].customer_name;
