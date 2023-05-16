@@ -20,9 +20,14 @@
                     <span class="font-Lato text-lg text-black">{{sentTicket?.customerName}}</span>
                     <span>{{sentTicket?.crop_name}}, {{sentTicket?.state}}</span>
                   </div>
-                  <div class="flex w-4/12 justify-end">
-                    <span class="font-Lato text-sm">Ticket#: </span>
-                    <span class="font-Lato bg-0165c31a ml-1 h-5 rounded-xl px-2 text-sm text-black"> {{sentTicket.id | slice:0-5 }}</span>
+                  <div class="flex w-4/12 flex-col">
+                    <div class="flex">
+                      <span class="font-Lato text-sm">Ticket#: </span>
+                      <span class="font-Lato bg-0165c31a ml-1 h-5 rounded-xl px-2 text-sm text-black"> {{sentTicket.id | slice:0-5 }}</span>
+                    </div>
+                    <div class="flex justify-end mt-1" (click)="openModal(sentTicket.id)">
+                      <span class="bg-blue-500 px-2 py-1 rounded-lg text-white font-Lato">Reassign</span>
+                    </div>
                   </div>
                 </div>
                 <div class="flex justify-between p-0">
@@ -38,6 +43,65 @@
               </div>
             </ion-card>
           </div>
+
+          <!-- MODAL -->
+          <ion-modal class="supervisorModal" #modelToReassign [isOpen]="isReassignModalOpen" (ionModalDidDismiss)="ionModalDidDismiss()">
+            <ng-template>
+              <ion-header>
+                <div class="bg-3D8AA4">
+                  <ion-grid>
+                    <ion-row>
+                      <ion-col size="3" class=" flex justify-center">
+                        <div></div>
+                      </ion-col>
+                      <ion-col size="6" class="flex justify-center"><span
+                          class="text-white font-semibold">Change Driver</span></ion-col>
+                      <ion-col size="3" class="flex justify-end">
+                        <ion-icon name="close-outline" (click)="modelToReassign.dismiss();">
+                        </ion-icon>
+                      </ion-col>
+                    </ion-row>
+                  </ion-grid>
+                </div>
+              </ion-header>
+              <div class="overflow-y-auto px-1">
+                <form [formGroup]="driverSetupForm">
+                  <div class="px-2">
+                    <div [ngClass]="add_location_overlay ? 'opacity-100 visible ease-in duration-200' : 'opacity-0 invisible ease-out duration-300'"  role="dialog" aria-modal="true">
+                      <div [ngClass]="add_location_overlay ? 'opacity-100 visible scale-100 ease-in duration-200' : 'opacity-0 invisible scale-95 ease-out duration-300'" class="relative z-20 mb-4">
+                        <div class="mx-auto max-w-full transform rounded-xl px-0 transition-all">
+                          <label class="mb-1 block text-sm font-medium text-gray-700">Truck Driver <span *ngIf="isTruckDriverSelected" class="text-red-400">*</span></label>
+                          <div class="flex items-center justify-between gap-x-2 rounded-md">
+                            <input (keyup)="truck_driver_search$.next($event.target?.value)"
+                             (click)="clickedTruckDriverInput()"
+                              [value]="driver_name" #driverInput class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder:text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500" placeholder="Select Driver" role="" aria-expanded="false" aria-controls="options" />
+                          </div>
+
+                          <div *ngIf="(allTruckDrivers | withLoading | async) as allTruckDrivers">
+                            <div class="flex items-center justify-center">
+                              <ion-spinner *ngIf="allTruckDrivers?.loading" name="crescent" mode="indeterminate" color="primary"></ion-spinner>
+                            </div>
+                            <ul *ngIf="allTruckDrivers?.value && driverUL" class="absolute -mb-2 max-h-48 w-full scroll-py-2 overflow-y-auto bg-white py-2 text-sm text-gray-800" id="options" role="listbox">
+                              <li *ngFor="let driver of (allTruckDrivers?.value.employees)" (click)="selectedDriver(driver)"
+                                class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200">
+                                <div class="flex items-center p-2"> {{driver.first_name}} {{driver.last_name}}</div>
+                                <span class="px-2 font-Lato font-semibold">{{driver.supervisor_name}}</span>
+                              </li>
+                            </ul>
+                            <div *ngIf="allTruckDrivers?.value?.length === 0">
+                              <p disabled class="cursor-pointer select-none rounded-md px-4 py-2 text-gray-500 hover:bg-gray-200 hover:font-semibold hover:text-gray-700">No Drivers found!</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <ion-button expand="block" class="font-Lato font-white mt-20 mb-8 text-white" (click)="reassignDriver()">Reassign Driver</ion-button>
+                </form>
+              </div>
+            </ng-template>
+          </ion-modal>
+          <!-- MODAL -->
 
           <div *ngIf="(sentTicketLoading$ | async ) === true">
             <ion-card class="sentTicket p-2">
@@ -69,7 +133,7 @@
 
         <div *ngSwitchCase="'pending'">
           <div *ngIf="(pendingTicketLoading$ | async) === false">
-            <ion-card class="pendingTicket p-2" *ngFor="let pendingTicket of pendingTicketData$ | async">
+            <ion-card class="pendingTicket p-2"  *ngFor="let pendingTicket of pendingTicketData$ | async">
               <div class="flex flex-col">
                 <div class="flex flex-row py-2">
                   <div class="flex w-7/12 flex-col">
@@ -131,7 +195,7 @@
 
         <div *ngSwitchCase="'verified'">
           <div *ngIf="(verifiedTicketLoading$ | async) === false">
-            <ion-card class="verifiedTicket p-2" *ngFor="let verifiedTicketData of verifiedTicketData$ | async">
+            <ion-card class="verifiedTicket p-2"  *ngFor="let verifiedTicketData of verifiedTicketData$ | async">
               <div class="flex flex-col">
                 <div class="flex flex-row py-2">
                   <div class="flex w-7/12 flex-col">
