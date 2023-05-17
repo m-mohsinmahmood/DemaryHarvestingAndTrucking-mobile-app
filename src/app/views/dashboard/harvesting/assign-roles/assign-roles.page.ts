@@ -114,6 +114,7 @@ export class AssignRolesPage implements OnInit {
 
     // combine & cart subscription
     this.combineSearchSubscription();
+    this.cartSearchSubscription();
 
     //api call
 
