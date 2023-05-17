@@ -30,7 +30,7 @@
                   id="options" role="listbox">
                   <li *ngFor="let combineOperators of (allCombineOperators?.value.employees)"
                     (click)="listClickedCombine(combineOperators)"
-                    [ngClass]="combineOperators.dht_supervisor_id !== '' ? 'disabledLi':'cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200'"
+                    [ngClass]="combineOperators.supervisor_id !== '' ? 'disabledLi':'cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200'"
                     role="option" tabindex="-1">
                     <div class="flex items-center p-2 font-Lato">
                       {{combineOperators.first_name}} {{combineOperators.last_name}}
@@ -83,7 +83,7 @@
                   id="options" role="listbox">
                   <li *ngFor="let cartOperators of (allCartOperators?.value.employees)"
                     (click)="listClickedCart(cartOperators)"
-                    [ngClass]="cartOperators.dht_supervisor_id === '' ? 'disabledLi':'cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200'"
+                    [ngClass]="cartOperators.supervisor_id !== '' ? 'disabledLi':'cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200'"
                     role="option" tabindex="-1">
                     <div class="flex items-center p-2">
                       {{cartOperators.first_name}} {{cartOperators.last_name}}
