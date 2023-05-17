@@ -91,10 +91,10 @@ export class CloseJobPage implements OnInit {
       this.harvestingService.getBeginningOfDay(
         localStorage.getItem('employeeId'),
         'beginningOfDayHarvesting',
-        'harvesting'
+        'harvesting',
+        this.role
       );
     }
-
 
     else if (this.role.includes('Combine Operator')) {
       this.activeRoute.params.subscribe((param) => {
@@ -105,7 +105,8 @@ export class CloseJobPage implements OnInit {
       this.harvestingService.getBeginningOfDay(
         localStorage.getItem('employeeId'),
         'beginningOfDayHarvesting',
-        'harvesting'
+        'harvesting',
+        this.role
       );
 
       this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
@@ -131,7 +132,8 @@ export class CloseJobPage implements OnInit {
       this.harvestingService.getBeginningOfDay(
         localStorage.getItem('employeeId'),
         'beginningOfDayHarvesting',
-        'harvesting'
+        'harvesting',
+        this.role
       );
     }
 
@@ -144,7 +146,8 @@ export class CloseJobPage implements OnInit {
       this.harvestingService.getBeginningOfDay(
         localStorage.getItem('employeeId'),
         'beginningOfDayHarvesting',
-        'harvesting'
+        'harvesting',
+        this.role
       );
 
       this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
