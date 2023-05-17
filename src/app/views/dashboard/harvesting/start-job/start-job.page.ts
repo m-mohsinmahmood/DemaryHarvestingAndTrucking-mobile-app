@@ -18,8 +18,9 @@ import { Router } from '@angular/router';
   styleUrls: ['./start-job.page.scss'],
 })
 export class StartJobPage implements OnInit {
-  @ViewChild('fieldInput') fieldInput: ElementRef;
+  // @ViewChild('fieldInput') fieldInput: ElementRef;
   @ViewChild('machineryInput') machineryInput: ElementRef;
+  @ViewChild('jobInput') jobInput: ElementRef;
 
   role: any;
 
@@ -30,12 +31,20 @@ export class StartJobPage implements OnInit {
   startJobFormTruck: FormGroup;
 
   // Field variables
-  allFields: Observable<any>;
-  field_search$ = new Subject();
-  field_name: any = '';
-  fieldSearchValue: any = '';
-  fieldUL: any = false;
-  isFieldSelected: any = true;
+  // allFields: Observable<any>;
+  // field_search$ = new Subject();
+  // field_name: any = '';
+  // fieldSearchValue: any = '';
+  // fieldUL: any = false;
+  // isFieldSelected: any = true;
+
+  // job variables
+  allJobs: Observable<any>;
+  job_search$ = new Subject();
+  job_name: any = '';
+  jobSearchValue: any = '';
+  jobUL: any = false;
+  isJobSelected: any = true;
 
   // machinery variables
   allMachinery: Observable<any>;
@@ -61,6 +70,14 @@ export class StartJobPage implements OnInit {
   fieldName = '';
   isLoadingCustomer$;
 
+  customerName;
+  state;
+  farm;
+  crop;
+  crewChiefName;
+  date;
+  truck_driver_name;
+
   public loadingSpinner = new BehaviorSubject(false);
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
@@ -78,6 +95,10 @@ export class StartJobPage implements OnInit {
           this.allMachinery = of([]);
           this.machineUL = false; // to hide the UL
         }
+        else if (e.target !== this.jobInput.nativeElement) {
+          this.allJobs = of([]);
+          this.jobUL = false; // to hide the UL
+        }
       });
     }
   }
@@ -86,14 +107,16 @@ export class StartJobPage implements OnInit {
     console.log("Start Job Page 1");
 
     this.role = localStorage.getItem('role');
+    this.truck_driver_name = localStorage.getItem('employeeName');
 
     this.initForms();
-    this.initApis();
-    this.initObservables();
+    // this.initApis();
+    // this.initObservables();
 
     // subscriptioln for fields
     // this.fieldSearchSubscription();
     this.machineSearchSubscription();
+    this.jobSearchSubscription();
 
   }
   // async ionViewDidEnter() {
@@ -112,7 +135,7 @@ export class StartJobPage implements OnInit {
     // Unsubscribe from all subscriptions
     this._unsubscribeAll.next(null);
     this._unsubscribeAll.complete();
-    this.sub.unsubscribe();
+    // this.sub.unsubscribe();
     // this.isLoadingCustomer$.unsubscribe();
 
   }
@@ -128,30 +151,43 @@ export class StartJobPage implements OnInit {
       beginningEngineHours: ['', [Validators.required]],
       field_id: [''],
       employeeId: [''],
-      workOrderId: ['']
+      job_id: ['']
     });
     this.startJobFormCombine = this.formBuilder.group({
       machineryId: ['', [Validators.required]],
-      workOrderId: [''],
       beginning_separator_hours: ['', [Validators.required]],
       beginningEngineHours: ['', [Validators.required]],
-      field_id: [''],
-      field_acres: [''],
-      employeeId: [''],
-      field_name: ['']
+      employeeId: [localStorage.getItem('employeeId')],
+      customer_id: [''],
+      state: [''],
+      farm_id: [''],
+      crop_id: [''],
+      crew_chief_id: [''],
+      jobId: ['']
     });
     this.startJobFormKart = this.formBuilder.group({
       machineryId: [''],
-      job_id: [''],
+      // job_id: [''],
       beginningEngineHours: ['', [Validators.required]],
-      employeeId: [''],
+      employeeId: [localStorage.getItem('employeeId')],
+      customer_id: [''],
+      state: [''],
+      farm_id: [''],
+      crop_id: [''],
+      crew_chief_id: [''],
+      jobId: ['']
     });
     this.startJobFormTruck = this.formBuilder.group({
       workOrderId: [''],
       truck_id: ['', [Validators.required]],
-      crew_chief_id: [''],
       begining_odometer_miles: ['', [Validators.required]],
-      employeeId: ['']
+      employeeId: [localStorage.getItem('employeeId')],
+      customer_id: [''],
+      state: [''],
+      farm_id: [''],
+      crop_id: [''],
+      crew_chief_id: [''],
+      jobId: ['']
     });
   }
 
@@ -160,14 +196,14 @@ export class StartJobPage implements OnInit {
       this.harvestingService.getJobSetup('Crew Chief', localStorage.getItem('employeeId'));
     } else if (this.role.includes('Combine Operator')) {
       this.harvestingService.getJobSetup('Combine Operator', '', localStorage.getItem('employeeId'));
-    } else if (this.role.includes('Kart Operator')) {
+    } else if (this.role.includes('Cart Operator')) {
 
       let crew_chief_id = '';
       this.harvestingService.getKartOperatorCrewChief('getKartOpCrewChief', localStorage.getItem('employeeId')).subscribe(param => {
         crew_chief_id = param[0].id;
 
         this.harvestingService.getJobSetup(
-          'Kart Operator',
+          'Cart Operator',
           crew_chief_id,
           localStorage.getItem('employeeId')
         );
@@ -200,7 +236,7 @@ export class StartJobPage implements OnInit {
           this.fieldName = this.customerData.customer_job[0]?.field_name;
         }
 
-        else if (this.role.includes('Kart Operator')) {
+        else if (this.role.includes('Cart Operator')) {
           console.log("current job id: ", this.customerData.customer_job[0]?.id);
 
           this.startJobFormKart.patchValue({
@@ -262,15 +298,15 @@ export class StartJobPage implements OnInit {
 
     // For Combine Operator
     else if (localStorage.getItem('role').includes('Combine Operator')) {
-      const data = {
-        machineryId: this.startJobFormCombine.get('machineryId').value,
-        employeeId: localStorage.getItem('employeeId'),
-        jobId: this.startJobFormCombine.get('workOrderId').value,
-        beginningEngineHours: this.startJobFormCombine.get('beginningEngineHours').value,
-        beginning_separator_hours: this.startJobFormCombine.get('beginning_separator_hours').value,
-      };
+      // const data = {
+      //   machineryId: this.startJobFormCombine.get('machineryId').value,
+      //   employeeId: localStorage.getItem('employeeId'),
+      //   jobId: this.startJobFormCombine.get('workOrderId').value,
+      //   beginningEngineHours: this.startJobFormCombine.get('beginningEngineHours').value,
+      //   beginning_separator_hours: this.startJobFormCombine.get('beginning_separator_hours').value,
+      // };
       this.loadingSpinner.next(true);
-      this.harvestingService.createBeginingDay(data, 'harvesting')
+      this.harvestingService.createBeginingDay(this.startJobFormCombine.value, 'harvesting')
         .subscribe(
           (res: any) => {
             console.log('Response:', res);
@@ -293,20 +329,19 @@ export class StartJobPage implements OnInit {
         );
     }
 
-    // For Kart Operator
+    // For Cart Operator
+    else if (localStorage.getItem('role').includes('Cart Operator')) {
+      // console.log(this.startJobFormKart.get('job_id').value);
 
-    else if (localStorage.getItem('role').includes('Kart Operator')) {
-      console.log(this.startJobFormKart.get('job_id').value);
-
-      const data = {
-        machineryId: this.startJobFormKart.get('machineryId').value,
-        employeeId: localStorage.getItem('employeeId'),
-        jobId: this.startJobFormKart.get('job_id').value,
-        beginningEngineHours: this.startJobFormKart.get('beginningEngineHours').value,
-      };
+      // const data = {
+      //   machineryId: this.startJobFormKart.get('machineryId').value,
+      //   employeeId: localStorage.getItem('employeeId'),
+      //   jobId: this.startJobFormKart.get('job_id').value,
+      //   beginningEngineHours: this.startJobFormKart.get('beginningEngineHours').value,
+      // };
 
       this.loadingSpinner.next(true);
-      this.harvestingService.createBeginingDay(data, 'harvesting')
+      this.harvestingService.createBeginingDay(this.startJobFormKart.value, 'harvesting')
         .subscribe(
           (res: any) => {
             // console.log('Response:', res);
@@ -387,109 +422,109 @@ export class StartJobPage implements OnInit {
     }
   }
   //#region Fields
-  fieldSearchSubscription() {
-    this.field_search$
-      .pipe(
-        debounceTime(500),
-        distinctUntilChanged(),
-        takeUntil(this._unsubscribeAll)
-      )
-      .subscribe((value: string) => {
-        // passing for renderer2
-        this.fieldSearchValue = value;
-        // for asterik to look required
-        if (value === '') {
-          this.isFieldSelected = true;
-        }
+  // fieldSearchSubscription() {
+  //   this.field_search$
+  //     .pipe(
+  //       debounceTime(500),
+  //       distinctUntilChanged(),
+  //       takeUntil(this._unsubscribeAll)
+  //     )
+  //     .subscribe((value: string) => {
+  //       // passing for renderer2
+  //       this.fieldSearchValue = value;
+  //       // for asterik to look required
+  //       if (value === '') {
+  //         this.isFieldSelected = true;
+  //       }
 
-        // calling API
-        this.allFields = this.harvestingService.getFields(
-          value,
-          'customerFields',
-          this.customerID,
-          this.farmID
-        );
+  //       // calling API
+  //       this.allFields = this.harvestingService.getFields(
+  //         value,
+  //         'customerFields',
+  //         this.customerID,
+  //         this.farmID
+  //       );
 
-        // subscribing to show/hide field UL
-        this.allFields.subscribe((fields) => {
-          if (fields.count === 0) {
-            // hiding UL
-            this.fieldUL = false;
-            this.isFieldSelected = true;
-          } else {
-            this.fieldUL = true;
-          }
-        });
-      });
-  }
-  inputClickedField() {
-    // getting the serch value to check if there's a value in input
-    this.field_search$
-      .pipe(
-        debounceTime(500),
-        distinctUntilChanged(),
-        takeUntil(this._unsubscribeAll)
-      )
-      .subscribe((v) => {
-        this.fieldSearchValue = v;
-      });
+  //       // subscribing to show/hide field UL
+  //       this.allFields.subscribe((fields) => {
+  //         if (fields.count === 0) {
+  //           // hiding UL
+  //           this.fieldUL = false;
+  //           this.isFieldSelected = true;
+  //         } else {
+  //           this.fieldUL = true;
+  //         }
+  //       });
+  //     });
+  // }
+  // inputClickedField() {
+  //   // getting the serch value to check if there's a value in input
+  //   this.field_search$
+  //     .pipe(
+  //       debounceTime(500),
+  //       distinctUntilChanged(),
+  //       takeUntil(this._unsubscribeAll)
+  //     )
+  //     .subscribe((v) => {
+  //       this.fieldSearchValue = v;
+  //     });
 
-    const value =
-      this.fieldSearchValue === undefined
-        ? this.field_name
-        : this.fieldSearchValue;
+  //   const value =
+  //     this.fieldSearchValue === undefined
+  //       ? this.field_name
+  //       : this.fieldSearchValue;
 
-    // calling API
-    this.allFields = this.harvestingService.getFields(
-      '',
-      'customerFields',
-      this.customerID,
-      this.farmID
-    );
+  //   // calling API
+  //   this.allFields = this.harvestingService.getFields(
+  //     '',
+  //     'customerFields',
+  //     this.customerID,
+  //     this.farmID
+  //   );
 
-    // subscribing to show/hide field UL
-    this.allFields.subscribe((fields) => {
-      if (fields.count === 0) {
-        // hiding UL
-        this.fieldUL = false;
-      } else {
-        // showing UL
-        this.fieldUL = true;
-      }
-    });
-  }
-  listClickedField(field) {
-    console.log('Field Object:', field);
-    // hiding UL
-    this.fieldUL = false;
+  //   // subscribing to show/hide field UL
+  //   this.allFields.subscribe((fields) => {
+  //     if (fields.count === 0) {
+  //       // hiding UL
+  //       this.fieldUL = false;
+  //     } else {
+  //       // showing UL
+  //       this.fieldUL = true;
+  //     }
+  //   });
+  // }
+  // listClickedField(field) {
+  //   console.log('Field Object:', field);
+  //   // hiding UL
+  //   this.fieldUL = false;
 
-    // passing name in select's input
-    this.fieldInput.nativeElement.value = field.field_name;
+  //   // passing name in select's input
+  //   this.fieldInput.nativeElement.value = field.field_name;
 
-    // to enable submit button
-    this.isFieldSelected = false;
+  //   // to enable submit button
+  //   this.isFieldSelected = false;
 
-    // assigning values in form conditionally
-    if (this.role.includes('Crew Chief')) {
-      this.startJobFormCrew.patchValue({
-        field_id: field.field_id,
-      });
-    }
+  //   // assigning values in form conditionally
+  //   if (this.role.includes('Crew Chief')) {
+  //     this.startJobFormCrew.patchValue({
+  //       field_id: field.field_id,
+  //     });
+  //   }
 
-    else if (this.role.includes('Kart Operator')) {
-      this.startJobFormKart.patchValue({
-        field_id: field.field_id
-      });
-    }
-    else if (this.role.includes('Truck Driver')) {
-      this.startJobFormTruck.patchValue({
-        field_id: field.field_id
-      });
-    }
+  //   else if (this.role.includes('Cart Operator')) {
+  //     this.startJobFormKart.patchValue({
+  //       field_id: field.field_id
+  //     });
+  //   }
+  //   else if (this.role.includes('Truck Driver')) {
+  //     this.startJobFormTruck.patchValue({
+  //       field_id: field.field_id
+  //     });
+  //   }
 
-    // clearing array
-    this.allFields = of([]);
-  }
+  //   // clearing array
+  //   this.allFields = of([]);
+  // }
   //#endregion
   //#region Machinery
   machineSearchSubscription() {
@@ -514,10 +549,28 @@ export class StartJobPage implements OnInit {
         //   this.customerID,
         //   this.farmID
         // );
-        this.allMachinery = this.harvestingService.getMachinery(
-          value,
-          'allMotorizedVehicles'
-        );
+
+        if (this.role.includes('Combine Operator')) {
+          this.allMachinery = this.harvestingService.getMachinery(
+            value,
+            'allMachinery',
+            'Combine'
+          );
+        }
+        else if (this.role.includes('Cart Operator')) {
+          this.allMachinery = this.harvestingService.getMachinery(
+            value,
+            'allMachinery',
+            'Combine'
+          );
+        }
+        else if (this.role.includes('Truck Driver')) {
+          this.allMachinery = this.harvestingService.getMachinery(
+            value,
+            'allMotorizedVehicles',
+            'Truck IFTA'
+          );
+        }
 
         // subscribing to show/hide machine UL
         this.allMachinery.subscribe((machine) => {
@@ -549,65 +602,216 @@ export class StartJobPage implements OnInit {
         : this.machineSearchValue;
 
     // calling API
-    this.allMachinery = this.harvestingService.getMachinery(
-      value,
-      'allMotorizedVehicles'
-    );
 
-    // subscribing to show/hide field UL
-    this.allMachinery.subscribe((machinery) => {
-      console.log('--', machinery);
-      if (machinery.count === 0) {
-        // hiding UL
-        this.machineUL = false;
-      } else {
-        // showing UL
-        this.machineUL = true;
-      }
-    });
-  }
-  listClickedMachiney(machinery) {
-    console.log('Machinery Object:', machinery);
-    // hiding UL
-    this.machineUL = false;
-
-    // passing name in select's input
-    this.machineryInput.nativeElement.value = machinery.type;
-
-    // to enable submit button
-    this.isMachineSelected = false;
-
-
-
-    // assigning values in form conditionally
-    if (this.role.includes('Crew Chief')) {
-      this.startJobFormCrew.patchValue({
-        machineryId: machinery.id,
-        beginningEngineHours: machinery.odometer_reading_end
-      });
-    } else if (this.role.includes('Combine Operator')) {
-      this.startJobFormCombine.patchValue({
-        machineryId: machinery.id,
-        beginningEngineHours: machinery.odometer_reading_end
-      });
+    if (this.role.includes('Combine Operator')) {
+      this.allMachinery = this.harvestingService.getMachinery(
+        value,
+        'allMachinery',
+        'Combine'
+      );
     }
-    else if (this.role.includes('Kart Operator')) {
-      this.startJobFormKart.patchValue({
-        machineryId: machinery.id,
-        beginningEngineHours: machinery.odometer_reading_end
-      });
+    else if (this.role.includes('Cart Operator')) {
+      this.allMachinery = this.harvestingService.getMachinery(
+        value,
+        'allMachinery',
+        'Combine'
+      );
     }
     else if (this.role.includes('Truck Driver')) {
-      this.startJobFormTruck.patchValue({
-        truck_id: machinery.id,
-        begining_odometer_miles: machinery.odometer_reading_end
-      });
+      this.allMachinery = this.harvestingService.getMachinery(
+        value,
+        'allMotorizedVehicles',
+        'Truck IFTA'
+      );
     }
 
-    // clearing array
-    this.allMachinery = of([]);
-  }
+      // subscribing to show/hide field UL
+      this.allMachinery.subscribe((machinery) => {
+        console.log('--', machinery);
+        if (machinery.count === 0) {
+          // hiding UL
+          this.machineUL = false;
+        } else {
+          // showing UL
+          this.machineUL = true;
+        }
+      });
+    }
+    listClickedMachiney(machinery) {
+      console.log('Machinery Object:', machinery);
+      // hiding UL
+      this.machineUL = false;
 
-  //#endregion
-}
+      // passing name in select's input
+      this.machineryInput.nativeElement.value = machinery.name;
+
+      // to enable submit button
+      this.isMachineSelected = false;
+
+      // assigning values in form conditionally
+      if (this.role.includes('Crew Chief')) {
+        this.startJobFormCrew.patchValue({
+          machineryId: machinery.id,
+          beginningEngineHours: machinery.odometer_reading_end
+        });
+      } else if (this.role.includes('Combine Operator')) {
+        this.startJobFormCombine.patchValue({
+          machineryId: machinery.id,
+          beginningEngineHours: machinery.odometer_reading_end,
+          beginning_separator_hours:machinery.separator_hours
+        });
+      }
+      else if (this.role.includes('Cart Operator')) {
+        this.startJobFormKart.patchValue({
+          machineryId: machinery.id,
+          beginningEngineHours: machinery.odometer_reading_end,
+          beginning_separator_hours:machinery.separator_hours
+        });
+      }
+      else if (this.role.includes('Truck Driver')) {
+        this.startJobFormTruck.patchValue({
+          truck_id: machinery.id,
+          begining_odometer_miles: machinery.odometer_reading_end
+        });
+      }
+
+      // clearing array
+      this.allMachinery = of([]);
+    }
+    //#endregion
+    //#region job
+    jobSearchSubscription() {
+      this.job_search$
+        .pipe(
+          debounceTime(500),
+          distinctUntilChanged(),
+          takeUntil(this._unsubscribeAll)
+        )
+        .subscribe((value: string) => {
+
+          // passing for renderer2
+          this.jobSearchValue = value;
+
+          // for asterik to look required
+          if (value === '') {
+            this.isJobSelected = true;
+          }
+
+          // calling API
+          this.allJobs = this.harvestingService.getInvoicedJobs(
+            'getInvoicedJobs',
+            this.role,
+            localStorage.getItem('employeeId')
+          );
+
+          // subscribing to show/hide machine UL
+          this.allJobs.subscribe((job) => {
+            if (job.count === 0) {
+
+              this.jobUL = false; // hiding UL
+              this.isJobSelected = true; // for asterik to look required
+            } else {
+              this.jobUL = true; // hiding UL
+            }
+          });
+        });
+    }
+    inputClickedJob() {
+      // getting the serch value to check if there's a value in input
+      this.job_search$
+        .pipe(
+          debounceTime(500),
+          distinctUntilChanged(),
+          takeUntil(this._unsubscribeAll)
+        )
+        .subscribe((v) => {
+          this.jobSearchValue = v;
+        });
+
+      const value =
+        this.jobSearchValue === undefined
+          ? this.job_name
+          : this.jobSearchValue;
+
+      // calling API
+      this.allJobs = this.harvestingService.getInvoicedJobs(
+        'getInvoicedJobs',
+        this.role,
+        localStorage.getItem('employeeId')
+      );
+
+      // subscribing to show/hide field UL
+      this.allJobs.subscribe((job) => {
+        console.log(job);
+        if (job.count === 0) {
+          // hiding UL
+          this.jobUL = false;
+        } else {
+          // showing UL
+          this.jobUL = true;
+        }
+      });
+    }
+    listClickedJob(job) {
+      console.log(job);
+      // hiding UL
+      this.jobUL = false;
+
+      // patching for Combine Operator
+      if (localStorage.getItem('role').includes('Combine Operator')) {
+        this.startJobFormCombine.patchValue({
+          jobId: job.job_id,
+          crop_id: job.crop_id,
+          customer_id: job.customer_id,
+          farm_id: job.farm_id,
+          state: job.state,
+          crew_chief_id: job.crew_chief_id,
+        });
+      }
+
+      // patching for Cart Operator
+      else if (localStorage.getItem('role').includes('Cart Operator')) {
+        this.startJobFormKart.patchValue({
+          jobId: job.job_id,
+          crop_id: job.crop_id,
+          customer_id: job.customer_id,
+          farm_id: job.farm_id,
+          state: job.state,
+          crew_chief_id: job.crew_chief_id,
+
+        });
+      }
+
+      // patching for Cart Operator
+      else if (localStorage.getItem('role').includes('Truck Driver')) {
+        this.startJobFormTruck.patchValue({
+          jobId: job.job_id,
+          crop_id: job.crop_id,
+          customer_id: job.customer_id,
+          farm_id: job.farm_id,
+          state: job.state,
+          crew_chief_id: job.crew_chief_id,
+
+        });
+      }
+
+      this.customerName = job.customer_name;
+      this.state = job.state;
+      this.farm = job.farm_name;
+      this.crop = job.crop_name;
+      this.date = job.created_at;
+      this.crewChiefName = job.crew_chief_name;
+
+      // passing name in select's input
+      this.jobInput.nativeElement.value = job.job_id;
+
+      // passing name in job-search-value in Rendered2 for checks
+      this.jobSearchValue = job.customer_name;
+
+      // to enable submit button
+      this.isJobSelected = false;
+
+    }
+    //#endregion
+  }
 

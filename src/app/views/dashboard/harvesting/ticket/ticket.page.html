@@ -1,34 +1,42 @@
 <app-header
-  [title]="role.includes('Kart Operator') && !isReassign? 'Create Delivery Ticket' : '' ||
-  role.includes('Kart Operator') && isReassign? 'Reassign Delivery Ticket': ''"
+  [title]="role.includes('Cart Operator') && !isReassign? 'Create Delivery Ticket' : '' ||
+  role.includes('Cart Operator') && isReassign? 'Reassign Delivery Ticket': ''"
   [color]="'harvesting'"
 ></app-header>
 
 <!-- Kart-Operator -->
-<ion-content *ngIf="role.includes('Kart Operator') && !isReassign ">
+<ion-content *ngIf="role.includes('Cart Operator') && !isReassign ">
   <!-- <app-timer [value]="'12:11:19'"></app-timer> -->
   <div class="p-4">
     <ion-card class="m-0 mb-4">
       <ion-card-header>
-        <ion-card-title class="font-Lato">Customer Profile</ion-card-title>
+        <ion-card-title class="font-Lato">Job Profile</ion-card-title>
       </ion-card-header>
       <ion-card-content *ngIf="!isLoading">
         <ion-grid>
           <ion-row>
-            <ion-col size="6" class="font-Lato text-sm font-semibold text-black">Customer Name</ion-col>
-            <ion-col size="6" class="font-Lato text-sm">{{customerData?.customer_job[0]?.customer_name}}</ion-col>
-            <ion-col size="6" class="font-Lato text-sm font-semibold text-black">State</ion-col>
-            <ion-col size="6" class="font-Lato text-sm">{{customerData?.customer_job[0]?.state}} </ion-col>
-            <ion-col size="6" class="font-Lato text-sm font-semibold text-black">Farm</ion-col>
-            <ion-col size="6" class="font-Lato text-sm">{{customerData?.customer_job[0]?.farm_name}} </ion-col>
-            <ion-col size="6" class="font-Lato text-sm font-semibold text-black">Crop</ion-col>
-            <ion-col size="6" class="font-Lato text-sm">{{customerData?.customer_job[0]?.crop}} </ion-col>
+            <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Created at</ion-col>
+            <ion-col size="6" class="text-sm font-Lato">{{date | date:'MM-dd-YYYY'}}</ion-col>
+            <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Customer Name</ion-col>
+            <ion-col size="6" class="text-sm flex font-Lato ">{{customerName}}</ion-col>
+            <ion-col size="6" class="text-sm text-black font-Lato font-semibold">State</ion-col>
+            <ion-col size="6" class="text-sm flex font-Lato">{{state}}</ion-col>
+            <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Farm</ion-col>
+            <ion-col size="6" class="text-sm flex font-Lato">{{farm}} </ion-col>
+            <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Crop</ion-col>
+            <ion-col size="6" class="text-sm flex font-Lato">{{crop}}</ion-col>
+            <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Crew Chief</ion-col>
+            <ion-col size="6" class="text-sm font-Lato">{{crewChiefName}} </ion-col>
           </ion-row>
         </ion-grid>
       </ion-card-content>
       <ion-card-content *ngIf="isLoading">
         <ion-grid>
           <ion-row>
+            <ion-col size="6" class="font-Lato text-sm font-semibold text-black">Created at</ion-col>
+            <ion-col size="6" class="font-Lato text-sm">
+              <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
+            </ion-col>
             <ion-col size="6" class="font-Lato text-sm font-semibold text-black">Customer Name</ion-col>
             <ion-col size="6" class="font-Lato text-sm">
               <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
@@ -42,6 +50,10 @@
               <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
             </ion-col>
             <ion-col size="6" class="font-Lato text-sm font-semibold text-black">Crop</ion-col>
+            <ion-col size="6" class="font-Lato text-sm">
+              <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
+            </ion-col>
+            <ion-col size="6" class="font-Lato text-sm font-semibold text-black">Crew Chief</ion-col>
             <ion-col size="6" class="font-Lato text-sm">
               <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
             </ion-col>
@@ -51,32 +63,52 @@
     </ion-card>
     <form [formGroup]="deliveryTicketForm">
       <div class="px-2">
-        <!-- Truck Driver -->
-        <div [ngClass]="'opacity-100 visible ease-in duration-200'"  role="dialog" aria-modal="true">
-          <div [ngClass]="'opacity-100 visible scale-100 ease-in duration-200'" class="relative z-20 mb-4">
-            <div class="mx-auto max-w-full transform rounded-xl px-0 transition-all">
-              <label class="mb-1 block text-sm font-medium text-gray-700">Truck Driver Name <span *ngIf="isTruckDriverSelected" class="text-red-400">*</span></label>
+         <!-- JOBS DROPDOWN -->
+         <div role="dialog" aria-modal="true">
+          <div class="mb-4 relative z-80">
+            <div class="mx-auto max-w-full transform rounded-xl px-0  transition-all">
+              <label class="block text-sm font-medium text-gray-700 mb-1">Invoiced Jobs<span *ngIf="isJobSelected"
+                  class="text-red-400">*</span></label>
               <div class="flex items-center justify-between gap-x-2 rounded-md">
-                <input (keyup)="trick_driver_search$.next($event.target.value)" (click)="inputClickedTruckDriver()" [value]="trick_driver_name" #truckInput class="{{isFieldDisabled? 'pointer-events-none bg-gray-200 w-full px-4 py-2 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500': 'w-full px-4 py-2 text-gray-900 placeholder:text-sm rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500'}}" placeholder="Select Driver" role="" aria-expanded="false" aria-controls="options" />
+                <input (keyup)="job_search$.next($event.target.value)" [value]="job_name" (click)="inputClickedJob()"
+                  #jobInput
+                  class="w-full px-4 py-2.5 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
+                  placeholder="Select Invoiced Jobs" role="" aria-expanded="false" aria-controls="options">
               </div>
 
-              <div *ngIf="allTruckDrivers | withLoading | async as allTruckDrivers" >
-                <div class="flex items-center justify-center">
-                  <ion-spinner *ngIf="allTruckDrivers?.loading" name="crescent" mode="indeterminate" color="primary"></ion-spinner>
+              <div *ngIf="allJobs | withLoading | async as allJobs">
+                <div class="flex justify-center items-center">
+                  <ion-spinner *ngIf="allJobs?.loading" name="crescent" mode="indeterminate"
+                    color="primary"></ion-spinner>
                 </div>
-                <ul *ngIf="allTruckDrivers?.value && truckDriverUL" class="absolute -mb-2 max-h-44 w-full scroll-py-2 overflow-y-auto bg-white py-2 text-sm text-gray-800 drop-shadow-lg" id="options" role="listbox">
-                  <li *ngFor="let truckDrivers of (allTruckDrivers?.value)" (click)="listClickedTruckDriver(truckDrivers)" class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200" role="option" tabindex="-1">
-                    <div class="flex items-center p-2">{{truckDrivers.name}}</div>
+                <ul *ngIf="allJobs?.value && jobUL"
+                  class="-mb-2 max-h-44 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800 bg-white relative w-full"
+                  id="options" role="listbox">
+                  <li *ngFor="let job of (allJobs?.value.jobs)" (click)="listClickedJob(job)"
+                    class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200" role="option"
+                    tabindex="-1">
+                    <div class="flex items-center p-2">
+                      {{job.created_at|date:"yy-MM"}}-{{job.customer_name}}-{{job.farm_name}}-{{job.crop_name}}
+                    </div>
                   </li>
                 </ul>
-                <div *ngIf="allTruckDrivers?.value?.length === 0">
-                  <p disabled class="cursor-pointer select-none rounded-md px-4 py-2 text-gray-500 hover:bg-gray-200 hover:font-semibold hover:text-gray-700">No driver (s) found</p>
+                <div *ngIf="allJobs?.value?.jobs?.length === 0">
+                  <div
+                    class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200 text-gray-500 hover:text-gray-700 hover:font-semibold"
+                    disabled role="option" tabindex="-1"> No Invoiced Job(s) found </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <!-- Truck Driver -->
+        <!-- JOBS DROPDOWN -->
+
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Cart Operator</label>
+          <input
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            [value]="cartOperatorName" readonly >
+        </div>
 
         <div class="col-span-12 mb-4">
           <label class="block text-sm font-medium text-gray-700">Destination <span *ngIf="this.deliveryTicketForm.get('destination').hasError('required')" class="text-red-400">*</span></label>
@@ -88,12 +120,16 @@
           <input type="number" class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" formControlName="loadedMiles" placeholder="Loaded Miles" />
         </div>
 
-        <div [ngClass]="'opacity-100 visible ease-in duration-200'"  role="dialog" aria-modal="true">
+        <div  [ngClass]="'opacity-100 visible ease-in duration-200'"  role="dialog" aria-modal="true">
           <div [ngClass]="'opacity-100 visible scale-100 ease-in duration-200'" class="relative z-50 mb-4">
             <div class="mx-auto max-w-full transform rounded-xl px-0 transition-all">
-              <label class="mb-1 block text-sm font-medium text-gray-700">Field Name <span *ngIf="isFieldSelected" class="text-red-400">*</span></label>
-              <div class="flex items-center justify-between gap-x-2 rounded-md">
-                <input (keyup)="field_search$.next($event.target.value)" (click)="inputClickedField()" [value]="field_name" #fieldInput class="{{isFieldDisabled? 'pointer-events-none bg-gray-200 w-full px-4 py-2.5 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500': 'w-full px-4 py-2.5 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500'}}" placeholder="Select Field" role="" aria-expanded="false" aria-controls="options" />
+              <label class="mb-1 block text-sm font-medium text-gray-700">Field/Pivot<span *ngIf="isFieldSelected" class="text-red-400">*</span></label>
+              <div
+               class="flex items-center justify-between gap-x-2 rounded-md"
+               >
+                <input (keyup)="field_search$.next($event.target.value)" (click)="inputClickedField()" [value]="field_name" #fieldInput
+                class="{{isJobSelected? 'pointer-events-none bg-gray-200 w-full px-4 py-2.5 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500': 'w-full px-4 py-2.5 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500'}}"
+                 placeholder="Select Field" role="" aria-expanded="false" aria-controls="options" />
               </div>
 
               <div *ngIf="allFields | withLoading | async as allFields" >
@@ -101,7 +137,7 @@
                   <ion-spinner *ngIf="allFields?.loading" name="crescent" mode="indeterminate" color="primary"></ion-spinner>
                 </div>
                 <ul *ngIf="allFields?.value && fieldUL"
-                class="-mb-2 max-h-44 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800 bg-white drop-shadow-lg absolute w-full"
+                class="-mb-2 max-h-44 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800 bg-white absolute w-full"
                 >
                   <li *ngFor="let field of (allFields?.value.customer_fields)" (click)="listClickedField(field)" class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200" role="option" tabindex="-1">
                     <div class="flex items-center p-2">{{field.field_name}}</div>
@@ -120,75 +156,102 @@
           <ion-label class="font">Split Load</ion-label>
         </ion-item>
 
-        <div *ngIf="!isSplitTrue">
-          <div class="col-span-12 mb-4">
-            <label class="block text-sm font-medium text-gray-700">Kart Scale Weight (optional) <span *ngIf="this.deliveryTicketForm.get('kartScaleWeight').hasError('required')" class="text-red-400">*</span></label>
-            <input type="number" class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" formControlName="kartScaleWeight" placeholder="Kart Scale Weight (optional)" />
-          </div>
-        </div>
-
         <div *ngIf="isSplitTrue">
           <div class="col-span-12 mb-4">
-            <label class="block text-sm font-medium text-gray-700">Split Load <span *ngIf="this.deliveryTicketForm.get('splitLoad')?.hasError('required')" class="text-red-400">*</span></label>
-            <input type="number" class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" formControlName="splitLoad" placeholder="Split Load" />
-          </div>
-
-          <div class="col-span-12 mb-4">
-            <label class="block text-sm font-medium text-gray-700">Kart Scale Weight (Split Load) <span *ngIf="this.deliveryTicketForm.get('kart_scale_weight_split')?.hasError('required')" class="text-red-400">*</span></label>
+            <label class="block text-sm font-medium text-gray-700">Cart Scale Weight (lb) <span *ngIf="this.deliveryTicketForm.get('kart_scale_weight_split')?.hasError('required')" class="text-red-400">*</span></label>
             <input type="number" class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" formControlName="kart_scale_weight_split" placeholder="Kart Scale Weight (Split Load)" />
           </div>
 
-          <div class="col-span-12 mb-4">
-            <label class="block text-sm font-medium text-gray-700">Field (Split Load) <span *ngIf="this.deliveryTicketForm.get('field_load_split')?.hasError('required')" class="text-red-400">*</span></label>
-            <input type="number" class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" formControlName="field_load_split" placeholder="Field (Split Load)" />
-          </div>
-        </div>
-
-        <div [ngClass]="add_location_overlay ? 'opacity-100 visible ease-in duration-200' : 'opacity-0 invisible ease-out duration-300'"  role="dialog" aria-modal="true">
-          <div [ngClass]="add_location_overlay ? 'opacity-100 visible scale-100 ease-in duration-200' : 'opacity-0 invisible scale-95 ease-out duration-300'" class="relative z-30 mb-4">
+          <!-- FIELD SPLIT LOAD DROPDOWN -->
+        <div [ngClass]="'opacity-100 visible ease-in duration-200'"  role="dialog" aria-modal="true">
+          <div [ngClass]="'opacity-100 visible scale-100 ease-in duration-200'" class="relative z-50 mb-4">
             <div class="mx-auto max-w-full transform rounded-xl px-0 transition-all">
-              <label class="mb-1 block text-sm font-medium text-gray-700">Truck ID: <span *ngIf="isMachineSelected" class="text-red-400">*</span></label>
+              <label class="mb-1 block text-sm font-medium text-gray-700">Field (Split Load)<span *ngIf="isFieldSplitLoadSelected" class="text-red-400">*</span></label>
               <div class="flex items-center justify-between gap-x-2 rounded-md">
-                <input (keyup)="machine_search$.next($event.target.value)" (click)="inputClickedMachinery()" [value]="machine_name" #machineryInput class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder:text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500" placeholder="Select Truck" role="" aria-expanded="false" aria-controls="options" />
+                <input (keyup)="field_split_load_search$.next($event.target.value)" (click)="inputClickedFieldSplitLoad()" [value]="field_split_load_name" #field_split_load_input
+                class="{{isJobSelected? 'pointer-events-none bg-gray-200 w-full px-4 py-2.5 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500': 'w-full px-4 py-2.5 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500'}}"
+                 placeholder="Select Field Split Load" role="" aria-expanded="false" aria-controls="options" />
               </div>
 
-              <div *ngIf="allMachinery | withLoading | async as allMachinery" >
+              <div *ngIf="allSplitLoadFields | withLoading | async as allSplitLoadFields" >
                 <div class="flex items-center justify-center">
-                  <ion-spinner *ngIf="allMachinery?.loading" name="crescent" mode="indeterminate" color="primary"></ion-spinner>
+                  <ion-spinner *ngIf="allSplitLoadFields?.loading" name="crescent" mode="indeterminate" color="primary"></ion-spinner>
                 </div>
-                <ul *ngIf="allMachinery?.value && machineUL" class="absolute -mb-2 max-h-48 w-full scroll-py-2 overflow-y-auto bg-white py-2 text-sm text-gray-800 drop-shadow-lg" id="options" role="listbox">
-                  <li *ngFor="let machinery of (allMachinery?.value.machinery)" (click)="listClickedMachiney(machinery)" class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200" role="option" tabindex="-1">
-                    <div class="flex items-center p-2">{{machinery.type}}</div>
+                <ul *ngIf="allSplitLoadFields?.value && fieldSplitLoadUL"
+                class="-mb-2 max-h-44 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800 bg-white absolute w-full"
+                >
+                  <li *ngFor="let field_split_load of (allSplitLoadFields?.value.customer_fields)" (click)="listClickedFieldSplitLoad(field_split_load)" class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200" role="option" tabindex="-1">
+                    <div class="flex items-center p-2">{{field_split_load.field_name}}</div>
                   </li>
                 </ul>
-                <div *ngIf="allMachinery?.value?.machinery?.length === 0">
-                  <p disabled class="cursor-pointer select-none rounded-md px-4 py-2 text-gray-500 hover:bg-gray-200 hover:font-semibold hover:text-gray-700">No Truck(s) found</p>
+                <div *ngIf="allSplitLoadFields?.value?.customer_fields?.length === 0">
+                  <p disabled class="cursor-pointer select-none rounded-md px-4 py-2 text-gray-500 hover:bg-gray-200 hover:font-semibold hover:text-gray-700">No Fields(s) found</p>
                 </div>
               </div>
             </div>
           </div>
         </div>
+        <!-- FIELD SPLIT LOAD DROPDOWN -->
+
+        </div>
+
+          <!-- Truck Driver -->
+          <div [ngClass]="'opacity-100 visible ease-in duration-200'"  role="dialog" aria-modal="true">
+            <div [ngClass]="'opacity-100 visible scale-100 ease-in duration-200'" class="relative z-20 mb-4">
+              <div class="mx-auto max-w-full transform rounded-xl px-0 transition-all">
+                <label class="mb-1 block text-sm font-medium text-gray-700">Truck Driver<span *ngIf="isTruckDriverSelected" class="text-red-400">*</span></label>
+                <div class="flex items-center justify-between gap-x-2 rounded-md">
+                  <input (keyup)="trick_driver_search$.next($event.target.value)" (click)="inputClickedTruckDriver()" [value]="trick_driver_name" #truckInput class="{{isFieldDisabled? 'pointer-events-none bg-gray-200 w-full px-4 py-2 text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500': 'w-full px-4 py-2 text-gray-900 placeholder:text-sm rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500'}}" placeholder="Select Driver" role="" aria-expanded="false" aria-controls="options" />
+                </div>
+
+                <div *ngIf="allTruckDrivers | withLoading | async as allTruckDrivers" >
+                  <div class="flex items-center justify-center">
+                    <ion-spinner *ngIf="allTruckDrivers?.loading" name="crescent" mode="indeterminate" color="primary"></ion-spinner>
+                  </div>
+                  <ul *ngIf="allTruckDrivers?.value && truckDriverUL" class="absolute -mb-2 max-h-44 w-full scroll-py-2 overflow-y-auto bg-white py-2 text-sm text-gray-800" id="options" role="listbox">
+                    <li *ngFor="let truckDrivers of (allTruckDrivers?.value)" (click)="listClickedTruckDriver(truckDrivers)" class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200" role="option" tabindex="-1">
+                      <div class="flex items-center p-2">{{truckDrivers.name}}</div>
+                    </li>
+                  </ul>
+                  <div *ngIf="allTruckDrivers?.value?.length === 0">
+                    <p disabled class="cursor-pointer select-none rounded-md px-4 py-2 text-gray-500 hover:bg-gray-200 hover:font-semibold hover:text-gray-700">No driver (s) found</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Truck Driver -->
 
       </div>
       <ion-button expand="block" class="font-Lato mt-5 text-white"
+      *ngIf="!isReassign ">
+        <div >Print</div>
+        <!-- <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner> -->
+      </ion-button>
+
+      <ion-button expand="block" class="font-Lato mt-5 text-white"
       *ngIf="!isReassign && !isSplitTrue" (click)="submit()"
+      [disabled]="deliveryTicketForm.invalid || isJobSelected || isFieldSelected || isTruckDriverSelected"
       >
-        <div *ngIf="(loadingSpinner | async) === false">Generate and Send</div>
+        <div *ngIf="(loadingSpinner | async) === false">Generate and Send Ticket</div>
         <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
       </ion-button>
+
       <ion-button expand="block" class="font-Lato mt-5 text-white"
       *ngIf="!isReassign && isSplitTrue"
+      [disabled]="deliveryTicketForm.invalid || isJobSelected || isFieldSelected  || isFieldSplitLoadSelected"
        (click)="submit()">
-        <div *ngIf="(loadingSpinner | async) === false">Generate Duplicate Ticket</div>
+        <div *ngIf="(loadingSpinner | async) === false">Generate and Send Ticket</div>
         <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
       </ion-button>
+
       <ion-button expand="block" class="font-Lato mt-5 text-white" *ngIf="isReassign" (click)="submit()">Reassign Delivery Ticket</ion-button>
     </form>
   </div>
 </ion-content>
 
 
-<ion-content *ngIf="role.includes('Kart Operator') && isReassign">
+<ion-content *ngIf="role.includes('Cart Operator') && isReassign">
   <!-- <app-timer [value]="'12:11:19'"></app-timer> -->
   <div class="p-4">
     <ion-card class="m-0 mb-4">
@@ -259,7 +322,7 @@
                 <div class="flex items-center justify-center">
                   <ion-spinner *ngIf="allTruckDrivers?.loading" name="crescent" mode="indeterminate" color="primary"></ion-spinner>
                 </div>
-                <ul *ngIf="allTruckDrivers?.value && truckDriverUL" class="absolute -mb-2 max-h-44 w-full scroll-py-2 overflow-y-auto bg-white py-2 text-sm text-gray-800 drop-shadow-lg" id="options" role="listbox">
+                <ul *ngIf="allTruckDrivers?.value && truckDriverUL" class="absolute -mb-2 max-h-44 w-full scroll-py-2 overflow-y-auto bg-white py-2 text-sm text-gray-800" id="options" role="listbox">
                   <li *ngFor="let truckDrivers of (allTruckDrivers?.value)" (click)="listClickedTruckDriver(truckDrivers)" class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200" role="option" tabindex="-1">
                     <div class="flex items-center p-2">{{truckDrivers.name}}</div>
                   </li>
@@ -303,8 +366,8 @@
               <input readonly class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" [value]="reassignTicketData.kart_scale_weight" placeholder="Delivery Ticket Number" />
             </div>
             <div class="col-span-12 mb-4">
-              <label class="block text-sm font-medium text-gray-700">Kart Operator Name</label>
-              <input readonly class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" [value]="reassignTicketData.kart_first_name + ' ' + reassignTicketData.kart_last_name" placeholder="Kart Operator Name" />
+              <label class="block text-sm font-medium text-gray-700">Cart Operator Name</label>
+              <input readonly class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" [value]="reassignTicketData.kart_first_name + ' ' + reassignTicketData.kart_last_name" placeholder="Cart Operator Name" />
             </div>
 
             <div class="col-span-12 mb-4">
@@ -345,8 +408,8 @@
           </div>
 
           <div class="col-span-12 mb-4">
-            <label class="block text-sm font-medium text-gray-700">Kart Operator Name</label>
-            <input readonly class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" [value]="" placeholder="Kart Operator Name" />
+            <label class="block text-sm font-medium text-gray-700">Cart Operator Name</label>
+            <input readonly class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" [value]="" placeholder="Cart Operator Name" />
           </div>
 
           <div class="col-span-12 mb-4">
@@ -404,7 +467,7 @@
               <ion-skeleton-text [animated]="true" style="width: 100%;height: 30px;"></ion-skeleton-text>
             </div>
             <!-- <div class="col-span-12 mb-4">
-                <label class="block text-sm font-medium text-gray-700">Kart Operator Name <span
+                <label class="block text-sm font-medium text-gray-700">Cart Operator Name <span
                     *ngIf="this.deliveryTicketForm.get('kartoperatorName').hasError('required')"
                     class="text-red-400">*</span></label>
                 <input
@@ -450,7 +513,7 @@
           </div>
 
           <div class="col-span-12 mb-4">
-            <label class="block text-sm font-medium text-gray-700">Kart Operator Name</label>
+            <label class="block text-sm font-medium text-gray-700">Cart Operator Name</label>
             <ion-skeleton-text [animated]="true" style="width: 100%;height: 30px;"></ion-skeleton-text>
           </div>
 

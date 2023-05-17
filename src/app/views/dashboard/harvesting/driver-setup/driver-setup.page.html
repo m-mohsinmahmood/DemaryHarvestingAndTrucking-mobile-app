@@ -1,8 +1,6 @@
-<app-header [title]="'Truck Driver Setup'" [color]="'harvesting'"></app-header>
+<app-header [title]="'ADD/Delete Truck Drivers'" [color]="'harvesting'"></app-header>
 
 <ion-content>
-  <!-- <app-timer [value]="'12:00'"></app-timer> -->
-
   <div class="p-2 px-4">
     <form [formGroup]="driverSetupForm">
       <div class="px-2">
@@ -19,8 +17,10 @@
                   <ion-spinner *ngIf="allTruckDrivers?.loading" name="crescent" mode="indeterminate" color="primary"></ion-spinner>
                 </div>
                 <ul *ngIf="allTruckDrivers?.value && driverUL" class="absolute -mb-2 max-h-48 w-full scroll-py-2 overflow-y-auto bg-white py-2 text-sm text-gray-800" id="options" role="listbox">
-                  <li *ngFor="let driver of (allTruckDrivers?.value)" (click)="selectedDriver(driver)" class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200" role="option" tabindex="-1">
-                    <div class="flex items-center p-2">{{driver.name}}</div>
+                  <li *ngFor="let driver of (allTruckDrivers?.value.employees)" (click)="selectedDriver(driver)"
+                  [ngClass]="driver.supervisor_id !== '' ? 'disabledLi':'cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200'">
+                    <div class="flex items-center p-2"> {{driver.first_name}} {{driver.last_name}}</div>
+                    <span class="px-2 font-Lato font-semibold">{{driver.supervisor_name}}</span>
                   </li>
                 </ul>
                 <div *ngIf="allTruckDrivers?.value?.length === 0">
@@ -31,7 +31,11 @@
           </div>
         </div>
       </div>
-      <ion-button expand="block" class="font-Lato font-white mt-4 text-white" (click)="addTruckDriver()">Add</ion-button>
+      <ion-button expand="block" [disabled]="(loadingSpinner | async) || isTruckDriverSelected"
+      class="font-Lato font-white text-white mt-4" (click)="addTruckDriver()">
+      <div *ngIf="(loadingSpinner | async) === false">Add Truck Driver</div>
+      <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+    </ion-button>
     </form>
   </div>
 
@@ -46,9 +50,16 @@
         </ion-col>
       </ion-row>
 
-      <ion-row class="m-1" *ngIf="getAllDrivers?.length > 0">
-          <ion-col *ngFor="let driver of getAllDrivers" size="12" class="border-b-2 py-4">
+      <ion-row *ngFor="let driver of getAllDrivers" class="m-1" >
+          <ion-col  size="9" class="border-b-2 py-4">
             <div class="font-Lato font-semibold">{{driver.name}}</div>
+          </ion-col>
+          <ion-col size="3">
+            <ion-button (click)="removeCrewMember(driver.id)"
+              [disabled]="(deleteSpinner | async) && driver.id === deleteId">
+              <ion-icon class="text-white" name="trash-outline"> </ion-icon>
+              <ion-spinner name="crescent" *ngIf="(deleteSpinner | async) && driver.id === deleteId"></ion-spinner>
+            </ion-button>
           </ion-col>
       </ion-row>
     </ion-grid>

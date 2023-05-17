@@ -1,19 +1,28 @@
-
-.card{
+.card {
   // background: #F2F1F1;
   box-shadow: 0px 4px 25px #E7E7E7;
-// height: 135px;
-margin: 0px;
-margin-top: 25px !important;
+  // height: 135px;
+  margin: 0px;
+  margin-top: 25px !important;
 
 }
 
 
 
-ion-item::part(native){
+ion-item::part(native) {
   --padding-start: 0px;
 
 }
+
 ion-spinner {
   --color: #ffffff;
+}
+
+.disabledLi {
+  pointer-events: none; //This makes it not clickable
+  opacity: 0.6; //This grays it out to look disabled
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
 }
