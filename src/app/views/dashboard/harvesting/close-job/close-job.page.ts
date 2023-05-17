@@ -1,3 +1,5 @@
+/* eslint-disable radix */
+/* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/member-ordering */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable @typescript-eslint/naming-convention */
@@ -37,6 +39,10 @@ export class CloseJobPage implements OnInit {
   crop;
   crewChiefName;
   date;
+
+  showValidationMessage_1;
+  showValidationMessage_2;
+
 
   public loadingSpinner = new BehaviorSubject(false);
 
@@ -214,6 +220,15 @@ export class CloseJobPage implements OnInit {
       module: [''],
       dwrId: ['']
     });
+
+    // end of day validation for hours (combine)
+    this.closeJobFormCombine.valueChanges.subscribe((val)=>{
+    if(parseInt(val.ending_separator_hours)  <= parseInt(this.customerData?.workOrders[0]?.separator_hours)){this.showValidationMessage_1 = true;}
+    else{this.showValidationMessage_1 = false;}
+    if(parseInt(val.endingEngineHours) <= parseInt(this.customerData?.workOrders[0]?.engine_hours)) {this.showValidationMessage_2 = true;}
+    else{this.showValidationMessage_2 = false;}
+    });
+
     this.closeJobFormKart = this.formBuilder.group({
       endingEngineHours: ['', [Validators.required]],
       employeeId: localStorage.getItem('employeeId'),
@@ -291,7 +306,9 @@ export class CloseJobPage implements OnInit {
           operation: 'endingOfDay',
           jobId: this.truckId,
           role: 'Combine Operator',
-          endingEngineHours: this.closeJobFormCombine.get('endingEngineHours').value
+          endingEngineHours: this.closeJobFormCombine.get('endingEngineHours').value,
+          separatorsHours: this.closeJobFormCombine.get('endingEngineHours').value
+
         })
         .subscribe(
           (res: any) => {
