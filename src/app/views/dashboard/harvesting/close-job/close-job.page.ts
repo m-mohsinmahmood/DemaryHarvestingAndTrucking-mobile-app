@@ -307,7 +307,7 @@ export class CloseJobPage implements OnInit {
           jobId: this.truckId,
           role: 'Combine Operator',
           endingEngineHours: this.closeJobFormCombine.get('endingEngineHours').value,
-          separatorsHours: this.closeJobFormCombine.get('endingEngineHours').value
+          separatorsHours: this.closeJobFormCombine.get('ending_separator_hours').value
 
         })
         .subscribe(
