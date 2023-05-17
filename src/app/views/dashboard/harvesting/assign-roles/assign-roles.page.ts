@@ -310,6 +310,7 @@ export class AssignRolesPage implements OnInit {
           if (combineOperators.count === 0) {
             // hiding UL
             this.combineUL = false;
+            this.isCombineSelected = true; // for asterik to look required
           } else {
             this.combineUL = true;
           }
@@ -346,6 +347,8 @@ export class AssignRolesPage implements OnInit {
       if (combineOperators.count === 0) {
         // hiding UL
         this.combineUL = false;
+        this.isCombineSelected = true; // for asterik to look required
+
       } else {
         // showing UL
         this.combineUL = true;
@@ -407,6 +410,7 @@ export class AssignRolesPage implements OnInit {
           if (cartOperators.count === 0) {
             // hiding UL
             this.cartUL = false;
+            this.isCartSelected = true; // for asterik to look required
           } else {
             this.cartUL = true;
           }
@@ -444,6 +448,8 @@ export class AssignRolesPage implements OnInit {
       if (cartOperators.count === 0) {
         // hiding UL
         this.cartUL = false;
+        this.isCartSelected = true; // for asterik to look required
+
       } else {
         // showing UL
         this.cartUL = true;

@@ -120,6 +120,8 @@ export class DriverSetupPage implements OnInit {
           if (truckDrivers.length === 0) {
             // hiding UL
             this.driverUL = false;
+        this.isTruckDriverSelected = true;
+
           } else {
             this.driverUL = true;
           }
@@ -219,6 +221,7 @@ export class DriverSetupPage implements OnInit {
       console.log('--', driver);
       if (driver.length === 0) {
         this.driverUL = false;
+        this.isTruckDriverSelected = true;
       } else {
         this.driverUL = true;
       }
