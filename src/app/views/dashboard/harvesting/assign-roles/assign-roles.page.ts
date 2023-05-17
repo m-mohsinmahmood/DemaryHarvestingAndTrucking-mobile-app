@@ -64,8 +64,6 @@ export class AssignRolesPage implements OnInit {
   public loadingSpinner2 = new BehaviorSubject(false);
   public deleteSpinner = new BehaviorSubject(false);
 
-
-
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
   constructor(
@@ -93,7 +91,6 @@ export class AssignRolesPage implements OnInit {
   }
 
   async ionViewDidLeave() {
-    // this.DataDestroy();
   }
 
   DataDestroy() {
@@ -117,6 +114,7 @@ export class AssignRolesPage implements OnInit {
 
     // combine & cart subscription
     this.combineSearchSubscription();
+    this.cartSearchSubscription();
 
     //api call
 
@@ -216,10 +214,14 @@ export class AssignRolesPage implements OnInit {
             this.loadingSpinner2.next(false);
           } else {
             console.log('Something happened :)');
+            this.loadingSpinner2.next(false);
+
           }
         },
         (err) => {
           console.log('Error:', err);
+          this.loadingSpinner2.next(false);
+
           // this.handleError(err);
         },
         () => {
@@ -309,6 +311,7 @@ export class AssignRolesPage implements OnInit {
           if (combineOperators.count === 0) {
             // hiding UL
             this.combineUL = false;
+            this.isCombineSelected = true; // for asterik to look required
           } else {
             this.combineUL = true;
           }
@@ -345,6 +348,8 @@ export class AssignRolesPage implements OnInit {
       if (combineOperators.count === 0) {
         // hiding UL
         this.combineUL = false;
+        this.isCombineSelected = true; // for asterik to look required
+
       } else {
         // showing UL
         this.combineUL = true;
@@ -406,6 +411,7 @@ export class AssignRolesPage implements OnInit {
           if (cartOperators.count === 0) {
             // hiding UL
             this.cartUL = false;
+            this.isCartSelected = true; // for asterik to look required
           } else {
             this.cartUL = true;
           }
@@ -443,6 +449,8 @@ export class AssignRolesPage implements OnInit {
       if (cartOperators.count === 0) {
         // hiding UL
         this.cartUL = false;
+        this.isCartSelected = true; // for asterik to look required
+
       } else {
         // showing UL
         this.cartUL = true;

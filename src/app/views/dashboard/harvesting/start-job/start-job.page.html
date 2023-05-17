@@ -151,7 +151,7 @@ role.includes('Truck Driver')? 'Enter Begining of Day/Job Work Data' : ''" [colo
         <ion-grid>
           <ion-row>
             <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Created at</ion-col>
-            <ion-col size="6" class="text-sm font-Lato">{{date | date:'YYYY-MM-dd'}}</ion-col>
+            <ion-col size="6" class="text-sm font-Lato">{{date | date:'MM-dd-YYYY'}}</ion-col>
             <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Customer Name</ion-col>
             <ion-col size="6" class="text-sm flex font-Lato ">{{customerName}}</ion-col>
             <ion-col size="6" class="text-sm text-black font-Lato font-semibold">State</ion-col>
@@ -237,7 +237,7 @@ role.includes('Truck Driver')? 'Enter Begining of Day/Job Work Data' : ''" [colo
                     class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200" role="option"
                     tabindex="-1">
                     <div class="flex items-center p-2">
-                      {{machinery.type}}
+                      {{machinery.name}}
                     </div>
                   </li>
                 </ul>
@@ -258,7 +258,7 @@ role.includes('Truck Driver')? 'Enter Begining of Day/Job Work Data' : ''" [colo
               class="text-red-400">*</span></label>
           <input
             class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-            formControlName="beginning_separator_hours" placeholder="Confirm Begining Engine Hours">
+            readonly formControlName="beginning_separator_hours" placeholder="Confirm Begining Engine Hours">
         </div>
 
         <div class="col-span-12 mb-4">
@@ -293,7 +293,7 @@ role.includes('Truck Driver')? 'Enter Begining of Day/Job Work Data' : ''" [colo
         <ion-grid>
           <ion-row>
             <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Created at</ion-col>
-            <ion-col size="6" class="text-sm font-Lato">{{date | date:'YYYY-MM-dd'}}</ion-col>
+            <ion-col size="6" class="text-sm font-Lato">{{date | date:'MM-dd-YYYY'}}</ion-col>
             <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Customer Name</ion-col>
             <ion-col size="6" class="text-sm flex font-Lato ">{{customerName}}</ion-col>
             <ion-col size="6" class="text-sm text-black font-Lato font-semibold">State</ion-col>
@@ -426,7 +426,7 @@ role.includes('Truck Driver')? 'Enter Begining of Day/Job Work Data' : ''" [colo
         <ion-grid>
           <ion-row>
             <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Created at</ion-col>
-            <ion-col size="6" class="text-sm font-Lato">{{date | date:'YYYY-MM-dd'}}</ion-col>
+            <ion-col size="6" class="text-sm font-Lato">{{date | date:'MM-dd-YYYY'}}</ion-col>
             <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Customer Name</ion-col>
             <ion-col size="6" class="text-sm flex font-Lato ">{{customerName}}</ion-col>
             <ion-col size="6" class="text-sm text-black font-Lato font-semibold">State</ion-col>
@@ -521,7 +521,7 @@ role.includes('Truck Driver')? 'Enter Begining of Day/Job Work Data' : ''" [colo
                     class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200" role="option"
                     tabindex="-1">
                     <div class="flex items-center p-2">
-                      {{machinery.type}}
+                      {{machinery.name}}
                     </div>
                   </li>
                 </ul>

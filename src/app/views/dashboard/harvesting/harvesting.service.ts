@@ -437,12 +437,13 @@ export class HarvestingService {
       .pipe(take(1));
   }
 
-  getBeginningOfDay(employeeId: string, searchClause: string, type: string) {
+  getBeginningOfDay(employeeId: string, searchClause: string, type: string, role) {
     this._httpClient;
     let params = new HttpParams();
     params = params.set('employeeId', employeeId);
     params = params.set('searchClause', searchClause);
     params = params.set('type', type);
+    params = params.set('role', role);
 
     return this._httpClient
       .get<any>('api-1/dwr', {
@@ -471,12 +472,12 @@ export class HarvestingService {
     }).pipe(take(1));
   }
 
-  getMachinery(search: string = '', entity: string = '') {
+  getMachinery(search: string = '', entity: string = '', vehcileType) {
     this._httpClient;
     let params = new HttpParams();
     params = params.set('entity', entity);
     params = params.set('search', search);
-    params = params.set('vehicleType', 'Truck');
+    params = params.set('vehicleType', vehcileType);
 
     return this._httpClient
       .get<any>('api-1/dropdowns', {
@@ -525,6 +526,12 @@ export class HarvestingService {
   removeAssignedRole(data: any) {
     return this._httpClient
       .patch(`api-1/customer-job-setup`, data)
+      .pipe(take(1));
+  }
+
+  deleteAssignedRole(data: any) {
+    return this._httpClient
+      .delete(`api-1/customer-job-setup`, data)
       .pipe(take(1));
   }
 

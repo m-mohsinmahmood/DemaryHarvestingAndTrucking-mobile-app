@@ -29,13 +29,28 @@ export class HarvestingPage implements OnInit {
   role = '';
   workOrderCount;
   constructor(
-    private location: Location,
     private router: Router,
     private harvestingService: HarvestingService,
     private dwrServices: CheckInOutService
   ) { }
 
+
   ngOnInit() {
+    this.initDataRetrieval();
+  }
+
+  async ionViewDidEnter() {
+    this.initDataRetrieval();
+  }
+
+  initDataRetrieval() {
+    this.activeDwr = null;
+    this.isModalOpen = false;
+    this.dataCount = {
+      active: -1,
+      preCheck: -1
+    }
+
     this.role = localStorage.getItem('role');
 
     this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
@@ -45,8 +60,6 @@ export class HarvestingPage implements OnInit {
       if (workOrder.dwr.length > 0) { this.isModalOpen = false; }
       else { this.isModalOpen = true; }
     });
-
-    //call for dwr
 
     if (this.role.includes('Crew Chief')) {
       //call for dwr
@@ -107,72 +120,6 @@ export class HarvestingPage implements OnInit {
         console.log('Pre Check Filled: ', workOrders);
       });
     }
-
-  }
-
-  async ionViewDidEnter() {
-
-    this.role = localStorage.getItem('role');
-
-    this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
-      console.log('Active Check In ', workOrder.dwr);
-      this.activeDwr = workOrder.dwr;
-
-      if (workOrder.dwr.length > 0) { this.isModalOpen = false; }
-      else { this.isModalOpen = true; }
-    });
-
-    if (this.role.includes('Crew Chief')) {
-      //call for dwr
-      this.harvestingService.getBeginningOfDay2(localStorage.getItem('employeeId'), 'beginningOfDay', 'harvesting')
-        .subscribe((workOrder) => {
-          this.activeTicket = workOrder;
-          this.workOrderCount = workOrder.count;
-          console.log('Current DWR :', workOrder);
-        });
-    }
-
-    if (this.role.includes('Combine Operator')) {
-      this.harvestingService.getBeginningOfDay2(localStorage.getItem('employeeId'), 'beginningOfDay', 'harvesting')
-        .subscribe((workOrder) => {
-          this.activeTicket = workOrder;
-          this.workOrderCount = workOrder.count;
-          console.log('Current DWR :', workOrder);
-        });
-    }
-
-    if (this.role.includes('Cart Operator')) {
-      //call for dwr
-      this.harvestingService.getBeginningOfDay2(localStorage.getItem('employeeId'), 'beginningOfDay', 'harvesting')
-        .subscribe((workOrder) => {
-          this.activeTicket = workOrder;
-          this.workOrderCount = workOrder.count;
-          console.log('Current DWR of Cart Operator :', workOrder);
-        });
-    }
-
-    if (this.role.includes('Truck Driver')) {
-      this.activeWorkOrders = this.harvestingService.getDeliveryTickets(this.role, localStorage.getItem('employeeId'), true, false, 'truck-driver-active-tickets');
-      this.activeWorkOrders.subscribe((workOrders) => {
-        this.activeTicket = workOrders.customer_job[0];
-        if (this.activeTicket !== undefined && !this.activeTicket.hasOwnProperty('preRoute')) {
-          this.activeTicket.preRoute = '/tabs/home/harvesting';
-          this.activeTicket.module = 'harvesting';
-        }
-
-        this.dataCount.active = workOrders.customer_job.length
-
-        console.log('Active: ', workOrders);
-      });
-
-      this.preCheckFilled = this.harvestingService.getDeliveryTickets(this.role, localStorage.getItem('employeeId'), true, true, 'truck-driver-active-tickets');
-      this.preCheckFilled.subscribe((workOrders) => {
-        this.preCheck = workOrders.customer_job[0];
-        this.dataCount.preCheck = workOrders.customer_job.length
-        console.log('Pre Check Filled: ', workOrders);
-      });
-    }
-
   }
 
   navigate(route) {

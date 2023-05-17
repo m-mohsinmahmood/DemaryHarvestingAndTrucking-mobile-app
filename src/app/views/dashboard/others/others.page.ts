@@ -68,7 +68,7 @@ export class OthersPage implements OnInit {
   // unsubscribe object
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
-  constructor(private router: Router,
+  constructor(
     private formBuilder: FormBuilder,
     private othersService: OthersService,
     private renderer: Renderer2,
@@ -141,20 +141,11 @@ export class OthersPage implements OnInit {
         this.otherForm.patchValue({
           state: this.state
         })
-        // this.initForm();
 
         // pasing states
         this.states = states;
-
-        // subscription
-        // this.supervisorSearchSubscription();
-
-        // check-in/check-out
-        // this.checkInOut();
       }
     });
-
-
   }
 
   ngOnDestroy(): void {

@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
-import { Observable, of, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { HarvestingService } from './../harvesting.service';
 import { ToastService } from 'src/app/services/toast/toast.service';
@@ -38,6 +38,8 @@ export class DriverSetupPage implements OnInit {
   job_id;
   customerJobSetupLoading2: any
   data: any;
+  public loadingSpinner = new BehaviorSubject(false);
+  public deleteSpinner = new BehaviorSubject(false);
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
   constructor(
@@ -118,6 +120,8 @@ export class DriverSetupPage implements OnInit {
           if (truckDrivers.length === 0) {
             // hiding UL
             this.driverUL = false;
+        this.isTruckDriverSelected = true;
+
           } else {
             this.driverUL = true;
           }
@@ -130,47 +134,42 @@ export class DriverSetupPage implements OnInit {
   }
 
   addTruckDriver() {
-
-    // let crew_chief_id = '';
-
-    // this.harvestingService.getKartOperatorCrewChief('getKartOpCrewChief', localStorage.getItem('employeeId')).subscribe(param => {
-    // crew_chief_id = param[0].id;
-
-    // this.harvestingService.getJobTesting2(
-    //   'Cart Operator',
-    //   localStorage.getItem('employeeId'),
-    //   crew_chief_id
-    // );
-
     this.initObservables()
-
-    // this.customerJobSetupLoading2.subscribe(param => {
-    //   if (param === false) {
-
     let raw = {
       driverIds: this.driverSetupForm.get('truck_driver').value,
       kartOperatorId: localStorage.getItem('employeeId'),
       operation: 'addTruckDrivers'
-      // job_id: this.job_id
     };
 
     console.log(raw);
+    this.loadingSpinner.next(true);
 
     this.harvestingService
       .kartOperatorAddTruckDriver('addTruckDrivers', raw)
       .subscribe(
         (response: any) => {
-          this.getKartOperatorTruckDrivers();
+          console.log(response);
+          // clearing truck input
+          this.driverInput.nativeElement.value = '';
+          this.driver_name = '';
+
+          // to look asterik
+          this.isTruckDriverSelected = true;
+
+          // toast
+          this.toastService.presentToast(response.message, 'success');
+
+          // stop loader
+          this.loadingSpinner.next(false);
         },
         (err) => {
           console.log('Error:', err);
+          this.loadingSpinner.next(false);
+        },
+        () => {
+          this.getKartOperatorTruckDrivers();
         }
       );
-    // }
-
-    // })
-
-    // });
   }
 
   initObservables() {
@@ -222,6 +221,7 @@ export class DriverSetupPage implements OnInit {
       console.log('--', driver);
       if (driver.length === 0) {
         this.driverUL = false;
+        this.isTruckDriverSelected = true;
       } else {
         this.driverUL = true;
       }
@@ -234,28 +234,36 @@ export class DriverSetupPage implements OnInit {
       id,
       operation: 'removeAssignedRole'
     };
+
+    const removeData = {
+      driverIds: id,
+      kartOperatorId: localStorage.getItem("employeeId"),
+      operation: 'deleteAssignedRolesJobs'
+    };
+
     // start loader
+    this.deleteSpinner.next(true);
 
-    this.harvestingService.removeAssignedRole(data)
-      .subscribe(
-        (res: any) => {
-          console.log('Response:', res);
-          if (res.status === 200) {
-            this.toastService.presentToast(res.message, 'success');
-            this.getKartOperatorTruckDrivers();
+    this.harvestingService.removeAssignedRole(data).subscribe((res: any) => {
+      if (res.status === 200) {
 
-          } else {
-            console.log('Something happened :)');
-          }
-        },
-        (err) => {
-          console.log('Error:', err);
-          // this.handleError(err);
-        },
-        () => {
-          this.getKartOperatorTruckDrivers();
-        }
-      );
+        this.harvestingService.deleteAssignedRole(removeData).subscribe();
+        this.toastService.presentToast(res.message, 'success');
+        this.deleteSpinner.next(true);
+        this.getKartOperatorTruckDrivers();
+
+      } else {
+        console.log('Something happened :)');
+      }
+    },
+      (err) => {
+        console.log('Error:', err);
+        // this.handleError(err);
+      },
+      () => {
+        this.getKartOperatorTruckDrivers();
+      }
+    );
   }
 
   selectedDriver(driver) {

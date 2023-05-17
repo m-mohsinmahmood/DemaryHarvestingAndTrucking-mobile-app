@@ -74,13 +74,16 @@ export class DWRService {
       })
       .pipe(take(1));
   }
-  verify(operation: any,employeeId: any,dateType,date,month,year){
+  verify(operation: any,employeeId: any,dateType,startDate,month,year,endDate){
     let params = new HttpParams();
     params = params.set('operation',operation);
     params = params.set('dateType',dateType);
-    params = params.set('date', date);
+    // params = params.set('date', date);
+    params = params.set('startDate', startDate);
     params = params.set('month', month);
     params =  params.set('year',year);
+    params = params.set('endDate', endDate);
+
     let data;
     data={
       employeeId,

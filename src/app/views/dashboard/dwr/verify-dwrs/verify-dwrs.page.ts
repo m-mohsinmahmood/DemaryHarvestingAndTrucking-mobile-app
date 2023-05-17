@@ -127,9 +127,10 @@ export class VerifyDwrsPage implements OnInit {
         'verifyDwr',
         employee_id,
         'day',
-        this.date,
+        moment(this.date).startOf('day').toISOString(),
         '',
-        ''
+        '',
+        moment(this.date).endOf('day').toISOString()
       )
       .subscribe(
         (res) => {
