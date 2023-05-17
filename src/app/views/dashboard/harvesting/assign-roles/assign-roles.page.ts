@@ -91,7 +91,6 @@ export class AssignRolesPage implements OnInit {
   }
 
   async ionViewDidLeave() {
-    // this.DataDestroy();
   }
 
   DataDestroy() {
