@@ -64,8 +64,6 @@ export class AssignRolesPage implements OnInit {
   public loadingSpinner2 = new BehaviorSubject(false);
   public deleteSpinner = new BehaviorSubject(false);
 
-
-
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
   constructor(
@@ -216,10 +214,14 @@ export class AssignRolesPage implements OnInit {
             this.loadingSpinner2.next(false);
           } else {
             console.log('Something happened :)');
+            this.loadingSpinner2.next(false);
+
           }
         },
         (err) => {
           console.log('Error:', err);
+          this.loadingSpinner2.next(false);
+
           // this.handleError(err);
         },
         () => {

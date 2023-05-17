@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 /* eslint-disable @typescript-eslint/naming-convention */
 import {
   Component,
@@ -8,7 +9,7 @@ import {
 } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
-import { Observable, of, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { HarvestingService } from './../harvesting.service';
 import { ToastService } from 'src/app/services/toast/toast.service';
@@ -36,8 +37,13 @@ export class DriverSetupPage implements OnInit {
 
   getAllDrivers;
   job_id;
-  customerJobSetupLoading2: any
+  customerJobSetupLoading2: any;
   data: any;
+
+  public loadingSpinner = new BehaviorSubject(false);
+  public deleteSpinner = new BehaviorSubject(false);
+
+
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
   constructor(
@@ -63,7 +69,7 @@ export class DriverSetupPage implements OnInit {
 
     this.combineSearchSubscription();
 
-    this.initObservables()
+    this.initObservables();
   }
 
   async ionViewDidEnter() {
@@ -87,7 +93,6 @@ export class DriverSetupPage implements OnInit {
       );
   }
 
-  //#region comnine
   combineSearchSubscription() {
     this.truck_driver_search$
       .pipe(
@@ -142,7 +147,7 @@ export class DriverSetupPage implements OnInit {
     //   crew_chief_id
     // );
 
-    this.initObservables()
+    this.initObservables();
 
     // this.customerJobSetupLoading2.subscribe(param => {
     //   if (param === false) {
@@ -155,15 +160,32 @@ export class DriverSetupPage implements OnInit {
     };
 
     console.log(raw);
+    this.loadingSpinner.next(true);
 
     this.harvestingService
       .kartOperatorAddTruckDriver('addTruckDrivers', raw)
       .subscribe(
         (response: any) => {
-          this.getKartOperatorTruckDrivers();
+          console.log(response);
+            // clearing truck input
+            this.driverInput.nativeElement.value = '';
+            this.driver_name = '';
+
+            // to look asterik
+            this.isTruckDriverSelected = true;
+
+            // toast
+            this.toastService.presentToast(response.message, 'success');
+
+             // stop loader
+           this.loadingSpinner.next(false);
         },
         (err) => {
           console.log('Error:', err);
+          this.loadingSpinner.next(false);
+        },
+        () => {
+          this.getKartOperatorTruckDrivers();
         }
       );
     // }
@@ -183,14 +205,14 @@ export class DriverSetupPage implements OnInit {
         if (loadValue === true) {
 
         } else {
-          console.log("param: ", res);
+          console.log('param: ', res);
 
           this.job_id = this?.data?.customer_job[0]?.id;
           console.log(this.job_id);
 
         }
-      })
-    })
+      });
+    });
   }
 
 
@@ -235,13 +257,21 @@ export class DriverSetupPage implements OnInit {
       operation: 'removeAssignedRole'
     };
     // start loader
+    this.deleteSpinner.next(true);
+
 
     this.harvestingService.removeAssignedRole(data)
       .subscribe(
         (res: any) => {
           console.log('Response:', res);
           if (res.status === 200) {
+
+            //toast message
             this.toastService.presentToast(res.message, 'success');
+
+            // stop loader
+         this.deleteSpinner.next(true);
+
             this.getKartOperatorTruckDrivers();
 
           } else {
@@ -264,6 +294,6 @@ export class DriverSetupPage implements OnInit {
     this.driverUL = false;
     this.driverInput.nativeElement.value = driver.first_name + ' ' + driver.last_name;
     this.isTruckDriverSelected = false;
-    this.driverSetupForm.controls['truck_driver'].setValue(driver.id ?? '');
+    this.driverSetupForm.controls.truck_driver.setValue(driver.id ?? '');
   }
 }
