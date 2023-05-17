@@ -28,19 +28,34 @@ export class HarvestingPage implements OnInit {
 
   role = '';
   workOrderCount;
+
+  private initDataRetrievalExecuted = false;
+  private ionViewRetrievalExecuted = true;
+
   constructor(
     private router: Router,
     private harvestingService: HarvestingService,
     private dwrServices: CheckInOutService
   ) { }
 
-
   ngOnInit() {
-    this.initDataRetrieval();
+    if (!this.initDataRetrievalExecuted) {
+      this.initDataRetrieval();
+      this.initDataRetrievalExecuted = true;
+      console.log("On Init");
+    }
   }
 
   async ionViewDidEnter() {
-    this.initDataRetrieval();
+    if (!this.ionViewRetrievalExecuted) {
+      this.initDataRetrieval();
+      this.ionViewRetrievalExecuted = true;
+      console.log("Ion view did enter");
+    }
+  }
+
+  async ionViewDidLeave() {
+    this.ionViewRetrievalExecuted = false;
   }
 
   initDataRetrieval() {
