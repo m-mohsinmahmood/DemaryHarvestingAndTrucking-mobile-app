@@ -128,6 +128,7 @@ export class CloseJobPage implements OnInit {
         this.closeJobFormTruck.patchValue({
           jobId: param.id,
           employeeId: localStorage.getItem('employeeId'),
+          module:'harvesting'
         });
         console.log(param);
         this.truckId = param.truck_id;
@@ -139,6 +140,15 @@ export class CloseJobPage implements OnInit {
         'harvesting',
         this.role
       );
+
+      this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
+        console.log('Active Check In ', workOrder.dwr);
+
+        this.closeJobFormTruck.patchValue({
+          module: workOrder.dwr[0].module,
+          dwrId: workOrder.dwr[0].id
+        });
+      });
     }
 
     else if (this.role.includes('Cart Operator')) {
@@ -201,8 +211,10 @@ export class CloseJobPage implements OnInit {
     this.closeJobFormCrew = this.formBuilder.group({
       ending_separator_hours: ['', [Validators.required]],
       endingEngineHours: ['', [Validators.required]],
-      employeeId: localStorage.getItem('employeeId')
+      employeeId: localStorage.getItem('employeeId'),
+      module: ['']
     });
+
     this.closeJobFormCombine = this.formBuilder.group({
       ending_separator_hours: ['', [Validators.required]],
       endingEngineHours: ['', [Validators.required]],
@@ -243,6 +255,8 @@ export class CloseJobPage implements OnInit {
       ending_odometer_miles: ['', [Validators.required]],
       employeeId: localStorage.getItem('employeeId'),
       jobId: [''],
+      module: [''],
+      dwrId: ['']
     });
 
     // end of day validation for hours (truck driver)
@@ -432,7 +446,8 @@ export class CloseJobPage implements OnInit {
           operation: 'endingOfDay',
           jobId: this.truckId,
           role: 'Truck Driver',
-          endingEngineHours: this.closeJobFormTruck.get('ending_odometer_miles').value
+          endingEngineHours: this.closeJobFormTruck.get('ending_odometer_miles').value,
+          module:'harvesting'
         })
         .subscribe(
           (res: any) => {
