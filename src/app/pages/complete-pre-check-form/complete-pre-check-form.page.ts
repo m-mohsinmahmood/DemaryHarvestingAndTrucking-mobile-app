@@ -44,12 +44,6 @@ export class CompletePreCheckFormPage implements OnInit {
     })
     this.data = this.tripCheckFormService.getActivePreCheckTicket('', localStorage.getItem('employeeId'));
 
-    // this.tripCheckFormService.getDWR(localStorage.getItem('employeeId'), this.month, this.year, 'month')
-    // .subscribe(param => {
-    //   console.log(param);
-
-    // })
-
     this.data.subscribe((workOrders) => {
       this.orders = workOrders;
       console.log(this.orders);
