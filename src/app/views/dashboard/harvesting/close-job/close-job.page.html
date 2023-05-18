@@ -175,7 +175,7 @@ role.includes('Truck Driver')? 'Submit End of Day/Job Work Data' : ''" [color]="
     </ion-card>
     <form [formGroup]="closeJobFormKart">
       <div class="px-2">
-        <div class="col-span-12 mb-4">
+        <div class="col-span-12">
           <label class="block text-sm font-medium text-gray-700">Enter Ending Engine Hours <span
               *ngIf="this.closeJobFormKart.get('endingEngineHours').hasError('required')"
               class="text-red-400">*</span></label>
@@ -183,9 +183,11 @@ role.includes('Truck Driver')? 'Submit End of Day/Job Work Data' : ''" [color]="
             class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
             type="number" formControlName="endingEngineHours" placeholder="Enter Ending Engine Hours">
         </div>
+        <span *ngIf="showValidationMessage_1" class="font-Lato text-sm text-red-500 ">value should be greater than {{customerData?.workOrders[0]?.engine_hours}}</span>
+
 
         <ion-button expand="block" class="mt-5 font-Lato text-white"
-          [disabled]="closeJobFormKart.invalid || (loadingSpinner | async)" (click)="submit()">
+          [disabled]="closeJobFormKart.invalid || (loadingSpinner | async) || showValidationMessage_1" (click)="submit()">
           <div *ngIf="(loadingSpinner | async) === false">Save and Close-out Job</div>
           <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
         </ion-button>

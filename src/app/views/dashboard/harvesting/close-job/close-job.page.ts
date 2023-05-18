@@ -236,6 +236,13 @@ export class CloseJobPage implements OnInit {
       module: [''],
       dwrId: ['']
     });
+
+    // end of day validation for hours (Cart)
+    this.closeJobFormKart.valueChanges.subscribe((val)=>{
+      if(parseInt(val.endingEngineHours)  <= parseInt(this.customerData?.workOrders[0]?.engine_hours)){this.showValidationMessage_1 = true;}
+      else{this.showValidationMessage_1 = false;}
+      });
+
     this.closeJobFormTruck = this.formBuilder.group({
       ending_odometer_miles: ['', [Validators.required]],
       employeeId: localStorage.getItem('employeeId'),
@@ -244,11 +251,6 @@ export class CloseJobPage implements OnInit {
   }
 
   submit() {
-    // console.log(this.closeJobFormCrew.value);
-    // console.log(this.closeJobFormKart.value);
-    // console.log(this.closeJobFormTruck.value);
-    // console.log(this.closeJobFormCombine.value);
-
     if (localStorage.getItem('role').includes('Crew Chief')) {
       this.harvestingService
         .updateEndingOfDayJobSetup({
