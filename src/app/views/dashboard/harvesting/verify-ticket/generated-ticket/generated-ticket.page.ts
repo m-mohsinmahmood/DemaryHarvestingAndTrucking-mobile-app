@@ -41,7 +41,7 @@ export class GeneratedTicketPage implements OnInit {
     private router: Router,
     private harvestingService: HarvestingService,
     private toastService: ToastService
-  ) {}
+  ) { }
 
   async ionViewDidLeave() {
     this.DataDestroy();
@@ -63,6 +63,9 @@ export class GeneratedTicketPage implements OnInit {
     this.ticket = JSON.parse(
       this.router.getCurrentNavigation().extras.state?.ticket
     );
+
+    console.log("Ticket: ", this.ticket);
+
     this.ticketID = this.ticket.id;
 
     if (this.ticket) {
