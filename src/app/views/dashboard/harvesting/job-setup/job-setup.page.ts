@@ -185,6 +185,8 @@ export class JobSetupPage implements OnInit {
     this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).subscribe((res)=>{
       console.log('Employee Details:',res);
 
+      if(res.customer_id !== null){
+        //patching
       this.jobSetupForm.patchValue({
         director_id: res.director_id,
         state: res.state,
@@ -195,11 +197,14 @@ export class JobSetupPage implements OnInit {
         employee_id:localStorage.getItem('employeeId'),
       });
 
+      // for input values
       this.cropInput.nativeElement.value = res.crop_name;
       this.farmInput.nativeElement.value = res.farm_name;
       this.customerInput.nativeElement.value = res.customer_name;
       this.directorInput.nativeElement.value = res.director_name;
 
+
+      // for validation to look asterik and button diasbale
       this.isCustomerSelected = false;
       this.isDirectorSelected = false;
       this.isFarmSelected = false;
@@ -210,6 +215,8 @@ export class JobSetupPage implements OnInit {
       this.customerID = res.customer_id;
 
       this.customerSearchValue = res.customer_name;
+
+    }
     });
   }
 

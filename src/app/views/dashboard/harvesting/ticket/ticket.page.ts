@@ -207,11 +207,9 @@ export class TicketPage implements OnInit {
     this.deliveryTicketForm.valueChanges.subscribe((value)=>{
       console.log(value);
       if(!value.split_load_check){
-        console.log('hahahaahahah');
         this.deliveryTicketForm.get('kart_scale_weight_split').setValidators(null);
         this.deliveryTicketForm.get('kart_scale_weight_split').setErrors(null);
       }else{
-        console.log('heheheheeheh');
         this.deliveryTicketForm.get('kart_scale_weight_split').setValidators([Validators.required]);
         this.deliveryTicketForm.get('kart_scale_weight_split').setValidators([Validators.required]);
       }
@@ -300,6 +298,7 @@ export class TicketPage implements OnInit {
   getCreatedJobData(){
     this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).subscribe((res)=>{
       console.log('Employee Details:',res);
+
       this.deliveryTicketForm.patchValue({
         destination:  res.destination,
         truckDriverId:  res.truck_driver_id,
@@ -309,10 +308,14 @@ export class TicketPage implements OnInit {
       this.deliveryTicketForm.controls.loadedMiles.setValue(res.loaded_miles);
 
       // passing name in select's input
-      this.truckInput.nativeElement.value = res.truck_driver_name;
+if(res.truck_driver_id !==null){
+  this.truckInput.nativeElement.value = res.truck_driver_name;
+}
 
        // to enable submit button
+       if(res.truck_driver_id !==null){
         this.isTruckDriverSelected = false;
+       }
     });
   }
   patchForm() {
