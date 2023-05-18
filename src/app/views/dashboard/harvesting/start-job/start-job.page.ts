@@ -561,7 +561,7 @@ export class StartJobPage implements OnInit {
           this.allMachinery = this.harvestingService.getMachinery(
             value,
             'allMachinery',
-            'Combine'
+            'Tractor'
           );
         }
         else if (this.role.includes('Truck Driver')) {
@@ -614,7 +614,7 @@ export class StartJobPage implements OnInit {
       this.allMachinery = this.harvestingService.getMachinery(
         value,
         'allMachinery',
-        'Combine'
+        'Tractor'
       );
     }
     else if (this.role.includes('Truck Driver')) {

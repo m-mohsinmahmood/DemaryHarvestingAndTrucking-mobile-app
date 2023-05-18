@@ -18,9 +18,9 @@
                 </div>
                 <ul *ngIf="allTruckDrivers?.value && driverUL" class="absolute -mb-2 max-h-48 w-full scroll-py-2 overflow-y-auto bg-white py-2 text-sm text-gray-800" id="options" role="listbox">
                   <li *ngFor="let driver of (allTruckDrivers?.value.employees)" (click)="selectedDriver(driver)"
-                  [ngClass]="driver.supervisor_id !== '' ? 'disabledLi':'cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200'">
+                  [ngClass]="driver.supervisor_id !== '' && driver.supervisor_id !== null ? 'disabledLi':'cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200'">
                     <div class="flex items-center p-2"> {{driver.first_name}} {{driver.last_name}}</div>
-                    <span class="px-2 font-Lato font-semibold">{{driver.supervisor_name}}</span>
+                    <span *ngIf="driver.supervisor_id !== '' && driver.supervisor_id !== null" class="px-2 font-Lato font-semibold">occupied by supervisor: {{driver.supervisor_name}}</span>
                   </li>
                 </ul>
                 <div *ngIf="allTruckDrivers?.value?.length === 0">

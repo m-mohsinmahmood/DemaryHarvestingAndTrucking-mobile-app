@@ -120,7 +120,7 @@ export class DriverSetupPage implements OnInit {
           if (truckDrivers.length === 0) {
             // hiding UL
             this.driverUL = false;
-        this.isTruckDriverSelected = true;
+            this.isTruckDriverSelected = true;
 
           } else {
             this.driverUL = true;
@@ -235,19 +235,41 @@ export class DriverSetupPage implements OnInit {
       operation: 'removeAssignedRole'
     };
 
+    // start loader
+    this.deleteSpinner.next(true);
+
+    this.harvestingService.removeAssignedRole(data).subscribe((res: any) => {
+      if (res.status === 200) {
+        this.toastService.presentToast(res.message, 'success');
+        // this.deleteSpinner.next(false);
+        this.getKartOperatorTruckDrivers();
+        this.removeTruckDriverFromAssignedRoles(id);
+
+      } else {
+        console.log('Something happened :)');
+        this.deleteSpinner.next(false);
+      }
+    },
+      (err) => {
+        console.log('Error:', err);
+        this.deleteSpinner.next(false);
+        // this.handleError(err);
+      },
+      () => {
+        this.getKartOperatorTruckDrivers();
+      }
+    );
+  }
+
+  removeTruckDriverFromAssignedRoles(id) {
     const removeData = {
       driverIds: id,
       kartOperatorId: localStorage.getItem("employeeId"),
       operation: 'deleteAssignedRolesJobs'
     };
 
-    // start loader
-    this.deleteSpinner.next(true);
-
-    this.harvestingService.removeAssignedRole(data).subscribe((res: any) => {
+    this.harvestingService.deleteAssignedRole(removeData).subscribe((res: any) => {
       if (res.status === 200) {
-
-        this.harvestingService.deleteAssignedRole(removeData).subscribe();
         this.toastService.presentToast(res.message, 'success');
         this.deleteSpinner.next(false);
         this.getKartOperatorTruckDrivers();

@@ -321,7 +321,7 @@ export class HarvestingService {
     params = params.set('operation', operation);
     params = params.set('role', role);
 
-    console.log("Service:" ,role);
+    console.log("Service:", role);
 
     return this._httpClient
       .get<any>('api-1/customer-job-setup', {
@@ -530,8 +530,17 @@ export class HarvestingService {
   }
 
   deleteAssignedRole(data: any) {
+    console.log(data);
+    let params = new HttpParams();
+
+    params = params.set('driverIds', data.driverIds);
+    params = params.set('kartOperatorId', data.kartOperatorId);
+    params = params.set('operation', data.operation);
+
     return this._httpClient
-      .delete(`api-1/customer-job-setup`, data)
+      .delete(`api-1/customer-job-setup`, {
+        params
+      })
       .pipe(take(1));
   }
 
