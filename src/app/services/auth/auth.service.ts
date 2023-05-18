@@ -110,10 +110,10 @@ export class AuthService {
     signInWithEmailAndPassword(this.auth, email, password)
       .then((user) => {
         // console.log('user', user);
-        console.log('Firebase Id:',user.user.uid);
+        console.log('Firebase Id:', user.user.uid);
 
         // localstorage
-        localStorage.setItem('fb_id',user.user.uid);
+        localStorage.setItem('fb_id', user.user.uid);
 
         // getting employee details
         this.getEmployeeDetailsByFirbaseId(user.user.uid);
@@ -156,22 +156,23 @@ export class AuthService {
     this.router.navigate(['login'], { replaceUrl: true });
   }
 
-getEmployeeDetailsByFirbaseId(fb_id){
-  this.harvestingService.getEmployeeByFirebaseId(fb_id).subscribe((res)=>{
-    console.log('Employee Details:',res);
+  getEmployeeDetailsByFirbaseId(fb_id) {
+    this.harvestingService.getEmployeeByFirebaseId(fb_id).subscribe((res) => {
+      console.log('Employee Details:', res);
 
-    // setting in local storage
-    localStorage.setItem('employeeId',res.id);
-    localStorage.setItem('role',res.role);
-    localStorage.setItem('state',res.state);
-    localStorage.setItem('employeeName',res.employee_name);
+      // setting in local storage
+      localStorage.setItem('employeeId', res.id);
+      localStorage.setItem('role', res.role);
+      localStorage.setItem('state', res.state);
+      localStorage.setItem('employeeName', res.employee_name);
+      localStorage.setItem('actualRole', res.role);
 
-     //to stop loader
-     this.isLoading.next(false);
-     this.router.navigate(['tabs'], { replaceUrl: true });
+      //to stop loader
+      this.isLoading.next(false);
+      this.router.navigate(['tabs'], { replaceUrl: true });
 
-  });
-}
+    });
+  }
   async refreshToken() {
     const user = this.auth.currentUser;
     const token = await user.getIdToken(true);

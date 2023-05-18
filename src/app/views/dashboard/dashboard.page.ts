@@ -5,8 +5,6 @@ import { CheckInOutService } from './../../components/check-in-out/check-in-out.
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { BehaviorSubject } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
-import { HarvestingService } from './harvesting/harvesting.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -23,6 +21,13 @@ export class DashboardPage implements OnInit {
   activeDwr: any;
   isModalOpen = false;
   toShow = true;
+  actualRoles;
+  rolesDropdown = [{
+    value: ''
+  }]
+  showRoleDropdown = false;
+  roleToShow = '';
+
   public loading = new BehaviorSubject(true);
 
   constructor(
@@ -48,22 +53,39 @@ export class DashboardPage implements OnInit {
   }
 
   initDataRetrieval() {
+    this.rolesDropdown = [{
+      value: ''
+    }]
+
     this.selectform = this.formbuilder.group({
       select: [''],
     });
 
+    this.showRoleDropdown = false;
+
+    this.actualRoles = localStorage.getItem("actualRole");
+    if (this.actualRoles.includes(',')) {
+      this.actualRoles = this.actualRoles.split(',');
+      this.role = this.actualRoles[0];
+      localStorage.setItem("role", this.role);
+    }
+    else {
+      this.role = this.actualRoles;
+      localStorage.setItem("role", this.role);
+    }
+
+    this.roleToShow = this.actualRoles;
     this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
       this.activeDwr = workOrder.dwr;
 
-      this.role = localStorage.getItem('role');
       this.empName = localStorage.getItem('employeeName');
 
       if (this.activeDwr.length <= 0) {
-        this.role = localStorage.getItem('role');
+        // this.role = localStorage.getItem('role');
         // to stop loading
         this.loading.next(false);
-
         this.isModalOpen = false;
+        this.checkMultipleRoles();
       }
       else {
         console.log('Already CheckedIn');
@@ -76,7 +98,85 @@ export class DashboardPage implements OnInit {
         this.loading.next(false);
       }
     });
+  }
 
+  checkMultipleRoles() {
+    this.actualRoles = localStorage.getItem("actualRole");
+
+    if (this.actualRoles.includes(',')) {
+      this.actualRoles = this.actualRoles.split(',');
+
+      // User having multiple roles
+      if (this.actualRoles.includes('Crew Chief')) {
+        // User having multiple roles including Crew Chief
+        this.showRoleDropdown = true;
+        this.actualRoles = this.actualRoles.map((item) => {
+          return { value: item };
+        });
+
+        this.actualRoles.push(
+          {
+            value: 'Crew Chief'
+          },
+          {
+            value: 'Combine Operator'
+          },
+          {
+            value: 'Cart Operator'
+          },
+          {
+            value: 'Truck Driver'
+          }
+        );
+
+        this.actualRoles = Object.values(this.actualRoles.reduce((acc, obj) => {
+          acc[obj.value] = obj;
+          return acc;
+        }, {}));
+
+        this.rolesDropdown = this.actualRoles;
+
+      }
+      else {
+        // User having multiple roles other than Crew Chief
+        this.showRoleDropdown = true;
+        this.actualRoles = this.actualRoles.map((item) => {
+          return { value: item };
+        });
+
+        this.rolesDropdown = this.actualRoles;
+      }
+    }
+    else {
+      // User having only one role
+      if (this.actualRoles === 'Crew Chief') {
+        // Role is Crew Cheif
+        this.showRoleDropdown = true;
+
+        this.rolesDropdown = [
+          {
+            value: 'Crew Chief'
+          },
+          {
+            value: 'Combine Operator'
+          },
+          {
+            value: 'Cart Operator'
+          },
+          {
+            value: 'Truck Driver'
+          }
+        ]
+      }
+      else {
+        // Some other role than Crew Chief
+        localStorage.setItem("role", this.actualRoles);
+        this.role = this.actualRoles;
+        this.showRoleDropdown = false;
+      }
+    }
+
+    console.log("Role: ", this.role);
 
   }
 
