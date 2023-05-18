@@ -18,12 +18,13 @@
 
           <div class="flex flex-col ml-2">
             <ion-text class="font-semibold font-Lato">{{empName}}</ion-text>
-            <span class="text-xs font-medium font-Lato text-gray-400">{{role}}</span>
+            <span class="text-xs font-medium font-Lato text-gray-400">{{roleToShow}}</span>
           </div>
 
         </ion-col>
         <ion-col size="4" class="flex items-center justify-end">
-            <ion-icon name="log-out-outline" id="click-trigger" class="relative" (click)="presentPopover($event)"></ion-icon>
+          <ion-icon name="log-out-outline" id="click-trigger" class="relative"
+            (click)="presentPopover($event)"></ion-icon>
         </ion-col>
 
         <!-- POP-OVER -->
@@ -34,6 +35,16 @@
         </ion-popover>
       </ion-row>
     </ion-grid>
+
+    <div class="w-5/12 ml-4" *ngIf="showRoleDropdown">
+      <form [formGroup]="selectform">
+        <ion-select [selectedText]="role"  formControlName="select" placeholder="Select Role" class="border-2 border-project-green rounded-lg"
+          (ionChange)="onSelect($event)">
+          <ion-select-option *ngFor="let item of rolesDropdown" class="font-Lato" [value]="item.value">{{item.value}}</ion-select-option>
+        </ion-select>
+      </form>
+    </div>
+
   </div>
 
   <!-- =============================== Top Cards =============================== -->
@@ -53,56 +64,54 @@
           <ion-text class="font-Lato">Harvesting</ion-text>
         </div>
       </ion-col>
-    <!-- </div> -->
+      <!-- </div> -->
 
+      <div *ngIf="!toShow">
+        <ion-col class="flex flex-col" size="4" *ngIf="role.includes('Dispatcher') || role.includes('Tractor Driver')">
+          <div class="h-28 flex justify-center items-center">
+            <ion-card class="card" [routerLink]="['farming']" [ngStyle]="{'background-color':'#961818'}">
+              <ion-card-content>
+                <img src="../../../assets/images/farming.svg" alt="" class="w-12 h-12 object-contain">
+              </ion-card-content>
+            </ion-card>
+          </div>
+          <div class="ion-text-center flex flex-col">
+            <ion-text class="font-Lato">Farming</ion-text>
+          </div>
+        </ion-col>
+      </div>
 
-    <div *ngIf="!toShow">
-      <ion-col class="flex flex-col" size="4" *ngIf="role.includes('Dispatcher') || role.includes('Tractor Driver')">
-        <div class="h-28 flex justify-center items-center">
-          <ion-card class="card" [routerLink]="['farming']" [ngStyle]="{'background-color':'#961818'}">
-            <ion-card-content>
-              <img src="../../../assets/images/farming.svg" alt="" class="w-12 h-12 object-contain">
-            </ion-card-content>
-          </ion-card>
-        </div>
-        <div class="ion-text-center flex flex-col">
-          <ion-text class="font-Lato">Farming</ion-text>
-        </div>
-      </ion-col>
-    </div>
+      <div *ngIf="!toShow">
+        <ion-col size="4" *ngIf="role.includes('Dispatcher')  || role.includes('Truck Driver')" class="flex flex-col">
+          <div class="h-28 flex justify-center items-center">
+            <ion-card class="card" [routerLink]="['trucking']" [ngStyle]="{'background-color':'#4256F9'}">
+              <ion-card-content>
+                <img src="../../../assets/images/truck.png" alt="" class="w-12 h-12 object-contain">
+              </ion-card-content>
+            </ion-card>
+          </div>
+          <div class="ion-text-center flex flex-col">
+            <ion-text class="font-Lato">Trucking</ion-text>
+          </div>
+        </ion-col>
+      </div>
 
+      <div *ngIf="!toShow">
+        <ion-col size="4" class="flex flex-col" *ngIf="role.includes('Mechanic')">
+          <div class="h-28 flex justify-center items-center">
+            <ion-card class="card " [routerLink]="['maintenance-repair']" [ngStyle]="{'background-color':'#FF7272'}">
+              <ion-card-content>
+                <img src="../../../assets/images/m and r.svg" alt="" class="w-12 h-12 object-contain">
+              </ion-card-content>
+            </ion-card>
+          </div>
+          <div class="ion-text-center flex flex-col">
+            <ion-text class="font-Lato">Maintenance & Repair</ion-text>
+          </div>
+        </ion-col>
+      </div>
 
-    <div *ngIf="!toShow">
-      <ion-col size="4" *ngIf="role.includes('Dispatcher')  || role.includes('Truck Driver')" class="flex flex-col">
-        <div class="h-28 flex justify-center items-center">
-          <ion-card class="card" [routerLink]="['trucking']" [ngStyle]="{'background-color':'#4256F9'}">
-            <ion-card-content>
-              <img src="../../../assets/images/truck.png" alt="" class="w-12 h-12 object-contain">
-            </ion-card-content>
-          </ion-card>
-        </div>
-        <div class="ion-text-center flex flex-col">
-          <ion-text class="font-Lato">Trucking</ion-text>
-        </div>
-      </ion-col>
-    </div>
-
-    <div *ngIf="!toShow">
-      <ion-col size="4" class="flex flex-col" *ngIf="role.includes('Mechanic')">
-        <div class="h-28 flex justify-center items-center">
-          <ion-card class="card " [routerLink]="['maintenance-repair']" [ngStyle]="{'background-color':'#FF7272'}">
-            <ion-card-content>
-              <img src="../../../assets/images/m and r.svg" alt="" class="w-12 h-12 object-contain">
-            </ion-card-content>
-          </ion-card>
-        </div>
-        <div class="ion-text-center flex flex-col">
-          <ion-text class="font-Lato">Maintenance & Repair</ion-text>
-        </div>
-      </ion-col>
-    </div>
-
-    <!-- <div *ngIf="!toShow"> -->
+      <!-- <div *ngIf="!toShow"> -->
       <ion-col size="4" class="flex flex-col" *ngIf="role.includes('Trainer') || role.includes('Director')">
         <div class="h-28 flex justify-center items-center">
           <ion-card class="card" [routerLink]="['training']" [ngStyle]="{'background-color':'#0CA3C7'}">
@@ -115,9 +124,9 @@
           <ion-text class="font-Lato ">Training</ion-text>
         </div>
       </ion-col>
-    <!-- </div> -->
+      <!-- </div> -->
 
-    <!-- <div *ngIf="toShow"> -->
+      <!-- <div *ngIf="toShow"> -->
       <ion-col size="4" class="flex flex-col">
         <div class="h-28 flex justify-center items-center">
           <ion-card class="card" [routerLink]="['others']" [ngStyle]="{'background-color':'#455769'}">
@@ -130,56 +139,56 @@
           <ion-text class="font-Lato ">Other Paid</ion-text>
         </div>
       </ion-col>
-    <!-- </div> -->
+      <!-- </div> -->
 
-    <div *ngIf="!toShow">
-      <ion-col size="4" class="flex flex-col justify-center items-center">
-        <div class="h-28 flex justify-center items-center">
-          <ion-card class="card" [ngStyle]="{'background-color':'#D33F3F'}">
-            <ion-card-content>
-              <img src="../../../assets/images/purchasing.svg" alt="" class="w-12 h-12 object-contain">
-            </ion-card-content>
-          </ion-card>
-        </div>
-        <div class="flex flex-col items-center">
-          <ion-text class="font-Lato ">Purchasing</ion-text>
-          <ion-text class="font-Lato text-sm">(Coming 2024)</ion-text>
-        </div>
-      </ion-col>
-    </div>
-
-    <div *ngIf="!toShow">
-      <ion-col size="4" class="flex flex-col justify-center items-center">
-        <div class="h-28 flex justify-center items-center">
-          <ion-card class="card" [ngStyle]="{'background-color':'#9F58E7'}">
-            <ion-card-content>
-              <img src="../../../assets/images/inventory.svg" alt="" class="w-12 h-12 object-contain">
-            </ion-card-content>
-          </ion-card>
-        </div>
-        <div class="flex flex-col items-center">
-          <ion-text class="font-Lato ">Inventory</ion-text>
-          <ion-text class="font-Lato text-sm">(Coming 2024)</ion-text>
-        </div>
-      </ion-col>
-    </div>
-    <div *ngIf="!toShow">
-      <ion-col size="4" class="flex flex-col justify-center items-center">
-        <div class="h-28 flex justify-center items-center">
-          <ion-card class="card" [ngStyle]="{'background-color':'#9393F4'}">
-            <ion-card-content>
-              <img src="../../../assets/images/leasing.svg" alt="" class="w-12 h-12 object-contain">
-            </ion-card-content>
-          </ion-card>
-        </div>
-        <div class="flex flex-col items-center">
-          <div class="ion-text-center flex flex-col">
-            <ion-text class="font-Lato">Equipment Rental</ion-text>
+      <div *ngIf="!toShow">
+        <ion-col size="4" class="flex flex-col justify-center items-center">
+          <div class="h-28 flex justify-center items-center">
+            <ion-card class="card" [ngStyle]="{'background-color':'#D33F3F'}">
+              <ion-card-content>
+                <img src="../../../assets/images/purchasing.svg" alt="" class="w-12 h-12 object-contain">
+              </ion-card-content>
+            </ion-card>
           </div>
-          <ion-text class="font-Lato text-sm">(Coming 2024)</ion-text>
-        </div>
-      </ion-col>
-    </div>
+          <div class="flex flex-col items-center">
+            <ion-text class="font-Lato ">Purchasing</ion-text>
+            <ion-text class="font-Lato text-sm">(Coming 2024)</ion-text>
+          </div>
+        </ion-col>
+      </div>
+
+      <div *ngIf="!toShow">
+        <ion-col size="4" class="flex flex-col justify-center items-center">
+          <div class="h-28 flex justify-center items-center">
+            <ion-card class="card" [ngStyle]="{'background-color':'#9F58E7'}">
+              <ion-card-content>
+                <img src="../../../assets/images/inventory.svg" alt="" class="w-12 h-12 object-contain">
+              </ion-card-content>
+            </ion-card>
+          </div>
+          <div class="flex flex-col items-center">
+            <ion-text class="font-Lato ">Inventory</ion-text>
+            <ion-text class="font-Lato text-sm">(Coming 2024)</ion-text>
+          </div>
+        </ion-col>
+      </div>
+      <div *ngIf="!toShow">
+        <ion-col size="4" class="flex flex-col justify-center items-center">
+          <div class="h-28 flex justify-center items-center">
+            <ion-card class="card" [ngStyle]="{'background-color':'#9393F4'}">
+              <ion-card-content>
+                <img src="../../../assets/images/leasing.svg" alt="" class="w-12 h-12 object-contain">
+              </ion-card-content>
+            </ion-card>
+          </div>
+          <div class="flex flex-col items-center">
+            <div class="ion-text-center flex flex-col">
+              <ion-text class="font-Lato">Equipment Rental</ion-text>
+            </div>
+            <ion-text class="font-Lato text-sm">(Coming 2024)</ion-text>
+          </div>
+        </ion-col>
+      </div>
     </ion-row>
 
   </ion-grid>
@@ -205,7 +214,9 @@
       <p>
         <!-- <span class="capitalize">{{activeDwr[0].module_to_redirect}}</span> module is still active. Please checkout before working
         on other module. -->
-        You are still checked into the <span class="capitalize font-semibold font-Lato">{{activeDwr[0].module_to_redirect}}</span> module. Please checkout before attempting to work in another module
+        You are still checked into the <span
+          class="capitalize font-semibold font-Lato">{{activeDwr[0].module_to_redirect}}</span> module. Please checkout
+        before attempting to work in another module
       </p>
 
       <div class="flex justify-center mt-8">
