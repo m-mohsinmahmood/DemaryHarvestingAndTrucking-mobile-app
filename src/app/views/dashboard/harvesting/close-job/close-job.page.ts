@@ -126,7 +126,7 @@ export class CloseJobPage implements OnInit {
     else if (this.role.includes('Truck Driver')) {
       this.activeRoute.params.subscribe((param) => {
         this.closeJobFormTruck.patchValue({
-          workOrderId: param.id,
+          jobId: param.id,
           employeeId: localStorage.getItem('employeeId'),
         });
         console.log(param);
@@ -242,7 +242,7 @@ export class CloseJobPage implements OnInit {
     this.closeJobFormTruck = this.formBuilder.group({
       ending_odometer_miles: ['', [Validators.required]],
       employeeId: localStorage.getItem('employeeId'),
-      workOrderId: [''],
+      jobId: [''],
     });
 
     // end of day validation for hours (truck driver)
@@ -410,7 +410,7 @@ export class CloseJobPage implements OnInit {
       this.loadingSpinner.next(true);
 
       this.harvestingService
-        .updateCustomerJob(this.closeJobFormTruck.get('workOrderId').value)
+        .updateCustomerJob(this.closeJobFormTruck.get('jobId').value)
         .subscribe(
           (res: any) => {
             console.log(res);
@@ -466,7 +466,7 @@ export class CloseJobPage implements OnInit {
           }
         );
 
-      console.log("Id: ", this.closeJobFormTruck.get('workOrderId'));
+      console.log("Id: ", this.closeJobFormTruck.get('jobId'));
 
 
     }
