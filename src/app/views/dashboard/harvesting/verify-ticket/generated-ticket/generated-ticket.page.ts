@@ -31,6 +31,9 @@ export class GeneratedTicketPage implements OnInit {
   upload_2 = false;
   upload_3 = false;
   ticketSub;
+  fieldPivot; //field/pivot
+  fieldPivotSL; //field/pivot-sl
+
   public loadingSpinner = new BehaviorSubject(false);
 
   private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -60,13 +63,14 @@ export class GeneratedTicketPage implements OnInit {
 
     this.initForm();
 
-    this.ticket = JSON.parse(
-      this.router.getCurrentNavigation().extras.state?.ticket
-    );
+    this.ticket = JSON.parse(this.router.getCurrentNavigation().extras.state?.ticket);
 
-    console.log("Ticket: ", this.ticket);
+    console.log('Ticket: ', this.ticket);
 
     this.ticketID = this.ticket.id;
+    this.fieldPivot = this.ticket.field_name;
+    this.fieldPivotSL = this.ticket.split_field_name;
+
 
     if (this.ticket) {
       this.generateTicketFormTruck.patchValue({
@@ -94,8 +98,8 @@ export class GeneratedTicketPage implements OnInit {
   initForm() {
     this.generateTicketFormTruck = this.formBuilder.group({
       scaleTicket: ['', [Validators.required]],
-      scaleTicketWeight: ['', [Validators.required]],
-      scaleTicketWeight2: ['', [Validators.required]],
+      NetWeight: [0, [Validators.required]],
+      NetWeight2: [0, [Validators.required]],
       testWeight: ['', [Validators.required]],
       proteinContent: ['', [Validators.required]],
       moistureContent: ['', [Validators.required]],
@@ -111,16 +115,17 @@ export class GeneratedTicketPage implements OnInit {
       image_2: [''],
     });
     this.generateTicketFormTruck.valueChanges.subscribe((value) => {
-      if (value.scaleTicketWeight !== value.scaleTicketWeight2) {
+      console.log(value);
+      if (value.NetWeight !== value.NetWeight2) {
         this.generateTicketFormTruck
-          .get('scaleTicketWeight')
+          .get('NetWeight')
           .setErrors({ mustMatch: true });
         this.generateTicketFormTruck
-          .get('scaleTicketWeight2')
+          .get('NetWeight2')
           .setErrors({ mustMatch: true });
       } else {
-        this.generateTicketFormTruck.get('scaleTicketWeight').setErrors(null);
-        this.generateTicketFormTruck.get('scaleTicketWeight2').setErrors(null);
+        this.generateTicketFormTruck.get('NetWeight').setErrors(null);
+        this.generateTicketFormTruck.get('NetWeight2').setErrors(null);
       }
     });
   }
@@ -130,19 +135,19 @@ export class GeneratedTicketPage implements OnInit {
   }
 
   onSelectedFiles(file, name) {
-    if (name === 'upload_1') {
-      this.upload_1 = !this.upload_1;
-      if (file.target.files && file.target.files[0]) {
-        const reader = new FileReader();
-        reader.onload = (_event: any) => {
-          this.generateTicketFormTruck.controls.image_1?.setValue(
-            file.target.files[0]
-          );
-        };
-        reader.readAsDataURL(file.target.files[0]);
-      } else {
-      }
-    }
+    // if (name === 'upload_1') {
+    //   this.upload_1 = !this.upload_1;
+    //   if (file.target.files && file.target.files[0]) {
+    //     const reader = new FileReader();
+    //     reader.onload = (_event: any) => {
+    //       this.generateTicketFormTruck.controls.image_1?.setValue(
+    //         file.target.files[0]
+    //       );
+    //     };
+    //     reader.readAsDataURL(file.target.files[0]);
+    //   } else {
+    //   }
+    // }
     if (name === 'upload_2') {
       this.upload_2 = !this.upload_2;
       if (file.target.files && file.target.files[0]) {
@@ -191,10 +196,10 @@ export class GeneratedTicketPage implements OnInit {
         JSON.stringify(this.generateTicketFormTruck.value)
       );
       formData.append('operation', 'completeTicket');
-      formData.append(
-        'image_1',
-        this.generateTicketFormTruck.get('image_1').value
-      );
+      // formData.append(
+      //   'image_1',
+      //   this.generateTicketFormTruck.get('image_1').value
+      // );
       formData.append(
         'image_2',
         this.generateTicketFormTruck.get('image_2').value
@@ -207,16 +212,29 @@ export class GeneratedTicketPage implements OnInit {
         (response: any) => {
           console.log('Response', response);
           if (response.status === 200) {
+
+            //stop loader
+           this.loadingSpinner.next(false);
+
+            // reset
             this.generateTicketFormTruck.reset();
+            this.fieldPivot = '';
+            this.fieldPivotSL = '';
+
+            // navigate
             this.router.navigate(['/tabs/home/harvesting/verify-ticket']);
+
+            //toast
             this.toastService.presentToast(response.message, 'success');
           } else {
             console.log('Something happened :)');
+      this.loadingSpinner.next(false);
             this.toastService.presentToast(response.message, 'danger');
           }
         },
         (err) => {
           this.toastService.presentToast(err, 'danger');
+      this.loadingSpinner.next(false);
           console.log('Error:', err);
         }
       );
