@@ -596,8 +596,6 @@ export class HarvestingService {
   }
 
   kartOperatorAddTruckDriver(operation, raw) {
-    // let params = new HttpParams();
-    // params = params.set('operation', operation);
 
     return this._httpClient
       .patch(`api-1/havesting-kart-operator`, raw)
@@ -677,10 +675,6 @@ export class HarvestingService {
   }
 
   truckDriverCompleteTicket(data) {
-    // console.log(payload);
-    // const appendedObject = { ...payload, operation };
-    // console.log('appendedObject', appendedObject);
-    // console.log(appendedObject);
     try {
       return this._httpClient
         .patch(`api-1/harvesting-ticket`, data)
@@ -713,6 +707,11 @@ export class HarvestingService {
       .get<any>('api-1/employee', {
         params,
       })
+      .pipe(take(1));
+  }
+  reAssignTruckDrivers(data){
+    return this._httpClient
+      .patch<any>('api-1/havesting-kart-operator', data)
       .pipe(take(1));
   }
 }

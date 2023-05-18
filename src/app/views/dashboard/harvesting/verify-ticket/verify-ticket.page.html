@@ -82,10 +82,9 @@
                               <ion-spinner *ngIf="allTruckDrivers?.loading" name="crescent" mode="indeterminate" color="primary"></ion-spinner>
                             </div>
                             <ul *ngIf="allTruckDrivers?.value && driverUL" class="absolute -mb-2 max-h-48 w-full scroll-py-2 overflow-y-auto bg-white py-2 text-sm text-gray-800" id="options" role="listbox">
-                              <li *ngFor="let driver of (allTruckDrivers?.value.employees)" (click)="selectedDriver(driver)"
+                              <li *ngFor="let driver of (allTruckDrivers?.value)" (click)="selectedDriver(driver)"
                                 class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200">
-                                <div class="flex items-center p-2"> {{driver.first_name}} {{driver.last_name}}</div>
-                                <span class="px-2 font-Lato font-semibold">{{driver.supervisor_name}}</span>
+                                <div class="flex items-center p-2"> {{driver.name}} </div>
                               </li>
                             </ul>
                             <div *ngIf="allTruckDrivers?.value?.length === 0">
@@ -96,7 +95,12 @@
                       </div>
                     </div>
                   </div>
-                  <ion-button expand="block" class="font-Lato font-white mt-20 mb-8 text-white" (click)="reassignDriver()">Reassign Driver</ion-button>
+                  <!-- <ion-button expand="block" class="font-Lato font-white mt-20 mb-8 text-white" (click)="reassignDriver()">Reassign Driver</ion-button> -->
+                  <ion-button expand="block" class="font-Lato text-white w-full mt-20 mb-5" (click)="reassignDriver()"
+                    [disabled]="isTruckDriverSelected ||  (loadingSpinner | async)">
+                    <div *ngIf="(loadingSpinner | async) === false">Reassign Driver</div>
+                    <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+                  </ion-button>
                 </form>
               </div>
             </ng-template>

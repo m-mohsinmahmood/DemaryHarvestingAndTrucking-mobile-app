@@ -450,43 +450,6 @@ this.isFieldSplitLoadSelected = true; // to enable submit button
   }
 
   //#region Truck Driver
-  inputClickedTruckDriver() {
-    // getting the serch value to check if there's a value in input
-    this.trick_driver_search$
-      .pipe(
-        debounceTime(500),
-        distinctUntilChanged(),
-        takeUntil(this._unsubscribeAll)
-      )
-      .subscribe((v) => {
-        this.truckDriverSearchValue = v;
-      });
-
-    const value =
-      this.truckDriverSearchValue === undefined
-        ? this.trick_driver_name
-        : this.truckDriverSearchValue;
-
-    // calling API
-    this.allTruckDrivers = this.harvestingService.getKartOperatorTruckDrivers(
-      'kartOperatorTruckDrivers',
-      localStorage.getItem('employeeId'),
-      ''
-    );
-
-    // subscribing to show/hide field UL
-    this.allTruckDrivers.subscribe((truckDrivers) => {
-      // console.log('truck-drivers:', truckDrivers);
-      if (truckDrivers.length === 0) {
-        // hiding UL
-        this.truckDriverUL = false;
-      } else {
-        // showing UL
-        this.truckDriverUL = true;
-      }
-    });
-  }
-
   truckDriverSearchSubscription() {
     this.trick_driver_search$
       .pipe(
@@ -524,6 +487,42 @@ this.isFieldSplitLoadSelected = true; // to enable submit button
           }
         });
       });
+  }
+  inputClickedTruckDriver() {
+    // getting the serch value to check if there's a value in input
+    this.trick_driver_search$
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        takeUntil(this._unsubscribeAll)
+      )
+      .subscribe((v) => {
+        this.truckDriverSearchValue = v;
+      });
+
+    const value =
+      this.truckDriverSearchValue === undefined
+        ? this.trick_driver_name
+        : this.truckDriverSearchValue;
+
+    // calling API
+    this.allTruckDrivers = this.harvestingService.getKartOperatorTruckDrivers(
+      'kartOperatorTruckDrivers',
+      localStorage.getItem('employeeId'),
+      this.truckDriverSearchValue
+    );
+
+    // subscribing to show/hide field UL
+    this.allTruckDrivers.subscribe((truckDrivers) => {
+      // console.log('truck-drivers:', truckDrivers);
+      if (truckDrivers.length === 0) {
+        // hiding UL
+        this.truckDriverUL = false;
+      } else {
+        // showing UL
+        this.truckDriverUL = true;
+      }
+    });
   }
 
   listClickedTruckDriver(truckdriver) {

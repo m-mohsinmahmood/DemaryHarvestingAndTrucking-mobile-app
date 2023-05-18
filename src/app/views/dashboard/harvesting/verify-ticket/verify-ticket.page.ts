@@ -4,11 +4,12 @@
 import { Component, OnInit, ChangeDetectorRef, ElementRef, ViewChild, Renderer2 } from '@angular/core';
 import { Location } from '@angular/common';
 import { HarvestingService } from './../harvesting.service';
-import { Subject, Subscription } from 'rxjs';
+import { BehaviorSubject, Subject, Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
+import { ToastService } from 'src/app/services/toast/toast.service';
 
 @Component({
   selector: 'app-verify-ticket',
@@ -48,6 +49,7 @@ export class VerifyTicketPage implements OnInit {
   allTruckDrivers: Observable<any>;
   deleteId;
 
+  public loadingSpinner = new BehaviorSubject(false);
 
 
   private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -57,6 +59,8 @@ export class VerifyTicketPage implements OnInit {
     private router: Router,
     private formBuilder: FormBuilder,
     private renderer: Renderer2,
+    private toastService: ToastService,
+
 
   ) {
     // this.renderer.listen('window', 'click', (e) => {
@@ -101,8 +105,9 @@ export class VerifyTicketPage implements OnInit {
     }
 
     this.driverSetupForm = this.formBuilder.group({
-      truck_driver: ['', [Validators.required]],
-      jobId:['']
+      truckDriverId: ['', [Validators.required]],
+      id:[''],
+      operation:['reAssignTruckDrivers']
     });
 
     this.driverSearchSubscription();
@@ -235,10 +240,39 @@ export class VerifyTicketPage implements OnInit {
   }
   openModal(jobId){
     this.isReassignModalOpen = true;
-    this.driverSetupForm.patchValue({jobId});
+    this.driverSetupForm.patchValue({id: jobId});
   }
-  reassignDriver(){
-    console.log(this.driverSetupForm.value);
+
+  reassignDriver() {
+    this.loadingSpinner.next(true);
+    this.harvestingService.reAssignTruckDrivers(this.driverSetupForm.value)
+      .subscribe(
+        (res: any) => {
+          console.log('Response:', res);
+          if (res.status === 200) {
+            // stop loader
+            this.loadingSpinner.next(false);
+
+            // clode modal
+            this.isReassignModalOpen = false;
+
+            // toast
+            this.toastService.presentToast('Truck driver resssigned', 'success');
+
+            // navigation
+            // this.router.navigate(['/tabs/home/harvesting']);
+          } else {
+            console.log('Something happened :)');
+            this.loadingSpinner.next(false);
+
+          }
+        },
+        (err) => {
+          console.log('Error:', err);
+          this.loadingSpinner.next(false);
+
+        },
+      );
   }
 
   //#region truck driver dropdown
@@ -259,12 +293,11 @@ export class VerifyTicketPage implements OnInit {
         }
 
         // calling API
-        this.allTruckDrivers =
-          this.harvestingService.getCombineCartOperator(
-            this.driverSearchValue,
-            'getCombineCartOperator',
-            'Truck Driver'
-          );
+        this.allTruckDrivers = this.harvestingService.getKartOperatorTruckDrivers(
+          'kartOperatorTruckDrivers',
+          localStorage.getItem('employeeId'),
+          value
+        );
 
         // subscribing to show/hide field UL
         this.allTruckDrivers.subscribe((truckDrivers) => {
@@ -272,6 +305,7 @@ export class VerifyTicketPage implements OnInit {
           if (truckDrivers.length === 0) {
             // hiding UL
             this.driverUL = false;
+            this.isTruckDriverSelected = true;
           } else {
             this.driverUL = true;
           }
@@ -295,29 +329,27 @@ export class VerifyTicketPage implements OnInit {
         : this.driverSearchValue;
 
     // calling API
-    this.allTruckDrivers =
-      this.harvestingService.getCombineCartOperator(
-        this.driverSearchValue,
-        'getCombineCartOperator',
-        'Truck Driver'
-      );
+    this.allTruckDrivers = this.harvestingService.getKartOperatorTruckDrivers(
+      'kartOperatorTruckDrivers',
+      localStorage.getItem('employeeId'),
+      ''
+    );
 
     this.allTruckDrivers.subscribe((driver) => {
       console.log('--', driver);
-      if (driver.length === 0) {
+      if (driver.count === 0) {
         this.driverUL = false;
+        this.isTruckDriverSelected = true;
       } else {
         this.driverUL = true;
       }
     });
   }
   selectedDriver(driver) {
-    console.log(driver);
-
     this.driverUL = false;
-    this.driverInput.nativeElement.value = driver.first_name + ' ' + driver.last_name;
+    this.driverInput.nativeElement.value = driver.name;
     this.isTruckDriverSelected = false;
-    this.driverSetupForm.controls.truck_driver.setValue(driver.id ?? '');
+    this.driverSetupForm.controls.truckDriverId.setValue(driver.id ?? '');
   }
   //#endregion
 
