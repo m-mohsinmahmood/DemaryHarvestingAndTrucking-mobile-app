@@ -256,6 +256,10 @@ export class VerifyTicketPage implements OnInit {
             // clode modal
             this.isReassignModalOpen = false;
 
+            // calling sent api and observables
+            this.initSentApis();
+            this.initSentObservables();
+
             // toast
             this.toastService.presentToast('Truck driver resssigned', 'success');
 
