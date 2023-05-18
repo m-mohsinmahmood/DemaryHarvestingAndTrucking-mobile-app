@@ -90,7 +90,6 @@ export class CloseJobPage implements OnInit {
   initApis() {
     if (this.role.includes('Crew Chief')) {
       this.activeRoute.params.subscribe((param) => {
-        console.log("Cart Operator Data: ", param);
         this.truckId = param.machinery_id;
       });
 
@@ -104,7 +103,6 @@ export class CloseJobPage implements OnInit {
 
     else if (this.role.includes('Combine Operator')) {
       this.activeRoute.params.subscribe((param) => {
-        console.log("Cart Operator Data: ", param);
         this.truckId = param.machinery_id;
       });
 
@@ -121,7 +119,7 @@ export class CloseJobPage implements OnInit {
         this.closeJobFormCombine.patchValue({
           module: workOrder.dwr[0].module,
           dwrId: workOrder.dwr[0].id
-        })
+        });
       });
     }
 
@@ -145,7 +143,6 @@ export class CloseJobPage implements OnInit {
 
     else if (this.role.includes('Cart Operator')) {
       this.activeRoute.params.subscribe((param) => {
-        console.log("Cart Operator Data: ", param);
         this.truckId = param.machinery_id;
       });
 
@@ -157,7 +154,6 @@ export class CloseJobPage implements OnInit {
       );
 
       this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
-        console.log('Active Check In ', workOrder.dwr);
 
         this.closeJobFormKart.patchValue({
           module: workOrder.dwr[0].module,
@@ -248,6 +244,13 @@ export class CloseJobPage implements OnInit {
       employeeId: localStorage.getItem('employeeId'),
       workOrderId: [''],
     });
+
+    // end of day validation for hours (truck driver)
+    this.closeJobFormTruck.valueChanges.subscribe((val)=>{
+      console.log(parseInt(val.ending_odometer_miles)  <= parseInt(this.customerData?.workOrders[0]?.odometer_reading_end));
+      if(val.ending_odometer_miles  <= this.customerData?.workOrders[0]?.odometer_reading_end){this.showValidationMessage_1 = true;}
+      else{this.showValidationMessage_1 = false;}
+      });
   }
 
   submit() {
