@@ -97,7 +97,7 @@ export class GeneratedTicketPage implements OnInit {
   }
   initForm() {
     this.generateTicketFormTruck = this.formBuilder.group({
-      scaleTicket: ['', [Validators.required]],
+      // scaleTicket: ['', [Validators.required]],
       NetWeight: [0, [Validators.required]],
       NetWeight2: [0, [Validators.required]],
       testWeight: ['', [Validators.required]],
