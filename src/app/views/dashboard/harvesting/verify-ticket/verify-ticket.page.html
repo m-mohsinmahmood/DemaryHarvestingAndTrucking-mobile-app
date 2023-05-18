@@ -278,24 +278,27 @@
               <div class="flex flex-col">
                 <div class="flex flex-row py-2">
                   <div class="flex w-8/12 flex-col">
-                    <span class="font-Lato text-base">Ticket# <span class="font-Lato bg-0165c31a ml-1 h-5 rounded-xl px-2 text-base text-black">{{sentTicket.id}}</span></span>
-                    <span class="font-Lato text-lg text-black">{{sentTicket?.customerName}}</span>
-                    <span class="text-lg font-bold">{{sentTicket?.crop_name}}, {{sentTicket?.state}}</span>
+                    <span class="font-Lato text-base">Ticket# <span class="font-Lato bg-0165c31a ml-1 h-5 rounded-xl px-2 text-base text-black">{{sentTicket.id | slice:0-8 }}</span></span>
+                    <span class="font-Lato text-base text-gray-900 font-semibold">Farm: <span class="font-Lato font-medium text-gray-700 text-sm">{{sentTicket?.farm_name}}</span> </span>
+                    <span class="font-Lato text-base text-gray-900 font-semibold">Crop: <span class="font-Lato font-medium text-gray-700 text-sm">{{sentTicket?.crop_name}}</span></span>
                   </div>
-                  <div class="flex w-4/12 justify-end">
+                  <div class="flex-col w-4/12">
                     <div>
-                      <span class="font-Lato rounded-full border bg-orange-100 px-3 py-1 text-sm text-orange-400">Pending</span>
+                      <span class="font-Lato rounded-full border bg-orange-100 px-3 py-1 text-base text-orange-400">Pending</span>
+                    </div>
+                    <div class="mt-3">
+                      <ion-text class="font-Lato text-base text-gray-900 font-semibold">Field: <span class="font-Lato font-medium text-gray-700 text-sm">{{sentTicket?.field_name}}</span> </ion-text>
                     </div>
                   </div>
                 </div>
                 <div class="flex justify-between">
                   <div>
-                    <span class="font-Lato text-sm">Truck Driver: </span>
-                    <span class="font-Lato text-sm text-black">{{sentTicket.truck_driver_name}}</span>
+                    <span class="font-Lato text-base text-gray-900 font-semibold">Truck Driver: </span>
+                    <span class="font-Lato font-medium text-gray-700 text-sm">{{sentTicket.truck_driver_name}}</span>
                   </div>
                   <div>
-                    <span class="font-Lato text-sm">Destination: </span>
-                    <span class="font-Lato text-sm text-black">{{sentTicket.destination}}</span>
+                    <span class="font-Lato text-base text-gray-900 font-semibold">State: </span>
+                    <span class="font-Lato font-medium text-gray-700 text-sm">{{sentTicket.state}}</span>
                   </div>
                 </div>
               </div>
