@@ -205,13 +205,11 @@ export class TicketPage implements OnInit {
 
     // custom validation for 'kart_scale_weight_split'
     this.deliveryTicketForm.valueChanges.subscribe((value)=>{
-      console.log(value);
+      // console.log(value);
       if(!value.split_load_check){
-        console.log('hahahaahahah');
         this.deliveryTicketForm.get('kart_scale_weight_split').setValidators(null);
         this.deliveryTicketForm.get('kart_scale_weight_split').setErrors(null);
       }else{
-        console.log('heheheheeheh');
         this.deliveryTicketForm.get('kart_scale_weight_split').setValidators([Validators.required]);
         this.deliveryTicketForm.get('kart_scale_weight_split').setValidators([Validators.required]);
       }
@@ -252,12 +250,6 @@ export class TicketPage implements OnInit {
       );
     });
 
-    // this.harvestingService.getBeginningOfDay(
-    //   localStorage.getItem('employeeId'),
-    //   'beginningOfDayHarvesting',
-    //   'harvesting'
-    // );
-
     this.getCreatedJobData();
 
   }
@@ -277,29 +269,12 @@ export class TicketPage implements OnInit {
       }
     });
 
-    // this.sub = this.harvestingService.customer$.subscribe((res) => {
-    //   console.log('res', res);
-    //   this.customerData = res;
-    //   if (this.customerData?.workOrders) {
-    //     if (this.role.includes('Cart Operator') ) {
-    //       this.date = this.customerData?.workOrders[0]?.created_at;
-    //       this.customerName = this.customerData?.workOrders[0]?.customer_name;
-    //       this.state = this.customerData?.workOrders[0]?.state;
-    //       this.farm = this.customerData?.workOrders[0]?.farm_name;
-    //       this.crop = this.customerData?.workOrders[0]?.crop_name;
-    //       this.crewChiefName = this.customerData?.workOrders[0]?.crew_chief_name;
-    //       // this.customer_id = this.customerData?.workOrders[0]?.customer_id;
-    //       // this.farm_id = this.customerData?.workOrders[0]?.farm_id;
-    //     }
-    //   }
-    // });
   }
   async ionViewDidEnter() {
     this.getCreatedJobData();
   }
   getCreatedJobData(){
     this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).subscribe((res)=>{
-      console.log('Employee Details:',res);
       this.deliveryTicketForm.patchValue({
         destination:  res.destination,
         truckDriverId:  res.truck_driver_id,
@@ -346,7 +321,6 @@ export class TicketPage implements OnInit {
     this.isLoadingTicket$ = this.harvestingService.ticketLoading$;
 
     this.harvestingService.ticket$.subscribe((res) => {
-      // console.log('response:', res);
       this.reassignTicketData = res;
       if (res) {
         this.patchReassignForm();
@@ -360,7 +334,6 @@ export class TicketPage implements OnInit {
 
   buttton() {
     this.isSplitTrue = !this.isSplitTrue;
-    // console.log(this.deliveryTicketForm.get('split_load_check').value);
 
     if(!this.isSplitTrue){
 this.deliveryTicketForm.controls.kart_scale_weight_split.setValue(''); //empty field name
@@ -378,7 +351,6 @@ this.isFieldSplitLoadSelected = true; // to enable submit button
       this.loadingSpinner.next(true);
       this.harvestingService.kartOperatorCreateDeliveryTicket('createDeliveryTicket', this.deliveryTicketForm.value)
         .subscribe((response: any) => {
-          // console.log('response', response);
           if (response?.status === 200) {
             // stop loader
             this.loadingSpinner.next(false);
@@ -396,11 +368,12 @@ this.isFieldSplitLoadSelected = true; // to enable submit button
             this.deliveryTicketForm.reset();
             this.trick_driver_name = '';
             this.truckInput.nativeElement.value = '';
-            this.kartInput.nativeElement.value = '';
+            // this.kartInput.nativeElement.value = '';
             this.fieldInput.nativeElement.value = '';
             this.jobInput.nativeElement.value = '';
-            this.field_split_load_input.nativeElement.value = '';
+            if(this.isSplitTrue){this.field_split_load_input.nativeElement.value = '';}
             this.isSplitTrue = false;
+            this.isFieldSelected = true;
 
           } else {
             console.log('Something happened :)');
@@ -755,94 +728,7 @@ this.isFieldSplitLoadSelected = true; // to enable submit button
   }
   //#endregion
 
-  //#region Truck ID
-  // machineSearchSubscription() {
-  //   this.machine_search$
-  //     .pipe(
-  //       debounceTime(500),
-  //       distinctUntilChanged(),
-  //       takeUntil(this._unsubscribeAll)
-  //     )
-  //     .subscribe((value: string) => {
-  //       // passing for renderer2
-  //       this.machineSearchValue = value;
-  //       // for asterik to look required
-  //       if (value === '') {
-  //         this.isMachineSelected = true;
-  //       }
 
-  //       this.allMachinery = this.harvestingService.getMachinery(
-  //         value,
-  //         'allMotorizedVehicles'
-  //       );
-
-  //       // subscribing to show/hide machine UL
-  //       this.allMachinery.subscribe((machine) => {
-  //         if (machine.count === 0) {
-  //           // hiding UL
-  //           this.machineUL = false;
-  //           this.isMachineSelected = true;
-  //         } else {
-  //           this.machineUL = true;
-  //         }
-  //       });
-  //     });
-  // }
-  // inputClickedMachinery() {
-  //   // getting the serch value to check if there's a value in input
-  //   this.machine_search$
-  //     .pipe(
-  //       debounceTime(500),
-  //       distinctUntilChanged(),
-  //       takeUntil(this._unsubscribeAll)
-  //     )
-  //     .subscribe((v) => {
-  //       this.machineSearchValue = v;
-  //     });
-
-  //   const value =
-  //     this.machineSearchValue === undefined
-  //       ? this.machine_name
-  //       : this.machineSearchValue;
-
-  //   // calling API
-  //   this.allMachinery = this.harvestingService.getMachinery(
-  //     value,
-  //     'allMotorizedVehicles'
-  //   );
-
-  //   // subscribing to show/hide field UL
-  //   this.allMachinery.subscribe((machinery) => {
-  //     console.log('--', machinery);
-  //     if (machinery.count === 0) {
-  //       // hiding UL
-  //       this.machineUL = false;
-  //     } else {
-  //       // showing UL
-  //       this.machineUL = true;
-  //     }
-  //   });
-  // }
-  // listClickedMachiney(machinery) {
-  //   console.log('Machinery Object:', machinery);
-  //   // hiding UL
-  //   this.machineUL = false;
-
-  //   // passing name in select's input
-  //   this.machineryInput.nativeElement.value = machinery.type;
-
-  //   // to enable submit button
-  //   this.isMachineSelected = false;
-
-  //   // assigning values in form conditionally
-  //   this.deliveryTicketForm.patchValue({
-  //     truckId: machinery?.id,
-  //   });
-
-  //   // clearing array
-  //   // this.allMachinery = of([]);
-  // }
-  //#endregion
 
 //#region job
 jobSearchSubscription() {
