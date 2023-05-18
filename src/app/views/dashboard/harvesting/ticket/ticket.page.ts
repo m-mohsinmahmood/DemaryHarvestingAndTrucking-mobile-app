@@ -284,10 +284,14 @@ export class TicketPage implements OnInit {
       this.deliveryTicketForm.controls.loadedMiles.setValue(res.loaded_miles);
 
       // passing name in select's input
-      this.truckInput.nativeElement.value = res.truck_driver_name;
+if(res.truck_driver_id !==null){
+  this.truckInput.nativeElement.value = res.truck_driver_name;
+}
 
        // to enable submit button
+       if(res.truck_driver_id !==null){
         this.isTruckDriverSelected = false;
+       }
     });
   }
   patchForm() {
