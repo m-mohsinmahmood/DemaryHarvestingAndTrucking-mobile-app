@@ -249,15 +249,17 @@ export class DriverSetupPage implements OnInit {
 
         this.harvestingService.deleteAssignedRole(removeData).subscribe();
         this.toastService.presentToast(res.message, 'success');
-        this.deleteSpinner.next(true);
+        this.deleteSpinner.next(false);
         this.getKartOperatorTruckDrivers();
 
       } else {
         console.log('Something happened :)');
+        this.deleteSpinner.next(false);
       }
     },
       (err) => {
         console.log('Error:', err);
+        this.deleteSpinner.next(false);
         // this.handleError(err);
       },
       () => {
