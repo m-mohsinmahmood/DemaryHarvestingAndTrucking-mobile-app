@@ -155,7 +155,7 @@ export class StartJobPage implements OnInit {
       job_id: ['']
     });
     this.startJobFormCombine = this.formBuilder.group({
-      machineryId: ['', [Validators.required]],
+      machineryId: [''],
       beginning_separator_hours: ['', [Validators.required]],
       beginningEngineHours: ['', [Validators.required]],
       employeeId: [localStorage.getItem('employeeId')],
@@ -552,36 +552,65 @@ export class StartJobPage implements OnInit {
           beginningEngineHours: machinery.odometer_reading_end
         });
       } else if (this.role.includes('Combine Operator')) {
-        // having odometer miles and separater hours
+        // console.log('A Block');
+        // having odometer miles
         if(machinery.odometer_reading_end !== '' && machinery.odometer_reading_end !== null){
+          console.log('B Block');
 
           // patching
           this.startJobFormCombine.patchValue({
             machineryId: machinery.id,
             beginningEngineHours: machinery.odometer_reading_end,
+          });
+
+          this.isReadOnly = true; // to readonly
+        }
+         // not having odometer miles
+        // else if(machinery.odometer_reading_end === '' || machinery.odometer_reading_end === null){
+          else{
+          console.log('C Block');
+
+          this.isReadOnly = false;  // to readonly
+          this.startJobFormCombine.controls.beginningEngineHours.setValue(''); // removing values in inputs
+        }
+         // having separater hours
+        // else if(machinery.separator_hours !== '' && machinery.separator_hours !== null){
+        if(machinery.separator_hours !== '' && machinery.separator_hours !== null){
+
+          console.log('D Block');
+
+          // patching
+          this.startJobFormCombine.patchValue({
+            machineryId: machinery.id,
             beginning_separator_hours:machinery.separator_hours
           });
 
-          // to readonly
-          this.isReadOnly = true;
+          this.isReadOnly = true; // to readonly
         }
-        // not having odometer miles and separater hours
+        // not having separater hours
+        // else if(machinery.separator_hours === '' || machinery.separator_hours === null){
         else{
-          // to readonly
-          this.isReadOnly = false;
+          console.log('E Block');
 
-          // removing values in inputs
-          this.startJobFormCombine.controls.beginningEngineHours.setValue('');
-          this.startJobFormCombine.controls.beginning_separator_hours.setValue('');
+          this.isReadOnly = false;  // to readonly
+          this.startJobFormCombine.controls.beginning_separator_hours.setValue(''); // removing values in inputs
         }
 
       }
       else if (this.role.includes('Cart Operator')) {
+        // // having odometer miles and separater hours
+        // if(machinery.odometer_reading_end !== '' && machinery.odometer_reading_end !== null){
+        //   // patching
           this.startJobFormKart.patchValue({
             machineryId: machinery.id,
             beginningEngineHours: machinery.odometer_reading_end,
             beginning_separator_hours:machinery.separator_hours
           });
+
+        //   // to readonly
+        //   this.isReadOnly = true;
+        // }
+
       }
       else if (this.role.includes('Truck Driver')) {
         this.startJobFormTruck.patchValue({
