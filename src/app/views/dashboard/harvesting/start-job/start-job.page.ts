@@ -78,6 +78,8 @@ export class StartJobPage implements OnInit {
   date;
   truck_driver_name;
   isReadOnly;
+  isReadOnlySeparator;
+
 
   public loadingSpinner = new BehaviorSubject(false);
   private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -120,9 +122,10 @@ export class StartJobPage implements OnInit {
     this.jobSearchSubscription();
 
   }
-  // async ionViewDidEnter() {
-  //   this.role = localStorage.getItem('role');
-  // }
+  async ionViewDidEnter() {
+    // this.role = localStorage.getItem('role');
+    this.initForms();
+  }
 
   ngOnDestroy(): void {
     this.DataDestroy();
@@ -315,16 +318,23 @@ export class StartJobPage implements OnInit {
               this.loadingSpinner.next(false);
               this.startJobFormCombine.reset();
               this.toastService.presentToast(res.message, 'success');
+              this.machineryInput.nativeElement.value = '';
+              this.isMachineSelected = true;
+              this.jobInput.nativeElement.value = '';
+              this.isJobSelected = true;
 
               // navigating
               this.router.navigateByUrl('/tabs/home/harvesting');
             } else {
               console.log('Something happened :)');
+              this.loadingSpinner.next(false);
               this.toastService.presentToast('DWR has been created successfully', 'success');
             }
           },
           (err) => {
             this.toastService.presentToast(err, 'danger');
+            this.loadingSpinner.next(false);
+
             console.log('Error:', err);
           },
         );
@@ -552,10 +562,8 @@ export class StartJobPage implements OnInit {
           beginningEngineHours: machinery.odometer_reading_end
         });
       } else if (this.role.includes('Combine Operator')) {
-        // console.log('A Block');
         // having odometer miles
         if(machinery.odometer_reading_end !== '' && machinery.odometer_reading_end !== null){
-          console.log('B Block');
 
           // patching
           this.startJobFormCombine.patchValue({
@@ -566,40 +574,31 @@ export class StartJobPage implements OnInit {
           this.isReadOnly = true; // to readonly
         }
          // not having odometer miles
-        // else if(machinery.odometer_reading_end === '' || machinery.odometer_reading_end === null){
           else{
-          console.log('C Block');
-
           this.isReadOnly = false;  // to readonly
           this.startJobFormCombine.controls.beginningEngineHours.setValue(''); // removing values in inputs
+          this.startJobFormCombine.patchValue({machineryId: machinery.id,}); // patching
         }
          // having separater hours
-        // else if(machinery.separator_hours !== '' && machinery.separator_hours !== null){
         if(machinery.separator_hours !== '' && machinery.separator_hours !== null){
-
-          console.log('D Block');
-
           // patching
           this.startJobFormCombine.patchValue({
-            machineryId: machinery.id,
+            // machineryId: machinery.id,
             beginning_separator_hours:machinery.separator_hours
           });
 
-          this.isReadOnly = true; // to readonly
+          this.isReadOnlySeparator = true; // to readonly
         }
         // not having separater hours
-        // else if(machinery.separator_hours === '' || machinery.separator_hours === null){
         else{
-          console.log('E Block');
-
-          this.isReadOnly = false;  // to readonly
+          this.isReadOnlySeparator = false;  // to readonly
           this.startJobFormCombine.controls.beginning_separator_hours.setValue(''); // removing values in inputs
+          this.startJobFormCombine.patchValue({machineryId: machinery.id,}); // patching
         }
 
       }
       else if (this.role.includes('Cart Operator')) {
         // // having odometer miles and separater hours
-        // if(machinery.odometer_reading_end !== '' && machinery.odometer_reading_end !== null){
         //   // patching
           this.startJobFormKart.patchValue({
             machineryId: machinery.id,
