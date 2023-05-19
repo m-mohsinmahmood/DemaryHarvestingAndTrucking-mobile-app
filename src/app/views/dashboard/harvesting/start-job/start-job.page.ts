@@ -568,7 +568,7 @@ export class StartJobPage implements OnInit {
           this.allMachinery = this.harvestingService.getMachinery(
             value,
             'allMotorizedVehicles',
-            'TRUCK IFTA'
+            'Truck IFTA'
           );
         }
 
@@ -621,7 +621,7 @@ export class StartJobPage implements OnInit {
       this.allMachinery = this.harvestingService.getMachinery(
         value,
         'allMotorizedVehicles',
-        'TRUCK IFTA'
+        'Truck IFTA'
       );
     }
 
