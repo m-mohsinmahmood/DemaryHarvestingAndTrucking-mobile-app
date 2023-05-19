@@ -77,6 +77,7 @@ export class StartJobPage implements OnInit {
   crewChiefName;
   date;
   truck_driver_name;
+  isReadOnly;
 
   public loadingSpinner = new BehaviorSubject(false);
   private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -421,111 +422,7 @@ export class StartJobPage implements OnInit {
         );
     }
   }
-  //#region Fields
-  // fieldSearchSubscription() {
-  //   this.field_search$
-  //     .pipe(
-  //       debounceTime(500),
-  //       distinctUntilChanged(),
-  //       takeUntil(this._unsubscribeAll)
-  //     )
-  //     .subscribe((value: string) => {
-  //       // passing for renderer2
-  //       this.fieldSearchValue = value;
-  //       // for asterik to look required
-  //       if (value === '') {
-  //         this.isFieldSelected = true;
-  //       }
 
-  //       // calling API
-  //       this.allFields = this.harvestingService.getFields(
-  //         value,
-  //         'customerFields',
-  //         this.customerID,
-  //         this.farmID
-  //       );
-
-  //       // subscribing to show/hide field UL
-  //       this.allFields.subscribe((fields) => {
-  //         if (fields.count === 0) {
-  //           // hiding UL
-  //           this.fieldUL = false;
-  //           this.isFieldSelected = true;
-  //         } else {
-  //           this.fieldUL = true;
-  //         }
-  //       });
-  //     });
-  // }
-  // inputClickedField() {
-  //   // getting the serch value to check if there's a value in input
-  //   this.field_search$
-  //     .pipe(
-  //       debounceTime(500),
-  //       distinctUntilChanged(),
-  //       takeUntil(this._unsubscribeAll)
-  //     )
-  //     .subscribe((v) => {
-  //       this.fieldSearchValue = v;
-  //     });
-
-  //   const value =
-  //     this.fieldSearchValue === undefined
-  //       ? this.field_name
-  //       : this.fieldSearchValue;
-
-  //   // calling API
-  //   this.allFields = this.harvestingService.getFields(
-  //     '',
-  //     'customerFields',
-  //     this.customerID,
-  //     this.farmID
-  //   );
-
-  //   // subscribing to show/hide field UL
-  //   this.allFields.subscribe((fields) => {
-  //     if (fields.count === 0) {
-  //       // hiding UL
-  //       this.fieldUL = false;
-  //     } else {
-  //       // showing UL
-  //       this.fieldUL = true;
-  //     }
-  //   });
-  // }
-  // listClickedField(field) {
-  //   console.log('Field Object:', field);
-  //   // hiding UL
-  //   this.fieldUL = false;
-
-  //   // passing name in select's input
-  //   this.fieldInput.nativeElement.value = field.field_name;
-
-  //   // to enable submit button
-  //   this.isFieldSelected = false;
-
-  //   // assigning values in form conditionally
-  //   if (this.role.includes('Crew Chief')) {
-  //     this.startJobFormCrew.patchValue({
-  //       field_id: field.field_id,
-  //     });
-  //   }
-
-  //   else if (this.role.includes('Cart Operator')) {
-  //     this.startJobFormKart.patchValue({
-  //       field_id: field.field_id
-  //     });
-  //   }
-  //   else if (this.role.includes('Truck Driver')) {
-  //     this.startJobFormTruck.patchValue({
-  //       field_id: field.field_id
-  //     });
-  //   }
-
-  //   // clearing array
-  //   this.allFields = of([]);
-  // }
-  //#endregion
   //#region Machinery
   machineSearchSubscription() {
     this.machine_search$
@@ -655,18 +552,36 @@ export class StartJobPage implements OnInit {
           beginningEngineHours: machinery.odometer_reading_end
         });
       } else if (this.role.includes('Combine Operator')) {
-        this.startJobFormCombine.patchValue({
-          machineryId: machinery.id,
-          beginningEngineHours: machinery.odometer_reading_end,
-          beginning_separator_hours:machinery.separator_hours
-        });
+        // having odometer miles and separater hours
+        if(machinery.odometer_reading_end !== '' && machinery.odometer_reading_end !== null){
+
+          // patching
+          this.startJobFormCombine.patchValue({
+            machineryId: machinery.id,
+            beginningEngineHours: machinery.odometer_reading_end,
+            beginning_separator_hours:machinery.separator_hours
+          });
+
+          // to readonly
+          this.isReadOnly = true;
+        }
+        // not having odometer miles and separater hours
+        else{
+          // to readonly
+          this.isReadOnly = false;
+
+          // removing values in inputs
+          this.startJobFormCombine.controls.beginningEngineHours.setValue('');
+          this.startJobFormCombine.controls.beginning_separator_hours.setValue('');
+        }
+
       }
       else if (this.role.includes('Cart Operator')) {
-        this.startJobFormKart.patchValue({
-          machineryId: machinery.id,
-          beginningEngineHours: machinery.odometer_reading_end,
-          beginning_separator_hours:machinery.separator_hours
-        });
+          this.startJobFormKart.patchValue({
+            machineryId: machinery.id,
+            beginningEngineHours: machinery.odometer_reading_end,
+            beginning_separator_hours:machinery.separator_hours
+          });
       }
       else if (this.role.includes('Truck Driver')) {
         this.startJobFormTruck.patchValue({
