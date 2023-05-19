@@ -90,7 +90,6 @@ export class CloseJobPage implements OnInit {
   initApis() {
     if (this.role.includes('Crew Chief')) {
       this.activeRoute.params.subscribe((param) => {
-        console.log("Cart Operator Data: ", param);
         this.truckId = param.machinery_id;
       });
 
@@ -104,7 +103,6 @@ export class CloseJobPage implements OnInit {
 
     else if (this.role.includes('Combine Operator')) {
       this.activeRoute.params.subscribe((param) => {
-        console.log("Cart Operator Data: ", param);
         this.truckId = param.machinery_id;
       });
 
@@ -121,15 +119,16 @@ export class CloseJobPage implements OnInit {
         this.closeJobFormCombine.patchValue({
           module: workOrder.dwr[0].module,
           dwrId: workOrder.dwr[0].id
-        })
+        });
       });
     }
 
     else if (this.role.includes('Truck Driver')) {
       this.activeRoute.params.subscribe((param) => {
         this.closeJobFormTruck.patchValue({
-          workOrderId: param.id,
+          jobId: param.id,
           employeeId: localStorage.getItem('employeeId'),
+          module:'harvesting'
         });
         console.log(param);
         this.truckId = param.truck_id;
@@ -141,11 +140,19 @@ export class CloseJobPage implements OnInit {
         'harvesting',
         this.role
       );
+
+      this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
+        console.log('Active Check In ', workOrder.dwr);
+
+        this.closeJobFormTruck.patchValue({
+          module: workOrder.dwr[0].module,
+          dwrId: workOrder.dwr[0].id
+        });
+      });
     }
 
     else if (this.role.includes('Cart Operator')) {
       this.activeRoute.params.subscribe((param) => {
-        console.log("Cart Operator Data: ", param);
         this.truckId = param.machinery_id;
       });
 
@@ -157,7 +164,6 @@ export class CloseJobPage implements OnInit {
       );
 
       this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
-        console.log('Active Check In ', workOrder.dwr);
 
         this.closeJobFormKart.patchValue({
           module: workOrder.dwr[0].module,
@@ -205,8 +211,10 @@ export class CloseJobPage implements OnInit {
     this.closeJobFormCrew = this.formBuilder.group({
       ending_separator_hours: ['', [Validators.required]],
       endingEngineHours: ['', [Validators.required]],
-      employeeId: localStorage.getItem('employeeId')
+      employeeId: localStorage.getItem('employeeId'),
+      module: ['']
     });
+
     this.closeJobFormCombine = this.formBuilder.group({
       ending_separator_hours: ['', [Validators.required]],
       endingEngineHours: ['', [Validators.required]],
@@ -246,8 +254,17 @@ export class CloseJobPage implements OnInit {
     this.closeJobFormTruck = this.formBuilder.group({
       ending_odometer_miles: ['', [Validators.required]],
       employeeId: localStorage.getItem('employeeId'),
-      workOrderId: [''],
+      jobId: [''],
+      module: [''],
+      dwrId: ['']
     });
+
+    // end of day validation for hours (truck driver)
+    this.closeJobFormTruck.valueChanges.subscribe((val)=>{
+      console.log(parseInt(val.ending_odometer_miles)  <= parseInt(this.customerData?.workOrders[0]?.odometer_reading_end));
+      if(val.ending_odometer_miles  <= this.customerData?.workOrders[0]?.odometer_reading_end){this.showValidationMessage_1 = true;}
+      else{this.showValidationMessage_1 = false;}
+      });
   }
 
   submit() {
@@ -407,7 +424,7 @@ export class CloseJobPage implements OnInit {
       this.loadingSpinner.next(true);
 
       this.harvestingService
-        .updateCustomerJob(this.closeJobFormTruck.get('workOrderId').value)
+        .updateCustomerJob(this.closeJobFormTruck.get('jobId').value)
         .subscribe(
           (res: any) => {
             console.log(res);
@@ -429,7 +446,8 @@ export class CloseJobPage implements OnInit {
           operation: 'endingOfDay',
           jobId: this.truckId,
           role: 'Truck Driver',
-          endingEngineHours: this.closeJobFormTruck.get('ending_odometer_miles').value
+          endingEngineHours: this.closeJobFormTruck.get('ending_odometer_miles').value,
+          module:'harvesting'
         })
         .subscribe(
           (res: any) => {
@@ -463,7 +481,7 @@ export class CloseJobPage implements OnInit {
           }
         );
 
-      console.log("Id: ", this.closeJobFormTruck.get('workOrderId'));
+      console.log("Id: ", this.closeJobFormTruck.get('jobId'));
 
 
     }

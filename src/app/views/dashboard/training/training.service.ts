@@ -174,7 +174,7 @@ export class TrainingService {
     let params = new HttpParams();
     params = params.set('entity', entity);
     params = params.set('search', search);
-    params = params.set('vehicleType', 'TRUCK IFTA');
+    params = params.set('vehicleType', 'Truck IFTA');
 
     return this.httpClient
       .get<any>('api-1/dropdowns', {

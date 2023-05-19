@@ -791,7 +791,7 @@ export class StartJobPage implements OnInit {
           farm_id: job.farm_id,
           state: job.state,
           crew_chief_id: job.crew_chief_id,
-
+          workOrderId:job.job_id
         });
       }
 
