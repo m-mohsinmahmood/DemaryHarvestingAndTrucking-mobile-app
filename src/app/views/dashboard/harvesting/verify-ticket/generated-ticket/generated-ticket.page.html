@@ -3,14 +3,14 @@
   [color]="'harvesting'"
 ></app-header
 ><ion-content *ngIf="role.includes('Cart Operator')">
-  <app-timer [value]="'12:32:11'"></app-timer>
+  <!-- <app-timer [value]="'12:32:11'"></app-timer> -->
   <ion-card>
     <ion-card-header class="bg-3D8AA4">
       <ion-card-title class="flex justify-center text-2xl font-Lato text-white"
-        >DHT Delivery Ticket</ion-card-title
+        >Delivery Ticket: {{ticket.id | slice:0-8}} -SL</ion-card-title
       >
     </ion-card-header>
-    <ion-card-content *ngIf="(isLoadingTicket$ | async) === false">
+    <ion-card-content>
       <ion-grid>
         <!-- First Row -->
         <ion-row class="mb-1 h-16">
@@ -19,7 +19,7 @@
             class="flex flex-col justify-evenly items-baseline ion-text-center"
           >
             <p class="font-Lato text-black font-bold font-14">DHT Date</p>
-            <span class="font-Lato font-14">Sun 5, 2022</span>
+            <span class="font-Lato font-14">{{ticket.date | date:'MM-dd-YYYY'}}</span>
           </ion-col>
           <ion-col
             size="6"
@@ -54,15 +54,22 @@
             size="6"
             class="flex flex-col justify-evenly items-baseline ion-text-center"
           >
-            <p class="font-Lato text-black font-bold font-14">Field</p>
+            <p class="font-Lato text-black font-bold font-14">Field/Pivot</p>
             <span class="font-Lato font-14">{{ticket.field_name}}</span>
           </ion-col>
-          <ion-col
+          <!-- <ion-col
             size="6"
             class="flex flex-col justify-evenly items-start ion-text-center"
           >
             <p class="font-Lato text-black font-bold font-14">Truck ID</p>
             <span class="font-Lato font-14">{{ticket.truck_id}}</span>
+          </ion-col> -->
+          <ion-col
+            size="6"
+            class="flex flex-col justify-evenly items-start ion-text-center"
+          >
+            <p class="font-Lato text-black font-bold font-14">Field/Pivot-SL</p>
+            <span class="font-Lato font-14">{{ticket.sl_field_name}}</span>
           </ion-col>
         </ion-row>
         <!-- Fourth Row -->
@@ -72,16 +79,16 @@
             class="flex flex-col justify-evenly items-baseline ion-text-center"
           >
             <p class="font-Lato text-black font-bold font-14">
-              Truck Driver Name
+              Truck Driver
             </p>
-            <span class="font-Lato font-14">{{ticket.truck_driver_name}}</span>
+            <span class="font-Lato font-14 text-left">{{ticket.truck_driver_name}}</span>
           </ion-col>
           <ion-col
             size="6"
             class="flex flex-col justify-evenly items-start ion-text-center"
           >
             <p class="font-Lato text-black font-bold font-14">Destination</p>
-            <span class="font-Lato font-14">{{ticket.destination}}</span>
+            <span class="font-Lato font-14 text-left">{{ticket.destination}}</span>
           </ion-col>
         </ion-row>
         <!-- Fifth Row -->
@@ -104,54 +111,58 @@
         <ion-row class="mb-1 h-16">
           <ion-col
             size="6"
-            class="flex flex-col justify-evenly items-baseline ion-text-center"
-          >
-            <p class="font-Lato text-black font-bold font-14">Driver</p>
-            <span class="font-Lato font-14">{{ticket.truck_driver_name}}</span>
-          </ion-col>
-          <ion-col
-            size="6"
             class="flex flex-col justify-evenly items-start ion-text-center"
           >
             <p class="font-Lato text-black font-bold font-14">
-              Scale Ticket Weight
+              Cart Scale Weight
             </p>
             <span class="font-Lato font-14"
-              >{{ticketData.scale_ticket_weight}}</span
+              >{{ticket.cart_scale_weight}}</span
+            >
+          </ion-col>
+          <ion-col
+            size="6"
+            class="flex flex-col justify-evenly items-baseline ion-text-center"
+          >
+            <p class="font-Lato text-black font-bold font-14 text-left">
+              Scale Ticket "Net" Weight(lb)
+            </p>
+            <span class="font-Lato font-14"
+              >{{ticket?.scale_ticket_net_weight}}</span
             >
           </ion-col>
         </ion-row>
         <ion-row class="mb-1 h-16">
           <ion-col
             size="6"
-            class="flex flex-col justify-evenly items-baseline ion-text-center"
+            class="flex flex-col justify-evenly items-start ion-text-center"
           >
-            <p class="font-Lato text-black font-bold font-14">
-              Moisture Content
-            </p>
-            <span class="font-Lato font-14"
-              >{{ticketData.moisture_content}}</span
-            >
+            <p class="font-Lato text-black font-bold font-14 text-left">Test Weight(lbs./bu)</p>
+            <span class="font-Lato font-14">{{ticket?.test_weight}}</span>
           </ion-col>
+          <ion-col
+          size="6"
+          class="flex flex-col justify-evenly items-baseline ion-text-center"
+        >
+          <p class="font-Lato text-black font-bold font-14">
+            Moisture Content
+          </p>
+          <span class="font-Lato font-14"
+            >{{ticket?.moisture_content}}</span
+          >
+        </ion-col>
+        </ion-row>
+        <ion-row class="mb-1 h-16">
+
           <ion-col
             size="6"
             class="flex flex-col justify-evenly items-start ion-text-center"
           >
-            <p class="font-Lato text-black font-bold font-14">Scale Ticket</p>
-            <span class="font-Lato font-14">{{ticketData.scale_ticket}}</span>
+            <p class="font-Lato text-black font-bold font-14">Protein content</p>
+            <span class="font-Lato font-14">{{ticket?.protein_content}}</span>
           </ion-col>
         </ion-row>
-        <ion-row class="mb-1 h-16">
-          <ion-col
-            size="6"
-            class="flex flex-col justify-evenly items-baseline ion-text-center"
-          >
-            <p class="font-Lato text-black font-bold font-14">
-              Kart Scale Weight
-            </p>
-            <span class="font-Lato font-14">{{ticket.kart_scale_weight}}</span>
-          </ion-col>
-        </ion-row>
+
       </ion-grid>
       <ion-button
         expand="block"

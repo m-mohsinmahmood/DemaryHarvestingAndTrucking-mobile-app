@@ -54,7 +54,7 @@ export class GeneratedTicketPage implements OnInit {
     // Unsubscribe from all subscriptions
     this._unsubscribeAll.next(null);
     this._unsubscribeAll.complete();
-    this.ticketSub.unsubscribe();
+    // this.ticketSub.unsubscribe();
     // this.isLoadingTicket$.unsubscribe();
   }
 
@@ -86,8 +86,8 @@ export class GeneratedTicketPage implements OnInit {
       this.initApis();
       this.initObservables();
     } else {
-      this.initKartApis();
-      this.initKartObservables();
+      // this.initKartApis();
+      // this.initKartObservables();
     }
   }
 
@@ -115,7 +115,6 @@ export class GeneratedTicketPage implements OnInit {
       image_2: [''],
     });
     this.generateTicketFormTruck.valueChanges.subscribe((value) => {
-      console.log(value);
       if (value.NetWeight !== value.NetWeight2) {
         this.generateTicketFormTruck
           .get('NetWeight')
@@ -176,17 +175,17 @@ export class GeneratedTicketPage implements OnInit {
     this.isLoadingTicket$ = this.harvestingService.ticketLoading$;
   }
 
-  initKartApis() {
-    this.harvestingService.getTicketById(this.ticketID, 'verify-ticket-kart');
-  }
+  // initKartApis() {
+  //   this.harvestingService.getTicketById(this.ticketID, 'verify-ticket-kart');
+  // }
 
-  initKartObservables() {
-    this.harvestingService.ticket$.subscribe((res) => {
-      console.log('Ticket Kart Verify:', res);
-      this.ticketData = res;
-    });
-    this.isLoadingTicket$ = this.harvestingService.ticketLoading$;
-  }
+  // initKartObservables() {
+  //   this.harvestingService.ticket$.subscribe((res) => {
+  //     console.log('Ticket Kart Verify:', res);
+  //     this.ticketData = res;
+  //   });
+  //   this.isLoadingTicket$ = this.harvestingService.ticketLoading$;
+  // }
   submit() {
     if (this.role.includes('Truck Driver')) {
       // Form Data
