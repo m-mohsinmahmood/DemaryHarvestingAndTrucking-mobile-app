@@ -4,7 +4,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable max-len */
 /* eslint-disable no-underscore-dangle */
-import { Component, ElementRef, HostListener, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { Location } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { states } from 'src/JSON/state';
@@ -13,6 +13,7 @@ import { BehaviorSubject, Observable, of, Subject, } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { ToastService } from 'src/app/services/toast/toast.service';
 import { Router } from '@angular/router';
+import { CheckInOutService } from 'src/app/components/check-in-out/check-in-out.service';
 
 @Component({
   selector: 'app-job-setup',
@@ -28,6 +29,8 @@ export class JobSetupPage implements OnInit {
 
   // form
   jobSetupForm: FormGroup;
+  public activeCheckInSpinner = new BehaviorSubject(false);
+  active_check_in_id: any;
 
   // observables
   allCustomers: Observable<any>;
@@ -50,6 +53,7 @@ export class JobSetupPage implements OnInit {
   farm_name: any = '';
   crop_name: any = '';
   director_name: any = '';
+  jobId;
   // field_name: any = '';
 
   // input's search values
@@ -95,6 +99,7 @@ export class JobSetupPage implements OnInit {
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
   constructor(
+    private dwrServices: CheckInOutService,
     private location: Location,
     private formBuilder: FormBuilder,
     private harvestingService: HarvestingService,
@@ -142,23 +147,6 @@ export class JobSetupPage implements OnInit {
         this.allDirectors = of([]);
         this.directorUL = false; // to hide the UL
       }
-      // if (e.target !== this.fieldInput.nativeElement) {
-      //   // // console.log('Field');
-      //   // this.allFields = of([]);
-      //   // this.fieldUL = false; // to hide the UL
-      //   console.log('fieldSearchValue', this.fieldSearchValue);
-      //   if (this.fieldSearchValue === '' || this.farmSearchValue === undefined) {
-      //     // this.createOrderDispatcher.patchValue({
-      //     //   totalAcres: null
-      //     // });
-      //     this.allFields = of([]); // to clear array
-      //     this.fieldUL = false; // to hide the UL
-
-      //   } else {
-      //     this.allFields = of([]); // to clear array
-      //     this.fieldUL = false; // to hide the UL
-      //   }
-      // }
     });
   }
 
@@ -181,42 +169,42 @@ export class JobSetupPage implements OnInit {
   async ionViewDidEnter() {
     this.getCreatedJobData();
   }
-  getCreatedJobData(){
-    this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).subscribe((res)=>{
-      console.log('Employee Details:',res);
+  getCreatedJobData() {
+    this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).subscribe((res) => {
+      console.log('Employee Details:', res);
 
-      if(res.customer_id !== null){
+      if (res.customer_id !== null) {
         //patching
-      this.jobSetupForm.patchValue({
-        director_id: res.director_id,
-        state: res.state,
-        customer_id: res.customer_id,
-        farm_id: res.farm_id,
-        crop_id: res.crop_id,
-        crew_chief_id: localStorage.getItem('employeeId'),
-        employee_id:localStorage.getItem('employeeId'),
-      });
+        this.jobSetupForm.patchValue({
+          director_id: res.director_id,
+          state: res.state,
+          customer_id: res.customer_id,
+          farm_id: res.farm_id,
+          crop_id: res.crop_id,
+          crew_chief_id: localStorage.getItem('employeeId'),
+          employee_id: localStorage.getItem('employeeId'),
+        });
 
-      // for input values
-      this.cropInput.nativeElement.value = res.crop_name;
-      this.farmInput.nativeElement.value = res.farm_name;
-      this.customerInput.nativeElement.value = res.customer_name;
-      this.directorInput.nativeElement.value = res.director_name;
+        // for input values
+        this.cropInput.nativeElement.value = res.crop_name;
+        this.farmInput.nativeElement.value = res.farm_name;
+        this.customerInput.nativeElement.value = res.customer_name;
+        this.directorInput.nativeElement.value = res.director_name;
 
 
-      // for validation to look asterik and button diasbale
-      this.isCustomerSelected = false;
-      this.isDirectorSelected = false;
-      this.isFarmSelected = false;
-      this.isCropSelected = false;
+        // for validation to look asterik and button diasbale
+        this.isCustomerSelected = false;
+        this.isDirectorSelected = false;
+        this.isFarmSelected = false;
+        this.isCropSelected = false;
 
-      this.isDisabled = false;
+        this.isDisabled = false;
 
-      this.customerID = res.customer_id;
+        this.customerID = res.customer_id;
 
-      this.customerSearchValue = res.customer_name;
+        this.customerSearchValue = res.customer_name;
 
-    }
+      }
     });
   }
 
@@ -245,16 +233,17 @@ export class JobSetupPage implements OnInit {
   initForms() {
     this.jobSetupForm = this.formBuilder.group({
       crew_chief_id: [localStorage.getItem('employeeId')],
-      employee_id:[localStorage.getItem('employeeId')],
+      employee_id: [localStorage.getItem('employeeId')],
       state: ['', [Validators.required]],
       customer_id: [''],
       farm_id: [''],
       crop_id: [''],
-      director_id:[''],
-      // field_id: [''],
+      director_id: [''],
       is_close: [false],
       total_acres: [''],
-      total_gps_acres: ['']
+      total_gps_acres: [''],
+      active_check_in_id: [''],
+      newJobSetup:[true]
     });
   }
 
@@ -263,47 +252,83 @@ export class JobSetupPage implements OnInit {
   }
 
   submit() {
-    // if (this.customerData?.customer_job[0]?.id)
-    //   this.jobSetupForm.value.changeFarmFieldCrop = true;
+    console.log("Test 1");
 
-    // this.jobSetupForm.value.closeJob = true;
-    this.jobSetupForm.value.newJobSetup = true;
+    this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
+      console.log("Test 2");
 
-    // this.jobSetupForm.value.job_id = this.customerData?.customer_job[0]?.id;
+      this.activeCheckInSpinner.next(true);
+      this.active_check_in_id = workOrder.dwr[0].id;
+      this.activeCheckInSpinner.next(false);
 
-    this.loadingSpinner.next(true);
-    this.harvestingService.createJob(this.jobSetupForm.value)
+      // patching
+      this.jobSetupForm.patchValue({
+        active_check_in_id: this.active_check_in_id
+      });
+
+      // data submit
+      this.loadingSpinner.next(true);
+      this.harvestingService.createJob(this.jobSetupForm.value)
+        .subscribe(
+          (res: any) => {
+            console.log('Response:', res);
+            if (res.status === 200) {
+              this.loadingSpinner.next(false);
+              this.jobSetupForm.reset();
+              this.isDisabled = true;
+              this.customer_name = '';
+              this.farm_name = '';
+              this.crop_name = '';
+              this.farm_name = '';
+              this.directorInput.nativeElement.value = '';
+              this.customerInput.nativeElement.value = '';
+              this.farmInput.nativeElement.value = '';
+              this.cropInput.nativeElement.value = '';
+              this.toastService.presentToast(res.message, 'success');
+              this.jobId = res.id.record_id;
+              this.createDWR();
+              console.log(res.message);
+
+              console.log("Test 3");
+
+            } else {
+              console.log('Something happened :)');
+              this.loadingSpinner.next(false);
+
+            }
+          },
+          (err) => {
+            console.log('Error:', err);
+            this.loadingSpinner.next(false);
+
+          },
+        );
+    });
+  }
+
+  createDWR() {
+    console.log("Test 4");
+
+    this.harvestingService
+      .createDWR(localStorage.getItem('employeeId'), this.jobId, this.jobSetupForm.get('director_id').value, this.active_check_in_id)
       .subscribe(
-        (res: any) => {
-          console.log('Response:', res);
+        (res) => {
           if (res.status === 200) {
-            this.loadingSpinner.next(false);
-            this.jobSetupForm.reset();
-            this.isDisabled = true;
-            this.customer_name = '';
-            this.farm_name = '';
-            this.crop_name = '';
-            this.farm_name = '';
-            this.directorInput.nativeElement.value = '';
-            this.customerInput.nativeElement.value = '';
-            this.farmInput.nativeElement.value = '';
-            this.cropInput.nativeElement.value = '';
+            console.log("Test 5");
 
-            // this.field_name = '';
-            this.toastService.presentToast(res.message, 'success');
+            // to stop loader
+            this.loadingSpinner.next(false);
             this.router.navigate(['/tabs/home/harvesting']);
-            console.log(res.message);
-          } else {
-            console.log('Something happened :)');
-            this.loadingSpinner.next(false);
 
+          } else {
+            this.loadingSpinner.next(false);
+            this.toastService.presentToast(res.mssage, 'danger');
           }
         },
         (err) => {
-          console.log('Error:', err);
           this.loadingSpinner.next(false);
-
-        },
+          this.toastService.presentToast(err.mssage, 'danger');
+        }
       );
   }
 
@@ -330,7 +355,7 @@ export class JobSetupPage implements OnInit {
           this.isFarmSelected = true;
           this.isCropSelected = true;
 
-         }
+        }
 
 
         this.allCustomers = this.harvestingService.getCustomers(value, 'allCustomers');
@@ -722,109 +747,109 @@ export class JobSetupPage implements OnInit {
   //   this.allFields = of([]);
   // }
   //#endregion
-//  #region Director
-directorSearchSubscription() {
-  this.director_search$
-    .pipe(
-      debounceTime(500),
-      distinctUntilChanged(),
-      takeUntil(this._unsubscribeAll)
-    )
-    .subscribe((value: string) => {
-      // passing for renderer2
-      this.directorSearchValue = value;
-      // for asterik to look required
-      if (value === '') { this.isDirectorSelected = true; }
+  //  #region Director
+  directorSearchSubscription() {
+    this.director_search$
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        takeUntil(this._unsubscribeAll)
+      )
+      .subscribe((value: string) => {
+        // passing for renderer2
+        this.directorSearchValue = value;
+        // for asterik to look required
+        if (value === '') { this.isDirectorSelected = true; }
 
-      //calling API
-      // this.allEmployees = this.harvestingService.getFarms(value, 'customerFarms', this.customerID);
+        //calling API
+        // this.allEmployees = this.harvestingService.getFarms(value, 'customerFarms', this.customerID);
 
-      this.allDirectors = this.harvestingService.getEmployees(
-        value,
-        'allEmployees',
-        'Director'
-      );
+        this.allDirectors = this.harvestingService.getEmployees(
+          value,
+          'allEmployees',
+          'Director'
+        );
 
-      // subscribing to show/hide farm UL
-      this.allDirectors.subscribe((directors) => {
-        if (directors.count === 0) {
-          this.isDirectorSelected = true; //for asterik
-          this.directorUL = false; // hiding UL
+        // subscribing to show/hide farm UL
+        this.allDirectors.subscribe((directors) => {
+          if (directors.count === 0) {
+            this.isDirectorSelected = true; //for asterik
+            this.directorUL = false; // hiding UL
 
-        } else {
-          // showing UL
-          this.directorUL = true;
-        }
+          } else {
+            // showing UL
+            this.directorUL = true;
+          }
+        });
       });
+  }
+  inputClickedDirector() {
+    // getting the serch value to check if there's a value in input
+    this.director_search$
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        takeUntil(this._unsubscribeAll)
+      )
+      .subscribe((v) => {
+        this.directorSearchValue = v;
+      });
+
+    const value =
+      this.directorSearchValue === undefined
+        ? this.director_name
+        : this.directorSearchValue;
+
+    // calling API
+    // this.allDirectors = this.harvestingService.getFarms(this.farmSearchValue, 'customerFarms', this.customerID);
+    this.allDirectors = this.harvestingService.getEmployees(
+      value,
+      'allEmployees',
+      'Director'
+    );
+
+    // subscribing to show/hide farm UL
+    this.allDirectors.subscribe((directors) => {
+      console.log('Directors', directors);
+
+      if (directors.count === 0) {
+        // hiding UL
+        this.directorUL = false;
+        this.isDirectorSelected = true;
+
+
+      } else {
+        // showing UL
+        this.directorUL = true;
+        this.isDirectorSelected = false;
+
+      }
     });
-}
-inputClickedDirector() {
-  // getting the serch value to check if there's a value in input
-  this.director_search$
-    .pipe(
-      debounceTime(500),
-      distinctUntilChanged(),
-      takeUntil(this._unsubscribeAll)
-    )
-    .subscribe((v) => {
-      this.directorSearchValue = v;
+  }
+  listClickedDirector(director) {
+
+    // hiding UL
+    this.directorUL = false;
+
+    // assigning values in form
+
+    this.jobSetupForm.patchValue({
+      director_id: director.id
     });
 
-  const value =
-    this.directorSearchValue === undefined
-      ? this.director_name
-      : this.directorSearchValue;
+    // passing name in select's input
+    this.directorInput.nativeElement.value = director.first_name + ' ' + director.last_name;
 
-  // calling API
-  // this.allDirectors = this.harvestingService.getFarms(this.farmSearchValue, 'customerFarms', this.customerID);
-  this.allDirectors = this.harvestingService.getEmployees(
-    value,
-    'allEmployees',
-    'Director'
-  );
+    // clearing array
+    this.allDirectors = of([]);
+    // this.allFarmsClicked = of([]);
 
-  // subscribing to show/hide farm UL
-  this.allDirectors.subscribe((directors) => {
-    console.log('Directors', directors);
+    // passing name in farm-search-value in Rendered2 for checks
+    this.directorSearchValue = director.name;
 
-    if (directors.count === 0) {
-      // hiding UL
-      this.directorUL = false;
-     this.isDirectorSelected = true;
-
-
-    } else {
-      // showing UL
-      this.directorUL = true;
-      this.isDirectorSelected = false;
-
-    }
-  });
-}
-listClickedDirector(director) {
-
-  // hiding UL
-  this.directorUL = false;
-
-  // assigning values in form
-
-  this.jobSetupForm.patchValue({
-    director_id: director.id
-  });
-
-  // passing name in select's input
-  this.directorInput.nativeElement.value = director.first_name+ ' ' + director.last_name;
-
-  // clearing array
-  this.allDirectors = of([]);
-  // this.allFarmsClicked = of([]);
-
-  // passing name in farm-search-value in Rendered2 for checks
-  this.directorSearchValue = director.name;
-
-  // to enable submit button
-  this.isDirectorSelected = false;
-  ;
-}
-//#endregion
+    // to enable submit button
+    this.isDirectorSelected = false;
+    ;
+  }
+  //#endregion
 }
