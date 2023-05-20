@@ -207,6 +207,28 @@ export class HarvestingService {
       .pipe(take(1));
   }
 
+  createDWR(
+    employeeId: any,
+    jobId: any,
+    supervisor_id: any,
+    dwrId) {
+
+    let data;
+
+    data = {
+      dwr_type: 'harvesting-crew-chief',
+      module: 'harvesting-crew-chief',
+      employeeId,
+      supervisor_id,
+      dwrId,
+      jobId
+    };
+    console.log('DATA:', data);
+    return this._httpClient
+      .post<any>(`api-1/dwr`, data)
+      .pipe(take(1));
+  }
+
   getJobSetup(entity, crew_chief_id?, employeeId?) {
     let params = new HttpParams();
 
@@ -709,7 +731,7 @@ export class HarvestingService {
       })
       .pipe(take(1));
   }
-  reAssignTruckDrivers(data){
+  reAssignTruckDrivers(data) {
     return this._httpClient
       .patch<any>('api-1/havesting-kart-operator', data)
       .pipe(take(1));
