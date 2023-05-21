@@ -247,5 +247,195 @@
       <ion-button expand="block" class="font-Lato mt-5 text-white" *ngIf="isReassign" (click)="submit()">Reassign Delivery Ticket</ion-button>
     </form>
   </div>
+
+  <div id="envelopeInfo" [hidden]="true">
+
+    <div>
+      <label class="font-Lato font-bold">Date: </label>
+      <span class="font-Lato font-normal">{{currentDate}}</span>
+    </div>
+
+    <div>
+      <label class="font-Lato font-bold">Harvest Job: </label>
+      <span class="font-Lato font-normal">{{customerName}}</span>
+    </div>
+
+    <div>
+      <label class="font-Lato font-bold">Farm: </label>
+      <span class="font-Lato font-normal">{{farm}}</span>
+    </div>
+
+    <div>
+      <label class="font-Lato font-bold">Field/Pivot: </label>
+      <span class="font-Lato font-normal">{{field_name}}</span>
+    </div>
+
+    <div>
+      <label class="font-Lato font-bold">Crop: </label>
+      <span class="font-Lato font-normal">{{crop}}</span>
+    </div>
+
+    <div>
+      <label class="font-Lato font-bold">Crew Chief: </label>
+      <span class="font-Lato font-normal">{{crewChiefName}}</span>
+    </div>
+
+    <div>
+      <label class="font-Lato font-bold">DHT Tickets: </label>
+      <span class="font-Lato font-normal"></span>
+    </div>
+
+    <div>
+      <label class="font-Lato font-bold">Farmer Tickets: </label>
+      <span class="font-Lato font-normal"></span>
+    </div>
+
+    <div>
+      <label class="font-Lato font-bold">Total Tickets: </label>
+      <span class="font-Lato font-normal"></span>
+    </div>
+
+  </div>
+
+  <div id="deliveryTicket" [hidden]="true">
+    <h3 class="font-bold font-Lato">Demaray Harvesting and Trucking</h3>
+
+    <div>
+      <label class="font-Lato font-bold">Date: </label>
+      <span class="font-Lato font-normal">{{currentDate}}</span>
+    </div>
+
+    <div>
+      <label class="font-Lato font-bold">Delivery Ticket #</label>
+      <span class="font-Lato font-normal"></span>
+    </div>
+
+    <div>
+      <label class="font-Lato font-bold">Owner/Seller: </label>
+      <span class="font-Lato font-normal">{{customerName}}</span>
+    </div>
+
+    <div>
+      <label class="font-Lato font-bold">Farm: </label>
+      <span class="font-Lato font-normal">{{farm}}</span>
+    </div>
+
+    <div>
+      <label class="font-Lato font-bold">Field/Pivot: </label>
+      <span class="font-Lato font-normal">{{field_name}}</span>
+    </div>
+
+    <div>
+      <label class="font-Lato font-bold">Crop: </label>
+      <span class="font-Lato font-normal">{{crop}}</span>
+    </div>
+
+    <div>
+      <label class="font-Lato font-bold">Destination: </label>
+      <span class="font-Lato font-normal" >{{deliveryTicketForm.get('destination').value}}</span>
+    </div>
+
+    <div>
+      <label class="font-Lato font-bold">Contract: </label>
+      <span class="font-Lato font-normal">{{'NOT SPECIFIED'}}</span>
+    </div>
+
+    <div>
+      <label class="font-Lato font-bold">Crew Chief: </label>
+      <span class="font-Lato font-normal">{{crewChiefName}}</span>
+    </div>
+
+    <div>
+      <label class="font-Lato font-bold">Cart Operator: </label>
+      <span class="font-Lato font-normal">{{cartOperatorName}}</span>
+    </div>
+
+    <div>
+      <label class="font-Lato font-bold">Truck Driver: </label>
+      <span class="font-Lato font-normal">{{truck_driver_name}}</span>
+    </div>
+
+    <div *ngIf="isSplitTrue">
+      <div>
+        <label class="font-Lato font-bold">Cart Weight: </label>
+        <span class="font-Lato font-normal">{{deliveryTicketForm.get('kart_scale_weight_split').value}}</span>
+      </div>
+
+      <div>
+        <label class="font-Lato font-bold">Field/Pivot-SL: </label>
+        <span class="font-Lato font-normal">{{field_split_load_name}}</span>
+      </div>
+
+      <div>
+        <label class="font-Lato font-bold">Scale Ticket 'Net' Weight: </label>
+        <span class="font-Lato font-normal"></span>
+      </div>
+
+      <div>
+        <label class="font-Lato font-bold">Load weight (for Field/Pivot-SL): </label>
+        <span class="font-Lato font-normal"></span>
+      </div>
+    </div>
+  </div>
+
+  <div id="envelopeStub" [hidden]="true">
+
+    <div>
+      <label class="font-Lato font-bold">Date: </label>
+      <span class="font-Lato font-normal">{{currentDate}}</span>
+    </div>
+
+    <div>
+      <label class="font-Lato font-bold">Delivery Ticket #</label>
+      <span class="font-Lato font-normal"></span>
+    </div>
+
+    <div>
+      <label class="font-Lato font-bold">Owner/Seller: </label>
+      <span class="font-Lato font-normal">{{customerName}}</span>
+    </div>
+
+    <div>
+      <label class="font-Lato font-bold">Farm: </label>
+      <span class="font-Lato font-normal">{{farm}}</span>
+    </div>
+
+    <div>
+      <label class="font-Lato font-bold">Field/Pivot: </label>
+      <span class="font-Lato font-normal">{{field_name}}</span>
+    </div>
+
+    <div>
+      <label class="font-Lato font-bold">Truck Driver: </label>
+      <span class="font-Lato font-normal">{{truck_driver_name}}</span>
+    </div>
+
+    <div>
+      <label class="font-Lato font-bold">Contract: </label>
+      <span class="font-Lato font-normal">{{'NOT SPECIFIED'}}</span>
+    </div>
+
+    <div>
+      <label class="font-Lato font-bold">Destination: </label>
+      <span class="font-Lato font-normal" >{{deliveryTicketForm.get('destination').value}}</span>
+    </div>
+
+    <div>
+      <label class="font-Lato font-bold">Verified: </label>
+      <span class="font-Lato font-normal"></span>
+    </div>
+
+    <div>
+      <label class="font-Lato font-bold">Scale Ticket: </label>
+      <span class="font-Lato font-normal"></span>
+    </div>
+
+    <div>
+      <label class="font-Lato font-bold">Weight: </label>
+      <span class="font-Lato font-normal"></span>
+    </div>
+
+  </div>
+
 </ion-content>
 
