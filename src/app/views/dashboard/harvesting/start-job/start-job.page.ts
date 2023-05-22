@@ -288,14 +288,6 @@ export class StartJobPage implements OnInit {
 
                   });
 
-              this.loadingSpinner.next(false);
-              this.startJobFormCombine.reset();
-              this.toastService.presentToast(res.message, 'success');
-              this.machineryInput.nativeElement.value = '';
-              this.isMachineSelected = true;
-              this.jobInput.nativeElement.value = '';
-              this.isJobSelected = true;
-
               this.patchHours();
 
             } else {
@@ -422,99 +414,99 @@ export class StartJobPage implements OnInit {
           },
           (err) => {
             this.toastService.presentToast(err, 'danger');
-        this.loadingSpinner.next(false);
+            this.loadingSpinner.next(false);
 
             console.log('Error:', err);
           },
         );
     }
   }
-patchHours(){
-  if(localStorage.getItem('role').includes('Combine Operator')){
-  this.harvestingService.patchHours(this.startJobFormCombine.get('beginning_separator_hours').value,this.startJobFormCombine.get('beginningEngineHours').value,this.startJobFormCombine.get('machineryId').value,'endingOfDay',this.role)
-  .subscribe(
-    (res: any) => {
-      console.log('Response:', res);
-      if (res.status === 200) {
-        this.loadingSpinner.next(false);
-        this.startJobFormCombine.reset();
-        this.toastService.presentToast(res.message, 'success');
-        this.machineryInput.nativeElement.value = '';
-        this.isMachineSelected = true;
-        this.jobInput.nativeElement.value = '';
-        this.isJobSelected = true;
+  patchHours() {
+    if (localStorage.getItem('role').includes('Combine Operator')) {
+      this.harvestingService.patchHours(this.startJobFormCombine.get('beginningEngineHours').value, this.startJobFormCombine.get('beginning_separator_hours').value, this.startJobFormCombine.get('machineryId').value, 'endingOfDay', this.role)
+        .subscribe(
+          (res: any) => {
+            console.log('Response:', res);
+            if (res.status === 200) {
+              this.loadingSpinner.next(false);
+              this.startJobFormCombine.reset();
+              this.toastService.presentToast(res.message, 'success');
+              this.machineryInput.nativeElement.value = '';
+              this.isMachineSelected = true;
+              this.jobInput.nativeElement.value = '';
+              this.isJobSelected = true;
 
-        // navigating
-        this.router.navigateByUrl('/tabs/home/harvesting');
-      } else {
-        console.log('Something happened :)');
-        this.loadingSpinner.next(false);
-        this.toastService.presentToast('DWR has been created successfully', 'success');
-      }
-    },
-    (err) => {
-      this.toastService.presentToast(err, 'danger');
-      this.loadingSpinner.next(false);
+              // navigating
+              this.router.navigateByUrl('/tabs/home/harvesting');
+            } else {
+              console.log('Something happened :)');
+              this.loadingSpinner.next(false);
+              this.toastService.presentToast('DWR has been created successfully', 'success');
+            }
+          },
+          (err) => {
+            this.toastService.presentToast(err, 'danger');
+            this.loadingSpinner.next(false);
 
-      console.log('Error:', err);
-    },
-  );
-}
-if(localStorage.getItem('role').includes('Cart Operator')){
-  this.harvestingService.patchHours(this.startJobFormKart.get('beginningEngineHours').value,null,this.startJobFormKart.get('machineryId').value,'endingOfDay',this.role)
-  .subscribe(
-    (res: any) => {
-      console.log('Response:', res);
-      if (res.status === 200) {
+            console.log('Error:', err);
+          },
+        );
+    }
+    if (localStorage.getItem('role').includes('Cart Operator')) {
+      this.harvestingService.patchHours(this.startJobFormKart.get('beginningEngineHours').value, null, this.startJobFormKart.get('machineryId').value, 'endingOfDay', this.role)
+        .subscribe(
+          (res: any) => {
+            console.log('Response:', res);
+            if (res.status === 200) {
 
-        this.loadingSpinner.next(false); // stop loader
+              this.loadingSpinner.next(false); // stop loader
 
-         this.startJobFormCombine.reset(); // form reset
+              this.startJobFormCombine.reset(); // form reset
 
-         this.toastService.presentToast(res.message, 'success'); // toast
+              this.toastService.presentToast(res.message, 'success'); // toast
 
-         // navigating
-         this.router.navigateByUrl('/tabs/home/harvesting');
-      } else {
-        console.log('Something happened :)');
-        this.loadingSpinner.next(false);
-        this.toastService.presentToast('DWR has been created successfully', 'success');
-      }
-    },
-    (err) => {
-      this.toastService.presentToast(err, 'danger');
-      this.loadingSpinner.next(false);
+              // navigating
+              this.router.navigateByUrl('/tabs/home/harvesting');
+            } else {
+              console.log('Something happened :)');
+              this.loadingSpinner.next(false);
+              this.toastService.presentToast('DWR has been created successfully', 'success');
+            }
+          },
+          (err) => {
+            this.toastService.presentToast(err, 'danger');
+            this.loadingSpinner.next(false);
 
-      console.log('Error:', err);
-    },
-  );
-}
-if(localStorage.getItem('role').includes('Truck Driver')){
-  this.harvestingService.patchHours(this.startJobFormTruck.get('begining_odometer_miles').value,null,this.startJobFormTruck.get('truck_id').value,'endingOfDay',this.role)
-  .subscribe(
-    (res: any) => {
-      console.log('Response:', res);
-      if (res.status === 200) {
+            console.log('Error:', err);
+          },
+        );
+    }
+    if (localStorage.getItem('role').includes('Truck Driver')) {
+      this.harvestingService.patchHours(this.startJobFormTruck.get('begining_odometer_miles').value, null, this.startJobFormTruck.get('truck_id').value, 'endingOfDay', this.role)
+        .subscribe(
+          (res: any) => {
+            console.log('Response:', res);
+            if (res.status === 200) {
 
-        this.loadingSpinner.next(false); // stop loader
-        this.startJobFormCombine.reset(); //form reset
-        this.toastService.presentToast(res.message, 'success'); //toast
-        this.router.navigateByUrl('/tabs/home/harvesting'); // navigating
-      } else {
-        console.log('Something happened :)');
-        this.loadingSpinner.next(false);
-        this.toastService.presentToast('DWR has been created successfully', 'success');
-      }
-    },
-    (err) => {
-      this.toastService.presentToast(err, 'danger');
-      this.loadingSpinner.next(false);
+              this.loadingSpinner.next(false); // stop loader
+              this.startJobFormCombine.reset(); //form reset
+              this.toastService.presentToast(res.message, 'success'); //toast
+              this.router.navigateByUrl('/tabs/home/harvesting'); // navigating
+            } else {
+              console.log('Something happened :)');
+              this.loadingSpinner.next(false);
+              this.toastService.presentToast('DWR has been created successfully', 'success');
+            }
+          },
+          (err) => {
+            this.toastService.presentToast(err, 'danger');
+            this.loadingSpinner.next(false);
 
-      console.log('Error:', err);
-    },
-  );
-}
-}
+            console.log('Error:', err);
+          },
+        );
+    }
+  }
   //#region Machinery
   machineSearchSubscription() {
     this.machine_search$
