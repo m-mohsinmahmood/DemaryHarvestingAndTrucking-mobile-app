@@ -854,4 +854,8 @@ export class TicketPage implements OnInit {
   }
   //#endregion
 
+  printContents() {
+    window.print();
+  }
+
 }
