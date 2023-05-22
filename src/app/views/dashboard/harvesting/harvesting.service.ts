@@ -120,6 +120,12 @@ export class HarvestingService {
       .pipe(take(1));
   }
 
+  updateStartingOfDayJobSetup(data: any) {
+    return this._httpClient
+      .patch(`api-1/customer-job-setup`, data)
+      .pipe(take(1));
+  }
+
   updateEndingOfDayJobSetup(data: any) {
     return this._httpClient
       .patch(`api-1/customer-job-setup`, data)

@@ -63,129 +63,141 @@ export class DashboardPage implements OnInit {
 
     this.showRoleDropdown = false;
 
-    this.actualRoles = localStorage.getItem("actualRole");
-    if (this.actualRoles.includes(',')) {
-      this.actualRoles = this.actualRoles.split(',');
-      this.role = this.actualRoles[0];
-      localStorage.setItem("role", this.role);
+    if (localStorage.getItem("actualRole") && localStorage.getItem("role")) {
+      this.actualRoles = localStorage.getItem("actualRole");
+
+      try {
+        if (this.actualRoles.includes(',')) {
+          this.actualRoles = this.actualRoles.split(',');
+          this.role = this.actualRoles[0];
+          localStorage.setItem("role", this.role);
+        }
+        else {
+          this.role = this.actualRoles;
+          localStorage.setItem("role", this.role);
+        }
+
+        this.roleToShow = this.actualRoles;
+        this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
+          this.activeDwr = workOrder.dwr;
+
+          this.empName = localStorage.getItem('employeeName');
+
+          if (this.activeDwr.length <= 0) {
+            // this.role = localStorage.getItem('role');
+            // to stop loading
+            this.loading.next(false);
+            this.isModalOpen = false;
+            this.checkMultipleRoles();
+          }
+          else {
+            console.log('Already CheckedIn');
+            this.role = this.activeDwr[0].role;
+            this.selectform.patchValue({ select: this.role });
+            localStorage.setItem('role', this.activeDwr[0].role);
+            localStorage.setItem('employeeId', this.activeDwr[0].employee_id);
+            this.isModalOpen = true;
+            // to stop loading
+            this.loading.next(false);
+          }
+        });
+      }
+      catch {
+        this.logout();
+      }
     }
     else {
-      this.role = this.actualRoles;
-      localStorage.setItem("role", this.role);
+      this.logout();
     }
-
-    this.roleToShow = this.actualRoles;
-    this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
-      this.activeDwr = workOrder.dwr;
-
-      this.empName = localStorage.getItem('employeeName');
-
-      if (this.activeDwr.length <= 0) {
-        // this.role = localStorage.getItem('role');
-        // to stop loading
-        this.loading.next(false);
-        this.isModalOpen = false;
-        this.checkMultipleRoles();
-      }
-      else {
-        console.log('Already CheckedIn');
-        this.role = this.activeDwr[0].role;
-        this.selectform.patchValue({ select: this.role });
-        localStorage.setItem('role', this.activeDwr[0].role);
-        localStorage.setItem('employeeId', this.activeDwr[0].employee_id);
-        this.isModalOpen = true;
-        // to stop loading
-        this.loading.next(false);
-      }
-    });
   }
 
   checkMultipleRoles() {
     this.actualRoles = localStorage.getItem("actualRole");
+    console.log("Actual Roles: ", this.actualRoles);
 
-    if (this.actualRoles.includes(',')) {
-      this.actualRoles = this.actualRoles.split(',');
+    try {
+      if (this.actualRoles.includes(',')) {
+        this.actualRoles = this.actualRoles.split(',');
 
-      // User having multiple roles
-      if (this.actualRoles.includes('Crew Chief')) {
-        // User having multiple roles including Crew Chief
-        this.showRoleDropdown = true;
-        this.actualRoles = this.actualRoles.map((item) => {
-          return { value: item };
-        });
+        // User having multiple roles
+        if (this.actualRoles.includes('Crew Chief')) {
+          // User having multiple roles including Crew Chief
+          this.showRoleDropdown = true;
+          this.actualRoles = this.actualRoles.map((item) => {
+            return { value: item };
+          });
 
-        this.actualRoles.push(
-          {
-            value: 'Crew Chief'
-          },
-          {
-            value: 'Combine Operator'
-          },
-          {
-            value: 'Cart Operator'
-          },
-          {
-            value: 'Truck Driver'
-          }
-        );
+          this.actualRoles.push(
+            {
+              value: 'Crew Chief'
+            },
+            {
+              value: 'Combine Operator'
+            },
+            {
+              value: 'Cart Operator'
+            },
+            {
+              value: 'Truck Driver'
+            }
+          );
 
-        this.actualRoles = Object.values(this.actualRoles.reduce((acc, obj) => {
-          acc[obj.value] = obj;
-          return acc;
-        }, {}));
+          this.actualRoles = Object.values(this.actualRoles.reduce((acc, obj) => {
+            acc[obj.value] = obj;
+            return acc;
+          }, {}));
 
-        this.rolesDropdown = this.actualRoles;
+          this.rolesDropdown = this.actualRoles;
 
+        }
+        else {
+          // User having multiple roles other than Crew Chief
+          this.showRoleDropdown = true;
+          this.actualRoles = this.actualRoles.map((item) => {
+            return { value: item };
+          });
+
+          this.rolesDropdown = this.actualRoles;
+        }
       }
       else {
-        // User having multiple roles other than Crew Chief
-        this.showRoleDropdown = true;
-        this.actualRoles = this.actualRoles.map((item) => {
-          return { value: item };
-        });
+        // User having only one role
+        if (this.actualRoles === 'Crew Chief') {
+          // Role is Crew Cheif
+          this.showRoleDropdown = true;
 
-        this.rolesDropdown = this.actualRoles;
+          this.rolesDropdown = [
+            {
+              value: 'Crew Chief'
+            },
+            {
+              value: 'Combine Operator'
+            },
+            {
+              value: 'Cart Operator'
+            },
+            {
+              value: 'Truck Driver'
+            }
+          ]
+        }
+        else {
+          // Some other role than Crew Chief
+          localStorage.setItem("role", this.actualRoles);
+          this.role = this.actualRoles;
+          this.showRoleDropdown = false;
+        }
       }
     }
-    else {
-      // User having only one role
-      if (this.actualRoles === 'Crew Chief') {
-        // Role is Crew Cheif
-        this.showRoleDropdown = true;
-
-        this.rolesDropdown = [
-          {
-            value: 'Crew Chief'
-          },
-          {
-            value: 'Combine Operator'
-          },
-          {
-            value: 'Cart Operator'
-          },
-          {
-            value: 'Truck Driver'
-          }
-        ]
-      }
-      else {
-        // Some other role than Crew Chief
-        localStorage.setItem("role", this.actualRoles);
-        this.role = this.actualRoles;
-        this.showRoleDropdown = false;
-      }
+    catch {
+      this.logout();
     }
-
-    console.log("Role: ", this.role);
-
   }
 
   async logout() {
     await this.auth.logout();
-    this.isOpen = false;
 
-    localStorage.removeItem('employeeId');
-    localStorage.removeItem('role');
+    this.isOpen = false;
   }
 
   onSelect(e) {
