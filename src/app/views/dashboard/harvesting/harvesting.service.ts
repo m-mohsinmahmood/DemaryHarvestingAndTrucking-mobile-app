@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 /* eslint-disable @typescript-eslint/member-ordering */
 /* eslint-disable @typescript-eslint/semi */
@@ -734,6 +735,18 @@ export class HarvestingService {
   reAssignTruckDrivers(data) {
     return this._httpClient
       .patch<any>('api-1/havesting-kart-operator', data)
+      .pipe(take(1));
+  }
+  patchHours(endingEngineHours,separatorsHours,jobId,operation,role) {
+   let data = {
+      endingEngineHours,
+      separatorsHours,
+      jobId,
+      operation,
+      role
+    };
+    return this._httpClient
+      .patch(`api-1/customer-job-setup`, data)
       .pipe(take(1));
   }
 }
