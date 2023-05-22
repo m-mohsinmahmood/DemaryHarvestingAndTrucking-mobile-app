@@ -367,7 +367,7 @@
             <ion-card-content *ngIf="(isLoadingTicket$ | async) === false">
               <ion-grid>
                 <ion-row>
-                  <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Customer Name</ion-col>
+                  <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Customer</ion-col>
                   <ion-col size="6"
                     class="text-sm flex font-Lato ">{{this.ticket?.customerName}}</ion-col>
                   <ion-col size="6" class="text-sm text-black font-Lato font-semibold">State</ion-col>
@@ -382,20 +382,6 @@
             </ion-card-content>
           </ion-card>
       <form [formGroup]="generateTicketFormTruck">
-        <!-- <div class="col-span-12 mb-2">
-          <label class="block text-sm font-medium text-gray-700"
-            >Scale Ticket Number<span
-              *ngIf="this.generateTicketFormTruck.get('scaleTicket').hasError('required')"
-              class="text-red-400"
-              >*</span
-            ></label
-          >
-          <input
-            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-            formControlName="scaleTicket"
-            placeholder="Scale Ticket"
-          />
-        </div> -->
 
         <div class="w-16 h-16 mr-2 mb-2 mt-2">
           <ion-card
