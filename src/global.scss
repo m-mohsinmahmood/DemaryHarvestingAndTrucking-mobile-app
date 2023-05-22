@@ -39,3 +39,40 @@ ion-spinner {
   --color: #ffffff
 }
 
+@media screen {
+  .hide-on-screen {
+    display: none !important;
+  }
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  
+  .print * {
+    visibility: visible;
+  }
+  
+  #envelopeInfo,
+  #deliveryTicket,
+  #envelopeStub {
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+  
+  #envelopeInfo,
+  #deliveryTicket {
+    page-break-after: always;
+  }
+  
+  #envelopeStub {
+    page-break-after: auto;
+  }
+
+  body, html {
+    width: 4in;
+    height: 4in;
+  }
+}
