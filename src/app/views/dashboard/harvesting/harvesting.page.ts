@@ -126,6 +126,8 @@ export class HarvestingPage implements OnInit {
         this.dataCount.active = workOrders.customer_job.length
 
         console.log('Active: ', workOrders);
+        console.log('Active 2: ', this.dataCount.active);
+
       });
 
       this.preCheckFilled = this.harvestingService.getDeliveryTickets(this.role, localStorage.getItem('employeeId'), true, true, 'truck-driver-active-tickets');

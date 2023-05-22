@@ -153,6 +153,13 @@ export class AuthService {
 
   async logout() {
     await signOut(this.auth);
+    localStorage.removeItem('employeeId');
+    localStorage.removeItem('role');
+    localStorage.removeItem('actualRole');
+    localStorage.removeItem('fb_id');
+    localStorage.removeItem('state');
+    localStorage.removeItem('employeeName');
+
     this.router.navigate(['login'], { replaceUrl: true });
   }
 
@@ -170,7 +177,6 @@ export class AuthService {
       //to stop loader
       this.isLoading.next(false);
       this.router.navigate(['tabs'], { replaceUrl: true });
-
     });
   }
   async refreshToken() {

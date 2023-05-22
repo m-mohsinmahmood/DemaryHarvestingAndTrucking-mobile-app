@@ -15,6 +15,7 @@ import { HarvestingService } from './../harvesting.service';
 import { ToastService } from 'src/app/services/toast/toast.service';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-ticket',
@@ -77,6 +78,7 @@ export class TicketPage implements OnInit {
   isKartOperatorSelected: any = true;
   isFieldSelected: any = true;
   isFieldSplitLoadSelected: any = true;
+  currentDate: any = moment(new Date()).format('MM-DD-YYYY');
 
 
   // Profile variables
@@ -97,13 +99,13 @@ export class TicketPage implements OnInit {
   // machineUL: any = false;
   // isMachineSelected: any = true;
 
-    // job variables
-    allJobs: Observable<any>;
-    job_search$ = new Subject();
-    job_name: any = '';
-    jobSearchValue: any = '';
-    jobUL: any = false;
-    isJobSelected: any = true;
+  // job variables
+  allJobs: Observable<any>;
+  job_search$ = new Subject();
+  job_name: any = '';
+  jobSearchValue: any = '';
+  jobUL: any = false;
+  isJobSelected: any = true;
 
   customerName;
   state;
@@ -113,6 +115,7 @@ export class TicketPage implements OnInit {
   date;
   customer_id;
   farm_id;
+  truck_driver_name;
 
   add_location_overlay = true;
   sub;
@@ -173,6 +176,7 @@ export class TicketPage implements OnInit {
   }
 
   ngOnInit() {
+
     this.role = localStorage.getItem('role');
     this.cartOperatorName = localStorage.getItem('employeeName');
     this.isReassign =
@@ -195,21 +199,21 @@ export class TicketPage implements OnInit {
       cropName: [''],
       fieldId: [''],
       employeeId: [''],
-      customer_id:[''],
-      state:[''],
-      farm_id:[''],
-      crop_id:[''],
-      crew_chief_id:[''],
-      jobId:['']
+      customer_id: [''],
+      state: [''],
+      farm_id: [''],
+      crop_id: [''],
+      crew_chief_id: [''],
+      jobId: ['']
     });
 
     // custom validation for 'kart_scale_weight_split'
-    this.deliveryTicketForm.valueChanges.subscribe((value)=>{
+    this.deliveryTicketForm.valueChanges.subscribe((value) => {
       // console.log(value);
-      if(!value.split_load_check){
+      if (!value.split_load_check) {
         this.deliveryTicketForm.get('kart_scale_weight_split').setValidators(null);
         this.deliveryTicketForm.get('kart_scale_weight_split').setErrors(null);
-      }else{
+      } else {
         this.deliveryTicketForm.get('kart_scale_weight_split').setValidators([Validators.required]);
         this.deliveryTicketForm.get('kart_scale_weight_split').setValidators([Validators.required]);
       }
@@ -273,25 +277,26 @@ export class TicketPage implements OnInit {
   async ionViewDidEnter() {
     this.getCreatedJobData();
   }
-  getCreatedJobData(){
-    this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).subscribe((res)=>{
+  getCreatedJobData() {
+    this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).subscribe((res) => {
       this.deliveryTicketForm.patchValue({
-        destination:  res.destination,
-        truckDriverId:  res.truck_driver_id,
+        destination: res.destination,
+        truckDriverId: res.truck_driver_id,
       });
 
       //loaded miles
       this.deliveryTicketForm.controls.loadedMiles.setValue(res.loaded_miles);
 
       // passing name in select's input
-if(res.truck_driver_id !==null){
-  this.truckInput.nativeElement.value = res.truck_driver_name;
-}
+      if (res.truck_driver_id !== null) {
+        this.truckInput.nativeElement.value = res.truck_driver_name;
+        this.truck_driver_name = res.truck_driver_name;
+      }
 
-       // to enable submit button
-       if(res.truck_driver_id !==null){
+      // to enable submit button
+      if (res.truck_driver_id !== null) {
         this.isTruckDriverSelected = false;
-       }
+      }
     });
   }
   patchForm() {
@@ -339,11 +344,11 @@ if(res.truck_driver_id !==null){
   buttton() {
     this.isSplitTrue = !this.isSplitTrue;
 
-    if(!this.isSplitTrue){
-this.deliveryTicketForm.controls.kart_scale_weight_split.setValue(''); //empty field name
-this.field_split_load_input.nativeElement.value = ''; // emplty name in select's input
-this.deliveryTicketForm.controls.field_load_split.setValue(''); //empty id in form for payload
-this.isFieldSplitLoadSelected = true; // to enable submit button
+    if (!this.isSplitTrue) {
+      this.deliveryTicketForm.controls.kart_scale_weight_split.setValue(''); //empty field name
+      this.field_split_load_input.nativeElement.value = ''; // emplty name in select's input
+      this.deliveryTicketForm.controls.field_load_split.setValue(''); //empty id in form for payload
+      this.isFieldSplitLoadSelected = true; // to enable submit button
 
     }
   }
@@ -375,7 +380,7 @@ this.isFieldSplitLoadSelected = true; // to enable submit button
             // this.kartInput.nativeElement.value = '';
             this.fieldInput.nativeElement.value = '';
             this.jobInput.nativeElement.value = '';
-            if(this.isSplitTrue){this.field_split_load_input.nativeElement.value = '';}
+            if (this.isSplitTrue) { this.field_split_load_input.nativeElement.value = ''; }
             this.isSplitTrue = false;
             this.isFieldSelected = true;
 
@@ -385,9 +390,10 @@ this.isFieldSplitLoadSelected = true; // to enable submit button
 
           }
         },
-          (err) => { console.log('Error:', err);
-          this.loadingSpinner.next(false);
-        }
+          (err) => {
+            console.log('Error:', err);
+            this.loadingSpinner.next(false);
+          }
         );
     } else {
       console.log(
@@ -413,7 +419,7 @@ this.isFieldSplitLoadSelected = true; // to enable submit button
 
             } else {
               console.log('Something happened :)');
-            this.loadingSpinner.next(false);
+              this.loadingSpinner.next(false);
 
             }
           },
@@ -513,6 +519,7 @@ this.isFieldSplitLoadSelected = true; // to enable submit button
 
     // passing name in select's input
     this.truckInput.nativeElement.value = truckdriver.name;
+    this.truck_driver_name = truckdriver.name;
 
     // to enable submit button
     this.isTruckDriverSelected = false;
@@ -614,7 +621,7 @@ this.isFieldSplitLoadSelected = true; // to enable submit button
 
     // passing name in select's input
     this.fieldInput.nativeElement.value = field.field_name;
-
+    this.field_name = field.field_name;
     // to enable submit button
     this.isFieldSelected = false;
 
@@ -716,7 +723,7 @@ this.isFieldSplitLoadSelected = true; // to enable submit button
 
     // passing name in select's input
     this.field_split_load_input.nativeElement.value = field.field_name;
-
+    this.field_split_load_name = field.field_name;
     // to enable submit button
     this.isFieldSplitLoadSelected = false;
 
@@ -734,86 +741,86 @@ this.isFieldSplitLoadSelected = true; // to enable submit button
 
 
 
-//#region job
-jobSearchSubscription() {
-  this.job_search$
-    .pipe(
-      debounceTime(500),
-      distinctUntilChanged(),
-      takeUntil(this._unsubscribeAll)
-    )
-    .subscribe((value: string) => {
+  //#region job
+  jobSearchSubscription() {
+    this.job_search$
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        takeUntil(this._unsubscribeAll)
+      )
+      .subscribe((value: string) => {
 
-      // passing for renderer2
-      this.jobSearchValue = value;
+        // passing for renderer2
+        this.jobSearchValue = value;
 
-      // for asterik to look required
-      if (value === '') {
-        this.isJobSelected = true;
-      }
-
-      // calling API
-      this.allJobs = this.harvestingService.getInvoicedJobs(
-        'getInvoicedJobs',
-        this.role,
-        localStorage.getItem('employeeId')
-      );
-
-      // subscribing to show/hide machine UL
-      this.allJobs.subscribe((job) => {
-        if (job.count === 0) {
-
-          this.jobUL = false; // hiding UL
-          this.isJobSelected = true; // for asterik to look required
-        } else {
-          this.jobUL = true; // hiding UL
+        // for asterik to look required
+        if (value === '') {
+          this.isJobSelected = true;
         }
+
+        // calling API
+        this.allJobs = this.harvestingService.getInvoicedJobs(
+          'getInvoicedJobs',
+          this.role,
+          localStorage.getItem('employeeId')
+        );
+
+        // subscribing to show/hide machine UL
+        this.allJobs.subscribe((job) => {
+          if (job.count === 0) {
+
+            this.jobUL = false; // hiding UL
+            this.isJobSelected = true; // for asterik to look required
+          } else {
+            this.jobUL = true; // hiding UL
+          }
+        });
       });
+  }
+  inputClickedJob() {
+    // getting the serch value to check if there's a value in input
+    this.job_search$
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        takeUntil(this._unsubscribeAll)
+      )
+      .subscribe((v) => {
+        this.jobSearchValue = v;
+      });
+
+    const value =
+      this.jobSearchValue === undefined
+        ? this.job_name
+        : this.jobSearchValue;
+
+    // calling API
+    this.allJobs = this.harvestingService.getInvoicedJobs(
+      'getInvoicedJobs',
+      this.role,
+      localStorage.getItem('employeeId')
+    );
+
+    // subscribing to show/hide field UL
+    this.allJobs.subscribe((job) => {
+      console.log(job);
+      if (job.count === 0) {
+        // hiding UL
+        this.jobUL = false;
+      } else {
+        // showing UL
+        this.jobUL = true;
+      }
     });
-}
-inputClickedJob() {
-  // getting the serch value to check if there's a value in input
-  this.job_search$
-    .pipe(
-      debounceTime(500),
-      distinctUntilChanged(),
-      takeUntil(this._unsubscribeAll)
-    )
-    .subscribe((v) => {
-      this.jobSearchValue = v;
-    });
-
-  const value =
-    this.jobSearchValue === undefined
-      ? this.job_name
-      : this.jobSearchValue;
-
-  // calling API
-  this.allJobs = this.harvestingService.getInvoicedJobs(
-    'getInvoicedJobs',
-    this.role,
-    localStorage.getItem('employeeId')
-  );
-
-  // subscribing to show/hide field UL
-  this.allJobs.subscribe((job) => {
+  }
+  listClickedJob(job) {
     console.log(job);
-    if (job.count === 0) {
-      // hiding UL
-      this.jobUL = false;
-    } else {
-      // showing UL
-      this.jobUL = true;
-    }
-  });
-}
-listClickedJob(job) {
-  console.log(job);
-  // hiding UL
-  this.jobUL = false;
+    // hiding UL
+    this.jobUL = false;
 
 
-  // patching
+    // patching
     this.deliveryTicketForm.patchValue({
       jobId: job.job_id,
       crop_id: job.crop_id,
@@ -832,19 +839,23 @@ listClickedJob(job) {
     this.customer_id = job.customer_id;
     this.farm_id = job.farm_id;
 
-  // passing name in select's input
-  this.jobInput.nativeElement.value = job.job_id;
+    // passing name in select's input
+    this.jobInput.nativeElement.value = job.job_id;
 
-  // passing name in job-search-value in Rendered2 for checks
-  this.jobSearchValue = job.customer_name;
+    // passing name in job-search-value in Rendered2 for checks
+    this.jobSearchValue = job.customer_name;
 
-  // to enable submit button
-  this.isJobSelected = false;
+    // to enable submit button
+    this.isJobSelected = false;
 
-  // passing the customer id to  select farm & crop id
-  // this.customerId = customer.id;
+    // passing the customer id to  select farm & crop id
+    // this.customerId = customer.id;
 
-}
-//#endregion
+  }
+  //#endregion
+
+  printContents() {
+    window.print();
+  }
 
 }
