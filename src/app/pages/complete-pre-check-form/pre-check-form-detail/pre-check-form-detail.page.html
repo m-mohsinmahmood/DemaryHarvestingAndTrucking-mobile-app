@@ -4,17 +4,25 @@
   <!-- <app-timer [value]="'12-12-2020'"></app-timer> -->
 
   <div class="p-4">
-    <ion-text class="flex justify-between">
-      <ion-label class="text-9B9BA4">Date</ion-label>
-      <ion-label class="font-semibold">{{data.created_at |
-        date:'MMMM dd, yyyy'}}</ion-label>
-    </ion-text>
+    <ion-row>
+      <ion-col size="4">
+        <ion-label class="text-9B9BA4">Date</ion-label>
+      </ion-col>
+      <ion-col>
+        <ion-label class="font-semibold">{{data.created_at |
+          date:'MMMM dd, yyyy'}}</ion-label>
+      </ion-col>
+    </ion-row>
 
-    <ion-text class="flex justify-between mt-4">
-      <ion-label class="text-9B9BA4">Truck Driver Inspector</ion-label>
-      <ion-label class="font-semibold">{{data.inspected_by}}</ion-label>
-    </ion-text>
+    <ion-row>
+      <ion-col size="4">
+        <ion-label class="text-9B9BA4">Truck Driver</ion-label>
+      </ion-col>
 
+      <ion-col>
+        <ion-label class="font-semibold">{{data.inspected_by}}</ion-label>
+      </ion-col>
+    </ion-row>
     <ion-card class="ml-0 mr-0 bg-slate-200">
       <ion-card-content class="p-0">
         <ion-grid>
@@ -36,7 +44,8 @@
     </ion-card>
 
     <div class="flex justify-center items-center h-64" *ngIf="!dataLoaded">
-      <ion-spinner name="crescent" mode="indeterminate" color="primary" style="height: 70px; width: 70px;"></ion-spinner>
+      <ion-spinner name="crescent" mode="indeterminate" color="primary"
+        style="height: 70px; width: 70px;"></ion-spinner>
     </div>
 
     <ion-card class="ml-0 mr-0" *ngIf="dataLoaded">
@@ -58,14 +67,14 @@
 
             <div *ngIf="item.status === 'Satisfactory'">
               <ion-row class="px-0 py-1">
-                <ion-col size="7" class="flex items-center">
+                <ion-col size="6" class="flex items-center">
                   <label class=" float-left flex justify-center font-Lato ">{{item.value}}
                   </label>
                 </ion-col>
-                <ion-col size="5" class="p-0 flex">
+                <ion-col class="p-0 flex">
                   <div class="flex justify-center items-center">
                     <span
-                      class="font-Lato text-white w-32 h-6 bg-project-green rounded-full flex justify-center items-center">
+                      class="font-Lato text-white w-40 h-6 bg-project-green rounded-full flex justify-center items-center">
                       {{item.status}}</span>
                   </div>
                 </ion-col>
@@ -79,11 +88,11 @@
                     <ion-grid>
 
                       <ion-row class="px-0 py-1">
-                        <ion-col size="6" class="flex items-center">
+                        <ion-col size="6" class="flex items-center p-0">
                           <label class="font-Lato float-left flex justify-center">{{item.value}}
                           </label>
                         </ion-col>
-                        <ion-col size="6" class="p-0 flex justify-end">
+                        <ion-col class="p-0 flex justify-end">
                           <div class="flex justify-center items-center">
                             <span
                               class="font-Lato text-white w-32 h-6 bg-red-400 rounded-full flex justify-center items-center">
@@ -104,9 +113,9 @@
         </ion-grid>
       </ion-card-content>
 
-      <ion-button expand="block" class="mt-5 font-Lato text-white" [routerLink]="'/complete-pre-check-form'">
+      <!-- <ion-button expand="block" class="mt-5 font-Lato text-white" [routerLink]="'/complete-pre-check-form'">
         Close
-      </ion-button>
+      </ion-button> -->
     </ion-card>
 
   </div>

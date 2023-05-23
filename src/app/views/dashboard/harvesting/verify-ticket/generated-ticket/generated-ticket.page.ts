@@ -69,8 +69,8 @@ export class GeneratedTicketPage implements OnInit {
 
     this.ticketID = this.ticket.id;
     this.fieldPivot = this.ticket.field_name;
-    this.fieldPivotSL = this.ticket.split_field_name;
 
+    this.fieldPivotSL = this.ticket.split_field_name == undefined ? '' : this.ticket.split_field_name;
 
     if (this.ticket) {
       this.generateTicketFormTruck.patchValue({
@@ -213,7 +213,7 @@ export class GeneratedTicketPage implements OnInit {
           if (response.status === 200) {
 
             //stop loader
-           this.loadingSpinner.next(false);
+            this.loadingSpinner.next(false);
 
             // reset
             this.generateTicketFormTruck.reset();
@@ -227,13 +227,13 @@ export class GeneratedTicketPage implements OnInit {
             this.toastService.presentToast(response.message, 'success');
           } else {
             console.log('Something happened :)');
-      this.loadingSpinner.next(false);
+            this.loadingSpinner.next(false);
             this.toastService.presentToast(response.message, 'danger');
           }
         },
         (err) => {
           this.toastService.presentToast(err, 'danger');
-      this.loadingSpinner.next(false);
+          this.loadingSpinner.next(false);
           console.log('Error:', err);
         }
       );

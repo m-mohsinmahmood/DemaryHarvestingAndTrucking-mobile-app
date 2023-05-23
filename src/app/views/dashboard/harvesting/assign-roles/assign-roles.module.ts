@@ -10,6 +10,8 @@ import { AssignRolesPage } from './assign-roles.page';
 import { TimerModule } from 'src/app/components/timer/timer.module';
 import { HeaderModule } from 'src/app/components/header/header.module';
 import { WithLoadingPipe } from 'src/app/pipes/general-pipes/with-loading.pipe';
+import { ViewDetailsPageRoutingModule } from './view-details/view-details-routing.module';
+import { ViewDetailsPage } from './view-details/view-details.page';
 
 @NgModule({
   imports: [
@@ -19,7 +21,7 @@ CommonModule,
     AssignRolesPageRoutingModule,
     HeaderModule,
     TimerModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   declarations: [AssignRolesPage, WithLoadingPipe]
 })

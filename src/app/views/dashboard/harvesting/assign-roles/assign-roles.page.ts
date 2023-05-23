@@ -14,6 +14,7 @@ import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { HarvestingService } from './../harvesting.service';
 import { ToastService } from 'src/app/services/toast/toast.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-assign-roles',
@@ -71,7 +72,8 @@ export class AssignRolesPage implements OnInit {
     private formBuilder: FormBuilder,
     private renderer: Renderer2,
     private harvestingService: HarvestingService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private router: Router
   ) {
     this.renderer.listen('window', 'click', (e) => {
       if (e.target !== this.combineInput.nativeElement) {
@@ -115,16 +117,6 @@ export class AssignRolesPage implements OnInit {
     // combine & cart subscription
     this.combineSearchSubscription();
     this.cartSearchSubscription();
-
-    //api call
-
-    // this.harvestingService.getJobSetup('Crew Chief', localStorage.getItem('employeeId'), '');
-    // this.sub = this.harvestingService.customerJobSetup$.subscribe((res) => {
-    //   console.log(res);
-
-    //   this.activeJobData = res;
-    //   console.log(this.activeJobData?.customer_job.length);
-    // });
 
     this.harvestingService.getRoles(111, 111, localStorage.getItem('employeeId'))
       .subscribe(
@@ -531,5 +523,8 @@ export class AssignRolesPage implements OnInit {
           // this.handleError(err);
         },
       );
+  }
+  viewDetails(){
+    this.router.navigate(['/tabs/home/harvesting/assign-roles/view-details']);
   }
 }
