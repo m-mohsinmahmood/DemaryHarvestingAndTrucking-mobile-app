@@ -7,7 +7,11 @@ const routes: Routes = [
   {
     path: '',
     component: AssignRolesPage
+  },  {
+    path: 'view-details',
+    loadChildren: () => import('./view-details/view-details.module').then( m => m.ViewDetailsPageModule)
   }
+
 ];
 
 @NgModule({
