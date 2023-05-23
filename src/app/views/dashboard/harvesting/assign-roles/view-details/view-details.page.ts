@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Observable, Subject, of } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { HarvestingService } from '../../harvesting.service';
 
@@ -24,6 +24,14 @@ export class ViewDetailsPage implements OnInit {
   isJobSelected: any = true;
   active_check_in_id;
   role;
+  value = 'Combine Operator';
+  jobId;
+  data;
+  combineOperatorCount = 0;
+  cartOperatorCount = 0;
+
+  public loadingSpinner = new BehaviorSubject(false);
+
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
 
@@ -127,36 +135,54 @@ export class ViewDetailsPage implements OnInit {
     // hiding UL
     this.jobUL = false;
 
-    // patching for Cart Operator
-    // else if (localStorage.getItem('role').includes('Truck Driver')) {
-      // this.startJobFormTruck.patchValue({
-      //   jobId: job.job_id,
-      //   crop_id: job.crop_id,
-      //   customer_id: job.customer_id,
-      //   farm_id: job.farm_id,
-      //   state: job.state,
-      //   crew_chief_id: job.crew_chief_id,
-      //   workOrderId: job.job_id
-      // });
-    // }
-
-    // this.customerName = job.customer_name;
-    // this.state = job.state;
-    // this.farm = job.farm_name;
-    // this.crop = job.crop_name;
-    // this.date = job.created_at;
-    // this.crewChiefName = job.crew_chief_name;
+    // passing JOB ID
+    this.jobId = job.job_id;
 
     // passing name in select's input
     this.jobInput.nativeElement.value = job.job_id;
 
-    // passing name in job-search-value in Rendered2 for checks
-    this.jobSearchValue = job.customer_name;
-
-    // to enable submit button
-    this.isJobSelected = false;
+    this.getDetails();
 
   }
   //#endregion
+  onClick(val: any) {
+    if (val === 'Combine Operator') {
+      this.value = 'Combine Operator';
+      // this.getCombineOperators();
+    } else {
+      this.value = 'cart-operator';
+      // this.getKartOPerators();
+    }
+  }
 
+  getDetails() {
+    this.loadingSpinner.next(true);
+    this.harvestingService.getDetails(localStorage.getItem('employeeId'),this.jobId)
+      .subscribe(
+        (res: any) => {
+          console.log('Response:', res);
+          // if (res.status === 200) {
+            this.data = res.employees;
+
+            this.combineOperatorCount = 0;
+            this.cartOperatorCount = 0;
+
+            // Iterate over employees
+            res.employees.forEach((employee) => {
+              if (employee.role === 'Combine Operator') {
+                this.combineOperatorCount++;
+              } else if (employee.role === 'Cart Operator') {
+                this.cartOperatorCount++;
+              }
+            });
+
+            // stop loader
+            this.loadingSpinner.next(false);
+        },
+        (err) => {
+          console.log('Error:', err);
+          this.loadingSpinner.next(false);
+        },
+      );
+  }
 }

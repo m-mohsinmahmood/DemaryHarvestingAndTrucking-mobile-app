@@ -755,4 +755,16 @@ export class HarvestingService {
       .patch(`api-1/customer-job-setup`, data)
       .pipe(take(1));
   }
+  getDetails(crewCheifId,jobId){
+    let params = new HttpParams();
+    params = params.set('crewCheifId', crewCheifId)
+    params = params.set('jobId', jobId)
+    params = params.set('operation', 'getEmployeesByJobId')
+
+    return this._httpClient
+      .get(`api-1/customer-job-setup`,{
+        params
+      })
+      .pipe(take(1));
+  }
 }
