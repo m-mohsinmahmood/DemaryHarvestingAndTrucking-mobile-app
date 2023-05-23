@@ -10,18 +10,13 @@
 }
 
 .upload-button {
-  --background: none;
-  --color: #9B9BA4;
+  --color: white;
   --border-radius: 10px;
-  --border-color: #9B9BA4;
-  --border-style: solid;
   --border-width: 1px;
-  margin-top: 20px;
-  margin-left: 19px;
   font-family: 'Lato';
 
   ion-icon {
-    color: #9B9BA4;
+    color: white;
     margin-left: 10px;
   }
 }

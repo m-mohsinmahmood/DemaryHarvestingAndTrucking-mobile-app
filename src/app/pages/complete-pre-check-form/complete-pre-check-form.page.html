@@ -117,14 +117,6 @@
           </ion-button>
         </div>
       </div>
-      <!-- <div class="flex justify-between items-center">
-        <ion-text class="font-Lato font-semibold">Prior Pre-Trip Check Forms</ion-text>
-        <ion-select placeholder="This Month">
-          <ion-select-option value="month" class="font-Lato">Month</ion-select-option>
-          <ion-select-option value="year" class="font-Lato">Year</ion-select-option>
-          <ion-select-option value="week" class="font-Lato">Week</ion-select-option>
-        </ion-select>
-      </div> -->
 
       <div *ngIf="dataLoaded">
         <ion-card *ngFor="let ticket of (checkList.ticket)" class="m-1 mb-2"
