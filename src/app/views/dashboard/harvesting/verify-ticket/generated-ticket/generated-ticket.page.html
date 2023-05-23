@@ -3,7 +3,6 @@
   [color]="'harvesting'"
 ></app-header
 ><ion-content *ngIf="role.includes('Cart Operator')">
-  <!-- <app-timer [value]="'12:32:11'"></app-timer> -->
   <ion-card>
     <ion-card-header class="bg-3D8AA4">
       <ion-card-title class="flex justify-center text-2xl font-Lato text-white"
@@ -69,7 +68,7 @@
             class="flex flex-col justify-evenly items-start ion-text-center"
           >
             <p class="font-Lato text-black font-bold font-14">Field/Pivot-SL</p>
-            <span class="font-Lato font-14">{{ticket.sl_field_name}}</span>
+            <span class="font-Lato font-14">{{ticket.sl_field_name }}</span>
           </ion-col>
         </ion-row>
         <!-- Fourth Row -->
@@ -474,7 +473,7 @@
           </label>
           <input
           class="mt-1 block w-full pointer-events-none  rounded-md border border-gray-300  text-gray-400 focus:text-gray-700
-          bg-gray-200 py-2 px-3 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"            [value]="fieldPivotSL"/>
+          bg-gray-200 py-2 px-3 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"  [value]="fieldPivotSL"/>
         </div>
 
         <div class="col-span-12 mb-4">

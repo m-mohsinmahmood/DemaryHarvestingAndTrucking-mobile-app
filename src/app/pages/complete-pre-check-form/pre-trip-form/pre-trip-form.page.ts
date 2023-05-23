@@ -12,13 +12,6 @@ import { TripCheckService } from '../trip-check-form.service';
 })
 export class PreTripFormPage implements OnInit {
 
-  // @ViewChild('machineryInput') machineryInput: ElementRef;
-  // isMachinerySelected: any = true;
-  // machinery_search$ = new Subject();
-  // machinery_name: any = '';
-  // machinerySearchValue: any;
-  // allMachinery: Observable<any>;
-  // machineryUL: any = false;
   role = '';
   employeeId = '';
 
