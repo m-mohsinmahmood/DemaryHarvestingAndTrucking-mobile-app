@@ -540,21 +540,35 @@ export class HarvestingService {
       .pipe(take(1));
   }
 
-  getRoles(combine_operator_id, cart_operator_id, crew_chief_id) {
-    let params = new HttpParams();
-    params = params.set('combine_operator_id', combine_operator_id);
-    params = params.set('cart_operator_id', cart_operator_id);
-    params = params.set('crew_chief_id', crew_chief_id);
-    return this._httpClient
-      .get<any>(`api-1/customer-job-setup`, {
-        params,
-      })
-      .pipe(take(1));
-  }
+  // getRoles(combine_operator_id, cart_operator_id, crew_chief_id) {
+  //   let params = new HttpParams();
+  //   params = params.set('combine_operator_id', combine_operator_id);
+  //   params = params.set('cart_operator_id', cart_operator_id);
+  //   params = params.set('crew_chief_id', crew_chief_id);
+  //   return this._httpClient
+  //     .get<any>(`api-1/customer-job-setup`, {
+  //       params,
+  //     })
+  //     .pipe(take(1));
+  // }
 
-  removeAssignedRole(data: any) {
+  removeAssignedRole(data) {
     return this._httpClient
       .patch(`api-1/customer-job-setup`, data)
+      .pipe(take(1));
+
+  }
+  removeCrewMember(crew_chief_id,role,employee_id){
+ let params = new HttpParams();
+    params = params.set('crew_chief_id', crew_chief_id);
+    params = params.set('role', role);
+    params = params.set('employee_id', employee_id);
+    params = params.set('operation', 'removeAllCrewChiefAssignedRoles');
+
+    return this._httpClient
+      .delete(`api-1/customer-job-setup`, {
+        params
+      })
       .pipe(take(1));
   }
 
@@ -763,6 +777,30 @@ export class HarvestingService {
 
     return this._httpClient
       .get(`api-1/customer-job-setup`,{
+        params
+      })
+      .pipe(take(1));
+  }
+  getRoles(crew_chief_id, role) {
+    let params = new HttpParams();
+    params = params.set('operation', 'getAllCrewChiefAssignedRoles');
+    params = params.set('crew_chief_id', crew_chief_id);
+    params = params.set('role', role);
+    return this._httpClient
+      .get<any>(`api-1/customer-job-setup`, {
+        params,
+      })
+      .pipe(take(1));
+  }
+  checkJob(customer_id,farm_id,crop_id) {
+    let params = new HttpParams();
+    params = params.set('operation', 'getSameInvoicedJobs');
+    params = params.set('customer_id', customer_id);
+    params = params.set('farm_id', farm_id);
+    params = params.set('crop_id', crop_id);
+
+    return this._httpClient
+      .get(`api-1/customer-job-setup`, {
         params
       })
       .pipe(take(1));

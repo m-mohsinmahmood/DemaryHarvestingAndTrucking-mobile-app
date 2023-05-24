@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-shadow */
 /* eslint-disable max-len */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable @typescript-eslint/naming-convention */
@@ -118,7 +119,7 @@ export class AssignRolesPage implements OnInit {
     this.combineSearchSubscription();
     this.cartSearchSubscription();
 
-    this.harvestingService.getRoles(111, 111, localStorage.getItem('employeeId'))
+    this.harvestingService.getRoles(localStorage.getItem('employeeId'),localStorage.getItem('role'))
       .subscribe(
         (res: any) => {
           if (res.status === 200) {
@@ -221,26 +222,23 @@ export class AssignRolesPage implements OnInit {
         }
       );
   }
-  //#region comnine
+
 
   removeCrewMember(id) {
     this.deleteId = id;
-    const data = {
-      id,
-      operation: 'removeAssignedRole'
-    };
+
     // start loader
     this.deleteSpinner.next(true);
 
-    this.harvestingService.removeAssignedRole(data)
-      .subscribe(
+    this.harvestingService.removeCrewMember(localStorage.getItem('employeeId'),localStorage.getItem('role'),id)
+    .subscribe(
         (res: any) => {
           console.log('Response:', res);
           if (res.status === 200) {
             this.toastService.presentToast(res.message, 'success');
 
-            this.harvestingService.getRoles(111, 111, localStorage.getItem('employeeId'))
-              .subscribe(
+            this.harvestingService.getRoles(localStorage.getItem('employeeId'),localStorage.getItem('role'))
+            .subscribe(
                 (res: any) => {
                   if (res.status === 200) {
                     console.log('RESPONSE:', res);
@@ -269,10 +267,11 @@ export class AssignRolesPage implements OnInit {
         },
         () => {
           this.getKartOPerators();
+          this.getCombineOperators();
         }
       );
   }
-
+ //#region comnine
   combineSearchSubscription() {
     this.combine_search$
       .pipe(
@@ -310,7 +309,6 @@ export class AssignRolesPage implements OnInit {
         });
       });
   }
-
   inputClickedCombine() {
     // getting the serch value to check if there's a value in input
     this.combine_search$
@@ -348,7 +346,6 @@ export class AssignRolesPage implements OnInit {
       }
     });
   }
-
   listClickedCombine(combine) {
 
     // hiding UL
@@ -483,7 +480,7 @@ export class AssignRolesPage implements OnInit {
   }
 
   getCombineOperators() {
-    this.harvestingService.getRoles(111, 111, localStorage.getItem('employeeId'))
+    this.harvestingService.getRoles(localStorage.getItem('employeeId'),localStorage.getItem('role'))
       .subscribe(
         (res: any) => {
           if (res.status === 200) {
@@ -500,9 +497,8 @@ export class AssignRolesPage implements OnInit {
         },
       );
   }
-
   getKartOPerators() {
-    this.harvestingService.getRoles(111, 111, localStorage.getItem('employeeId'))
+    this.harvestingService.getRoles(localStorage.getItem('employeeId'),localStorage.getItem('role'))
       .subscribe(
         (res: any) => {
           console.log('Cart Operators:', res);

@@ -1,3 +1,4 @@
+/* eslint-disable radix */
 
 /* eslint-disable @angular-eslint/use-lifecycle-interface */
 /* eslint-disable @typescript-eslint/dot-notation */
@@ -81,9 +82,10 @@ export class JobSetupPage implements OnInit {
 
   // selected customer id to select farms & crops
   customerID: any;
-
   // selected farm id to select fields
   farmID: any;
+  cropID: any;
+
 
   isDisabled: any = true;
   // isFieldDisabled: any = true;
@@ -252,11 +254,10 @@ export class JobSetupPage implements OnInit {
   }
 
   submit() {
-    console.log("Test 1");
+    // loader
+    this.loadingSpinner.next(true);
 
     this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
-      console.log("Test 2");
-
       this.activeCheckInSpinner.next(true);
       this.active_check_in_id = workOrder.dwr[0].id;
       this.activeCheckInSpinner.next(false);
@@ -267,57 +268,90 @@ export class JobSetupPage implements OnInit {
       });
 
       // data submit
-      this.loadingSpinner.next(true);
-      this.harvestingService.createJob(this.jobSetupForm.value)
-        .subscribe(
-          (res: any) => {
-            console.log('Response:', res);
-            if (res.status === 200) {
-              this.loadingSpinner.next(false);
-              this.jobSetupForm.reset();
-              this.isDisabled = true;
-              this.customer_name = '';
-              this.farm_name = '';
-              this.crop_name = '';
-              this.farm_name = '';
-              this.directorInput.nativeElement.value = '';
-              this.customerInput.nativeElement.value = '';
-              this.farmInput.nativeElement.value = '';
-              this.cropInput.nativeElement.value = '';
-              this.toastService.presentToast(res.message, 'success');
-              this.jobId = res.id.record_id;
-              this.createDWR();
-              console.log(res.message);
+      this.checkJob();
 
-              console.log("Test 3");
-
-            } else {
-              console.log('Something happened :)');
-              this.loadingSpinner.next(false);
-
-            }
-          },
-          (err) => {
-            console.log('Error:', err);
-            this.loadingSpinner.next(false);
-
-          },
-        );
     });
   }
+  checkJob(){
+    this.harvestingService.
+    checkJob(this.jobSetupForm.get('customer_id').value, this.jobSetupForm.get('farm_id').value,this.jobSetupForm.get('crop_id').value)
+    .subscribe(
+      (res: any) => {
+        console.log('Response:', res);
+        if (res.status === 200 && parseInt(res.total_jobs.count) === 0) {
+          //create job
+          this.createJob();
+        }
+        else if (res.status === 200 && parseInt(res.total_jobs.count) >= 1) {
+           //toast
+        this.toastService.presentToast('Job has already created', 'success');
 
+        this.loadingSpinner.next(false); // stop loader
+
+
+        } else {
+          console.log('Something happened :)');
+          this.loadingSpinner.next(false);
+
+        }
+      },
+      (err) => {
+        console.log('Error:', err);
+        this.loadingSpinner.next(false);
+
+      },
+    );
+  }
+createJob(){
+  this.harvestingService.createJob(this.jobSetupForm.value)
+  .subscribe(
+    (res: any) => {
+      console.log('Response:', res);
+      if (res.status === 200) {
+        // this.loadingSpinner.next(false);
+        this.jobSetupForm.reset();
+        this.isDisabled = true;
+        this.customer_name = '';
+        this.farm_name = '';
+        this.crop_name = '';
+        this.farm_name = '';
+        this.directorInput.nativeElement.value = '';
+        this.customerInput.nativeElement.value = '';
+        this.farmInput.nativeElement.value = '';
+        this.cropInput.nativeElement.value = '';
+        // this.toastService.presentToast(res.message, 'success');
+        this.jobId = res.id.record_id;
+
+        //DWR
+        this.createDWR();
+
+      } else {
+        console.log('Something happened :)');
+        this.loadingSpinner.next(false);
+
+      }
+    },
+    (err) => {
+      console.log('Error:', err);
+      this.loadingSpinner.next(false);
+
+    },
+  );
+}
   createDWR() {
-    console.log("Test 4");
-
     this.harvestingService
       .createDWR(localStorage.getItem('employeeId'), this.jobId, this.jobSetupForm.get('director_id').value, this.active_check_in_id)
       .subscribe(
         (res) => {
           if (res.status === 200) {
-            console.log("Test 5");
-
             // to stop loader
             this.loadingSpinner.next(false);
+
+            //toast
+        this.toastService.presentToast(res.message, 'success');
+
+
+            // navigation
             this.router.navigate(['/tabs/home/harvesting']);
 
           } else {
@@ -655,10 +689,11 @@ export class JobSetupPage implements OnInit {
     this.isCropSelected = false;
 
     // assigning values in form
-
     this.jobSetupForm.patchValue({
       crop_id: crop.crop_id
     });
+
+    this.cropID = crop.crop_id;
 
     // clearing array
     this.allCrops = of([]);
