@@ -17,7 +17,7 @@ export class CompletePreCheckFormPage implements OnInit {
 
   date: any = moment(new Date()).format('YYYY-MM-DD');
   monthValue: any = moment(new Date()).month();
-  month: any = moment(new Date()).month();
+  month: any = moment(new Date()).format('MM-YYYY');
 
   yearValue: any = moment(new Date()).year();
   year: any = moment(new Date()).year();
@@ -61,7 +61,7 @@ export class CompletePreCheckFormPage implements OnInit {
     this.yearValue = moment(e.detail.value).year();
 
     // // passing month value for month select
-    this.month = moment(e.detail.value).format('YYYY-MM');
+    this.month = moment(e.detail.value).format('MM-YYYY');
     console.log(this.monthValue);
   }
 

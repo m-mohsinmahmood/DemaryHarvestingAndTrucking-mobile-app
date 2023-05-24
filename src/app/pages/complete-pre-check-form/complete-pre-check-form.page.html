@@ -56,14 +56,14 @@
       <div [ngSwitch]="segment">
         <div *ngSwitchCase="'day'">
           <div>
-            <div class="col-span-12 mb-4 mt-2" id="click-trigger">
+            <div class="col-span-12 mb-4 mt-2" id="day">
               <label class="block text-sm font-medium text-gray-700">Select Date:</label>
-              <input id="click-trigger"
+              <input id="day"
                 class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                 placeholder="Enter date" readonly [value]="date">
             </div>
 
-            <ion-popover trigger="click-trigger" triggerAction="click">
+            <ion-popover trigger="day" triggerAction="click">
               <ng-template>
                 <ion-datetime (ionChange)="getDate($event)" presentation="date" size="cover"></ion-datetime>
               </ng-template>
@@ -77,14 +77,14 @@
 
         <div *ngSwitchCase="'month'">
           <div>
-            <div class="col-span-12 mb-4 mt-2" id="click-trigger">
+            <div class="col-span-12 mb-4 mt-2" id="month">
               <label class="block text-sm font-medium text-gray-700">Select Month:</label>
-              <input id="click-trigger"
+              <input id="month"
                 class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                 placeholder="Enter date" readonly [value]="month">
             </div>
 
-            <ion-popover trigger="click-trigger" triggerAction="click">
+            <ion-popover trigger="month" triggerAction="click">
               <ng-template>
                 <ion-datetime (ionChange)="getMonth($event)" presentation="month-year" size="cover"></ion-datetime>
               </ng-template>
@@ -98,14 +98,14 @@
 
         <div *ngSwitchCase="'year'">
           <div>
-            <div class="col-span-12 mb-4 mt-2" id="click-trigger">
+            <div class="col-span-12 mb-4 mt-2" id="year">
               <label class="block text-sm font-medium text-gray-700">Select Year:</label>
-              <input id="click-trigger"
+              <input id="year"
                 class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                 placeholder="Enter date" readonly [value]="year">
             </div>
 
-            <ion-popover trigger="click-trigger" triggerAction="click">
+            <ion-popover trigger="year" triggerAction="click">
               <ng-template>
                 <ion-datetime (ionChange)="getYear($event)" presentation="year" size="cover"></ion-datetime>
               </ng-template>
