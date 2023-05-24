@@ -107,6 +107,9 @@ export class TicketPage implements OnInit {
   jobUL: any = false;
   isJobSelected: any = true;
 
+  //Print Divs
+  showDiv = "none";
+
   customerName;
   state;
   farm;
@@ -854,8 +857,14 @@ export class TicketPage implements OnInit {
   }
   //#endregion
 
-  printContents() {
-    window.print();
+  printDiv(ticket) {
+    this.showDiv = ticket;
+    
+    setTimeout(() => {
+      window.print();
+      this.showDiv = "none";
+      return false
+    }, 100);
   }
 
 }
