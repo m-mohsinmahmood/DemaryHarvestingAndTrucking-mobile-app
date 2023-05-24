@@ -38,7 +38,7 @@
 
     <div class="w-5/12 ml-4" *ngIf="showRoleDropdown">
       <form [formGroup]="selectform">
-        <ion-select [selectedText]="role"  formControlName="select" placeholder="Select Role" class="border-2 border-project-green rounded-lg"
+        <ion-select [selectedText]="role"  [value]="role" formControlName="select" placeholder="Select Role" class="border-2 border-project-green rounded-lg"
           (ionChange)="onSelect($event)">
           <ion-select-option *ngFor="let item of rolesDropdown" class="font-Lato" [value]="item.value">{{item.value}}</ion-select-option>
         </ion-select>

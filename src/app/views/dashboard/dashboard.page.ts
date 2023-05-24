@@ -77,6 +77,7 @@ export class DashboardPage implements OnInit {
           localStorage.setItem("role", this.role);
         }
 
+        this.selectform.patchValue({ select: this.role })
         this.roleToShow = this.actualRoles;
         this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
           this.activeDwr = workOrder.dwr;
