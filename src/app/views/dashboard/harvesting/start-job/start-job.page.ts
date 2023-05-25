@@ -25,6 +25,8 @@ export class StartJobPage implements OnInit {
 
   role: any;
 
+  private initDataRetrievalExecuted = false;
+  private ionViewRetrievalExecuted = true;
   // Forms
   startJobFormCombine: FormGroup;
   startJobFormCrew: FormGroup;
@@ -109,30 +111,41 @@ export class StartJobPage implements OnInit {
   }
 
   ngOnInit() {
-    console.log("Start Job Page 1");
+    if (!this.initDataRetrievalExecuted) {
+      this.role = localStorage.getItem('role');
+      this.truck_driver_name = localStorage.getItem('employeeName');
 
-    this.role = localStorage.getItem('role');
-    this.truck_driver_name = localStorage.getItem('employeeName');
+      this.initForms();
+      this.initApis();
 
-    this.initForms();
-    this.initApis();
-
-    // subscriptioln for fields
-    // this.fieldSearchSubscription();
-    this.machineSearchSubscription();
-    this.jobSearchSubscription();
-
+      this.machineSearchSubscription();
+      this.jobSearchSubscription();
+      this.initDataRetrievalExecuted = true;
+      console.log("On Init");
+    }
   }
+
   async ionViewDidEnter() {
-    // this.role = localStorage.getItem('role');
-    this.initForms();
-  }
+    if (!this.ionViewRetrievalExecuted) {
+      this.role = localStorage.getItem('role');
+      this.truck_driver_name = localStorage.getItem('employeeName');
 
-  ngOnDestroy(): void {
-    this.DataDestroy();
+      this.initForms();
+      this.initApis();
+
+      this.machineSearchSubscription();
+      this.jobSearchSubscription();
+      this.initDataRetrievalExecuted = true;
+      console.log("Ion view did enter");
+    }
   }
 
   async ionViewDidLeave() {
+    this.DataDestroy();
+    this.ionViewRetrievalExecuted = false;
+  }
+
+  ngOnDestroy(): void {
     this.DataDestroy();
   }
 
@@ -209,7 +222,6 @@ export class StartJobPage implements OnInit {
           active_check_in_id: this.active_check_in_id
         });
       });
-
     }
     else if (this.role.includes('Cart Operator')) {
       this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {

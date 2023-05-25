@@ -31,7 +31,8 @@ export class CloseJobPage implements OnInit {
   job;
   sub;
   truckId;
-
+  private initDataRetrievalExecuted = false;
+  private ionViewRetrievalExecuted = true;
   customerName;
   state;
   farm;
@@ -52,7 +53,6 @@ export class CloseJobPage implements OnInit {
     private toastService: ToastService,
     private activeRoute: ActivatedRoute,
     private router: Router,
-    private renderer: Renderer2,
     private dwrServices: CheckInOutService
 
   ) {
@@ -60,12 +60,25 @@ export class CloseJobPage implements OnInit {
   }
 
   ngOnInit() {
-    // getting role
-    this.role = localStorage.getItem('role');
-    console.log('role', this.role);
-    this.initForms();
-    this.initApis();
-    this.initObservables();
+    if (!this.initDataRetrievalExecuted) {
+      this.role = localStorage.getItem('role');
+      this.initForms();
+      this.initApis();
+      this.initObservables();
+      this.initDataRetrievalExecuted = true;
+      console.log("On Init");
+    }
+  }
+
+  async ionViewDidEnter() {
+    if (!this.ionViewRetrievalExecuted) {
+      this.role = localStorage.getItem('role');
+      this.initForms();
+      this.initApis();
+      this.initObservables();
+      this.ionViewRetrievalExecuted = true;
+      console.log("Ion view did enter");
+    }
   }
 
   private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -76,6 +89,7 @@ export class CloseJobPage implements OnInit {
 
   async ionViewDidLeave() {
     this.DataDestroy();
+    this.ionViewRetrievalExecuted = false;
   }
 
   DataDestroy() {
