@@ -82,13 +82,14 @@ export class TripCheckService {
       .pipe(take(1));
   }
 
-  getPreCheckListDay(employeeId: string, date: any, requestType?: string) {
+  getPreCheckListDay(employeeId: string, startDate,endDate, requestType?: string) {
     this._httpClient
     let params = new HttpParams();
 
     params = params.set('employeeId', employeeId);
     params = params.set('requestType', requestType);
-    params = params.set('date', date);
+    params = params.set('startDate', startDate);
+    params = params.set('endDate', endDate);
 
     return this._httpClient
       .get<any>('api-1/trip_check_form', {

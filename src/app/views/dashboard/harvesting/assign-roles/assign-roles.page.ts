@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-shadow */
 /* eslint-disable max-len */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable @typescript-eslint/naming-convention */
@@ -57,6 +58,8 @@ export class AssignRolesPage implements OnInit {
 
   // data
   data: any;
+  combineOperatorData: any;
+  cartOperatorData: any;
   activeJobs: 0;
   sub;
   deleteId;
@@ -92,8 +95,7 @@ export class AssignRolesPage implements OnInit {
     this.DataDestroy();
   }
 
-  async ionViewDidLeave() {
-  }
+  async ionViewDidLeave() {}
 
   DataDestroy() {
     // Unsubscribe from all subscriptions
@@ -103,7 +105,6 @@ export class AssignRolesPage implements OnInit {
   }
 
   ngOnInit() {
-
     this.assignFormCombine = this.formBuilder.group({
       crew_chief_id: [localStorage.getItem('employeeId')],
       combine_operator_id: [''],
@@ -118,161 +119,125 @@ export class AssignRolesPage implements OnInit {
     this.combineSearchSubscription();
     this.cartSearchSubscription();
 
-    this.harvestingService.getRoles(111, 111, localStorage.getItem('employeeId'))
-      .subscribe(
-        (res: any) => {
-          if (res.status === 200) {
-            console.log('RESPONSE:', res);
-            this.data = res;
-          } else {
-            console.log('Something happened :)');
-          }
-        },
-        (err) => {
-          console.log('Error:', err);
-          this.toastService.presentToast(err, 'danger');
-        },
-      );
+    // Combine & Cart API's
+    this.getCombineOperators();
+    this.getKartOPerators();
   }
   goBack() {
     this.location.back();
   }
 
   addCombine() {
-
     // this.assignFormCombine.value.job_id = this.activeJobData?.customer_job[0].id;
-    this.assignFormCombine.value.employee_id = this.assignFormCombine.get('combine_operator_id').value;
+    this.assignFormCombine.value.employee_id = this.assignFormCombine.get(
+      'combine_operator_id'
+    ).value;
 
     console.log(this.assignFormCombine.value);
     this.loadingSpinner.next(true);
 
-    this.harvestingService.createJob(this.assignFormCombine.value)
+    this.harvestingService.createJob(this.assignFormCombine.value).subscribe(
+      (res: any) => {
+        console.log('Response:', res);
+        if (res.status === 200) {
+          // clearing combine input
+          this.combineInput.nativeElement.value = '';
+
+          // to look asterik
+          this.isCombineSelected = true;
+
+          // toast
+          this.toastService.presentToast(res.message, 'success');
+
+          // stop loader
+          this.loadingSpinner.next(false);
+
+          console.log(res.message);
+        } else {
+          console.log('Something happened :)');
+        }
+      },
+      (err) => {
+        console.log('Error:', err);
+        // this.handleError(err);
+      },
+      () => {
+        this.getCombineOperators();
+      }
+    );
+  }
+
+  addKart() {
+    // this.assignFormKart.value.job_id = this.activeJobData?.customer_job[0].id;
+    this.assignFormKart.value.employee_id =
+      this.assignFormKart.get('cart_operator_id').value;
+
+    console.log(this.assignFormKart.value);
+    this.loadingSpinner2.next(true);
+    this.harvestingService.createJob(this.assignFormKart.value).subscribe(
+      (res: any) => {
+        console.log('Response:', res);
+        if (res.status === 200) {
+          // clearing cart input
+          this.cartInput.nativeElement.value = '';
+
+          // to look asterik
+          this.isCartSelected = true;
+
+          // toast
+          this.toastService.presentToast(res.message, 'success');
+
+          // stop loader
+          this.loadingSpinner2.next(false);
+        } else {
+          console.log('Something happened :)');
+          this.loadingSpinner2.next(false);
+        }
+      },
+      (err) => {
+        console.log('Error:', err);
+        this.loadingSpinner2.next(false);
+
+        // this.handleError(err);
+      },
+      () => {
+        this.getKartOPerators();
+      }
+    );
+  }
+
+  removeCrewMember(id, role) {
+    this.deleteId = id;
+
+    // start loader
+    this.deleteSpinner.next(true);
+
+    this.harvestingService
+      .removeCrewMember(localStorage.getItem('employeeId'), role, id)
       .subscribe(
         (res: any) => {
           console.log('Response:', res);
           if (res.status === 200) {
-            // clearing combine input
-            this.combineInput.nativeElement.value = '';
-
-            // to look asterik
-            this.isCombineSelected = true;
-
-
-            // toast
             this.toastService.presentToast(res.message, 'success');
-
-            // stop loader
-            this.loadingSpinner.next(false);
-
-
-            console.log(res.message);
+            this.deleteSpinner.next(true);
           } else {
             console.log('Something happened :)');
+            this.deleteSpinner.next(false);
           }
         },
         (err) => {
           console.log('Error:', err);
+          this.deleteSpinner.next(false);
+
           // this.handleError(err);
         },
         () => {
+          this.getKartOPerators();
           this.getCombineOperators();
         }
       );
   }
-
-  addKart() {
-
-    // this.assignFormKart.value.job_id = this.activeJobData?.customer_job[0].id;
-    this.assignFormKart.value.employee_id = this.assignFormKart.get('cart_operator_id').value;
-
-    console.log(this.assignFormKart.value);
-    this.loadingSpinner2.next(true);
-    this.harvestingService.createJob(this.assignFormKart.value)
-      .subscribe(
-        (res: any) => {
-          console.log('Response:', res);
-          if (res.status === 200) {
-
-            // clearing cart input
-            this.cartInput.nativeElement.value = '';
-
-            // to look asterik
-            this.isCartSelected = true;
-
-            // toast
-            this.toastService.presentToast(res.message, 'success');
-
-            // stop loader
-            this.loadingSpinner2.next(false);
-          } else {
-            console.log('Something happened :)');
-            this.loadingSpinner2.next(false);
-
-          }
-        },
-        (err) => {
-          console.log('Error:', err);
-          this.loadingSpinner2.next(false);
-
-          // this.handleError(err);
-        },
-        () => {
-          this.getKartOPerators();
-        }
-      );
-  }
   //#region comnine
-
-  removeCrewMember(id) {
-    this.deleteId = id;
-    const data = {
-      id,
-      operation: 'removeAssignedRole'
-    };
-    // start loader
-    this.deleteSpinner.next(true);
-
-    this.harvestingService.removeAssignedRole(data)
-      .subscribe(
-        (res: any) => {
-          console.log('Response:', res);
-          if (res.status === 200) {
-            this.toastService.presentToast(res.message, 'success');
-
-            this.harvestingService.getRoles(111, 111, localStorage.getItem('employeeId'))
-              .subscribe(
-                (res: any) => {
-                  if (res.status === 200) {
-                    console.log('RESPONSE:', res);
-                    this.data = res;
-
-                    // stop loader
-                 this.deleteSpinner.next(false);
-
-                  } else {
-                    console.log('Something happened :)');
-                  }
-                },
-                (err) => {
-                  console.log('Error:', err);
-                  this.toastService.presentToast(err, 'danger');
-                },
-              );
-
-          } else {
-            console.log('Something happened :)');
-          }
-        },
-        (err) => {
-          console.log('Error:', err);
-          // this.handleError(err);
-        },
-        () => {
-          this.getKartOPerators();
-        }
-      );
-  }
-
   combineSearchSubscription() {
     this.combine_search$
       .pipe(
@@ -290,11 +255,12 @@ export class AssignRolesPage implements OnInit {
         }
 
         // calling API
-        this.allCombineOperators = this.harvestingService.getCombineCartOperator(
-          this.combineSearchValue,
-          'getCombineCartOperator',
-          'Combine Operator'
-        );
+        this.allCombineOperators =
+          this.harvestingService.getCombineCartOperator(
+            this.combineSearchValue,
+            'getCombineCartOperator',
+            'Combine Operator'
+          );
 
         // subscribing to show/hide field UL
         this.allCombineOperators.subscribe((combineOperators) => {
@@ -310,7 +276,6 @@ export class AssignRolesPage implements OnInit {
         });
       });
   }
-
   inputClickedCombine() {
     // getting the serch value to check if there's a value in input
     this.combine_search$
@@ -341,21 +306,19 @@ export class AssignRolesPage implements OnInit {
         // hiding UL
         this.combineUL = false;
         this.isCombineSelected = true; // for asterik to look required
-
       } else {
         // showing UL
         this.combineUL = true;
       }
     });
   }
-
   listClickedCombine(combine) {
-
     // hiding UL
     this.combineUL = false;
 
     // passing name in select's input
-    this.combineInput.nativeElement.value = combine.first_name + ' ' + combine.last_name;
+    this.combineInput.nativeElement.value =
+      combine.first_name + ' ' + combine.last_name;
 
     // to enable submit button
     // if (this.activeJobData?.customer_job.length > 0) { this.isCombineSelected = false; }
@@ -369,7 +332,6 @@ export class AssignRolesPage implements OnInit {
 
     // clearing array
     this.allCombineOperators = of([]);
-
   }
   //#endregion
 
@@ -433,7 +395,7 @@ export class AssignRolesPage implements OnInit {
       this.cartSearchValue,
       'getCombineCartOperator',
       'Cart Operator'
-      );
+    );
 
     // subscribing to show/hide field UL
     this.allCartOperators.subscribe((cartOperators) => {
@@ -442,7 +404,6 @@ export class AssignRolesPage implements OnInit {
         // hiding UL
         this.cartUL = false;
         this.isCartSelected = true; // for asterik to look required
-
       } else {
         // showing UL
         this.cartUL = true;
@@ -483,13 +444,13 @@ export class AssignRolesPage implements OnInit {
   }
 
   getCombineOperators() {
-    this.harvestingService.getRoles(111, 111, localStorage.getItem('employeeId'))
+    this.harvestingService
+      .getRoles(localStorage.getItem('employeeId'), 'Combine Operator')
       .subscribe(
         (res: any) => {
           if (res.status === 200) {
             console.log('Combine Operators:', res);
-            this.data = res;
-
+            this.combineOperatorData = res;
           } else {
             console.log('Something happened :)');
           }
@@ -497,21 +458,17 @@ export class AssignRolesPage implements OnInit {
         (err) => {
           console.log('Error:', err);
           this.toastService.presentToast(err, 'danger');
-        },
+        }
       );
   }
-
   getKartOPerators() {
-    this.harvestingService.getRoles(111, 111, localStorage.getItem('employeeId'))
+    this.harvestingService
+      .getRoles(localStorage.getItem('employeeId'), 'Cart Operator')
       .subscribe(
         (res: any) => {
           console.log('Cart Operators:', res);
           if (res.status === 200) {
-            // this.toastService.presentToast('', 'success');
-            // console.log(res.message);
-            console.log('Cart Operators:', res);
-            this.data = res;
-
+            this.cartOperatorData = res;
           } else {
             console.log('Something happened :)');
           }
@@ -521,10 +478,10 @@ export class AssignRolesPage implements OnInit {
           this.toastService.presentToast(err, 'danger');
 
           // this.handleError(err);
-        },
+        }
       );
   }
-  viewDetails(){
+  viewDetails() {
     this.router.navigate(['/tabs/home/harvesting/assign-roles/view-details']);
   }
 }

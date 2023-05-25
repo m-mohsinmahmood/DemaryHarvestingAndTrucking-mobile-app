@@ -61,7 +61,7 @@
     </ion-row>
 
     <!-- MODEL -->
-    <app-check-in-out [isModalOpen]="isModalOpen" [data]="activeDwr" *ngIf="activeDwr" [module]="'harvesting'">
+    <app-check-in-out [isModalOpen]="isModalOpen" [data]="activeDwr" *ngIf="activeDwr && !(workOrderCount > 0)" [module]="'harvesting'">
     </app-check-in-out>
   </ion-grid>
 </ion-content>
@@ -130,7 +130,7 @@
     </ion-row>
 
     <!-- MODEL -->
-    <app-check-in-out [isModalOpen]="isModalOpen" [data]="activeDwr" *ngIf="activeDwr" [module]="'harvesting'">
+    <app-check-in-out [isModalOpen]="isModalOpen" [data]="activeDwr" *ngIf="activeDwr && !(workOrderCount > 0)" [module]="'harvesting'">
     </app-check-in-out>
   </ion-grid>
 </ion-content>
@@ -177,7 +177,7 @@
     </ion-row>
 
     <!-- MODEL -->
-    <app-check-in-out [isModalOpen]="isModalOpen" [data]="activeDwr" *ngIf="activeDwr" [module]="'harvesting'">
+    <app-check-in-out [isModalOpen]="isModalOpen" [data]="activeDwr" *ngIf="activeDwr && !(workOrderCount > 0)" [module]="'harvesting'">
     </app-check-in-out>
   </ion-grid>
 

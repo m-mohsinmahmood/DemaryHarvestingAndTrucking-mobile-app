@@ -31,6 +31,7 @@ button {
   border-bottom-style: inherit !important;
   border-left-style: inherit !important;
 }
+
 ion-toast.custom-toast::part(message) {
   color: rgb(255, 255, 255);
 }
@@ -39,40 +40,16 @@ ion-spinner {
   --color: #ffffff
 }
 
-@media screen {
-  .hide-on-screen {
-    display: none !important;
-  }
-}
-
 @media print {
-  body * {
-    visibility: hidden;
-  }
-  
-  .print * {
-    visibility: visible;
-  }
-  
-  #envelopeInfo,
-  #deliveryTicket,
-  #envelopeStub {
-    position: absolute;
-    left: 0;
-    top: 0;
-  }
-  
-  #envelopeInfo,
-  #deliveryTicket {
-    page-break-after: always;
-  }
-  
-  #envelopeStub {
-    page-break-after: auto;
+  #tabs {
+    display: none;
   }
 
-  body, html {
+  body {
     width: 4in;
     height: 4in;
+    padding-bottom: 0;
+    padding-top: 0;
   }
+
 }

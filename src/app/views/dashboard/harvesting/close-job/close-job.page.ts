@@ -3,15 +3,14 @@
 /* eslint-disable @typescript-eslint/member-ordering */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable @typescript-eslint/naming-convention */
-import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { Component, OnInit, Renderer2 } from '@angular/core';
 import { Location } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HarvestingService } from './../harvesting.service';
 import { ToastService } from 'src/app/services/toast/toast.service';
-import { BehaviorSubject, Observable, Subject, of } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
-import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { CheckInOutService } from 'src/app/components/check-in-out/check-in-out.service';
 
 @Component({
@@ -128,7 +127,7 @@ export class CloseJobPage implements OnInit {
         this.closeJobFormTruck.patchValue({
           jobId: param.id,
           employeeId: localStorage.getItem('employeeId'),
-          module:'harvesting'
+          module: 'harvesting'
         });
         console.log(param);
         this.truckId = param.truck_id;
@@ -179,7 +178,7 @@ export class CloseJobPage implements OnInit {
       this.customerData = res;
       if (this.customerData?.workOrders) {
 
-        if (this.role.includes('Combine Operator') || this.role.includes('Cart Operator')  || this.role.includes('Truck Driver') ) {
+        if (this.role.includes('Combine Operator') || this.role.includes('Cart Operator') || this.role.includes('Truck Driver')) {
 
           this.date = this.customerData.workOrders[0].created_at;
           this.customerName = this.customerData.workOrders[0].customer_name;
@@ -230,11 +229,11 @@ export class CloseJobPage implements OnInit {
     });
 
     // end of day validation for hours (combine)
-    this.closeJobFormCombine.valueChanges.subscribe((val)=>{
-    if(parseInt(val.ending_separator_hours)  <= parseInt(this.customerData?.workOrders[0]?.separator_hours)){this.showValidationMessage_1 = true;}
-    else{this.showValidationMessage_1 = false;}
-    if(parseInt(val.endingEngineHours) <= parseInt(this.customerData?.workOrders[0]?.engine_hours)) {this.showValidationMessage_2 = true;}
-    else{this.showValidationMessage_2 = false;}
+    this.closeJobFormCombine.valueChanges.subscribe((val) => {
+      if (parseInt(val.ending_separator_hours) <= parseInt(this.customerData?.workOrders[0]?.separator_hours)) { this.showValidationMessage_1 = true; }
+      else { this.showValidationMessage_1 = false; }
+      if (parseInt(val.endingEngineHours) <= parseInt(this.customerData?.workOrders[0]?.engine_hours)) { this.showValidationMessage_2 = true; }
+      else { this.showValidationMessage_2 = false; }
     });
 
     this.closeJobFormKart = this.formBuilder.group({
@@ -246,10 +245,10 @@ export class CloseJobPage implements OnInit {
     });
 
     // end of day validation for hours (Cart)
-    this.closeJobFormKart.valueChanges.subscribe((val)=>{
-      if(parseInt(val.endingEngineHours)  <= parseInt(this.customerData?.workOrders[0]?.engine_hours)){this.showValidationMessage_1 = true;}
-      else{this.showValidationMessage_1 = false;}
-      });
+    this.closeJobFormKart.valueChanges.subscribe((val) => {
+      if (parseInt(val.endingEngineHours) <= parseInt(this.customerData?.workOrders[0]?.engine_hours)) { this.showValidationMessage_1 = true; }
+      else { this.showValidationMessage_1 = false; }
+    });
 
     this.closeJobFormTruck = this.formBuilder.group({
       ending_odometer_miles: ['', [Validators.required]],
@@ -260,11 +259,11 @@ export class CloseJobPage implements OnInit {
     });
 
     // end of day validation for hours (truck driver)
-    this.closeJobFormTruck.valueChanges.subscribe((val)=>{
-      console.log(parseInt(val.ending_odometer_miles)  <= parseInt(this.customerData?.workOrders[0]?.odometer_reading_end));
-      if(val.ending_odometer_miles  <= this.customerData?.workOrders[0]?.odometer_reading_end){this.showValidationMessage_1 = true;}
-      else{this.showValidationMessage_1 = false;}
-      });
+    this.closeJobFormTruck.valueChanges.subscribe((val) => {
+      console.log(parseInt(val.ending_odometer_miles) <= parseInt(this.customerData?.workOrders[0]?.odometer_reading_end));
+      if (val.ending_odometer_miles <= this.customerData?.workOrders[0]?.odometer_reading_end) { this.showValidationMessage_1 = true; }
+      else { this.showValidationMessage_1 = false; }
+    });
   }
 
   submit() {
@@ -447,7 +446,7 @@ export class CloseJobPage implements OnInit {
           jobId: this.truckId,
           role: 'Truck Driver',
           endingEngineHours: this.closeJobFormTruck.get('ending_odometer_miles').value,
-          module:'harvesting'
+          module: 'harvesting'
         })
         .subscribe(
           (res: any) => {
