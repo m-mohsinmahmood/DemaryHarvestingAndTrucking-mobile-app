@@ -74,7 +74,7 @@ export class CompletePreCheckFormPage implements OnInit {
 
   getTicketsOnSpecificInterval(time: string) {
     if (time === 'day') {
-      this.tripCheckFormService.getPreCheckListDay(localStorage.getItem('employeeId'), this.date, 'day')
+      this.tripCheckFormService.getPreCheckListDay(localStorage.getItem('employeeId'), moment(this.date).startOf('day').toISOString(),moment(this.date).endOf('day').toISOString(), 'day')
         .subscribe(param => {
           this.checkList = param;
           this.dataLoaded = true;

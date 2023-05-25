@@ -284,7 +284,7 @@ export class JobSetupPage implements OnInit {
         }
         else if (res.status === 200 && parseInt(res.total_jobs.count) >= 1) {
            //toast
-        this.toastService.presentToast('Job has already created', 'success');
+        this.toastService.presentToast('Job already exists with same customer, farm and crop', 'warning');
 
         this.loadingSpinner.next(false); // stop loader
 

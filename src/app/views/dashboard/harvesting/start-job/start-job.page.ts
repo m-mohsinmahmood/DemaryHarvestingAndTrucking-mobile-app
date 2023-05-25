@@ -399,13 +399,6 @@ export class StartJobPage implements OnInit {
             if (res.status === 200) {
               this.patchHours();
 
-              // this.loadingSpinner.next(false);
-
-              // this.startJobFormCombine.reset();
-              // this.toastService.presentToast(res.message, 'success');
-
-              // // navigating
-              // this.router.navigateByUrl('/tabs/home/harvesting');
             } else {
               console.log('Something happened :)');
               this.loadingSpinner.next(false);
@@ -430,7 +423,6 @@ export class StartJobPage implements OnInit {
             if (res.status === 200) {
               this.loadingSpinner.next(false);
               this.startJobFormCombine.reset();
-              this.toastService.presentToast(res.message, 'success');
               this.machineryInput.nativeElement.value = '';
               this.isMachineSelected = true;
               this.jobInput.nativeElement.value = '';
@@ -463,7 +455,6 @@ export class StartJobPage implements OnInit {
 
               this.startJobFormCombine.reset(); // form reset
 
-              this.toastService.presentToast(res.message, 'success'); // toast
 
               // navigating
               this.router.navigateByUrl('/tabs/home/harvesting');
@@ -490,7 +481,6 @@ export class StartJobPage implements OnInit {
 
               this.loadingSpinner.next(false); // stop loader
               this.startJobFormCombine.reset(); //form reset
-              this.toastService.presentToast(res.message, 'success'); //toast
               this.router.navigateByUrl('/tabs/home/harvesting'); // navigating
             } else {
               console.log('Something happened :)');
