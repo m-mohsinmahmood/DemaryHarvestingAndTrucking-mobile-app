@@ -22,6 +22,7 @@ export class CheckInOutComponent implements OnInit {
     private toast: ToastService) {
   }
 
+
   ngOnInit() {
 
   }
