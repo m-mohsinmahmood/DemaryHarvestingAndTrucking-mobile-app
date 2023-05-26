@@ -206,23 +206,122 @@ export class AssignRolesPage implements OnInit {
     );
   }
 
+
+  // removeCrewMember(id) {
+  //   this.deleteId = id;
+  //   const data = {
+  //     id,
+  //     operation: 'removeAssignedRole'
+  //   };
+  //   // start loader
+  //   this.deleteSpinner.next(true);
+
+  //   this.harvestingService.removeAssignedRole(data)
+  //     .subscribe(
+  //       (res: any) => {
+  //         console.log('Response:', res);
+  //         if (res.status === 200) {
+  //           this.toastService.presentToast(res.message, 'success');
+
+  //           this.harvestingService.getRoles(111, 111, localStorage.getItem('employeeId'))
+  //             .subscribe(
+  //               (res: any) => {
+  //                 if (res.status === 200) {
+  //                   console.log('RESPONSE:', res);
+  //                   this.data = res;
+
+  //                   // stop loader
+  //                this.deleteSpinner.next(false);
+
+  //                 } else {
+  //                   console.log('Something happened :)');
+  //                 }
+  //               },
+  //               (err) => {
+  //                 console.log('Error:', err);
+  //                 this.toastService.presentToast(err, 'danger');
+  //               },
+  //             );
+
+  //         } else {
+  //           console.log('Something happened :)');
+  //         }
+  //       },
+  //       (err) => {
+  //         console.log('Error:', err);
+  //         // this.handleError(err);
+  //       },
+  //       () => {
+  //         this.getKartOPerators();
+  //       }
+  //     );
+  // }
   removeCrewMember(id, role) {
     this.deleteId = id;
+
+    const data = {
+      id,
+      operation: 'removeAssignedRole'
+    };
 
     // start loader
     this.deleteSpinner.next(true);
 
-    this.harvestingService
-      .removeCrewMember(localStorage.getItem('employeeId'), role, id)
+    this.harvestingService.removeAssignedRole(data)
       .subscribe(
         (res: any) => {
           console.log('Response:', res);
           if (res.status === 200) {
-            this.toastService.presentToast(res.message, 'success');
-            this.deleteSpinner.next(true);
+            // this.toastService.presentToast(res.message, 'success');
+
+            // this.harvestingService.getRoles(111, 111, localStorage.getItem('employeeId'))
+            //   .subscribe(
+            //     (res: any) => {
+            //       if (res.status === 200) {
+            //         console.log('RESPONSE:', res);
+            //         this.data = res;
+
+            //         // stop loader
+            //      this.deleteSpinner.next(false);
+
+            //       } else {
+            //         console.log('Something happened :)');
+            //       }
+            //     },
+            //     (err) => {
+            //       console.log('Error:', err);
+            //       this.toastService.presentToast(err, 'danger');
+            //     },
+            //   );
+            this.harvestingService
+            .removeCrewMember(localStorage.getItem('employeeId'), role, id)
+            .subscribe(
+              (res: any) => {
+                console.log('Response:', res);
+                if (res.status === 200) {
+                  this.toastService.presentToast(res.message, 'success');
+                  this.deleteSpinner.next(false);
+                } else {
+                  console.log('Something happened :)');
+                  this.deleteSpinner.next(false);
+                }
+              },
+              (err) => {
+                console.log('Error:', err);
+                this.deleteSpinner.next(false);
+
+                // this.handleError(err);
+              },
+              () => {
+                this.getKartOPerators();
+                this.getCombineOperators();
+              }
+            );
+
           } else {
             console.log('Something happened :)');
             this.deleteSpinner.next(false);
+
           }
         },
         (err) => {
@@ -231,11 +330,35 @@ export class AssignRolesPage implements OnInit {
 
           // this.handleError(err);
         },
-        () => {
-          this.getKartOPerators();
-          this.getCombineOperators();
-        }
+        // () => {
+        //   this.getKartOPerators();
+        // }
       );
+
+    // this.harvestingService
+    //   .removeCrewMember(localStorage.getItem('employeeId'), role, id)
+    //   .subscribe(
+    //     (res: any) => {
+    //       console.log('Response:', res);
+    //       if (res.status === 200) {
+    //         this.toastService.presentToast(res.message, 'success');
+    //         this.deleteSpinner.next(true);
+    //       } else {
+    //         console.log('Something happened :)');
+    //         this.deleteSpinner.next(false);
+    //       }
+    //     },
+    //     (err) => {
+    //       console.log('Error:', err);
+    //       this.deleteSpinner.next(false);
+
+    //       // this.handleError(err);
+    //     },
+    //     () => {
+    //       this.getKartOPerators();
+    //       this.getCombineOperators();
+    //     }
+    //   );
   }
   //#region comnine
   combineSearchSubscription() {

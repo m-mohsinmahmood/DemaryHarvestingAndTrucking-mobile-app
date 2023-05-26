@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CheckInOutService } from './check-in-out.service';
 import { ToastService } from 'src/app/services/toast/toast.service';
 import { Router } from '@angular/router';
@@ -13,6 +13,8 @@ export class CheckInOutComponent implements OnInit {
   @Input() module: any;
   @Input() data: any;
   @Input() isModalOpen: any;
+  @Output() action: EventEmitter<any> = new EventEmitter<any>();
+
   public loadingSpinner = new BehaviorSubject(false);
 
   constructor(private router: Router,
@@ -42,6 +44,7 @@ export class CheckInOutComponent implements OnInit {
               console.log('Active Check In ', workOrder.dwr);
               this.data = workOrder.dwr;
               this.loadingSpinner.next(false);
+              this.actionEmitter();
             });
             this.toast.presentToast('User has checked-In ' + this.module + ' module', 'success');
           }
@@ -82,6 +85,10 @@ export class CheckInOutComponent implements OnInit {
 
   closePopup() {
     this.router.navigateByUrl('/tabs/home');
+  }
+
+  actionEmitter() {
+    this.action.emit();
   }
 
 }
