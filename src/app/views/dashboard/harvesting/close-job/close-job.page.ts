@@ -127,11 +127,11 @@ export class CloseJobPage implements OnInit {
       );
 
       this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
-        console.log('Active Check In ', workOrder.dwr);
+        console.log('Active Check In ', workOrder?.dwr);
 
         this.closeJobFormCombine.patchValue({
-          module: workOrder.dwr[0].module,
-          dwrId: workOrder.dwr[0].id
+          module: workOrder?.dwr[0]?.module,
+          dwrId: workOrder?.dwr[0]?.id
         });
       });
     }
@@ -155,11 +155,11 @@ export class CloseJobPage implements OnInit {
       );
 
       this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
-        console.log('Active Check In ', workOrder.dwr);
+        console.log('Active Check In ', workOrder?.dwr);
 
         this.closeJobFormTruck.patchValue({
-          module: workOrder.dwr[0].module,
-          dwrId: workOrder.dwr[0].id
+          module: workOrder?.dwr[0]?.module,
+          dwrId: workOrder?.dwr[0]?.id
         });
       });
     }
@@ -179,8 +179,8 @@ export class CloseJobPage implements OnInit {
       this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
 
         this.closeJobFormKart.patchValue({
-          module: workOrder.dwr[0].module,
-          dwrId: workOrder.dwr[0].id
+          module: workOrder?.dwr[0]?.module,
+          dwrId: workOrder?.dwr[0]?.id
         })
       });
     }
@@ -194,12 +194,12 @@ export class CloseJobPage implements OnInit {
 
         if (this.role.includes('Combine Operator') || this.role.includes('Cart Operator') || this.role.includes('Truck Driver')) {
 
-          this.date = this.customerData.workOrders[0].created_at;
-          this.customerName = this.customerData.workOrders[0].customer_name;
-          this.state = this.customerData.workOrders[0].state;
-          this.farm = this.customerData.workOrders[0].farm_name;
-          this.crop = this.customerData.workOrders[0].crop_name;
-          this.crewChiefName = this.customerData.workOrders[0].crew_chief_name;
+          this.date = this.customerData.workOrders[0]?.created_at;
+          this.customerName = this.customerData.workOrders[0]?.customer_name;
+          this.state = this.customerData.workOrders[0]?.state;
+          this.farm = this.customerData.workOrders[0]?.farm_name;
+          this.crop = this.customerData.workOrders[0]?.crop_name;
+          this.crewChiefName = this.customerData.workOrders[0]?.crew_chief_name;
         }
 
         if (this.role.includes('Cart Operator')) {
@@ -301,7 +301,7 @@ export class CloseJobPage implements OnInit {
         );
 
       const dayClosed = {
-        jobId: this.customerData.workOrders[0].id,
+        jobId: this.customerData?.workOrders[0]?.id,
         endingEngineHours: this.closeJobFormCrew.get('endingEngineHours').value,
         ending_separator_hours: this.closeJobFormCrew.get(
           'ending_separator_hours'
@@ -355,7 +355,7 @@ export class CloseJobPage implements OnInit {
 
       console.log(this.closeJobFormCombine.value);
       const dayClosed = {
-        jobId: this.customerData.workOrders[0].id,
+        jobId: this.customerData?.workOrders[0]?.id,
         endingEngineHours: this.closeJobFormCombine.get('endingEngineHours').value,
         ending_separator_hours: this.closeJobFormCombine.get('ending_separator_hours').value,
         module: this.closeJobFormCombine.get('module').value,
