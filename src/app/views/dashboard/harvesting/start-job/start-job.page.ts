@@ -215,7 +215,7 @@ export class StartJobPage implements OnInit {
   initApis() {
     if (this.role.includes('Combine Operator')) {
       this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
-        this.active_check_in_id = workOrder.dwr[0].id;
+        this.active_check_in_id = workOrder?.dwr[0]?.id;
 
         // patching
         this.startJobFormCombine.patchValue({
@@ -225,7 +225,7 @@ export class StartJobPage implements OnInit {
     }
     else if (this.role.includes('Cart Operator')) {
       this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
-        this.active_check_in_id = workOrder.dwr[0].id;
+        this.active_check_in_id = workOrder?.dwr[0]?.id;
 
         // patching
         this.startJobFormKart.patchValue({
@@ -235,7 +235,7 @@ export class StartJobPage implements OnInit {
     }
     else if (this.role.includes('Truck Driver')) {
       this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
-        this.active_check_in_id = workOrder.dwr[0].id;
+        this.active_check_in_id = workOrder?.dwr[0]?.id;
 
         console.log(this.active_check_in_id);
 
