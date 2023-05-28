@@ -296,6 +296,14 @@ export class CloseJobPage implements OnInit {
           console.log(res);
           if (res.status === 200) {
             this.loadingSpinner.next(false);
+
+            this.date = '';
+            this.customerName = '';
+            this.state = '';
+            this.farm = '';
+            this.crop = '';
+            this.crewChiefName = '';
+
             this.closeJobFormCombine.reset();
             this.toastService.presentToast(
               'Day has been closed successfully!',
@@ -342,6 +350,14 @@ export class CloseJobPage implements OnInit {
             console.log(res);
             if (res.status === 200) {
               this.loadingSpinner.next(false);
+
+              this.date = '';
+              this.customerName = '';
+              this.state = '';
+              this.farm = '';
+              this.crop = '';
+              this.crewChiefName = '';
+
               this.closeJobFormKart.reset();
               this.toastService.presentToast(
                 'Day has been closed successfully!',
@@ -406,6 +422,14 @@ export class CloseJobPage implements OnInit {
             console.log(res);
             if (res.status === 200) {
               this.loadingSpinner.next(false);
+
+              this.date = '';
+              this.customerName = '';
+              this.state = '';
+              this.farm = '';
+              this.crop = '';
+              this.crewChiefName = '';
+
               this.closeJobFormTruck.reset();
               this.toastService.presentToast(
                 'Day has been closed successfully!',
