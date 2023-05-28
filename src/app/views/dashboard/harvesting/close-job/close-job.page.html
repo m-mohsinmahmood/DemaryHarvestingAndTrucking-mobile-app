@@ -1,49 +1,9 @@
-<app-header [title]="role.includes('Crew Chief')? 'Submit End of Day Work Data' : '' ||
-  role.includes('Combine Operator')? 'Submit End of Day/Job Work Data': '' ||
-  role.includes('Cart Operator')? 'Submit End of Day/Job Work Data' : '' ||
-role.includes('Truck Driver')? 'Submit End of Day/Job Work Data' : ''" [color]="'harvesting'"></app-header>
-
-<!-- Crew Chief -->
-<ion-content *ngIf="role === 'Crew Chief'">
-  <!-- <app-timer [value]="'22:32:43'"></app-timer> -->
-  <div class="p-4">
-    <div>
-      <form [formGroup]="closeJobFormCrew">
-        <ion-list>
-          <div class="px-2">
-            <div class="col-span-12 mb-4">
-              <label class="block text-sm font-medium text-gray-700">Separator Hours (Ending) <span
-                  *ngIf="this.closeJobFormCrew.get('ending_separator_hours').hasError('required')"
-                  class="text-red-400">*</span></label>
-              <input type="number"
-                class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-                formControlName="ending_separator_hours" placeholder="Separator Hours(Ending)">
-            </div>
-
-
-            <div class="col-span-12 mb-4">
-              <label class="block text-sm font-medium text-gray-700">Engine Hours (Ending) <span
-                  *ngIf="this.closeJobFormCrew.get('endingEngineHours').hasError('required')"
-                  class="text-red-400">*</span></label>
-              <input type="number"
-                class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-                formControlName="endingEngineHours" placeholder="Engine Hours(Ending)">
-            </div>
-            <ion-button expand="block" class="mt-5 font-Lato text-white"
-              [disabled]="closeJobFormCrew.invalid || (loadingSpinner | async)" (click)="submit()">
-              <div *ngIf="(loadingSpinner | async) === false">Save</div>
-              <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
-            </ion-button>
-          </div>
-        </ion-list>
-      </form>
-    </div>
-  </div>
-</ion-content>
+<app-header [title]="role.includes('Combine Operator')? 'Submit End of Day/Job Work Data': '' ||
+                     role.includes('Cart Operator')? 'Submit End of Day/Job Work Data' : '' ||
+                     role.includes('Truck Driver')? 'Submit End of Day/Job Work Data' : ''" [color]="'harvesting'"></app-header>
 
 <!-- Combine-Operator -->
 <ion-content *ngIf="role.includes('Combine Operator')">
-  <!-- <app-timer [value]="'22:32:43'"></app-timer> -->
   <div class="p-4">
 
     <ion-card class="m-0 mb-2">
@@ -128,7 +88,6 @@ role.includes('Truck Driver')? 'Submit End of Day/Job Work Data' : ''" [color]="
 
 <!-- Kart-Operator -->
 <ion-content *ngIf="role.includes('Cart Operator')">
-  <!-- <app-timer [value]="'23:22:01'"></app-timer> -->
   <div class="p-4">
     <ion-card class="m-0 mb-2">
       <ion-card-header>
@@ -200,7 +159,6 @@ role.includes('Truck Driver')? 'Submit End of Day/Job Work Data' : ''" [color]="
 
 <!-- Truck Driver -->
 <ion-content *ngIf="role === 'Truck Driver'">
-  <!-- <app-timer [value]="'23:14:12'"></app-timer> -->
   <ion-card class="m-0 mb-2">
     <ion-card-header>
       <ion-card-title class="font-Lato">Job Profile</ion-card-title>
