@@ -20,7 +20,6 @@ import { CheckInOutService } from 'src/app/components/check-in-out/check-in-out.
 })
 export class CloseJobPage implements OnInit {
   role = '';
-  closeJobFormCrew: FormGroup;
   closeJobFormCombine: FormGroup;
   closeJobFormKart: FormGroup;
   closeJobFormTruck: FormGroup;
@@ -101,20 +100,7 @@ export class CloseJobPage implements OnInit {
   }
 
   initApis() {
-    if (this.role.includes('Crew Chief')) {
-      this.activeRoute.params.subscribe((param) => {
-        this.truckId = param.machinery_id;
-      });
-
-      this.harvestingService.getBeginningOfDay(
-        localStorage.getItem('employeeId'),
-        'beginningOfDayHarvesting',
-        'harvesting',
-        this.role
-      );
-    }
-
-    else if (this.role.includes('Combine Operator')) {
+    if (this.role.includes('Combine Operator')) {
       this.activeRoute.params.subscribe((param) => {
         this.truckId = param.machinery_id;
       });
@@ -221,13 +207,6 @@ export class CloseJobPage implements OnInit {
   }
 
   initForms() {
-    this.closeJobFormCrew = this.formBuilder.group({
-      ending_separator_hours: ['', [Validators.required]],
-      endingEngineHours: ['', [Validators.required]],
-      employeeId: localStorage.getItem('employeeId'),
-      module: ['']
-    });
-
     this.closeJobFormCombine = this.formBuilder.group({
       ending_separator_hours: ['', [Validators.required]],
       endingEngineHours: ['', [Validators.required]],
@@ -281,56 +260,6 @@ export class CloseJobPage implements OnInit {
   }
 
   submit() {
-    if (localStorage.getItem('role').includes('Crew Chief')) {
-      this.harvestingService
-        .updateEndingOfDayJobSetup({
-          operation: 'endingOfDay',
-          jobId: this.truckId,
-          role: 'Crew Chief',
-          endingEngineHours: this.closeJobFormCrew.get('endingEngineHours').value
-        })
-        .subscribe(
-          (res: any) => {
-            console.log(res);
-            if (res.status === 200) {
-            }
-          },
-          (err) => {
-            this.toastService.presentToast(err, 'danger');
-          }
-        );
-
-      const dayClosed = {
-        jobId: this.customerData?.workOrders[0]?.id,
-        endingEngineHours: this.closeJobFormCrew.get('endingEngineHours').value,
-        ending_separator_hours: this.closeJobFormCrew.get(
-          'ending_separator_hours'
-        ).value,
-      };
-
-      this.loadingSpinner.next(true);
-      this.harvestingService.closeBeginningDay(dayClosed).subscribe(
-        (res: any) => {
-          console.log(res);
-          if (res.status === 200) {
-            this.loadingSpinner.next(false);
-
-            //tooltip
-            this.toastService.presentToast(
-              'Day has been closed successfully!',
-              'success'
-            );
-
-            // navigating
-            this.router.navigateByUrl('/tabs/home/harvesting');
-
-          }
-        },
-        (err) => {
-          this.toastService.presentToast(err, 'danger');
-        }
-      );
-    }
 
     if (localStorage.getItem('role').includes('Combine Operator')) {
       this.harvestingService
@@ -367,7 +296,7 @@ export class CloseJobPage implements OnInit {
           console.log(res);
           if (res.status === 200) {
             this.loadingSpinner.next(false);
-
+            this.closeJobFormCombine.reset();
             this.toastService.presentToast(
               'Day has been closed successfully!',
               'success'
@@ -383,7 +312,7 @@ export class CloseJobPage implements OnInit {
       );
     }
 
-    if (localStorage.getItem('role').includes('Cart Operator')) {
+    else if (localStorage.getItem('role').includes('Cart Operator')) {
       console.log('customerData', this.customerData);
       console.log('this.closeJobFormKart', this.closeJobFormKart.value);
       this.loadingSpinner.next(true);
@@ -413,7 +342,7 @@ export class CloseJobPage implements OnInit {
             console.log(res);
             if (res.status === 200) {
               this.loadingSpinner.next(false);
-
+              this.closeJobFormKart.reset();
               this.toastService.presentToast(
                 'Day has been closed successfully!',
                 'success'
@@ -421,9 +350,6 @@ export class CloseJobPage implements OnInit {
 
               // navigating
               this.router.navigateByUrl('/tabs/home/harvesting');
-
-              this.goBack();
-              // this.router.navigateByUrl('/tabs/home/farming');
             }
           },
           (err) => {
@@ -431,7 +357,8 @@ export class CloseJobPage implements OnInit {
           }
         );
     }
-    if (localStorage.getItem('role').includes('Truck Driver')) {
+
+    else if (localStorage.getItem('role').includes('Truck Driver')) {
       console.log(this.closeJobFormTruck.value);
 
       this.loadingSpinner.next(true);
@@ -446,7 +373,6 @@ export class CloseJobPage implements OnInit {
                 'Day has been closed successfully!',
                 'success'
               );
-              // this.router.navigateByUrl('/tabs/home/farming');
             }
           },
           (err) => {
@@ -480,6 +406,7 @@ export class CloseJobPage implements OnInit {
             console.log(res);
             if (res.status === 200) {
               this.loadingSpinner.next(false);
+              this.closeJobFormTruck.reset();
               this.toastService.presentToast(
                 'Day has been closed successfully!',
                 'success'
