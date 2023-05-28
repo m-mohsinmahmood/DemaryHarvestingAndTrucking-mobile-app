@@ -394,6 +394,13 @@ export class StartJobPage implements OnInit {
               this.jobInput.nativeElement.value = '';
               this.isJobSelected = true;
 
+              this.date = '';
+              this.customerName = '';
+              this.state = '';
+              this.farm = '';
+              this.crop = '';
+              this.crewChiefName = '';
+
               // navigating
               this.router.navigateByUrl('/tabs/home/harvesting');
             } else {
@@ -420,6 +427,14 @@ export class StartJobPage implements OnInit {
 
               this.loadingSpinner.next(false); // stop loader
               this.startJobFormKart.reset(); // form reset
+
+              this.date = '';
+              this.customerName = '';
+              this.state = '';
+              this.farm = '';
+              this.crop = '';
+              this.crewChiefName = '';
+
               this.router.navigateByUrl('/tabs/home/harvesting');
             } else {
               console.log('Something happened :)');
@@ -444,6 +459,14 @@ export class StartJobPage implements OnInit {
 
               this.loadingSpinner.next(false); // stop loader
               this.startJobFormTruck.reset(); //form reset
+
+              this.date = '';
+              this.customerName = '';
+              this.state = '';
+              this.farm = '';
+              this.crop = '';
+              this.crewChiefName = '';
+
               this.router.navigateByUrl('/tabs/home/harvesting'); // navigating
             } else {
               console.log('Something happened :)');
