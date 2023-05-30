@@ -14,7 +14,7 @@ import { Renderer2 } from '@angular/core';
 import { ToastService } from 'src/app/services/toast/toast.service';
 import { Router } from '@angular/router';
 import { CheckInOutService } from 'src/app/components/check-in-out/check-in-out.service';
-import { HarvestingService } from './../../harvesting/harvesting.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
   selector: 'app-trainee',
@@ -74,7 +74,7 @@ export class TraineePage implements OnInit {
     private toastService: ToastService,
     private router: Router,
     private dwrServices: CheckInOutService,
-    private harvestingService: HarvestingService
+    private sessionService: AuthService
 
   ) {
     this.renderer.listen('window', 'click', (e) => {
@@ -96,7 +96,7 @@ export class TraineePage implements OnInit {
    this.initForm();
 
     // to get city & state
-this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).subscribe((res)=>{
+this.sessionService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).subscribe((res)=>{
   console.log('Employee Details:',res);
   // setting in local storage
   localStorage.setItem('state',res.state);
@@ -495,7 +495,7 @@ this.getCheckInID();
 
 
             // get city & state
-          this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).subscribe((response)=>{
+          this.sessionService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).subscribe((response)=>{
             console.log('Employee Details:',response);
 
             // setting in local storage

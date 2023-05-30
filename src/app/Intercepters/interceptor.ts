@@ -35,7 +35,6 @@ export class Interceptor implements HttpInterceptor {
     return next.handle(request).pipe(
       catchError((error) => {
         if (error instanceof HttpErrorResponse && error.status === 401) {
-          // this.logOut();
           this.refreshToken();
           return throwError(error);
         }

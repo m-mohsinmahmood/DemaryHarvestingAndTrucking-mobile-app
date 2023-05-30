@@ -1,7 +1,9 @@
 import { HttpClient, HttpErrorResponse, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { of } from "rxjs";
 import { take } from "rxjs/operators";
 import { AlertService } from "src/app/alert/alert.service";
+import { AuthService } from "src/app/services/auth/auth.service";
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +16,7 @@ export class FarmingService {
 
   constructor(
     private _httpClient: HttpClient,
-    private alertSerice: AlertService
+    private session: AuthService
   ) { }
 
   createNewWorkOrder(data: any, role: string, completeInfo: boolean) {
@@ -31,46 +33,88 @@ export class FarmingService {
       data.workOrderCloseOut = false;
     }
 
-    return this._httpClient
-      .post(`api-1/work-order-farming`, data)
-      .pipe(take(1));
+    let session = this.session.SessionActiveCheck();
+
+    if (session) {
+      return this._httpClient
+        .post(`api-1/work-order-farming`, data)
+        .pipe(take(1));
+    }
+    else {
+      return of(null);
+    }
   }
 
   createFarmingInvoice(data: any) {
-    return this._httpClient
-      .post(`api-1/customer-invoices`, data)
-      .pipe(take(1));
+    let session = this.session.SessionActiveCheck();
+
+    if (session) {
+      return this._httpClient
+        .post(`api-1/customer-invoices`, data)
+        .pipe(take(1));
+    }
+    else {
+      return of(null);
+    }
   }
 
   updateWorkOrder(data: any, role: string, searchClause?: string) {
     data.role = role;
     data.searchClause = searchClause;
 
-    return this._httpClient
-      .patch(`api-1/work-order-farming`, data)
-      .pipe(take(1));
+    let session = this.session.SessionActiveCheck();
+
+    if (session) {
+      return this._httpClient
+        .patch(`api-1/work-order-farming`, data)
+        .pipe(take(1));
+    }
+    else {
+      return of(null);
+    }
   }
 
   updateEndingEngineHours(data: any) {
-    return this._httpClient
-      .patch(`api-1/work-order-farming`, data)
-      .pipe(take(1));
+    let session = this.session.SessionActiveCheck();
+
+    if (session) {
+      return this._httpClient
+        .patch(`api-1/work-order-farming`, data)
+        .pipe(take(1));
+    }
+    else {
+      return of(null);
+    }
   }
 
   createBeginningDay(data: any, dwr_type: String) {
     data.dwr_type = dwr_type;
 
-    return this._httpClient
-      .post(`api-1/dwr`, data)
-      .pipe(take(1));
+    let session = this.session.SessionActiveCheck();
+
+    if (session) {
+      return this._httpClient
+        .post(`api-1/dwr`, data)
+        .pipe(take(1));
+    }
+    else {
+      return of(null);
+    }
   }
 
   closeBeginningDay(data: any, workOrder: any) {
     data.workOrderId = workOrder.work_order_id;
 
-    return this._httpClient
-      .patch(`api-1/dwr`, data)
-      .pipe(take(1));
+    let session = this.session.SessionActiveCheck();
+
+    if (session) {
+      return this._httpClient
+        .patch(`api-1/dwr`, data)
+        .pipe(take(1));
+    }
+    else {
+      return of(null);
+    }
   }
 
   getEmployees(
@@ -84,11 +128,18 @@ export class FarmingService {
     params = params.set('role', role);
     params = params.set('search', search);
 
-    return this._httpClient
-      .get<any>('api-1/dropdowns', {
-        params,
-      })
-      .pipe(take(1));
+    let session = this.session.SessionActiveCheck();
+
+    if (session) {
+      return this._httpClient
+        .get<any>('api-1/dropdowns', {
+          params,
+        })
+        .pipe(take(1));
+    }
+    else {
+      return of(null);
+    }
   }
 
   getEmployeesById(
@@ -98,11 +149,18 @@ export class FarmingService {
     let params = new HttpParams();
     params = params.set('id', id);
 
-    return this._httpClient
-      .get<any>('api-1/employee', {
-        params,
-      })
-      .pipe(take(1));
+    let session = this.session.SessionActiveCheck();
+
+    if (session) {
+      return this._httpClient
+        .get<any>('api-1/employee', {
+          params,
+        })
+        .pipe(take(1));
+    }
+    else {
+      return of(null);
+    }
   }
 
   getCustomers(
@@ -116,11 +174,18 @@ export class FarmingService {
     params = params.set('status', status);
     params = params.set('search', search);
 
-    return this._httpClient
-      .get<any>('api-1/dropdowns', {
-        params,
-      })
-      .pipe(take(1));
+    let session = this.session.SessionActiveCheck();
+
+    if (session) {
+      return this._httpClient
+        .get<any>('api-1/dropdowns', {
+          params,
+        })
+        .pipe(take(1));
+    }
+    else {
+      return of(null);
+    }
   }
 
   getFarms(
@@ -134,11 +199,18 @@ export class FarmingService {
     params = params.set('customerId', customerId);
     params = params.set('search', search);
 
-    return this._httpClient
-      .get<any>('api-1/dropdowns', {
-        params,
-      })
-      .pipe(take(1));
+    let session = this.session.SessionActiveCheck();
+
+    if (session) {
+      return this._httpClient
+        .get<any>('api-1/dropdowns', {
+          params,
+        })
+        .pipe(take(1));
+    }
+    else {
+      return of(null);
+    }
   }
 
   getFields(
@@ -154,11 +226,18 @@ export class FarmingService {
     params = params.set('farmId', farmId);
     params = params.set('search', search);
 
-    return this._httpClient
-      .get<any>('api-1/dropdowns', {
-        params,
-      })
-      .pipe(take(1));
+    let session = this.session.SessionActiveCheck();
+
+    if (session) {
+      return this._httpClient
+        .get<any>('api-1/dropdowns', {
+          params,
+        })
+        .pipe(take(1));
+    }
+    else {
+      return of(null);
+    }
   }
 
   getServices(
@@ -172,11 +251,18 @@ export class FarmingService {
     params = params.set('customerId', customerId);
     params = params.set('search', search);
 
-    return this._httpClient
-      .get<any>('api-1/dropdowns', {
-        params,
-      })
-      .pipe(take(1));
+    let session = this.session.SessionActiveCheck();
+
+    if (session) {
+      return this._httpClient
+        .get<any>('api-1/dropdowns', {
+          params,
+        })
+        .pipe(take(1));
+    }
+    else {
+      return of(null);
+    }
   }
 
   getMachinery(
@@ -189,11 +275,18 @@ export class FarmingService {
     params = params.set('search', search);
     params = params.set('vehicleType', 'Tractor');
 
-    return this._httpClient
-      .get<any>('api-1/dropdowns', {
-        params,
-      })
-      .pipe(take(1));
+    let session = this.session.SessionActiveCheck();
+
+    if (session) {
+      return this._httpClient
+        .get<any>('api-1/dropdowns', {
+          params,
+        })
+        .pipe(take(1));
+    }
+    else {
+      return of(null);
+    }
   }
 
   getAllWorkOrders(
@@ -212,11 +305,18 @@ export class FarmingService {
     params = params.set('searchClause', searchClause);
     params = params.set('employeeId', employeeId);
 
-    return this._httpClient
-      .get<any>('api-1/work-order-farming', {
-        params,
-      })
-      .pipe(take(1));
+    let session = this.session.SessionActiveCheck();
+
+    if (session) {
+      return this._httpClient
+        .get<any>('api-1/work-order-farming', {
+          params,
+        })
+        .pipe(take(1));
+    }
+    else {
+      return of(null);
+    }
   }
 
   getBeginningOfDay(
@@ -230,11 +330,18 @@ export class FarmingService {
     params = params.set('searchClause', searchClause);
     params = params.set('type', type);
 
-    return this._httpClient
-      .get<any>('api-1/dwr', {
-        params,
-      })
-      .pipe(take(1));
+    let session = this.session.SessionActiveCheck();
+
+    if (session) {
+      return this._httpClient
+        .get<any>('api-1/dwr', {
+          params,
+        })
+        .pipe(take(1));
+    }
+    else {
+      return of(null);
+    }
   }
 
   getWorkOrderById(
@@ -244,11 +351,18 @@ export class FarmingService {
     let params = new HttpParams();
     params = params.set('work_order_id', workOrderId);
 
-    return this._httpClient
-      .get<any>('api-1/work-order-farming', {
-        params,
-      })
-      .pipe(take(1));
+    let session = this.session.SessionActiveCheck();
+
+    if (session) {
+      return this._httpClient
+        .get<any>('api-1/work-order-farming', {
+          params,
+        })
+        .pipe(take(1));
+    }
+    else {
+      return of(null);
+    }
   }
 }
 

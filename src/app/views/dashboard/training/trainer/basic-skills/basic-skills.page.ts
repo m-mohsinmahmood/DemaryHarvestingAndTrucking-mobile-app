@@ -5,14 +5,14 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { ToastService } from 'src/app/services/toast/toast.service';
 import { TrainingService } from '../../training.service';
 import { states } from 'src/JSON/state';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { CheckInOutService } from 'src/app/components/check-in-out/check-in-out.service';
-import { HarvestingService } from './../../../harvesting/harvesting.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
   selector: 'app-basic-skills',
@@ -27,7 +27,7 @@ export class BasicSkillsPage implements OnInit {
   value = 'paper-form';
   buffer = 1;
   progress = 0;
-  text=0;
+  text = 0;
 
   basicSkillForm: FormGroup;
   upload_1 = false;
@@ -35,21 +35,21 @@ export class BasicSkillsPage implements OnInit {
   upload_3 = false;
   upload = true;
 
- // states
- states: string[];
- state;
+  // states
+  states: string[];
+  state;
   city;
 
- profileData: any;
+  profileData: any;
 
- // Data
- data: any;
+  // Data
+  data: any;
 
- // trainer id
- trainer_id;
+  // trainer id
+  trainer_id;
 
- // model
- isModalOpen = false;
+  // model
+  isModalOpen = false;
 
   // behaviour subject's for loader
   public loading = new BehaviorSubject(true);
@@ -60,61 +60,60 @@ export class BasicSkillsPage implements OnInit {
   active_check_in_id: any;
 
 
-    //#region trainee drop-down variables
-    allTrainees: Observable<any>;
-    traineeSearch$ = new Subject();
-    trainee_name: any = '';
-    traineeSearchValue: any = '';
-    traineeUL: any = false;
-    isTraineeSelected: any = true;
-    //#endregion
+  //#region trainee drop-down variables
+  allTrainees: Observable<any>;
+  traineeSearch$ = new Subject();
+  trainee_name: any = '';
+  traineeSearchValue: any = '';
+  traineeUL: any = false;
+  isTraineeSelected: any = true;
+  //#endregion
 
-    //#region supervisor drop-down variables
-    allSupervisors: Observable<any>;
-    supervisorSearch$ = new Subject();
-    supervisor_name: any = '';
-    supervisorSearchValue: any = '';
-    supervisorUL: any = false;
-    isSupervisorSelected: any = true;
-    //#endregion
+  //#region supervisor drop-down variables
+  allSupervisors: Observable<any>;
+  supervisorSearch$ = new Subject();
+  supervisor_name: any = '';
+  supervisorSearchValue: any = '';
+  supervisorUL: any = false;
+  isSupervisorSelected: any = true;
+  //#endregion
 
-     //#region truck drop-down variables
-     allTrucks: Observable<any>;
-     truckSearch$ = new Subject();
-     truck_name: any = '';
-     truckSearchValue: any = '';
-     truckUL: any = false;
-     isTruckSelected: any = true;
-     //#endregion
+  //#region truck drop-down variables
+  allTrucks: Observable<any>;
+  truckSearch$ = new Subject();
+  truck_name: any = '';
+  truckSearchValue: any = '';
+  truckUL: any = false;
+  isTruckSelected: any = true;
+  //#endregion
 
 
 
-    private _unsubscribeAll: Subject<any> = new Subject<any>();
+  private _unsubscribeAll: Subject<any> = new Subject<any>();
 
-  constructor( private formBuilder: FormBuilder,
+  constructor(private formBuilder: FormBuilder,
     private router: Router,
     private trainingService: TrainingService,
     private renderer: Renderer2,
     private toastService: ToastService,
-    private route: ActivatedRoute,
     private dwrServices: CheckInOutService,
-    private harvestingService: HarvestingService
-    ) {
-      this.renderer.listen('window', 'click', (e) => {
-        if (e.target !== this.traineeInput.nativeElement) {
-          this.allTrainees = of([]);
-          this.traineeUL = false; // to hide the UL
-        }
-        if (e.target !== this.supervisorInput.nativeElement) {
-          this.allSupervisors = of([]);
-          this.supervisorUL = false; // to hide the UL
-        }
-        if (e.target !== this.truckInput.nativeElement) {
-          this.allTrucks = of([]);
-          this.truckUL = false; // to hide the UL
-        }
-      });
-     }
+    private sessionService: AuthService
+  ) {
+    this.renderer.listen('window', 'click', (e) => {
+      if (e.target !== this.traineeInput.nativeElement) {
+        this.allTrainees = of([]);
+        this.traineeUL = false; // to hide the UL
+      }
+      if (e.target !== this.supervisorInput.nativeElement) {
+        this.allSupervisors = of([]);
+        this.supervisorUL = false; // to hide the UL
+      }
+      if (e.target !== this.truckInput.nativeElement) {
+        this.allTrucks = of([]);
+        this.truckUL = false; // to hide the UL
+      }
+    });
+  }
 
   ngOnInit() {
     this.value = 'paper-form';
@@ -124,71 +123,71 @@ export class BasicSkillsPage implements OnInit {
 
     this.initForms();
 
-     // to get city & state
-this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).subscribe((res)=>{
-  console.log('Employee Details:',res);
-  // setting in local storage
-  localStorage.setItem('state',res.state);
-  localStorage.setItem('city',res.city);
+    // to get city & state
+    this.sessionService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).subscribe((res) => {
+      console.log('Employee Details:', res);
+      // setting in local storage
+      localStorage.setItem('state', res.state);
+      localStorage.setItem('city', res.city);
 
-  // getting id & role
- this.getRoleAndID();
+      // getting id & role
+      this.getRoleAndID();
 
-  // getting Trainer profile data
-  this.getTrainer();
+      // getting Trainer profile data
+      this.getTrainer();
 
-  this.initForms();
+      this.initForms();
 
-});
+    });
 
 
-     // trainee subscription
-     this.traineeSearchSubscription();
+    // trainee subscription
+    this.traineeSearchSubscription();
 
-     // supervisor subscription
-     this.supervisorSearchSubscription();
+    // supervisor subscription
+    this.supervisorSearchSubscription();
 
-     // truck subscription
-     this.truckSearchSubscription();
+    // truck subscription
+    this.truckSearchSubscription();
   };
   async ionViewDidEnter() {
     this.value = 'paper-form';
     this.upload_1 = false;
-  this.upload_2 = false;
-  this.upload_3 = false;
-  this.upload = true;
+    this.upload_2 = false;
+    this.upload_3 = false;
+    this.upload = true;
 
     this.getRoleAndID();
   }
   ngAfterViewInit(): void {
     this.setDefaultSupervisor();
   }
-  getRoleAndID(){
+  getRoleAndID() {
     this.trainer_id = localStorage.getItem('employeeId');
     this.state = localStorage.getItem('state');
     this.city = localStorage.getItem('city');
   }
-  initForms(){
+  initForms() {
     this.basicSkillForm = this.formBuilder.group({
-      evaluation_form: ['',[Validators.required]],
+      evaluation_form: ['', [Validators.required]],
       trainer_id: [''],
       trainee_id: [''],
-      clp: ['N/A',[Validators.required]],
+      clp: ['N/A', [Validators.required]],
       supervisor_id: ['f676c59d-5e39-4051-a730-b907ccce1f48'],
       truckId: [''],
       // odometerStartingMiles: ['',[Validators.required]],
       // odometerEndingMiles: ['',[Validators.required]],
       is_completed_cdl_classroom: [''],
       is_completed_group_practical: [''],
-      city: [this.city !== 'null'? this.city: '',[Validators.required]],
-      state: [this.state !== 'null'? this.state: '',[Validators.required]],
+      city: [this.city !== 'null' ? this.city : '', [Validators.required]],
+      state: [this.state !== 'null' ? this.state : '', [Validators.required]],
       image_1: [''],
       image_2: [''],
       image_3: [''],
-      dwr_id:['']
+      dwr_id: ['']
     });
   }
-  setDefaultSupervisor(){
+  setDefaultSupervisor() {
     // passing name in select's input to pre-fill
     this.supervisorInput.nativeElement.value = 'Bill Demeray';
 
@@ -198,76 +197,76 @@ this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).su
   onSelectedFiles(file, name) {
     if (name === 'upload_1') {
       this.upload_1 = !this.upload_1;
-      if ( file.target.files &&file.target.files[0]) {
+      if (file.target.files && file.target.files[0]) {
         const reader = new FileReader();
         reader.onload = (_event: any) => {
           this.basicSkillForm.controls.image_1?.setValue(file.target.files[0]);
-      };
-      reader.readAsDataURL(file.target.files[0]);
+        };
+        reader.readAsDataURL(file.target.files[0]);
       } else {
 
       }
     }
     if (name === 'upload_2') {
       this.upload_2 = !this.upload_2;
-        if ( file.target.files &&file.target.files[0]) {
-          const reader = new FileReader();
-          reader.onload = (_event: any) => {
-            this.basicSkillForm.controls.image_2?.setValue(file.target.files[0]);
+      if (file.target.files && file.target.files[0]) {
+        const reader = new FileReader();
+        reader.onload = (_event: any) => {
+          this.basicSkillForm.controls.image_2?.setValue(file.target.files[0]);
         };
         reader.readAsDataURL(file.target.files[0]);
-        } else {
+      } else {
 
-        }
+      }
     }
     if (name === 'upload_3') {
       this.upload_3 = !this.upload_3;
-      if ( file.target.files &&file.target.files[0]) {
+      if (file.target.files && file.target.files[0]) {
         const reader = new FileReader();
         reader.onload = (_event: any) => {
           this.basicSkillForm.controls.image_3?.setValue(file.target.files[0]);
-      };
-      reader.readAsDataURL(file.target.files[0]);
+        };
+        reader.readAsDataURL(file.target.files[0]);
       } else {
 
       }
     }
   }
-  uploadClick(){
-     this.upload = !this.upload;
+  uploadClick() {
+    this.upload = !this.upload;
   }
-  onSelect(e){
+  onSelect(e) {
     console.log(e.target.value);
-    if(e.target.value === 'paper-form'){
+    if (e.target.value === 'paper-form') {
       this.value = e.target.value;
-    }else {
+    } else {
       // Digital Form
       this.upload = false;
       this.value = e.target.value;
-      this.trainingService.getData('basic-skills',this.trainer_id).subscribe((res) => {
+      this.trainingService.getData('basic-skills', this.trainer_id).subscribe((res) => {
         console.log('RES::', res);
         if (res.message === 'No Records Found.') {
           // nothing
-          }
-          else {
-            this.data = res;
+        }
+        else {
+          this.data = res;
           this.isModalOpen = true;
-          }
+        }
       });
     }
   }
-  submit(){
+  submit() {
     this.loadingSpinner.next(true);
 
-       // get check-in ID
-       this.getCheckInID();
+    // get check-in ID
+    this.getCheckInID();
   }
   submitData() {
     console.log(this.basicSkillForm.value);
 
     // Form Data
     var formData: FormData = new FormData();
-    formData.append('basicSkillForm',JSON.stringify(this.basicSkillForm.value));
+    formData.append('basicSkillForm', JSON.stringify(this.basicSkillForm.value));
     formData.append('image_1', this.basicSkillForm.get('image_1').value);
     formData.append('image_2', this.basicSkillForm.get('image_2').value);
     formData.append('image_3', this.basicSkillForm.get('image_3').value);
@@ -281,8 +280,8 @@ this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).su
           // passing record id
           this.training_record_id = res.id.record_id;
 
-           // create DWR
-           this.createDWR();
+          // create DWR
+          this.createDWR();
 
           this.toastService.presentToast(
             'Your details have been submitted',
@@ -305,7 +304,7 @@ this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).su
       }
     );
   }
-  continue(){
+  continue() {
     // start loader
     this.loadingSpinner.next(true);
 
@@ -313,11 +312,11 @@ this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).su
     this.getCheckInID();
 
   }
-  startEvaluation(){
+  startEvaluation() {
 
     // Form Data
     var formData: FormData = new FormData();
-    formData.append('preTrip',JSON.stringify(this.basicSkillForm.value));
+    formData.append('preTrip', JSON.stringify(this.basicSkillForm.value));
 
     // api call
     this.trainingService.save(formData, 'basic-skills').subscribe(
@@ -335,12 +334,12 @@ this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).su
           );
 
           // navigating
-          this.router.navigate(['/tabs/home/training/trainer/basic-skills/digital-evaluation'],{
-            queryParams:{
+          this.router.navigate(['/tabs/home/training/trainer/basic-skills/digital-evaluation'], {
+            queryParams: {
               training_record_id: res.id.training_record_id,
               supervisor_id: this.basicSkillForm.get('supervisor_id').value
 
-             }
+            }
           });
 
         } else {
@@ -370,82 +369,82 @@ this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).su
       this.loading.next(false);
     });
   }
-  getCheckInID(){
+  getCheckInID() {
     this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
       this.activeCheckInSpinner.next(true);
       console.log('Active Check ID: ', workOrder.dwr[0].id);
       this.active_check_in_id = workOrder.dwr[0].id;
       this.activeCheckInSpinner.next(false);
 
-       // patch
-       this.basicSkillForm.patchValue({
+      // patch
+      this.basicSkillForm.patchValue({
         dwr_id: this.active_check_in_id
       });
 
-      if(this.basicSkillForm.get('evaluation_form').value === 'paper-form'){
+      if (this.basicSkillForm.get('evaluation_form').value === 'paper-form') {
         this.submitData();
-      }else{
+      } else {
         this.startEvaluation();
       }
     });
 
   }
-  createDWR(){
+  createDWR() {
     let supervisor_id;
     supervisor_id = this.basicSkillForm.get('supervisor_id').value;
     this.trainingService
-     .createDWR(this.trainer_id, this.training_record_id,'','','basic-skills','paper-form',supervisor_id,this.active_check_in_id)
-     .subscribe(
-       (res) => {
-         console.log('RES:', res);
-         if (res.status === 200) {
+      .createDWR(this.trainer_id, this.training_record_id, '', '', 'basic-skills', 'paper-form', supervisor_id, this.active_check_in_id)
+      .subscribe(
+        (res) => {
+          console.log('RES:', res);
+          if (res.status === 200) {
 
-          // to stop loader
+            // to stop loader
+            this.loadingSpinner.next(false);
+
+
+            // form resetting
+            this.basicSkillForm.reset();
+            this.traineeInput.nativeElement.value = '';
+            this.truckInput.nativeElement.value = '';
+            this.supervisorInput.nativeElement.value = '';
+            this.value = 'paper-form';
+
+            // get city & state
+            this.sessionService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).subscribe((response) => {
+              console.log('Employee Details:', response);
+
+              // setting in local storage
+              localStorage.setItem('state', response.state);
+              this.state = localStorage.getItem('state');
+              this.city = localStorage.getItem('city');
+              this.initForms();
+            });
+
+            // tooltip
+            this.toastService.presentToast(
+              'Your details have been submitted',
+              'success'
+            );
+
+            //  navigating
+            this.router.navigateByUrl('/tabs/home/training/trainer');
+          } else {
+            console.log('Something happened :)');
+            this.toastService.presentToast(res.mssage, 'danger');
+          }
+        },
+        (err) => {
+          console.log('ERROR::', err);
+          this.toastService.presentToast('Fill the required fields or try again', 'danger');
           this.loadingSpinner.next(false);
 
+        }
+      );
+  }
 
-          // form resetting
-          this.basicSkillForm.reset();
-          this.traineeInput.nativeElement.value = '';
-          this.truckInput.nativeElement.value = '';
-          this.supervisorInput.nativeElement.value = '';
-          this.value = 'paper-form';
-
-          // get city & state
-          this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).subscribe((response)=>{
-            console.log('Employee Details:',response);
-
-            // setting in local storage
-            localStorage.setItem('state',response.state);
-            this.state = localStorage.getItem('state');
-            this.city = localStorage.getItem('city');
-            this.initForms();
-          });
-
-           // tooltip
-           this.toastService.presentToast(
-            'Your details have been submitted',
-            'success'
-          );
-
-          //  navigating
-           this.router.navigateByUrl('/tabs/home/training/trainer');
-         } else {
-           console.log('Something happened :)');
-           this.toastService.presentToast(res.mssage, 'danger');
-         }
-       },
-       (err) => {
-         console.log('ERROR::', err);
-         this.toastService.presentToast('Fill the required fields or try again', 'danger');
-         this.loadingSpinner.next(false);
-
-       }
-     );
- }
-
-   //#region Trainee
-   traineeSearchSubscription() {
+  //#region Trainee
+  traineeSearchSubscription() {
     this.traineeSearch$
       .pipe(
         debounceTime(500),
@@ -720,7 +719,7 @@ this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).su
   }
   //#endregion
 
-  completeEvaluation(){
+  completeEvaluation() {
     // Straight Line Baccking
     if (
       this.data.is_digital_form_started &&
@@ -732,8 +731,8 @@ this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).su
       !this.data.is_parking_sight_started &&
       !this.data.is_coup_uncoup_started
     ) {
-      this.router.navigate(['/tabs/home/training/trainer/basic-skills/digital-evaluation'],{
-        queryParams:{
+      this.router.navigate(['/tabs/home/training/trainer/basic-skills/digital-evaluation'], {
+        queryParams: {
           training_record_id: this.data.id,
           supervisor_id: this.data.supervisor_id
 
@@ -751,8 +750,8 @@ this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).su
       !this.data.is_parking_sight_started &&
       !this.data.is_coup_uncoup_started
     ) {
-      this.router.navigate(['/tabs/home/training/trainer/basic-skills/digital-evaluation/alley-docking'],{
-        queryParams:{
+      this.router.navigate(['/tabs/home/training/trainer/basic-skills/digital-evaluation/alley-docking'], {
+        queryParams: {
           training_record_id: this.data.id,
           supervisor_id: this.data.supervisor_id,
 
@@ -770,8 +769,8 @@ this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).su
       !this.data.is_parking_sight_started &&
       !this.data.is_coup_uncoup_started
     ) {
-      this.router.navigate(['/tabs/home/training/trainer/basic-skills/digital-evaluation/alley-docking/alley-docking90'],{
-        queryParams:{
+      this.router.navigate(['/tabs/home/training/trainer/basic-skills/digital-evaluation/alley-docking/alley-docking90'], {
+        queryParams: {
           training_record_id: this.data.id,
           supervisor_id: this.data.supervisor_id,
 
@@ -789,8 +788,8 @@ this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).su
       !this.data.is_parking_sight_started &&
       !this.data.is_coup_uncoup_started
     ) {
-      this.router.navigate(['/tabs/home/training/trainer/basic-skills/digital-evaluation/alley-docking/off-set-backing'],{
-        queryParams:{
+      this.router.navigate(['/tabs/home/training/trainer/basic-skills/digital-evaluation/alley-docking/off-set-backing'], {
+        queryParams: {
           training_record_id: this.data.id,
           supervisor_id: this.data.supervisor_id
 
@@ -808,15 +807,15 @@ this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).su
       !this.data.is_parking_sight_started &&
       !this.data.is_coup_uncoup_started
     ) {
-      this.router.navigate(['/tabs/home/training/trainer/basic-skills/digital-evaluation/alley-docking/off-set-backing/parking-blind'],{
-        queryParams:{
+      this.router.navigate(['/tabs/home/training/trainer/basic-skills/digital-evaluation/alley-docking/off-set-backing/parking-blind'], {
+        queryParams: {
           training_record_id: this.data.id,
           supervisor_id: this.data.supervisor_id
 
         }
       });
     }
-     // Parallel Parking - Sight
+    // Parallel Parking - Sight
     else if (
       this.data.is_digital_form_started &&
       this.data.is_straight_line_backing_started &&
@@ -827,8 +826,8 @@ this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).su
       !this.data.is_parking_sight_started &&
       !this.data.is_coup_uncoup_started
     ) {
-      this.router.navigate(['/tabs/home/training/trainer/basic-skills/digital-evaluation/alley-docking/off-set-backing/parking-blind/parking-sight'],{
-        queryParams:{
+      this.router.navigate(['/tabs/home/training/trainer/basic-skills/digital-evaluation/alley-docking/off-set-backing/parking-blind/parking-sight'], {
+        queryParams: {
           training_record_id: this.data.id,
           supervisor_id: this.data.supervisor_id
 
@@ -846,8 +845,8 @@ this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).su
       this.data.is_parking_sight_started &&
       !this.data.is_coup_uncoup_started
     ) {
-      this.router.navigate(['/tabs/home/training/trainer/basic-skills/digital-evaluation/alley-docking/off-set-backing/parking-blind/parking-sight/coup-uncoup'],{
-        queryParams:{
+      this.router.navigate(['/tabs/home/training/trainer/basic-skills/digital-evaluation/alley-docking/off-set-backing/parking-blind/parking-sight/coup-uncoup'], {
+        queryParams: {
           training_record_id: this.data.id,
           supervisor_id: this.data.supervisor_id
 

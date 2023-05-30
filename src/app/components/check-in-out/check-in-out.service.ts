@@ -1,8 +1,9 @@
 /* eslint-disable prefer-const */
 import { HttpClient, HttpErrorResponse, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { of } from "rxjs";
 import { take } from "rxjs/operators";
-import { AlertService } from "src/app/alert/alert.service";
+import { AuthService } from "src/app/services/auth/auth.service";
 
 @Injectable({
   providedIn: 'root',
@@ -15,19 +16,31 @@ export class CheckInOutService {
 
   constructor(
     private _httpClient: HttpClient,
-    private alertSerice: AlertService
+    private session: AuthService
   ) { }
 
   createNewDWR(data: any) {
-    return this._httpClient
-      .post(`api-1/dwr_employees`, data)
-      .pipe(take(1));
+    let session = this.session.SessionActiveCheck();
+
+    if (session) {
+      return this._httpClient
+        .post(`api-1/dwr_employees`, data)
+        .pipe(take(1));
+    } else {
+      return of(null);
+    }
   }
 
   updateDWR(id: any) {
-    return this._httpClient
-      .patch(`api-1/dwr_employees`, id)
-      .pipe(take(1));
+    let session = this.session.SessionActiveCheck();
+
+    if (session) {
+      return this._httpClient
+        .patch(`api-1/dwr_employees`, id)
+        .pipe(take(1));
+    } else {
+      return of(null);
+    }
   }
 
   getDWR(employeeId: string) {
@@ -35,11 +48,17 @@ export class CheckInOutService {
     let params = new HttpParams();
     params = params.set('employeeId', employeeId);
 
-    return this._httpClient
-      .get<any>('api-1/dwr_employees', {
-        params,
-      })
-      .pipe(take(1));
+    let session = this.session.SessionActiveCheck();
+
+    if (session) {
+      return this._httpClient
+        .get<any>('api-1/dwr_employees', {
+          params,
+        })
+        .pipe(take(1));
+    } else {
+      return of(null);
+    }
   }
 
   getTicketsPerDwr(operation: string, dwrId: string) {
@@ -49,11 +68,17 @@ export class CheckInOutService {
     params = params.set('operation', operation);
     params = params.set('id', dwrId);
 
-    return this._httpClient
-      .get<any>('api-1/dwr_employees', {
-        params,
-      })
-      .pipe(take(1));
+    let session = this.session.SessionActiveCheck();
+
+    if (session) {
+      return this._httpClient
+        .get<any>('api-1/dwr_employees', {
+          params,
+        })
+        .pipe(take(1));
+    } else {
+      return of(null);
+    }
   }
 }
 
