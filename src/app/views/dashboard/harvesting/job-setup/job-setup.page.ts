@@ -15,6 +15,7 @@ import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { ToastService } from 'src/app/services/toast/toast.service';
 import { Router } from '@angular/router';
 import { CheckInOutService } from 'src/app/components/check-in-out/check-in-out.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
   selector: 'app-job-setup',
@@ -104,6 +105,7 @@ export class JobSetupPage implements OnInit {
     private dwrServices: CheckInOutService,
     private location: Location,
     private formBuilder: FormBuilder,
+    private sessionService: AuthService,
     private harvestingService: HarvestingService,
     private renderer: Renderer2,
     private toastService: ToastService,
@@ -172,7 +174,7 @@ export class JobSetupPage implements OnInit {
     this.getCreatedJobData();
   }
   getCreatedJobData() {
-    this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).subscribe((res) => {
+    this.sessionService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).subscribe((res) => {
       console.log('Employee Details:', res);
 
       if (res.customer_id !== null) {

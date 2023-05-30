@@ -96,6 +96,8 @@ export class HarvestingPage implements OnInit {
     if (this.role.includes('Combine Operator')) {
       this.harvestingService.getBeginningOfDay2(localStorage.getItem('employeeId'), 'beginningOfDay', 'harvesting')
         .subscribe((workOrder) => {
+          console.log("dasdsada ",workOrder);
+
           this.activeTicket = workOrder;
           this.workOrderCount = workOrder.count;
           console.log('Current DWR :', workOrder);

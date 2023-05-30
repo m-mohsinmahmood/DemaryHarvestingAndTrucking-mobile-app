@@ -16,6 +16,7 @@ import { ToastService } from 'src/app/services/toast/toast.service';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import * as moment from 'moment';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
   selector: 'app-ticket',
@@ -132,6 +133,7 @@ export class TicketPage implements OnInit {
     private router: Router,
     private formbuildr: FormBuilder,
     private harvestingService: HarvestingService,
+    private sessionService:AuthService,
     private toastService: ToastService,
     private renderer: Renderer2
   ) {
@@ -281,7 +283,7 @@ export class TicketPage implements OnInit {
     this.getCreatedJobData();
   }
   getCreatedJobData() {
-    this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).subscribe((res) => {
+    this.sessionService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).subscribe((res) => {
       this.deliveryTicketForm.patchValue({
         destination: res.destination,
         truckDriverId: res.truck_driver_id,
@@ -859,7 +861,7 @@ export class TicketPage implements OnInit {
 
   printDiv(ticket) {
     this.showDiv = ticket;
-    
+
     setTimeout(() => {
       window.print();
       this.showDiv = "none";

@@ -3,7 +3,6 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { OthersService } from './others.services';
 import { BehaviorSubject, Observable, Subject, of } from 'rxjs';
@@ -12,7 +11,7 @@ import { Renderer2 } from '@angular/core';
 import { states } from './../../../../JSON/state';
 import { ToastService } from 'src/app/services/toast/toast.service';
 import { CheckInOutService } from 'src/app/components/check-in-out/check-in-out.service';
-import { HarvestingService } from '../harvesting/harvesting.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
   selector: 'app-others',
@@ -74,7 +73,7 @@ export class OthersPage implements OnInit {
     private renderer: Renderer2,
     private toastService: ToastService,
     private dwrServices: CheckInOutService,
-    private harvestingService: HarvestingService
+    private sessionService: AuthService
   ) {
     this.renderer.listen('window', 'click', (e) => {
       if (e.target !== this.supervisorInput.nativeElement) {
@@ -129,7 +128,7 @@ export class OthersPage implements OnInit {
     // this.state = localStorage.getItem('state');
     this.initForm();
 
-    this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).subscribe((res) => {
+    this.sessionService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).subscribe((res) => {
       this.loading.next(true);
 
       // setting in local storage
@@ -425,7 +424,7 @@ export class OthersPage implements OnInit {
             this.otherForm.reset();
             this.supervisorInput.nativeElement.value = '';
 
-            this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).subscribe((response) => {
+            this.sessionService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).subscribe((response) => {
 
               this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
                 this.data = workOrder.dwr[0];
@@ -460,7 +459,7 @@ export class OthersPage implements OnInit {
   }
 
   getEmployeeDetailsByFirbaseId() {
-    this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).subscribe((res) => {
+    this.sessionService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).subscribe((res) => {
       // setting in local storage
       localStorage.setItem('state', res.state);
     });
