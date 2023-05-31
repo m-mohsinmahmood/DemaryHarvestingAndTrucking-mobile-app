@@ -22,7 +22,7 @@ import { ToastService } from 'src/app/services/toast/toast.service';
 export class WorkHistoryPage implements OnInit {
   segment: any = 'day';
   // select values
-  date: any = moment(new Date()).format('YYYY-MM-DD');
+  date: any = moment(new Date()).format('MM-DD-YYYY');
   month: any = moment(new Date()).format('YYYY-MM');
 
   // payload values
