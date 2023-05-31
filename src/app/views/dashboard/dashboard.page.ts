@@ -35,7 +35,7 @@ export class DashboardPage implements OnInit {
     private dwrServices: CheckInOutService,
     private nav: Router,
     private activatedRoute: ActivatedRoute,
-    private auth: AuthService,
+    private auth: AuthService
   ) { }
 
   ngOnInit() {
@@ -63,7 +63,7 @@ export class DashboardPage implements OnInit {
 
     this.showRoleDropdown = false;
 
-    if (localStorage.getItem("actualRole") && localStorage.getItem("role")) {
+    if (localStorage.getItem("actualRole") !== null && localStorage.getItem("role") !== null && localStorage.getItem("logedIn") !== null) {
       this.actualRoles = localStorage.getItem("actualRole");
 
       try {
@@ -85,7 +85,6 @@ export class DashboardPage implements OnInit {
           this.empName = localStorage.getItem('employeeName');
 
           if (this.activeDwr.length <= 0) {
-            // this.role = localStorage.getItem('role');
             // to stop loading
             this.loading.next(false);
             this.isModalOpen = false;
@@ -197,7 +196,7 @@ export class DashboardPage implements OnInit {
 
   async logout() {
     await this.auth.logout();
-
+    localStorage.setItem("logedIn", 'false');
     this.isOpen = false;
   }
 

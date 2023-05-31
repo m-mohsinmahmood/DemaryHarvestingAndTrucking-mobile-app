@@ -9,14 +9,14 @@
   <ion-grid>
     <ion-row>
       <ion-col size="12">
-        <ion-card class="card" [routerLink]="['job-setup']">
+        <ion-card class="card" [routerLink]="['job-setup']" [disabled]="disableButtons">
           <ion-card-content>
             <p class="font-15px font-bold font-Lato">Set-up Invoiced Job</p>
           </ion-card-content>
         </ion-card>
       </ion-col>
       <ion-col size="12">
-        <ion-card class="card" [routerLink]="['assign-roles']">
+        <ion-card class="card" [routerLink]="['assign-roles']" [disabled]="disableButtons">
           <ion-card-content>
             <p class="font-15px font-bold font-Lato">Assign Roles</p>
           </ion-card-content>
@@ -24,7 +24,7 @@
       </ion-col>
 
       <ion-col size="12">
-        <ion-card class="card" [routerLink]="['close-out']">
+        <ion-card class="card" [routerLink]="['close-out']" [disabled]="disableButtons">
           <ion-card-content>
             <p class="font-15px font-bold font-Lato">Close-out Invoiced Job</p>
           </ion-card-content>
@@ -34,7 +34,7 @@
   </ion-grid>
 
   <!-- MODEL -->
-  <app-check-in-out [isModalOpen]="isModalOpen" [data]="activeDwr" *ngIf="activeDwr" [module]="'harvesting'">
+  <app-check-in-out [isModalOpen]="isModalOpen" [data]="activeDwr" *ngIf="activeDwr" [module]="'harvesting'" (action)="checkIn()">
   </app-check-in-out>
 </ion-content>
 
@@ -43,7 +43,7 @@
   <ion-grid>
     <ion-row>
       <ion-col size="12">
-        <ion-card class="card" [disabled]="workOrderCount > 0" [routerLink]="['start-job']">
+        <ion-card class="card" [disabled]="workOrderCount > 0 || disableButtons" [routerLink]="['start-job']">
           <ion-card-content>
             <p class="font-15px font-bold font-Lato">Enter Beg of Day/Job Work Data</p>
           </ion-card-content>
@@ -52,7 +52,7 @@
 
       <ion-col size="12">
         <ion-card class="card" [routerLink]="['close-job',activeTicket?.workOrders[0]]"
-          [disabled]="workOrderCount <= 0">
+          [disabled]="workOrderCount <= 0 || disableButtons">
           <ion-card-content>
             <p class="font-15px font-bold font-Lato">Submit End of Day/Job Work Data</p>
           </ion-card-content>
@@ -61,7 +61,7 @@
     </ion-row>
 
     <!-- MODEL -->
-    <app-check-in-out [isModalOpen]="isModalOpen" [data]="activeDwr" *ngIf="activeDwr" [module]="'harvesting'">
+    <app-check-in-out [isModalOpen]="isModalOpen" [data]="activeDwr" *ngIf="activeDwr && !(workOrderCount > 0)" [module]="'harvesting'" (action)="checkIn()">
     </app-check-in-out>
   </ion-grid>
 </ion-content>
@@ -73,7 +73,7 @@
     <ion-row>
 
       <ion-col size="12">
-        <ion-card class="card" [disabled]="workOrderCount > 0" [routerLink]="['start-job']">
+        <ion-card class="card" [disabled]="workOrderCount > 0 || disableButtons" [routerLink]="['start-job']">
           <ion-card-content>
             <p class="font-15px font-bold font-Lato">Enter Begining of Day/Job Work Data</p>
           </ion-card-content>
@@ -81,7 +81,7 @@
       </ion-col>
 
       <ion-col size="12">
-        <ion-card class="card" [routerLink]="['driver-setup']">
+        <ion-card class="card" [routerLink]="['driver-setup']" [disabled]="disableButtons">
           <ion-card-content>
             <p class="font-15px font-bold font-Lato">Add/Delete Truck Drivers</p>
           </ion-card-content>
@@ -89,7 +89,7 @@
       </ion-col>
 
       <ion-col size="12">
-        <ion-card class="card" [disabled]="workOrderCount <= 0"
+        <ion-card class="card" [disabled]="workOrderCount <= 0 || disableButtons"
           [routerLink]="['close-job', activeTicket?.workOrders[0]]">
           <ion-card-content>
             <p class="font-15px font-bold font-Lato">Submit End of Day/Job Work Data</p>
@@ -103,14 +103,14 @@
   <ion-grid>
     <ion-row>
       <ion-col size="12">
-        <ion-card class="card" (click)="navigate('ticket')">
+        <ion-card class="card" (click)="navigate('ticket')" [disabled]="disableButtons">
           <ion-card-content>
             <p class="font-15px font-bold font-Lato">Create/Print Delivery Tickets</p>
           </ion-card-content>
         </ion-card>
       </ion-col>
       <ion-col size="12">
-        <ion-card class="card" [routerLink]="['verify-ticket']">
+        <ion-card class="card" [routerLink]="['verify-ticket']"  [disabled]="disableButtons">
           <ion-card-content>
             <div class="flex justify-center items-center">
               <p class="font-15px font-bold font-Lato">Verify Delivery Tickets</p>
@@ -130,7 +130,7 @@
     </ion-row>
 
     <!-- MODEL -->
-    <app-check-in-out [isModalOpen]="isModalOpen" [data]="activeDwr" *ngIf="activeDwr" [module]="'harvesting'">
+    <app-check-in-out [isModalOpen]="isModalOpen" [data]="activeDwr" *ngIf="activeDwr && !(workOrderCount > 0)" [module]="'harvesting'" (action)="checkIn()">
     </app-check-in-out>
   </ion-grid>
 </ion-content>
@@ -140,7 +140,7 @@
   <ion-grid>
     <ion-row>
       <ion-col size="12">
-        <ion-card class="card bg-project-green text-white" [disabled]="dataCount.active <= 0"
+        <ion-card class="card bg-project-green text-white" [disabled]="dataCount.active <= 0 || disableButtons"
           [routerLink]="['complete-pre-check-form', activeTicket]">
           <ion-card-content>
             <p class="font-15px font-bold font-Lato">View/Complete Pre-Trip Check Form</p>
@@ -149,7 +149,7 @@
       </ion-col>
 
       <ion-col size="12">
-        <ion-card class="card" [disabled]="dataCount.active > 0 || dataCount.preCheck > 0" [routerLink]="['start-job']">
+        <ion-card class="card" [disabled]="dataCount.active > 0 || dataCount.preCheck > 0 || disableButtons" [routerLink]="['start-job']">
           <ion-card-content>
             <p class="font-15px font-bold font-Lato">Enter Begining of Day/Job Work Data</p>
           </ion-card-content>
@@ -157,7 +157,7 @@
       </ion-col>
 
       <ion-col size="12">
-        <ion-card class="card" [routerLink]="['verify-ticket']">
+        <ion-card class="card" [routerLink]="['verify-ticket']" [disabled]="disableButtons">
           <ion-card-content>
             <div class="flex justify-center items-center">
               <p class="font-15px font-bold font-Lato">Complete Delivery Tickets</p>
@@ -167,7 +167,7 @@
       </ion-col>
 
       <ion-col size="12">
-        <ion-card class="card" [disabled]="dataCount.preCheck <= 0" [routerLink]="['close-job',preCheck]">
+        <ion-card class="card" [disabled]="dataCount.preCheck <= 0 || disableButtons" [routerLink]="['close-job',preCheck]">
           <ion-card-content>
             <p class="font-15px font-bold font-Lato">Submit End of Day/Job Work Data</p>
           </ion-card-content>
@@ -177,7 +177,7 @@
     </ion-row>
 
     <!-- MODEL -->
-    <app-check-in-out [isModalOpen]="isModalOpen" [data]="activeDwr" *ngIf="activeDwr" [module]="'harvesting'">
+    <app-check-in-out [isModalOpen]="isModalOpen" [data]="activeDwr" *ngIf="activeDwr && !(dataCount.active > 0 || dataCount.preCheck > 0)" [module]="'harvesting'" (action)="checkIn()">
     </app-check-in-out>
   </ion-grid>
 

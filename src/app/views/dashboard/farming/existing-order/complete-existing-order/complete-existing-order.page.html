@@ -99,7 +99,7 @@
         <div role="dialog" aria-modal="true">
           <div class="mb-4 relative z-40">
             <div class="mx-auto max-w-full transform rounded-xl px-0  transition-all">
-              <label class="block text-sm font-medium text-gray-700 mb-1">Customer Name <span *ngIf="isCustomerSelected"
+              <label class="block text-sm font-medium text-gray-700 mb-1">Customer<span *ngIf="isCustomerSelected"
                   class="text-red-400">*</span></label>
               <div class="flex items-center justify-between gap-x-2 rounded-md">
                 <input (keyup)="customer_search$.next($event.target.value)" [value]="customer_name"

@@ -16,7 +16,7 @@ export class CompletePreCheckFormPage implements OnInit {
   orders;
 
   date: any = moment(new Date()).format('YYYY-MM-DD');
-  monthValue: any = moment(new Date()).month();
+  monthValue: any = moment(new Date()).month() + 1;
   month: any = moment(new Date()).format('MM-YYYY');
 
   yearValue: any = moment(new Date()).year();
@@ -52,7 +52,6 @@ export class CompletePreCheckFormPage implements OnInit {
 
   getDate(e) {
     this.date = moment(e.detail.value).format('YYYY-MM-DD');
-    console.log(this.monthValue);
   }
 
   getMonth(e) {
@@ -62,7 +61,6 @@ export class CompletePreCheckFormPage implements OnInit {
 
     // // passing month value for month select
     this.month = moment(e.detail.value).format('MM-YYYY');
-    console.log(this.monthValue);
   }
 
   getYear(e) {
@@ -76,7 +74,7 @@ export class CompletePreCheckFormPage implements OnInit {
 
   getTicketsOnSpecificInterval(time: string) {
     if (time === 'day') {
-      this.tripCheckFormService.getPreCheckListDay(localStorage.getItem('employeeId'), this.date, 'day')
+      this.tripCheckFormService.getPreCheckListDay(localStorage.getItem('employeeId'), moment(this.date).startOf('day').toISOString(),moment(this.date).endOf('day').toISOString(), 'day')
         .subscribe(param => {
           this.checkList = param;
           this.dataLoaded = true;

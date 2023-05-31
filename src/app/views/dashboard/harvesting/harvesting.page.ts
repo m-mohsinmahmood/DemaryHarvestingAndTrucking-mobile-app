@@ -5,7 +5,6 @@ import { Router } from '@angular/router';
 import { HarvestingService } from './harvesting.service';
 import { Observable } from 'rxjs';
 import { CheckInOutService } from './../../../components/check-in-out/check-in-out.service';
-import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-harvesting',
@@ -21,6 +20,7 @@ export class HarvestingPage implements OnInit {
   activeWorkOrders: Observable<any>;
   activeTicket;
   preCheck;
+  disableButtons = true;
   dataCount = {
     active: -1,
     preCheck: -1
@@ -59,6 +59,7 @@ export class HarvestingPage implements OnInit {
   }
 
   initDataRetrieval() {
+    this.disableButtons = true;
     this.activeDwr = null;
     this.isModalOpen = false;
     this.dataCount = {
@@ -72,8 +73,14 @@ export class HarvestingPage implements OnInit {
       console.log('Active Check In ', workOrder.dwr);
       this.activeDwr = workOrder.dwr;
 
-      if (workOrder.dwr.length > 0) { this.isModalOpen = false; }
-      else { this.isModalOpen = true; }
+      if (workOrder.dwr.length > 0) {
+        this.isModalOpen = false;
+        this.disableButtons = false;
+      }
+      else {
+        this.isModalOpen = true;
+        this.disableButtons = true;
+      }
     });
 
     if (this.role.includes('Crew Chief')) {
@@ -89,6 +96,8 @@ export class HarvestingPage implements OnInit {
     if (this.role.includes('Combine Operator')) {
       this.harvestingService.getBeginningOfDay2(localStorage.getItem('employeeId'), 'beginningOfDay', 'harvesting')
         .subscribe((workOrder) => {
+          console.log("dasdsada ",workOrder);
+
           this.activeTicket = workOrder;
           this.workOrderCount = workOrder.count;
           console.log('Current DWR :', workOrder);
@@ -153,5 +162,9 @@ export class HarvestingPage implements OnInit {
         }
       });
     }
+  }
+
+  checkIn() {
+    this.disableButtons = false;
   }
 }

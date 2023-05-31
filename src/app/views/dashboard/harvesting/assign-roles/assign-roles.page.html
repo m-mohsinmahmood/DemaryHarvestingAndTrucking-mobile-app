@@ -121,44 +121,44 @@
             <div
               class=" pl-2 pt-1 border rounded-md {{value === 'Combine Operator'? 'border-3D8AA4 border-2':''}} bg-gray-200">
               <h1 class="font-Lato text-xs font-semibold">Combine Operator</h1>
-              <span class="font-Lato text-xs font-semibold">{{data?.assigned_roles[0]?.combine_operator}}</span>
+              <span class="font-Lato text-xs font-semibold">{{combineOperatorData?.count[0]?.count}}</span>
             </div>
           </ion-col>
           <ion-col size="6" (click)="onClick('cart-operator')">
             <div
               class=" pl-2 pt-1 border rounded-md {{value === 'cart-operator'? 'border-3D8AA4 border-2':''}} bg-gray-200">
               <h1 class="font-Lato text-xs font-semibold">Cart Operator</h1>
-              <span class="font-Lato text-xs font-semibold">{{data?.assigned_roles[0]?.cart_operator}}</span>
+              <span class="font-Lato text-xs font-semibold">{{cartOperatorData?.count[0]?.count}}</span>
             </div>
           </ion-col>
         </ion-row>
         <div *ngIf="value === 'Combine Operator'">
-          <ion-row *ngFor="let data of data?.employees" class="m-1 flex content-center items-center">
-            <ion-col size="9" *ngIf="data.role.includes('Combine Operator')">
-              <div class="font-Lato font-semibold">{{data.first_name}} {{data.last_name}} </div>
+          <ion-row *ngFor="let combineOperatorData of combineOperatorData?.assigned_roles" class="m-1 flex content-center items-center">
+            <ion-col size="9">
+              <div class="font-Lato font-semibold">{{combineOperatorData.employee_name}} </div>
             </ion-col>
 
-            <ion-col size="3" *ngIf="data.role.includes('Combine Operator')">
-              <ion-button (click)="removeCrewMember(data.employee_id)"
-                [disabled]="(deleteSpinner | async) && data.employee_id === deleteId">
+            <ion-col size="3">
+              <ion-button (click)="removeCrewMember(combineOperatorData.employee_id,'Combine Operator')"
+                [disabled]="(deleteSpinner | async) && combineOperatorData.employee_id === deleteId">
                 <ion-icon class="text-white" name="trash-outline"> </ion-icon>
-                <ion-spinner name="crescent" *ngIf="(deleteSpinner | async) && data.employee_id === deleteId"></ion-spinner>
+                <ion-spinner name="crescent" *ngIf="(deleteSpinner | async) && combineOperatorData.employee_id === deleteId"></ion-spinner>
               </ion-button>
             </ion-col>
           </ion-row>
         </div>
 
         <div *ngIf="value === 'cart-operator'">
-          <ion-row *ngFor="let data of data?.employees" class="m-1 flex content-center items-center">
-            <ion-col *ngIf="data.role.includes('Cart Operator')" size="9">
-              <div class="font-Lato font-semibold">{{data.first_name}} {{data.last_name}} </div>
+          <ion-row *ngFor="let cartOperatorData of cartOperatorData?.assigned_roles" class="m-1 flex content-center items-center">
+            <ion-col  size="9">
+              <div class="font-Lato font-semibold">{{cartOperatorData.employee_name}}</div>
             </ion-col>
 
-            <ion-col size="3" *ngIf="data.role.includes('Cart Operator')">
-              <ion-button (click)="removeCrewMember(data.employee_id)"
-                [disabled]="(deleteSpinner | async) && data.employee_id === deleteId">
+            <ion-col size="3" >
+              <ion-button (click)="removeCrewMember(cartOperatorData.employee_id,'Cart Operator')"
+                [disabled]="(deleteSpinner | async) && cartOperatorData.employee_id === deleteId">
                 <ion-icon class="text-white" name="trash-outline"> </ion-icon>
-                <ion-spinner name="crescent" *ngIf="(deleteSpinner | async) && data.employee_id === deleteId"></ion-spinner>
+                <ion-spinner name="crescent" *ngIf="(deleteSpinner | async) && cartOperatorData.employee_id === deleteId"></ion-spinner>
               </ion-button>
             </ion-col>
           </ion-row>

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
 import { MenuService } from './services/menu/menu.service';
+import { AuthService } from './services/auth/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -14,19 +14,19 @@ export class AppComponent {
 
   constructor(
     private router: Router,
-    private menu: MenuService
+    private menu: MenuService,
+    private auth: AuthService
   ) {
     this.checkDevicePlatform();
   }
 
-  checkDevicePlatform(){
-    if(this.isMobileDevice){
+  checkDevicePlatform() {
+    if (this.isMobileDevice) {
       this.router.navigate(['login']);
-    } ;
+    };
   }
 
-  navigateToPage(url: string){
+  navigateToPage(url: string) {
     this.menu.changePage(url);
   }
-
 }

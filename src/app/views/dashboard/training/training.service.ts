@@ -2,12 +2,12 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import {
   HttpClient,
-  HttpErrorResponse,
   HttpParams,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { AlertService } from 'src/app/alert/alert.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -16,27 +16,43 @@ export class TrainingService {
 
   constructor(
     private httpClient: HttpClient,
-    private alertSerice: AlertService
-  ) {}
+    private session: AuthService
+  ) { }
 
-  getTrainee(trainee_id: any){
+  getTrainee(trainee_id: any) {
     let params = new HttpParams();
-    params = params.set('trainee_id',trainee_id);
-    return this.httpClient
-    .get<any>('api-1/training', {
-      params,
-    })
-    .pipe(take(1));
+    params = params.set('trainee_id', trainee_id);
+
+    let session = this.session.SessionActiveCheck();
+
+    if (session) {
+      return this.httpClient
+        .get<any>('api-1/training', {
+          params,
+        })
+        .pipe(take(1));
+    } else {
+      return of(null);
+    }
   }
-  getTrainerById(trainer_id: any){
+
+  getTrainerById(trainer_id: any) {
     let params = new HttpParams();
-    params = params.set('trainer_id',trainer_id);
-    return this.httpClient
-    .get<any>('api-1/training', {
-      params,
-    })
-    .pipe(take(1));
+    params = params.set('trainer_id', trainer_id);
+
+    let session = this.session.SessionActiveCheck();
+
+    if (session) {
+      return this.httpClient
+        .get<any>('api-1/training', {
+          params,
+        })
+        .pipe(take(1));
+    } else {
+      return of(null);
+    }
   }
+
   getEmployees(
     search: string = '',
     entity: string = '',
@@ -44,78 +60,131 @@ export class TrainingService {
   ) {
     let params = new HttpParams();
     params = params.set('entity', entity);
-    // params = params.set('entityType', entityType);
     params = params.set('role', role);
     params = params.set('search', search);
-    return this.httpClient
-      .get<any>('api-1/dropdowns', {
-        params,
-      })
-      .pipe(take(1));
+
+    let session = this.session.SessionActiveCheck();
+
+    if (session) {
+      return this.httpClient
+        .get<any>('api-1/dropdowns', {
+          params,
+        })
+        .pipe(take(1));
+    } else {
+      return of(null);
+    }
   }
-  save(data, entity: any){
-    let params=  new HttpParams();
+
+  save(data, entity: any) {
+    let params = new HttpParams();
     params = params.set('entity', entity);
-    return this.httpClient
-    .post<any>('api-1/training', data,{
-      params
-    })
-    .pipe(take(1));
+
+    let session = this.session.SessionActiveCheck();
+
+    if (session) {
+      return this.httpClient
+        .post<any>('api-1/training', data, {
+          params
+        })
+        .pipe(take(1));
+    } else {
+      return of(null);
+    }
   }
-  saveFroms(data, entity: any){
-    let params=  new HttpParams();
+
+  saveFroms(data, entity: any) {
+    let params = new HttpParams();
     params = params.set('entity', entity);
-    return this.httpClient
-    .patch<any>('api-1/training', data,{
-      params
-    })
-    .pipe(take(1));
+
+    let session = this.session.SessionActiveCheck();
+
+    if (session) {
+      return this.httpClient
+        .patch<any>('api-1/training', data, {
+          params
+        })
+        .pipe(take(1));
+    } else {
+      return of(null);
+    }
   }
-  getData(entity,trainer_id){
-    let params=  new HttpParams();
+
+  getData(entity, trainer_id) {
+    let params = new HttpParams();
     params = params.set('entity', entity);
     params = params.set('trainer_pre_trip_id', trainer_id);
-    return this.httpClient
-    .get<any>('api-1/training',{
-      params
-    })
-    .pipe(take(1));
-  }
-  getRecordsById(trainee_id,evaluation_type,evaluation_form){
-    let params = new HttpParams();
-    params = params.set('trainee_record_id',trainee_id);
-    params = params.set('evaluation_type',evaluation_type);
-    params = params.set('evaluation_form',evaluation_form);
-    return this.httpClient
-    .get<any>('api-1/training', {
-      params
-    })
-    .pipe(take(1));
-  }
-  getRecordById(record_id){
-    let params = new HttpParams();
-    params = params.set('record_id',record_id);
-    return this.httpClient
-    .get<any>('api-1/training', {
-      params
-    })
-    .pipe(take(1));
-  }
-  getSummary(trainee_id,trainer_id,evaluation_type, startDate, endDate){
-    let params = new HttpParams();
-    params = params.set('trainee_id',trainee_id);
-    params = params.set('trainer_id',trainer_id);
-    params = params.set('evaluation_type',evaluation_type);
-    // params = params.set('date',date);
-    params = params.set('startDate',startDate);
-    params = params.set('endDate',endDate);
 
-    return this.httpClient
-    .get<any>('api-1/training', {
-      params
-    })
-    .pipe(take(1));
+    let session = this.session.SessionActiveCheck();
+
+    if (session) {
+      return this.httpClient
+        .get<any>('api-1/training', {
+          params
+        })
+        .pipe(take(1));
+    } else {
+      return of(null);
+    }
   }
+
+  getRecordsById(trainee_id, evaluation_type, evaluation_form) {
+    let params = new HttpParams();
+    params = params.set('trainee_record_id', trainee_id);
+    params = params.set('evaluation_type', evaluation_type);
+    params = params.set('evaluation_form', evaluation_form);
+
+    let session = this.session.SessionActiveCheck();
+
+    if (session) {
+      return this.httpClient
+        .get<any>('api-1/training', {
+          params
+        })
+        .pipe(take(1));
+    } else {
+      return of(null);
+    }
+  }
+
+  getRecordById(record_id) {
+    let params = new HttpParams();
+    params = params.set('record_id', record_id);
+
+    let session = this.session.SessionActiveCheck();
+
+    if (session) {
+      return this.httpClient
+        .get<any>('api-1/training', {
+          params
+        })
+        .pipe(take(1));
+    } else {
+      return of(null);
+    }
+  }
+
+  getSummary(trainee_id, trainer_id, evaluation_type, startDate, endDate) {
+    let params = new HttpParams();
+    params = params.set('trainee_id', trainee_id);
+    params = params.set('trainer_id', trainer_id);
+    params = params.set('evaluation_type', evaluation_type);
+    params = params.set('startDate', startDate);
+    params = params.set('endDate', endDate);
+
+    let session = this.session.SessionActiveCheck();
+
+    if (session) {
+      return this.httpClient
+        .get<any>('api-1/training', {
+          params
+        })
+        .pipe(take(1));
+    } else {
+      return of(null);
+    }
+  }
+
   createDWR(
     employeeId: any,
     training_record_id: any,
@@ -124,12 +193,11 @@ export class TrainingService {
     evaluation_type,
     evaluation_form,
     supervisor_id: any,
-    dwrId){
+    dwrId) {
     let data;
 
-
-    if(trainee_record_id){
-       data = {
+    if (trainee_record_id) {
+      data = {
         dwr_type: 'training',
         module: 'training',
         employeeId,
@@ -140,57 +208,78 @@ export class TrainingService {
         trainee_record_id
       };
     }
-     else if(training_record_id){
-         data = {
-          dwr_type: 'training',
-          module: 'training',
-          training_record_id,
-          employeeId,
-          evaluation_type,
-          evaluation_form,
-          supervisor_id,
-          dwrId,
-        };
+    else if (training_record_id) {
+      data = {
+        dwr_type: 'training',
+        module: 'training',
+        training_record_id,
+        employeeId,
+        evaluation_type,
+        evaluation_form,
+        supervisor_id,
+        dwrId,
+      };
     }
-    else if(trainer_record_id){
-         data = {
-          dwr_type: 'training',
-          module: 'training',
-          trainer_record_id,
-          employeeId,
-          evaluation_type,
-          evaluation_form,
-          supervisor_id,
-          dwrId,
-        };
+    else if (trainer_record_id) {
+      data = {
+        dwr_type: 'training',
+        module: 'training',
+        trainer_record_id,
+        employeeId,
+        evaluation_type,
+        evaluation_form,
+        supervisor_id,
+        dwrId,
+      };
     }
-    console.log('DATA:',data);
-    return this.httpClient
-      .post<any>(`api-1/dwr`, data)
+    console.log('DATA:', data);
 
-      .pipe(take(1));
+    let session = this.session.SessionActiveCheck();
+
+    if (session) {
+      return this.httpClient
+        .post<any>(`api-1/dwr`, data)
+
+        .pipe(take(1));
+    } else {
+      return of(null);
+    }
   }
+
   getMachinery(search: string = '', entity: string = '') {
     let params = new HttpParams();
     params = params.set('entity', entity);
     params = params.set('search', search);
     params = params.set('vehicleType', 'Truck IFTA');
 
-    return this.httpClient
-      .get<any>('api-1/dropdowns', {
-        params,
-      })
-      .pipe(take(1));
+    let session = this.session.SessionActiveCheck();
+
+    if (session) {
+      return this.httpClient
+        .get<any>('api-1/dropdowns', {
+          params,
+        })
+        .pipe(take(1));
+    } else {
+      return of(null);
+    }
   }
 
   getSupervisors(search: any) {
     let params = new HttpParams();
     params = params.set('entity', 'allSupervisors');
     params = params.set('search', search);
-    return this.httpClient
-      .get<any>('api-1/dropdowns', {
-        params,
-      })
-      .pipe(take(1));
+
+    let session = this.session.SessionActiveCheck();
+
+    if (session) {
+      return this.httpClient
+        .get<any>('api-1/dropdowns', {
+          params,
+        })
+        .pipe(take(1));
+    } else {
+      return of(null);
+    }
   }
 }

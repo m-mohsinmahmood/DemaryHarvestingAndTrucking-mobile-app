@@ -41,7 +41,15 @@ ion-spinner {
 }
 
 @media print {
-  #tabs{
+  #tabs {
     display: none;
   }
+
+  body {
+    width: 4in;
+    height: 4in;
+    padding-bottom: 0;
+    padding-top: 0;
+  }
+
 }

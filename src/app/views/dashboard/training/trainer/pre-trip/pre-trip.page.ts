@@ -5,14 +5,14 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import {  Router } from '@angular/router';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { ToastService } from 'src/app/services/toast/toast.service';
 import { TrainingService } from '../../training.service';
 import { states } from 'src/JSON/state';
 import { CheckInOutService } from 'src/app/components/check-in-out/check-in-out.service';
-import { HarvestingService } from './../../../harvesting/harvesting.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
   selector: 'app-pre-trip',
@@ -87,9 +87,8 @@ export class PreTripPage implements OnInit {
     private trainingService: TrainingService,
     private renderer: Renderer2,
     private toastService: ToastService,
-    private route: ActivatedRoute,
     private dwrServices: CheckInOutService,
-    private harvestingService: HarvestingService
+    private sessionService: AuthService
 
 
   ) {
@@ -113,7 +112,7 @@ export class PreTripPage implements OnInit {
 
 
  // to get city & state
-this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).subscribe((res)=>{
+this.sessionService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).subscribe((res)=>{
   console.log('Employee Details:',res);
   // setting in local storage
   localStorage.setItem('state',res.state);
@@ -316,7 +315,7 @@ this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).su
           this.supervisorInput.nativeElement.value = '';
 
           // get city & state
-          this.harvestingService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).subscribe((response)=>{
+          this.sessionService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).subscribe((response)=>{
             console.log('Employee Details:',response);
 
             // setting in local storage

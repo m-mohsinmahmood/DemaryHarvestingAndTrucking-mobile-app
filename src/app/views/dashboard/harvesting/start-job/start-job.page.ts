@@ -25,7 +25,9 @@ export class StartJobPage implements OnInit {
 
   role: any;
 
-  // Forms
+  private initDataRetrievalExecuted = false;
+  private ionViewRetrievalExecuted = true;
+
   startJobFormCombine: FormGroup;
   startJobFormCrew: FormGroup;
   startJobFormKart: FormGroup;
@@ -94,7 +96,7 @@ export class StartJobPage implements OnInit {
     private router: Router,
     private dwrServices: CheckInOutService
   ) {
-    if (localStorage.getItem('role').includes('Crew Chief') || localStorage.getItem('role').includes('Combine Operator')) {
+    if (localStorage.getItem('role').includes('Combine Operator')) {
       this.renderer.listen('window', 'click', (e) => {
         if (e.target !== this.machineryInput.nativeElement) {
           this.allMachinery = of([]);
@@ -109,40 +111,47 @@ export class StartJobPage implements OnInit {
   }
 
   ngOnInit() {
-    console.log("Start Job Page 1");
+    if (!this.initDataRetrievalExecuted) {
+      this.role = localStorage.getItem('role');
+      this.truck_driver_name = localStorage.getItem('employeeName');
 
-    this.role = localStorage.getItem('role');
-    this.truck_driver_name = localStorage.getItem('employeeName');
+      this.initForms();
+      this.initApis();
 
-    this.initForms();
-    this.initApis();
-
-    // subscriptioln for fields
-    // this.fieldSearchSubscription();
-    this.machineSearchSubscription();
-    this.jobSearchSubscription();
-
+      this.machineSearchSubscription();
+      this.jobSearchSubscription();
+      this.initDataRetrievalExecuted = true;
+      console.log("On Init");
+    }
   }
+
   async ionViewDidEnter() {
-    // this.role = localStorage.getItem('role');
-    this.initForms();
+    if (!this.ionViewRetrievalExecuted) {
+      this.role = localStorage.getItem('role');
+      this.truck_driver_name = localStorage.getItem('employeeName');
+
+      this.initForms();
+      this.initApis();
+
+      this.machineSearchSubscription();
+      this.jobSearchSubscription();
+      this.initDataRetrievalExecuted = true;
+      console.log("Ion view did enter");
+    }
+  }
+
+  async ionViewDidLeave() {
+    this.DataDestroy();
+    this.ionViewRetrievalExecuted = false;
   }
 
   ngOnDestroy(): void {
     this.DataDestroy();
   }
 
-  async ionViewDidLeave() {
-    this.DataDestroy();
-  }
-
   DataDestroy() {
-    // Unsubscribe from all subscriptions
     this._unsubscribeAll.next(null);
     this._unsubscribeAll.complete();
-    // this.sub.unsubscribe();
-    // this.isLoadingCustomer$.unsubscribe();
-
   }
 
   goBack() {
@@ -150,14 +159,6 @@ export class StartJobPage implements OnInit {
   }
 
   initForms() {
-    this.startJobFormCrew = this.formBuilder.group({
-      machineryId: ['', [Validators.required]],
-      beginning_separator_hours: ['', [Validators.required]],
-      beginningEngineHours: ['', [Validators.required]],
-      field_id: [''],
-      employeeId: [''],
-      job_id: ['']
-    });
     this.startJobFormCombine = this.formBuilder.group({
       machineryId: [''],
       beginning_separator_hours: ['', [Validators.required]],
@@ -171,9 +172,9 @@ export class StartJobPage implements OnInit {
       jobId: [''],
       active_check_in_id: ['']
     });
+
     this.startJobFormKart = this.formBuilder.group({
       machineryId: [''],
-      // job_id: [''],
       beginningEngineHours: ['', [Validators.required]],
       employeeId: [localStorage.getItem('employeeId')],
       customer_id: [''],
@@ -184,6 +185,7 @@ export class StartJobPage implements OnInit {
       jobId: [''],
       active_check_in_id: ['']
     });
+
     this.startJobFormTruck = this.formBuilder.group({
       workOrderId: [''],
       truck_id: ['', [Validators.required]],
@@ -202,18 +204,17 @@ export class StartJobPage implements OnInit {
   initApis() {
     if (this.role.includes('Combine Operator')) {
       this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
-        this.active_check_in_id = workOrder.dwr[0].id;
+        this.active_check_in_id = workOrder?.dwr[0]?.id;
 
         // patching
         this.startJobFormCombine.patchValue({
           active_check_in_id: this.active_check_in_id
         });
       });
-
     }
     else if (this.role.includes('Cart Operator')) {
       this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
-        this.active_check_in_id = workOrder.dwr[0].id;
+        this.active_check_in_id = workOrder?.dwr[0]?.id;
 
         // patching
         this.startJobFormKart.patchValue({
@@ -223,7 +224,7 @@ export class StartJobPage implements OnInit {
     }
     else if (this.role.includes('Truck Driver')) {
       this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
-        this.active_check_in_id = workOrder.dwr[0].id;
+        this.active_check_in_id = workOrder?.dwr[0]?.id;
 
         console.log(this.active_check_in_id);
 
@@ -237,35 +238,8 @@ export class StartJobPage implements OnInit {
   }
 
   submit() {
-    // For Crew Chief
-    if (localStorage.getItem('role').includes('Crew Chief')) {
-      const data = {
-        machineryId: this.startJobFormCrew.get('machineryId').value,
-        employeeId: localStorage.getItem('employeeId'),
-        jobId: this.startJobFormCrew.get('workOrderId').value,
-        beginningEngineHours: this.startJobFormCrew.get('beginningEngineHours').value,
-        beginning_separator_hours: this.startJobFormCrew.get('beginning_separator_hours').value,
-      };
-      this.loadingSpinner.next(true);
-      this.harvestingService.createBeginingDay(data, 'harvesting')
-        .subscribe((res) => {
-          console.log(res);
-          if (res.status === 200) {
-            this.loadingSpinner.next(false);
-            console.log('RES:', res);
-            this.toastService.presentToast('DWR has been created successfully', 'success');
-
-            // navigating
-            this.router.navigateByUrl('/tabs/home/harvesting');
-          }
-        },
-          (err) => {
-            console.log('Something happened :)', err);
-          });
-    }
-
     // For Combine Operator
-    else if (localStorage.getItem('role').includes('Combine Operator')) {
+    if (localStorage.getItem('role').includes('Combine Operator')) {
       this.loadingSpinner.next(true);
       this.harvestingService.createBeginingDay(this.startJobFormCombine.value, 'harvesting')
         .subscribe(
@@ -311,7 +285,6 @@ export class StartJobPage implements OnInit {
         .subscribe(
           (res: any) => {
             if (res.status === 200) {
-              this.patchHours();
               let startingOfDay = {
                 supervisor_id: this.startJobFormKart.get("crew_chief_id").value,
                 active_check_in_id: this.startJobFormKart.get("active_check_in_id").value,
@@ -327,14 +300,8 @@ export class StartJobPage implements OnInit {
 
                   });
 
-              this.loadingSpinner.next(false);
-              this.startJobFormCombine.reset();
-              // this.location.back();
-              this.router.navigateByUrl('/tabs/home/harvesting');
-              this.toastService.presentToast(res.message, 'success');
+              this.patchHours();
 
-              // navigating
-              this.router.navigateByUrl('/tabs/home/harvesting');
             } else {
               console.log('Something happened :)');
               this.toastService.presentToast('DWR has been created successfully', 'success');
@@ -375,7 +342,6 @@ export class StartJobPage implements OnInit {
             if (res.status === 200) {
             } else {
               console.log('Something happened :)');
-              this.toastService.presentToast('DWR has been created successfully', 'success');
             }
           },
           (err) => {
@@ -390,7 +356,7 @@ export class StartJobPage implements OnInit {
         jobId: this.startJobFormTruck.get('workOrderId').value,
         begining_odometer_miles: this.startJobFormTruck.get('begining_odometer_miles').value
       };
-      console.log('data: ', data);
+
       this.loadingSpinner.next(true);
       this.harvestingService.createBeginingDay(data, 'harvesting')
         .subscribe(
@@ -399,17 +365,9 @@ export class StartJobPage implements OnInit {
             if (res.status === 200) {
               this.patchHours();
 
-              // this.loadingSpinner.next(false);
-
-              // this.startJobFormCombine.reset();
-              // this.toastService.presentToast(res.message, 'success');
-
-              // // navigating
-              // this.router.navigateByUrl('/tabs/home/harvesting');
             } else {
               console.log('Something happened :)');
               this.loadingSpinner.next(false);
-              this.toastService.presentToast('DWR has been created successfully', 'success');
             }
           },
           (err) => {
@@ -421,6 +379,7 @@ export class StartJobPage implements OnInit {
         );
     }
   }
+
   patchHours() {
     if (localStorage.getItem('role').includes('Combine Operator')) {
       this.harvestingService.patchHours(this.startJobFormCombine.get('beginningEngineHours').value, this.startJobFormCombine.get('beginning_separator_hours').value, this.startJobFormCombine.get('machineryId').value, 'endingOfDay', this.role)
@@ -430,11 +389,17 @@ export class StartJobPage implements OnInit {
             if (res.status === 200) {
               this.loadingSpinner.next(false);
               this.startJobFormCombine.reset();
-              this.toastService.presentToast(res.message, 'success');
               this.machineryInput.nativeElement.value = '';
               this.isMachineSelected = true;
               this.jobInput.nativeElement.value = '';
               this.isJobSelected = true;
+
+              this.date = '';
+              this.customerName = '';
+              this.state = '';
+              this.farm = '';
+              this.crop = '';
+              this.crewChiefName = '';
 
               // navigating
               this.router.navigateByUrl('/tabs/home/harvesting');
@@ -452,7 +417,8 @@ export class StartJobPage implements OnInit {
           },
         );
     }
-    if (localStorage.getItem('role').includes('Cart Operator')) {
+
+    else if (localStorage.getItem('role').includes('Cart Operator')) {
       this.harvestingService.patchHours(this.startJobFormKart.get('beginningEngineHours').value, null, this.startJobFormKart.get('machineryId').value, 'endingOfDay', this.role)
         .subscribe(
           (res: any) => {
@@ -460,17 +426,19 @@ export class StartJobPage implements OnInit {
             if (res.status === 200) {
 
               this.loadingSpinner.next(false); // stop loader
+              this.startJobFormKart.reset(); // form reset
 
-              this.startJobFormCombine.reset(); // form reset
+              this.date = '';
+              this.customerName = '';
+              this.state = '';
+              this.farm = '';
+              this.crop = '';
+              this.crewChiefName = '';
 
-              this.toastService.presentToast(res.message, 'success'); // toast
-
-              // navigating
               this.router.navigateByUrl('/tabs/home/harvesting');
             } else {
               console.log('Something happened :)');
               this.loadingSpinner.next(false);
-              this.toastService.presentToast('DWR has been created successfully', 'success');
             }
           },
           (err) => {
@@ -481,7 +449,8 @@ export class StartJobPage implements OnInit {
           },
         );
     }
-    if (localStorage.getItem('role').includes('Truck Driver')) {
+
+    else if (localStorage.getItem('role').includes('Truck Driver')) {
       this.harvestingService.patchHours(this.startJobFormTruck.get('begining_odometer_miles').value, null, this.startJobFormTruck.get('truck_id').value, 'endingOfDay', this.role)
         .subscribe(
           (res: any) => {
@@ -489,13 +458,19 @@ export class StartJobPage implements OnInit {
             if (res.status === 200) {
 
               this.loadingSpinner.next(false); // stop loader
-              this.startJobFormCombine.reset(); //form reset
-              this.toastService.presentToast(res.message, 'success'); //toast
+              this.startJobFormTruck.reset(); //form reset
+
+              this.date = '';
+              this.customerName = '';
+              this.state = '';
+              this.farm = '';
+              this.crop = '';
+              this.crewChiefName = '';
+
               this.router.navigateByUrl('/tabs/home/harvesting'); // navigating
             } else {
               console.log('Something happened :)');
               this.loadingSpinner.next(false);
-              this.toastService.presentToast('DWR has been created successfully', 'success');
             }
           },
           (err) => {
@@ -522,14 +497,6 @@ export class StartJobPage implements OnInit {
         if (value === '') {
           this.isMachineSelected = true;
         }
-
-        // calling API
-        // this.allFields = this.harvestingService.getFields(
-        //   value,
-        //   'customerFields',
-        //   this.customerID,
-        //   this.farmID
-        // );
 
         if (this.role.includes('Combine Operator')) {
           this.allMachinery = this.harvestingService.getMachinery(
@@ -618,6 +585,7 @@ export class StartJobPage implements OnInit {
       }
     });
   }
+
   listClickedMachiney(machinery) {
     console.log('Machinery Object:', machinery);
     // hiding UL
@@ -630,12 +598,7 @@ export class StartJobPage implements OnInit {
     this.isMachineSelected = false;
 
     // assigning values in form conditionally
-    if (this.role.includes('Crew Chief')) {
-      this.startJobFormCrew.patchValue({
-        machineryId: machinery.id,
-        beginningEngineHours: machinery.odometer_reading_end
-      });
-    } else if (this.role.includes('Combine Operator')) {
+    if (this.role.includes('Combine Operator')) {
       // having odometer miles
       if (machinery.odometer_reading_end !== '' && machinery.odometer_reading_end !== null) {
 

@@ -1,7 +1,9 @@
 import { HttpClient, HttpErrorResponse, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { of } from "rxjs";
 import { take } from "rxjs/operators";
 import { AlertService } from "src/app/alert/alert.service";
+import { AuthService } from "src/app/services/auth/auth.service";
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +16,7 @@ export class TripCheckService {
 
   constructor(
     private _httpClient: HttpClient,
-    private alertSerice: AlertService
+    private session: AuthService
   ) { }
 
   createNewPreTripCheckForm(data: any, category: number, truckNo: string, trailerNo: string, employeeId: string) {
@@ -23,18 +25,31 @@ export class TripCheckService {
     data.trailerNo = trailerNo;
     data.employeeId = employeeId;
 
-    return this._httpClient
-      .post(`api-1/trip_check_form`, data)
-      .pipe(take(1));
+    let session = this.session.SessionActiveCheck();
+
+    if (session) {
+      return this._httpClient
+        .post(`api-1/trip_check_form`, data)
+        .pipe(take(1));
+    }
+    else {
+      return of(null);
+    }
   }
 
   updatePreTripCheckForm(data: any, category: number, id: string) {
     data.category = category;
     data.ticketId = id;
 
-    return this._httpClient
-      .patch(`api-1/trip_check_form`, data)
-      .pipe(take(1));
+    let session = this.session.SessionActiveCheck();
+
+    if (session) {
+      return this._httpClient
+        .patch(`api-1/trip_check_form`, data)
+        .pipe(take(1));
+    }else {
+      return of(null);
+    }
   }
 
   getTrailer(
@@ -47,11 +62,17 @@ export class TripCheckService {
     params = params.set('search', search);
     params = params.set('vehicleType', 'Trailer');
 
-    return this._httpClient
-      .get<any>('api-1/dropdowns', {
-        params,
-      })
-      .pipe(take(1));
+    let session = this.session.SessionActiveCheck();
+
+    if (session) {
+      return this._httpClient
+        .get<any>('api-1/dropdowns', {
+          params,
+        })
+        .pipe(take(1));
+    }else {
+      return of(null);
+    }
   }
 
   getActivePreCheckTicket(clause: string, employeeId?: string, id?: string) {
@@ -61,11 +82,17 @@ export class TripCheckService {
     params = params.set('employeeId', employeeId);
     params = params.set('id', id);
 
-    return this._httpClient
-      .get<any>('api-1/trip_check_form', {
-        params,
-      })
-      .pipe(take(1));
+    let session = this.session.SessionActiveCheck();
+
+    if (session) {
+      return this._httpClient
+        .get<any>('api-1/trip_check_form', {
+          params,
+        })
+        .pipe(take(1));
+    }else {
+      return of(null);
+    }
   }
 
   getPreCheckListAll(employeeId: string, requestType?: string) {
@@ -75,26 +102,39 @@ export class TripCheckService {
     params = params.set('employeeId', employeeId);
     params = params.set('requestType', requestType);
 
-    return this._httpClient
-      .get<any>('api-1/trip_check_form', {
-        params,
-      })
-      .pipe(take(1));
+    let session = this.session.SessionActiveCheck();
+
+    if (session) {
+      return this._httpClient
+        .get<any>('api-1/trip_check_form', {
+          params,
+        })
+        .pipe(take(1));
+    }else {
+      return of(null);
+    }
   }
 
-  getPreCheckListDay(employeeId: string, date: any, requestType?: string) {
+  getPreCheckListDay(employeeId: string, startDate, endDate, requestType?: string) {
     this._httpClient
     let params = new HttpParams();
 
     params = params.set('employeeId', employeeId);
     params = params.set('requestType', requestType);
-    params = params.set('date', date);
+    params = params.set('startDate', startDate);
+    params = params.set('endDate', endDate);
 
-    return this._httpClient
-      .get<any>('api-1/trip_check_form', {
-        params,
-      })
-      .pipe(take(1));
+    let session = this.session.SessionActiveCheck();
+
+    if (session) {
+      return this._httpClient
+        .get<any>('api-1/trip_check_form', {
+          params,
+        })
+        .pipe(take(1));
+    }else {
+      return of(null);
+    }
   }
 
   getPreCheckListMonth(employeeId: string, month: any, year: any, requestType?: string) {
@@ -106,11 +146,17 @@ export class TripCheckService {
     params = params.set('month', month);
     params = params.set('year', year);
 
-    return this._httpClient
-      .get<any>('api-1/trip_check_form', {
-        params,
-      })
-      .pipe(take(1));
+    let session = this.session.SessionActiveCheck();
+
+    if (session) {
+      return this._httpClient
+        .get<any>('api-1/trip_check_form', {
+          params,
+        })
+        .pipe(take(1));
+    }else {
+      return of(null);
+    }
   }
 
   getPreCheckListYear(employeeId: string, year: any, requestType?: string) {
@@ -121,10 +167,16 @@ export class TripCheckService {
     params = params.set('requestType', requestType);
     params = params.set('year', year);
 
-    return this._httpClient
-      .get<any>('api-1/trip_check_form', {
-        params,
-      })
-      .pipe(take(1));
+    let session = this.session.SessionActiveCheck();
+
+    if (session) {
+      return this._httpClient
+        .get<any>('api-1/trip_check_form', {
+          params,
+        })
+        .pipe(take(1));
+    }else {
+      return of(null);
+    }
   }
 }

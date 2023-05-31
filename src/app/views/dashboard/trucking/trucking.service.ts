@@ -3,8 +3,9 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { AlertService } from 'src/app/alert/alert.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +18,7 @@ export class TruckingService {
 
   constructor(
     private _httpClient: HttpClient,
-    private alertSerice: AlertService
+    private session: AuthService
   ) { }
 
   getCustomers(
@@ -31,11 +32,18 @@ export class TruckingService {
     params = params.set('status', status);
     params = params.set('search', search);
 
-    return this._httpClient
-      .get<any>('api-1/dropdowns', {
-        params,
-      })
-      .pipe(take(1));
+    let session = this.session.SessionActiveCheck();
+
+    if (session) {
+      return this._httpClient
+        .get<any>('api-1/dropdowns', {
+          params,
+        })
+        .pipe(take(1));
+    }
+    else {
+      return of(null);
+    }
   }
 
   getEmployees(
@@ -49,33 +57,58 @@ export class TruckingService {
     params = params.set('role', role);
     params = params.set('search', search);
 
-    return this._httpClient
-      .get<any>('api-1/dropdowns', {
-        params,
-      })
-      .pipe(take(1));
+    let session = this.session.SessionActiveCheck();
+
+    if (session) {
+      return this._httpClient
+        .get<any>('api-1/dropdowns', {
+          params,
+        })
+        .pipe(take(1));
+    } else {
+      return of(null);
+    }
   }
 
   createNewDeliveryTicket(data: any) {
-    return this._httpClient
-      .post(`api-1/delivery_ticket_trucking`, data)
-      .pipe(take(1));
+    let session = this.session.SessionActiveCheck();
+
+    if (session) {
+      return this._httpClient
+        .post(`api-1/delivery_ticket_trucking`, data)
+        .pipe(take(1));
+    } else {
+      return of(null);
+    }
   }
 
   createNewDeliveryTicketCommercial(data: any) {
-    return this._httpClient
-      .post(`api-1/delivery_ticket_trucking`, data)
-      .pipe(take(1));
+    let session = this.session.SessionActiveCheck();
+
+    if (session) {
+      return this._httpClient
+        .post(`api-1/delivery_ticket_trucking`, data)
+        .pipe(take(1));
+    } else {
+      return of(null);
+    }
   }
 
   getNewDeliveryTicketById(id) {
     let params = new HttpParams();
     params = params.set('id', id);
-    return this._httpClient
-      .get(`api-1/delivery_ticket_trucking`, {
-        params
-      })
-      .pipe(take(1));
+
+    let session = this.session.SessionActiveCheck();
+
+    if (session) {
+      return this._httpClient
+        .get(`api-1/delivery_ticket_trucking`, {
+          params
+        })
+        .pipe(take(1));
+    } else {
+      return of(null);
+    }
   }
 
   getCrops(search: string = '', entity: string = '', customerId: string = '') {
@@ -84,35 +117,59 @@ export class TruckingService {
     params = params.set('customerId', customerId);
     params = params.set('search', search);
 
-    return this._httpClient
-      .get(`api-1/dropdowns`, {
-        params,
-      })
-      .pipe(take(1));
+    let session = this.session.SessionActiveCheck();
+
+    if (session) {
+      return this._httpClient
+        .get(`api-1/dropdowns`, {
+          params,
+        })
+        .pipe(take(1));
+    } else {
+      return of(null);
+    }
   }
 
   updateDeliveryTicket(data: any, ticketStatus: string) {
     data.ticketStatus = ticketStatus;
 
-    return this._httpClient
-      .patch(`api-1/delivery_ticket_trucking`, data)
-      .pipe(take(1));
+    let session = this.session.SessionActiveCheck();
+
+    if (session) {
+      return this._httpClient
+        .patch(`api-1/delivery_ticket_trucking`, data)
+        .pipe(take(1));
+    } else {
+      return of(null);
+    }
   }
 
   createDWR(data: any, dwr_type: String) {
     data.dwr_type = dwr_type;
 
-    return this._httpClient
-      .post(`api-1/dwr`, data)
-      .pipe(take(1));
+    let session = this.session.SessionActiveCheck();
+
+    if (session) {
+      return this._httpClient
+        .post(`api-1/dwr`, data)
+        .pipe(take(1));
+    } else {
+      return of(null);
+    }
   }
 
   updateDWR(data: any, dwr_type: String) {
     data.dwr_type = dwr_type;
 
-    return this._httpClient
-      .patch(`api-1/dwr`, data)
-      .pipe(take(1));
+    let session = this.session.SessionActiveCheck();
+
+    if (session) {
+      return this._httpClient
+        .patch(`api-1/dwr`, data)
+        .pipe(take(1));
+    } else {
+      return of(null);
+    }
   }
 
   getMotorizedVehicles(
@@ -122,11 +179,17 @@ export class TruckingService {
     let params = new HttpParams();
     params = params.set('id', id);
 
-    return this._httpClient
-      .get<any>('api-1/motorized-vehicles', {
-        params,
-      })
-      .pipe(take(1));
+    let session = this.session.SessionActiveCheck();
+
+    if (session) {
+      return this._httpClient
+        .get<any>('api-1/motorized-vehicles', {
+          params,
+        })
+        .pipe(take(1));
+    } else {
+      return of(null);
+    }
   }
 
   getDeliveryTickets(
@@ -151,11 +214,17 @@ export class TruckingService {
 
     if (isPreCHeckFilled != null) { params = params.set('isPreCheckFilled', isPreCHeckFilled); }
 
-    return this._httpClient
-      .get<any>('api-1/delivery_ticket_trucking', {
-        params,
-      })
-      .pipe(take(1));
+    let session = this.session.SessionActiveCheck();
+
+    if (session) {
+      return this._httpClient
+        .get<any>('api-1/delivery_ticket_trucking', {
+          params,
+        })
+        .pipe(take(1));
+    } else {
+      return of(null);
+    }
   }
 
   getTruckingRates(
@@ -167,11 +236,17 @@ export class TruckingService {
     params = params.set('entity', entity);
     params = params.set('customerId', customerId);
 
-    return this._httpClient
-      .get<any>('api-1/dropdowns', {
-        params,
-      })
-      .pipe(take(1));
+    let session = this.session.SessionActiveCheck();
+
+    if (session) {
+      return this._httpClient
+        .get<any>('api-1/dropdowns', {
+          params,
+        })
+        .pipe(take(1));
+    } else {
+      return of(null);
+    }
   }
 
   getTruck(
@@ -184,10 +259,16 @@ export class TruckingService {
     params = params.set('search', search);
     params = params.set('vehicleType', 'Truck');
 
-    return this._httpClient
-      .get<any>('api-1/dropdowns', {
-        params,
-      })
-      .pipe(take(1));
+    let session = this.session.SessionActiveCheck();
+
+    if (session) {
+      return this._httpClient
+        .get<any>('api-1/dropdowns', {
+          params,
+        })
+        .pipe(take(1));
+    } else {
+      return of(null);
+    }
   }
 }
