@@ -98,12 +98,15 @@ export class WorkHistoryPage implements OnInit {
   getDWRByDate() {
     // to statr spinner
     this.loading.next(true);
-
+    debugger
+    var stDay = moment(this.date).startOf('day').format('YYYY/MM/DD HH:mm:ss');
+    var enDay = moment(this.date).endOf('day').format('YYYY/MM/DD HH:mm:ss');
+  
     this.dwrService
       .getDWRNew(
         localStorage.getItem('employeeId'),
-        moment(this.date).startOf('day').toISOString(),
-        moment(this.date).endOf('day').toISOString(),
+        new Date(stDay).toISOString(),
+        new Date(enDay).toISOString(),
         localStorage.getItem('role'),
         'getMyDWR',
         'all'
