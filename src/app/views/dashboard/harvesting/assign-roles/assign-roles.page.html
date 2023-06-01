@@ -133,6 +133,8 @@
           </ion-col>
         </ion-row>
         <div *ngIf="value === 'Combine Operator'">
+          <div *ngIf="combineOperatorData?.count[0]?.count==0" class="font-Lato font-semibold text-2xl text-center py-4">No Combine Operator Found</div>
+
           <ion-row *ngFor="let combineOperatorData of combineOperatorData?.assigned_roles" class="m-1 flex content-center items-center">
             <ion-col size="9">
               <div class="font-Lato font-semibold">{{combineOperatorData.employee_name}} </div>
@@ -149,8 +151,10 @@
         </div>
 
         <div *ngIf="value === 'cart-operator'">
+          <div *ngIf="cartOperatorData?.count[0]?.count==0" class="font-Lato font-semibold text-2xl text-center py-4">No Cart Operator Found</div>
           <ion-row *ngFor="let cartOperatorData of cartOperatorData?.assigned_roles" class="m-1 flex content-center items-center">
             <ion-col  size="9">
+
               <div class="font-Lato font-semibold">{{cartOperatorData.employee_name}}</div>
             </ion-col>
 

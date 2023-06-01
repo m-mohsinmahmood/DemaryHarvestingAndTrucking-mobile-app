@@ -255,7 +255,7 @@ export class GeneratedTicketPage implements OnInit {
             this.toastService.presentToast(res.message, 'success');
 
             // navigating
-            this.router.navigateByUrl('/tabs/home/harvesting');
+            this.router.navigateByUrl('/tabs/home/harvesting/verify-ticket');
           } else {
             console.log('Something happened :)');
             this.toastService.presentToast(res.mssage, 'danger');

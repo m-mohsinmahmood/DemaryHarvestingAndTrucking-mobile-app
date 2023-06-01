@@ -22,7 +22,7 @@ import { ToastService } from 'src/app/services/toast/toast.service';
 export class WorkHistoryPage implements OnInit {
   segment: any = 'day';
   // select values
-  date: any = moment(new Date()).format('YYYY-MM-DD');
+  date: any = moment(new Date()).format('MM-DD-YYYY');
   month: any = moment(new Date()).format('YYYY-MM');
 
   // payload values
@@ -98,12 +98,14 @@ export class WorkHistoryPage implements OnInit {
   getDWRByDate() {
     // to statr spinner
     this.loading.next(true);
-
+    var stDay = moment(this.date).startOf('day').format('YYYY/MM/DD HH:mm:ss');
+    var enDay = moment(this.date).endOf('day').format('YYYY/MM/DD HH:mm:ss');
+  
     this.dwrService
       .getDWRNew(
         localStorage.getItem('employeeId'),
-        moment(this.date).startOf('day').toISOString(),
-        moment(this.date).endOf('day').toISOString(),
+        new Date(stDay).toISOString(),
+        new Date(enDay).toISOString(),
         localStorage.getItem('role'),
         'getMyDWR',
         'all'

@@ -19,7 +19,7 @@
             </div>
             <ion-popover trigger="click-trigger2" triggerAction="click">
               <ng-template>
-                <ion-datetime (ionChange)="getDate($event)" presentation="date" size="cover"></ion-datetime>
+                <ion-datetime (ionChange)="getDate($event)" displayFormat="YYYY-MM-DD" presentation="date" size="cover"></ion-datetime>
               </ng-template>
             </ion-popover>
           </div>
@@ -78,7 +78,7 @@
             </div>
             <ion-popover trigger="click-trigger2" triggerAction="click">
               <ng-template>
-                <ion-datetime (ionChange)="getMonth($event)" presentation="month-year" size="cover"></ion-datetime>
+                <ion-datetime (ionChange)="getMonth($event)" displayFormat="YYYY-MM-DD" presentation="month-year" size="cover"></ion-datetime>
               </ng-template>
             </ion-popover>
           </div>
