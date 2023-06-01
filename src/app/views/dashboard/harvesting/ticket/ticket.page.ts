@@ -133,7 +133,7 @@ export class TicketPage implements OnInit {
     private router: Router,
     private formbuildr: FormBuilder,
     private harvestingService: HarvestingService,
-    private sessionService:AuthService,
+    private sessionService: AuthService,
     private toastService: ToastService,
     private renderer: Renderer2
   ) {
@@ -209,7 +209,8 @@ export class TicketPage implements OnInit {
       farm_id: [''],
       crop_id: [''],
       crew_chief_id: [''],
-      jobId: ['']
+      jobId: [''],
+      deliveryTicketNumber: ['']
     });
 
     // custom validation for 'kart_scale_weight_split'
@@ -248,6 +249,12 @@ export class TicketPage implements OnInit {
   }
 
   initApis() {
+    let uniqueId = this.harvestingService.generateUniqueId();
+    console.log(uniqueId);
+    this.deliveryTicketForm.patchValue({
+      deliveryTicketNumber: uniqueId
+    })
+
     let crew_chief_id = '';
     this.harvestingService.getKartOperatorCrewChief('getKartOpCrewChief', localStorage.getItem('employeeId')).subscribe(param => {
       crew_chief_id = param[0].id;

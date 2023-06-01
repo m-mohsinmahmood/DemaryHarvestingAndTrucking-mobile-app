@@ -1152,4 +1152,13 @@ export class HarvestingService {
       return of(null);
     }
   }
+
+  generateUniqueId() {
+    var currentTime = new Date().toISOString().replace(/[-:.]/g, "").replace("T", ""); // Get current date and time as a string
+    var randomPart = Math.floor(Math.random() * 90000) + 10000; // Generate a random 5-digit number
+    var uniqueId = currentTime + randomPart; // Combine current time and random part
+
+    return uniqueId;
+  }
+
 }

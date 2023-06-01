@@ -8,7 +8,6 @@ import { Router } from '@angular/router';
 import { HarvestingService } from './../../harvesting.service';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { ToastService } from 'src/app/services/toast/toast.service';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-generated-ticket',
@@ -100,9 +99,9 @@ export class GeneratedTicketPage implements OnInit {
       // scaleTicket: ['', [Validators.required]],
       NetWeight: [0, [Validators.required]],
       NetWeight2: [0, [Validators.required]],
-      testWeight: ['', [Validators.required]],
-      proteinContent: ['', [Validators.required]],
-      moistureContent: ['', [Validators.required]],
+      testWeight: [''],
+      proteinContent: [''],
+      moistureContent: [''],
       ticketId: [''],
       fieldId: [''],
       destination: [''],
@@ -114,6 +113,7 @@ export class GeneratedTicketPage implements OnInit {
       image_1: [''],
       image_2: [''],
     });
+
     this.generateTicketFormTruck.valueChanges.subscribe((value) => {
       if (value.NetWeight !== value.NetWeight2) {
         this.generateTicketFormTruck
@@ -134,19 +134,7 @@ export class GeneratedTicketPage implements OnInit {
   }
 
   onSelectedFiles(file, name) {
-    // if (name === 'upload_1') {
-    //   this.upload_1 = !this.upload_1;
-    //   if (file.target.files && file.target.files[0]) {
-    //     const reader = new FileReader();
-    //     reader.onload = (_event: any) => {
-    //       this.generateTicketFormTruck.controls.image_1?.setValue(
-    //         file.target.files[0]
-    //       );
-    //     };
-    //     reader.readAsDataURL(file.target.files[0]);
-    //   } else {
-    //   }
-    // }
+
     if (name === 'upload_2') {
       this.upload_2 = !this.upload_2;
       if (file.target.files && file.target.files[0]) {
@@ -175,17 +163,6 @@ export class GeneratedTicketPage implements OnInit {
     this.isLoadingTicket$ = this.harvestingService.ticketLoading$;
   }
 
-  // initKartApis() {
-  //   this.harvestingService.getTicketById(this.ticketID, 'verify-ticket-kart');
-  // }
-
-  // initKartObservables() {
-  //   this.harvestingService.ticket$.subscribe((res) => {
-  //     console.log('Ticket Kart Verify:', res);
-  //     this.ticketData = res;
-  //   });
-  //   this.isLoadingTicket$ = this.harvestingService.ticketLoading$;
-  // }
   submit() {
     if (this.role.includes('Truck Driver')) {
       // Form Data
@@ -195,10 +172,7 @@ export class GeneratedTicketPage implements OnInit {
         JSON.stringify(this.generateTicketFormTruck.value)
       );
       formData.append('operation', 'completeTicket');
-      // formData.append(
-      //   'image_1',
-      //   this.generateTicketFormTruck.get('image_1').value
-      // );
+
       formData.append(
         'image_2',
         this.generateTicketFormTruck.get('image_2').value
