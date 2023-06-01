@@ -600,7 +600,7 @@ export class StartJobPage implements OnInit {
     // assigning values in form conditionally
     if (this.role.includes('Combine Operator')) {
       // having odometer miles
-      if (machinery.odometer_reading_end !== '' && machinery.odometer_reading_end !== null) {
+      if (machinery.odometer_reading_end !== '' && machinery.odometer_reading_end !== null && machinery.odometer_reading_end !== 'null') {
 
         // patching
         this.startJobFormCombine.patchValue({
@@ -617,7 +617,7 @@ export class StartJobPage implements OnInit {
         this.startJobFormCombine.patchValue({ machineryId: machinery.id, }); // patching
       }
       // having separater hours
-      if (machinery.separator_hours !== '' && machinery.separator_hours !== null) {
+      if (machinery.separator_hours !== '' && machinery.separator_hours !== null && machinery.separator_hours !== 'null') {
         // patching
         this.startJobFormCombine.patchValue({
           // machineryId: machinery.id,
@@ -635,24 +635,49 @@ export class StartJobPage implements OnInit {
 
     }
     else if (this.role.includes('Cart Operator')) {
-      // // having odometer miles and separater hours
-      //   // patching
-      this.startJobFormKart.patchValue({
-        machineryId: machinery.id,
-        beginningEngineHours: machinery.odometer_reading_end,
-        beginning_separator_hours: machinery.separator_hours
-      });
+      if (machinery.odometer_reading_end !== '' && machinery.odometer_reading_end !== null && machinery.odometer_reading_end !== 'null') {
 
-      //   // to readonly
-      //   this.isReadOnly = true;
-      // }
+        // patching
+        this.startJobFormKart.patchValue({
+          machineryId: machinery.id,
+          beginningEngineHours: machinery.odometer_reading_end,
+          beginning_separator_hours: machinery.separator_hours
+        });
 
+        this.isReadOnly = true; // to readonly
+      }
+      // not having odometer miles
+      else {
+        this.isReadOnly = false;  // to readonly
+        this.startJobFormKart.controls.beginningEngineHours.setValue(''); // removing values in inputs
+        this.startJobFormKart.patchValue(
+          {
+            machineryId: machinery.id,
+            beginning_separator_hours: machinery.separator_hours
+          }); // patching
+      }
     }
     else if (this.role.includes('Truck Driver')) {
-      this.startJobFormTruck.patchValue({
-        truck_id: machinery.id,
-        begining_odometer_miles: machinery.odometer_reading_end
-      });
+
+      if (machinery.odometer_reading_end !== '' && machinery.odometer_reading_end !== null && machinery.odometer_reading_end !== 'null') {
+
+        // patching
+        this.startJobFormTruck.patchValue({
+          truck_id: machinery.id,
+          begining_odometer_miles: machinery.odometer_reading_end
+        });
+
+        this.isReadOnly = true; // to readonly
+      }
+      // not having odometer miles
+      else {
+        this.isReadOnly = false;  // to readonly
+        this.startJobFormTruck.controls.begining_odometer_miles.setValue(''); // removing values in inputs
+        this.startJobFormTruck.patchValue(
+          {
+            truck_id: machinery.id,
+          }); // patching
+      }
     }
 
     // clearing array
