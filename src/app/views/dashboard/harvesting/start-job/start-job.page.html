@@ -122,6 +122,8 @@
             type="number"
             class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
              formControlName="beginning_separator_hours" placeholder="Confirm Begining Engine Hours">
+          <span *ngIf="showValidationMessage_1" class="font-Lato text-sm text-red-500 ">value should be greater than {{selectedMachinery?.separator_hours}}</span>
+
         </div>
 
         <div class="col-span-12 mb-4">
@@ -131,6 +133,7 @@
           <input type="number"
             class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
            formControlName="beginningEngineHours" placeholder="Confirm Begining Separator Hours">
+           <span *ngIf="showValidationMessage_2" class="font-Lato text-sm text-red-500 ">value should be greater than {{selectedMachinery?.odometer_reading_end}}</span>
         </div>
 
         <ion-button expand="block" class="mt-5 font-Lato text-white"
@@ -266,6 +269,7 @@
             type="number"
             class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
             formControlName="beginningEngineHours" placeholder="Confirm Begining Engine Hours" >
+          <span *ngIf="showValidationMessage_1" class="font-Lato text-sm text-red-500 ">value should be greater than {{selectedMachinery?.odometer_reading_end}}</span>
         </div>
         <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="submit()"
           [disabled]="startJobFormKart.invalid || isJobSelected || isMachineSelected || (loadingSpinner | async)">
@@ -406,6 +410,7 @@
             type="number"
             class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
            formControlName="begining_odometer_miles" placeholder="Confirm Begining Odometer Miles">
+           <span *ngIf="showValidationMessage_1" class="font-Lato text-sm text-red-500 ">value should be greater than {{selectedMachinery?.odometer_reading_end}}</span>
         </div>
         <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="submit()"
           [disabled]="startJobFormTruck.invalid || (loadingSpinner | async)">
