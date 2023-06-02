@@ -179,6 +179,7 @@ export class StartJobPage implements OnInit {
       active_check_in_id: ['']
     });
 
+    this.startJobFormCombine.reset();
     // end of day validation for hours (combine)
     this.startJobFormCombine.valueChanges.subscribe((val) => {
       if (parseInt(val.beginning_separator_hours) < parseInt(this.selectedMachinery?.separator_hours)) { this.showValidationMessage_1 = true; }
@@ -200,6 +201,7 @@ export class StartJobPage implements OnInit {
       active_check_in_id: ['']
     });
 
+    this.startJobFormKart.reset();
     // end of day validation for hours (Cart)
     this.startJobFormKart.valueChanges.subscribe((val) => {
       if (parseInt(val.beginningEngineHours, 10) < parseInt(this.selectedMachinery?.odometer_reading_end)) { this.showValidationMessage_1 = true; }
@@ -220,6 +222,7 @@ export class StartJobPage implements OnInit {
       active_check_in_id: ['']
     });
 
+    this.startJobFormTruck.reset();
     // end of day validation for hours (truck driver)
     this.startJobFormTruck.valueChanges.subscribe((val) => {
       if (val.begining_odometer_miles < this.selectedMachinery?.odometer_reading_end) { this.showValidationMessage_1 = true; }
