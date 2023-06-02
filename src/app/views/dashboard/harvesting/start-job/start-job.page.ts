@@ -181,9 +181,9 @@ export class StartJobPage implements OnInit {
 
     // end of day validation for hours (combine)
     this.startJobFormCombine.valueChanges.subscribe((val) => {
-      if (parseInt(val.beginning_separator_hours) <= parseInt(this.selectedMachinery?.separator_hours)) { this.showValidationMessage_1 = true; }
+      if (parseInt(val.beginning_separator_hours) < parseInt(this.selectedMachinery?.separator_hours)) { this.showValidationMessage_1 = true; }
       else { this.showValidationMessage_1 = false; }
-      if (parseInt(val.beginningEngineHours) <= parseInt(this.selectedMachinery?.odometer_reading_end)) { this.showValidationMessage_2 = true; }
+      if (parseInt(val.beginningEngineHours) < parseInt(this.selectedMachinery?.odometer_reading_end)) { this.showValidationMessage_2 = true; }
       else { this.showValidationMessage_2 = false; }
     });
 
@@ -202,7 +202,7 @@ export class StartJobPage implements OnInit {
 
     // end of day validation for hours (Cart)
     this.startJobFormKart.valueChanges.subscribe((val) => {
-      if (parseInt(val.beginningEngineHours, 10) <= parseInt(this.selectedMachinery?.odometer_reading_end)) { this.showValidationMessage_1 = true; }
+      if (parseInt(val.beginningEngineHours, 10) < parseInt(this.selectedMachinery?.odometer_reading_end)) { this.showValidationMessage_1 = true; }
       else { this.showValidationMessage_1 = false; }
     });
 
@@ -216,13 +216,13 @@ export class StartJobPage implements OnInit {
       farm_id: [''],
       crop_id: [''],
       crew_chief_id: [''],
-      jobId: [''],
+      jobId: ['', [Validators.required]],
       active_check_in_id: ['']
     });
 
     // end of day validation for hours (truck driver)
     this.startJobFormTruck.valueChanges.subscribe((val) => {
-      if (val.begining_odometer_miles <= this.selectedMachinery?.odometer_reading_end) { this.showValidationMessage_1 = true; }
+      if (val.begining_odometer_miles < this.selectedMachinery?.odometer_reading_end) { this.showValidationMessage_1 = true; }
       else { this.showValidationMessage_1 = false; }
     });
   }
@@ -750,6 +750,7 @@ export class StartJobPage implements OnInit {
         });
       });
   }
+
   inputClickedJob() {
     // getting the serch value to check if there's a value in input
     this.job_search$
@@ -786,6 +787,7 @@ export class StartJobPage implements OnInit {
       }
     });
   }
+
   listClickedJob(job) {
     console.log(job);
     // hiding UL
