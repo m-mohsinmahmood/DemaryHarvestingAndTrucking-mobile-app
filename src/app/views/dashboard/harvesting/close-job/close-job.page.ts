@@ -30,6 +30,7 @@ export class CloseJobPage implements OnInit {
   job;
   sub;
   truckId;
+
   private initDataRetrievalExecuted = false;
   private ionViewRetrievalExecuted = true;
   customerName;
@@ -41,7 +42,6 @@ export class CloseJobPage implements OnInit {
 
   showValidationMessage_1;
   showValidationMessage_2;
-
 
   public loadingSpinner = new BehaviorSubject(false);
 

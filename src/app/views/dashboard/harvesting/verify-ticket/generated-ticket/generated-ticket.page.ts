@@ -68,8 +68,7 @@ export class GeneratedTicketPage implements OnInit {
 
     this.ticketID = this.ticket.id;
     this.fieldPivot = this.ticket.field_name;
-
-    this.fieldPivotSL = this.ticket.split_field_name == undefined ? '' : this.ticket.split_field_name;
+    this.fieldPivotSL = this.ticket.sl_field_name == undefined ? '' : this.ticket.sl_field_name;
 
     if (this.ticket) {
       this.generateTicketFormTruck.patchValue({

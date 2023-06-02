@@ -15,15 +15,15 @@ export class HarvestingPage implements OnInit {
   pendingTicketData$;
   pendingTicketLoading$;
   isModalOpen;
-  activeDwr: any;
+  activeDwr: any = null;
   preCheckFilled;
   activeWorkOrders: Observable<any>;
   activeTicket;
   preCheck;
   disableButtons = true;
   dataCount = {
-    active: -1,
-    preCheck: -1
+    active: null,
+    preCheck: null
   };
 
   role = '';
@@ -56,6 +56,7 @@ export class HarvestingPage implements OnInit {
 
   async ionViewDidLeave() {
     this.ionViewRetrievalExecuted = false;
+    this.disableButtons = true;
   }
 
   initDataRetrieval() {
@@ -63,8 +64,8 @@ export class HarvestingPage implements OnInit {
     this.activeDwr = null;
     this.isModalOpen = false;
     this.dataCount = {
-      active: -1,
-      preCheck: -1
+      active: null,
+      preCheck: null
     }
 
     this.role = localStorage.getItem('role');
@@ -75,7 +76,6 @@ export class HarvestingPage implements OnInit {
 
       if (workOrder.dwr.length > 0) {
         this.isModalOpen = false;
-        this.disableButtons = false;
       }
       else {
         this.isModalOpen = true;
@@ -90,26 +90,22 @@ export class HarvestingPage implements OnInit {
           this.activeTicket = workOrder;
           this.workOrderCount = workOrder.count;
           console.log('Current DWR :', workOrder);
+          this.disableButtons = false;
         });
     }
 
     if (this.role.includes('Combine Operator')) {
       this.harvestingService.getBeginningOfDay2(localStorage.getItem('employeeId'), 'beginningOfDay', 'harvesting')
         .subscribe((workOrder) => {
-          console.log("dasdsada ",workOrder);
-
           this.activeTicket = workOrder;
           this.workOrderCount = workOrder.count;
           console.log('Current DWR :', workOrder);
+          this.disableButtons = false;
         });
     }
 
     if (this.role.includes('Cart Operator')) {
-      // Call to get pending tickets
-      this.harvestingService.kartOperatorGetTickets(
-        localStorage.getItem('employeeId'),
-        'pending'
-      );
+      this.harvestingService.kartOperatorGetTickets(localStorage.getItem('employeeId'), 'pending');
 
       this.pendingTicketData$ = this.harvestingService.pendingTicket$;
       this.pendingTicketLoading$ = this.harvestingService.pendingTicketLoading$;
@@ -120,30 +116,34 @@ export class HarvestingPage implements OnInit {
           this.activeTicket = workOrder;
           this.workOrderCount = workOrder.count;
           console.log('Current DWR of Cart Operator :', workOrder);
+          this.disableButtons = false;
         });
     }
 
     if (this.role.includes('Truck Driver')) {
-      this.activeWorkOrders = this.harvestingService.getDeliveryTickets(this.role, localStorage.getItem('employeeId'), true, false, 'truck-driver-active-tickets');
-      this.activeWorkOrders.subscribe((workOrders) => {
-        this.activeTicket = workOrders.customer_job[0];
-        if (this.activeTicket !== undefined && !this.activeTicket.hasOwnProperty('preRoute')) {
-          this.activeTicket.preRoute = '/tabs/home/harvesting';
-          this.activeTicket.module = 'harvesting';
-        }
-
-        this.dataCount.active = workOrders.customer_job.length
-
-        console.log('Active: ', workOrders);
-        console.log('Active 2: ', this.dataCount.active);
-
-      });
-
       this.preCheckFilled = this.harvestingService.getDeliveryTickets(this.role, localStorage.getItem('employeeId'), true, true, 'truck-driver-active-tickets');
       this.preCheckFilled.subscribe((workOrders) => {
         this.preCheck = workOrders.customer_job[0];
         this.dataCount.preCheck = workOrders.customer_job.length
         console.log('Pre Check Filled: ', workOrders);
+
+        if (this.dataCount.preCheck > 0)
+          this.disableButtons = false;
+
+        if (!(this.dataCount.preCheck > 0)) {
+          this.activeWorkOrders = this.harvestingService.getDeliveryTickets(this.role, localStorage.getItem('employeeId'), true, false, 'truck-driver-active-tickets');
+          this.activeWorkOrders.subscribe((workOrders) => {
+            this.activeTicket = workOrders.customer_job[0];
+            if (this.activeTicket !== undefined && !this.activeTicket.hasOwnProperty('preRoute')) {
+              this.activeTicket.preRoute = '/tabs/home/harvesting';
+              this.activeTicket.module = 'harvesting';
+            }
+
+            this.dataCount.active = workOrders.customer_job.length
+            this.disableButtons = false;
+            console.log('Active: ', workOrders);
+          });
+        }
       });
     }
   }

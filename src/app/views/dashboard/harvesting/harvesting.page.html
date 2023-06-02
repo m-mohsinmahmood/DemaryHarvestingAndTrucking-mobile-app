@@ -137,7 +137,7 @@
 
 <!-- Truck Driver Tasks -->
 <ion-content *ngIf="role === 'Truck Driver'">
-  <ion-grid>
+  <ion-grid *ngIf="!disableButtons">
     <ion-row>
       <ion-col size="12">
         <ion-card class="card bg-project-green text-white" [disabled]="dataCount.active <= 0 || disableButtons"
@@ -174,11 +174,31 @@
         </ion-card>
       </ion-col>
 
+      <!-- MODEL -->
     </ion-row>
-
-    <!-- MODEL -->
     <app-check-in-out [isModalOpen]="isModalOpen" [data]="activeDwr" *ngIf="activeDwr && !(dataCount.active > 0 || dataCount.preCheck > 0)" [module]="'harvesting'" (action)="checkIn()">
     </app-check-in-out>
+
   </ion-grid>
 
+  <ion-grid *ngIf="disableButtons">
+    <ion-row>
+      <ion-col size="12">
+        <ion-card>
+          <ion-card-content>
+            <ion-skeleton-text [animated]="true" style="width: 100%; height: 20px;"></ion-skeleton-text>
+          </ion-card-content>
+          <ion-card-content>
+            <ion-skeleton-text [animated]="true" style="width: 100%; height: 20px;"></ion-skeleton-text>
+          </ion-card-content>
+          <ion-card-content>
+            <ion-skeleton-text [animated]="true" style="width: 100%; height: 20px;"></ion-skeleton-text>
+          </ion-card-content>
+          <ion-card-content>
+            <ion-skeleton-text [animated]="true" style="width: 100%; height: 20px;"></ion-skeleton-text>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      </ion-row>
+  </ion-grid>
 </ion-content>

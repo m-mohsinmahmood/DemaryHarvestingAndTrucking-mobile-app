@@ -197,6 +197,7 @@
 </ion-content>
 <!-- ===================== Dashboard Ends =========================== -->
 
+<ion-content>
 <ion-modal #model [isOpen]="isModalOpen" backdropDismiss="false">
   <ng-template>
     <ion-header>
@@ -212,10 +213,9 @@
         </ion-grid>
       </div>
     </ion-header>
+
     <ion-content class="ion-padding">
       <p>
-        <!-- <span class="capitalize">{{activeDwr[0].module_to_redirect}}</span> module is still active. Please checkout before working
-        on other module. -->
         You are still checked into the <span
           class="capitalize font-semibold font-Lato">{{activeDwr[0].module_to_redirect}}</span> module. Please checkout
         before attempting to work in another module
@@ -229,3 +229,4 @@
     </ion-content>
   </ng-template>
 </ion-modal>
+</ion-content>

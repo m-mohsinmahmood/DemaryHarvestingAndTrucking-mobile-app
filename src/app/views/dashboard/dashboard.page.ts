@@ -214,6 +214,7 @@ export class DashboardPage implements OnInit {
   }
 
   setOpen() {
+    this.isModalOpen = false;
 
     if (this.activeDwr[0].module_to_redirect === 'farming') {
       this.isModalOpen = false;
