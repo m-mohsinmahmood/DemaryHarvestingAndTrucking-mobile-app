@@ -122,6 +122,27 @@ export class CloseJobPage implements OnInit {
       });
     }
 
+    else if (this.role.includes('Cart Operator')) {
+      this.activeRoute.params.subscribe((param) => {
+        this.truckId = param.machinery_id;
+      });
+
+      this.harvestingService.getBeginningOfDay(
+        localStorage.getItem('employeeId'),
+        'beginningOfDayHarvesting',
+        'harvesting',
+        this.role
+      );
+
+      this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
+
+        this.closeJobFormKart.patchValue({
+          module: workOrder?.dwr[0]?.module,
+          dwrId: workOrder?.dwr[0]?.id
+        })
+      });
+    }
+
     else if (this.role.includes('Truck Driver')) {
       this.activeRoute.params.subscribe((param) => {
         this.closeJobFormTruck.patchValue({
@@ -147,27 +168,6 @@ export class CloseJobPage implements OnInit {
           module: workOrder?.dwr[0]?.module,
           dwrId: workOrder?.dwr[0]?.id
         });
-      });
-    }
-
-    else if (this.role.includes('Cart Operator')) {
-      this.activeRoute.params.subscribe((param) => {
-        this.truckId = param.machinery_id;
-      });
-
-      this.harvestingService.getBeginningOfDay(
-        localStorage.getItem('employeeId'),
-        'beginningOfDayHarvesting',
-        'harvesting',
-        this.role
-      );
-
-      this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
-
-        this.closeJobFormKart.patchValue({
-          module: workOrder?.dwr[0]?.module,
-          dwrId: workOrder?.dwr[0]?.id
-        })
       });
     }
   }
