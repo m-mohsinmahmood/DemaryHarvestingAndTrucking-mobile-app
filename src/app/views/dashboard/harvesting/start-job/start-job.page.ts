@@ -1,3 +1,6 @@
+/* eslint-disable radix */
+/* eslint-disable @typescript-eslint/no-shadow */
+/* eslint-disable @typescript-eslint/member-ordering */
 /* eslint-disable max-len */
 /* eslint-disable @angular-eslint/use-lifecycle-interface */
 /* eslint-disable no-underscore-dangle */
@@ -57,6 +60,7 @@ export class StartJobPage implements OnInit {
   machineSearchValue: any = '';
   machineUL: any = false;
   isMachineSelected: any = true;
+  selectedMachinery: any;
 
   // selected customer id to select farms & crops
   customerID: any;
@@ -67,7 +71,6 @@ export class StartJobPage implements OnInit {
   alertInfo: Alert = null;
   showAlert = false;
 
-  customerData: any;
   add_location_overlay = true;
   sub;
   //field name for pre-filled
@@ -86,6 +89,9 @@ export class StartJobPage implements OnInit {
 
   public loadingSpinner = new BehaviorSubject(false);
   private _unsubscribeAll: Subject<any> = new Subject<any>();
+  showValidationMessage_1 = false;
+  showValidationMessage_2 = false;
+  beginningEngineHours: boolean;
 
   constructor(
     private location: Location,
@@ -121,7 +127,7 @@ export class StartJobPage implements OnInit {
       this.machineSearchSubscription();
       this.jobSearchSubscription();
       this.initDataRetrievalExecuted = true;
-      console.log("On Init");
+      console.log('On Init');
     }
   }
 
@@ -136,7 +142,7 @@ export class StartJobPage implements OnInit {
       this.machineSearchSubscription();
       this.jobSearchSubscription();
       this.initDataRetrievalExecuted = true;
-      console.log("Ion view did enter");
+      console.log('Ion view did enter');
     }
   }
 
@@ -173,6 +179,14 @@ export class StartJobPage implements OnInit {
       active_check_in_id: ['']
     });
 
+    // end of day validation for hours (combine)
+    this.startJobFormCombine.valueChanges.subscribe((val) => {
+      if (parseInt(val.beginning_separator_hours) < parseInt(this.selectedMachinery?.separator_hours)) { this.showValidationMessage_1 = true; }
+      else { this.showValidationMessage_1 = false; }
+      if (parseInt(val.beginningEngineHours) < parseInt(this.selectedMachinery?.odometer_reading_end)) { this.showValidationMessage_2 = true; }
+      else { this.showValidationMessage_2 = false; }
+    });
+
     this.startJobFormKart = this.formBuilder.group({
       machineryId: [''],
       beginningEngineHours: ['', [Validators.required]],
@@ -186,6 +200,12 @@ export class StartJobPage implements OnInit {
       active_check_in_id: ['']
     });
 
+    // end of day validation for hours (Cart)
+    this.startJobFormKart.valueChanges.subscribe((val) => {
+      if (parseInt(val.beginningEngineHours, 10) < parseInt(this.selectedMachinery?.odometer_reading_end)) { this.showValidationMessage_1 = true; }
+      else { this.showValidationMessage_1 = false; }
+    });
+
     this.startJobFormTruck = this.formBuilder.group({
       workOrderId: [''],
       truck_id: ['', [Validators.required]],
@@ -196,8 +216,14 @@ export class StartJobPage implements OnInit {
       farm_id: [''],
       crop_id: [''],
       crew_chief_id: [''],
-      jobId: [''],
+      jobId: ['', [Validators.required]],
       active_check_in_id: ['']
+    });
+
+    // end of day validation for hours (truck driver)
+    this.startJobFormTruck.valueChanges.subscribe((val) => {
+      if (val.begining_odometer_miles < this.selectedMachinery?.odometer_reading_end) { this.showValidationMessage_1 = true; }
+      else { this.showValidationMessage_1 = false; }
     });
   }
 
@@ -247,11 +273,11 @@ export class StartJobPage implements OnInit {
             console.log('Response:', res);
             if (res.status === 200) {
 
-              let startingOfDay = {
-                supervisor_id: this.startJobFormCombine.get("crew_chief_id").value,
-                active_check_in_id: this.startJobFormCombine.get("active_check_in_id").value,
+              const startingOfDay = {
+                supervisor_id: this.startJobFormCombine.get('crew_chief_id').value,
+                active_check_in_id: this.startJobFormCombine.get('active_check_in_id').value,
                 operation: 'startingOfDay'
-              }
+              };
 
               this.harvestingService.updateStartingOfDayJobSetup(startingOfDay)
                 .subscribe(
@@ -285,11 +311,11 @@ export class StartJobPage implements OnInit {
         .subscribe(
           (res: any) => {
             if (res.status === 200) {
-              let startingOfDay = {
-                supervisor_id: this.startJobFormKart.get("crew_chief_id").value,
-                active_check_in_id: this.startJobFormKart.get("active_check_in_id").value,
+              const startingOfDay = {
+                supervisor_id: this.startJobFormKart.get('crew_chief_id').value,
+                active_check_in_id: this.startJobFormKart.get('active_check_in_id').value,
                 operation: 'startingOfDay'
-              }
+              };
 
               this.harvestingService.updateStartingOfDayJobSetup(startingOfDay)
                 .subscribe(
@@ -316,11 +342,11 @@ export class StartJobPage implements OnInit {
 
     // For Truck Driver
     else if (localStorage.getItem('role').includes('Truck Driver')) {
-      let startingOfDay = {
-        supervisor_id: this.startJobFormTruck.get("crew_chief_id").value,
-        active_check_in_id: this.startJobFormTruck.get("active_check_in_id").value,
+      const startingOfDay = {
+        supervisor_id: this.startJobFormTruck.get('crew_chief_id').value,
+        active_check_in_id: this.startJobFormTruck.get('active_check_in_id').value,
         operation: 'startingOfDay'
-      }
+      };
 
       this.harvestingService.updateStartingOfDayJobSetup(startingOfDay)
         .subscribe(
@@ -334,7 +360,7 @@ export class StartJobPage implements OnInit {
       this.harvestingService.updateBeginningOfDayJobSetup({
         jobId: this.startJobFormTruck.get('workOrderId').value,
         role: 'Truck Driver',
-        operation: "beginningOfDay"
+        operation: 'beginningOfDay'
       })
         .subscribe(
           (res: any) => {
@@ -591,6 +617,9 @@ export class StartJobPage implements OnInit {
     // hiding UL
     this.machineUL = false;
 
+    //selected machinery
+    this.selectedMachinery = machinery;
+
     // passing name in select's input
     this.machineryInput.nativeElement.value = machinery.name;
 
@@ -721,6 +750,7 @@ export class StartJobPage implements OnInit {
         });
       });
   }
+
   inputClickedJob() {
     // getting the serch value to check if there's a value in input
     this.job_search$
@@ -757,6 +787,7 @@ export class StartJobPage implements OnInit {
       }
     });
   }
+
   listClickedJob(job) {
     console.log(job);
     // hiding UL
