@@ -866,13 +866,30 @@ export class TicketPage implements OnInit {
   }
   //#endregion
 
-  printDiv(ticket) {
-    this.showDiv = ticket;
+  printenvelopeInfo() {
+    this.showDiv = "envelopeInfo";
 
     setTimeout(() => {
       window.print();
       this.showDiv = "none";
-      return false
+    }, 100);
+  }
+
+  printdeliveryTicket() {
+    this.showDiv = 'deliveryTicket';
+
+    setTimeout(() => {
+      window.print();
+      this.showDiv = "none";
+    }, 100);
+  }
+
+  printenvelopeStub() {
+    this.showDiv = 'envelopeStub';
+
+    setTimeout(() => {
+      window.print();
+      this.showDiv = "none";
     }, 100);
   }
 
