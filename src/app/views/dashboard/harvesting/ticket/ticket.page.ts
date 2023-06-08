@@ -1,3 +1,8 @@
+/* eslint-disable @typescript-eslint/dot-notation */
+/* eslint-disable eqeqeq */
+/* eslint-disable prefer-const */
+/* eslint-disable @typescript-eslint/semi */
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 /* eslint-disable @angular-eslint/use-lifecycle-interface */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable @typescript-eslint/naming-convention */
@@ -181,7 +186,11 @@ export class TicketPage implements OnInit {
   }
 
   ngOnInit() {
-
+    // toast
+    this.toastService.presentToast(
+      'Have you entered beg of day/job hours?',
+      'primary'
+    );
     this.role = localStorage.getItem('role');
     this.cartOperatorName = localStorage.getItem('employeeName');
     this.isReassign =
@@ -291,9 +300,30 @@ export class TicketPage implements OnInit {
   }
   getCreatedJobData() {
     this.sessionService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).subscribe((res) => {
+      console.log('invoiced job api',res);
+      this.job_name = res.invoiced_job? res.invoiced_job:'';
+      if(this.job_name!='' || !this.job_name){
+        let all_jobs=this.harvestingService.getInvoicedJobs(
+          'getInvoicedJobs',
+          this.role,
+          localStorage.getItem('employeeId')
+        );
+        // subscribing to show/hide field UL
+        all_jobs.subscribe((job) => {
+          if(job.jobs){
+            for(let jobb of Object.entries(job.jobs)){
+              if(this.job_name == jobb[1]['job_id']){
+                this.listClickedJob(jobb[1])
+              }
+            }
+          }
+          this.jobUL = false;
+        });
+      }
       this.deliveryTicketForm.patchValue({
         destination: res.destination,
         truckDriverId: res.truck_driver_id,
+        jobId:res.invoiced_job? res.invoiced_job:'',
       });
 
       //loaded miles
@@ -827,7 +857,7 @@ export class TicketPage implements OnInit {
     });
   }
   listClickedJob(job) {
-    console.log(job);
+    console.log('job',job);
     // hiding UL
     this.jobUL = false;
 

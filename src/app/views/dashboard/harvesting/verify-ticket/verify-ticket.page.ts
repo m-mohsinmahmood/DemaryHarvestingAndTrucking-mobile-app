@@ -91,6 +91,11 @@ export class VerifyTicketPage implements OnInit {
   }
 
   ngOnInit() {
+    // toast
+    this.toastService.presentToast(
+      'Have you entered your beginning of day work data?',
+      'primary'
+    );
     this.role = localStorage.getItem('role');
 
     // passing the segment value conditionally
