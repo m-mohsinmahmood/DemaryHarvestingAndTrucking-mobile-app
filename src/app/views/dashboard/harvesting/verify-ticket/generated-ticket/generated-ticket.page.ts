@@ -136,6 +136,7 @@ export class GeneratedTicketPage implements OnInit {
       moisture_content: [''],
       protein_content: [''],
       test_weight:[''],
+      scale_ticket:[''],
       operation:['updateTicketInfo']
 
   
@@ -277,6 +278,7 @@ async ionModalDidDismiss() {
       moisture_content: this.ticket.moisture_content,
       protein_content: this.ticket.protein_content,
       test_weight: this.ticket.test_weight,
+      scale_ticket: this.ticket.delivery_ticket_number,
   
     });
   }
@@ -300,6 +302,7 @@ async ionModalDidDismiss() {
             this.ticket.moisture_content = this.editTicketForm.get('moisture_content').value;
             this.ticket.protein_content = this.editTicketForm.get('protein_content').value;
             this.ticket.test_weight = this.editTicketForm.get('test_weight').value;
+            this.ticket.delivery_ticket_number = this.editTicketForm.get('scale_ticket').value;
             // navigation
             // this.isEditModalOpen.dismiss()
             // this.router.navigate(['/tabs/home/harvesting/verify-ticket']);

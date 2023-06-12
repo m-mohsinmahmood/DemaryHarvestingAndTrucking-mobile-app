@@ -29,6 +29,9 @@
                     <div class="flex justify-end mt-1" (click)="openModal(sentTicket.id)">
                       <span class="bg-blue-500 px-2 py-1 rounded-lg text-white font-Lato">Reassign</span>
                     </div>
+                    <div class="flex justify-end mt-1" (click)="openDetailsModal(sentTicket.id, sentTicket)">
+                      <span class="bg-yellow-500 px-2 py-1 rounded-lg text-white font-Lato">Details</span>
+                    </div>
                   </div>
                 </div>
                 <div class="flex justify-between p-0">
@@ -429,3 +432,113 @@
     </div>
   </div>
 </ion-content>
+
+
+  <!-- MODAL -->
+  <ion-modal class="DetailsModal" #modelToReassign [isOpen]="isDetailModalOpen" (ionModalDidDismiss)="ionDetailsModalDismiss()">
+    <ng-template>
+      <ion-header>
+        <div class="bg-3D8AA4">
+          <ion-grid>
+            <ion-row>
+              <ion-col size="3" class=" flex justify-center">
+                <div></div>
+              </ion-col>
+              <ion-col size="6" class="flex justify-center text-white">Ticket Details</ion-col>
+              <ion-col size="3" class="flex justify-end">
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </div>
+      </ion-header>
+      <div class="overflow-y-auto px-1">
+        
+        <!-- First Row -->
+        <ion-row >
+          <ion-col size="6" class="flex flex-col ion-text-center">
+            <p class="font-Lato text-black font-bold font-14 text-left">Date</p>
+            <span class="font-Lato font-14 text-left">{{sentTicketObj.date | date: "MMM-dd-YYYY"}}</span>
+          </ion-col>
+
+          <ion-col size="6" class="flex flex-col ion-text-center">
+            <p class="font-Lato text-black font-bold font-14 text-left">Truck Driver Name</p>
+            <span class="font-Lato font-14 text-left">{{sentTicketObj.truck_driver_name}}</span>
+          </ion-col>
+        </ion-row>
+        
+          <ion-row >
+          
+          <ion-col size="6" class="flex flex-col items-start ion-text-center">
+            <p class="font-Lato text-black font-bold font-14 text-left">Delivery Ticket Name</p>
+            <span class="font-Lato font-14 text-left">{{sentTicketObj.delivery_ticket_name}}</span>
+          </ion-col>
+
+          <ion-col size="6" class="flex flex-col items-start ion-text-center">
+            <p class="font-Lato text-black font-bold font-14 text-left">Kart Operator Name</p>
+            <span class="font-Lato font-14 text-left">{{sentTicketObj.kart_operator_name}}</span>
+          </ion-col>
+        </ion-row>
+        <ion-row >
+
+
+          <ion-col size="6" class="flex flex-col items-start ion-text-center">
+            <p class="font-Lato text-black font-bold font-14 text-left">State</p>
+            <span class="font-Lato font-14 text-left">{{sentTicketObj.state}}</span>
+          </ion-col>
+
+            <ion-col size="6" class="flex flex-col ion-text-center">
+              <p class="font-Lato text-black font-bold font-14 text-left">Destination</p>
+              <span class="font-Lato font-14 text-left">{{sentTicketObj.destination}}</span>
+            </ion-col>
+
+          </ion-row>
+
+          <ion-row >
+            <ion-col size="6" class="flex flex-col items-start ion-text-center">
+              <p class="font-Lato text-black font-bold font-14 text-left">Customer Name</p>
+              <span class="font-Lato font-14 text-left">{{sentTicketObj.customerName}}</span>
+            </ion-col>
+          <ion-col size="6" class="flex flex-col ion-text-center">
+            <p class="font-Lato text-black font-bold font-14 text-left">Crop Name</p>
+            <span class="font-Lato font-14 text-left">{{sentTicketObj.crop_name}}</span>
+          </ion-col>
+
+        </ion-row>
+
+        <ion-row >
+
+
+          <ion-col size="6" class="flex flex-col items-start ion-text-center">
+            <p class="font-Lato text-black font-bold font-14 text-left">Cart Scale Weight</p>
+            <span class="font-Lato font-14 text-left">{{sentTicketObj.cart_scale_weight}}</span>
+          </ion-col>  
+          <ion-col size="6" class="flex flex-col ion-text-center">
+            <p class="font-Lato text-black font-bold font-14 text-left">Field Name</p>
+            <span class="font-Lato font-14 text-left">{{sentTicketObj.field_name}}</span>
+          </ion-col>
+        </ion-row>
+
+        <ion-row >
+          <ion-col size="6" class="flex flex-col items-start ion-text-center">
+            <p class="font-Lato text-black font-bold font-14 text-left">Farm Name</p>
+            <span class="font-Lato font-14 text-left">{{sentTicketObj.farm_name}}</span>
+          </ion-col>          
+          
+          <ion-col size="6" class="flex flex-col ion-text-center">
+            <p class="font-Lato text-black font-bold font-14 text-left">Loaded Miles</p>
+            <span class="font-Lato font-14 text-left">{{sentTicketObj.loaded_miles}}</span>
+          </ion-col>
+        </ion-row>
+
+        
+
+      </div>
+        <div class="bg-white">
+          <div class="flex justify-center">
+            <ion-button class="w-1/2 pb-2 font-Lato text-white">Print</ion-button>
+          </div>
+        </div>
+
+    </ng-template>
+  </ion-modal>
+  <!-- MODAL -->

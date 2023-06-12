@@ -39,6 +39,8 @@ export class VerifyTicketPage implements OnInit {
   verifiedTicketLoading$;
 
   isReassignModalOpen = false;
+  isDetailModalOpen = false;
+  sentTicketObj: any;
   driverSetupForm: FormGroup;
 
   truck_driver_search$ = new Subject();
@@ -113,6 +115,7 @@ export class VerifyTicketPage implements OnInit {
     });
 
     this.driverSearchSubscription();
+
   }
 
   async ionViewDidEnter() {
@@ -132,6 +135,7 @@ export class VerifyTicketPage implements OnInit {
 
   async ionModalDidDismiss() {
     this.isReassignModalOpen = false;
+    this.isDetailModalOpen = false;
 
     this.isTruckDriverSelected = true; // for asterik
     this.driverInput.nativeElement.value = '';
@@ -140,6 +144,15 @@ export class VerifyTicketPage implements OnInit {
     // this.driverInput.nativeElement.value = '';
 
   }
+
+  async ionDetailsModalDismiss() {
+    this.isDetailModalOpen = false;
+  }
+
+
+
+
+  
   initSentApis() {
     if (this.role.includes('Cart Operator')) {
       this.harvestingService.kartOperatorGetTickets(
@@ -223,6 +236,7 @@ export class VerifyTicketPage implements OnInit {
         reassign: true,
       },
     });
+
   }
 
   goBack() {
@@ -257,6 +271,13 @@ export class VerifyTicketPage implements OnInit {
   openModal(jobId) {
     this.isReassignModalOpen = true;
     this.driverSetupForm.patchValue({ id: jobId });
+  }
+
+  openDetailsModal(jobId , ticket) {
+    this.isDetailModalOpen = true;
+    this.sentTicketObj = ticket;
+    console.log(this.sentTicketObj)
+
   }
 
   reassignDriver() {
