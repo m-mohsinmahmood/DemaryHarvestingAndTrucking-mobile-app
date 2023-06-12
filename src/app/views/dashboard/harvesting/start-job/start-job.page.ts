@@ -839,7 +839,7 @@ export class StartJobPage implements OnInit {
     this.crewChiefName = job.crew_chief_name;
 
     // passing name in select's input
-    this.jobInput.nativeElement.value = job.job_id;
+    this.jobInput.nativeElement.value = 'Job# ' + job.job_setup_name;
 
     // passing name in job-search-value in Rendered2 for checks
     this.jobSearchValue = job.customer_name;

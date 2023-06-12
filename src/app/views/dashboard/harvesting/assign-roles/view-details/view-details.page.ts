@@ -42,7 +42,7 @@ export class ViewDetailsPage implements OnInit {
 
   ) {
     this.renderer.listen('window', 'click', (e) => {
-       if (e.target !== this.jobInput.nativeElement) {
+      if (e.target !== this.jobInput.nativeElement) {
         this.allJobs = of([]);
         this.jobUL = false; // to hide the UL
       }
@@ -139,7 +139,7 @@ export class ViewDetailsPage implements OnInit {
     this.jobId = job.job_id;
 
     // passing name in select's input
-    this.jobInput.nativeElement.value = job.job_id;
+    this.jobInput.nativeElement.value = 'Job# ' + job.job_setup_name;
 
     this.getDetails();
 
@@ -157,27 +157,27 @@ export class ViewDetailsPage implements OnInit {
 
   getDetails() {
     this.loadingSpinner.next(true);
-    this.harvestingService.getDetails(localStorage.getItem('employeeId'),this.jobId)
+    this.harvestingService.getDetails(localStorage.getItem('employeeId'), this.jobId)
       .subscribe(
         (res: any) => {
           console.log('Response:', res);
           // if (res.status === 200) {
-            this.data = res.employees;
+          this.data = res.employees;
 
-            this.combineOperatorCount = 0;
-            this.cartOperatorCount = 0;
+          this.combineOperatorCount = 0;
+          this.cartOperatorCount = 0;
 
-            // Iterate over employees
-            res.employees.forEach((employee) => {
-              if (employee.role === 'Combine Operator') {
-                this.combineOperatorCount++;
-              } else if (employee.role === 'Cart Operator') {
-                this.cartOperatorCount++;
-              }
-            });
+          // Iterate over employees
+          res.employees.forEach((employee) => {
+            if (employee.role === 'Combine Operator') {
+              this.combineOperatorCount++;
+            } else if (employee.role === 'Cart Operator') {
+              this.cartOperatorCount++;
+            }
+          });
 
-            // stop loader
-            this.loadingSpinner.next(false);
+          // stop loader
+          this.loadingSpinner.next(false);
         },
         (err) => {
           console.log('Error:', err);

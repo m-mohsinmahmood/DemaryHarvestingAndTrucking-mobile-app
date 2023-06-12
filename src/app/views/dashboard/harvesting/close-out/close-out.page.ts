@@ -122,52 +122,11 @@ export class CloseOutPage implements OnInit {
   }
 
   initApis() {
-
-    // if (this.role.includes('Crew Chief')) {
-    //   console.log(localStorage.getItem('employeeId'));
-
-    //   // this.harvestingservice.getJobSetup('Crew Chief', localStorage.getItem('employeeId'));
-    // }
   }
 
   initObservables() {
-    // this.sub = this.harvestingservice.customerJobSetup$.subscribe((res) => {
-    //   console.log(res);
-    //   this.customerData = res;
-    //   // For Crew Chief
-    //   if (this.role.includes('Crew Chief')) {
-    //     this.closeJobFormCrew.patchValue({
-    //       customer_id: this.customerData?.customer_job[0]?.customer_id,
-    //       state: this.customerData?.customer_job[0]?.state,
-    //       farm_id: this.customerData?.customer_job[0]?.farm_id,
-    //       crop_id: this.customerData?.customer_job[0]?.crop_id,
-    //       field_id: this.customerData?.customer_job[0]?.field_id
-    //     });
-    //   }
-    //   // For combine operator
-    //   else if (this.role.includes('Combine Operator')) {
-    //     this.closeJobFormCombine.patchValue({
-    //       customer_id: this.customerData?.customer_job[0]?.customer_id
-    //     });
-    //   }
-    //   // For Cart Operator
-    //   else if (this.role.includes('Cart Operator')) {
-    //     this.closeJobFormKart.patchValue({
-    //       customer_id: this.customerData?.customer_job[0]?.customer_id
-    //     });
-    //   }
-
-    // });
-    // this.loadingSub = this.harvestingservice.customerLoading$.subscribe((val) => {
-    //   console.log('value', val);
-    //   this.isLoading = val;
-    // });
   }
   submit() {
-    // console.log(this.closeJobFormCombine.value);
-    // console.log(this.closeJobFormKart.value);
-
-    // this.closeJobFormCrew.value.changeFarmFieldCrop = true;
     this.closeJobFormCrew.value.closeJob = true;
 
     console.log(this.closeJobFormCrew.value);
@@ -370,7 +329,7 @@ export class CloseOutPage implements OnInit {
     }
 
     // passing name in select's input
-    this.customerInput.nativeElement.value = customer.job_id;
+    this.customerInput.nativeElement.value = 'Job# ' + customer.job_setup_name;
 
     // passing name in customer-search-value in Rendered2 for checks
     this.customerSearchValue = customer.customer_name;

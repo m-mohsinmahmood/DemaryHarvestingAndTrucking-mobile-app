@@ -84,11 +84,22 @@ export class HarvestingService {
   readonly pendingTicket$: Observable<any[] | null> =
     this.pendingTicket.asObservable();
 
+  private completedTicket: BehaviorSubject<any[] | null> = new BehaviorSubject(
+    null
+  );
+  readonly completedTicket$: Observable<any[] | null> =
+    this.completedTicket.asObservable();
+
   private pendingTicketLoading: BehaviorSubject<boolean> =
     new BehaviorSubject<boolean>(true);
   readonly pendingTicketLoading$: Observable<boolean> =
     this.pendingTicketLoading.asObservable();
   //#endregion
+
+  private completedTicketLoading: BehaviorSubject<boolean> =
+    new BehaviorSubject<boolean>(true);
+  readonly completedTicketLoading$: Observable<boolean> =
+    this.completedTicketLoading.asObservable();
 
   //#region Verified Ticket
   private verifiedTicket: BehaviorSubject<any[] | null> = new BehaviorSubject(
@@ -1008,6 +1019,11 @@ export class HarvestingService {
               this.pendingTicket.next(res);
               this.pendingTicketLoading.next(false);
             }
+            else if (ticketStatus == 'verified') {
+              this.completedTicketLoading.next(true);
+              this.completedTicket.next(res);
+              this.completedTicketLoading.next(false);
+            }
           });
       } catch (error) {
         console.log('error', error);
@@ -1146,6 +1162,25 @@ export class HarvestingService {
     if (session) {
       return this._httpClient
         .get(`api-1/customer-job-setup`, {
+          params
+        })
+        .pipe(take(1));
+    }
+    else {
+      return of(null);
+    }
+  }
+
+  getMaxDeliveryTicket() {
+    let params = new HttpParams();
+
+    params = params.set('operation', 'getMaxDeliveryTicket');
+
+    let session = this.session.SessionActiveCheck();
+
+    if (session) {
+      return this._httpClient
+        .get(`api-1/harvesting-ticket`, {
           params
         })
         .pipe(take(1));

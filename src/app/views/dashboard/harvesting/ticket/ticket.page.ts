@@ -249,12 +249,6 @@ export class TicketPage implements OnInit {
   }
 
   initApis() {
-    let uniqueId = this.harvestingService.generateUniqueId();
-    console.log(uniqueId);
-    this.deliveryTicketForm.patchValue({
-      deliveryTicketNumber: uniqueId
-    })
-
     let crew_chief_id = '';
     this.harvestingService.getKartOperatorCrewChief('getKartOpCrewChief', localStorage.getItem('employeeId')).subscribe(param => {
       crew_chief_id = param[0].id;
@@ -290,6 +284,13 @@ export class TicketPage implements OnInit {
     this.getCreatedJobData();
   }
   getCreatedJobData() {
+
+    this.harvestingService.getMaxDeliveryTicket().subscribe((res) => {
+      this.deliveryTicketForm.patchValue({
+        deliveryTicketNumber: +res[0].max+1
+      })
+    });
+
     this.sessionService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).subscribe((res) => {
       this.deliveryTicketForm.patchValue({
         destination: res.destination,
@@ -866,30 +867,13 @@ export class TicketPage implements OnInit {
   }
   //#endregion
 
-  printenvelopeInfo() {
-    this.showDiv = "envelopeInfo";
+  printDiv(ticket) {
+    this.showDiv = ticket;
 
     setTimeout(() => {
       window.print();
       this.showDiv = "none";
-    }, 100);
-  }
-
-  printdeliveryTicket() {
-    this.showDiv = 'deliveryTicket';
-
-    setTimeout(() => {
-      window.print();
-      this.showDiv = "none";
-    }, 100);
-  }
-
-  printenvelopeStub() {
-    this.showDiv = 'envelopeStub';
-
-    setTimeout(() => {
-      window.print();
-      this.showDiv = "none";
+      return false
     }, 100);
   }
 

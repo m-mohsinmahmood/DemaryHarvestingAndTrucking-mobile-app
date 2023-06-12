@@ -223,9 +223,9 @@ export class CloseJobPage implements OnInit {
 
     // end of day validation for hours (combine)
     this.closeJobFormCombine.valueChanges.subscribe((val) => {
-      if (parseInt(val.ending_separator_hours) <= parseInt(this.customerData?.workOrders[0]?.separator_hours)) { this.showValidationMessage_1 = true; }
+      if (parseInt(val.ending_separator_hours) < parseInt(this.customerData?.workOrders[0]?.separator_hours)) { this.showValidationMessage_1 = true; }
       else { this.showValidationMessage_1 = false; }
-      if (parseInt(val.endingEngineHours) <= parseInt(this.customerData?.workOrders[0]?.engine_hours)) { this.showValidationMessage_2 = true; }
+      if (parseInt(val.endingEngineHours) < parseInt(this.customerData?.workOrders[0]?.engine_hours)) { this.showValidationMessage_2 = true; }
       else { this.showValidationMessage_2 = false; }
     });
 
@@ -239,7 +239,7 @@ export class CloseJobPage implements OnInit {
 
     // end of day validation for hours (Cart)
     this.closeJobFormKart.valueChanges.subscribe((val) => {
-      if (parseInt(val.endingEngineHours) <= parseInt(this.customerData?.workOrders[0]?.engine_hours)) { this.showValidationMessage_1 = true; }
+      if (parseInt(val.endingEngineHours) < parseInt(this.customerData?.workOrders[0]?.engine_hours)) { this.showValidationMessage_1 = true; }
       else { this.showValidationMessage_1 = false; }
     });
 
@@ -253,8 +253,7 @@ export class CloseJobPage implements OnInit {
 
     // end of day validation for hours (truck driver)
     this.closeJobFormTruck.valueChanges.subscribe((val) => {
-      console.log(parseInt(val.ending_odometer_miles) <= parseInt(this.customerData?.workOrders[0]?.odometer_reading_end));
-      if (val.ending_odometer_miles <= this.customerData?.workOrders[0]?.odometer_reading_end) { this.showValidationMessage_1 = true; }
+      if (val.ending_odometer_miles < this.customerData?.workOrders[0]?.odometer_reading_end) { this.showValidationMessage_1 = true; }
       else { this.showValidationMessage_1 = false; }
     });
   }

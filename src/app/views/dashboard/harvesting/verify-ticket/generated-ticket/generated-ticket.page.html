@@ -5,11 +5,11 @@
       <ion-button class="w-1/3 mt-5 font-Lato text-white" (click)="openModal(ticket.id)">Edit</ion-button>
     </div>
     <ion-card-header class="bg-3D8AA4">
-      <ion-card-title *ngIf="ticket?.split_load_check" class="flex justify-center text-2xl font-Lato text-white">Delivery Ticket: {{ticket.id |
-        slice:0-8}} -SL</ion-card-title>
+      <ion-card-title *ngIf="ticket?.split_load_check"
+        class="flex justify-center text-2xl font-Lato text-white">Delivery Ticket# {{ticket.delivery_ticket_name}} - SL</ion-card-title>
 
-        <ion-card-title *ngIf="!ticket?.split_load_check" class="flex justify-center text-2xl font-Lato text-white">Delivery Ticket: {{ticket.id |
-          slice:0-8}}</ion-card-title>
+      <ion-card-title *ngIf="!ticket?.split_load_check"
+        class="flex justify-center text-2xl font-Lato text-white">Delivery Ticket# {{ticket.delivery_ticket_name}}</ion-card-title>
     </ion-card-header>
     <ion-card-content>
       <ion-grid>
@@ -72,7 +72,8 @@
 
           <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
             <p class="font-Lato text-black font-bold font-14">Scale Ticket</p>
-            <span class="font-Lato font-14">{{ticket?.delivery_ticket_number ? ticket.delivery_ticket_number.slice(-5):''}}</span>
+            <span class="font-Lato font-14">{{ticket?.delivery_ticket_number ?
+              ticket.delivery_ticket_number.slice(-5):''}}</span>
           </ion-col>
         </ion-row>
 
@@ -127,6 +128,7 @@
       </ion-grid>
       <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="submit()">Verify</ion-button>
     </ion-card-content>
+
     <ion-card-content *ngIf="(isLoadingTicket$ | async) === true">
       <ion-grid>
         <!-- First Row -->
@@ -217,14 +219,16 @@
           </ion-col>
         </ion-row>
       </ion-grid>
-    </ion-card-content> </ion-card></ion-content><ion-content *ngIf="role.includes('Truck Driver')">
+    </ion-card-content> </ion-card></ion-content>
+
+<ion-content *ngIf="role.includes('Truck Driver')">
   <ion-card>
     <ion-card-header class="bg-3D8AA4">
       <ion-card-title class="font-Lato flex justify-center text-2xl text-white">Delivery Ticket#
         {{ticketID.substring(0,8)}}</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <ion-card class="m-0 mb-2">
+      <ion-card class="m-0 mb-4 mt-4">
         <ion-card-header>
           <ion-card-title class="font-Lato">Job Profile</ion-card-title>
         </ion-card-header>
@@ -246,6 +250,9 @@
       </ion-card>
       <form [formGroup]="generateTicketFormTruck">
 
+        <label class="block text-sm font-medium text-gray-700">Add Photo of Scale Ticket <span
+            *ngIf="this.generateTicketFormTruck.get('image_2').hasError('required')"
+            class="text-red-400">*</span></label>
         <div class="w-16 h-16 mr-2 mb-2 mt-2">
           <ion-card
             [ngClass]="!upload_2 ? ' shadow-none m-0 border-2 border-aaaaaa bg-e9e6e6' : 'shadow-none m-0 border-2 border-3D8AA4 bg-white'"
@@ -266,7 +273,7 @@
           </ion-card>
         </div>
 
-        <div class="col-span-12 mb-2">
+        <div class="col-span-12 mb-2 mt-4">
           <label class="block text-sm font-medium text-gray-700">Scale Ticket 'Net' Weight (lb)
             <span *ngIf="this.generateTicketFormTruck.get('NetWeight').hasError('required')"
               class="text-red-400">*</span></label>

@@ -26,6 +26,7 @@ export class VerifyTicketPage implements OnInit {
   sentTicketData$;
   pendingTicketData$;
   verifiedTicketData$;
+  completedTicketData$;
 
   // subscriptions
   sentTicketDataSub: Subscription;
@@ -33,6 +34,7 @@ export class VerifyTicketPage implements OnInit {
 
   // Loaders
   sentTicketLoading$;
+  completedTicketLoading$;
   pendingTicketLoading$;
   verifiedTicketLoading$;
 
@@ -106,8 +108,8 @@ export class VerifyTicketPage implements OnInit {
 
     this.driverSetupForm = this.formBuilder.group({
       truckDriverId: ['', [Validators.required]],
-      id:[''],
-      operation:['reAssignTruckDrivers']
+      id: [''],
+      operation: ['reAssignTruckDrivers']
     });
 
     this.driverSearchSubscription();
@@ -134,8 +136,8 @@ export class VerifyTicketPage implements OnInit {
     this.isTruckDriverSelected = true; // for asterik
     this.driverInput.nativeElement.value = '';
 
-  // @ViewChild('driverInput') driverInput: ElementRef;
-  // this.driverInput.nativeElement.value = '';
+    // @ViewChild('driverInput') driverInput: ElementRef;
+    // this.driverInput.nativeElement.value = '';
 
   }
   initSentApis() {
@@ -155,6 +157,20 @@ export class VerifyTicketPage implements OnInit {
   initSentObservables() {
     this.sentTicketData$ = this.harvestingService.sentTicket$;
     this.sentTicketLoading$ = this.harvestingService.sentTicketLoading$;
+  }
+
+  initCompletedApis() {
+    if (this.role.includes('Truck Driver')) {
+      this.harvestingService.truckDriverGetTickets(
+        localStorage.getItem('employeeId'),
+        'verified'
+      );
+    }
+  }
+
+  initCompletedObservables() {
+    this.completedTicketData$ = this.harvestingService.completedTicket$;
+    this.completedTicketLoading$ = this.harvestingService.completedTicketLoading$;
   }
 
   initPendingApis() {
@@ -234,13 +250,13 @@ export class VerifyTicketPage implements OnInit {
       this.initSentObservables();
     }
     if (event.target.value === 'completed') {
-      this.initPendingApis();
-      this.initPendingObservables();
+      this.initCompletedApis();
+      this.initCompletedObservables();
     }
   }
-  openModal(jobId){
+  openModal(jobId) {
     this.isReassignModalOpen = true;
-    this.driverSetupForm.patchValue({id: jobId});
+    this.driverSetupForm.patchValue({ id: jobId });
   }
 
   reassignDriver() {

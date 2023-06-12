@@ -113,7 +113,7 @@ export class GeneratedTicketPage implements OnInit {
       scale_ticket_weight_docs: [''],
       status: ['pending'],
       image_1: [''],
-      image_2: [''],
+      image_2: ['', [Validators.required]],
     });
 
     this.generateTicketFormTruck.valueChanges.subscribe((value) => {
