@@ -1,3 +1,5 @@
+/* eslint-disable prefer-const */
+/* eslint-disable quote-props */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @angular-eslint/use-lifecycle-interface */
 /* eslint-disable no-underscore-dangle */
@@ -37,6 +39,7 @@ export class VerifyTicketPage implements OnInit {
   verifiedTicketLoading$;
 
   isReassignModalOpen = false;
+  isDeleteModalOpen = false;
   driverSetupForm: FormGroup;
 
   truck_driver_search$ = new Subject();
@@ -47,9 +50,10 @@ export class VerifyTicketPage implements OnInit {
   driverSearchValue: any = '';
   driverUL: any = false;
   allTruckDrivers: Observable<any>;
-  deleteId;
+  deleteTicketId;
 
   public loadingSpinner = new BehaviorSubject(false);
+  public deleteSpinner = new BehaviorSubject(false);
 
 
   private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -137,12 +141,15 @@ export class VerifyTicketPage implements OnInit {
     this.isReassignModalOpen = false;
 
     this.isTruckDriverSelected = true; // for asterik
-    this.driverInput.nativeElement.value = '';
+    if(this.driverInput){
+      this.driverInput.nativeElement.value = '';
+    }
+    this.isDeleteModalOpen = false;
 
-  // @ViewChild('driverInput') driverInput: ElementRef;
-  // this.driverInput.nativeElement.value = '';
-
+    // @ViewChild('driverInput') driverInput: ElementRef;
+    // this.driverInput.nativeElement.value = '';
   }
+
   initSentApis() {
     if (this.role.includes('Cart Operator')) {
       this.harvestingService.kartOperatorGetTickets(
@@ -243,6 +250,7 @@ export class VerifyTicketPage implements OnInit {
       this.initPendingObservables();
     }
   }
+
   openModal(jobId){
     this.isReassignModalOpen = true;
     this.driverSetupForm.patchValue({id: jobId});
@@ -359,6 +367,37 @@ export class VerifyTicketPage implements OnInit {
     this.driverInput.nativeElement.value = driver.name;
     this.isTruckDriverSelected = false;
     this.driverSetupForm.controls.truckDriverId.setValue(driver.id ?? '');
+  }
+  //#endregion
+
+  //#region delete ticket
+  deleteTicket(){
+    console.log('delete ticket id:',this.deleteTicketId);
+    this.deleteSpinner.next(true);
+    this.harvestingService.kartOperatorDeleteTicket({
+      id: this.deleteTicketId,
+      operation: 'deleteSentTicket'
+    }).subscribe( (res: any) => {
+      //debugger;
+      console.log('res',res);
+      if (res.status === 200) {
+        this.deleteSpinner.next(false);
+        this.isDeleteModalOpen = false;
+        this.toastService.presentToast('Ticket has been deleted!', 'success');
+        this.initSentApis();
+        this.initSentObservables();
+      }
+    },
+    (err) => {
+      this.deleteSpinner.next(false);
+      this.isDeleteModalOpen = false;
+      this.toastService.presentToast(err, 'danger');
+    },);
+  }
+
+  openDeleteModal(ticketId){
+    this.deleteTicketId = ticketId;
+    this.isDeleteModalOpen = true;
   }
   //#endregion
 
