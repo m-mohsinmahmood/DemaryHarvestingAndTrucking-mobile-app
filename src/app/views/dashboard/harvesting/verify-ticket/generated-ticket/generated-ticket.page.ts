@@ -17,6 +17,7 @@ import { ToastService } from 'src/app/services/toast/toast.service';
 export class GeneratedTicketPage implements OnInit {
   role: any;
   generateTicketFormTruck: FormGroup;
+  editTicketForm: FormGroup;
   ticketID: any;
   ticket: any;
   // ticket data
@@ -32,6 +33,8 @@ export class GeneratedTicketPage implements OnInit {
   ticketSub;
   fieldPivot; //field/pivot
   fieldPivotSL; //field/pivot-sl
+  isEditModalOpen = false;
+
 
   public loadingSpinner = new BehaviorSubject(false);
 
@@ -126,6 +129,18 @@ export class GeneratedTicketPage implements OnInit {
         this.generateTicketFormTruck.get('NetWeight2').setErrors(null);
       }
     });
+
+    this.editTicketForm = this.formBuilder.group({
+      ticket_id:[''],
+      net_weight: [''],
+      moisture_content: [''],
+      protein_content: [''],
+      test_weight:[''],
+      operation:['updateTicketInfo']
+
+  
+    });
+
   }
 
   goBack() {
@@ -243,4 +258,65 @@ export class GeneratedTicketPage implements OnInit {
       );
     }
   }
+async ionModalDidDismiss() {
+    this.isEditModalOpen = false;
+
+
+  // @ViewChild('driverInput') driverInput: ElementRef;
+  // this.driverInput.nativeElement.value = '';
+
+  }
+
+
+  openModal(jobId){
+    this.isEditModalOpen = true;
+    // this.driverSetupForm.patchValue({id: jobId});
+    this.editTicketForm.patchValue({
+      ticket_id:this.ticket.id,
+      net_weight: this.ticket.scale_ticket_net_weight,
+      moisture_content: this.ticket.moisture_content,
+      protein_content: this.ticket.protein_content,
+      test_weight: this.ticket.test_weight,
+  
+    });
+  }
+
+
+
+  updateTicketInfo() {
+    this.loadingSpinner.next(true);
+    this.harvestingService.reAssignTruckDrivers(this.editTicketForm.value)
+      .subscribe(
+        (res: any) => {
+          console.log('Response:', res);
+          if (res.status === 200) {
+            // stop loader
+            this.loadingSpinner.next(false);
+
+            // clode modal
+            this.isEditModalOpen = false;
+         
+            this.ticket.scale_ticket_net_weight = this.editTicketForm.get('net_weight').value;
+            this.ticket.moisture_content = this.editTicketForm.get('moisture_content').value;
+            this.ticket.protein_content = this.editTicketForm.get('protein_content').value;
+            this.ticket.test_weight = this.editTicketForm.get('test_weight').value;
+            // navigation
+            // this.isEditModalOpen.dismiss()
+            // this.router.navigate(['/tabs/home/harvesting/verify-ticket']);
+          } else {
+            console.log('Something happened :)');
+            this.loadingSpinner.next(false);
+
+          }
+        },
+        (err) => {
+          console.log('Error:', err);
+          this.loadingSpinner.next(false);
+
+        },
+      );
+  }
+
+
+
 }

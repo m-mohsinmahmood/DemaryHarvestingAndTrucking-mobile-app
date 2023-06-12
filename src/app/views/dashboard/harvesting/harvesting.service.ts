@@ -1163,4 +1163,19 @@ export class HarvestingService {
     return uniqueId;
   }
 
+
+  updateTicketInfoPatch(data) {
+    let session = this.session.SessionActiveCheck();
+
+    if (session) {
+      return this._httpClient
+        .patch<any>('api-1/havesting-kart-operator', data)
+        .pipe(take(1));
+    }
+    else {
+      return of(null);
+    }
+  }
+
+
 }

@@ -1,6 +1,9 @@
 <app-header [title]="'Complete Delivery Ticket'" [color]="'harvesting'"></app-header><ion-content
   *ngIf="role.includes('Cart Operator')">
   <ion-card>
+    <div class="flex justify-end">
+      <ion-button class="w-1/3 mt-5 font-Lato text-white" (click)="openModal(ticket.id)">Edit</ion-button>
+    </div>
     <ion-card-header class="bg-3D8AA4">
       <ion-card-title *ngIf="ticket?.split_load_check" class="flex justify-center text-2xl font-Lato text-white">Delivery Ticket: {{ticket.id |
         slice:0-8}} -SL</ion-card-title>
@@ -16,7 +19,6 @@
             <p class="font-Lato text-black font-bold font-14">DHT Date</p>
             <span class="font-Lato font-14">{{ticket.date | date:'MM-dd-YYYY'}}</span>
           </ion-col>
-
           <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
             <p class="font-Lato text-black font-bold font-14">Customer</p>
             <span class="font-Lato font-14">{{ticket.customerName}}</span>
@@ -29,7 +31,6 @@
             <p class="font-Lato text-black font-bold font-14">Farm</p>
             <span class="font-Lato font-14">{{ticket.farm_name}}</span>
           </ion-col>
-
           <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
             <p class="font-Lato text-black font-bold font-14">Crop</p>
             <span class="font-Lato font-14 text-left">{{ticket.crop_name}}</span>
@@ -42,7 +43,6 @@
             <p class="font-Lato text-black font-bold font-14">Field/Pivot</p>
             <span class="font-Lato font-14">{{ticket.field_name}}</span>
           </ion-col>
-
           <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
             <p class="font-Lato text-black font-bold font-14">Field/Pivot-SL</p>
             <span class="font-Lato font-14">{{ticket.sl_field_name }}</span>
@@ -57,7 +57,6 @@
             </p>
             <span class="font-Lato font-14 text-left">{{ticket.truck_driver_name}}</span>
           </ion-col>
-
           <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
             <p class="font-Lato text-black font-bold font-14">Destination</p>
             <span class="font-Lato font-14 text-left">{{ticket.destination}}</span>
@@ -96,7 +95,6 @@
             </p>
             <span class="font-Lato font-14">{{ticket.cart_scale_weight}}</span>
           </ion-col>
-
           <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
             <p class="font-Lato text-black font-bold font-14 text-left">
               Scale Ticket "Net" Weight(lb)
@@ -339,3 +337,66 @@
       </form>
     </ion-card-content>
   </ion-card></ion-content>
+
+
+  <!-- MODAL -->
+  <ion-modal class="supervisorModal" #modelToReassign [isOpen]="isEditModalOpen" (ionModalDidDismiss)="ionModalDidDismiss()">
+    <ng-template>
+      <ion-header>
+        <div class="bg-3D8AA4">
+          <ion-grid>
+            <ion-row>
+              <ion-col size="3" class=" flex justify-center">
+                <div></div>
+              </ion-col>
+              <ion-col size="6" class="flex justify-center text-white">Edit Ticket</ion-col>
+              <ion-col size="3" class="flex justify-end">
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </div>
+      </ion-header>
+      <div class="overflow-y-auto px-1">
+        <form [formGroup]="editTicketForm">
+          <div class="ml-2">
+          <div class="col-span-12 mb-4 mt-2" id="day">
+            <label class="block text-sm font-medium text-gray-700">Scale Ticket "Net" Weight(lb)</label>
+            <ion-input placeholder="Enter Value" formControlName="net_weight"></ion-input>
+
+          </div>
+
+          <div class="col-span-12 mb-4 mt-2" id="day">
+            <label class="block text-sm font-medium text-gray-700">Moisture Content</label>
+            <ion-input placeholder="Enter Value" formControlName="moisture_content"></ion-input>
+
+          </div>
+
+          <div class="col-span-12 mb-4 mt-2" id="day">
+            <label class="block text-sm font-medium text-gray-700">Protein Content</label>
+            <ion-input placeholder="Enter Value" formControlName="protein_content"></ion-input>
+
+          </div>
+          <div class="col-span-12 mb-4 mt-2" id="day">
+            <label class="block text-sm font-medium text-gray-700">Test Weight</label>
+            <ion-input placeholder="Enter Value" formControlName="test_weight"></ion-input>
+
+          </div>
+        </div>
+
+          <!-- <div class="col-span-12 mb-4 mt-2" id="day">
+            <label class="block text-sm font-medium text-gray-700">Net Weight</label>
+            <ion-input placeholder="Enter Value" formControlName="net_weight"></ion-input>
+
+          </div> -->
+
+          <!-- <ion-button expand="block" class="font-Lato font-white mt-20 mb-8 text-white" (click)="reassignDriver()">Reassign Driver</ion-button> -->
+          <ion-button expand="block" class="font-Lato text-white w-full mt-2 mr-2 mb-5" 
+            (click)="updateTicketInfo()">
+            <div *ngIf="(loadingSpinner | async) === false">Update</div>
+            <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+          </ion-button>
+        </form>
+      </div>
+    </ng-template>
+  </ion-modal>
+  <!-- MODAL -->
