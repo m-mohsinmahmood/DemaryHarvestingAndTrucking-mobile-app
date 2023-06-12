@@ -71,16 +71,19 @@
             <span class="font-Lato font-14">{{ticket.loaded_miles}}</span>
           </ion-col>
 
-          <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
-            <p class="font-Lato text-black font-bold font-14">Scale Ticket</p>
-            <span class="font-Lato font-14">{{ticket?.delivery_ticket_number ? ticket.delivery_ticket_number.slice(-5):''}}</span>
+          <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">Cart Operator</p>
+            <span class="font-Lato font-14">{{ticket.kart_operator_name}}</span>
           </ion-col>
         </ion-row>
 
         <ion-row class="mb-1 h-16">
-          <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
-            <p class="font-Lato text-black font-bold font-14">Cart Operator</p>
-            <span class="font-Lato font-14">{{ticket.kart_operator_name}}</span>
+          <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+            <p class="font-Lato text-black font-bold font-14 text-left">
+              Farmers Bin Cart Weight (lbs.)
+            </p>
+            <span *ngIf="ticket.farmers_bin_weight" class="font-Lato font-14">{{ticket.farmers_bin_weight}} lbs</span>
+            <span *ngIf="!ticket.farmers_bin_weight" class="font-Lato font-14">0</span>
           </ion-col>
 
           <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
@@ -123,6 +126,11 @@
           <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
             <p class="font-Lato text-black font-bold font-14">Protein content</p>
             <span class="font-Lato font-14">{{ticket?.protein_content}}</span>
+          </ion-col>
+
+          <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
+            <p class="font-Lato text-black font-bold font-14">Scale Ticket</p>
+            <span class="font-Lato font-14">{{ticket?.delivery_ticket_number ? ticket.delivery_ticket_number.slice(-5):''}}</span>
           </ion-col>
         </ion-row>
 
@@ -269,6 +277,15 @@
         </div>
 
         <div class="col-span-12 mb-2">
+          <label class="block text-sm font-medium text-gray-700">Farmers Bin Cart Weight (lbs.)
+            <span
+              class="text-red-400">*</span></label>
+          <input
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="farmers_bin_weight_initial" placeholder="Farmers Bin Weight" />
+        </div>
+
+        <div class="col-span-12 mb-2">
           <label class="block text-sm font-medium text-gray-700">Scale Ticket 'Net' Weight (lb)
             <span *ngIf="this.generateTicketFormTruck.get('NetWeight').hasError('required')"
               class="text-red-400">*</span></label>
@@ -290,6 +307,18 @@
         </div>
         <ion-text *ngIf="this.generateTicketFormTruck.get('NetWeight2').invalid" class="text-sm text-red-500">
           Scale ticket weight should match
+        </ion-text>
+
+        <div class="col-span-12 mb-2">
+          <label class="block text-sm font-medium text-gray-700">Farmers Bin Cart Weight (lbs)
+            <span
+              class="text-red-400" *ngIf="this.generateTicketFormTruck.get('farmers_bin_weight').hasError('required')">*</span></label>
+          <input
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="farmers_bin_weight" placeholder="Farmers Bin Weight" />
+        </div>
+        <ion-text *ngIf="this.generateTicketFormTruck.get('farmers_bin_weight_initial').value > this.generateTicketFormTruck.get('farmers_bin_weight').value" class="text-sm text-red-500">
+          Farmers Bin weight should match
         </ion-text>
 
         <div class="col-span-12 mb-4">

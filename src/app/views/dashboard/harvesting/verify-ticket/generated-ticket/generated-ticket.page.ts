@@ -77,6 +77,7 @@ export class GeneratedTicketPage implements OnInit {
         destination: this.ticket.destination,
         farmId: this.ticket.farm_id,
         cropName: this.ticket.crop_name,
+        farmers_bin_weight_initial : this.ticket.farmers_bin_weight
       });
     }
 
@@ -111,6 +112,8 @@ export class GeneratedTicketPage implements OnInit {
       status: ['pending'],
       image_1: [''],
       image_2: [''],
+      farmers_bin_weight_initial: [{value:0,disabled:true}],
+      farmers_bin_weight: [0, [Validators.required]],
     });
 
     this.generateTicketFormTruck.valueChanges.subscribe((value) => {
@@ -124,6 +127,14 @@ export class GeneratedTicketPage implements OnInit {
       } else {
         this.generateTicketFormTruck.get('NetWeight').setErrors(null);
         this.generateTicketFormTruck.get('NetWeight2').setErrors(null);
+      }
+
+      if (value.farmers_bin_weight_initial > value.farmers_bin_weight) {
+        this.generateTicketFormTruck
+          .get('farmers_bin_weight')
+          .setErrors({ mustMatch: true });
+      } else {
+        this.generateTicketFormTruck.get('farmers_bin_weight').setErrors(null);
       }
     });
   }

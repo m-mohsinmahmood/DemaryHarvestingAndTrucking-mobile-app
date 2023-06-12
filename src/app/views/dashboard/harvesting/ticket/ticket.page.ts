@@ -116,6 +116,9 @@ export class TicketPage implements OnInit {
   //Print Divs
   showDiv = "none";
 
+  // farmers bin variable
+  isFarmersBin:boolean=false;
+
   customerName;
   state;
   farm;
@@ -219,8 +222,20 @@ export class TicketPage implements OnInit {
       crop_id: [''],
       crew_chief_id: [''],
       jobId: [''],
-      deliveryTicketNumber: ['']
+      deliveryTicketNumber: [''],
+      farmers_bin_check: [this.isFarmersBin],
+      farmers_bin_weight: ['']
     });
+
+    // custom validation for 'farmers_bin_weight'
+    this.deliveryTicketForm.valueChanges.subscribe(val => {
+      if (!val.farmers_bin_check) {
+        this.deliveryTicketForm.get('farmers_bin_weight').setErrors(null);
+        this.deliveryTicketForm.get('farmers_bin_weight').setValidators(null);
+      } else {
+        this.deliveryTicketForm.get('farmers_bin_weight').setValidators([Validators.required]);
+      }
+    })
 
     // custom validation for 'kart_scale_weight_split'
     this.deliveryTicketForm.valueChanges.subscribe((value) => {
@@ -311,7 +326,11 @@ export class TicketPage implements OnInit {
         // subscribing to show/hide field UL
         all_jobs.subscribe((job) => {
           if(job.jobs){
+            console.log("xxx: ", job.jobs);
+
             for(let jobb of Object.entries(job.jobs)){
+              console.log(jobb);
+
               if(this.job_name == jobb[1]['job_id']){
                 this.listClickedJob(jobb[1])
               }
@@ -394,6 +413,17 @@ export class TicketPage implements OnInit {
 
     }
   }
+
+  //#region farmer bin check
+  checkFarmersBin(){
+    this.isFarmersBin = !this.isFarmersBin;
+
+    if (!this.isFarmersBin) { // for clearing validations
+      this.deliveryTicketForm.controls.farmers_bin_weight.setValue(''); //empty field name
+    }
+
+  }
+  //#endregion
 
   submit() {
     // navigating

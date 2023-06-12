@@ -115,6 +115,19 @@
             formControlName="destination" placeholder="Destination" />
         </div>
 
+        <ion-item lines="none">
+          <ion-checkbox slot="start" (ionChange)="checkFarmersBin()" formControlName="farmers_bin_check"></ion-checkbox>
+          <ion-label class="font">Farmers Bin</ion-label>
+        </ion-item>
+
+        <div *ngIf="isFarmersBin" class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Farmers Bin Cart Scale Weight (lbs.)<span
+              class="text-red-400" *ngIf="this.deliveryTicketForm.get('farmers_bin_weight').hasError('required')">*</span></label>
+          <input type="number"
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="farmers_bin_weight" placeholder="Scale Weight (lbs.)" />
+        </div>
+
         <div class="col-span-12 mb-4">
           <label class="block text-sm font-medium text-gray-700">Loaded Miles <span
               *ngIf="this.deliveryTicketForm.get('loadedMiles').hasError('required')"
