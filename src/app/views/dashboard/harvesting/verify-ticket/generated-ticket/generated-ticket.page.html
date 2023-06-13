@@ -45,7 +45,8 @@
 
           <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
             <p class="font-Lato text-black font-bold font-14">Field/Pivot-SL</p>
-            <span class="font-Lato font-14">{{ticket.sl_field_name }}</span>
+            <span *ngIf="ticket.sl_field_name" class="font-Lato font-14">{{ticket.sl_field_name }}</span>
+            <span *ngIf="!ticket.sl_field_name" class="font-Lato font-14">0</span>
           </ion-col>
         </ion-row>
 
@@ -88,7 +89,8 @@
 
           <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
             <p class="font-Lato text-black font-bold font-14">Loaded Weight-SL</p>
-            <span class="font-Lato font-14">{{ticket?.scale_ticket_net_weight - ticket?.cart_scale_weight}}</span>
+            <span *ngIf="ticket.scale_ticket_net_weight && ticket.cart_scale_weight" class="font-Lato font-14">{{ticket?.scale_ticket_net_weight - ticket?.cart_scale_weight}}</span>
+            <span *ngIf="!ticket.scale_ticket_net_weight || !ticket.cart_scale_weight" class="font-Lato font-14">{{ticket?.scale_ticket_net_weight - ticket?.cart_scale_weight}}</span>
           </ion-col>
         </ion-row>
 
@@ -97,7 +99,8 @@
             <p class="font-Lato text-black font-bold font-14">
               Cart Scale Weight
             </p>
-            <span class="font-Lato font-14">{{ticket.cart_scale_weight}}</span>
+            <span *ngIf="ticket.cart_scale_weight" class="font-Lato font-14">{{ticket.cart_scale_weight}}</span>
+            <span *ngIf="!ticket.cart_scale_weight" class="font-Lato font-14">0</span>
           </ion-col>
 
           <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
