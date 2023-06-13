@@ -325,21 +325,11 @@ export class TicketPage implements OnInit {
         );
         // subscribing to show/hide field UL
         all_jobs.subscribe((job) => {
-<<<<<<< HEAD
-          if(job.jobs){
-            console.log("xxx: ", job.jobs);
-
-            for(let jobb of Object.entries(job.jobs)){
-              console.log(jobb);
-
-              if(this.job_name == jobb[1]['job_id']){
-=======
           if (job.jobs) {
             console.log("xxxx: ", job.jobs);
 
             for (let jobb of Object.entries(job.jobs)) {
               if (this.job_name == jobb[1]['job_id']) {
->>>>>>> 96197855a2393440ace991d911746912ace13aa1
                 this.listClickedJob(jobb[1])
               }
             }
