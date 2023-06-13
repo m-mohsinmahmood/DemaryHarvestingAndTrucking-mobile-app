@@ -77,7 +77,8 @@ export class GeneratedTicketPage implements OnInit {
         destination: this.ticket.destination,
         farmId: this.ticket.farm_id,
         cropName: this.ticket.crop_name,
-        farmers_bin_weight_initial : this.ticket.farmers_bin_weight
+        farmers_bin_weight_initial : (this.ticket.farmers_bin_weight == undefined || this.ticket.farmers_bin_weight == "") ? 0 : this.ticket.farmers_bin_weight,
+        farmers_bin_weight : (this.ticket.farmers_bin_weight == undefined || this.ticket.farmers_bin_weight == "") ? 0 : this.ticket.farmers_bin_weight,
       });
     }
 
@@ -129,12 +130,16 @@ export class GeneratedTicketPage implements OnInit {
         this.generateTicketFormTruck.get('NetWeight2').setErrors(null);
       }
 
-      if (value.farmers_bin_weight_initial > value.farmers_bin_weight) {
-        this.generateTicketFormTruck
-          .get('farmers_bin_weight')
-          .setErrors({ mustMatch: true });
-      } else {
+      // custom validation for 'farmers_bin_weight'
+
+      if( value.farmers_bin_weight!=null && value.farmers_bin_weight >= this.generateTicketFormTruck.get('farmers_bin_weight_initial').value){
         this.generateTicketFormTruck.get('farmers_bin_weight').setErrors(null);
+      }else{
+        this.generateTicketFormTruck.get('farmers_bin_weight').setErrors({ mustMatch: true })
+      }
+
+      if(value.farmers_bin_weight == null){
+        this.generateTicketFormTruck.get('farmers_bin_weight').setErrors({ required: true })
       }
     });
   }
