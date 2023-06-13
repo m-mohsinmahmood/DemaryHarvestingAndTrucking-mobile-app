@@ -582,22 +582,6 @@ export class HarvestingService {
     }
   }
 
-  updateCustomerJob(ticketID: any) {
-    let session = this.session.SessionActiveCheck();
-
-    if (session) {
-      return this._httpClient
-        .patch(
-          `api-1/customer-job-setup?ticketId=${ticketID}&operation=updateCustomerJob`,
-          {}
-        )
-        .pipe(take(1));
-    }
-    else {
-      return of(null);
-    }
-  }
-
   getSentTicket(value: any) {
     let session = this.session.SessionActiveCheck();
 

@@ -133,16 +133,16 @@ export class TrailerPage implements OnInit {
         );
     }
 
-    else if (this.module === 'harvesting') {
-      this.harvestingService.updatePreTripCheckJob(this.harvestingTicket)
-        .subscribe(
-          (res: any) => {
-            console.log(res);
-          },
-          (err) => {
-            this.toast.presentToast(err, 'danger');
-          },
-        );
-    }
+    // else if (this.module === 'harvesting') {
+    //   this.harvestingService.updatePreTripCheckJob(this.harvestingTicket)
+    //     .subscribe(
+    //       (res: any) => {
+    //         console.log(res);
+    //       },
+    //       (err) => {
+    //         this.toast.presentToast(err, 'danger');
+    //       },
+    //     );
+    // }
   }
 }

@@ -27,6 +27,7 @@ export class VerifyTicketPage implements OnInit {
   pendingTicketData$;
   verifiedTicketData$;
   completedTicketData$;
+  showDiv = "none";
 
   // subscriptions
   sentTicketDataSub: Subscription;
@@ -152,7 +153,7 @@ export class VerifyTicketPage implements OnInit {
 
 
 
-  
+
   initSentApis() {
     if (this.role.includes('Cart Operator')) {
       this.harvestingService.kartOperatorGetTickets(
@@ -394,4 +395,13 @@ export class VerifyTicketPage implements OnInit {
   }
   //#endregion
 
+  printDiv(ticket) {
+    this.showDiv = ticket;
+
+    setTimeout(() => {
+      window.print();
+      this.showDiv = "none";
+      return false
+    }, 100);
+  }
 }

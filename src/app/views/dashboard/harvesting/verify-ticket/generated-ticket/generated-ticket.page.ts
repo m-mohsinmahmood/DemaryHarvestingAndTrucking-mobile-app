@@ -1,13 +1,14 @@
 /* eslint-disable @angular-eslint/use-lifecycle-interface */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable @typescript-eslint/naming-convention */
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { Location } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HarvestingService } from './../../harvesting.service';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, of } from 'rxjs';
 import { ToastService } from 'src/app/services/toast/toast.service';
+import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-generated-ticket',
@@ -15,10 +16,23 @@ import { ToastService } from 'src/app/services/toast/toast.service';
   styleUrls: ['./generated-ticket.page.scss'],
 })
 export class GeneratedTicketPage implements OnInit {
+  @ViewChild('machineryInput') machineryInput: ElementRef;
+  // machinery variables
+  allMachinery: Observable<any>;
+  machine_search$ = new Subject();
+  machine_name: any = '';
+  machineSearchValue: any = '';
+  machineUL: any = false;
+  isMachineSelected: any = true;
+  selectedMachinery: any;
+
+
   role: any;
   generateTicketFormTruck: FormGroup;
   editTicketForm: FormGroup;
   ticketID: any;
+  ticketName: any;
+  slCheck: any;
   ticket: any;
   // ticket data
   ticketData: any;
@@ -45,31 +59,41 @@ export class GeneratedTicketPage implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     private harvestingService: HarvestingService,
-    private toastService: ToastService
-  ) { }
+    private toastService: ToastService,
+    private renderer: Renderer2,
+  ) {
+    if (localStorage.getItem('role').includes('Truck Driver')) {
+      this.renderer.listen('window', 'click', (e) => {
+        if (e.target !== this.machineryInput.nativeElement) {
+          this.allMachinery = of([]);
+          this.machineUL = false; // to hide the UL
+        }
+      });
+    }
+  }
 
   async ionViewDidLeave() {
     this.DataDestroy();
   }
 
   DataDestroy() {
-    // Unsubscribe from all subscriptions
     this._unsubscribeAll.next(null);
     this._unsubscribeAll.complete();
-    // this.ticketSub.unsubscribe();
-    // this.isLoadingTicket$.unsubscribe();
   }
 
   ngOnInit() {
     this.role = localStorage.getItem('role');
 
     this.initForm();
+    this.machineSearchSubscription();
 
     this.ticket = JSON.parse(this.router.getCurrentNavigation().extras.state?.ticket);
 
     console.log('Ticket: ', this.ticket);
 
     this.ticketID = this.ticket.id;
+    this.ticketName = this.ticket.delivery_ticket_name;
+    this.slCheck = this.ticket.split_load_check;
     this.fieldPivot = this.ticket.field_name;
     this.fieldPivotSL = this.ticket.sl_field_name == undefined ? '' : this.ticket.sl_field_name;
 
@@ -98,7 +122,7 @@ export class GeneratedTicketPage implements OnInit {
   }
   initForm() {
     this.generateTicketFormTruck = this.formBuilder.group({
-      // scaleTicket: ['', [Validators.required]],
+      scaleTicket: ['', [Validators.required]],
       NetWeight: [0, [Validators.required]],
       NetWeight2: [0, [Validators.required]],
       testWeight: [''],
@@ -114,6 +138,7 @@ export class GeneratedTicketPage implements OnInit {
       status: ['pending'],
       image_1: [''],
       image_2: ['', [Validators.required]],
+      machineryId: ['', [Validators.required]]
     });
 
     this.generateTicketFormTruck.valueChanges.subscribe((value) => {
@@ -131,15 +156,13 @@ export class GeneratedTicketPage implements OnInit {
     });
 
     this.editTicketForm = this.formBuilder.group({
-      ticket_id:[''],
+      ticket_id: [''],
       net_weight: [''],
       moisture_content: [''],
       protein_content: [''],
       test_weight:[''],
       scale_ticket:[''],
       operation:['updateTicketInfo']
-
-  
     });
 
   }
@@ -227,7 +250,6 @@ export class GeneratedTicketPage implements OnInit {
         }
       );
     } else {
-      // const payload = { operation: 'verifyTicket', ticketId: this.ticket.id };
       const formData: FormData = new FormData();
       formData.append(
         'generateTicketFormTruck',
@@ -259,31 +281,21 @@ export class GeneratedTicketPage implements OnInit {
       );
     }
   }
-async ionModalDidDismiss() {
+  async ionModalDidDismiss() {
     this.isEditModalOpen = false;
-
-
-  // @ViewChild('driverInput') driverInput: ElementRef;
-  // this.driverInput.nativeElement.value = '';
-
   }
 
-
-  openModal(jobId){
+  openModal() {
     this.isEditModalOpen = true;
-    // this.driverSetupForm.patchValue({id: jobId});
     this.editTicketForm.patchValue({
-      ticket_id:this.ticket.id,
+      ticket_id: this.ticket.id,
       net_weight: this.ticket.scale_ticket_net_weight,
       moisture_content: this.ticket.moisture_content,
       protein_content: this.ticket.protein_content,
       test_weight: this.ticket.test_weight,
-      scale_ticket: this.ticket.delivery_ticket_number,
-  
+      scale_ticket: this.ticket.scale_ticket_number
     });
   }
-
-
 
   updateTicketInfo() {
     this.loadingSpinner.next(true);
@@ -297,15 +309,13 @@ async ionModalDidDismiss() {
 
             // clode modal
             this.isEditModalOpen = false;
-         
+
             this.ticket.scale_ticket_net_weight = this.editTicketForm.get('net_weight').value;
             this.ticket.moisture_content = this.editTicketForm.get('moisture_content').value;
             this.ticket.protein_content = this.editTicketForm.get('protein_content').value;
             this.ticket.test_weight = this.editTicketForm.get('test_weight').value;
-            this.ticket.delivery_ticket_number = this.editTicketForm.get('scale_ticket').value;
+            this.ticket.scale_ticket_number = this.editTicketForm.get('scale_ticket').value;
             // navigation
-            // this.isEditModalOpen.dismiss()
-            // this.router.navigate(['/tabs/home/harvesting/verify-ticket']);
           } else {
             console.log('Something happened :)');
             this.loadingSpinner.next(false);
@@ -320,6 +330,107 @@ async ionModalDidDismiss() {
       );
   }
 
+  //#region Machinery
+  machineSearchSubscription() {
+    this.machine_search$
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        takeUntil(this._unsubscribeAll)
+      )
+      .subscribe((value: string) => {
+        // passing for renderer2
+        this.machineSearchValue = value;
+        // for asterik to look required
+        if (value === '') {
+          this.isMachineSelected = true;
+        }
 
+        if (this.role.includes('Truck Driver')) {
+          this.allMachinery = this.harvestingService.getMachinery(
+            value,
+            'allMotorizedVehicles',
+            'Truck IFTA'
+          );
+        }
+
+        // subscribing to show/hide machine UL
+        this.allMachinery.subscribe((machine) => {
+          if (machine.count === 0) {
+            // hiding UL
+            this.machineUL = false;
+            this.isMachineSelected = true;
+          } else {
+            this.machineUL = true;
+          }
+        });
+      });
+  }
+
+  inputClickedMachinery() {
+    // getting the serch value to check if there's a value in input
+    this.machine_search$
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        takeUntil(this._unsubscribeAll)
+      )
+      .subscribe((v) => {
+        this.machineSearchValue = v;
+      });
+
+    const value =
+      this.machineSearchValue === undefined
+        ? this.machine_name
+        : this.machineSearchValue;
+
+    // calling API
+
+    if (this.role.includes('Truck Driver')) {
+      this.allMachinery = this.harvestingService.getMachinery(
+        value,
+        'allMotorizedVehicles',
+        'Truck IFTA'
+      );
+    }
+
+    // subscribing to show/hide field UL
+    this.allMachinery.subscribe((machinery) => {
+      console.log('--', machinery);
+      if (machinery.count === 0) {
+        // hiding UL
+        this.machineUL = false;
+      } else {
+        // showing UL
+        this.machineUL = true;
+      }
+    });
+  }
+
+  listClickedMachiney(machinery) {
+    console.log('Machinery Object:', machinery);
+    // hiding UL
+    this.machineUL = false;
+
+    //selected machinery
+    this.selectedMachinery = machinery;
+
+    // passing name in select's input
+    this.machineryInput.nativeElement.value = machinery.name;
+
+    // to enable submit button
+    this.isMachineSelected = false;
+
+    // assigning values in form conditionally
+    if (this.role.includes('Truck Driver')) {
+      this.generateTicketFormTruck.patchValue({
+        machineryId: machinery.id
+      });
+    }
+
+    // clearing array
+    this.allMachinery = of([]);
+  }
+  //#endregion
 
 }

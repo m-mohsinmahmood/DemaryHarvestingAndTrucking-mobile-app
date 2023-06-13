@@ -52,13 +52,11 @@ export class TicketPage implements OnInit {
   field_search$ = new Subject();
   field_split_load_search$ = new Subject();
 
-
   // input values
   trick_driver_name: any = '';
   kart_operator_name: any = '';
   field_name: any = '';
   field_split_load_name: any = '';
-
 
   // input's search values
   truckDriverSearchValue: any;
@@ -66,13 +64,11 @@ export class TicketPage implements OnInit {
   fieldSearchValue: any;
   fieldSplitLoadSearchValue: any;
 
-
   // to show UL's
   truckDriverUL: any = false;
   kartOperatorUL: any = false;
   fieldUL: any = false;
   fieldSplitLoadUL: any = false;
-
 
   // for invalid
   isTruckDriverSelected: any = true;
@@ -80,7 +76,6 @@ export class TicketPage implements OnInit {
   isFieldSelected: any = true;
   isFieldSplitLoadSelected: any = true;
   currentDate: any = moment(new Date()).format('MM-DD-YYYY');
-
 
   // Profile variables
   customerData: any;

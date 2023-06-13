@@ -42,7 +42,6 @@ export class CheckInOutComponent implements OnInit {
         (res: any) => {
           if (res.status === 200) {
             this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
-              console.log('Active Check In ', workOrder.dwr);
               this.data = workOrder.dwr;
               this.loadingSpinner.next(false);
               this.actionEmitter();

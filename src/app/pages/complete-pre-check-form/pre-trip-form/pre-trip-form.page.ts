@@ -5,6 +5,7 @@ import { Subject, Observable, of } from 'rxjs';
 import { ToastService } from 'src/app/services/toast/toast.service';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { TripCheckService } from '../trip-check-form.service';
+import { HarvestingService } from 'src/app/views/dashboard/harvesting/harvesting.service';
 @Component({
   selector: 'app-pre-trip-form',
   templateUrl: './pre-trip-form.page.html',
@@ -14,6 +15,17 @@ export class PreTripFormPage implements OnInit {
 
   role = '';
   employeeId = '';
+
+  @ViewChild('machineryInput') machineryInput: ElementRef;
+  // machinery variables
+  allMachinery: Observable<any>;
+  machine_search$ = new Subject();
+  machine_name: any = '';
+  machineSearchValue: any = '';
+  machineUL: any = false;
+  isMachineSelected: any = true;
+  selectedMachinery: any;
+
 
   @ViewChild('trailerInput') trailerInput: ElementRef;
   isTrailerSelected: any = true;
@@ -50,6 +62,7 @@ export class PreTripFormPage implements OnInit {
     private renderer: Renderer2,
     private router: Router,
     private tripCheckFormService: TripCheckService,
+    private harvestingService: HarvestingService,
     private activeRoute: ActivatedRoute
   ) {
     {
@@ -58,6 +71,10 @@ export class PreTripFormPage implements OnInit {
           if (e.target !== this.trailerInput.nativeElement) {
             this.allTrailer = of([]); // to clear array
             this.trailerUL = false; // to hide the UL
+          }
+          else if (e.target !== this.machineryInput.nativeElement) {
+            this.allMachinery = of([]);
+            this.machineUL = false; // to hide the UL
           }
         }
       });
@@ -75,7 +92,6 @@ export class PreTripFormPage implements OnInit {
   initDataFetch() {
     this.activeRoute.params.subscribe(params => {
       this.activeTicket = params;
-      this.truckNo = params.truck_id;
       console.log(params);
 
     })
@@ -155,6 +171,7 @@ export class PreTripFormPage implements OnInit {
     });
 
     this.trailerSearchSubscription();
+    this.machineSearchSubscription();
 
     this.role = localStorage.getItem('role');
     this.employeeId = localStorage.getItem('employeeId');
@@ -267,10 +284,113 @@ export class PreTripFormPage implements OnInit {
     // For Specific Fields
 
     // passing name in select's input
-    this.trailer_name = trailer.id;
+    this.trailer_name = trailer.name;
 
     // to enable submit button
     this.isTrailerSelected = false;
+  }
+  //#endregion
+
+  //#region Machinery
+  machineSearchSubscription() {
+    this.machine_search$
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        takeUntil(this._unsubscribeAll)
+      )
+      .subscribe((value: string) => {
+        // passing for renderer2
+        this.machineSearchValue = value;
+        // for asterik to look required
+        if (value === '') {
+          this.isMachineSelected = true;
+        }
+
+        if (this.role.includes('Truck Driver')) {
+          this.allMachinery = this.harvestingService.getMachinery(
+            value,
+            'allMotorizedVehicles',
+            'Truck IFTA'
+          );
+        }
+
+        // subscribing to show/hide machine UL
+        this.allMachinery.subscribe((machine) => {
+          if (machine.count === 0) {
+            // hiding UL
+            this.machineUL = false;
+            this.isMachineSelected = true;
+          } else {
+            this.machineUL = true;
+          }
+        });
+      });
+  }
+
+  inputClickedMachinery() {
+    // getting the serch value to check if there's a value in input
+    this.machine_search$
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        takeUntil(this._unsubscribeAll)
+      )
+      .subscribe((v) => {
+        this.machineSearchValue = v;
+      });
+
+    const value =
+      this.machineSearchValue === undefined
+        ? this.machine_name
+        : this.machineSearchValue;
+
+    // calling API
+
+    if (this.role.includes('Truck Driver')) {
+      this.allMachinery = this.harvestingService.getMachinery(
+        value,
+        'allMotorizedVehicles',
+        'Truck IFTA'
+      );
+    }
+
+    // subscribing to show/hide field UL
+    this.allMachinery.subscribe((machinery) => {
+      console.log('--', machinery);
+      if (machinery.count === 0) {
+        // hiding UL
+        this.machineUL = false;
+      } else {
+        // showing UL
+        this.machineUL = true;
+      }
+    });
+  }
+
+  listClickedMachiney(machinery) {
+    console.log('Machinery Object:', machinery);
+    // hiding UL
+    this.machineUL = false;
+
+    //selected machinery
+    this.selectedMachinery = machinery;
+
+    // passing name in select's input
+    this.machineryInput.nativeElement.value = machinery.name;
+
+    // to enable submit button
+    this.isMachineSelected = false;
+
+    // assigning values in form conditionally
+
+    if (this.role.includes('Truck Driver')) {
+      // patching
+      this.truckNo = machinery.id;
+    }
+
+    // clearing array
+    this.allMachinery = of([]);
   }
   //#endregion
 

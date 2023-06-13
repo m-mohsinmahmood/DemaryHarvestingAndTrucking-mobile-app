@@ -1,6 +1,6 @@
-<app-header [title]="'Verify Delivery Ticket'" [color]="'harvesting'"></app-header>
+<app-header [title]="'Verify Delivery Ticket'" [color]="'harvesting'" *ngIf="showDiv !== 'deliveryTicket'"></app-header>
 <!-- Cart Operator -->
-<ion-content *ngIf="role.includes('Cart Operator')">
+<ion-content *ngIf="role.includes('Cart Operator') && showDiv !== 'deliveryTicket'">
   <!-- <app-timer [value]="'09:12:14'"></app-timer> -->
   <div class="p-2">
     <div class="segment-style">
@@ -23,8 +23,12 @@
                   <div class="flex w-4/12 flex-col items-end">
                     <div class="flex">
                       <span class="font-Lato text-sm">Ticket#: </span>
-                      <span class="font-Lato bg-0165c31a ml-1 h-5 rounded-xl px-2 text-sm text-black">
+                      <span *ngIf="!sentTicket.split_load_check"
+                        class="w-max font-Lato bg-0165c31a ml-1 h-5 rounded-xl px-2 text-sm text-black">
                         {{sentTicket.delivery_ticket_name}}</span>
+                      <span *ngIf="sentTicket.split_load_check"
+                        class="w-max font-Lato bg-0165c31a ml-1 h-5 rounded-xl px-2 text-sm text-black">
+                        {{sentTicket.delivery_ticket_name}} - SL</span>
                     </div>
                     <div class="flex justify-end mt-1" (click)="openModal(sentTicket.id)">
                       <span class="bg-blue-500 px-2 py-1 rounded-lg text-white font-Lato">Reassign</span>
@@ -132,7 +136,7 @@
                     <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
                   </div>
                   <div class="flex w-4/12 justify-end">
-                    <span class="font-Lato text-sm">Ticket#: </span>
+                    <span class="font-Lato text-sm">Ticket# </span>
                     <ion-skeleton-text [animated]="true"
                       style="width: 30%; height: 30%; margin-left: 5px"></ion-skeleton-text>
                   </div>
@@ -163,9 +167,11 @@
                   </div>
                   <div class="flex w-5/12 flex-col items-end">
                     <div>
-                      <span class="font-Lato text-sm">Ticket#: </span>
-                      <span class="font-Lato bg-0165c31a ml-1 h-5 rounded-xl px-2 text-sm text-black">
+                      <span class="font-Lato text-sm">Ticket# </span>
+                      <span *ngIf="!pendingTicket.split_load_check" class="font-Lato bg-0165c31a ml-1 h-5 rounded-xl px-2 text-sm text-black">
                         {{pendingTicket.delivery_ticket_name}}</span>
+                      <span *ngIf="pendingTicket.split_load_check" class="font-Lato bg-0165c31a ml-1 h-5 rounded-xl px-2 text-sm text-black">
+                        {{pendingTicket.delivery_ticket_name}} - SL</span>
                     </div>
                     <div class="flex justify-between">
                       <button class="h-6 w-20 bg-FFCD29 font-Lato ml-2 mt-1 rounded-md px-2 py-0 text-sm text-white"
@@ -301,8 +307,11 @@
                 <div class="flex flex-row py-2">
 
                   <div class="flex w-8/12 flex-col">
-                    <span class="font-Lato text-base">Ticket# <span
+                    <span *ngIf="!sentTicket.split_load_check" class="font-Lato text-base">Ticket# <span
                         class="font-Lato bg-0165c31a ml-1 h-5 rounded-xl px-2 text-base text-black">{{sentTicket.delivery_ticket_name}}</span></span>
+                    <span *ngIf="sentTicket.split_load_check" class="font-Lato text-base">Ticket# <span
+                        class="font-Lato bg-0165c31a ml-1 h-5 rounded-xl px-2 text-base text-black">{{sentTicket.delivery_ticket_name}}
+                        - SL</span></span>
                     <span class="font-Lato text-base text-gray-900 font-semibold">Farm: <span
                         class="font-Lato font-medium text-gray-700 text-sm">{{sentTicket?.farm_name}}</span> </span>
                     <span class="font-Lato text-base text-gray-900 font-semibold">Crop: <span
@@ -433,9 +442,55 @@
   </div>
 </ion-content>
 
+<!-- Data To Print-->
+<div id="deliveryTicket" *ngIf="showDiv === 'deliveryTicket'" class="grid max-w-sm grid-cols-1 mx-auto divide-y divide-black leading-none">
+
+  <div></div>
+  <div></div>
+  <span class="font-bold font-Lato text-xs">Demaray Harvesting and Trucking</span>
+
+  <div>
+    <label class="font-Lato font-bold text-xs">Date: </label>
+    <span class="font-Lato text-xs">{{sentTicketObj.date | date: "MMM-dd-YYYY"}}</span>
+    <br/>
+    <label class="font-Lato font-bold text-xs">Delivery Ticket #</label>
+    <span class="font-Lato text-xs">{{sentTicketObj.delivery_ticket_name}}</span>
+  </div>
+
+  <div>
+    <label class="font-Lato font-bold text-xs">Owner/Seller: </label>
+    <span class="font-Lato text-xs">{{sentTicketObj.customerName}}</span>
+    <br/>
+    <label class="font-Lato font-bold text-xs">Farm: </label>
+    <span class="font-Lato text-xs">{{sentTicketObj.farm_name}}</span>
+    <br/>
+    <label class="font-Lato font-bold text-xs">Field/Pivot: </label>
+    <span class="font-Lato text-xs">{{sentTicketObj.field_name}}</span>
+  </div>
+
+  <div>
+    <label class="font-Lato font-bold text-xs">Crop: </label>
+    <span class="font-Lato text-xs">{{sentTicketObj.crop_name}}</span>
+    <br/>
+    <label class="font-Lato font-bold text-xs">Destination: </label>
+    <span class="font-Lato text-xs">{{sentTicketObj.destination}}</span>
+    <br/>
+    <label class="font-Lato font-bold text-xs">Contract: </label>
+    <span class="font-Lato text-xs">{{'NOT SPECIFIED'}}</span>
+  </div>
+
+  <div>
+    <label class="font-Lato font-bold text-xs">Cart Operator: </label>
+    <span class="font-Lato text-xs">{{sentTicketObj.kart_operator_name}}</span>
+    <br/>
+    <label class="font-Lato font-bold text-xs">Truck Driver: </label>
+    <span class="font-Lato text-xs">{{sentTicketObj.truck_driver_name}}</span>
+  </div>
+
+</div>
 
   <!-- MODAL -->
-  <ion-modal class="DetailsModal" #modelToReassign [isOpen]="isDetailModalOpen" (ionModalDidDismiss)="ionDetailsModalDismiss()">
+  <ion-modal *ngIf="showDiv !== 'deliveryTicket'" class="DetailsModal" #modelToReassign [isOpen]="isDetailModalOpen" (ionModalDidDismiss)="ionDetailsModalDismiss()">
     <ng-template>
       <ion-header>
         <div class="bg-3D8AA4">
@@ -452,7 +507,7 @@
         </div>
       </ion-header>
       <div class="overflow-y-auto px-1">
-        
+
         <!-- First Row -->
         <ion-row >
           <ion-col size="6" class="flex flex-col ion-text-center">
@@ -465,16 +520,16 @@
             <span class="font-Lato font-14 text-left">{{sentTicketObj.truck_driver_name}}</span>
           </ion-col>
         </ion-row>
-        
+
           <ion-row >
-          
+
           <ion-col size="6" class="flex flex-col items-start ion-text-center">
-            <p class="font-Lato text-black font-bold font-14 text-left">Delivery Ticket Name</p>
+            <p class="font-Lato text-black font-bold font-14 text-left">Delivery Ticket #</p>
             <span class="font-Lato font-14 text-left">{{sentTicketObj.delivery_ticket_name}}</span>
           </ion-col>
 
           <ion-col size="6" class="flex flex-col items-start ion-text-center">
-            <p class="font-Lato text-black font-bold font-14 text-left">Kart Operator Name</p>
+            <p class="font-Lato text-black font-bold font-14 text-left">Cart Operator Name</p>
             <span class="font-Lato font-14 text-left">{{sentTicketObj.kart_operator_name}}</span>
           </ion-col>
         </ion-row>
@@ -511,7 +566,7 @@
           <ion-col size="6" class="flex flex-col items-start ion-text-center">
             <p class="font-Lato text-black font-bold font-14 text-left">Cart Scale Weight</p>
             <span class="font-Lato font-14 text-left">{{sentTicketObj.cart_scale_weight}}</span>
-          </ion-col>  
+          </ion-col>
           <ion-col size="6" class="flex flex-col ion-text-center">
             <p class="font-Lato text-black font-bold font-14 text-left">Field Name</p>
             <span class="font-Lato font-14 text-left">{{sentTicketObj.field_name}}</span>
@@ -522,21 +577,26 @@
           <ion-col size="6" class="flex flex-col items-start ion-text-center">
             <p class="font-Lato text-black font-bold font-14 text-left">Farm Name</p>
             <span class="font-Lato font-14 text-left">{{sentTicketObj.farm_name}}</span>
-          </ion-col>          
-          
+          </ion-col>
+
           <ion-col size="6" class="flex flex-col ion-text-center">
             <p class="font-Lato text-black font-bold font-14 text-left">Loaded Miles</p>
             <span class="font-Lato font-14 text-left">{{sentTicketObj.loaded_miles}}</span>
           </ion-col>
         </ion-row>
 
-        
 
-      </div>
-        <div class="bg-white">
-          <div class="flex justify-center">
-            <ion-button class="w-1/2 pb-2 font-Lato text-white">Print</ion-button>
-          </div>
+        <div>
+          <ion-button expand="block" (click)="printDiv('deliveryTicket')" class="font-Lato mt-5 text-white text-xs">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+              stroke="currentColor" class="w-6 h-6">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M6.72 13.829c-.24.03-.48.062-.72.096m.72-.096a42.415 42.415 0 0110.56 0m-10.56 0L6.34 18m10.94-4.171c.24.03.48.062.72.096m-.72-.096L17.66 18m0 0l.229 2.523a1.125 1.125 0 01-1.12 1.227H7.231c-.662 0-1.18-.568-1.12-1.227L6.34 18m11.318 0h1.091A2.25 2.25 0 0021 15.75V9.456c0-1.081-.768-2.015-1.837-2.175a48.055 48.055 0 00-1.913-.247M6.34 18H5.25A2.25 2.25 0 013 15.75V9.456c0-1.081.768-2.015 1.837-2.175a48.041 48.041 0 011.913-.247m10.5 0a48.536 48.536 0 00-10.5 0m10.5 0V3.375c0-.621-.504-1.125-1.125-1.125h-8.25c-.621 0-1.125.504-1.125 1.125v3.659M18 10.5h.008v.008H18V10.5zm-3 0h.008v.008H15V10.5z" />
+            </svg>
+            &nbsp;
+            Delivery Ticket
+          </ion-button>
+        </div>
         </div>
 
     </ng-template>
