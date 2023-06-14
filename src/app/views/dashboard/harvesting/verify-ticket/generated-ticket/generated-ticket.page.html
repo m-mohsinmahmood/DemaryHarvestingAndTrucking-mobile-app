@@ -386,15 +386,16 @@
         </div>
         <!-- Machinery -->
         <div class="col-span-12 mb-2">
-          <label class="block text-sm font-medium text-gray-700">Farmers Bin Cart Weight (lbs)
+          <label class="block text-sm font-medium text-gray-700">Farmers Bin Cart Weight (lbs.)
             <span
               class="text-red-400" *ngIf="this.generateTicketFormTruck.get('farmers_bin_weight').hasError('required')">*</span></label>
           <input type="number"
-            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm
+            disabled:bg-gray-200"
             formControlName="farmers_bin_weight" placeholder="Farmers Bin Weight" />
         </div>
-        <ion-text *ngIf="this.generateTicketFormTruck.get('farmers_bin_weight_initial').value > this.generateTicketFormTruck.get('farmers_bin_weight').value" class="text-sm text-red-500">
-          Farmers Bin Weight should be greater than or equal to {{this.generateTicketFormTruck.get('farmers_bin_weight_initial').value}}
+        <ion-text *ngIf="this.generateTicketFormTruck.get('farmers_bin_weight_initial').value != this.generateTicketFormTruck.get('farmers_bin_weight').value" class="text-sm text-red-500">
+          Farmers Bin Weight should be equal to {{this.generateTicketFormTruck.get('farmers_bin_weight_initial').value}}
         </ion-text>
 
         <div class="col-span-12 mb-4">
