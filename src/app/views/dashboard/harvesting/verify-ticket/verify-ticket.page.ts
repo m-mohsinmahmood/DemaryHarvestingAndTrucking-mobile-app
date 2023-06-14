@@ -1,3 +1,5 @@
+/* eslint-disable prefer-const */
+/* eslint-disable quote-props */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @angular-eslint/use-lifecycle-interface */
 /* eslint-disable no-underscore-dangle */
@@ -42,6 +44,7 @@ export class VerifyTicketPage implements OnInit {
   isReassignModalOpen = false;
   isDetailModalOpen = false;
   sentTicketObj: any;
+  isDeleteModalOpen = false;
   driverSetupForm: FormGroup;
 
   truck_driver_search$ = new Subject();
@@ -52,9 +55,10 @@ export class VerifyTicketPage implements OnInit {
   driverSearchValue: any = '';
   driverUL: any = false;
   allTruckDrivers: Observable<any>;
-  deleteId;
+  deleteTicketId;
 
   public loadingSpinner = new BehaviorSubject(false);
+  public deleteSpinner = new BehaviorSubject(false);
 
 
   private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -96,6 +100,11 @@ export class VerifyTicketPage implements OnInit {
   }
 
   ngOnInit() {
+    // toast
+    this.toastService.presentToast(
+      'Have you entered your beginning of day work data?',
+      'primary'
+    );
     this.role = localStorage.getItem('role');
 
     // passing the segment value conditionally
@@ -139,20 +148,18 @@ export class VerifyTicketPage implements OnInit {
     this.isDetailModalOpen = false;
 
     this.isTruckDriverSelected = true; // for asterik
-    this.driverInput.nativeElement.value = '';
+    if (this.driverInput) {
+      this.driverInput.nativeElement.value = '';
+    }
+    this.isDeleteModalOpen = false;
 
     // @ViewChild('driverInput') driverInput: ElementRef;
     // this.driverInput.nativeElement.value = '';
-
   }
 
   async ionDetailsModalDismiss() {
     this.isDetailModalOpen = false;
   }
-
-
-
-
 
   initSentApis() {
     if (this.role.includes('Cart Operator')) {
@@ -269,12 +276,13 @@ export class VerifyTicketPage implements OnInit {
       this.initCompletedObservables();
     }
   }
+
   openModal(jobId) {
     this.isReassignModalOpen = true;
     this.driverSetupForm.patchValue({ id: jobId });
   }
 
-  openDetailsModal(jobId , ticket) {
+  openDetailsModal(jobId, ticket) {
     this.isDetailModalOpen = true;
     this.sentTicketObj = ticket;
     console.log(this.sentTicketObj)
@@ -387,6 +395,7 @@ export class VerifyTicketPage implements OnInit {
       }
     });
   }
+
   selectedDriver(driver) {
     this.driverUL = false;
     this.driverInput.nativeElement.value = driver.name;
@@ -404,4 +413,35 @@ export class VerifyTicketPage implements OnInit {
       return false
     }, 100);
   }
+  //#region delete ticket
+  deleteTicket() {
+    console.log('delete ticket id:', this.deleteTicketId);
+    this.deleteSpinner.next(true);
+    this.harvestingService.kartOperatorDeleteTicket({
+      id: this.deleteTicketId,
+      operation: 'deleteSentTicket'
+    }).subscribe((res: any) => {
+      //debugger;
+      console.log('res', res);
+      if (res.status === 200) {
+        this.deleteSpinner.next(false);
+        this.isDeleteModalOpen = false;
+        this.toastService.presentToast('Ticket has been deleted!', 'success');
+        this.initSentApis();
+        this.initSentObservables();
+      }
+    },
+      (err) => {
+        this.deleteSpinner.next(false);
+        this.isDeleteModalOpen = false;
+        this.toastService.presentToast(err, 'danger');
+      },);
+  }
+
+  openDeleteModal(ticketId) {
+    this.deleteTicketId = ticketId;
+    this.isDeleteModalOpen = true;
+  }
+  //#endregion
+
 }

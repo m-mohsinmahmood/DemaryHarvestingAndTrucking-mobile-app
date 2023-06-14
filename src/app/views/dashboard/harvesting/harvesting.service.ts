@@ -979,6 +979,19 @@ export class HarvestingService {
     }
   }
 
+  kartOperatorDeleteTicket(body) {
+    let session = this.session.SessionActiveCheck();
+    if (session) {
+      return this._httpClient
+        .patch(`api-1/harvesting-ticket`, body)
+        .pipe(take(1));
+    }
+    else {
+      return of(null);
+    }
+  }
+
+
   truckDriverGetTickets(truckDriverId, ticketStatus) {
     let params = new HttpParams();
     params = params.set('truckDriverId', truckDriverId);

@@ -104,6 +104,8 @@ export class GeneratedTicketPage implements OnInit {
         destination: this.ticket.destination,
         farmId: this.ticket.farm_id,
         cropName: this.ticket.crop_name,
+        farmers_bin_weight_initial : (this.ticket.farmers_bin_weight == undefined || this.ticket.farmers_bin_weight == "") ? 0 : this.ticket.farmers_bin_weight,
+        farmers_bin_weight : (this.ticket.farmers_bin_weight == undefined || this.ticket.farmers_bin_weight == "") ? 0 : this.ticket.farmers_bin_weight,
       });
     }
 
@@ -138,7 +140,9 @@ export class GeneratedTicketPage implements OnInit {
       status: ['pending'],
       image_1: [''],
       image_2: ['', [Validators.required]],
-      machineryId: ['', [Validators.required]]
+      machineryId: ['', [Validators.required]],
+      farmers_bin_weight_initial: [{value:0,disabled:true}],
+      farmers_bin_weight: [0, [Validators.required]],
     });
 
     this.generateTicketFormTruck.valueChanges.subscribe((value) => {
@@ -152,6 +156,18 @@ export class GeneratedTicketPage implements OnInit {
       } else {
         this.generateTicketFormTruck.get('NetWeight').setErrors(null);
         this.generateTicketFormTruck.get('NetWeight2').setErrors(null);
+      }
+
+      // custom validation for 'farmers_bin_weight'
+
+      if( value.farmers_bin_weight!=null && value.farmers_bin_weight >= this.generateTicketFormTruck.get('farmers_bin_weight_initial').value){
+        this.generateTicketFormTruck.get('farmers_bin_weight').setErrors(null);
+      }else{
+        this.generateTicketFormTruck.get('farmers_bin_weight').setErrors({ mustMatch: true })
+      }
+
+      if(value.farmers_bin_weight == null){
+        this.generateTicketFormTruck.get('farmers_bin_weight').setErrors({ required: true })
       }
     });
 

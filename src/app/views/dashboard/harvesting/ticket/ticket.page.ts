@@ -1,3 +1,8 @@
+/* eslint-disable @typescript-eslint/dot-notation */
+/* eslint-disable eqeqeq */
+/* eslint-disable prefer-const */
+/* eslint-disable @typescript-eslint/semi */
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 /* eslint-disable @angular-eslint/use-lifecycle-interface */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable @typescript-eslint/naming-convention */
@@ -106,6 +111,9 @@ export class TicketPage implements OnInit {
   //Print Divs
   showDiv = "none";
 
+  // farmers bin variable
+  isFarmersBin:boolean=false;
+
   customerName;
   state;
   farm;
@@ -176,7 +184,11 @@ export class TicketPage implements OnInit {
   }
 
   ngOnInit() {
-
+    // toast
+    this.toastService.presentToast(
+      'Have you entered beg of day/job hours?',
+      'primary'
+    );
     this.role = localStorage.getItem('role');
     this.cartOperatorName = localStorage.getItem('employeeName');
     this.isReassign =
@@ -205,8 +217,20 @@ export class TicketPage implements OnInit {
       crop_id: [''],
       crew_chief_id: [''],
       jobId: [''],
-      deliveryTicketNumber: ['']
+      deliveryTicketNumber: [''],
+      farmers_bin_check: [this.isFarmersBin],
+      farmers_bin_weight: ['']
     });
+
+    // custom validation for 'farmers_bin_weight'
+    this.deliveryTicketForm.valueChanges.subscribe(val => {
+      if (!val.farmers_bin_check) {
+        this.deliveryTicketForm.get('farmers_bin_weight').setErrors(null);
+        this.deliveryTicketForm.get('farmers_bin_weight').setValidators(null);
+      } else {
+        this.deliveryTicketForm.get('farmers_bin_weight').setValidators([Validators.required]);
+      }
+    })
 
     // custom validation for 'kart_scale_weight_split'
     this.deliveryTicketForm.valueChanges.subscribe((value) => {
@@ -287,9 +311,32 @@ export class TicketPage implements OnInit {
     });
 
     this.sessionService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).subscribe((res) => {
+      console.log('invoiced job api', res);
+      this.job_name = res.invoiced_job ? res.invoiced_job : '';
+      if (this.job_name != '' || !this.job_name) {
+        let all_jobs = this.harvestingService.getInvoicedJobs(
+          'getInvoicedJobs',
+          this.role,
+          localStorage.getItem('employeeId')
+        );
+        // subscribing to show/hide field UL
+        all_jobs.subscribe((job) => {
+          if (job.jobs) {
+            console.log("xxxx: ", job.jobs);
+
+            for (let jobb of Object.entries(job.jobs)) {
+              if (this.job_name == jobb[1]['job_id']) {
+                this.listClickedJob(jobb[1])
+              }
+            }
+          }
+          this.jobUL = false;
+        });
+      }
       this.deliveryTicketForm.patchValue({
         destination: res.destination,
         truckDriverId: res.truck_driver_id,
+        jobId: res.invoiced_job ? res.invoiced_job : '',
       });
 
       //loaded miles
@@ -360,6 +407,17 @@ export class TicketPage implements OnInit {
 
     }
   }
+
+  //#region farmer bin check
+  checkFarmersBin(){
+    this.isFarmersBin = !this.isFarmersBin;
+
+    if (!this.isFarmersBin) { // for clearing validations
+      this.deliveryTicketForm.controls.farmers_bin_weight.setValue(''); //empty field name
+    }
+
+  }
+  //#endregion
 
   submit() {
     // navigating
@@ -633,13 +691,6 @@ export class TicketPage implements OnInit {
     // to enable submit button
     this.isFieldSelected = false;
 
-    // // assigning values in form conditionally
-    // if (this.role.includes('Cart Operator')) {
-    //   this.deliveryTicketForm.patchValue({
-    //     field_id_new: field.field_id,
-    //   });
-    // }
-
     // clearing array
     this.allFields = of([]);
   }
@@ -735,19 +786,10 @@ export class TicketPage implements OnInit {
     // to enable submit button
     this.isFieldSplitLoadSelected = false;
 
-    // // assigning values in form conditionally
-    // if (this.role.includes('Cart Operator')) {
-    //   this.deliveryTicketForm.patchValue({
-    //     field_id_new: field.field_id,
-    //   });
-    // }
-
     // clearing array
     this.allSplitLoadFields = of([]);
   }
   //#endregion
-
-
 
   //#region job
   jobSearchSubscription() {
@@ -823,10 +865,9 @@ export class TicketPage implements OnInit {
     });
   }
   listClickedJob(job) {
-    console.log(job);
+    console.log('job', job);
     // hiding UL
     this.jobUL = false;
-
 
     // patching
     this.deliveryTicketForm.patchValue({
@@ -848,7 +889,7 @@ export class TicketPage implements OnInit {
     this.farm_id = job.farm_id;
 
     // passing name in select's input
-    this.jobInput.nativeElement.value = job.job_id;
+    this.jobInput.nativeElement.value = 'Job# ' + job.job_setup_name;
 
     // passing name in job-search-value in Rendered2 for checks
     this.jobSearchValue = job.customer_name;
