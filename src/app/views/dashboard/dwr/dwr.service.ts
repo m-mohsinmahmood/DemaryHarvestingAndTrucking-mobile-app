@@ -244,15 +244,16 @@ export class DWRService {
     }
   }
 
-  getDWRDetails(employee_id, date, operation, dateType, status) {
+  getDWRDetails(employee_id, date, operation, dateType, status, role) {
     let params = new HttpParams();
     params = params.set('operation', operation);
     params = params.set('employeeId', employee_id);
-    params = params.set('date', date); // (comment)
+    params = params.set('date', date);
     params = params.set('startDate', moment(date).startOf('day').toISOString(),);
     params = params.set('endDate', moment(date).endOf('day').toISOString());
     params = params.set('dateType', dateType);
     params = params.set('status', status);
+    params = params.set('role', role);
 
     let session = this.session.SessionActiveCheck();
 
@@ -268,15 +269,15 @@ export class DWRService {
     }
   }
 
-  getDWRDetailsWithStatus(operation, date, dateType, employee_id, status) {
+  getDWRDetailsWithStatus(operation, date, dateType, employee_id, status, role) {
     let params = new HttpParams();
     params = params.set('operation', operation);
-    // params = params.set('date',date); // (comment)
     params = params.set('startDate', moment(date).startOf('day').toISOString(),);
     params = params.set('endDate', moment(date).endOf('day').toISOString());
     params = params.set('dateType', dateType);
     params = params.set('employeeId', employee_id);
     params = params.set('status', status);
+    params = params.set('role', role);
 
     let session = this.session.SessionActiveCheck();
 

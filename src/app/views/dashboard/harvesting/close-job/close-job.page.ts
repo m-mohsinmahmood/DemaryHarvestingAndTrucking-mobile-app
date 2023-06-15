@@ -418,8 +418,8 @@ export class CloseJobPage implements OnInit {
       const dayClosed = {
         jobId: this.customerData?.workOrders[0]?.id,
         endingEngineHours: this.closeJobFormTruck.get('ending_odometer_miles').value,
-        module: this.closeJobFormCombine.get('module').value,
-        dwrId: this.closeJobFormCombine.get('dwrId').value,
+        module: this.closeJobFormTruck.get('module').value,
+        dwrId: this.closeJobFormTruck.get('dwrId').value,
       };
 
       this.harvestingService

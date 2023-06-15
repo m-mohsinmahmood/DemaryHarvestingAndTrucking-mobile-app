@@ -177,7 +177,7 @@ export class DetailPage implements OnInit {
     }
 
     this.dwrService
-      .getDWRDetails(this.dwr_employee_id, this.date, 'getDWRDetails', 'day', 'pendingVerification')
+      .getDWRDetails(this.dwr_employee_id, this.date, 'getDWRDetails', 'day', 'pendingVerification', this.role)
       .subscribe((res) => {
         this.loading.next(true);
         this.workHistoryData = res.dwr;
@@ -225,7 +225,7 @@ export class DetailPage implements OnInit {
   getAll() {
     this.loading.next(true);
     this.dwrService
-      .getDWRDetailsWithStatus('getDWRList', this.date, 'day', this.dwr_employee_id, 'all')
+      .getDWRDetailsWithStatus('getDWRList', this.date, 'day', this.dwr_employee_id, 'all', this.role)
       .subscribe((res) => {
         this.loading.next(true);
         this.workHistoryData = res.dwr;
@@ -235,7 +235,7 @@ export class DetailPage implements OnInit {
   getVerified() {
     this.loading.next(true);
     this.dwrService
-      .getDWRDetailsWithStatus('getDWRList', this.date, 'day', this.dwr_employee_id, 'verified')
+      .getDWRDetailsWithStatus('getDWRList', this.date, 'day', this.dwr_employee_id, 'verified', this.role)
       .subscribe((res) => {
         this.loading.next(true);
         this.verifiedData = res.dwr;
@@ -245,7 +245,7 @@ export class DetailPage implements OnInit {
   getUnVerified() {
     this.loading.next(true);
     this.dwrService
-      .getDWRDetailsWithStatus('getDWRList', this.date, 'day', this.dwr_employee_id, 'pendingVerification')
+      .getDWRDetailsWithStatus('getDWRList', this.date, 'day', this.dwr_employee_id, 'pendingVerification', this.role)
       .subscribe((res) => {
         this.loading.next(true);
         this.unVerifiedData = res.dwr;
@@ -255,7 +255,7 @@ export class DetailPage implements OnInit {
   getReassigned() {
     this.loading.next(true);
     this.dwrService
-      .getDWRDetailsWithStatus('getDWRList', this.date, 'day', this.dwr_employee_id, 'reassigned')
+      .getDWRDetailsWithStatus('getDWRList', this.date, 'day', this.dwr_employee_id, 'reassigned', this.role)
       .subscribe((res) => {
         this.loading.next(true);
         this.reassignedData = res.dwr;
