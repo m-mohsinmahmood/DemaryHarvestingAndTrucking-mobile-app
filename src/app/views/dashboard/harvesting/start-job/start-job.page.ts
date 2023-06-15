@@ -311,6 +311,7 @@ export class StartJobPage implements OnInit {
         .subscribe(
           (res: any) => {
             if (res.status === 200) {
+
               const startingOfDay = {
                 supervisor_id: this.startJobFormKart.get('crew_chief_id').value,
                 active_check_in_id: this.startJobFormKart.get('active_check_in_id').value,
