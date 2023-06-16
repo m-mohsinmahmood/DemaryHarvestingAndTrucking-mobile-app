@@ -149,7 +149,10 @@
         </ion-row>
 
       </ion-grid>
-      <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="submit()">Verify</ion-button>
+      <ion-button [disabled]="(loadingSpinner | async)" expand="block" class="mt-5 font-Lato text-white" (click)="submit()">
+        <ion-spinner [hidden]="!(loadingSpinner | async)" name="crescent" mode="indeterminate"></ion-spinner>
+        <span [hidden]="(loadingSpinner | async)" class="text-white">Verify</span>
+        </ion-button>
     </ion-card-content>
 
     <ion-card-content *ngIf="(isLoadingTicket$ | async) === true">
@@ -441,7 +444,10 @@
         </div>
 
         <ion-button expand="block" class="font-Lato mt-5 text-white" (click)="submit()"
-          [disabled]="generateTicketFormTruck.invalid">Save and Send to Cart Operator</ion-button>
+          [disabled]="generateTicketFormTruck.invalid || (loadingSpinner | async)">
+          <ion-spinner [hidden]="!(loadingSpinner | async)" name="crescent" mode="indeterminate"></ion-spinner>
+          <span [hidden]="(loadingSpinner | async)" class="text-white"> Save and Send to Cart Operator</span>
+        </ion-button>
       </form>
     </ion-card-content>
   </ion-card></ion-content>
@@ -497,7 +503,7 @@
           </div>
         </div>
 
-          <ion-button expand="block" class="font-Lato text-white w-full mt-2 mr-2 mb-5"
+          <ion-button [disabled]="(loadingSpinner | async)" expand="block" class="font-Lato text-white w-full mt-2 mr-2 mb-5"
             (click)="updateTicketInfo()">
             <div *ngIf="(loadingSpinner | async) === false">Update</div>
             <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
