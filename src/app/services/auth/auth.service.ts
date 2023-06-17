@@ -169,7 +169,7 @@ export class AuthService {
 
   getEmployeeDetailsByFirbaseId(fb_id) {
     this.getEmployeeByFirebaseId(fb_id).subscribe((res) => {
-      console.log('Employee Details:', res);
+      // console.log('Employee Details:', res);
 
       // setting in local storage
       localStorage.setItem('employeeId', res.id);
@@ -224,8 +224,8 @@ export class AuthService {
   checkSessionExpiry() {
     const currentTime = Date.now();
 
-    console.log("Current Time :", currentTime);
-    console.log("Session Expiry :", this.sessionExpiryTimestamp);
+    // console.log("Current Time :", currentTime);
+    // console.log("Session Expiry :", this.sessionExpiryTimestamp);
 
     if (currentTime > this.sessionExpiryTimestamp) {
       return true;
@@ -250,7 +250,7 @@ export class AuthService {
 
     if (checkSession) {
       // Session has expired
-      console.log("Refreshing page...");
+      // console.log("Refreshing page...");
       this.stopSessionTimer();
       this.resetSession();
       this.logout();
@@ -259,7 +259,7 @@ export class AuthService {
       return false;
     }
     else {
-      console.log("Session is active");
+      // console.log("Session is active");
       this.resetSession();
       return true;
     }

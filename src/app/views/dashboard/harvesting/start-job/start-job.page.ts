@@ -275,6 +275,7 @@ export class StartJobPage implements OnInit {
 
               const startingOfDay = {
                 supervisor_id: this.startJobFormCombine.get('crew_chief_id').value,
+                state: this.startJobFormCombine.get('state').value,
                 active_check_in_id: this.startJobFormCombine.get('active_check_in_id').value,
                 operation: 'startingOfDay'
               };
@@ -314,6 +315,7 @@ export class StartJobPage implements OnInit {
 
               const startingOfDay = {
                 supervisor_id: this.startJobFormKart.get('crew_chief_id').value,
+                state: this.startJobFormKart.get('state').value,
                 active_check_in_id: this.startJobFormKart.get('active_check_in_id').value,
                 operation: 'startingOfDay'
               };
@@ -346,6 +348,7 @@ export class StartJobPage implements OnInit {
       const startingOfDay = {
         supervisor_id: this.startJobFormTruck.get('crew_chief_id').value,
         active_check_in_id: this.startJobFormTruck.get('active_check_in_id').value,
+        state: this.startJobFormTruck.get('state').value,
         operation: 'startingOfDay'
       };
 
@@ -802,7 +805,7 @@ export class StartJobPage implements OnInit {
         customer_id: job.customer_id,
         farm_id: job.farm_id,
         state: job.state,
-        crew_chief_id: job.crew_chief_id,
+        crew_chief_id: job.crew_chief_id
       });
     }
 
@@ -814,8 +817,7 @@ export class StartJobPage implements OnInit {
         customer_id: job.customer_id,
         farm_id: job.farm_id,
         state: job.state,
-        crew_chief_id: job.crew_chief_id,
-
+        crew_chief_id: job.crew_chief_id
       });
     }
 
