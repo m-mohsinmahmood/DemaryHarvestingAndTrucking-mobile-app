@@ -179,7 +179,7 @@
 
         <div *ngIf="isSplitTrue">
           <div class="col-span-12 mb-4">
-            <label class="block text-sm font-medium text-gray-700">Cart Scale Weight (lb) <span
+            <label class="block text-sm font-medium text-gray-700">Cart Scale Weight (lbs.) <span
                 *ngIf="this.deliveryTicketForm.get('kart_scale_weight_split')?.hasError('required')"
                 class="text-red-400">*</span></label>
             <input type="number"
@@ -426,7 +426,7 @@
 
       <div *ngIf="isSplitTrue">
         <div>
-          <label class="font-Lato font-bold text-xs">Cart Weight: </label>
+          <label class="font-Lato font-bold text-xs">Cart Weight (lbs.): </label>
           <span class="font-Lato text-xs">{{deliveryTicketForm.get('kart_scale_weight_split').value}}</span>
         </div>
 
@@ -436,12 +436,12 @@
         </div>
 
         <div>
-          <label class="font-Lato font-bold text-xs">Scale Ticket 'Net' Weight: </label>
+          <label class="font-Lato font-bold text-xs">Scale Ticket 'Net' Weight (lbs.): </label>
           <span class="font-Lato text-xs"></span>
         </div>
 
         <div>
-          <label class="font-Lato font-bold text-xs">Load weight (for Field/Pivot-SL): </label>
+          <label class="font-Lato font-bold text-xs">Load weight (for Field/Pivot-SL) (lbs.): </label>
           <span class="font-Lato text-xs"></span>
         </div>
       </div>

@@ -288,7 +288,7 @@
             formControlName="scaleTicket" placeholder="Scale Ticket" />
         </div>
 
-        <label class="block text-sm font-medium text-gray-700">Add Photo of Scale Ticket <span
+        <label class="block text-sm font-medium text-gray-700">Add Photo of Delivery/Scale Ticket<span
             *ngIf="this.generateTicketFormTruck.get('image_2').hasError('required')"
             class="text-red-400">*</span></label>
         <div class="w-16 h-16 mr-2 mb-2 mt-2">
@@ -317,31 +317,35 @@
           <input type="number"
             class="mt-1 block w-full pointer-events-none  rounded-md border border-gray-300  text-gray-400 focus:text-gray-700
             bg-gray-200 py-2 px-3 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-            formControlName="farmers_bin_weight_initial" placeholder="Farmers Bin Weight" />
+            formControlName="farmers_bin_weight" placeholder="Farmers Bin Weight" />
         </div>
 
         <div class="col-span-12 mb-2">
-          <label class="block text-sm font-medium text-gray-700">Scale Ticket 'Net' Weight (lb)
+          <label class="block text-sm font-medium text-gray-700">Delivery/Scale Ticket 'Net' Weight (lbs.)
             <span *ngIf="this.generateTicketFormTruck.get('NetWeight').hasError('required')"
               class="text-red-400">*</span></label>
           <input
             class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-            formControlName="NetWeight" placeholder="Scale Ticket Weight" />
+            formControlName="NetWeight" placeholder="Enter Weight" />
         </div>
-        <ion-text *ngIf="this.generateTicketFormTruck.get('NetWeight').invalid" class="text-sm text-red-500">
-          Scale ticket weight should match
+        <ion-text *ngIf="this.generateTicketFormTruck.get('NetWeight').value != this.generateTicketFormTruck.get('farmers_bin_weight').value" class="text-sm text-red-500">
+          Scale ticket weight should be equal to
+          <span *ngIf="this.generateTicketFormTruck.get('farmers_bin_weight').value != ''">{{this.generateTicketFormTruck.get('farmers_bin_weight').value}}</span>
+          <span *ngIf="this.generateTicketFormTruck.get('farmers_bin_weight').value == ''">Farmers Bin Weight</span>
         </ion-text>
 
         <div class="col-span-12 mb-2">
-          <label class="block text-sm font-medium text-gray-700">Scale Ticket 'Net' Weight (lb)
+          <label class="block text-sm font-medium text-gray-700">Delivery/Scale Ticket 'Net' Weight (lbs.)
             <span *ngIf="this.generateTicketFormTruck.get('NetWeight2').hasError('required')"
               class="text-red-400">*</span></label>
           <input
             class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-            formControlName="NetWeight2" placeholder="Scale Ticket Weight" />
+            formControlName="NetWeight2" placeholder="Enter Weight" />
         </div>
-        <ion-text *ngIf="this.generateTicketFormTruck.get('NetWeight2').invalid" class="text-sm text-red-500">
-          Scale ticket weight should match
+        <ion-text *ngIf="this.generateTicketFormTruck.get('NetWeight2').value != this.generateTicketFormTruck.get('farmers_bin_weight').value" class="text-sm text-red-500">
+          Scale ticket weight should be equal to
+          <span *ngIf="this.generateTicketFormTruck.get('farmers_bin_weight').value != ''">{{this.generateTicketFormTruck.get('farmers_bin_weight').value}}</span>
+          <span *ngIf="this.generateTicketFormTruck.get('farmers_bin_weight').value == ''">Farmers Bin Weight</span>
         </ion-text>
 
         <!-- Machinery -->
@@ -388,7 +392,7 @@
           </div>
         </div>
         <!-- Machinery -->
-        <div class="col-span-12 mb-2">
+        <!-- <div class="col-span-12 mb-2">
           <label class="block text-sm font-medium text-gray-700">Farmers Bin Cart Weight (lbs.)
             <span
               class="text-red-400" *ngIf="this.generateTicketFormTruck.get('farmers_bin_weight').hasError('required')">*</span></label>
@@ -399,7 +403,7 @@
         </div>
         <ion-text *ngIf="this.generateTicketFormTruck.get('farmers_bin_weight_initial').value != this.generateTicketFormTruck.get('farmers_bin_weight').value" class="text-sm text-red-500">
           Farmers Bin Weight should be equal to {{this.generateTicketFormTruck.get('farmers_bin_weight_initial').value}}
-        </ion-text>
+        </ion-text> -->
 
         <div class="col-span-12 mb-4">
           <label class="block text-sm font-medium text-gray-700">Field/Pivot
@@ -473,8 +477,15 @@
       <div class="overflow-y-auto px-1">
         <form [formGroup]="editTicketForm">
           <div class="ml-2">
+
           <div class="col-span-12 mb-4 mt-2" id="day">
-            <label class="block text-sm font-medium text-gray-700">Scale Ticket "Net" Weight(lb)</label>
+            <label class="block text-sm font-medium text-gray-700">Scale Ticket</label>
+            <ion-input placeholder="Enter Value" formControlName="scale_ticket"></ion-input>
+
+          </div>
+
+          <div class="col-span-12 mb-4 mt-2" id="day">
+            <label class="block text-sm font-medium text-gray-700">Scale Ticket "Net" Weight(lbs.)</label>
             <ion-input placeholder="Enter Value" formControlName="net_weight"></ion-input>
 
           </div>
@@ -482,12 +493,6 @@
           <div class="col-span-12 mb-4 mt-2" id="day">
             <label class="block text-sm font-medium text-gray-700">Moisture Content</label>
             <ion-input placeholder="Enter Value" formControlName="moisture_content"></ion-input>
-
-          </div>
-
-          <div class="col-span-12 mb-4 mt-2" id="day">
-            <label class="block text-sm font-medium text-gray-700">Scale Ticket</label>
-            <ion-input placeholder="Enter Value" formControlName="scale_ticket"></ion-input>
 
           </div>
 
