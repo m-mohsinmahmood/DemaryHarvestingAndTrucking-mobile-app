@@ -927,10 +927,12 @@ export class HarvestingService {
     }
   }
 
-  kartOperatorGetTickets(kartOperatorId, ticketStatus) {
+  kartOperatorGetTickets(kartOperatorId, ticketStatus, startDate, endDate) {
     let params = new HttpParams();
     params = params.set('kartOperatorId', kartOperatorId);
     params = params.set('ticketStatus', ticketStatus);
+    params = params.set('startDate', startDate);
+    params = params.set('endDate', endDate);
 
     let session = this.session.SessionActiveCheck();
 
@@ -960,6 +962,33 @@ export class HarvestingService {
       } catch (error) {
         console.log('error', error);
       }
+    }
+    else {
+      return of(null);
+    }
+  }
+
+  getCustomerDestination(
+    search: string = '',
+    entity: string = '',
+    customer_id: string = '',
+    farm_id: string = ''
+  ) {
+    this._httpClient
+    let params = new HttpParams();
+    params = params.set('entity', entity);
+    params = params.set('customer_id', customer_id);
+    params = params.set('farm_id', farm_id);
+    params = params.set('search', search);
+
+    let session = this.session.SessionActiveCheck();
+
+    if (session) {
+      return this._httpClient
+        .get<any>('api-1/dropdowns', {
+          params,
+        })
+        .pipe(take(1));
     }
     else {
       return of(null);

@@ -26,7 +26,6 @@ export class GeneratedTicketPage implements OnInit {
   isMachineSelected: any = true;
   selectedMachinery: any;
 
-
   role: any;
   generateTicketFormTruck: FormGroup;
   editTicketForm: FormGroup;
@@ -48,7 +47,6 @@ export class GeneratedTicketPage implements OnInit {
   fieldPivot; //field/pivot
   fieldPivotSL; //field/pivot-sl
   isEditModalOpen = false;
-
 
   public loadingSpinner = new BehaviorSubject(false);
 
@@ -104,17 +102,14 @@ export class GeneratedTicketPage implements OnInit {
         destination: this.ticket.destination,
         farmId: this.ticket.farm_id,
         cropName: this.ticket.crop_name,
-        farmers_bin_weight_initial : (this.ticket.farmers_bin_weight == undefined || this.ticket.farmers_bin_weight == "") ? "" : this.ticket.farmers_bin_weight,
-        farmers_bin_weight : (this.ticket.farmers_bin_weight == undefined || this.ticket.farmers_bin_weight == "") ? "" : this.ticket.farmers_bin_weight,
+        farmers_bin_weight_initial: (this.ticket.farmers_bin_weight == undefined || this.ticket.farmers_bin_weight == "") ? "" : this.ticket.farmers_bin_weight,
+        farmers_bin_weight: (this.ticket.farmers_bin_weight == undefined || this.ticket.farmers_bin_weight == "") ? "" : this.ticket.farmers_bin_weight,
       });
     }
 
     if (this.role.includes('Truck Driver')) {
       this.initApis();
       this.initObservables();
-    } else {
-      // this.initKartApis();
-      // this.initKartObservables();
     }
   }
 
@@ -141,7 +136,7 @@ export class GeneratedTicketPage implements OnInit {
       image_1: [''],
       image_2: ['', [Validators.required]],
       machineryId: ['', [Validators.required]],
-      farmers_bin_weight_initial: [{value:'',disabled:true}],
+      farmers_bin_weight_initial: [{ value: '', disabled: true }],
       farmers_bin_weight: ['', [Validators.required]],
     });
 
@@ -160,17 +155,17 @@ export class GeneratedTicketPage implements OnInit {
 
       // custom validation for 'farmers_bin_weight'
 
-      if( value.farmers_bin_weight!=null && value.farmers_bin_weight == this.generateTicketFormTruck.get('farmers_bin_weight_initial').value){
+      if (value.farmers_bin_weight != null && value.farmers_bin_weight == this.generateTicketFormTruck.get('farmers_bin_weight_initial').value) {
         this.generateTicketFormTruck.get('farmers_bin_weight').setErrors(null);
-      }else{
+      } else {
         this.generateTicketFormTruck.get('farmers_bin_weight').setErrors({ mustMatch: true })
       }
 
-      if(value.farmers_bin_weight == null){
+      if (value.farmers_bin_weight == null) {
         this.generateTicketFormTruck.get('farmers_bin_weight').setErrors({ required: true })
       }
 
-      if(this.generateTicketFormTruck.get('farmers_bin_weight_initial').value == ""){
+      if (this.generateTicketFormTruck.get('farmers_bin_weight_initial').value == "") {
         this.generateTicketFormTruck.get('farmers_bin_weight').setErrors(null);
         this.generateTicketFormTruck.controls['farmers_bin_weight'].disable();
 
@@ -182,9 +177,9 @@ export class GeneratedTicketPage implements OnInit {
       net_weight: [''],
       moisture_content: [''],
       protein_content: [''],
-      test_weight:[''],
-      scale_ticket:[''],
-      operation:['updateTicketInfo']
+      test_weight: [''],
+      scale_ticket: [''],
+      operation: ['updateTicketInfo']
     });
 
   }
@@ -273,12 +268,10 @@ export class GeneratedTicketPage implements OnInit {
       );
     } else {
       const formData: FormData = new FormData();
-      formData.append(
-        'generateTicketFormTruck',
-        JSON.stringify(this.generateTicketFormTruck.value)
-      );
+      formData.append('generateTicketFormTruck', JSON.stringify(this.generateTicketFormTruck.value));
       formData.append('operation', 'verifyTicket');
       formData.append('ticketId', this.ticket.id);
+
       this.loadingSpinner.next(true);
       this.harvestingService.kartOperatorVerifyTickets(formData).subscribe(
         (res: any) => {

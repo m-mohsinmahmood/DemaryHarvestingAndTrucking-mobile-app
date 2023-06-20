@@ -34,6 +34,7 @@ export class TicketPage implements OnInit {
   @ViewChild('fieldInput') fieldInput: ElementRef;
   // @ViewChild('machineryInput') machineryInput: ElementRef;
   @ViewChild('jobInput') jobInput: ElementRef;
+  @ViewChild('destinationInput') destinationInput: ElementRef;
   @ViewChild('field_split_load_input') field_split_load_input: ElementRef;
 
   role: any;
@@ -50,17 +51,20 @@ export class TicketPage implements OnInit {
   allKartOperators: Observable<any>;
   allFields: Observable<any>;
   allSplitLoadFields: Observable<any>;
+  allDestinations: Observable<any>;
 
   // subjects
   trick_driver_search$ = new Subject();
   kart_operator_search$ = new Subject();
   field_search$ = new Subject();
   field_split_load_search$ = new Subject();
+  destination_search$ = new Subject();
 
   // input values
   trick_driver_name: any = '';
   kart_operator_name: any = '';
   field_name: any = '';
+  destination_name: any = '';
   field_split_load_name: any = '';
 
   // input's search values
@@ -68,17 +72,20 @@ export class TicketPage implements OnInit {
   kartOperatorSearchValue: any;
   fieldSearchValue: any;
   fieldSplitLoadSearchValue: any;
+  destinationSearchValue: any;
 
   // to show UL's
   truckDriverUL: any = false;
   kartOperatorUL: any = false;
   fieldUL: any = false;
+  destinationUL: any = false;
   fieldSplitLoadUL: any = false;
 
   // for invalid
   isTruckDriverSelected: any = true;
   isKartOperatorSelected: any = true;
   isFieldSelected: any = true;
+  isDestinationSelected: any = true;
   isFieldSplitLoadSelected: any = true;
   currentDate: any = moment(new Date()).format('MM-DD-YYYY');
 
@@ -104,6 +111,7 @@ export class TicketPage implements OnInit {
   allJobs: Observable<any>;
   job_search$ = new Subject();
   job_name: any = '';
+  preFilledJob: any = '';
   jobSearchValue: any = '';
   jobUL: any = false;
   isJobSelected: any = true;
@@ -112,7 +120,7 @@ export class TicketPage implements OnInit {
   showDiv = "none";
 
   // farmers bin variable
-  isFarmersBin:boolean=false;
+  isFarmersBin: boolean = false;
 
   customerName;
   state;
@@ -162,6 +170,10 @@ export class TicketPage implements OnInit {
         else if (e.target !== this.field_split_load_input.nativeElement) {
           this.allSplitLoadFields = of([]);
           this.fieldSplitLoadUL = false; // to hide the UL
+        }
+        else if (e.target !== this.destinationInput.nativeElement) {
+          this.allDestinations = of([]);
+          this.destinationUL = false; // to hide the UL
         }
       });
     }
@@ -257,7 +269,7 @@ export class TicketPage implements OnInit {
       // this.machineSearchSubscription();
       this.jobSearchSubscription();
       this.fieldSplitLoadSearchSubscription();
-
+      this.destinationSearchSubscription();
 
       this.initApis();
       this.initObservables();
@@ -306,14 +318,14 @@ export class TicketPage implements OnInit {
 
     this.harvestingService.getMaxDeliveryTicket().subscribe((res) => {
       this.deliveryTicketForm.patchValue({
-        deliveryTicketNumber: +res[0].max+1
+        deliveryTicketNumber: +res[0].max + 1
       })
     });
 
     this.sessionService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).subscribe((res) => {
-      console.log('invoiced job api', res);
-      this.job_name = res.invoiced_job ? res.invoiced_job : '';
-      if (this.job_name != '' || !this.job_name) {
+      this.preFilledJob = res.invoiced_job ? res.invoiced_job : '';
+
+      if (this.preFilledJob != '' || !this.preFilledJob) {
         let all_jobs = this.harvestingService.getInvoicedJobs(
           'getInvoicedJobs',
           this.role,
@@ -322,10 +334,8 @@ export class TicketPage implements OnInit {
         // subscribing to show/hide field UL
         all_jobs.subscribe((job) => {
           if (job.jobs) {
-            console.log("xxxx: ", job.jobs);
-
             for (let jobb of Object.entries(job.jobs)) {
-              if (this.job_name == jobb[1]['job_id']) {
+              if (this.preFilledJob == jobb[1]['job_id']) {
                 this.listClickedJob(jobb[1])
               }
             }
@@ -334,7 +344,6 @@ export class TicketPage implements OnInit {
         });
       }
       this.deliveryTicketForm.patchValue({
-        destination: res.destination,
         truckDriverId: res.truck_driver_id,
         jobId: res.invoiced_job ? res.invoiced_job : '',
       });
@@ -409,7 +418,7 @@ export class TicketPage implements OnInit {
   }
 
   //#region farmer bin check
-  checkFarmersBin(){
+  checkFarmersBin() {
     this.isFarmersBin = !this.isFarmersBin;
 
     if (!this.isFarmersBin) { // for clearing validations
@@ -421,6 +430,8 @@ export class TicketPage implements OnInit {
 
   submit() {
     // navigating
+    console.log("Clicked");
+
     if (!this.isReassign) {
       console.log('deliveryTicketForm', this.deliveryTicketForm.value);
       this.loadingSpinner.next(true);
@@ -443,7 +454,6 @@ export class TicketPage implements OnInit {
             this.deliveryTicketForm.reset();
             this.trick_driver_name = '';
             this.truckInput.nativeElement.value = '';
-            // this.kartInput.nativeElement.value = '';
             this.fieldInput.nativeElement.value = '';
             this.jobInput.nativeElement.value = '';
             if (this.isSplitTrue) { this.field_split_load_input.nativeElement.value = ''; }
@@ -896,11 +906,106 @@ export class TicketPage implements OnInit {
 
     // to enable submit button
     this.isJobSelected = false;
-
-    // passing the customer id to  select farm & crop id
-    // this.customerId = customer.id;
-
   }
+  //#endregion
+
+  //#region Destination
+  destinationSearchSubscription() {
+    this.destination_search$
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        takeUntil(this._unsubscribeAll)
+      )
+      .subscribe((value: string) => {
+        // passing for renderer2
+        this.destinationSearchValue = value;
+
+        // for asterik to look required
+        if (value === '') {
+          this.isDestinationSelected = true;
+        }
+
+        // calling API
+        this.allDestinations = this.harvestingService.getCustomerDestination(
+          value,
+          'getCustomerDestination',
+          this.customer_id,
+          this.farm_id
+        );
+
+        // subscribing to show/hide field UL
+        this.allDestinations.subscribe((destination) => {
+          if (destination.length === 0) {
+            // hiding UL
+            this.destinationUL = false;
+
+            this.isDestinationSelected = true;
+          } else {
+            this.destinationUL = true;
+          }
+        });
+      });
+  }
+
+  inputClickedDestination() {
+    // getting the serch value to check if there's a value in input
+    this.destination_search$
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        takeUntil(this._unsubscribeAll)
+      )
+      .subscribe((v) => {
+        this.destinationSearchValue = v;
+      });
+
+    const value =
+      this.destinationSearchValue === undefined
+        ? this.destination_name
+        : this.destinationSearchValue;
+
+    // calling API
+    this.allDestinations = this.harvestingService.getCustomerDestination(
+      value,
+      'getCustomerDestination',
+      this.customer_id,
+      this.farm_id
+    );
+
+    // subscribing to show/hide field UL
+    this.allDestinations.subscribe((destination) => {
+      // console.log('truck-drivers:', truckDrivers);
+      if (destination.length === 0) {
+        // hiding UL
+        this.destinationUL = false;
+      } else {
+        // showing UL
+        this.destinationUL = true;
+      }
+    });
+  }
+
+  listClickedDestination(destination) {
+    // console.log('Truck Driver Object:', truckdriver);
+
+    this.deliveryTicketForm.patchValue({
+      destination: destination.name
+    });
+    // hiding UL
+    this.destinationUL = false;
+
+    // passing name in select's input
+    this.destinationInput.nativeElement.value = destination.name;
+    this.destination_name = destination.name;
+
+    // to enable submit button
+    this.isDestinationSelected = false;
+
+    // clearing array
+    this.allDestinations = of([]);
+  }
+
   //#endregion
 
   printDiv(ticket) {

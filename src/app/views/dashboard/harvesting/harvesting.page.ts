@@ -109,7 +109,7 @@ export class HarvestingPage implements OnInit {
     }
 
     if (this.role.includes('Cart Operator')) {
-      this.harvestingService.kartOperatorGetTickets(localStorage.getItem('employeeId'), 'pending');
+      this.harvestingService.kartOperatorGetTickets(localStorage.getItem('employeeId'), 'pending', '', '');
 
       this.pendingTicketData$ = this.harvestingService.pendingTicket$;
       this.pendingTicketLoading$ = this.harvestingService.pendingTicketLoading$;

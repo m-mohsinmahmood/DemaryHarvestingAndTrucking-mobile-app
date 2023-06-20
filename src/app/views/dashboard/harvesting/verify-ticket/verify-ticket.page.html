@@ -1,7 +1,6 @@
 <app-header [title]="'Verify Delivery Ticket'" [color]="'harvesting'" *ngIf="showDiv !== 'deliveryTicket'"></app-header>
 <!-- Cart Operator -->
 <ion-content *ngIf="role.includes('Cart Operator') && showDiv !== 'deliveryTicket'">
-  <!-- <app-timer [value]="'09:12:14'"></app-timer> -->
   <div class="p-2">
     <div class="segment-style">
       <ion-segment [(ngModel)]="segment" scrollable (ionChange)="segmentChange($event)">
@@ -417,8 +416,11 @@
               <div class="flex flex-col">
                 <div class="flex flex-row py-2">
                   <div class="flex w-8/12 flex-col">
-                    <span class="font-Lato text-base">Ticket# <span
-                        class="font-Lato bg-0165c31a ml-1 h-5 rounded-xl px-2 text-base text-black">{{completedTicket?.delivery_ticket_name}}</span></span>
+                    <span class="font-Lato text-base">Ticket#
+                      <span *ngIf="!completedTicket.split_load_check" class="font-Lato bg-0165c31a ml-1 h-5 rounded-xl px-2 text-base text-black">{{completedTicket?.delivery_ticket_name}}</span>
+                      <span *ngIf="completedTicket.split_load_check" class="font-Lato bg-0165c31a ml-1 h-5 rounded-xl px-2 text-base text-black">{{completedTicket?.delivery_ticket_name}} - SL</span>
+                    </span>
+
                     <span class="text-lg font-bold">{{completedTicket?.crop_name}}, {{completedTicket?.state}}</span>
                   </div>
                   <div class="flex w-4/12 justify-end">

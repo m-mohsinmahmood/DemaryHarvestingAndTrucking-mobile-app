@@ -12,6 +12,7 @@ import { Observable } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { ToastService } from 'src/app/services/toast/toast.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-verify-ticket',
@@ -91,12 +92,6 @@ export class VerifyTicketPage implements OnInit {
     // Unsubscribe from all subscriptions
     this._unsubscribeAll.next(null);
     this._unsubscribeAll.complete();
-    // this.sentTicketData$.unsubscribe();
-    // this.pendingTicketData$.unsubscribe();
-    // this.verifiedTicketData$.unsubscribe();
-    // this.sentTicketLoading$.unsubscribe();
-    // this.pendingTicketLoading$.unsubscribe();
-    // this.verifiedTicketLoading$.unsubscribe();
   }
 
   ngOnInit() {
@@ -165,7 +160,9 @@ export class VerifyTicketPage implements OnInit {
     if (this.role.includes('Cart Operator')) {
       this.harvestingService.kartOperatorGetTickets(
         localStorage.getItem('employeeId'),
-        'sent'
+        'sent',
+        '',
+        ''
       );
     } else if (this.role.includes('Truck Driver')) {
       this.harvestingService.truckDriverGetTickets(
@@ -198,7 +195,9 @@ export class VerifyTicketPage implements OnInit {
     if (this.role.includes('Cart Operator')) {
       this.harvestingService.kartOperatorGetTickets(
         localStorage.getItem('employeeId'),
-        'pending'
+        'pending',
+        '',
+        ''
       );
     } else if (this.role.includes('Truck Driver')) {
       this.harvestingService.truckDriverGetTickets(
@@ -214,9 +213,12 @@ export class VerifyTicketPage implements OnInit {
   }
 
   initVerifiedApis() {
+
     this.harvestingService.kartOperatorGetTickets(
       localStorage.getItem('employeeId'),
-      'verified'
+      'verified',
+      moment(moment().format('MM-DD-YYYY')).startOf('day').toISOString(),
+      moment(moment().format('MM-DD-YYYY')).endOf('day').toISOString()
     );
   }
 
@@ -244,7 +246,6 @@ export class VerifyTicketPage implements OnInit {
         reassign: true,
       },
     });
-
   }
 
   goBack() {
