@@ -104,10 +104,8 @@ export class GeneratedTicketPage implements OnInit {
         destination: this.ticket.destination,
         farmId: this.ticket.farm_id,
         cropName: this.ticket.crop_name,
-        farmers_bin_weight : (this.ticket.farmers_bin_weight == null || this.ticket.farmers_bin_weight == undefined || this.ticket.farmers_bin_weight == '') ? '' : this.ticket.farmers_bin_weight,
-        NetWeight : (this.ticket.farmers_bin_weight == null || this.ticket.farmers_bin_weight == undefined || this.ticket.farmers_bin_weight == '') ? '' : this.ticket.farmers_bin_weight,
-        NetWeight2 : (this.ticket.farmers_bin_weight == null || this.ticket.farmers_bin_weight == undefined || this.ticket.farmers_bin_weight == '') ? '' : this.ticket.farmers_bin_weight,
-        //farmers_bin_weight : (this.ticket.farmers_bin_weight == undefined || this.ticket.farmers_bin_weight == "") ? "" : this.ticket.farmers_bin_weight,
+        farmers_bin_weight_initial : (this.ticket.farmers_bin_weight == undefined || this.ticket.farmers_bin_weight == '') ? '' : this.ticket.farmers_bin_weight,
+        farmers_bin_weight : (this.ticket.farmers_bin_weight == undefined || this.ticket.farmers_bin_weight == '') ? '' : this.ticket.farmers_bin_weight,
       });
     }
 
@@ -143,58 +141,54 @@ export class GeneratedTicketPage implements OnInit {
       image_1: [''],
       image_2: ['', [Validators.required]],
       machineryId: ['', [Validators.required]],
-      farmers_bin_weight: [{value:'',disabled:true}],
-      //farmers_bin_weight: ['', [Validators.required]],
+      farmers_bin_weight_initial: [{value:'',disabled:true}],
+      farmers_bin_weight: ['', [Validators.required]],
     });
 
     this.generateTicketFormTruck.valueChanges.subscribe((value) => {
-      // custom validation for 'Delivery/Scale Ticket 'Net' Weight (lbs.)'
-      if(this.generateTicketFormTruck.get('farmers_bin_weight').value == ''){
-        this.generateTicketFormTruck.get('NetWeight').setValidators(null)
-        this.generateTicketFormTruck.get('NetWeight2').setValidators(null)
 
-        if(value.NetWeight != ''){
-          this.generateTicketFormTruck.get('NetWeight').setErrors({ mustMatch: true })
+      if( this.generateTicketFormTruck.get('farmers_bin_weight_initial').value != ''){
+
+        //remove required validations for Delivery/Scale Ticket 'Net' Weight
+        this.generateTicketFormTruck.get('NetWeight').setValidators(null);
+        this.generateTicketFormTruck.get('NetWeight2').setValidators(null);
+
+        //custom validations Farmers Bin Weight
+        if(value.farmers_bin_weight=='' || value.farmers_bin_weight==null){
+          this.generateTicketFormTruck.get('farmers_bin_weight').setErrors({ required:true });
         }else{
-          this.generateTicketFormTruck.get('NetWeight').setErrors(null);
-        }
-        if(value.NetWeight2 != ''){
-          this.generateTicketFormTruck.get('NetWeight2').setErrors({ mustMatch: true })
-        }else{
-          this.generateTicketFormTruck.get('NetWeight2').setErrors(null);
-        }
-      }else{
-        if(value.NetWeight == ''){
-          this.generateTicketFormTruck.get('NetWeight').setErrors({ required: true })
-        }else{
-          if(this.generateTicketFormTruck.get('farmers_bin_weight').value == value.NetWeight){
-            this.generateTicketFormTruck.get('NetWeight').setErrors(null);
+          if(value.farmers_bin_weight == this.generateTicketFormTruck.get('farmers_bin_weight_initial').value){
+            this.generateTicketFormTruck.get('farmers_bin_weight').setErrors(null);
           }else{
-            this.generateTicketFormTruck.get('NetWeight').setErrors({ mustMatch: true })
+            this.generateTicketFormTruck.get('farmers_bin_weight').setErrors({ mustMatch: true });
           }
         }
+      }else{
 
-        if(value.NetWeight2 == ''){
-          this.generateTicketFormTruck.get('NetWeight2').setErrors({ required: true })
+        //remove required validations for Farmers Bin Weight
+        this.generateTicketFormTruck.get('farmers_bin_weight').setValidators(null);
+
+        //custom validations Delivery/Scale Ticket 'Net' Weight
+        if(value.NetWeight =='' && value.NetWeight2 ==''){
+          this.generateTicketFormTruck.get('NetWeight').setErrors({ required:true });
+          this.generateTicketFormTruck.get('NetWeight2').setErrors({ required:true });
+        }else if(value.NetWeight !='' && value.NetWeight2 ==''){
+          this.generateTicketFormTruck.get('NetWeight').setErrors(null);
+          this.generateTicketFormTruck.get('NetWeight2').setErrors({ required:true });
+        }else if(value.NetWeight =='' && value.NetWeight2 !=''){
+          this.generateTicketFormTruck.get('NetWeight').setErrors({ required:true });
+          this.generateTicketFormTruck.get('NetWeight2').setErrors({ mustMatch: true });
         }else{
-          if(this.generateTicketFormTruck.get('farmers_bin_weight').value == value.NetWeight2){
+          if(value.NetWeight == value.NetWeight2){
+            this.generateTicketFormTruck.get('NetWeight').setErrors(null);
             this.generateTicketFormTruck.get('NetWeight2').setErrors(null);
           }else{
-            this.generateTicketFormTruck.get('NetWeight2').setErrors({ mustMatch: true })
+            this.generateTicketFormTruck.get('NetWeight2').setErrors({ mustMatch: true });
           }
         }
       }
 
-      // custom validation for 'farmers_bin_weight'
 
-      // if(value.farmers_bin_weight == null){
-      //   this.generateTicketFormTruck.get('farmers_bin_weight').setErrors({ required: true })
-      // }
-
-      // if(this.generateTicketFormTruck.get('farmers_bin_weight_initial').value == ""){
-      //   this.generateTicketFormTruck.get('farmers_bin_weight').setErrors(null);
-      //   this.generateTicketFormTruck.controls['farmers_bin_weight'].disable();
-      // }
     });
 
     this.editTicketForm = this.formBuilder.group({
