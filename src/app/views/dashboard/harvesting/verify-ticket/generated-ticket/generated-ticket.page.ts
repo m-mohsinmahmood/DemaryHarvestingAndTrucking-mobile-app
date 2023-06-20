@@ -148,7 +148,6 @@ export class GeneratedTicketPage implements OnInit {
     });
 
     this.generateTicketFormTruck.valueChanges.subscribe((value) => {
-
       // custom validation for 'Delivery/Scale Ticket 'Net' Weight (lbs.)'
       if(this.generateTicketFormTruck.get('farmers_bin_weight').value == ''){
         this.generateTicketFormTruck.get('NetWeight').setValidators(null)
@@ -165,28 +164,26 @@ export class GeneratedTicketPage implements OnInit {
           this.generateTicketFormTruck.get('NetWeight2').setErrors(null);
         }
       }else{
-        if(value.NetWeight != ''){
-          if(value.farmers_bin_weight !== value.NetWeight){
-            this.generateTicketFormTruck.get('NetWeight').setErrors({ mustMatch: true })
-          }else{
-            this.generateTicketFormTruck.get('NetWeight').setErrors(null);
-          }
-        }else{
+        if(value.NetWeight == ''){
           this.generateTicketFormTruck.get('NetWeight').setErrors({ required: true })
+        }else{
+          if(this.generateTicketFormTruck.get('farmers_bin_weight').value == value.NetWeight){
+            this.generateTicketFormTruck.get('NetWeight').setErrors(null);
+          }else{
+            this.generateTicketFormTruck.get('NetWeight').setErrors({ mustMatch: true })
+          }
         }
 
-        if(value.NetWeight2 != ''){
-          if(value.farmers_bin_weight !== value.NetWeight){
-            this.generateTicketFormTruck.get('NetWeight2').setErrors({ mustMatch: true })
-          }else{
-            this.generateTicketFormTruck.get('NetWeight2').setErrors(null);
-          }
-        }else{
+        if(value.NetWeight2 == ''){
           this.generateTicketFormTruck.get('NetWeight2').setErrors({ required: true })
+        }else{
+          if(this.generateTicketFormTruck.get('farmers_bin_weight').value == value.NetWeight2){
+            this.generateTicketFormTruck.get('NetWeight2').setErrors(null);
+          }else{
+            this.generateTicketFormTruck.get('NetWeight2').setErrors({ mustMatch: true })
+          }
         }
       }
-
-      console.log(this.generateTicketFormTruck.hasError)
 
       // custom validation for 'farmers_bin_weight'
 
