@@ -9,6 +9,7 @@ import { HarvestingService } from './../../harvesting.service';
 import { BehaviorSubject, Observable, Subject, of } from 'rxjs';
 import { ToastService } from 'src/app/services/toast/toast.service';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-generated-ticket',
@@ -473,4 +474,7 @@ export class GeneratedTicketPage implements OnInit {
   }
   //#endregion
 
+  newDate(date){
+    return moment(date).format('MM-DD-YYYY');
+  }
 }
