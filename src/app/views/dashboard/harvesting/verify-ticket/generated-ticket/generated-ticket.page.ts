@@ -112,6 +112,8 @@ export class GeneratedTicketPage implements OnInit {
       this.sessionService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).subscribe((res) => {
         console.log('employee from storage',res)
         if(res.truck_id){
+          console.log("Truck :", res.truck_id);
+
           this.allMachinery = this.harvestingService.getMachinery(
             '',
             'allMotorizedVehicles',
