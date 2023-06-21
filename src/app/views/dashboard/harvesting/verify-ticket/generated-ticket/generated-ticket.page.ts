@@ -10,6 +10,7 @@ import { BehaviorSubject, Observable, Subject, of } from 'rxjs';
 import { ToastService } from 'src/app/services/toast/toast.service';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import * as moment from 'moment';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
   selector: 'app-generated-ticket',
@@ -61,6 +62,7 @@ export class GeneratedTicketPage implements OnInit {
     private harvestingService: HarvestingService,
     private toastService: ToastService,
     private renderer: Renderer2,
+    private sessionService: AuthService,
   ) {
     if (localStorage.getItem('role').includes('Truck Driver')) {
       this.renderer.listen('window', 'click', (e) => {
@@ -107,6 +109,28 @@ export class GeneratedTicketPage implements OnInit {
         farmers_bin_weight_initial: (this.ticket.farmers_bin_weight == undefined || this.ticket.farmers_bin_weight == "") ? "" : this.ticket.farmers_bin_weight,
         farmers_bin_weight: (this.ticket.farmers_bin_weight == undefined || this.ticket.farmers_bin_weight == "") ? "" : this.ticket.farmers_bin_weight,
       });
+
+      this.sessionService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).subscribe((res) => {
+        console.log('employee from storage',res)
+        if(res.truck_id){
+          console.log("Truck :", res.truck_id);
+
+          this.allMachinery = this.harvestingService.getMachinery(
+            '',
+            'allMotorizedVehicles',
+            'Truck IFTA'
+          );
+          this.machineUL = false;
+          this.allMachinery.subscribe((machinery) => {
+            for(let t of machinery.machinery){
+              if(t.id == res.truck_id){
+                this.listClickedMachiney(t)
+              }
+            }
+          });
+
+        }
+      })
     }
 
     if (this.role.includes('Truck Driver')) {
