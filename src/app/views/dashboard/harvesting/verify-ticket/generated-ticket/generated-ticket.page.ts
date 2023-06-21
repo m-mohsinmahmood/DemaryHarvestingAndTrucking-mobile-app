@@ -44,6 +44,7 @@ export class GeneratedTicketPage implements OnInit {
   upload_1 = false;
   upload_2 = false;
   upload_3 = false;
+  upload_2_url;
   ticketSub;
   fieldPivot; //field/pivot
   fieldPivotSL; //field/pivot-sl
@@ -104,8 +105,8 @@ export class GeneratedTicketPage implements OnInit {
         destination: this.ticket.destination,
         farmId: this.ticket.farm_id,
         cropName: this.ticket.crop_name,
-        farmers_bin_weight_initial : (this.ticket.farmers_bin_weight == undefined || this.ticket.farmers_bin_weight == '') ? '' : this.ticket.farmers_bin_weight,
-        farmers_bin_weight : (this.ticket.farmers_bin_weight == undefined || this.ticket.farmers_bin_weight == '') ? '' : this.ticket.farmers_bin_weight,
+        farmers_bin_weight_initial: (this.ticket.farmers_bin_weight == undefined || this.ticket.farmers_bin_weight == '') ? '' : this.ticket.farmers_bin_weight,
+        farmers_bin_weight: (this.ticket.farmers_bin_weight == undefined || this.ticket.farmers_bin_weight == '') ? '' : this.ticket.farmers_bin_weight,
       });
     }
 
@@ -141,54 +142,52 @@ export class GeneratedTicketPage implements OnInit {
       image_1: [''],
       image_2: ['', [Validators.required]],
       machineryId: ['', [Validators.required]],
-      farmers_bin_weight_initial: [{value:'',disabled:true}],
+      farmers_bin_weight_initial: [{ value: '', disabled: true }],
       farmers_bin_weight: ['', [Validators.required]],
     });
 
     this.generateTicketFormTruck.valueChanges.subscribe((value) => {
 
-      if( this.generateTicketFormTruck.get('farmers_bin_weight_initial').value != ''){
+      if (this.generateTicketFormTruck.get('farmers_bin_weight_initial').value != '') {
 
         //remove required validations for Delivery/Scale Ticket 'Net' Weight
         this.generateTicketFormTruck.get('NetWeight').setValidators(null);
         this.generateTicketFormTruck.get('NetWeight2').setValidators(null);
 
         //custom validations Farmers Bin Weight
-        if(value.farmers_bin_weight=='' || value.farmers_bin_weight==null){
-          this.generateTicketFormTruck.get('farmers_bin_weight').setErrors({ required:true });
-        }else{
-          if(value.farmers_bin_weight == this.generateTicketFormTruck.get('farmers_bin_weight_initial').value){
+        if (value.farmers_bin_weight == '' || value.farmers_bin_weight == null) {
+          this.generateTicketFormTruck.get('farmers_bin_weight').setErrors({ required: true });
+        } else {
+          if (value.farmers_bin_weight == this.generateTicketFormTruck.get('farmers_bin_weight_initial').value) {
             this.generateTicketFormTruck.get('farmers_bin_weight').setErrors(null);
-          }else{
+          } else {
             this.generateTicketFormTruck.get('farmers_bin_weight').setErrors({ mustMatch: true });
           }
         }
-      }else{
+      } else {
 
         //remove required validations for Farmers Bin Weight
         this.generateTicketFormTruck.get('farmers_bin_weight').setValidators(null);
 
         //custom validations Delivery/Scale Ticket 'Net' Weight
-        if(value.NetWeight =='' && value.NetWeight2 ==''){
-          this.generateTicketFormTruck.get('NetWeight').setErrors({ required:true });
-          this.generateTicketFormTruck.get('NetWeight2').setErrors({ required:true });
-        }else if(value.NetWeight !='' && value.NetWeight2 ==''){
+        if (value.NetWeight == '' && value.NetWeight2 == '') {
+          this.generateTicketFormTruck.get('NetWeight').setErrors({ required: true });
+          this.generateTicketFormTruck.get('NetWeight2').setErrors({ required: true });
+        } else if (value.NetWeight != '' && value.NetWeight2 == '') {
           this.generateTicketFormTruck.get('NetWeight').setErrors(null);
-          this.generateTicketFormTruck.get('NetWeight2').setErrors({ required:true });
-        }else if(value.NetWeight =='' && value.NetWeight2 !=''){
-          this.generateTicketFormTruck.get('NetWeight').setErrors({ required:true });
+          this.generateTicketFormTruck.get('NetWeight2').setErrors({ required: true });
+        } else if (value.NetWeight == '' && value.NetWeight2 != '') {
+          this.generateTicketFormTruck.get('NetWeight').setErrors({ required: true });
           this.generateTicketFormTruck.get('NetWeight2').setErrors({ mustMatch: true });
-        }else{
-          if(value.NetWeight == value.NetWeight2){
+        } else {
+          if (value.NetWeight == value.NetWeight2) {
             this.generateTicketFormTruck.get('NetWeight').setErrors(null);
             this.generateTicketFormTruck.get('NetWeight2').setErrors(null);
-          }else{
+          } else {
             this.generateTicketFormTruck.get('NetWeight2').setErrors({ mustMatch: true });
           }
         }
       }
-
-
     });
 
     this.editTicketForm = this.formBuilder.group({
@@ -196,9 +195,9 @@ export class GeneratedTicketPage implements OnInit {
       net_weight: [''],
       moisture_content: [''],
       protein_content: [''],
-      test_weight:[''],
-      scale_ticket:[''],
-      operation:['updateTicketInfo']
+      test_weight: [''],
+      scale_ticket: [''],
+      operation: ['updateTicketInfo']
     });
 
   }
@@ -210,16 +209,27 @@ export class GeneratedTicketPage implements OnInit {
   onSelectedFiles(file, name) {
 
     if (name === 'upload_2') {
-      this.upload_2 = !this.upload_2;
       if (file.target.files && file.target.files[0]) {
-        const reader = new FileReader();
-        reader.onload = (_event: any) => {
-          this.generateTicketFormTruck.controls.image_2?.setValue(
-            file.target.files[0]
-          );
-        };
-        reader.readAsDataURL(file.target.files[0]);
-      } else {
+        const uploadedFile = file.target.files[0];
+        const allowedTypes = ['image/jpeg', 'image/png'];
+
+        if (allowedTypes.includes(uploadedFile.type)) {
+          const reader = new FileReader();
+
+          this.upload_2 = !this.upload_2;
+          reader.onload = (_event: any) => {
+            this.generateTicketFormTruck.controls.image_2?.setValue(uploadedFile);
+            this.upload_2_url = reader.result;
+            this.toastService.presentToast('Photo Uploaded!', 'success');
+          };
+          reader.readAsDataURL(uploadedFile);
+        } else {
+          // Display an error message or take appropriate action for invalid file types
+          this.upload_2 = null;
+          this.upload_2_url = null;
+          this.generateTicketFormTruck.controls.image_2?.setValue('');
+          this.toastService.presentToast('Invalid file type. Please upload a JPEG or PNG image.', 'danger');
+        }
       }
     }
   }
