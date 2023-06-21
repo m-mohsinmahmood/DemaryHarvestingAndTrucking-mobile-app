@@ -28,10 +28,6 @@ export class TicketGeneratedPage implements OnInit {
     this.activeRoute.params.subscribe(params => {
       console.log(params);
       this.getNewDeliveryTicketById(params.id);
-      // this.data = params;
-      // this.nameArr = this.data.uploadFile.split(',');
-      console.log(this.nameArr);
-
     })
   }
 
@@ -41,18 +37,16 @@ export class TicketGeneratedPage implements OnInit {
   navigateTo(nav: string) {
     this.router.navigateByUrl(nav);
   }
-  getNewDeliveryTicketById(id){
-    console.log('object');
+
+  getNewDeliveryTicketById(id) {
     this.truckingService.getNewDeliveryTicketById(id)
-    .subscribe((res)=>{
-      this.loadingSpinner.next(false);
-              console.log(res);
-                    this.data = res;
-
-
-    },
-    (err)=>{
-        this.toast.presentToast(err, 'danger');
-    });
+      .subscribe((res) => {
+        this.loadingSpinner.next(false);
+        this.data = res;
+        console.log("Data: ", this.data);
+      },
+        (err) => {
+          this.toast.presentToast(err, 'danger');
+        });
   }
 }

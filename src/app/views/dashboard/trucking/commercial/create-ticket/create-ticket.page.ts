@@ -12,7 +12,6 @@ import {
   FormGroup,
   FormBuilder,
   Validators,
-  FormControl,
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
@@ -126,10 +125,10 @@ export class CreateTicketPage implements OnInit {
     {
       if (localStorage.getItem('role').includes('Dispatcher')) {
         this.renderer.listen('window', 'click', (e) => {
-          if (e.target !== this.tDriverInput.nativeElement) {
-            this.alltDrivers = of([]); // to clear array
-            this.tDriverUL = false; // to hide the UL
-          }
+          // if (e.target !== this.tDriverInput.nativeElement) {
+          //   this.alltDrivers = of([]); // to clear array
+          //   this.tDriverUL = false; // to hide the UL
+          // }
           if (e.target !== this.customerInput.nativeElement) {
             this.allCustomers = of([]); // to clear array
             this.customerUL = false; // to hide the UL
