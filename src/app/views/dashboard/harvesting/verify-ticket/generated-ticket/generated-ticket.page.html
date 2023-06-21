@@ -68,7 +68,7 @@
         <ion-row class="mb-1 h-16">
           <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
             <p class="font-Lato text-black font-bold font-14">Loaded Miles</p>
-            <span class="font-Lato font-14">{{ticket.loaded_miles}}</span>
+            <span class="font-Lato font-14">{{ticket.loaded_miles | number:'1.0-0'}}</span>
           </ion-col>
 
           <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
@@ -87,23 +87,23 @@
             <p class="font-Lato text-black font-bold font-14 text-left">
               Farmers Bin Cart Weight (lbs.)
             </p>
-            <span *ngIf="ticket.farmers_bin_weight" class="font-Lato font-14">{{ticket.farmers_bin_weight}} lbs</span>
+            <span *ngIf="ticket.farmers_bin_weight" class="font-Lato font-14">{{ticket.farmers_bin_weight| number:'1.0-0'}} lbs</span>
             <span *ngIf="!ticket.farmers_bin_weight" class="font-Lato font-14">0 lbs</span>
           </ion-col>
         </ion-row>
 
         <ion-row class="mb-1 h-16">
           <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
-            <p class="font-Lato text-black font-bold font-14">Loaded Weight-SL</p>
-            <span *ngIf="ticket.scale_ticket_net_weight && ticket.cart_scale_weight" class="font-Lato font-14">{{ticket?.scale_ticket_net_weight - ticket?.cart_scale_weight}}</span>
-            <span *ngIf="!ticket.scale_ticket_net_weight || !ticket.cart_scale_weight" class="font-Lato font-14">{{ticket?.scale_ticket_net_weight - ticket?.cart_scale_weight}}</span>
+            <p class="font-Lato text-black font-bold font-14">Loaded Weight-SL (lbs.)</p>
+            <span *ngIf="ticket.split_load_check" class="font-Lato font-14">{{ticket?.scale_ticket_net_weight - ticket?.cart_scale_weight| number:'1.0-0'}}</span>
+            <span *ngIf="!ticket.split_load_check" class="font-Lato font-14">0</span>
           </ion-col>
 
           <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
             <p class="font-Lato text-black font-bold font-14">
-              Cart Scale Weight
+              Cart Scale Weight (lbs.)
             </p>
-            <span *ngIf="ticket.cart_scale_weight" class="font-Lato font-14">{{ticket.cart_scale_weight}}</span>
+            <span *ngIf="ticket.cart_scale_weight" class="font-Lato font-14">{{ticket.cart_scale_weight| number:'1.0-0'}}</span>
             <span *ngIf="!ticket.cart_scale_weight" class="font-Lato font-14">0</span>
           </ion-col>
         </ion-row>
@@ -111,14 +111,14 @@
         <ion-row class="mb-1 h-16">
           <ion-col size="6" class="flex flex-col justify-evenly items-baseline ion-text-center">
             <p class="font-Lato text-black font-bold font-14 text-left">
-              Scale Ticket "Net" Weight(lb)
+              Scale Ticket "Net" Weight (lbs.)
             </p>
-            <span class="font-Lato font-14">{{ticket?.scale_ticket_net_weight}}</span>
+            <span class="font-Lato font-14">{{ticket?.scale_ticket_net_weight| number:'1.0-0'}}</span>
           </ion-col>
 
           <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
-            <p class="font-Lato text-black font-bold font-14 text-left">Test Weight(lbs./bu)</p>
-            <span class="font-Lato font-14">{{ticket?.test_weight}}</span>
+            <p class="font-Lato text-black font-bold font-14 text-left">Test Weight (lbs./bu)</p>
+            <span class="font-Lato font-14">{{ticket?.test_weight| number:'1.0-0'}}</span>
           </ion-col>
         </ion-row>
 
@@ -127,12 +127,12 @@
             <p class="font-Lato text-black font-bold font-14">
               Moisture Content
             </p>
-            <span class="font-Lato font-14">{{ticket?.moisture_content}}</span>
+            <span class="font-Lato font-14">{{ticket?.moisture_content| number:'1.0-0'}}</span>
           </ion-col>
 
           <ion-col size="6" class="flex flex-col justify-evenly items-start ion-text-center">
             <p class="font-Lato text-black font-bold font-14">Protein content</p>
-            <span class="font-Lato font-14">{{ticket?.protein_content}}</span>
+            <span class="font-Lato font-14">{{ticket?.protein_content| number:'1.0-0'}}</span>
           </ion-col>
         </ion-row>
 
@@ -288,9 +288,12 @@
             formControlName="scaleTicket" placeholder="Scale Ticket" />
         </div>
 
-        <label class="block text-sm font-medium text-gray-700">Add Photo of Scale Ticket <span
+        <label class="block text-sm font-medium text-gray-700">Add Photo of Delivery/Scale Ticket <span
             *ngIf="this.generateTicketFormTruck.get('image_2').hasError('required')"
             class="text-red-400">*</span></label>
+
+            <div *ngIf="upload_2" class="border-2 border-solid border-gray-500"><img class="w-80 h-80 object-contain" [src]="upload_2_url" ></div>
+
         <div class="w-16 h-16 mr-2 mb-2 mt-2">
           <ion-card
             [ngClass]="!upload_2 ? ' shadow-none m-0 border-2 border-aaaaaa bg-e9e6e6' : 'shadow-none m-0 border-2 border-3D8AA4 bg-white'"
@@ -311,7 +314,7 @@
           </ion-card>
         </div>
 
-        <div class="col-span-12 mb-2">
+        <div [hidden]="this.generateTicketFormTruck.get('farmers_bin_weight_initial').value == ''" class="col-span-12 mb-2">
           <label class="block text-sm font-medium text-gray-700">Farmers Bin Cart Weight (lbs.)
           </label>
           <input type="number"
@@ -320,27 +323,27 @@
             formControlName="farmers_bin_weight_initial" placeholder="Farmers Bin Weight" />
         </div>
 
-        <div class="col-span-12 mb-2">
-          <label class="block text-sm font-medium text-gray-700">Scale Ticket 'Net' Weight (lb)
+        <div [hidden]="this.generateTicketFormTruck.get('farmers_bin_weight_initial').value != ''"  class="col-span-12 mb-2">
+          <label class="block text-sm font-medium text-gray-700">Delivery/Scale Ticket 'Net' Weight (lbs.)
             <span *ngIf="this.generateTicketFormTruck.get('NetWeight').hasError('required')"
               class="text-red-400">*</span></label>
-          <input
+          <input type="number"
             class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-            formControlName="NetWeight" placeholder="Scale Ticket Weight" />
+            formControlName="NetWeight" placeholder="Enter Weight" />
         </div>
-        <ion-text *ngIf="this.generateTicketFormTruck.get('NetWeight').invalid" class="text-sm text-red-500">
+        <!-- <ion-text *ngIf="this.generateTicketFormTruck.get('NetWeight').hasError('mustMatch')" class="text-sm text-red-500">
           Scale ticket weight should match
-        </ion-text>
+        </ion-text> -->
 
-        <div class="col-span-12 mb-2">
-          <label class="block text-sm font-medium text-gray-700">Scale Ticket 'Net' Weight (lb)
+        <div [hidden]="this.generateTicketFormTruck.get('farmers_bin_weight_initial').value != ''"  class="col-span-12 mb-2">
+          <label class="block text-sm font-medium text-gray-700">Delivery/Scale Ticket 'Net' Weight (lbs.)
             <span *ngIf="this.generateTicketFormTruck.get('NetWeight2').hasError('required')"
               class="text-red-400">*</span></label>
-          <input
+          <input type="number"
             class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-            formControlName="NetWeight2" placeholder="Scale Ticket Weight" />
+            formControlName="NetWeight2" placeholder="Enter Weight" />
         </div>
-        <ion-text *ngIf="this.generateTicketFormTruck.get('NetWeight2').invalid" class="text-sm text-red-500">
+        <ion-text *ngIf="this.generateTicketFormTruck.get('NetWeight2').hasError('mustMatch')" class="text-sm text-red-500">
           Scale ticket weight should match
         </ion-text>
 
@@ -353,13 +356,13 @@
             class="opacity-100 visible scale-100 ease-in duration-200"
             class="mb-4 relative z-30">
             <div class="mx-auto max-w-full transform rounded-xl px-0 transition-all">
-              <label class="block text-sm font-medium text-gray-700 mb-1">Machinery ID: <span *ngIf="isMachineSelected"
+              <label class="block text-sm font-medium text-gray-700 mb-1">Truck ID: <span *ngIf="isMachineSelected"
                   class="text-red-400">*</span></label>
               <div class="flex items-center justify-between gap-x-2 rounded-md">
                 <input (keyup)="machine_search$.next($event.target.value)" (click)="inputClickedMachinery()"
                   [value]="machine_name" #machineryInput
                   class="w-full px-4 py-2 text-gray-900 placeholder:text-base rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
-                  placeholder="Select Machiery" role="" aria-expanded="false" aria-controls="options">
+                  placeholder="Select Truck" role="" aria-expanded="false" aria-controls="options">
               </div>
 
               <div *ngIf="allMachinery | withLoading | async as allMachinery">
@@ -387,8 +390,9 @@
             </div>
           </div>
         </div>
-        <!-- Machinery -->
-        <div class="col-span-12 mb-2">
+
+        <!-- Farmers Bin -->
+        <div [hidden]="this.generateTicketFormTruck.get('farmers_bin_weight_initial').value == ''" class="col-span-12 mb-2">
           <label class="block text-sm font-medium text-gray-700">Farmers Bin Cart Weight (lbs.)
             <span
               class="text-red-400" *ngIf="this.generateTicketFormTruck.get('farmers_bin_weight').hasError('required')">*</span></label>
@@ -397,10 +401,11 @@
             disabled:bg-gray-200"
             formControlName="farmers_bin_weight" placeholder="Farmers Bin Weight" />
         </div>
-        <ion-text *ngIf="this.generateTicketFormTruck.get('farmers_bin_weight_initial').value != this.generateTicketFormTruck.get('farmers_bin_weight').value" class="text-sm text-red-500">
+        <ion-text *ngIf="this.generateTicketFormTruck.get('farmers_bin_weight').hasError('mustMatch')" class="text-sm text-red-500">
           Farmers Bin Weight should be equal to {{this.generateTicketFormTruck.get('farmers_bin_weight_initial').value}}
         </ion-text>
 
+        <!-- Field/Pivot -->
         <div class="col-span-12 mb-4">
           <label class="block text-sm font-medium text-gray-700">Field/Pivot
           </label>
@@ -473,8 +478,15 @@
       <div class="overflow-y-auto px-1">
         <form [formGroup]="editTicketForm">
           <div class="ml-2">
+
           <div class="col-span-12 mb-4 mt-2" id="day">
-            <label class="block text-sm font-medium text-gray-700">Scale Ticket "Net" Weight(lb)</label>
+            <label class="block text-sm font-medium text-gray-700">Scale Ticket</label>
+            <ion-input placeholder="Enter Value" formControlName="scale_ticket"></ion-input>
+
+          </div>
+
+          <div class="col-span-12 mb-4 mt-2" id="day">
+            <label class="block text-sm font-medium text-gray-700">Scale Ticket "Net" Weight(lbs.)</label>
             <ion-input placeholder="Enter Value" formControlName="net_weight"></ion-input>
 
           </div>
@@ -482,12 +494,6 @@
           <div class="col-span-12 mb-4 mt-2" id="day">
             <label class="block text-sm font-medium text-gray-700">Moisture Content</label>
             <ion-input placeholder="Enter Value" formControlName="moisture_content"></ion-input>
-
-          </div>
-
-          <div class="col-span-12 mb-4 mt-2" id="day">
-            <label class="block text-sm font-medium text-gray-700">Scale Ticket</label>
-            <ion-input placeholder="Enter Value" formControlName="scale_ticket"></ion-input>
 
           </div>
 
