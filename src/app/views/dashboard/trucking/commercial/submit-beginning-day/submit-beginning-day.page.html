@@ -91,11 +91,26 @@
         </div> -->
 
         <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Truck Driver</label>
+          <input
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="truckDriver" placeholder="">
+        </div>
+
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Truck Company<span class="text-red-600"
+              *ngIf="this.submitBeginningDay.get('truckCompany').hasError('required')">*</span></label>
+          <input
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="truckCompany" placeholder="">
+        </div>
+
+        <div class="col-span-12 mb-4">
           <label class="block text-sm font-medium text-gray-700">Truck ID<span class="text-red-600"
               *ngIf="this.submitBeginningDay.get('machineryId').hasError('required')">*</span></label>
           <input
             class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-            formControlName="machineryId" placeholder="Beginning Engine Hours" readonly>
+            formControlName="machineryId" placeholder="">
         </div>
 
         <div class="col-span-12 mb-4">
@@ -103,7 +118,7 @@
               *ngIf="this.submitBeginningDay.get('begining_odometer_miles').hasError('required')">*</span></label>
           <input
             class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-            formControlName="begining_odometer_miles" placeholder="Beginning Engine Hours" readonly>
+            formControlName="begining_odometer_miles" placeholder="" readonly>
         </div>
 
       </div>

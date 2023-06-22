@@ -74,7 +74,9 @@ export class SubmitBeginningDayPage implements OnInit {
       employeeId: [localStorage.getItem('employeeId')],
       machineryId: ['', [Validators.required]],
       begining_odometer_miles: ['', [Validators.required]],
-      deliveryTicketId: ['', [Validators.required]]
+      deliveryTicketId: ['', [Validators.required]],
+      truckDriver : [''],
+      truckCompany :['', [Validators.required]]
     });
   }
 
