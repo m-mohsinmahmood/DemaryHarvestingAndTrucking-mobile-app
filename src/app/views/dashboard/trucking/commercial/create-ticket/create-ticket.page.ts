@@ -160,10 +160,10 @@ export class CreateTicketPage implements OnInit {
             this.allMachinery = of([]); // to clear array
             this.machineryUL = false; // to hide the UL
           }
-          if (e.target !== this.cropInput.nativeElement) {
-            this.allCrops = of([]); // to clear array
-            this.cropUL = false; // to hide the UL
-          }
+          // if (e.target !== this.cropInput.nativeElement) {
+          //   this.allCrops = of([]); // to clear array
+          //   this.cropUL = false; // to hide the UL
+          // }
         });
       }
     }
@@ -235,9 +235,9 @@ export class CreateTicketPage implements OnInit {
       destinationEndingnOdometerReading: ['', [Validators.required]],
       destinationLoadedWeight: ['', [Validators.required]],
       destinationEmptyWeight: ['', [Validators.required]],
-      weightLoad: ['', [Validators.required]],
-      scaleTicket: ['', [Validators.required]],
-      destinationDeliveryLoad: ['', [Validators.required]],
+      //weightLoad: ['', [Validators.required]],
+      //scaleTicket: ['', [Validators.required]],
+      //destinationDeliveryLoad: ['', [Validators.required]],
       documentsUpload: ['', [Validators.required]],
       truckDriverNotes: ['', [Validators.required]],
       deadHeadMiles: ['', [Validators.required]],
