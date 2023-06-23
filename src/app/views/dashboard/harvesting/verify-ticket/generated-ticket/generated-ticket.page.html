@@ -292,20 +292,15 @@
             *ngIf="this.generateTicketFormTruck.get('image_2').hasError('required')"
             class="text-red-400">*</span></label>
 
-            <div *ngIf="upload_2" class="border-2 border-solid border-gray-500"><img class="w-80 h-80 object-contain" [src]="upload_2_url" ></div>
+            <div *ngIf="uploaded" class="border-2 border-solid border-gray-500"><img class="w-80 h-80 object-contain" [src]="upload_2_url" ></div>
 
-        <div class="w-16 h-16 mr-2 mb-2 mt-2">
-          <ion-card
-            [ngClass]="!upload_2 ? ' shadow-none m-0 border-2 border-aaaaaa bg-e9e6e6' : 'shadow-none m-0 border-2 border-3D8AA4 bg-white'"
+        <div class="mr-2">
+          <ion-card class="w-16 h-16 ml-0"
             (click)="upload__2.click()">
-            <ion-card-content class="p-0 w-16 h-16 flex justify-center items-center">
+            <ion-card-content class="w-16 h-16 p-0 flex justify-center items-center">
               <ion-segment scrollable value="done" class="bg-none">
-                <ion-segment-button value="upload" *ngIf="!upload_2">
-                  <ion-icon [ngStyle]="{'color' : !upload_2 ? '#aaaaaa' : ''}" name="cloud-upload-outline">
-                  </ion-icon>
-                </ion-segment-button>
-                <ion-segment-button value="done" *ngIf="upload_2">
-                  <ion-icon [ngStyle]="{'color' : upload_2 ? '#3D8AA4' : ''}" name="cloud-done-outline">
+                <ion-segment-button class="w-16 h-16" value="done" >
+                  <ion-icon [ngStyle]="{'color' : uploaded ? '#3D8AA4' : '#aaaaaa'}" [name]="uploaded ? 'cloud-done-outline':'cloud-upload-outline'">
                   </ion-icon>
                 </ion-segment-button>
                 <input #upload__2 type="file" class="invisible hidden" (change)="onSelectedFiles($event, 'upload_2')" />

@@ -27,7 +27,7 @@ export class GeneratedTicketPage implements OnInit {
   machineUL: any = false;
   isMachineSelected: any = true;
   selectedMachinery: any;
-
+  uploaded = false;
   role: any;
   generateTicketFormTruck: FormGroup;
   editTicketForm: FormGroup;
@@ -238,6 +238,7 @@ export class GeneratedTicketPage implements OnInit {
           const reader = new FileReader();
 
           this.upload_2 = !this.upload_2;
+          this.uploaded = true;
           reader.onload = (_event: any) => {
             this.generateTicketFormTruck.controls.image_2?.setValue(uploadedFile);
             this.upload_2_url = reader.result;
@@ -246,6 +247,7 @@ export class GeneratedTicketPage implements OnInit {
           reader.readAsDataURL(uploadedFile);
         } else {
           // Display an error message or take appropriate action for invalid file types
+          this.uploaded = false;
           this.upload_2 = null;
           this.upload_2_url = null;
           this.generateTicketFormTruck.controls.image_2?.setValue('');
