@@ -1,4 +1,4 @@
-<app-header [title]="'Submit Beginning of Day Work Data'" [color]="'trucking'"></app-header>
+<app-header [title]="'Enter Beginning of Day/Job Work Data'" [color]="'trucking'"></app-header>
 
 <ion-content>
   <!-- <app-timer [value]="'12-10-2022'"> </app-timer> -->
@@ -14,7 +14,7 @@
         <div role="dialog" aria-modal="true">
           <div class="mb-4 relative z-100">
             <div class="mx-auto max-w-full transform rounded-xl px-0  transition-all">
-              <label class="block text-sm font-medium text-gray-700 mb-1">Delivery Ticket <span
+              <label class="block text-sm font-medium text-gray-700 mb-1">Existing Delivery Ticket #<span
                   *ngIf="isWorkOrderSelected" class="text-red-400">*</span></label>
               <div class="flex items-center justify-between gap-x-2 rounded-md">
                 <input (keyup)="workOrder_search$.next($event.target.value)" [value]="workOrder_name"
@@ -91,19 +91,34 @@
         </div> -->
 
         <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Truck Driver</label>
+          <input
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="truckDriver" placeholder="">
+        </div>
+
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Truck Company<span class="text-red-600"
+              *ngIf="this.submitBeginningDay.get('truckCompany').hasError('required')">*</span></label>
+          <input
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="truckCompany" placeholder="">
+        </div>
+
+        <div class="col-span-12 mb-4">
           <label class="block text-sm font-medium text-gray-700">Truck ID<span class="text-red-600"
               *ngIf="this.submitBeginningDay.get('machineryId').hasError('required')">*</span></label>
           <input
             class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-            formControlName="machineryId" placeholder="Beginning Engine Hours" readonly>
+            formControlName="machineryId" placeholder="">
         </div>
 
         <div class="col-span-12 mb-4">
-          <label class="block text-sm font-medium text-gray-700">Odometer Miles<span class="text-red-600"
+          <label class="block text-sm font-medium text-gray-700">Beginning Odometer<span class="text-red-600"
               *ngIf="this.submitBeginningDay.get('begining_odometer_miles').hasError('required')">*</span></label>
           <input
             class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-            formControlName="begining_odometer_miles" placeholder="Beginning Engine Hours" readonly>
+            formControlName="begining_odometer_miles" placeholder="" readonly>
         </div>
 
       </div>

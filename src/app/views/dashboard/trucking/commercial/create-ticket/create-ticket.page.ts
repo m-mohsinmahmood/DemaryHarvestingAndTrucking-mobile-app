@@ -160,10 +160,10 @@ export class CreateTicketPage implements OnInit {
             this.allMachinery = of([]); // to clear array
             this.machineryUL = false; // to hide the UL
           }
-          if (e.target !== this.cropInput.nativeElement) {
-            this.allCrops = of([]); // to clear array
-            this.cropUL = false; // to hide the UL
-          }
+          // if (e.target !== this.cropInput.nativeElement) {
+          //   this.allCrops = of([]); // to clear array
+          //   this.cropUL = false; // to hide the UL
+          // }
         });
       }
     }
@@ -228,16 +228,16 @@ export class CreateTicketPage implements OnInit {
       truckNo: ['', [Validators.required]],
       homeBeginingOdometerReading: ['', [Validators.required]],
       originBeginingOdometerReading: ['', [Validators.required]],
-      originEmptyWeight: ['', [Validators.required]],
-      originLoadedWeight: ['', [Validators.required]],
+      originEmptyWeight: [''],
+      originLoadedWeight: [''],
       originWeightLoad: ['', [Validators.required]],
       originalDocsUpload: ['', [Validators.required]],
       destinationEndingnOdometerReading: ['', [Validators.required]],
       destinationLoadedWeight: ['', [Validators.required]],
       destinationEmptyWeight: ['', [Validators.required]],
-      weightLoad: ['', [Validators.required]],
-      scaleTicket: ['', [Validators.required]],
-      destinationDeliveryLoad: ['', [Validators.required]],
+      //weightLoad: ['', [Validators.required]],
+      //scaleTicket: ['', [Validators.required]],
+      //destinationDeliveryLoad: ['', [Validators.required]],
       documentsUpload: ['', [Validators.required]],
       truckDriverNotes: ['', [Validators.required]],
       deadHeadMiles: ['', [Validators.required]],
@@ -256,7 +256,13 @@ export class CreateTicketPage implements OnInit {
       truckingType: [''],
       ticketStatus: [''],
       isTicketInfoCompleted: [''],
-      cropId: ['', [Validators.required]]
+      cropId: ['', [Validators.required]],
+      deliveryTicket: ['', [Validators.required]],
+      originState : ['', [Validators.required]],
+      dispatcherNotes: ['', [Validators.required]],
+      truckCompany: [''],
+      homeEndingOdometerReading: [''],
+      quantity:['']
     });
   }
 
