@@ -28,6 +28,7 @@
     "@ionic/angular": "^6.1.9",
     "@ng-select/ng-select": "^9.0.0",
     "firebase": "^9.17.1",
+    "jspdf": "^2.5.1",
     "jwt-decode": "^3.1.2",
     "moment": "^2.29.4",
     "rxjs": "~6.6.0",
