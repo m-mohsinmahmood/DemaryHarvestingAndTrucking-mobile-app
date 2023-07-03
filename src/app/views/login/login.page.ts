@@ -13,17 +13,22 @@ import { HttpClient } from '@angular/common/http';
 export class LoginPage implements OnInit {
   showPassword = false;
   loginForm: FormGroup;
+  logedIn;
+
   constructor(
     private router: Router,
     private auth: AuthService,
     private fb: FormBuilder,
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
     });
+
+    localStorage.setItem('login_status', 'false');
+    this.logedIn = localStorage.getItem('login_status')
   }
 
   toggleShow() {
@@ -35,6 +40,8 @@ export class LoginPage implements OnInit {
     // eslint-disable-next-line prefer-const
     let { email, password } = this.loginForm.value;
     this.auth.loginWithEmailPassword(email, password);
+    localStorage.setItem('login_status', 'logging');
+    this.logedIn = localStorage.getItem('login_status')
   }
 
   get email() {

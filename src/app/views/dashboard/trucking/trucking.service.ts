@@ -271,4 +271,23 @@ export class TruckingService {
       return of(null);
     }
   }
+
+  getMaxDeliveryTicket() {
+    let params = new HttpParams();
+
+    params = params.set('operation', 'getMaxDeliveryTicket');
+
+    let session = this.session.SessionActiveCheck();
+
+    if (session) {
+      return this._httpClient
+        .get(`api-1/delivery_ticket_trucking`, {
+          params
+        })
+        .pipe(take(1));
+    }
+    else {
+      return of(null);
+    }
+  }
 }

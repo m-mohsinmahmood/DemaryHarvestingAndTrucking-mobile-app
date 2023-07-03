@@ -65,8 +65,10 @@
         expand="block"
         class="font-Lato mt-5 text-lg text-white"
         type="submit"
-        >Login</ion-button
-      >
+        [disabled]="logedIn === 'logging'"
+        ><div *ngIf="logedIn === 'false'">Login</div>
+        <ion-spinner name="crescent" *ngIf="logedIn === 'logging'"></ion-spinner>
+      </ion-button>
     </form>
     <!-- <ion-grid>
       <ion-row>

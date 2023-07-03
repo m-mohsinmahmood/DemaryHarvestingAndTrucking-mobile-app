@@ -26,6 +26,7 @@ import { TruckingService } from '../../trucking.service';
   templateUrl: './create-ticket.page.html',
   styleUrls: ['./create-ticket.page.scss'],
 })
+
 export class CreateTicketPage implements OnInit {
   options: any;
   rateSheetImg: string[] = [];
@@ -35,6 +36,7 @@ export class CreateTicketPage implements OnInit {
   role;
   createTicketFormDispatcher: FormGroup;
   createTicketFormTruckDriver: FormGroup;
+  dispatcherName;
 
   @ViewChild('dispatcherInput') dispatcherInput: ElementRef;
   isDispatcherSelected: any = true;
@@ -100,6 +102,8 @@ export class CreateTicketPage implements OnInit {
     destinationCity: '',
     destinationState: '',
     dispatcherNotes: '',
+    originState: '',
+    rate: ''
   };
 
   upload_1 = false;
@@ -111,9 +115,19 @@ export class CreateTicketPage implements OnInit {
   loadupload_1 = false;
   loadupload_2 = false;
 
+  uploaded_1_dispatcher = false;
+  uploaded_2_dispatcher = false;
+  uploaded_3_dispatcher = false;
+
+  upload_1_url_dispatcher;
+  upload_2_url_dispatcher;
+  upload_3_url_dispatcher;
+
   states: string[];
 
   private _unsubscribeAll: Subject<any> = new Subject<any>();
+  private initDataRetrievalExecuted = false;
+  private ionViewRetrievalExecuted = true;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -125,22 +139,22 @@ export class CreateTicketPage implements OnInit {
     {
       if (localStorage.getItem('role').includes('Dispatcher')) {
         this.renderer.listen('window', 'click', (e) => {
-          // if (e.target !== this.tDriverInput.nativeElement) {
-          //   this.alltDrivers = of([]); // to clear array
-          //   this.tDriverUL = false; // to hide the UL
-          // }
-          if (e.target !== this.customerInput.nativeElement) {
+          if (e.target !== this.tDriverInput.nativeElement) {
+            this.alltDrivers = of([]); // to clear array
+            this.tDriverUL = false; // to hide the UL
+          }
+          else if (e.target !== this.customerInput.nativeElement) {
             this.allCustomers = of([]); // to clear array
             this.customerUL = false; // to hide the UL
           }
-          if (e.target !== this.rateInput.nativeElement) {
+          else if (e.target !== this.rateInput.nativeElement) {
             this.allRates = of([]); // to clear array
             this.rateUL = false; // to hide the UL
           }
-          if (e.target !== this.cropInput.nativeElement) {
-            this.allCrops = of([]); // to clear array
-            this.cropUL = false; // to hide the UL
-          }
+          // if (e.target !== this.cropInput.nativeElement) {
+          //   this.allCrops = of([]); // to clear array
+          //   this.cropUL = false; // to hide the UL
+          // }
         });
       } else {
         this.renderer.listen('window', 'click', (e) => {
@@ -148,15 +162,15 @@ export class CreateTicketPage implements OnInit {
             this.allDispatchers = of([]); // to clear array
             this.dispatcherUL = false; // to hide the UL
           }
-          if (e.target !== this.customerInput.nativeElement) {
+          else if (e.target !== this.customerInput.nativeElement) {
             this.allCustomers = of([]); // to clear array
             this.customerUL = false; // to hide the UL
           }
-          if (e.target !== this.rateInput.nativeElement) {
+          else if (e.target !== this.rateInput.nativeElement) {
             this.allRates = of([]); // to clear array
             this.rateUL = false; // to hide the UL
           }
-          if (e.target !== this.machineryInput.nativeElement) {
+          else if (e.target !== this.machineryInput.nativeElement) {
             this.allMachinery = of([]); // to clear array
             this.machineryUL = false; // to hide the UL
           }
@@ -170,7 +184,24 @@ export class CreateTicketPage implements OnInit {
   }
 
   ngOnInit() {
+    if (!this.initDataRetrievalExecuted) {
+      this.initDataRetrieval();
+      this.initDataRetrievalExecuted = true;
+    }
+  }
+
+  async ionViewDidEnter() {
+    if (!this.ionViewRetrievalExecuted) {
+      this.initDataRetrieval();
+      this.ionViewRetrievalExecuted = true;
+    }
+  }
+
+  initDataRetrieval() {
     this.role = localStorage.getItem('role');
+    this.uploaded_1_dispatcher = false;
+    this.uploaded_2_dispatcher = false;
+    this.uploaded_3_dispatcher = false;
 
     // pasing states
     this.states = states;
@@ -179,7 +210,7 @@ export class CreateTicketPage implements OnInit {
       this.customerSearchSubscription();
       this.tDriverSearchSubscription();
       this.rateSearchSubscription();
-      this.cropSearchSubscription();
+      // this.cropSearchSubscription();
     }
     else {
       this.dispatcherSearchSubscription();
@@ -197,19 +228,22 @@ export class CreateTicketPage implements OnInit {
       driverId: ['', [Validators.required]],
       load: ['', [Validators.required]],
       rateType: ['', [Validators.required]],
+      rate: ['', [Validators.required]],
       cargo: ['', [Validators.required]],
       originCity: ['', [Validators.required]],
       destinationCity: ['', [Validators.required]],
+      originState: ['', [Validators.required]],
       destinationState: ['', [Validators.required]],
       dispatcherNotes: ['', [Validators.required]],
-      image_1: [''],
-      image_2: [''],
-      image_3: [''],
+      image_1: ['', [Validators.required]],
+      image_2: ['', [Validators.required]],
+      image_3: ['', [Validators.required]],
       role: [''],
       truckingType: [''],
       ticketStatus: [''],
       isTicketInfoCompleted: [''],
-      cropId: ['', [Validators.required]]
+      // cropId: ['', [Validators.required]],
+      deliveryTicketNumber: ['', Validators.required]
     });
 
     this.createTicketFormTruckDriver = this.formBuilder.group({
@@ -258,69 +292,101 @@ export class CreateTicketPage implements OnInit {
       isTicketInfoCompleted: [''],
       cropId: ['', [Validators.required]],
       deliveryTicket: ['', [Validators.required]],
-      originState : ['', [Validators.required]],
+      originState: ['', [Validators.required]],
       dispatcherNotes: ['', [Validators.required]],
       truckCompany: [''],
       homeEndingOdometerReading: [''],
-      quantity:['']
+      quantity: ['']
     });
+
+    if (this.role.includes('Dispatcher')) {
+      this.dispatcherName = localStorage.getItem('employeeName');
+      this.truckingService.getMaxDeliveryTicket().subscribe((res) => {
+        this.createTicketFormDispatcher.patchValue({
+          deliveryTicketNumber: +res[0].max + 1
+        })
+      });
+    }
   }
 
-  // chooseImage(event) {
-  //   if (event.target.name === 'rateSheet') {
-  //     for (let i = 0; i < event.target.files.length; i++) {
-  //       this.rateSheetImg.push(URL.createObjectURL(event.target.files[i]));
-  //     }
-  //   } else if (event.target.name === 'originDocs') {
-  //     for (let i = 0; i < event.target.files.length; i++) {
-  //       this.originDocs.push(URL.createObjectURL(event.target.files[i]));
-  //     }
-  //   }
-  //   if (event.target.name === 'customDocs') {
-  //     for (let i = 0; i < event.target.files.length; i++) {
-  //       this.customDocs.push(URL.createObjectURL(event.target.files[i]));
-  //     }
-  //   }
-  // }
   onSelectedFiles(file, name) {
     if (this.role.includes('Dispatcher')) {
       if (name === 'upload_1') {
-        this.upload_1 = !this.upload_1;
         if (file.target.files && file.target.files[0]) {
-          const reader = new FileReader();
-          reader.onload = (_event: any) => {
-            this.createTicketFormDispatcher.controls.image_1?.setValue(
-              file.target.files[0]
-            );
-          };
-          reader.readAsDataURL(file.target.files[0]);
-        } else {
+          const uploadedFile = file.target.files[0];
+          const allowedTypes = ['image/jpeg', 'image/png'];
+
+          if (allowedTypes.includes(uploadedFile.type)) {
+            const reader = new FileReader();
+
+            this.upload_1 = !this.upload_1;
+            this.uploaded_1_dispatcher = true;
+            reader.onload = (_event: any) => {
+              this.createTicketFormDispatcher.controls.image_1?.setValue(uploadedFile);
+              this.upload_1_url_dispatcher = reader.result;
+              this.toast.presentToast('Photo Uploaded!', 'success');
+            };
+            reader.readAsDataURL(uploadedFile);
+          } else {
+            // Display an error message or take appropriate action for invalid file types
+            this.uploaded_1_dispatcher = false;
+            this.upload_1 = null;
+            this.upload_1_url_dispatcher = null;
+            this.createTicketFormDispatcher.controls.image_1?.setValue('');
+            this.toast.presentToast('Invalid file type. Please upload a JPEG or PNG image.', 'danger');
+          }
         }
       }
-      if (name === 'upload_2') {
-        this.upload_2 = !this.upload_2;
+      else if (name === 'upload_2') {
         if (file.target.files && file.target.files[0]) {
-          const reader = new FileReader();
-          reader.onload = (_event: any) => {
-            this.createTicketFormDispatcher.controls.image_2?.setValue(
-              file.target.files[0]
-            );
-          };
-          reader.readAsDataURL(file.target.files[0]);
-        } else {
+          const uploadedFile = file.target.files[0];
+          const allowedTypes = ['image/jpeg', 'image/png'];
+
+          if (allowedTypes.includes(uploadedFile.type)) {
+            const reader = new FileReader();
+
+            this.upload_2 = !this.upload_2;
+            this.uploaded_2_dispatcher = true;
+            reader.onload = (_event: any) => {
+              this.createTicketFormDispatcher.controls.image_2?.setValue(uploadedFile);
+              this.upload_2_url_dispatcher = reader.result;
+              this.toast.presentToast('Photo Uploaded!', 'success');
+            };
+            reader.readAsDataURL(uploadedFile);
+          } else {
+            // Display an error message or take appropriate action for invalid file types
+            this.uploaded_2_dispatcher = false;
+            this.upload_2 = null;
+            this.upload_2_url_dispatcher = null;
+            this.createTicketFormDispatcher.controls.image_2?.setValue('');
+            this.toast.presentToast('Invalid file type. Please upload a JPEG or PNG image.', 'danger');
+          }
         }
       }
-      if (name === 'upload_3') {
-        this.upload_3 = !this.upload_3;
+      else if (name === 'upload_3') {
         if (file.target.files && file.target.files[0]) {
-          const reader = new FileReader();
-          reader.onload = (_event: any) => {
-            this.createTicketFormDispatcher.controls.image_3?.setValue(
-              file.target.files[0]
-            );
-          };
-          reader.readAsDataURL(file.target.files[0]);
-        } else {
+          const uploadedFile = file.target.files[0];
+          const allowedTypes = ['image/jpeg', 'image/png'];
+
+          if (allowedTypes.includes(uploadedFile.type)) {
+            const reader = new FileReader();
+
+            this.upload_3 = !this.upload_3;
+            this.uploaded_3_dispatcher = true;
+            reader.onload = (_event: any) => {
+              this.createTicketFormDispatcher.controls.image_3?.setValue(uploadedFile);
+              this.upload_3_url_dispatcher = reader.result;
+              this.toast.presentToast('Photo Uploaded!', 'success');
+            };
+            reader.readAsDataURL(uploadedFile);
+          } else {
+            // Display an error message or take appropriate action for invalid file types
+            this.uploaded_3_dispatcher = false;
+            this.upload_3 = null;
+            this.upload_3_url_dispatcher = null;
+            this.createTicketFormDispatcher.controls.image_3?.setValue('');
+            this.toast.presentToast('Invalid file type. Please upload a JPEG or PNG image.', 'danger');
+          }
         }
       }
     }
@@ -433,6 +499,7 @@ export class CreateTicketPage implements OnInit {
       }
     }
   }
+
   navigateDispatcher() {
     console.log('---', this.createTicketFormDispatcher.value);
 
@@ -477,12 +544,11 @@ export class CreateTicketPage implements OnInit {
             rateType: this.rate_name,
             cargo: this.createTicketFormDispatcher.get('cargo').value,
             originCity: this.createTicketFormDispatcher.get('originCity').value,
-            destinationCity:
-              this.createTicketFormDispatcher.get('destinationCity').value,
-            destinationState:
-              this.createTicketFormDispatcher.get('destinationState').value,
-            dispatcherNotes:
-              this.createTicketFormDispatcher.get('dispatcherNotes').value,
+            originState: this.createTicketFormDispatcher.get('originState').value,
+            rate: this.createTicketFormDispatcher.get('rate').value,
+            destinationCity: this.createTicketFormDispatcher.get('destinationCity').value,
+            destinationState: this.createTicketFormDispatcher.get('destinationState').value,
+            dispatcherNotes: this.createTicketFormDispatcher.get('dispatcherNotes').value,
           };
 
           this.toast.presentToast(
@@ -501,6 +567,7 @@ export class CreateTicketPage implements OnInit {
       }
     );
   }
+
   navigateTruckDriver() {
     // patching
     this.createTicketFormTruckDriver.patchValue({
@@ -557,6 +624,8 @@ export class CreateTicketPage implements OnInit {
             'Delivery ticket has been created successfully!',
             'success'
           );
+
+          this.createTicketFormDispatcher.reset();
           this.router.navigateByUrl('/tabs/home/trucking/commercial');
         }
       },
@@ -606,6 +675,7 @@ export class CreateTicketPage implements OnInit {
         });
       });
   }
+
   inputClickedCustomer() {
     // getting the serch value to check if there's a value in input
     this.customer_search$
@@ -668,20 +738,7 @@ export class CreateTicketPage implements OnInit {
         customerId: customer.id,
       });
     }
-    // else {
-    //   this.createOrderTDriver.setValue({
-    //     machineryID: this.createOrderTDriver.get('machineryID').value,
-    //     cBeginningEngineHours: this.createOrderTDriver.get('cBeginningEngineHours').value,
-    //     dispatcherId: this.createOrderTDriver.get('dispatcherId').value,
-    //     customerId: customer.id,
-    //     farmId: this.createOrderTDriver.get('farmId').value,
-    //     fieldId: this.createOrderTDriver.get('fieldId').value,
-    //     service: this.createOrderTDriver.get('service').value,
-    //     tractorDriverId: this.createOrderTDriver.get('tractorDriverId').value,
-    //     fieldAddress: this.createOrderTDriver.get('fieldAddress').value,
-    //     phone: this.createOrderTDriver.get('phone').value
-    //   });
-    // }
+
     // passing name in select's input
     this.customerInput.nativeElement.value = customer.customer_name;
 
@@ -769,6 +826,7 @@ export class CreateTicketPage implements OnInit {
       }
     });
   }
+
   listClickedtDriver(tDriver) {
     console.log(tDriver);
 
@@ -781,21 +839,7 @@ export class CreateTicketPage implements OnInit {
         driverId: tDriver.id,
       });
     }
-    // else {
-    //   this.createOrderTDriver.setValue({
-    //     machineryID: this.createOrderTDriver.get('machineryID').value,
-    //     cBeginningEngineHours: this.createOrderTDriver.get('cBeginningEngineHours').value,
-    //     dispatcherId: dispatcher.id,
-    //     customerId: this.createOrderTDriver.get('customerId').value,
-    //     farmId: this.createOrderTDriver.get('farmId').value,
-    //     fieldId: this.createOrderTDriver.get('fieldId').value,
-    //     service: this.createOrderTDriver.get('service').value,
-    //     tractorDriverId: this.createOrderTDriver.get('tractorDriverId').value,
-    //     fieldAddress: this.createOrderTDriver.get('fieldAddress').value,
-    //     phone: this.createOrderTDriver.get('phone').value
-    //   });
-    // }
-    // clearing array
+
     this.alltDrivers = of([]);
 
     // passing name in select's input
@@ -824,7 +868,6 @@ export class CreateTicketPage implements OnInit {
           'allCustomersTruckingRate',
           this.customerId
         );
-
 
         // subscribing to show/hide Field UL
         this.allRates.subscribe((rate) => {
@@ -875,6 +918,7 @@ export class CreateTicketPage implements OnInit {
       }
     });
   }
+
   listClickedRate(rate) {
     console.log(rate);
 
@@ -885,10 +929,11 @@ export class CreateTicketPage implements OnInit {
     if (localStorage.getItem('role').includes('Dispatcher')) {
       this.createTicketFormDispatcher.patchValue({
         rateType: rate.id,
+        rate:rate.rate
       });
     } else {
       this.createTicketFormTruckDriver.patchValue({
-        rateType: rate.id,
+        rateType: rate.id
       });
     }
     // clearing array

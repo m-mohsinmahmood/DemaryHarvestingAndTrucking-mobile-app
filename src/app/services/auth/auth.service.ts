@@ -82,7 +82,6 @@ export class AuthService {
 
     this.auth.onAuthStateChanged((user) => {
       if (!user) {
-        this.isLoading.next(false);
         this._authState.next(initialAuthState);
         return;
       }
@@ -108,14 +107,8 @@ export class AuthService {
   }
 
   async loginWithEmailPassword(email: string, password: string) {
-    //to start loader
-    this.isLoading.next(true);
-
     signInWithEmailAndPassword(this.auth, email, password)
       .then((user) => {
-        // console.log('user', user);
-        console.log('Firebase Id:', user.user.uid);
-
         // localstorage
         localStorage.setItem('fb_id', user.user.uid);
 
@@ -124,7 +117,6 @@ export class AuthService {
 
       })
       .catch(async (err: FirebaseError) => {
-        this.isLoading.next(false);
         console.log('err', err);
 
         if (err.code === 'auth/wrong-password') {
@@ -164,6 +156,8 @@ export class AuthService {
     localStorage.removeItem('state');
     localStorage.removeItem('employeeName');
     localStorage.removeItem('logedIn');
+    localStorage.removeItem("login_status");
+
     this.router.navigate(['login'], { replaceUrl: true });
   }
 
@@ -177,10 +171,10 @@ export class AuthService {
       localStorage.setItem('state', res.state);
       localStorage.setItem('employeeName', res.employee_name);
       localStorage.setItem('actualRole', res.role);
+      localStorage.setItem('login_status', 'true');
       this.startSession();
       localStorage.setItem("logedIn", 'true');
       //to stop loader
-      this.isLoading.next(false);
       this.router.navigate(['tabs'], { replaceUrl: true });
     });
   }
