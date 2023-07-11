@@ -258,14 +258,14 @@ export class GeneratedTicketPage implements OnInit {
   }
 
   initApis() {
-    this.harvestingService.getTicketById(this.ticketID, 'verify-ticket-truck');
+    // this.harvestingService.getTicketById(this.ticketID, 'verify-ticket-truck');
   }
 
   initObservables() {
-    this.harvestingService.ticket$.subscribe((res) => {
-      console.log('Res:', res);
-      this.ticketData = res;
-    });
+    // this.harvestingService.ticket$.subscribe((res) => {
+    //   console.log('Res:', res);
+    //   this.ticketData = res;
+    // });
 
     this.isLoadingTicket$ = this.harvestingService.ticketLoading$;
   }
