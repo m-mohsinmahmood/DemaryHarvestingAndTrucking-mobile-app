@@ -35,12 +35,14 @@ export class LoginPage implements OnInit {
     this.showPassword = !this.showPassword;
   }
 
-  login() {
+  async login() {
 
     // eslint-disable-next-line prefer-const
     let { email, password } = this.loginForm.value;
-    this.auth.loginWithEmailPassword(email, password);
+
     localStorage.setItem('login_status', 'logging');
+    this.logedIn = localStorage.getItem('login_status')
+    await this.auth.loginWithEmailPassword(email, password);
     this.logedIn = localStorage.getItem('login_status')
   }
 

@@ -35,7 +35,6 @@ export class AuthService {
   private sessionExpiryTimestamp: number;
   private sessionTimeoutDuration: number = 10 * 60 * 1000; // 15 minutes
   private sessionTimer: any;
-
   //Loaders
   private isLoading: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
     false
@@ -107,17 +106,17 @@ export class AuthService {
   }
 
   async loginWithEmailPassword(email: string, password: string) {
-    signInWithEmailAndPassword(this.auth, email, password)
+    await signInWithEmailAndPassword(this.auth, email, password)
       .then((user) => {
         // localstorage
         localStorage.setItem('fb_id', user.user.uid);
 
         // getting employee details
         this.getEmployeeDetailsByFirbaseId(user.user.uid);
-
       })
       .catch(async (err: FirebaseError) => {
         console.log('err', err);
+        localStorage.setItem('login_status', 'false');
 
         if (err.code === 'auth/wrong-password') {
           this.toast.presentToast(
