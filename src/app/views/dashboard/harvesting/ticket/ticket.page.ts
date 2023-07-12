@@ -1029,32 +1029,32 @@ export class TicketPage implements OnInit {
     });
     doc.setFontSize(8); // Set font size
     doc.setFont('helvetica', 'bold');
-    
+
     if (ticket === 'envelopeInfo') {
       //Date
       doc.text("Date", 0.1, 0.2);
       doc.text(this.currentDate, 1.2, 0.2);
-      
+
       //Harvesting Job
       doc.text("Harvest Job", 0.1, 0.4);
       doc.text(this.customerName, 1.2, 0.4);
-      
+
       //Farm
       doc.text("Farm", 0.1, 0.6);
       doc.text(this.farm, 1.2, 0.6);
-      
+
       //Field
       doc.text("Field/Pivot", 0.1, 0.8);
       doc.text(this.field_name, 1.2, 0.8);
-      
+
       //Crop
       doc.text("Crop", 0.1, 1);
       doc.text(this.crop, 1.2, 1);
-      
+
       //Crew Cheif
       doc.text("Crew Chief", 0.1, 1.2);
       doc.text(this.crewChiefName, 1.2, 1.2);
-      
+
       //DHT Tickets
       doc.text("DHT Tickets", 0.1, 1.4);
       doc.text("_____________", 1.2, 1.4);
@@ -1062,7 +1062,7 @@ export class TicketPage implements OnInit {
       //Farmer Tickets
       doc.text("Farmer Tickets", 0.1, 1.6);
       doc.text("_____________", 1.2, 1.6);
-      
+
       //Total Tickets
       doc.text("Total Tickets", 0.1, 1.8);
       doc.text("_____________", 1.2, 1.8);
@@ -1077,11 +1077,11 @@ export class TicketPage implements OnInit {
       doc.text("Date", 0.1, 0.4);
       doc.text(this.currentDate, 1.2, 0.4);
 
-      
+
       doc.text("Delivery Ticket #", 0.1, 0.6);
       doc.text(`${this.deliveryTicketForm.get('deliveryTicketNumber').value}`, 1.2, 0.6);
-      
-      
+
+
       doc.line(0, 0.65, 4, 0.65);
 
       doc.text("Owner/Seller", 0.1, 0.8);
@@ -1094,7 +1094,7 @@ export class TicketPage implements OnInit {
       doc.text(this.field_name, 1.2, 1.2);
 
       doc.line(0, 1.25, 4, 1.25);
-      
+
 
       doc.text("Crop", 0.1, 1.4);
       doc.text(this.crop, 1.2, 1.4);
@@ -1116,23 +1116,23 @@ export class TicketPage implements OnInit {
       doc.text(this.truck_driver_name, 1.2, 2.4);
       doc.line(0, 2.45, 4, 2.45);
     }
-    
+
     else if (ticket === 'envelopeStub'){
       doc.setFontSize(7); // Set font size
-      
+
       //Column 1
       //Date
       doc.text("Date", 0.05, 0.1);
       doc.text(this.currentDate, 0.6, 0.1);
-      
+
       //Delivery ticket #
       doc.text("DT#", 0.05, 0.2);
       doc.text(`${this.deliveryTicketForm.get('deliveryTicketNumber').value}`, 0.6, 0.2);
-      
+
       //Owner/Seller (Customer)
       doc.text("Customer", 0.05, 0.3);
       doc.text(this.customerName, 0.6, 0.3);
-      
+
       //Farm
       doc.text("Farm", 0.05, 0.4);
       doc.text(this.farm, 0.6, 0.4);
@@ -1141,11 +1141,11 @@ export class TicketPage implements OnInit {
       //Field/Pivot
       doc.text("Field/Pivot", 1.4, 0.1);
       doc.text(this.field_name, 1.9, 0.1);
-      
+
       //Driver
       doc.text("Driver", 1.4, 0.2);
       doc.text(this.truck_driver_name.split(' ')[0], 1.9, 0.2);
-      
+
       //DHT Tickets
       doc.text("Contract", 1.4, 0.3);
       doc.text("Not Specified", 1.9, 0.3);
@@ -1153,13 +1153,13 @@ export class TicketPage implements OnInit {
       //Farmer Tickets
       doc.text("Dest", 1.4, 0.4);
       doc.text(`${this.deliveryTicketForm.get('destination').value}`, 1.9, 0.4);
-      
+
       doc.setFontSize(8); // Set font size
       //Verified
       doc.text("Verified", 0.05, 0.55);
       doc.setLineWidth(0.01);
       doc.rect(0.5, 0.45, 0.15, 0.15);
-      
+
       //Scale Ticket
       doc.text("Scale tkt", 0.7, 0.55);
       doc.text("_________", 1.2, 0.55);

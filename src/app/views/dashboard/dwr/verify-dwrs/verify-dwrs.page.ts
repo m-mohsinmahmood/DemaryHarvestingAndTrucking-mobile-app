@@ -52,25 +52,30 @@ export class VerifyDwrsPage implements OnInit {
     private router: Router,
     private dwrService: DWRService,
     private toastService: ToastService
-  ) {}
+  ) { }
 
   ngOnInit() {
     //getting role
     this.role = localStorage.getItem('role');
     this.supervisor_id = localStorage.getItem('employeeId');
   }
+
   async ionViewDidEnter() {
     this.getDWRByDate();
   }
-  getFormattedHours(hours){
+
+  getFormattedHours(hours) {
     return hours.toFixed(2);
   }
+
   goBack() {
     this.location.back();
   }
+
   getDate(e) {
     this.date = moment(e.detail.value).format('MM-DD-YYYY');
   }
+
   getMonth(e) {
     // passing month & year values
     this.monthValue = moment(e.detail.value).month() + 1;
@@ -79,11 +84,12 @@ export class VerifyDwrsPage implements OnInit {
     // passing month value for month select
     this.month = moment(e.detail.value).format('MM-YYYY');
   }
+
   getDWRByDate() {
     // to start spinner
     this.loading.next(true);
     this.DWRSubValue = this.dwrService
-      .getDWRNew('', moment(this.date).startOf('day').toISOString(), moment(this.date).endOf('day').toISOString(), '', '','pendingVerification')
+      .getDWRNew('', moment(this.date).startOf('day').toISOString(), moment(this.date).endOf('day').toISOString(), '', '', 'pendingVerification','day')
       .subscribe((res) => {
         this.dwrs$ = res;
 
@@ -91,9 +97,11 @@ export class VerifyDwrsPage implements OnInit {
         this.loading.next(false);
       });
   }
-  getDWRByMonth(){
+
+  getDWRByMonth() {
 
   }
+
   navigate(dwr_type: string, dwr_id: any, employee_id) {
     this.router.navigate(['/tabs/home/dwr/detail'], {
       queryParams: {
@@ -104,7 +112,8 @@ export class VerifyDwrsPage implements OnInit {
       },
     });
   }
-  verify(employee_id,dwr_id) {
+
+  verify(employee_id, dwr_id) {
     this.dwr_id = dwr_id;
     console.log(employee_id);
     this.dwr_employee_Id = employee_id;

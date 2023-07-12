@@ -49,6 +49,7 @@ export class DetailPage implements OnInit {
   isReassignModalOpen = false;
   reassignSupervisor: FormGroup;
   reassignEmployee: FormGroup;
+  dateType;
 
   // behaviour subject for loader
   public loading = new BehaviorSubject(true);
@@ -87,6 +88,7 @@ export class DetailPage implements OnInit {
       this.type = params.dwr_type;
       this.date = params.date;
       this.dwr_employee_id = params.employee_id;
+      this.dateType = params.dateType;
 
       // conditionally checking types to render data
       if (this.type === 'verify' || this.type === 'send-back' || this.type === 'detail') {
@@ -125,7 +127,7 @@ export class DetailPage implements OnInit {
     logoutTime = new Date(logoutTime).getTime() / 1000; // Convert logout_time to Unix timestamp
     loginTime = new Date(loginTime).getTime() / 1000; // Convert login_time to Unix timestamp
     return Math.abs(logoutTime - loginTime) / 3600; // Calculate the time difference in seconds
-    }
+  }
   getJobById(job_id: any) {
     this.dwrService.getJobById(job_id).subscribe((res) => {
       this.loaderModel.next(true);
@@ -177,7 +179,7 @@ export class DetailPage implements OnInit {
     }
 
     this.dwrService
-      .getDWRDetails(this.dwr_employee_id, this.date, 'getDWRDetails', 'day', 'pendingVerification', this.role)
+      .getDWRDetails(this.dwr_employee_id, this.date, 'getDWRDetails', this.dateType, 'pendingVerification', this.role)
       .subscribe((res) => {
         this.loading.next(true);
         this.workHistoryData = res.dwr;
@@ -225,7 +227,7 @@ export class DetailPage implements OnInit {
   getAll() {
     this.loading.next(true);
     this.dwrService
-      .getDWRDetailsWithStatus('getDWRList', this.date, 'day', this.dwr_employee_id, 'all', this.role)
+      .getDWRDetailsWithStatus('getDWRList', this.date, this.dateType, this.dwr_employee_id, 'all', this.role)
       .subscribe((res) => {
         this.loading.next(true);
         this.workHistoryData = res.dwr;
@@ -235,7 +237,7 @@ export class DetailPage implements OnInit {
   getVerified() {
     this.loading.next(true);
     this.dwrService
-      .getDWRDetailsWithStatus('getDWRList', this.date, 'day', this.dwr_employee_id, 'verified', this.role)
+      .getDWRDetailsWithStatus('getDWRList', this.date, this.dateType, this.dwr_employee_id, 'verified', this.role)
       .subscribe((res) => {
         this.loading.next(true);
         this.verifiedData = res.dwr;
@@ -245,7 +247,7 @@ export class DetailPage implements OnInit {
   getUnVerified() {
     this.loading.next(true);
     this.dwrService
-      .getDWRDetailsWithStatus('getDWRList', this.date, 'day', this.dwr_employee_id, 'pendingVerification', this.role)
+      .getDWRDetailsWithStatus('getDWRList', this.date, this.dateType, this.dwr_employee_id, 'pendingVerification', this.role)
       .subscribe((res) => {
         this.loading.next(true);
         this.unVerifiedData = res.dwr;
@@ -255,7 +257,7 @@ export class DetailPage implements OnInit {
   getReassigned() {
     this.loading.next(true);
     this.dwrService
-      .getDWRDetailsWithStatus('getDWRList', this.date, 'day', this.dwr_employee_id, 'reassigned', this.role)
+      .getDWRDetailsWithStatus('getDWRList', this.date, this.dateType, this.dwr_employee_id, 'reassigned', this.role)
       .subscribe((res) => {
         this.loading.next(true);
         this.reassignedData = res.dwr;
@@ -275,11 +277,11 @@ export class DetailPage implements OnInit {
     this.dateLogoutFormatted = e.detail.value;
 
   }
-  getIsoString(d){
+  getIsoString(d) {
     var date = new Date(d);
     var now_utc = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(),
-    date.getUTCDate(), date.getUTCHours(),
-    date.getUTCMinutes(), date.getUTCSeconds());
+      date.getUTCDate(), date.getUTCHours(),
+      date.getUTCMinutes(), date.getUTCSeconds());
     return date.toISOString();
   }
 
@@ -296,7 +298,7 @@ export class DetailPage implements OnInit {
 
 
     this.reassignEmployee.patchValue({
-      supervisorNotes:data.supervisor_notes
+      supervisorNotes: data.supervisor_notes
     });
   }
 
@@ -304,47 +306,48 @@ export class DetailPage implements OnInit {
     this.isReassignModalOpen = true;
     this.reAssignmodel_id = id;
     this.reassignSupervisor.patchValue({
-      employeeNotes:data.employee_notes
-    });  }
+      employeeNotes: data.employee_notes
+    });
+  }
 
-    editReassigned(id) {
-      this.loadingSpinner.next(true);
-      this.isReassignModalOpen = false;
+  editReassigned(id) {
+    this.loadingSpinner.next(true);
+    this.isReassignModalOpen = false;
 
-      this.id = id;
-      // start loader
-      this.loadingSpinner.next(true);
+    this.id = id;
+    // start loader
+    this.loadingSpinner.next(true);
 
-      this.dwrService.reassignDWR('reassignDwr', id, '', '', this.reassignSupervisor.get('supervisorNotes').value,'').subscribe(
-        (res) => {
-          if (res.status === 200) {
-            this.reassignSupervisor.reset();
-            this.loadingSpinner.next(false);
-            // calling again date DWR
-            this.getTickets();
+    this.dwrService.reassignDWR('reassignDwr', id, '', '', this.reassignSupervisor.get('supervisorNotes').value, '').subscribe(
+      (res) => {
+        if (res.status === 200) {
+          this.reassignSupervisor.reset();
+          this.loadingSpinner.next(false);
+          // calling again date DWR
+          this.getTickets();
 
-           // close modal
-            this.isReassignModalOpen = false;
+          // close modal
+          this.isReassignModalOpen = false;
 
-            // toast
-            this.toastService.presentToast('Ticket reassigned', 'success');
-          } else {
-            this.toastService.presentToast(res.mssage, 'danger');
-            this.loadingSpinner.next(false);
-            this.isReassignModalOpen = false;
-          }
-        },
-        (err) => {
-          this.toastService.presentToast(err.mssage, 'danger');
+          // toast
+          this.toastService.presentToast('Ticket reassigned', 'success');
+        } else {
+          this.toastService.presentToast(res.mssage, 'danger');
           this.loadingSpinner.next(false);
           this.isReassignModalOpen = false;
         }
-      );
-    }
+      },
+      (err) => {
+        this.toastService.presentToast(err.mssage, 'danger');
+        this.loadingSpinner.next(false);
+        this.isReassignModalOpen = false;
+      }
+    );
+  }
 
   edit(id) {
-    console.log('Start',this.dateLogin);
-    console.log('End',this.dateLogout);
+    console.log('Start', this.dateLogin);
+    console.log('End', this.dateLogout);
 
 
 
@@ -360,9 +363,9 @@ export class DetailPage implements OnInit {
           this.getReassigned();
 
           this.getAll();
-           this.getVerified();
-           this.getUnVerified();
-           this.getReassigned();
+          this.getVerified();
+          this.getUnVerified();
+          this.getReassigned();
 
           // close model
           this.isOpen = false;
@@ -382,11 +385,11 @@ export class DetailPage implements OnInit {
     );
   }
 
-  newDate(date){
+  newDate(date) {
     return moment(date).format('MM/DD/YYYY hh:mm:ss A');
   }
-  convertDate(d){
-return moment.utc(d).local().format('YYYY-MM-DDTHH:mm:ssZ');
+  convertDate(d) {
+    return moment.utc(d).local().format('YYYY-MM-DDTHH:mm:ssZ');
 
 
   }

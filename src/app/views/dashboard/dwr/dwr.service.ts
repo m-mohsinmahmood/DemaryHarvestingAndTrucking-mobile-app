@@ -49,13 +49,13 @@ export class DWRService {
   }
 
   getDWRNew(employeeId: string, startDate: string, endDate: string,
-    role: any, type: any, status: any) {
+    role: any, type: any, status: any, dateType: any) {
     let params = new HttpParams();
     params = params.set('operation', 'getDWRToVerify');
     params = params.set('employeeId', employeeId);
     params = params.set('startDate', startDate);
     params = params.set('endDate', endDate);
-    params = params.set('dateType', 'day');
+    params = params.set('dateType', dateType);
     params = params.set('role', role);
     params = params.set('type', type);
     params = params.set('status', status);
@@ -271,13 +271,22 @@ export class DWRService {
 
   getDWRDetailsWithStatus(operation, date, dateType, employee_id, status, role) {
     let params = new HttpParams();
+
     params = params.set('operation', operation);
-    params = params.set('startDate', moment(date).startOf('day').toISOString(),);
-    params = params.set('endDate', moment(date).endOf('day').toISOString());
     params = params.set('dateType', dateType);
     params = params.set('employeeId', employee_id);
     params = params.set('status', status);
     params = params.set('role', role);
+
+    if (dateType == 'day') {
+      params = params.set('startDate', moment(date).startOf('day').toISOString());
+      params = params.set('endDate', moment(date).endOf('day').toISOString());
+    }
+    else {
+      const myObject = JSON.parse(date);
+      params = params.set('startDate', myObject.startDate);
+      params = params.set('endDate', myObject.endDate);
+    }
 
     let session = this.session.SessionActiveCheck();
 

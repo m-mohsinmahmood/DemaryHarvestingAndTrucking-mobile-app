@@ -5,7 +5,7 @@
       <div class="segment-style">
         <ion-segment [(ngModel)]="segment" scrollable>
           <ion-segment-button value="day">By Day </ion-segment-button>
-          <ion-segment-button value="month">By Month </ion-segment-button>
+          <ion-segment-button value="month" disabled>By Month </ion-segment-button>
         </ion-segment>
         <div [ngSwitch]="segment">
           <div *ngSwitchCase="'day'">
