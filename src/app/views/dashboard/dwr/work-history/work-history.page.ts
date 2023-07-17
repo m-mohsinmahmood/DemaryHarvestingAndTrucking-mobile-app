@@ -20,7 +20,7 @@ import * as dayjs from 'dayjs';
 export class WorkHistoryPage implements OnInit {
   segment: any = 'day';
   // select values
-  date: any = moment(new Date()).format('MM-DD-YYYY');
+  date: any = moment(new Date()).format('YYYY-MM-DD');
   month: any = moment(new Date()).format('YYYY-MM');
 
   // payload values
@@ -71,7 +71,6 @@ export class WorkHistoryPage implements OnInit {
   }
 
   changeSegmentValue(event) {
-    console.log(event);
     this.dwrs$ = '';
 
     if (event.detail.value == 'day') {
@@ -90,7 +89,7 @@ export class WorkHistoryPage implements OnInit {
   }
 
   getDate(e) {
-    this.date = moment(e.detail.value).format('MM-DD-YYYY');
+    this.date = moment(e.detail.value).format('YYYY-MM-DD');
     this.isOpen = 'false';
   }
 
@@ -178,8 +177,12 @@ export class WorkHistoryPage implements OnInit {
 
   getDWRByMonth() {
     this.loading.next(true);
-    var stDay = moment(this.dateRange.from).startOf('day').format('MM/DD/YYYY HH:mm:ss');
+    var stDay = moment(this.dateRange.from).startOf('day').add(1, 'day').format('MM/DD/YYYY HH:mm:ss');
     var enDay = moment(this.dateRange.to).endOf('day').format('MM/DD/YYYY HH:mm:ss');
+
+    console.log(stDay);
+    console.log(new Date(stDay));
+    console.log(new Date(stDay).toISOString());
 
     this.dwrService
       .getDWRNew(
