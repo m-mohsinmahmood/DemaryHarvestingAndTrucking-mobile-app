@@ -46,8 +46,8 @@ export class WorkHistoryPage implements OnInit {
   };
 
   dateRange = {
-    from: moment().startOf('day').format('YYYY/MM/DD HH:mm:ss'),
-    to: moment().endOf('day').format('YYYY/MM/DD HH:mm:ss')
+    from: moment().subtract(1, 'weeks').startOf('week').format('MM/DD/YYYY HH:mm:ss'),
+    to: moment().subtract(1, 'weeks').endOf('week').format('MM/DD/YYYY HH:mm:ss')
   };
 
   public loading = new BehaviorSubject(false);
@@ -63,17 +63,11 @@ export class WorkHistoryPage implements OnInit {
 
   ngOnInit() {
     this.employee_id = localStorage.getItem('employeeId');
-    // this.selected.startDate = dayjs();
-    // this.selected.endDate = dayjs();
   }
 
   async ionViewDidEnter() {
     this.segment = 'day';
     this.getDWRByDate();
-  }
-
-  ngOnDestroy(): void {
-    // this.DWRSubValue.unsubscribe();
   }
 
   changeSegmentValue(event) {
@@ -184,8 +178,8 @@ export class WorkHistoryPage implements OnInit {
 
   getDWRByMonth() {
     this.loading.next(true);
-    var stDay = moment(this.dateRange.from).startOf('day').format('YYYY/MM/DD HH:mm:ss');
-    var enDay = moment(this.dateRange.to).endOf('day').format('YYYY/MM/DD HH:mm:ss');
+    var stDay = moment(this.dateRange.from).startOf('day').format('MM/DD/YYYY HH:mm:ss');
+    var enDay = moment(this.dateRange.to).endOf('day').format('MM/DD/YYYY HH:mm:ss');
 
     this.dwrService
       .getDWRNew(
