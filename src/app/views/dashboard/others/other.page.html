@@ -1,100 +1,102 @@
 <app-header [title]="'Other Paid'" [color]="'others'"></app-header>
-  <ion-content>
+<ion-content>
 
   <!-- Check-In/Check-Out -->
-  <app-check-in-out [isModalOpen]="isModalOpen" [data]="activeDwr" *ngIf="activeDwr"
-  [module]="'other'">
-</app-check-in-out>
+  <app-check-in-out [isModalOpen]="isModalOpen" [data]="activeDwr" *ngIf="activeDwr" [module]="'other'">
+  </app-check-in-out>
 
-<div class="px-3 mt-2">
-  <form [formGroup]="otherForm">
-    <div class="col-span-12 mb-4" *ngIf="(loading | async)=== true">
-      <label class="block text-sm font-medium text-gray-700">State
+  <div class="px-3 mt-2">
+    <form [formGroup]="otherForm">
+      <div *ngIf="activeDwr" class="text-justify mt-4 mb-4 font-Lato font-bold font-15px text-red-500">
+        If you Check Out without filling out the form given below and click on the Save and Submit button, your DWR won't be recorded, and you won't get paid for it. However, if you are mistakenly Checked In, you can Check Out.      </div>
+
+      <div class="col-span-12 mb-4" *ngIf="(loading | async)=== true">
+        <label class="block text-sm font-medium text-gray-700">State
         </label>
-         <ion-skeleton-text  [animated]="true" style="width: 100%; height: 39px; border-radius: 5px;"></ion-skeleton-text>
-    </div>
-  <div class="col-span-12 mb-4" *ngIf="(loading | async)=== false">
-    <label class="block text-sm font-medium text-gray-700">State <span *ngIf="this.otherForm.get('state').hasError('required')" class="text-red-400" >*</span></label>
-    <ion-select
-      class="mt-1 w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-      formControlName="state" placeholder="Select State">
-      <ion-select-option *ngFor="let state of states" [value]="state">{{state}}</ion-select-option>
-    </ion-select>
-  </div>
-  <div class="col-span-12 mb-4">
-    <label class="ml-5" class="block text-sm font-medium text-gray-700">Category<span class="text-red-600"
-        *ngIf="this.otherForm.get('module').hasError('required')"> *</span></label>
-    <ion-select
-      class="mt-1 w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-      formControlName="module" placeholder="Select Category">
-      <ion-select-option value="harvesting">Harvesting</ion-select-option>
-      <ion-select-option value="trucking">Trucking</ion-select-option>
-      <ion-select-option value="farming">Farming</ion-select-option>
-      <ion-select-option value="training">Safety/Company Training</ion-select-option>
-      <ion-select-option value="maintenance-repair">Maintenance & Repair</ion-select-option>
-      <ion-select-option value="other">Other</ion-select-option>
-    </ion-select>
-  </div>
+        <ion-skeleton-text [animated]="true" style="width: 100%; height: 39px; border-radius: 5px;"></ion-skeleton-text>
+      </div>
+      <div class="col-span-12 mb-4" *ngIf="(loading | async)=== false">
+        <label class="block text-sm font-medium text-gray-700">State <span
+            *ngIf="this.otherForm.get('state').hasError('required')" class="text-red-400">*</span></label>
+        <ion-select
+          class="mt-1 w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+          formControlName="state" placeholder="Select State">
+          <ion-select-option *ngFor="let state of states" [value]="state">{{state}}</ion-select-option>
+        </ion-select>
+      </div>
+      <div class="col-span-12 mb-4">
+        <label class="ml-5" class="block text-sm font-medium text-gray-700">Category<span class="text-red-600"
+            *ngIf="this.otherForm.get('module').hasError('required')"> *</span></label>
+        <ion-select
+          class="mt-1 w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+          formControlName="module" placeholder="Select Category">
+          <ion-select-option value="harvesting">Harvesting</ion-select-option>
+          <ion-select-option value="trucking">Trucking</ion-select-option>
+          <ion-select-option value="farming">Farming</ion-select-option>
+          <ion-select-option value="training">Safety/Company Training</ion-select-option>
+          <ion-select-option value="maintenance-repair">Maintenance & Repair</ion-select-option>
+          <ion-select-option value="other">Other</ion-select-option>
+        </ion-select>
+      </div>
 
-   <!-- SUPERVISOR DROPDOWN -->
-   <div [ngClass]="'opacity-100 visible ease-in duration-200'"  role="dialog" aria-modal="true">
-    <div [ngClass]="'opacity-100 visible scale-100 ease-in duration-200'" class="mb-4 relative z-30">
-      <div class="mx-auto max-w-full transform rounded-xl px-0 transition-all">
-        <label class="block text-sm font-medium text-gray-700 mb-1">
-Directors/CC/Dispatcher/Trainers <span
-            *ngIf="isSupervisorSelected" class="text-red-400">*</span></label>
-        <div class="flex items-center justify-between gap-x-2 rounded-md">
-          <input (keyup)="supervisorsearch$.next($event.target.value)" (click)="inputClickedsupervisor()"
-             #supervisorInput
-            class="w-full px-4 py-2 text-gray-900 placeholder:text-base rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
-            placeholder="Select supervisor" role="" aria-expanded="false" aria-controls="options">
-        </div>
+      <!-- SUPERVISOR DROPDOWN -->
+      <div [ngClass]="'opacity-100 visible ease-in duration-200'" role="dialog" aria-modal="true">
+        <div [ngClass]="'opacity-100 visible scale-100 ease-in duration-200'" class="mb-4 relative z-30">
+          <div class="mx-auto max-w-full transform rounded-xl px-0 transition-all">
+            <label class="block text-sm font-medium text-gray-700 mb-1">
+              Directors/CC/Dispatcher/Trainers <span *ngIf="isSupervisorSelected" class="text-red-400">*</span></label>
+            <div class="flex items-center justify-between gap-x-2 rounded-md">
+              <input (keyup)="supervisorsearch$.next($event.target.value)" (click)="inputClickedsupervisor()"
+                #supervisorInput
+                class="w-full px-4 py-2 text-gray-900 placeholder:text-base rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
+                placeholder="Select supervisor" role="" aria-expanded="false" aria-controls="options">
+            </div>
 
-        <div *ngIf="allSupervisors | withLoading | async as allSupervisors" >
-          <div class="flex justify-center items-center">
-            <ion-spinner *ngIf="allSupervisors?.loading" name="crescent" mode="indeterminate"
-              color="primary"></ion-spinner>
-          </div>
-          <ul *ngIf="allSupervisors?.value && supervisorUL"
-            class="-mb-2 max-h-44 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800 bg-white absolute w-full"
-            id="options" role="listbox">
-            <li *ngFor="let employee of (allSupervisors?.value.employees)"
-              (click)="listClickedSupervisor(employee)"
-              class="cursor-pointer  select-none rounded-md px-4 py-2 hover:bg-gray-200" role="option" tabindex="-1">
-              <div class="flex items-center p-2">
-                {{employee.first_name}} {{employee.last_name}}
+            <div *ngIf="allSupervisors | withLoading | async as allSupervisors">
+              <div class="flex justify-center items-center">
+                <ion-spinner *ngIf="allSupervisors?.loading" name="crescent" mode="indeterminate"
+                  color="primary"></ion-spinner>
               </div>
-            </li>
-          </ul>
-          <div *ngIf="allSupervisors?.value?.employees?.length === 0">
-            <p disabled
-              class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200 text-gray-500 hover:text-gray-700 hover:font-semibold">
-              No supervisor (s) found </p>
+              <ul *ngIf="allSupervisors?.value && supervisorUL"
+                class="-mb-2 max-h-44 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800 bg-white absolute w-full"
+                id="options" role="listbox">
+                <li *ngFor="let employee of (allSupervisors?.value.employees)" (click)="listClickedSupervisor(employee)"
+                  class="cursor-pointer  select-none rounded-md px-4 py-2 hover:bg-gray-200" role="option"
+                  tabindex="-1">
+                  <div class="flex items-center p-2">
+                    {{employee.first_name}} {{employee.last_name}}
+                  </div>
+                </li>
+              </ul>
+              <div *ngIf="allSupervisors?.value?.employees?.length === 0">
+                <p disabled
+                  class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200 text-gray-500 hover:text-gray-700 hover:font-semibold">
+                  No supervisor (s) found </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+      <!-- SUPERVISOR DROPDOWN -->
+
+      <div class="col-span-12 mb-4">
+        <label class="block text-sm font-medium text-gray-700">Description<span class="text-red-600"
+            *ngIf="this.otherForm.get('notes_other').hasError('required')"> *</span></label>
+        <textarea
+          class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+          formControlName="notes_other" placeholder="Write Here..."></textarea>
+      </div>
+      <div>
+        <ion-button
+          [disabled]="this.otherForm.invalid || ticketsPerDwr > 0 || (loadingSpinner | async) || isSupervisorSelected"
+          class="font-Lato text-white mt-8" expand="block" (click)="submit()">
+          <div *ngIf="(loadingSpinner | async) === false">Save and Submit</div>
+          <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
+        </ion-button>
+        <label *ngIf="ticketsPerDwr > 0" class="block text-sm font-medium text-red-700">You need to check-out first
+          before creating another ticket</label>
+      </div>
+
+    </form>
   </div>
- <!-- SUPERVISOR DROPDOWN -->
-
- <div class="col-span-12 mb-4">
-  <label class="block text-sm font-medium text-gray-700">Description<span class="text-red-600"
-      *ngIf="this.otherForm.get('notes_other').hasError('required')"> *</span></label>
-  <textarea
-    class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-    formControlName="notes_other" placeholder="Write Here..."></textarea>
-</div>
-<div>
- <ion-button
-      [disabled]="this.otherForm.invalid || ticketsPerDwr > 0 || (loadingSpinner | async) || isSupervisorSelected"
-      class="font-Lato text-white mt-8"
-      expand="block"
-        (click)="submit()">
-        <div *ngIf="(loadingSpinner | async) === false">Save and Submit</div>
-        <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner> </ion-button>
-        <label *ngIf="ticketsPerDwr > 0" class="block text-sm font-medium text-red-700">You need to check-out first before creating another ticket</label>
-</div>
-
-</form>
-</div>
 </ion-content>
