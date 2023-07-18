@@ -8,7 +8,7 @@
   <div class="px-3 mt-2">
     <form [formGroup]="otherForm">
       <div *ngIf="activeDwr" class="text-justify mt-4 mb-4 font-Lato font-bold font-15px text-red-500">
-        If you Check Out without filling out the form given below and click on the Save and Submit button, your DWR won't be recorded, and you won't get paid for it. However, if you are mistakenly Checked In, you can Check Out.      </div>
+        Note: You must complete the form below and click on the Save and Submit button to create your DWR. If you Check Out prior to doing so, no DWR will be created.</div>
 
       <div class="col-span-12 mb-4" *ngIf="(loading | async)=== true">
         <label class="block text-sm font-medium text-gray-700">State
