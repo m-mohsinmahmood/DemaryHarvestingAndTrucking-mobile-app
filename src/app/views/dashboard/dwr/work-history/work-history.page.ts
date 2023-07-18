@@ -116,9 +116,13 @@ export class WorkHistoryPage implements OnInit {
         },
       });
     } else {
+
+      var stDay = moment(this.dateRange.from).startOf('day').add(1, 'day').format('MM/DD/YYYY HH:mm:ss');
+      var enDay = moment(this.dateRange.to).endOf('day').format('MM/DD/YYYY HH:mm:ss');
+
       let dateRangeToPass = {
-        startDate: this.dateRange.from,
-        endDate: this.dateRange.to
+        startDate: new Date(stDay).toISOString(),
+        endDate: new Date(enDay).toISOString()
       }
 
       this.router.navigate(['/tabs/home/dwr/detail'], {
@@ -135,16 +139,16 @@ export class WorkHistoryPage implements OnInit {
   // datepicker
   choosedDate(event) {
     if (event.startDate) {
-      this.dateRange.from = event.startDate.format('YYYY-MM-DD')
-      this.dateRange.to = event.endDate.format('YYYY-MM-DD')
+      this.dateRange.from = event.startDate.format('YYYY-MM-DD HH:mm:ss')
+      this.dateRange.to = event.endDate.format('YYYY-MM-DD HH:mm:ss')
     }
   }
 
   getDWRByDate() {
     // to statr spinner
     this.loading.next(true);
-    var stDay = moment(this.date).startOf('day').format('YYYY/MM/DD HH:mm:ss');
-    var enDay = moment(this.date).endOf('day').format('YYYY/MM/DD HH:mm:ss');
+    var stDay = moment(this.date).startOf('day').format('YYYY-MM-DD HH:mm:ss');
+    var enDay = moment(this.date).endOf('day').format('YYYY-MM-DD HH:mm:ss');
 
     this.dwrService
       .getDWRNew(
