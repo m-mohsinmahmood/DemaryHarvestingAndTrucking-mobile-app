@@ -319,7 +319,7 @@
         </div>
 
         <div [hidden]="this.generateTicketFormTruck.get('farmers_bin_weight_initial').value != ''"  class="col-span-12 mb-2">
-          <label class="block text-sm font-medium text-gray-700">Delivery/Scale Ticket 'Net' Weight (lbs.)
+          <label class="block text-sm font-medium text-gray-700">Scale Ticket 'Net' Weight (lbs.)
             <span *ngIf="this.generateTicketFormTruck.get('NetWeight').hasError('required')"
               class="text-red-400">*</span></label>
           <input type="number"
@@ -331,7 +331,7 @@
         </ion-text> -->
 
         <div [hidden]="this.generateTicketFormTruck.get('farmers_bin_weight_initial').value != ''"  class="col-span-12 mb-2">
-          <label class="block text-sm font-medium text-gray-700">Delivery/Scale Ticket 'Net' Weight (lbs.)
+          <label class="block text-sm font-medium text-gray-700">Scale Ticket 'Net' Weight (lbs.)
             <span *ngIf="this.generateTicketFormTruck.get('NetWeight2').hasError('required')"
               class="text-red-400">*</span></label>
           <input type="number"
