@@ -1021,10 +1021,12 @@ export class HarvestingService {
   }
 
 
-  truckDriverGetTickets(truckDriverId, ticketStatus) {
+  truckDriverGetTickets(truckDriverId, ticketStatus,  startDate, endDate) {
     let params = new HttpParams();
     params = params.set('truckDriverId', truckDriverId);
     params = params.set('ticketStatus', ticketStatus);
+    params = params.set('startDate', startDate);
+    params = params.set('endDate', endDate);
 
     let session = this.session.SessionActiveCheck();
 

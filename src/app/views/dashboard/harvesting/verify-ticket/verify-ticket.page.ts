@@ -167,7 +167,9 @@ export class VerifyTicketPage implements OnInit {
     } else if (this.role.includes('Truck Driver')) {
       this.harvestingService.truckDriverGetTickets(
         localStorage.getItem('employeeId'),
-        'sent'
+        'sent',
+        '',
+        ''
       );
     }
   }
@@ -181,7 +183,9 @@ export class VerifyTicketPage implements OnInit {
     if (this.role.includes('Truck Driver')) {
       this.harvestingService.truckDriverGetTickets(
         localStorage.getItem('employeeId'),
-        'verified'
+        'verified',
+        moment(moment().format('MM-DD-YYYY')).startOf('day').toISOString(),
+        moment(moment().format('MM-DD-YYYY')).endOf('day').toISOString()
       );
     }
   }
@@ -202,7 +206,9 @@ export class VerifyTicketPage implements OnInit {
     } else if (this.role.includes('Truck Driver')) {
       this.harvestingService.truckDriverGetTickets(
         localStorage.getItem('employeeId'),
-        'pending'
+        'pending',
+        '',
+        ''
       );
     }
   }
