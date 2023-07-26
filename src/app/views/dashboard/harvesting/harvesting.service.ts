@@ -1021,7 +1021,7 @@ export class HarvestingService {
   }
 
 
-  truckDriverGetTickets(truckDriverId, ticketStatus,  startDate, endDate) {
+  truckDriverGetTickets(truckDriverId, ticketStatus, startDate, endDate) {
     let params = new HttpParams();
     params = params.set('truckDriverId', truckDriverId);
     params = params.set('ticketStatus', ticketStatus);
