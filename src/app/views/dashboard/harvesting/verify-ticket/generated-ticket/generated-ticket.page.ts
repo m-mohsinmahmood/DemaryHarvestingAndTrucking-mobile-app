@@ -51,6 +51,17 @@ export class GeneratedTicketPage implements OnInit {
   fieldPivotSL; //field/pivot-sl
   isEditModalOpen = false;
 
+  // Field Data
+  @ViewChild('fieldInput') fieldInput: ElementRef;
+  allFields: Observable<any>;
+  field_search$ = new Subject();
+  field_name: any = '';
+  fieldSearchValue: any;
+  fieldUL: any = false;
+  isFieldSelected: any = true;
+  isFieldDisabled: any = false;
+
+
   public loadingSpinner = new BehaviorSubject(false);
 
   private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -72,6 +83,14 @@ export class GeneratedTicketPage implements OnInit {
         }
       });
     }
+    else {
+      this.renderer.listen('window', 'click', (e) => {
+        if (e.target !== this.fieldInput?.nativeElement) {
+          // this.allFields = of([]);
+          this.fieldUL = false; // to hide the UL
+        }
+      });
+    }
   }
 
   async ionViewDidLeave() {
@@ -87,7 +106,12 @@ export class GeneratedTicketPage implements OnInit {
     this.role = localStorage.getItem('role');
 
     this.initForm();
-    this.machineSearchSubscription();
+    if (localStorage.getItem('role').includes('Truck Driver')) {
+      this.machineSearchSubscription();
+    }
+    else {
+      this.fieldSearchSubscription();
+    }
 
     this.ticket = JSON.parse(this.router.getCurrentNavigation().extras.state?.ticket);
 
@@ -97,6 +121,7 @@ export class GeneratedTicketPage implements OnInit {
     this.ticketName = this.ticket.delivery_ticket_name;
     this.slCheck = this.ticket.split_load_check;
     this.fieldPivot = this.ticket.field_name;
+    this.field_name = this.ticket.field_name;
     this.fieldPivotSL = this.ticket.sl_field_name == undefined ? '' : this.ticket.sl_field_name;
 
     if (this.ticket) {
@@ -111,8 +136,8 @@ export class GeneratedTicketPage implements OnInit {
       });
 
       this.sessionService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).subscribe((res) => {
-        console.log('employee from storage',res)
-        if(res.truck_id){
+        console.log('employee from storage', res)
+        if (res.truck_id) {
           console.log("Truck :", res.truck_id);
 
           this.allMachinery = this.harvestingService.getMachinery(
@@ -122,8 +147,8 @@ export class GeneratedTicketPage implements OnInit {
           );
           this.machineUL = false;
           this.allMachinery.subscribe((machinery) => {
-            for(let t of machinery.machinery){
-              if(t.id == res.truck_id){
+            for (let t of machinery.machinery) {
+              if (t.id == res.truck_id) {
                 this.listClickedMachiney(t)
               }
             }
@@ -134,7 +159,6 @@ export class GeneratedTicketPage implements OnInit {
     }
 
     if (this.role.includes('Truck Driver')) {
-      this.initApis();
       this.initObservables();
     }
   }
@@ -143,9 +167,10 @@ export class GeneratedTicketPage implements OnInit {
     this._unsubscribeAll.next(null);
     this._unsubscribeAll.complete();
   }
+
   initForm() {
     this.generateTicketFormTruck = this.formBuilder.group({
-      truckDriverId:[localStorage.getItem('employeeId')],
+      truckDriverId: [localStorage.getItem('employeeId')],
       scaleTicket: ['', [Validators.required]],
       NetWeight: ['', [Validators.required]],
       NetWeight2: ['', [Validators.required]],
@@ -165,6 +190,19 @@ export class GeneratedTicketPage implements OnInit {
       machineryId: ['', [Validators.required]],
       farmers_bin_weight_initial: [{ value: '', disabled: true }],
       farmers_bin_weight: ['', [Validators.required]],
+    });
+
+    this.editTicketForm = this.formBuilder.group({
+      ticket_id: [''],
+      net_weight: [''],
+      moisture_content: [''],
+      protein_content: [''],
+      test_weight: [''],
+      scale_ticket: [''],
+      operation: ['updateTicketInfo'],
+      fieldId: [''],
+      loadedMiles: [''],
+      destination: ['']
     });
 
     this.generateTicketFormTruck.valueChanges.subscribe((value) => {
@@ -210,17 +248,6 @@ export class GeneratedTicketPage implements OnInit {
         }
       }
     });
-
-    this.editTicketForm = this.formBuilder.group({
-      ticket_id: [''],
-      net_weight: [''],
-      moisture_content: [''],
-      protein_content: [''],
-      test_weight: [''],
-      scale_ticket: [''],
-      operation: ['updateTicketInfo']
-    });
-
   }
 
   goBack() {
@@ -257,16 +284,7 @@ export class GeneratedTicketPage implements OnInit {
     }
   }
 
-  initApis() {
-    // this.harvestingService.getTicketById(this.ticketID, 'verify-ticket-truck');
-  }
-
   initObservables() {
-    // this.harvestingService.ticket$.subscribe((res) => {
-    //   console.log('Res:', res);
-    //   this.ticketData = res;
-    // });
-
     this.isLoadingTicket$ = this.harvestingService.ticketLoading$;
   }
 
@@ -360,12 +378,26 @@ export class GeneratedTicketPage implements OnInit {
       moisture_content: this.ticket.moisture_content,
       protein_content: this.ticket.protein_content,
       test_weight: this.ticket.test_weight,
-      scale_ticket: this.ticket.scale_ticket_number
+      scale_ticket: this.ticket.scale_ticket_number,
+      loadedMiles:this.ticket.loaded_miles,
+      destination:this.ticket.destination
     });
   }
 
   updateTicketInfo() {
     this.loadingSpinner.next(true);
+
+    this.editTicketForm.patchValue({
+      net_weight: this.editTicketForm.get('net_weight').value == '' ? this.ticket.scale_ticket_net_weight : this.editTicketForm.get('net_weight').value,
+      moisture_content: this.editTicketForm.get('moisture_content').value == '' ? this.ticket.moisture_content : this.editTicketForm.get('moisture_content').value,
+      test_weight: this.editTicketForm.get('test_weight').value == '' ? this.ticket.test_weight : this.editTicketForm.get('test_weight').value,
+      scale_ticket: this.editTicketForm.get('scale_ticket').value == '' ? this.ticket.scale_ticket_number : this.editTicketForm.get('scale_ticket').value,
+      loadedMiles: this.editTicketForm.get('loadedMiles').value == '' ? this.ticket.loaded_miles : this.editTicketForm.get('loadedMiles').value,
+      destination: this.editTicketForm.get('destination').value == '' ? this.ticket.destination : this.editTicketForm.get('destination').value,
+      fieldId: this.editTicketForm.get('fieldId').value == '' ? this.generateTicketFormTruck.get('fieldId').value : this.editTicketForm.get('fieldId').value,
+      protein_content: this.editTicketForm.get('protein_content').value == '' ? this.ticket.protein_content : this.editTicketForm.get('protein_content').value,
+    })
+
     this.harvestingService.reAssignTruckDrivers(this.editTicketForm.value)
       .subscribe(
         (res: any) => {
@@ -377,11 +409,19 @@ export class GeneratedTicketPage implements OnInit {
             // clode modal
             this.isEditModalOpen = false;
 
-            this.ticket.scale_ticket_net_weight = this.editTicketForm.get('net_weight').value;
-            this.ticket.moisture_content = this.editTicketForm.get('moisture_content').value;
-            this.ticket.protein_content = this.editTicketForm.get('protein_content').value;
-            this.ticket.test_weight = this.editTicketForm.get('test_weight').value;
-            this.ticket.scale_ticket_number = this.editTicketForm.get('scale_ticket').value;
+            console.log(this.editTicketForm.get('fieldId').value);
+
+            console.log(this.editTicketForm.get('fieldId').value == '');
+
+            this.ticket.scale_ticket_net_weight = this.editTicketForm.get('net_weight').value == '' ? this.ticket.scale_ticket_net_weight : this.editTicketForm.get('net_weight').value;
+            this.ticket.moisture_content = this.editTicketForm.get('moisture_content').value == '' ? this.ticket.moisture_content : this.editTicketForm.get('moisture_content').value;
+            this.ticket.protein_content = this.editTicketForm.get('protein_content').value == '' ? this.ticket.protein_content : this.editTicketForm.get('protein_content').value;
+            this.ticket.test_weight = this.editTicketForm.get('test_weight').value == '' ? this.ticket.test_weight : this.editTicketForm.get('test_weight').value;
+            this.ticket.scale_ticket_number = this.editTicketForm.get('scale_ticket').value == '' ? this.ticket.scale_ticket_number : this.editTicketForm.get('scale_ticket').value;
+            this.ticket.field_name = this.field_name;
+            this.ticket.loaded_miles = this.editTicketForm.get('loadedMiles').value == '' ? this.ticket.loaded_miles : this.editTicketForm.get('loadedMiles').value;
+            this.ticket.destination = this.editTicketForm.get('destination').value == '' ? this.ticket.destination : this.editTicketForm.get('destination').value;
+
             // navigation
           } else {
             console.log('Something happened :)');
@@ -500,7 +540,103 @@ export class GeneratedTicketPage implements OnInit {
   }
   //#endregion
 
-  newDate(date){
+  //#region Field
+  fieldSearchSubscription() {
+    this.field_search$
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        takeUntil(this._unsubscribeAll)
+      )
+      .subscribe((value: string) => {
+        // passing for renderer2
+        this.fieldSearchValue = value;
+
+        // for asterik to look required
+        if (value === '') {
+          this.isFieldSelected = true;
+        }
+
+        // calling API
+        this.allFields = this.harvestingService.getFields(
+          value,
+          'customerFields',
+          this.ticket.customerId,
+          this.ticket.farm_id
+        );
+
+        // subscribing to show/hide field UL
+        this.allFields.subscribe((fields) => {
+          if (fields.count === 0) {
+            // hiding UL
+            this.fieldUL = false;
+
+            // for asterik to look required
+            this.isFieldSelected = true;
+          } else {
+            this.fieldUL = true;
+          }
+        });
+      });
+  }
+
+  inputClickedField() {
+    // getting the serch value to check if there's a value in input
+    this.field_search$
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        takeUntil(this._unsubscribeAll)
+      )
+      .subscribe((v) => {
+        this.fieldSearchValue = v;
+      });
+
+    const value =
+      this.fieldSearchValue === undefined
+        ? this.field_name
+        : this.fieldSearchValue;
+
+    // calling API // need id to check
+    this.allFields = this.harvestingService.getFields(
+      value,
+      'customerFields',
+      this.ticket.customerId,
+      this.ticket.farm_id
+    );
+
+    // subscribing to show/hide field UL
+    this.allFields.subscribe((fields) => {
+      console.log('first', fields);
+      if (fields.count === 0) {
+        // hiding UL
+        this.fieldUL = false;
+      } else {
+        // showing UL
+        this.fieldUL = true;
+      }
+    });
+  }
+
+  listClickedField(field) {
+    this.editTicketForm.patchValue({
+      fieldId: field?.field_id
+    });
+    // hiding UL
+    this.fieldUL = false;
+
+    // passing name in select's input
+    this.fieldInput.nativeElement.value = field.field_name;
+    this.field_name = field.field_name;
+    // to enable submit button
+    this.isFieldSelected = false;
+
+    // clearing array
+    this.allFields = of([]);
+  }
+  //#endregion
+
+  newDate(date) {
     return moment(date).format('MM-DD-YYYY');
   }
 }
