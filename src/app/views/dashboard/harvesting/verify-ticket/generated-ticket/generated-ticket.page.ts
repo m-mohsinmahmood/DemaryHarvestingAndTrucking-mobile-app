@@ -379,8 +379,8 @@ export class GeneratedTicketPage implements OnInit {
       protein_content: this.ticket.protein_content,
       test_weight: this.ticket.test_weight,
       scale_ticket: this.ticket.scale_ticket_number,
-      loadedMiles:this.ticket.loaded_miles,
-      destination:this.ticket.destination
+      loadedMiles: this.ticket.loaded_miles,
+      destination: this.ticket.destination
     });
   }
 
