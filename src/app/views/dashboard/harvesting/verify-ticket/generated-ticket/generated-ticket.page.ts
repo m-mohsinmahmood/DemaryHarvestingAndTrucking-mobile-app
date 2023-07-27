@@ -61,6 +61,14 @@ export class GeneratedTicketPage implements OnInit {
   isFieldSelected: any = true;
   isFieldDisabled: any = false;
 
+  // Destination
+  @ViewChild('destinationInput') destinationInput: ElementRef;
+  allDestinations: Observable<any>;
+  destination_search$ = new Subject();
+  destination_name: any = '';
+  destinationSearchValue: any;
+  destinationUL: any = false;
+  isDestinationSelected: any = true;
 
   public loadingSpinner = new BehaviorSubject(false);
 
@@ -85,9 +93,18 @@ export class GeneratedTicketPage implements OnInit {
     }
     else {
       this.renderer.listen('window', 'click', (e) => {
-        if (e.target !== this.fieldInput?.nativeElement) {
-          // this.allFields = of([]);
-          this.fieldUL = false; // to hide the UL
+        if (this.isEditModalOpen) {
+          if (e.target !== this.fieldInput?.nativeElement) {
+            this.allFields = of([]);
+            this.fieldUL = false; // to hide the UL
+            console.log("Field");
+
+          }
+          if (e.target !== this.destinationInput?.nativeElement) {
+            this.allDestinations = of([]);
+            this.destinationUL = false; // to hide the UL
+            console.log("Destination");
+          }
         }
       });
     }
@@ -111,6 +128,7 @@ export class GeneratedTicketPage implements OnInit {
     }
     else {
       this.fieldSearchSubscription();
+      this.destinationSearchSubscription();
     }
 
     this.ticket = JSON.parse(this.router.getCurrentNavigation().extras.state?.ticket);
@@ -122,6 +140,7 @@ export class GeneratedTicketPage implements OnInit {
     this.slCheck = this.ticket.split_load_check;
     this.fieldPivot = this.ticket.field_name;
     this.field_name = this.ticket.field_name;
+    this.destination_name = this.ticket.destination;
     this.fieldPivotSL = this.ticket.sl_field_name == undefined ? '' : this.ticket.sl_field_name;
 
     if (this.ticket) {
@@ -372,6 +391,9 @@ export class GeneratedTicketPage implements OnInit {
 
   openModal() {
     this.isEditModalOpen = true;
+
+    console.log(this.ticket);
+
     this.editTicketForm.patchValue({
       ticket_id: this.ticket.id,
       net_weight: this.ticket.scale_ticket_net_weight,
@@ -379,8 +401,7 @@ export class GeneratedTicketPage implements OnInit {
       protein_content: this.ticket.protein_content,
       test_weight: this.ticket.test_weight,
       scale_ticket: this.ticket.scale_ticket_number,
-      loadedMiles: this.ticket.loaded_miles,
-      destination: this.ticket.destination
+      loadedMiles: this.ticket.loaded_miles
     });
   }
 
@@ -420,7 +441,8 @@ export class GeneratedTicketPage implements OnInit {
             this.ticket.scale_ticket_number = this.editTicketForm.get('scale_ticket').value == '' ? this.ticket.scale_ticket_number : this.editTicketForm.get('scale_ticket').value;
             this.ticket.field_name = this.field_name;
             this.ticket.loaded_miles = this.editTicketForm.get('loadedMiles').value == '' ? this.ticket.loaded_miles : this.editTicketForm.get('loadedMiles').value;
-            this.ticket.destination = this.editTicketForm.get('destination').value == '' ? this.ticket.destination : this.editTicketForm.get('destination').value;
+            this.ticket.destination = this.destination_name;
+            // this.ticket.destination = this.editTicketForm.get('destination').value == '' ? this.ticket.destination : this.editTicketForm.get('destination').value;
 
             // navigation
           } else {
@@ -634,6 +656,105 @@ export class GeneratedTicketPage implements OnInit {
     // clearing array
     this.allFields = of([]);
   }
+  //#endregion
+
+  //#region Destination
+  destinationSearchSubscription() {
+    this.destination_search$
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        takeUntil(this._unsubscribeAll)
+      )
+      .subscribe((value: string) => {
+        // passing for renderer2
+        this.destinationSearchValue = value;
+
+        // for asterik to look required
+        if (value === '') {
+          this.isDestinationSelected = true;
+        }
+
+        // calling API
+        this.allDestinations = this.harvestingService.getCustomerDestination(
+          value,
+          'getCustomerDestination',
+          this.ticket.customerId,
+          this.ticket.farm_id
+        );
+
+        // subscribing to show/hide field UL
+        this.allDestinations.subscribe((destination) => {
+          if (destination.length === 0) {
+            // hiding UL
+            this.destinationUL = false;
+
+            this.isDestinationSelected = true;
+          } else {
+            this.destinationUL = true;
+          }
+        });
+      });
+  }
+
+  inputClickedDestination() {
+    // getting the serch value to check if there's a value in input
+    this.destination_search$
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        takeUntil(this._unsubscribeAll)
+      )
+      .subscribe((v) => {
+        this.destinationSearchValue = v;
+      });
+
+    const value =
+      this.destinationSearchValue === undefined
+        ? this.destination_name
+        : this.destinationSearchValue;
+
+    // calling API
+    this.allDestinations = this.harvestingService.getCustomerDestination(
+      value,
+      'getCustomerDestination',
+      this.ticket.customerId,
+      this.ticket.farm_id
+    );
+
+    // subscribing to show/hide field UL
+    this.allDestinations.subscribe((destination) => {
+      // console.log('truck-drivers:', truckDrivers);
+      if (destination.length === 0) {
+        // hiding UL
+        this.destinationUL = false;
+      } else {
+        // showing UL
+        this.destinationUL = true;
+      }
+    });
+  }
+
+  listClickedDestination(destination) {
+    // console.log('Truck Driver Object:', truckdriver);
+
+    this.editTicketForm.patchValue({
+      destination: destination.name
+    });
+    // hiding UL
+    this.destinationUL = false;
+
+    // passing name in select's input
+    this.destinationInput.nativeElement.value = destination.name;
+    this.destination_name = destination.name;
+
+    // to enable submit button
+    this.isDestinationSelected = false;
+
+    // clearing array
+    this.allDestinations = of([]);
+  }
+
   //#endregion
 
   newDate(date) {
