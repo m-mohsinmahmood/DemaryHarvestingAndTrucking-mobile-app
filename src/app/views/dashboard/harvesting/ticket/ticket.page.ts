@@ -233,7 +233,8 @@ export class TicketPage implements OnInit {
       jobId: [''],
       deliveryTicketNumber: [''],
       farmers_bin_check: [this.isFarmersBin],
-      farmers_bin_weight: ['']
+      farmers_bin_weight: [''],
+      destinationId: ['']
     });
 
     // custom validation for 'farmers_bin_weight'
@@ -549,6 +550,7 @@ export class TicketPage implements OnInit {
         });
       });
   }
+
   inputClickedTruckDriver() {
     // getting the serch value to check if there's a value in input
     this.trick_driver_search$
@@ -652,6 +654,7 @@ export class TicketPage implements OnInit {
         });
       });
   }
+
   inputClickedField() {
     // getting the serch value to check if there's a value in input
     this.field_search$
@@ -689,6 +692,7 @@ export class TicketPage implements OnInit {
       }
     });
   }
+
   listClickedField(field) {
     this.deliveryTicketForm.patchValue({
       fieldId: field?.field_id,
@@ -992,7 +996,8 @@ export class TicketPage implements OnInit {
     // console.log('Truck Driver Object:', truckdriver);
 
     this.deliveryTicketForm.patchValue({
-      destination: destination.name
+      destination: destination.name,
+      destinationId: destination.id
     });
     // hiding UL
     this.destinationUL = false;
@@ -1067,7 +1072,7 @@ export class TicketPage implements OnInit {
       doc.text("Total Tickets", 0.1, 1.8);
       doc.text("_____________", 1.2, 1.8);
     }
-    else if (ticket === 'deliveryTicket'){
+    else if (ticket === 'deliveryTicket') {
 
       doc.setLineWidth(0.02);
       doc.line(0, 0.05, 4, 0.05);
@@ -1117,7 +1122,7 @@ export class TicketPage implements OnInit {
       doc.line(0, 2.45, 4, 2.45);
     }
 
-    else if (ticket === 'envelopeStub'){
+    else if (ticket === 'envelopeStub') {
       doc.setFontSize(7); // Set font size
 
       //Column 1
@@ -1166,7 +1171,7 @@ export class TicketPage implements OnInit {
 
       //Weight
       doc.text("Wgt", 1.8, 0.55);
-      doc.text("_________", 2.05 , 0.55);
+      doc.text("_________", 2.05, 0.55);
     }
     doc.save(`${ticket}.pdf`);
   }

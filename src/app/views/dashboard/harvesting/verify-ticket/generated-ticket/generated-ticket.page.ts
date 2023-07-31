@@ -221,7 +221,8 @@ export class GeneratedTicketPage implements OnInit {
       operation: ['updateTicketInfo'],
       fieldId: [''],
       loadedMiles: [''],
-      destination: ['']
+      destination: [''],
+      destinationId: ['']
     });
 
     this.generateTicketFormTruck.valueChanges.subscribe((value) => {
@@ -739,7 +740,8 @@ export class GeneratedTicketPage implements OnInit {
     // console.log('Truck Driver Object:', truckdriver);
 
     this.editTicketForm.patchValue({
-      destination: destination.name
+      destination: destination.name,
+      destinationId: destination.id
     });
     // hiding UL
     this.destinationUL = false;
