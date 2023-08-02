@@ -840,6 +840,7 @@ export class TicketPage implements OnInit {
         });
       });
   }
+
   inputClickedJob() {
     // getting the serch value to check if there's a value in input
     this.job_search$
@@ -876,6 +877,7 @@ export class TicketPage implements OnInit {
       }
     });
   }
+
   listClickedJob(job) {
     console.log('job', job);
     // hiding UL
