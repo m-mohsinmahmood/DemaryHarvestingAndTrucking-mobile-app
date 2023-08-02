@@ -165,15 +165,17 @@ export class TicketPage implements OnInit {
           // this.allFields = of([]);
           this.fieldUL = false; // to hide the UL
         }
-        else if (e.target !== this.jobInput.nativeElement) {
+        if (e.target !== this.jobInput.nativeElement) {
           this.allJobs = of([]);
           this.jobUL = false; // to hide the UL
         }
-        else if (e.target !== this.field_split_load_input.nativeElement) {
-          this.allSplitLoadFields = of([]);
-          this.fieldSplitLoadUL = false; // to hide the UL
+        if (this.isSplitTrue) {
+          if (e.target !== this.field_split_load_input.nativeElement) {
+            this.allSplitLoadFields = of([]);
+            this.fieldSplitLoadUL = false; // to hide the UL
+          }
         }
-        else if (e.target !== this.destinationInput.nativeElement) {
+        if (e.target !== this.destinationInput.nativeElement) {
           this.allDestinations = of([]);
           this.destinationUL = false; // to hide the UL
         }
@@ -347,25 +349,25 @@ export class TicketPage implements OnInit {
         });
       }
       this.deliveryTicketForm.patchValue({
-        truckDriverId: res.truck_driver_id,
         jobId: res.invoiced_job ? res.invoiced_job : '',
       });
 
       //loaded miles
       this.deliveryTicketForm.controls.loadedMiles.setValue(res.loaded_miles);
 
-      // passing name in select's input
-      if (res.truck_driver_id !== null) {
-        this.truckInput.nativeElement.value = res.truck_driver_name;
-        this.truck_driver_name = res.truck_driver_name;
-      }
+      // // passing name in select's input
+      // if (res.truck_driver_id !== null) {
+      //   this.truckInput.nativeElement.value = res.truck_driver_name;
+      //   this.truck_driver_name = res.truck_driver_name;
+      // }
 
-      // to enable submit button
-      if (res.truck_driver_id !== null) {
-        this.isTruckDriverSelected = false;
-      }
+      // // to enable submit button
+      // if (res.truck_driver_id !== null) {
+      //   this.isTruckDriverSelected = false;
+      // }
     });
   }
+
   patchForm() {
     this.deliveryTicketForm.patchValue({
       kartOperatorId: localStorage.getItem('employeeId'),
@@ -416,7 +418,6 @@ export class TicketPage implements OnInit {
       this.field_split_load_input.nativeElement.value = ''; // emplty name in select's input
       this.deliveryTicketForm.controls.field_load_split.setValue(''); //empty id in form for payload
       this.isFieldSplitLoadSelected = true; // to enable submit button
-
     }
   }
 
@@ -424,10 +425,10 @@ export class TicketPage implements OnInit {
   checkFarmersBin() {
     this.isFarmersBin = !this.isFarmersBin;
 
-    if (!this.isFarmersBin) { // for clearing validations
+    if (!this.isFarmersBin) {
+      // for clearing validations
       this.deliveryTicketForm.controls.farmers_bin_weight.setValue(''); //empty field name
     }
-
   }
   //#endregion
 
@@ -466,7 +467,6 @@ export class TicketPage implements OnInit {
           } else {
             console.log('Something happened :)');
             this.loadingSpinner.next(false);
-
           }
         },
           (err) => {
@@ -537,8 +537,6 @@ export class TicketPage implements OnInit {
 
         // subscribing to show/hide field UL
         this.allTruckDrivers.subscribe((truckDrivers) => {
-          // console.log('Truck Drivers:', truckDrivers);
-
           if (truckDrivers.length === 0) {
             // hiding UL
             this.truckDriverUL = false;
@@ -589,8 +587,6 @@ export class TicketPage implements OnInit {
   }
 
   listClickedTruckDriver(truckdriver) {
-    // console.log('Truck Driver Object:', truckdriver);
-
     this.deliveryTicketForm.patchValue({
       truckDriverId: truckdriver.id,
     });
@@ -981,7 +977,6 @@ export class TicketPage implements OnInit {
 
     // subscribing to show/hide field UL
     this.allDestinations.subscribe((destination) => {
-      // console.log('truck-drivers:', truckDrivers);
       if (destination.length === 0) {
         // hiding UL
         this.destinationUL = false;
@@ -993,8 +988,6 @@ export class TicketPage implements OnInit {
   }
 
   listClickedDestination(destination) {
-    // console.log('Truck Driver Object:', truckdriver);
-
     this.deliveryTicketForm.patchValue({
       destination: destination.name,
       destinationId: destination.id
