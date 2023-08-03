@@ -102,13 +102,13 @@ export class StartJobPage implements OnInit {
     private router: Router,
     private dwrServices: CheckInOutService
   ) {
-    if (localStorage.getItem('role').includes('Combine Operator')) {
+    if (localStorage.getItem('role').includes('Combine Operator') || localStorage.getItem('role').includes('Cart Operator')) {
       this.renderer.listen('window', 'click', (e) => {
         if (e.target !== this.machineryInput.nativeElement) {
           this.allMachinery = of([]);
           this.machineUL = false; // to hide the UL
         }
-        else if (e.target !== this.jobInput.nativeElement) {
+        if (e.target !== this.jobInput.nativeElement) {
           this.allJobs = of([]);
           this.jobUL = false; // to hide the UL
         }
@@ -197,7 +197,8 @@ export class StartJobPage implements OnInit {
       crop_id: [''],
       crew_chief_id: [''],
       jobId: [''],
-      active_check_in_id: ['']
+      active_check_in_id: [''],
+      role:['Cart Operator']
     });
 
     // end of day validation for hours (Cart)

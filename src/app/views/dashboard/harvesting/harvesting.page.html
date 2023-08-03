@@ -106,7 +106,7 @@
   <ion-grid>
     <ion-row>
       <ion-col size="12">
-        <ion-card class="card" (click)="navigate('ticket')" [disabled]="disableButtons">
+        <ion-card class="card" (click)="navigate('ticket')" [disabled]="workOrderCount <= 0 || disableButtons">
           <ion-card-content>
             <p class="font-15px font-bold font-Lato">Create/Print Delivery Tickets</p>
           </ion-card-content>
