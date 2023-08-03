@@ -159,7 +159,6 @@ export class JobSetupPage implements OnInit {
 
     // pasing states
     this.states = states;
-    this.initApis();
     this.initObservables();
 
     this.getCreatedJobData();
@@ -170,9 +169,11 @@ export class JobSetupPage implements OnInit {
     this.directorSearchSubscription();
     // this.fieldSearchSubscription();
   }
+
   async ionViewDidEnter() {
     this.getCreatedJobData();
   }
+
   getCreatedJobData() {
     this.sessionService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).subscribe((res) => {
       console.log('Employee Details:', res);
@@ -212,17 +213,7 @@ export class JobSetupPage implements OnInit {
     });
   }
 
-  initApis() {
-    // getting for Crew Chief only
-    // this.harvestingService.getJobSetup('Crew Chief', localStorage.getItem('employeeId'));
-  }
-
   initObservables() {
-    // this.subscribe = this.harvestingService.customerJobSetup$.subscribe((res) => {
-    //   console.log('Response', res);
-    //   this.customerData = res;
-    // });
-
     this.loadingSub = this.harvestingService.customerLoading$.subscribe((val) => {
     });
   }
@@ -230,7 +221,6 @@ export class JobSetupPage implements OnInit {
   ngOnDestroy(): void {
     this._unsubscribeAll.next(null);
     this._unsubscribeAll.complete();
-    // this.subscribe.unsubscribe();
     this.loadingSub.unsubscribe();
   }
 
@@ -247,7 +237,7 @@ export class JobSetupPage implements OnInit {
       total_acres: [''],
       total_gps_acres: [''],
       active_check_in_id: [''],
-      newJobSetup:[true]
+      newJobSetup: [true]
     });
   }
 
@@ -274,72 +264,75 @@ export class JobSetupPage implements OnInit {
 
     });
   }
-  checkJob(){
+
+  checkJob() {
     this.harvestingService.
-    checkJob(this.jobSetupForm.get('customer_id').value, this.jobSetupForm.get('farm_id').value,this.jobSetupForm.get('crop_id').value)
-    .subscribe(
-      (res: any) => {
-        console.log('Response:', res);
-        if (res.status === 200 && parseInt(res.total_jobs.count) === 0) {
-          //create job
-          this.createJob();
-        }
-        else if (res.status === 200 && parseInt(res.total_jobs.count) >= 1) {
-           //toast
-        this.toastService.presentToast('Job already exists with same customer, farm and crop', 'warning');
+      checkJob(this.jobSetupForm.get('customer_id').value, this.jobSetupForm.get('farm_id').value, this.jobSetupForm.get('crop_id').value)
+      .subscribe(
+        (res: any) => {
+          console.log('Response:', res);
+          if (res.status === 200 && parseInt(res.total_jobs.count) === 0) {
+            //create job
+            this.createJob();
+          }
+          else if (res.status === 200 && parseInt(res.total_jobs.count) >= 1) {
+            //toast
+            this.toastService.presentToast('Job already exists with same customer, farm and crop', 'warning');
 
-        this.loadingSpinner.next(false); // stop loader
+            this.loadingSpinner.next(false); // stop loader
 
 
-        } else {
-          console.log('Something happened :)');
+          } else {
+            console.log('Something happened :)');
+            this.loadingSpinner.next(false);
+
+          }
+        },
+        (err) => {
+          console.log('Error:', err);
           this.loadingSpinner.next(false);
 
-        }
-      },
-      (err) => {
-        console.log('Error:', err);
-        this.loadingSpinner.next(false);
-
-      },
-    );
+        },
+      );
   }
-createJob(){
-  this.harvestingService.createJob(this.jobSetupForm.value)
-  .subscribe(
-    (res: any) => {
-      console.log('Response:', res);
-      if (res.status === 200) {
-        // this.loadingSpinner.next(false);
-        this.jobSetupForm.reset();
-        this.isDisabled = true;
-        this.customer_name = '';
-        this.farm_name = '';
-        this.crop_name = '';
-        this.farm_name = '';
-        this.directorInput.nativeElement.value = '';
-        this.customerInput.nativeElement.value = '';
-        this.farmInput.nativeElement.value = '';
-        this.cropInput.nativeElement.value = '';
-        // this.toastService.presentToast(res.message, 'success');
-        this.jobId = res.id.record_id;
 
-        //DWR
-        this.createDWR();
+  createJob() {
+    this.harvestingService.createJob(this.jobSetupForm.value)
+      .subscribe(
+        (res: any) => {
+          console.log('Response:', res);
+          if (res.status === 200) {
+            // this.loadingSpinner.next(false);
+            this.jobSetupForm.reset();
+            this.isDisabled = true;
+            this.customer_name = '';
+            this.farm_name = '';
+            this.crop_name = '';
+            this.farm_name = '';
+            this.directorInput.nativeElement.value = '';
+            this.customerInput.nativeElement.value = '';
+            this.farmInput.nativeElement.value = '';
+            this.cropInput.nativeElement.value = '';
+            // this.toastService.presentToast(res.message, 'success');
+            this.jobId = res.id.record_id;
 
-      } else {
-        console.log('Something happened :)');
-        this.loadingSpinner.next(false);
+            //DWR
+            this.createDWR();
 
-      }
-    },
-    (err) => {
-      console.log('Error:', err);
-      this.loadingSpinner.next(false);
+          } else {
+            console.log('Something happened :)');
+            this.loadingSpinner.next(false);
 
-    },
-  );
-}
+          }
+        },
+        (err) => {
+          console.log('Error:', err);
+          this.loadingSpinner.next(false);
+
+        },
+      );
+  }
+
   createDWR() {
     this.harvestingService
       .createDWR(localStorage.getItem('employeeId'), this.jobId, this.jobSetupForm.get('director_id').value, this.active_check_in_id)
@@ -350,7 +343,7 @@ createJob(){
             this.loadingSpinner.next(false);
 
             //toast
-        this.toastService.presentToast(res.message, 'success');
+            this.toastService.presentToast(res.message, 'success');
 
 
             // navigation
@@ -437,6 +430,7 @@ createJob(){
         });
       });
   }
+
   inputClickedCustomer() {
     // getting the serch value to check if there's a value in input
     this.customer_search$
@@ -480,6 +474,7 @@ createJob(){
       }
     });
   }
+
   listClickedCustomer(customer) {
     console.log('Customer Object:', customer);
 
@@ -555,6 +550,7 @@ createJob(){
         });
       });
   }
+
   inputClickedFarm() {
     // getting the serch value to check if there's a value in input
     this.farm_search$
@@ -591,6 +587,7 @@ createJob(){
       }
     });
   }
+
   listClickedFarm(farm) {
 
     // hiding UL
@@ -648,6 +645,7 @@ createJob(){
         });
       });
   }
+
   inputClickedCrop() {
     // getting the serch value to check if there's a value in input
     this.crop_search$
@@ -680,6 +678,7 @@ createJob(){
       }
     });
   }
+
   listClickedCrop(crop) {
     // hiding UL
     this.cropUL = false;
@@ -820,6 +819,7 @@ createJob(){
         });
       });
   }
+
   inputClickedDirector() {
     // getting the serch value to check if there's a value in input
     this.director_search$
@@ -863,6 +863,7 @@ createJob(){
       }
     });
   }
+
   listClickedDirector(director) {
 
     // hiding UL
