@@ -72,7 +72,7 @@
           </ion-col>
 
           <ion-col size="6" class="flex flex-col items-baseline ">
-            <p class="font-Lato text-black font-bold font-14">Scale Ticket</p>
+            <p class="font-Lato text-black font-bold font-14">{{ticket.farmers_bin_weight?'Delivery Ticket Number':'Scale Ticket'}}</p>
             <span class="font-Lato font-14">{{ticket?.scale_ticket_number}}</span>
           </ion-col>
         </ion-row>
@@ -418,7 +418,7 @@
             <span *ngIf="this.generateTicketFormTruck.get('proteinContent').hasError('required')"
               class="text-red-400">*</span></label>
           <input
-            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            type="number" class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
             formControlName="proteinContent" placeholder="Protein Content" />
         </div>
 
@@ -427,7 +427,7 @@
             <span *ngIf="this.generateTicketFormTruck.get('moistureContent').hasError('required')"
               class="text-red-400">*</span></label>
           <input
-            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            type="number" class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
             formControlName="moistureContent" placeholder="Moisture Content" />
         </div>
 
@@ -436,7 +436,7 @@
             <span *ngIf="this.generateTicketFormTruck.get('testWeight').hasError('required')"
               class="text-red-400">*</span></label>
           <input
-            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            type="number" class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
             formControlName="testWeight" placeholder="Test Weight" />
         </div>
 
@@ -506,7 +506,7 @@
             </div>
 
           <div class="pr-4 col-span-12 mb-4 mt-2">
-            <label class="block text-sm font-medium text-gray-700">Scale Ticket</label>
+            <label class="block text-sm font-medium text-gray-700">{{ticket.farmers_bin_weight?'Delivery Ticket Number':'Scale Ticket'}}</label>
             <ion-input class="!pl-2 w-full text-gray-900  placeholder-gray-500 rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
             placeholder="Enter Value" formControlName="scale_ticket"></ion-input>
           </div>
