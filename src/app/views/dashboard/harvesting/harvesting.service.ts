@@ -304,7 +304,6 @@ export class HarvestingService {
       dwrId,
       jobId
     };
-    console.log('DATA:', data);
     let session = this.session.SessionActiveCheck();
 
     if (session) {
@@ -495,8 +494,6 @@ export class HarvestingService {
     params = params.set('operation', operation);
     params = params.set('role', role);
 
-    console.log("Service:", role);
-
     let session = this.session.SessionActiveCheck();
 
     if (session) {
@@ -538,7 +535,6 @@ export class HarvestingService {
             this.ticketLoading.next(true);
             this.ticket.next(res);
             this.ticketLoading.next(false);
-            console.log('Response Ticket ID::', res);
           },
           (err) => {
             this.toastService.presentToast(err, 'danger');
@@ -805,7 +801,6 @@ export class HarvestingService {
   }
 
   deleteAssignedRole(data: any) {
-    console.log(data);
     let params = new HttpParams();
 
     params = params.set('driverIds', data.driverIds);
@@ -945,7 +940,6 @@ export class HarvestingService {
           .pipe(take(1))
           .subscribe((res) => {
             if (ticketStatus == 'sent') {
-              console.log('res', res);
               this.sentTicketLoading.next(true);
               this.sentTicket.next(res);
               this.sentTicketLoading.next(false);
