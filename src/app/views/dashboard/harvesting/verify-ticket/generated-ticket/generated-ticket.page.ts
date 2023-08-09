@@ -97,13 +97,10 @@ export class GeneratedTicketPage implements OnInit {
           if (e.target !== this.fieldInput?.nativeElement) {
             this.allFields = of([]);
             this.fieldUL = false; // to hide the UL
-            console.log("Field");
-
           }
           if (e.target !== this.destinationInput?.nativeElement) {
             this.allDestinations = of([]);
             this.destinationUL = false; // to hide the UL
-            console.log("Destination");
           }
         }
       });
@@ -147,6 +144,7 @@ export class GeneratedTicketPage implements OnInit {
       this.generateTicketFormTruck.patchValue({
         ticketId: this.ticket.id,
         fieldId: this.ticket.field_id,
+        destinationId: this.ticket.destinationid,
         destination: this.ticket.destination,
         farmId: this.ticket.farm_id,
         cropName: this.ticket.crop_name,
@@ -198,6 +196,7 @@ export class GeneratedTicketPage implements OnInit {
       moistureContent: [''],
       ticketId: [''],
       fieldId: [''],
+      destinationId: [''],
       destination: [''],
       farmId: [''],
       cropName: [''],
@@ -417,6 +416,7 @@ export class GeneratedTicketPage implements OnInit {
       loadedMiles: this.editTicketForm.get('loadedMiles').value == '' ? this.ticket.loaded_miles : this.editTicketForm.get('loadedMiles').value,
       destination: this.editTicketForm.get('destination').value == '' ? this.ticket.destination : this.editTicketForm.get('destination').value,
       fieldId: this.editTicketForm.get('fieldId').value == '' ? this.generateTicketFormTruck.get('fieldId').value : this.editTicketForm.get('fieldId').value,
+      destinationId: this.editTicketForm.get('destinationId').value == '' ? this.generateTicketFormTruck.get('destinationId').value : this.editTicketForm.get('destinationId').value,
       protein_content: this.editTicketForm.get('protein_content').value == '' ? this.ticket.protein_content : this.editTicketForm.get('protein_content').value,
     })
 
@@ -431,10 +431,6 @@ export class GeneratedTicketPage implements OnInit {
             // clode modal
             this.isEditModalOpen = false;
 
-            console.log(this.editTicketForm.get('fieldId').value);
-
-            console.log(this.editTicketForm.get('fieldId').value == '');
-
             this.ticket.scale_ticket_net_weight = this.editTicketForm.get('net_weight').value == '' ? this.ticket.scale_ticket_net_weight : this.editTicketForm.get('net_weight').value;
             this.ticket.moisture_content = this.editTicketForm.get('moisture_content').value == '' ? this.ticket.moisture_content : this.editTicketForm.get('moisture_content').value;
             this.ticket.protein_content = this.editTicketForm.get('protein_content').value == '' ? this.ticket.protein_content : this.editTicketForm.get('protein_content').value;
@@ -443,8 +439,6 @@ export class GeneratedTicketPage implements OnInit {
             this.ticket.field_name = this.field_name;
             this.ticket.loaded_miles = this.editTicketForm.get('loadedMiles').value == '' ? this.ticket.loaded_miles : this.editTicketForm.get('loadedMiles').value;
             this.ticket.destination = this.destination_name;
-            // this.ticket.destination = this.editTicketForm.get('destination').value == '' ? this.ticket.destination : this.editTicketForm.get('destination').value;
-
             // navigation
           } else {
             console.log('Something happened :)');
