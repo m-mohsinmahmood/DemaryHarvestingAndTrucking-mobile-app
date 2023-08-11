@@ -211,7 +211,7 @@ export class TicketPage implements OnInit {
       this.router.getCurrentNavigation().extras?.state?.reassign;
 
     this.deliveryTicketForm = this.formbuildr.group({
-      truckDriverId: [''],
+      truckDriverId: ['', [Validators.required]],
       destination: ['', [Validators.required]],
       loadedMiles: ['', [Validators.required]],
       field: [''],
@@ -410,6 +410,7 @@ export class TicketPage implements OnInit {
 
       this.field_split_load_input.nativeElement.value = ''; // emplty name in select's input
       this.isFieldSplitLoadSelected = true; // to enable submit button
+      this.field_split_load_name = '';
     }
   }
 
