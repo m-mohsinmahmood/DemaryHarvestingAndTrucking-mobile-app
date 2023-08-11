@@ -70,14 +70,16 @@ export class VerifyTicketPage implements OnInit {
     private formBuilder: FormBuilder,
     private renderer: Renderer2,
     private toastService: ToastService,
-
-
   ) {
-    // this.renderer.listen('window', 'click', (e) => {
-    //   if (e.target !== this.driverInput.nativeElement) {
-    //     this.driverUL = false;
-    //   }
-    // });
+    this.renderer.listen('window', 'click', (e) => {
+      if (this.isReassignModalOpen) {
+        console.log("Opened");
+
+        if (e.target !== this.driverInput.nativeElement) {
+          this.driverUL = false;
+        }
+      }
+    });
   }
 
   ngOnDestroy(): void {

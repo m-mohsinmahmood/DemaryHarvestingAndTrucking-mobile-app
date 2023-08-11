@@ -354,17 +354,6 @@ export class TicketPage implements OnInit {
 
       //loaded miles
       this.deliveryTicketForm.controls.loadedMiles.setValue(res.loaded_miles);
-
-      // // passing name in select's input
-      // if (res.truck_driver_id !== null) {
-      //   this.truckInput.nativeElement.value = res.truck_driver_name;
-      //   this.truck_driver_name = res.truck_driver_name;
-      // }
-
-      // // to enable submit button
-      // if (res.truck_driver_id !== null) {
-      //   this.isTruckDriverSelected = false;
-      // }
     });
   }
 
@@ -414,9 +403,12 @@ export class TicketPage implements OnInit {
     this.isSplitTrue = !this.isSplitTrue;
 
     if (!this.isSplitTrue) {
-      this.deliveryTicketForm.controls.kart_scale_weight_split.setValue(''); //empty field name
+      this.deliveryTicketForm.patchValue({
+        kart_scale_weight_split: '',
+        field_load_split: ''
+      });
+
       this.field_split_load_input.nativeElement.value = ''; // emplty name in select's input
-      this.deliveryTicketForm.controls.field_load_split.setValue(''); //empty id in form for payload
       this.isFieldSplitLoadSelected = true; // to enable submit button
     }
   }

@@ -76,7 +76,7 @@
                   </ion-grid>
                 </div>
               </ion-header>
-              <div class="flex flex-col px-1 mt=0">
+              <div class="flex flex-col px-4 mt=0 h-full justify-center items-center">
                 <ion-button [disabled]="(deleteSpinner | async)" color="danger" class="font-Lato text-white w-full" (click)="deleteTicket()">
                   <ion-spinner [hidden]="!(deleteSpinner | async)" name="crescent" mode="indeterminate" color="primary"></ion-spinner>
                   <span [hidden]="(deleteSpinner | async)" class="text-white">Confirm Delete</span></ion-button>
@@ -106,9 +106,9 @@
                   </ion-grid>
                 </div>
               </ion-header>
-              <div class="overflow-y-auto px-1">
+              <div class="overflow-y-auto px-4 h-full justify-center items-center">
                 <form [formGroup]="driverSetupForm">
-                  <div class="px-2">
+                  <div class="px-2 mt-4">
                     <div
                       [ngClass]="add_location_overlay ? 'opacity-100 visible ease-in duration-200' : 'opacity-0 invisible ease-out duration-300'"
                       role="dialog" aria-modal="true">
@@ -149,7 +149,7 @@
                     </div>
                   </div>
                   <!-- <ion-button expand="block" class="font-Lato font-white mt-20 mb-8 text-white" (click)="reassignDriver()">Reassign Driver</ion-button> -->
-                  <ion-button expand="block" class="font-Lato text-white w-full mt-20 mb-5" (click)="reassignDriver()"
+                  <ion-button expand="block" class="font-Lato text-white w-full" (click)="reassignDriver()"
                     [disabled]="isTruckDriverSelected ||  (loadingSpinner | async)">
                     <div *ngIf="(loadingSpinner | async) === false">Reassign Driver</div>
                     <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
@@ -542,7 +542,7 @@
           </ion-grid>
         </div>
       </ion-header>
-      <div class="overflow-y-auto px-1">
+      <div class="overflow-y-auto px-2">
 
         <!-- First Row -->
         <ion-row >
@@ -623,7 +623,7 @@
 
 
         <div>
-          <ion-button expand="block" (click)="printDiv('deliveryTicket')" class="font-Lato mt-5 text-white text-xs">
+          <ion-button expand="block" (click)="printDiv('deliveryTicket')" class="font-Lato text-base mt-5 text-white">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
               stroke="currentColor" class="w-6 h-6">
               <path stroke-linecap="round" stroke-linejoin="round"
