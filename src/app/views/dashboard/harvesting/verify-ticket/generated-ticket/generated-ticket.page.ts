@@ -70,6 +70,8 @@ export class GeneratedTicketPage implements OnInit {
   destinationUL: any = false;
   isDestinationSelected: any = true;
 
+  isGuestUser = 'false';
+
   public loadingSpinner = new BehaviorSubject(false);
 
   private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -118,6 +120,7 @@ export class GeneratedTicketPage implements OnInit {
 
   ngOnInit() {
     this.role = localStorage.getItem('role');
+    this.isGuestUser = localStorage.getItem('is_guest_user');
 
     this.initForm();
     if (localStorage.getItem('role').includes('Truck Driver')) {

@@ -354,7 +354,8 @@
                 <input (keyup)="machine_search$.next($event.target.value)" (click)="inputClickedMachinery()"
                   [value]="machine_name" #machineryInput
                   class="w-full px-4 py-2 text-gray-900 placeholder:text-base rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
-                  placeholder="Select Truck" role="" aria-expanded="false" aria-controls="options">
+                  placeholder="Select Truck" role="" aria-expanded="false" aria-controls="options"
+                  [disabled]="isGuestUser == 'true'">
               </div>
 
               <div *ngIf="allMachinery | withLoading | async as allMachinery">
@@ -365,14 +366,17 @@
                 <ul *ngIf="allMachinery?.value && machineUL"
                   class="-mb-2 max-h-48 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800 bg-white absolute w-full"
                   id="options" role="listbox">
-                  <li *ngFor="let machinery of (allMachinery?.value.machinery)" (click)="listClickedMachiney(machinery)"
+                  <ng-container *ngFor="let machinery of allMachinery?.value.machinery">
+                    <li (click)="listClickedMachiney(machinery)"
                     class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200" role="option"
+                    *ngIf="isGuestUser == 'false' && !machinery.guest_vehicle"
                     tabindex="-1">
                     <div class="flex items-center p-2">
                       {{machinery.name}}
                     </div>
                   </li>
-                </ul>
+                </ng-container>
+              </ul>
                 <div *ngIf="allMachinery?.value?.machinery?.length === 0">
                   <p disabled
                     class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200 text-gray-500 hover:text-gray-700 hover:font-semibold">

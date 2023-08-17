@@ -156,6 +156,7 @@ export class AuthService {
     localStorage.removeItem('employeeName');
     localStorage.removeItem('logedIn');
     localStorage.removeItem("login_status");
+    localStorage.removeItem("is_guest_user");
 
     this.router.navigate(['login'], { replaceUrl: true });
   }
@@ -171,6 +172,7 @@ export class AuthService {
       localStorage.setItem('employeeName', res.employee_name);
       localStorage.setItem('actualRole', res.role);
       localStorage.setItem('login_status', 'true');
+      localStorage.setItem('is_guest_user', res.is_guest_user)
       this.startSession();
       localStorage.setItem("logedIn", 'true');
       //to stop loader

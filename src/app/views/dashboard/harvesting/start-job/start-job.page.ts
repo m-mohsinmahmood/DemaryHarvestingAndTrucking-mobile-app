@@ -15,6 +15,7 @@ import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { ToastService } from 'src/app/services/toast/toast.service';
 import { Router } from '@angular/router';
 import { CheckInOutService } from 'src/app/components/check-in-out/check-in-out.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
   selector: 'app-start-job',
@@ -86,6 +87,7 @@ export class StartJobPage implements OnInit {
   truck_driver_name;
   isReadOnly;
   isReadOnlySeparator;
+  isGuestUser = 'false';
 
   public loadingSpinner = new BehaviorSubject(false);
   private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -100,7 +102,8 @@ export class StartJobPage implements OnInit {
     private toastService: ToastService,
     private renderer: Renderer2,
     private router: Router,
-    private dwrServices: CheckInOutService
+    private dwrServices: CheckInOutService,
+    private sessionService: AuthService
   ) {
     if (localStorage.getItem('role').includes('Combine Operator') || localStorage.getItem('role').includes('Cart Operator')) {
       this.renderer.listen('window', 'click', (e) => {
@@ -118,9 +121,6 @@ export class StartJobPage implements OnInit {
 
   ngOnInit() {
     if (!this.initDataRetrievalExecuted) {
-      this.role = localStorage.getItem('role');
-      this.truck_driver_name = localStorage.getItem('employeeName');
-
       this.initForms();
       this.initApis();
 
@@ -133,9 +133,6 @@ export class StartJobPage implements OnInit {
 
   async ionViewDidEnter() {
     if (!this.ionViewRetrievalExecuted) {
-      this.role = localStorage.getItem('role');
-      this.truck_driver_name = localStorage.getItem('employeeName');
-
       this.initForms();
       this.initApis();
 
@@ -198,7 +195,7 @@ export class StartJobPage implements OnInit {
       crew_chief_id: [''],
       jobId: [''],
       active_check_in_id: [''],
-      role:['Cart Operator']
+      role: ['Cart Operator']
     });
 
     // end of day validation for hours (Cart)
@@ -229,6 +226,10 @@ export class StartJobPage implements OnInit {
   }
 
   initApis() {
+    this.role = localStorage.getItem('role');
+    this.truck_driver_name = localStorage.getItem('employeeName');
+    this.isGuestUser = localStorage.getItem('is_guest_user');
+
     if (this.role.includes('Combine Operator')) {
       this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
         this.active_check_in_id = workOrder?.dwr[0]?.id;
@@ -250,6 +251,25 @@ export class StartJobPage implements OnInit {
       });
     }
     else if (this.role.includes('Truck Driver')) {
+      this.sessionService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).subscribe((res) => {
+        console.log('employee from storage', res)
+        if (res.truck_id) {
+          this.allMachinery = this.harvestingService.getMachinery(
+            '',
+            'allMotorizedVehicles',
+            'Truck IFTA'
+          );
+          this.machineUL = false;
+          this.allMachinery.subscribe((machinery) => {
+            for (let t of machinery.machinery) {
+              if (t.id == res.truck_id) {
+                this.listClickedMachiney(t)
+              }
+            }
+          });
+        }
+      })
+
       this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
         this.active_check_in_id = workOrder?.dwr[0]?.id;
 
