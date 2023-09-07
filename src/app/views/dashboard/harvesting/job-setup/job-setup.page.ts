@@ -176,8 +176,6 @@ export class JobSetupPage implements OnInit {
 
   getCreatedJobData() {
     this.sessionService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).subscribe((res) => {
-      console.log('Employee Details:', res);
-
       if (res.customer_id !== null) {
         //patching
         this.jobSetupForm.patchValue({
@@ -270,7 +268,6 @@ export class JobSetupPage implements OnInit {
       checkJob(this.jobSetupForm.get('customer_id').value, this.jobSetupForm.get('farm_id').value, this.jobSetupForm.get('crop_id').value)
       .subscribe(
         (res: any) => {
-          console.log('Response:', res);
           if (res.status === 200 && parseInt(res.total_jobs.count) === 0) {
             //create job
             this.createJob();
@@ -300,7 +297,6 @@ export class JobSetupPage implements OnInit {
     this.harvestingService.createJob(this.jobSetupForm.value)
       .subscribe(
         (res: any) => {
-          console.log('Response:', res);
           if (res.status === 200) {
             // this.loadingSpinner.next(false);
             this.jobSetupForm.reset();
@@ -476,8 +472,6 @@ export class JobSetupPage implements OnInit {
   }
 
   listClickedCustomer(customer) {
-    console.log('Customer Object:', customer);
-
     // clearing array
     this.allCustomers = of([]);
     this.allFarms = of([]);
@@ -516,7 +510,6 @@ export class JobSetupPage implements OnInit {
   //#endregion
   //  #region Farm
   farmSearchSubscription() {
-    console.log('farmsubscription');
     this.farm_search$
       .pipe(
         debounceTime(500),
@@ -574,8 +567,6 @@ export class JobSetupPage implements OnInit {
 
     // subscribing to show/hide farm UL
     this.allFarmsClicked.subscribe((farms) => {
-      console.log('Farms', farms);
-
       if (farms.count === 0) {
         // hiding UL
         this.farmUL = false;
@@ -634,7 +625,6 @@ export class JobSetupPage implements OnInit {
 
         // subscribing to show/hide crop UL
         this.allCropsClicked.subscribe((crops) => {
-          console.log('crops', crops);
           if (crops.count === 0) {
             // hiding UL
             this.cropUL = false;
@@ -761,7 +751,6 @@ export class JobSetupPage implements OnInit {
   //   });
   // }
   // listClickedField(field) {
-  //   console.log('Field Object:', field);
   //   // hiding UL
   //   this.fieldUL = false;
 
@@ -847,8 +836,6 @@ export class JobSetupPage implements OnInit {
 
     // subscribing to show/hide farm UL
     this.allDirectors.subscribe((directors) => {
-      console.log('Directors', directors);
-
       if (directors.count === 0) {
         // hiding UL
         this.directorUL = false;

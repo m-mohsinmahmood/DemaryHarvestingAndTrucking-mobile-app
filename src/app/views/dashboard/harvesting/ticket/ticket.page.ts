@@ -427,8 +427,6 @@ export class TicketPage implements OnInit {
 
   submit() {
     // navigating
-    console.log("Clicked");
-
     if (!this.isReassign) {
       console.log('deliveryTicketForm', this.deliveryTicketForm.value);
       this.loadingSpinner.next(true);
@@ -468,10 +466,6 @@ export class TicketPage implements OnInit {
           }
         );
     } else {
-      console.log(
-        'deliveryTicketReassignForm',
-        this.deliveryTicketReassignForm.value
-      );
       this.loadingSpinner.next(true);
 
       this.harvestingService

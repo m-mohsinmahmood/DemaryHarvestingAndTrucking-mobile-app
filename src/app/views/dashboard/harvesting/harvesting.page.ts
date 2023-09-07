@@ -46,7 +46,6 @@ export class HarvestingPage implements OnInit {
     if (!this.initDataRetrievalExecuted) {
       this.initDataRetrieval();
       this.initDataRetrievalExecuted = true;
-      console.log("On Init");
     }
   }
 
@@ -54,7 +53,6 @@ export class HarvestingPage implements OnInit {
     if (!this.ionViewRetrievalExecuted) {
       this.initDataRetrieval();
       this.ionViewRetrievalExecuted = true;
-      console.log("Ion view did enter");
     }
   }
 
@@ -75,7 +73,6 @@ export class HarvestingPage implements OnInit {
     this.role = localStorage.getItem('role');
 
     this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
-      console.log('Active Check In ', workOrder.dwr);
       this.activeDwr = workOrder.dwr;
 
       if (workOrder.dwr.length > 0) {
@@ -93,7 +90,6 @@ export class HarvestingPage implements OnInit {
         .subscribe((workOrder) => {
           this.activeTicket = workOrder;
           this.workOrderCount = workOrder.count;
-          console.log('Current DWR :', workOrder);
           this.disableButtons = false;
         });
     }
@@ -103,7 +99,6 @@ export class HarvestingPage implements OnInit {
         .subscribe((workOrder) => {
           this.activeTicket = workOrder;
           this.workOrderCount = workOrder.count;
-          console.log('Current DWR :', workOrder);
           this.disableButtons = false;
         });
     }
@@ -119,7 +114,6 @@ export class HarvestingPage implements OnInit {
         .subscribe((workOrder) => {
           this.activeTicket = workOrder;
           this.workOrderCount = workOrder.count;
-          console.log('Current DWR of Cart Operator :', workOrder);
           this.disableButtons = false;
         });
     }
@@ -129,41 +123,13 @@ export class HarvestingPage implements OnInit {
         .subscribe((workOrder) => {
           this.activeTicket = workOrder;
           this.workOrderCount = workOrder.count;
-          console.log('Current DWR of Truck Driver :', workOrder);
           this.disableButtons = false;
-          console.log('Buttons :', this.disableButtons);
         });
 
       this.preTripInfo = {
         preRoute: '/tabs/home/harvesting',
         module: 'harvesting'
       }
-
-      // this.activeWorkOrders = this.harvestingService.getDeliveryTickets(this.role, localStorage.getItem('employeeId'), true, false, 'truck-driver-active-tickets');
-      // this.activeWorkOrders.subscribe((workOrders) => {
-      //   this.activeTicket = workOrders.customer_job[0];
-      //   if (this.activeTicket !== undefined && !this.activeTicket.hasOwnProperty('preRoute')) {
-      //     this.activeTicket.preRoute = '/tabs/home/harvesting';
-      //     this.activeTicket.module = 'harvesting';
-      //   }
-
-      //   this.dataCount.active = workOrders.customer_job.length
-      //   this.disableButtons = false;
-      //   console.log('Active: ', workOrders);
-      // });
-      // this.preCheckFilled = this.harvestingService.getDeliveryTickets(this.role, localStorage.getItem('employeeId'), true, true, 'truck-driver-active-tickets');
-      // this.preCheckFilled.subscribe((workOrders) => {
-      //   this.preCheck = workOrders.customer_job[0];
-      //   this.dataCount.preCheck = workOrders.customer_job.length
-      //   console.log('Pre Check Filled: ', workOrders);
-
-      //   if (this.dataCount.preCheck > 0)
-      //     this.disableButtons = false;
-
-      //   if (!(this.dataCount.preCheck > 0)) {
-
-      // }
-      // });
     }
   }
 

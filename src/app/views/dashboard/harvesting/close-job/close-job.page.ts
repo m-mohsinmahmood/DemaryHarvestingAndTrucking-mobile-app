@@ -65,7 +65,6 @@ export class CloseJobPage implements OnInit {
       this.initApis();
       this.initObservables();
       this.initDataRetrievalExecuted = true;
-      console.log("On Init");
     }
   }
 
@@ -76,7 +75,6 @@ export class CloseJobPage implements OnInit {
       this.initApis();
       this.initObservables();
       this.ionViewRetrievalExecuted = true;
-      console.log("Ion view did enter");
     }
   }
 
@@ -113,8 +111,6 @@ export class CloseJobPage implements OnInit {
       );
 
       this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
-        console.log('Active Check In ', workOrder?.dwr);
-
         this.closeJobFormCombine.patchValue({
           module: workOrder?.dwr[0]?.module,
           dwrId: workOrder?.dwr[0]?.id
@@ -145,14 +141,7 @@ export class CloseJobPage implements OnInit {
 
     else if (this.role.includes('Truck Driver')) {
       this.activeRoute.params.subscribe((param) => {
-        console.log("Parammm , " + JSON.stringify(param));
         this.truckId = param.machinery_id;
-
-        // this.closeJobFormTruck.patchValue({
-        //   jobId: param.id,
-        //   employeeId: localStorage.getItem('employeeId'),
-        //   module: 'harvesting'
-        // });
       });
 
       this.harvestingService.getBeginningOfDay(
@@ -163,8 +152,6 @@ export class CloseJobPage implements OnInit {
       );
 
       this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
-        console.log('Active Check In ', workOrder?.dwr);
-
         this.closeJobFormTruck.patchValue({
           module: workOrder?.dwr[0]?.module,
           dwrId: workOrder?.dwr[0]?.id
@@ -175,7 +162,6 @@ export class CloseJobPage implements OnInit {
 
   initObservables() {
     this.sub = this.harvestingService.customer$.subscribe((res) => {
-      console.log('res', res);
       this.customerData = res;
       if (this.customerData?.workOrders) {
 
@@ -192,7 +178,7 @@ export class CloseJobPage implements OnInit {
         if (this.role.includes('Cart Operator')) {
           this.closeJobFormKart.patchValue({
             // passing to pre-filled
-            jobId: this.customerData?.workOrders[0]?.id,
+            jobId: this.customerData?.workOrders[0]?.id
           });
 
         }
@@ -260,7 +246,6 @@ export class CloseJobPage implements OnInit {
   }
 
   submit() {
-
     if (localStorage.getItem('role').includes('Combine Operator')) {
       this.harvestingService
         .updateEndingOfDayJobSetup({
@@ -273,56 +258,51 @@ export class CloseJobPage implements OnInit {
         })
         .subscribe(
           (res: any) => {
-            console.log(res);
             if (res.status === 200) {
+
+              const dayClosed = {
+                jobId: this.customerData?.workOrders[0]?.id,
+                endingEngineHours: this.closeJobFormCombine.get('endingEngineHours').value,
+                ending_separator_hours: this.closeJobFormCombine.get('ending_separator_hours').value,
+                module: this.closeJobFormCombine.get('module').value,
+                dwrId: this.closeJobFormCombine.get('dwrId').value,
+              };
+              this.loadingSpinner.next(true);
+              this.harvestingService.closeBeginningDay(dayClosed).subscribe(
+                (res: any) => {
+                  if (res.status === 200) {
+                    this.loadingSpinner.next(false);
+
+                    this.date = '';
+                    this.customerName = '';
+                    this.state = '';
+                    this.farm = '';
+                    this.crop = '';
+                    this.crewChiefName = '';
+
+                    this.closeJobFormCombine.reset();
+                    this.toastService.presentToast(
+                      'Day has been closed successfully!',
+                      'success'
+                    );
+
+                    // navigating
+                    this.router.navigateByUrl('/tabs/home/harvesting');
+                  }
+                },
+                (err) => {
+                  this.toastService.presentToast(err.message, 'danger');
+                }
+              );
             }
           },
           (err) => {
             this.toastService.presentToast(err, 'danger');
           }
         );
-
-      console.log(this.closeJobFormCombine.value);
-      const dayClosed = {
-        jobId: this.customerData?.workOrders[0]?.id,
-        endingEngineHours: this.closeJobFormCombine.get('endingEngineHours').value,
-        ending_separator_hours: this.closeJobFormCombine.get('ending_separator_hours').value,
-        module: this.closeJobFormCombine.get('module').value,
-        dwrId: this.closeJobFormCombine.get('dwrId').value,
-      };
-      this.loadingSpinner.next(true);
-      this.harvestingService.closeBeginningDay(dayClosed).subscribe(
-        (res: any) => {
-          console.log(res);
-          if (res.status === 200) {
-            this.loadingSpinner.next(false);
-
-            this.date = '';
-            this.customerName = '';
-            this.state = '';
-            this.farm = '';
-            this.crop = '';
-            this.crewChiefName = '';
-
-            this.closeJobFormCombine.reset();
-            this.toastService.presentToast(
-              'Day has been closed successfully!',
-              'success'
-            );
-
-            // navigating
-            this.router.navigateByUrl('/tabs/home/harvesting');
-          }
-        },
-        (err) => {
-          this.toastService.presentToast(err.message, 'danger');
-        }
-      );
     }
 
     else if (localStorage.getItem('role').includes('Cart Operator')) {
-      console.log('customerData', this.customerData);
-      console.log('this.closeJobFormKart', this.closeJobFormKart.value);
       this.loadingSpinner.next(true);
 
       this.harvestingService
@@ -334,38 +314,35 @@ export class CloseJobPage implements OnInit {
         })
         .subscribe(
           (res: any) => {
-            console.log(res);
             if (res.status === 200) {
-            }
-          },
-          (err) => {
-            this.toastService.presentToast(err, 'danger');
-          }
-        );
+              this.harvestingService
+                .closeBeginningDay(this.closeJobFormKart.value)
+                .subscribe(
+                  (res: any) => {
+                    if (res.status === 200) {
+                      this.loadingSpinner.next(false);
 
-      this.harvestingService
-        .closeBeginningDay(this.closeJobFormKart.value)
-        .subscribe(
-          (res: any) => {
-            console.log(res);
-            if (res.status === 200) {
-              this.loadingSpinner.next(false);
+                      this.date = '';
+                      this.customerName = '';
+                      this.state = '';
+                      this.farm = '';
+                      this.crop = '';
+                      this.crewChiefName = '';
 
-              this.date = '';
-              this.customerName = '';
-              this.state = '';
-              this.farm = '';
-              this.crop = '';
-              this.crewChiefName = '';
+                      this.closeJobFormKart.reset();
+                      this.toastService.presentToast(
+                        'Day has been closed successfully!',
+                        'success'
+                      );
 
-              this.closeJobFormKart.reset();
-              this.toastService.presentToast(
-                'Day has been closed successfully!',
-                'success'
-              );
-
-              // navigating
-              this.router.navigateByUrl('/tabs/home/harvesting');
+                      // navigating
+                      this.router.navigateByUrl('/tabs/home/harvesting');
+                    }
+                  },
+                  (err) => {
+                    this.toastService.presentToast(err, 'danger');
+                  }
+                );
             }
           },
           (err) => {
@@ -375,26 +352,7 @@ export class CloseJobPage implements OnInit {
     }
 
     else if (localStorage.getItem('role').includes('Truck Driver')) {
-      console.log(this.closeJobFormTruck.get('jobId').value);
-
       this.loadingSpinner.next(true);
-
-      // this.harvestingService
-      //   .updateCustomerJob(this.closeJobFormTruck.get('jobId').value)
-      //   .subscribe(
-      //     (res: any) => {
-      //       console.log(res);
-      //       if (res.status === 200) {
-      //         this.toastService.presentToast(
-      //           'Day has been closed successfully!',
-      //           'success'
-      //         );
-      //       }
-      //     },
-      //     (err) => {
-      //       this.toastService.presentToast(err, 'danger');
-      //     }
-      //   );
 
       this.harvestingService
         .updateEndingOfDayJobSetup({
@@ -406,55 +364,48 @@ export class CloseJobPage implements OnInit {
         })
         .subscribe(
           (res: any) => {
-            console.log(res);
             if (res.status === 200) {
+              const dayClosed = {
+                jobId: this.customerData?.workOrders[0]?.id,
+                endingEngineHours: this.closeJobFormTruck.get('ending_odometer_miles').value,
+                module: this.closeJobFormTruck.get('module').value,
+                dwrId: this.closeJobFormTruck.get('dwrId').value,
+              };
+
+              this.harvestingService
+                .closeBeginningDay(dayClosed)
+                .subscribe(
+                  (res: any) => {
+                    if (res.status === 200) {
+                      this.loadingSpinner.next(false);
+
+                      this.date = '';
+                      this.customerName = '';
+                      this.state = '';
+                      this.farm = '';
+                      this.crop = '';
+                      this.crewChiefName = '';
+
+                      this.closeJobFormTruck.reset();
+                      this.toastService.presentToast(
+                        'Day has been closed successfully!',
+                        'success'
+                      );
+
+                      // navigating
+                      this.router.navigateByUrl('/tabs/home/harvesting');
+                    }
+                  },
+                  (err) => {
+                    this.toastService.presentToast(err, 'danger');
+                  }
+                );
             }
           },
           (err) => {
             this.toastService.presentToast(err, 'danger');
           }
         );
-
-      const dayClosed = {
-        jobId: this.customerData?.workOrders[0]?.id,
-        endingEngineHours: this.closeJobFormTruck.get('ending_odometer_miles').value,
-        module: this.closeJobFormTruck.get('module').value,
-        dwrId: this.closeJobFormTruck.get('dwrId').value,
-      };
-
-      this.harvestingService
-        .closeBeginningDay(dayClosed)
-        .subscribe(
-          (res: any) => {
-            console.log(res);
-            if (res.status === 200) {
-              this.loadingSpinner.next(false);
-
-              this.date = '';
-              this.customerName = '';
-              this.state = '';
-              this.farm = '';
-              this.crop = '';
-              this.crewChiefName = '';
-
-              this.closeJobFormTruck.reset();
-              this.toastService.presentToast(
-                'Day has been closed successfully!',
-                'success'
-              );
-
-              // navigating
-              this.router.navigateByUrl('/tabs/home/harvesting');
-            }
-          },
-          (err) => {
-            this.toastService.presentToast(err, 'danger');
-          }
-        );
-
-      console.log("Id: ", this.closeJobFormTruck.get('jobId'));
-
-
     }
   }
 }

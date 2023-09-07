@@ -1,8 +1,6 @@
 <app-header [title]="'Ticket Generated'" [color]="'trucking'"></app-header>
 
 <ion-content>
-  <!-- <app-timer [value]="'22-22-2022'"></app-timer> -->
-  <!-- <ion-text class="flex justify-end">Edit</ion-text> -->
   <div *ngIf="(loadingSpinner | async) === true" class="h-64 flex justify-center items-center">
     <ion-spinner name="crescent" class="w-20 h-20"></ion-spinner>
   </div>
@@ -18,7 +16,7 @@
         <ion-row class="h-20 flex content-center pl-4">
           <ion-col size="6" class="flex flex-col">
             <p class="font-Lato text-black font-bold font-14">Delivery Ticket #</p>
-            <span class="font-Lato font-14">{{this.data?.ticket?.delivery_ticket_number}}</span>
+            <span class="font-Lato font-14">{{this.data?.ticket?.delivery_ticket_name}}</span>
           </ion-col>
 
           <ion-col size="6" class="flex flex-col">
