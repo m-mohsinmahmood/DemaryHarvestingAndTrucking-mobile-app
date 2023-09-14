@@ -516,10 +516,10 @@ export class TicketPage implements OnInit {
         }
 
         // calling API
-        this.allTruckDrivers = this.harvestingService.getKartOperatorTruckDrivers(
-          'kartOperatorTruckDrivers',
-          localStorage.getItem('employeeId'),
-          ''
+        this.allTruckDrivers = this.harvestingService.getEmployees(
+          value,
+          'allEmployees',
+          'Truck Driver'
         );
 
         // subscribing to show/hide field UL
@@ -554,11 +554,11 @@ export class TicketPage implements OnInit {
         : this.truckDriverSearchValue;
 
     // calling API
-    this.allTruckDrivers = this.harvestingService.getKartOperatorTruckDrivers(
-      'kartOperatorTruckDrivers',
-      localStorage.getItem('employeeId'),
-      this.truckDriverSearchValue
-    );
+    this.allTruckDrivers = this.harvestingService.getEmployees(
+          value,
+          'allEmployees',
+          'Truck Driver'
+        );
 
     // subscribing to show/hide field UL
     this.allTruckDrivers.subscribe((truckDrivers) => {
@@ -581,8 +581,8 @@ export class TicketPage implements OnInit {
     this.truckDriverUL = false;
 
     // passing name in select's input
-    this.truckInput.nativeElement.value = truckdriver.name;
-    this.truck_driver_name = truckdriver.name;
+    this.truckInput.nativeElement.value = truckdriver.first_name + ' ' + truckdriver.last_name;
+    this.truck_driver_name = truckdriver.first_name + ' ' + truckdriver.last_name;
 
     // to enable submit button
     this.isTruckDriverSelected = false;
