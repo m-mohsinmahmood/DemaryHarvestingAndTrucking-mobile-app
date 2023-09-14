@@ -845,12 +845,21 @@ export class HarvestingService {
     operation: string = '',
     role: string = '',
     employeeId: string = '',
+    customer_id_filter?: string,
+    state_filter?: string
   ) {
     this._httpClient
     let params = new HttpParams();
     params = params.set('operation', operation);
     params = params.set('role', role);
     params = params.set('employeeId', employeeId);
+
+    if (role == 'Truck Driver') {
+      if (state_filter != null && state_filter != '')
+        params = params.set('state_filter', state_filter);
+      if (customer_id_filter != null && customer_id_filter != '')
+        params = params.set('customer_id_filter', customer_id_filter);
+    }
 
     let session = this.session.SessionActiveCheck();
 
