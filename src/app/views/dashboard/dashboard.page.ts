@@ -41,8 +41,6 @@ export class DashboardPage implements OnInit {
   ngOnInit() {
     this.loading.next(true);
     this.initDataRetrieval();
-    console.log(localStorage.getItem('employeeId'));
-    console.log(localStorage.getItem('role'));
   }
 
   async ionViewDidEnter() {
@@ -91,7 +89,6 @@ export class DashboardPage implements OnInit {
             this.checkMultipleRoles();
           }
           else {
-            console.log('Already CheckedIn');
             this.role = this.activeDwr[0].role;
             this.selectform.patchValue({ select: this.role });
             localStorage.setItem('role', this.activeDwr[0].role);
@@ -113,8 +110,6 @@ export class DashboardPage implements OnInit {
 
   checkMultipleRoles() {
     this.actualRoles = localStorage.getItem("actualRole");
-    console.log("Actual Roles: ", this.actualRoles);
-
     try {
       if (this.actualRoles.includes(',')) {
         this.actualRoles = this.actualRoles.split(',');
@@ -201,7 +196,6 @@ export class DashboardPage implements OnInit {
   }
 
   onSelect(e) {
-    console.log(e.target.value);
     localStorage.setItem('role', e.target.value);
     // assigning role
     this.role = e.target.value;
