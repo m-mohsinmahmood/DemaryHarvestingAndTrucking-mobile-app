@@ -16,6 +16,7 @@ import { ToastService } from 'src/app/services/toast/toast.service';
 import { Router } from '@angular/router';
 import { CheckInOutService } from 'src/app/components/check-in-out/check-in-out.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { states } from 'src/JSON/state';
 
 @Component({
   selector: 'app-start-job',
@@ -44,6 +45,15 @@ export class StartJobPage implements OnInit {
   // fieldSearchValue: any = '';
   // fieldUL: any = false;
   // isFieldSelected: any = true;
+
+  @ViewChild('customerInput') customerInput: ElementRef;
+  allCustomers: Observable<any>;
+  customer_search$ = new Subject();
+  customer_name: any = '';
+  customerSearchValue: any = '';
+  customerUL: any = false;
+  isCustomerSelected: any = true;
+
 
   // job variables
   allJobs: Observable<any>;
@@ -88,6 +98,9 @@ export class StartJobPage implements OnInit {
   isReadOnly;
   isReadOnlySeparator;
   isGuestUser = 'false';
+  states: string[];
+
+  isDisabled: any = true;
 
   public loadingSpinner = new BehaviorSubject(false);
   private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -105,7 +118,9 @@ export class StartJobPage implements OnInit {
     private dwrServices: CheckInOutService,
     private sessionService: AuthService
   ) {
-    if (localStorage.getItem('role').includes('Combine Operator') || localStorage.getItem('role').includes('Cart Operator')) {
+    if (localStorage.getItem('role').includes('Combine Operator')
+      || (localStorage.getItem('role').includes('Cart Operator'))
+      || (localStorage.getItem('role').includes('Truck Driver'))) {
       this.renderer.listen('window', 'click', (e) => {
         if (e.target !== this.machineryInput.nativeElement) {
           this.allMachinery = of([]);
@@ -114,6 +129,20 @@ export class StartJobPage implements OnInit {
         if (e.target !== this.jobInput.nativeElement) {
           this.allJobs = of([]);
           this.jobUL = false; // to hide the UL
+        }
+      });
+    }
+
+    if (localStorage.getItem('role').includes('Truck Driver')) {
+      this.renderer.listen('window', 'click', (e) => {
+        if (e.target !== this.customerInput.nativeElement) {
+          if (this.customerSearchValue === '' || this.isCustomerSelected === true) {
+            this.customerUL = false; // to hide the UL
+            this.isCustomerSelected = true;
+          } else {
+            this.customerUL = false; // to hide the UL
+            this.allCustomers = of([]); // to clear array
+          }
         }
       });
     }
@@ -127,7 +156,10 @@ export class StartJobPage implements OnInit {
       this.machineSearchSubscription();
       this.jobSearchSubscription();
       this.initDataRetrievalExecuted = true;
-      console.log('On Init');
+
+      if (localStorage.getItem("role").includes('Truck Driver')) {
+        this.customerSearchSubscription();
+      }
     }
   }
 
@@ -139,7 +171,10 @@ export class StartJobPage implements OnInit {
       this.machineSearchSubscription();
       this.jobSearchSubscription();
       this.initDataRetrievalExecuted = true;
-      console.log('Ion view did enter');
+
+      if (localStorage.getItem("role").includes('Truck Driver')) {
+        this.customerSearchSubscription();
+      }
     }
   }
 
@@ -215,7 +250,10 @@ export class StartJobPage implements OnInit {
       crop_id: [''],
       crew_chief_id: [''],
       jobId: ['', [Validators.required]],
-      active_check_in_id: ['']
+      active_check_in_id: [''],
+      state_filter: [''],
+      customer_id_filter: [''],
+      role: ['Truck Driver']
     });
 
     // end of day validation for hours (truck driver)
@@ -223,6 +261,10 @@ export class StartJobPage implements OnInit {
       if (val.begining_odometer_miles < this.selectedMachinery?.odometer_reading_end) { this.showValidationMessage_1 = true; }
       else { this.showValidationMessage_1 = false; }
     });
+
+    if (localStorage.getItem('role').includes('Truck Driver')) {
+      this.states = states;
+    }
   }
 
   initApis() {
@@ -252,8 +294,24 @@ export class StartJobPage implements OnInit {
     }
     else if (this.role.includes('Truck Driver')) {
       this.sessionService.getEmployeeByFirebaseId(localStorage.getItem('fb_id')).subscribe((res) => {
-        console.log('employee from storage', res)
         if (res.truck_id) {
+          this.startJobFormTruck.patchValue({
+            state_filter: res.state_filter,
+            customer_id_filter: res.customer_id_filter
+          });
+
+          this.customerInput.nativeElement.value = res.customer_name;
+          this.allCustomers = this.harvestingService.getCustomers(this.customerSearchValue, 'allCustomers');
+
+          this.customerUL = false;
+          this.allCustomers.subscribe((customer) => {
+            for (let cus of customer.customers) {
+              if (cus.id == res.customer_id_filter) {
+                this.listClickedCustomer(cus)
+              }
+            }
+          });
+
           this.allMachinery = this.harvestingService.getMachinery(
             '',
             'allMotorizedVehicles',
@@ -272,8 +330,6 @@ export class StartJobPage implements OnInit {
 
       this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
         this.active_check_in_id = workOrder?.dwr[0]?.id;
-
-        console.log(this.active_check_in_id);
 
         // patching
         this.startJobFormTruck.patchValue({
@@ -405,7 +461,10 @@ export class StartJobPage implements OnInit {
         machineryId: this.startJobFormTruck.get('truck_id').value,
         employeeId: localStorage.getItem('employeeId'),
         jobId: this.startJobFormTruck.get('workOrderId').value,
-        begining_odometer_miles: this.startJobFormTruck.get('begining_odometer_miles').value
+        begining_odometer_miles: this.startJobFormTruck.get('begining_odometer_miles').value,
+        role: 'Truck Driver',
+        state_filter: this.startJobFormTruck.get('state_filter').value,
+        customer_id_filter: this.startJobFormTruck.get('customer_id_filter').value
       };
 
       this.loadingSpinner.next(true);
@@ -757,11 +816,28 @@ export class StartJobPage implements OnInit {
         }
 
         // calling API
-        this.allJobs = this.harvestingService.getInvoicedJobs(
-          'getInvoicedJobs',
-          this.role,
-          localStorage.getItem('employeeId')
-        );
+        if (localStorage.getItem('role').includes('Truck Driver')) {
+          if (this.customerInput.nativeElement.value == '') {
+            this.startJobFormTruck.patchValue({
+              customer_id_filter: ''
+            })
+          }
+
+          this.allJobs = this.harvestingService.getInvoicedJobs(
+            'getInvoicedJobs',
+            this.role,
+            localStorage.getItem('employeeId'),
+            this.startJobFormTruck.get('customer_id_filter').value,
+            this.startJobFormTruck.get('state_filter').value,
+          );
+        }
+        else {
+          this.allJobs = this.harvestingService.getInvoicedJobs(
+            'getInvoicedJobs',
+            this.role,
+            localStorage.getItem('employeeId')
+          );
+        }
 
         // subscribing to show/hide machine UL
         this.allJobs.subscribe((job) => {
@@ -794,12 +870,27 @@ export class StartJobPage implements OnInit {
         : this.jobSearchValue;
 
     // calling API
-    this.allJobs = this.harvestingService.getInvoicedJobs(
-      'getInvoicedJobs',
-      this.role,
-      localStorage.getItem('employeeId')
-    );
+    if (localStorage.getItem('role').includes('Truck Driver')) {
+      if (this.customerInput.nativeElement.value == '') {
+        this.startJobFormTruck.patchValue({
+          customer_id_filter: ''
+        })
+      }
 
+      this.allJobs = this.harvestingService.getInvoicedJobs(
+        'getInvoicedJobs',
+        this.role,
+        localStorage.getItem('employeeId'),
+        this.startJobFormTruck.get('customer_id_filter').value,
+        this.startJobFormTruck.get('state_filter').value,
+      );
+    } else {
+      this.allJobs = this.harvestingService.getInvoicedJobs(
+        'getInvoicedJobs',
+        this.role,
+        localStorage.getItem('employeeId')
+      );
+    }
     // subscribing to show/hide field UL
     this.allJobs.subscribe((job) => {
       console.log(job);
@@ -873,5 +964,108 @@ export class StartJobPage implements OnInit {
 
   }
   //#endregion
+
+  //  #region Customer
+  customerSearchSubscription() {
+    // clearing array to show only spiner
+    this.allCustomers = of([]);
+
+    this.customer_search$
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        takeUntil(this._unsubscribeAll)
+      )
+      .subscribe((value: string) => {
+        // passing for renderer2
+        this.customerSearchValue = value;
+        // for asterik to look required
+        if (value === '') {
+          this.isCustomerSelected = true;
+        }
+
+        this.allCustomers = this.harvestingService.getCustomers(value, 'allCustomers');
+
+        // subscribing to disable & enable farm, crop inputs
+        this.allCustomers.subscribe((customers) => {
+          // this.isDisabled = customers.count === 0 ? true : false;
+          if (customers.count === 0) {
+            // for asterik
+            this.isCustomerSelected = true;
+            // passing empty string for Renderer2 condition
+
+            // passing for Renderer2 condition
+            this.isCustomerSelected = true;
+
+            // hiding UL
+            this.customerUL = false;
+          } else {
+            // showing UL
+            this.customerUL = true;
+          }
+        });
+      });
+  }
+
+  inputClickedCustomer() {
+    // getting the serch value to check if there's a value in input
+    this.customer_search$
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        takeUntil(this._unsubscribeAll)
+      )
+      .subscribe((v) => {
+        this.customerSearchValue = v;
+      });
+
+    const value =
+      this.customerSearchValue === undefined
+        ? this.customer_name
+        : this.customerSearchValue;
+
+    // calling API
+    this.allCustomers = this.harvestingService.getCustomers(this.customerSearchValue, 'allCustomers');
+
+    // subscribing to disable & enable farm, crop inputs
+    this.allCustomers.subscribe((customers) => {
+      // this.isDisabled = customers.count === 0 ? true : false;
+      if (customers.count === 0) {
+        // hiding UL
+        this.customerUL = false;
+      } else {
+        // showing UL
+        this.customerUL = true;
+      }
+    });
+  }
+
+  listClickedCustomer(customer) {
+    // clearing array
+    this.allCustomers = of([]);
+    // hiding UL
+    this.customerUL = false;
+
+    this.startJobFormTruck.patchValue({
+      customer_id_filter: customer.id,
+    });
+
+    // passing name in select's input
+    this.customerInput.nativeElement.value = customer.customer_name;
+
+    // passing name in customer-search-value in Rendered2 for checks
+    this.customerSearchValue = customer.customer_name;
+
+    // to enable submit button
+    this.isCustomerSelected = false;
+
+    // passing the customer id to  select farm & crop id
+    this.customerID = customer.id;
+  }
+  //#endregion
+
+  disableFields() {
+    this.isDisabled = true;
+  }
 }
 
