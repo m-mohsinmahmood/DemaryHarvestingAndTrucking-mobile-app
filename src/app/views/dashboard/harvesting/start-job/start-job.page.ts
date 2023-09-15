@@ -122,13 +122,28 @@ export class StartJobPage implements OnInit {
       || (localStorage.getItem('role').includes('Cart Operator'))
       || (localStorage.getItem('role').includes('Truck Driver'))) {
       this.renderer.listen('window', 'click', (e) => {
-        if (e.target !== this.machineryInput.nativeElement) {
-          this.allMachinery = of([]);
-          this.machineUL = false; // to hide the UL
-        }
         if (e.target !== this.jobInput.nativeElement) {
-          this.allJobs = of([]);
-          this.jobUL = false; // to hide the UL
+          if (this.jobSearchValue === '' || this.isJobSelected === true) {
+            this.isDisabled = true;
+            this.jobUL = false; // to hide the UL
+            this.isJobSelected = true;
+            this.startJobFormTruck.patchValue({
+              jobId: ''
+            })
+          } else {
+            this.isDisabled = false;
+            this.allJobs = of([]); // to clear array
+            this.jobUL = false; // to hide the UL
+          }
+        }
+        if (e.target !== this.machineryInput.nativeElement) {
+          if (this.machineSearchValue === '' || this.isMachineSelected === true) {
+            this.machineUL = false; // to hide the UL
+            this.isMachineSelected = true;
+          } else {
+            this.machineUL = false; // to hide the UL
+            this.allMachinery = of([]); // to clear array
+          }
         }
       });
     }
@@ -813,6 +828,9 @@ export class StartJobPage implements OnInit {
         // for asterik to look required
         if (value === '') {
           this.isJobSelected = true;
+          this.startJobFormTruck.patchValue({
+            jobId: ''
+          })
         }
 
         // calling API
