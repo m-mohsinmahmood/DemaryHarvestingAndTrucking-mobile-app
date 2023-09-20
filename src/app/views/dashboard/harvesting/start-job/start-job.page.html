@@ -468,7 +468,7 @@
            <span *ngIf="showValidationMessage_1" class="font-Lato text-sm text-red-500 ">value should be greater than or equal to {{selectedMachinery?.odometer_reading_end}}</span>
         </div>
         <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="submit()"
-          [disabled]="startJobFormTruck.invalid || showValidationMessage_1 || (loadingSpinner | async)">
+          [disabled]="isFormInvalid || startJobFormTruck.invalid || showValidationMessage_1 || (loadingSpinner | async)">
           <div *ngIf="(loadingSpinner | async) === false">Save</div>
           <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
         </ion-button>

@@ -118,38 +118,26 @@ export class StartJobPage implements OnInit {
     private dwrServices: CheckInOutService,
     private sessionService: AuthService
   ) {
+
     if (localStorage.getItem('role').includes('Combine Operator')
       || (localStorage.getItem('role').includes('Cart Operator'))
       || (localStorage.getItem('role').includes('Truck Driver'))) {
       this.renderer.listen('window', 'click', (e) => {
-        if (e.target !== this.jobInput.nativeElement) {
-          if (this.jobSearchValue === '' || this.isJobSelected === true) {
-            this.isDisabled = true;
-            this.jobUL = false; // to hide the UL
-            this.isJobSelected = true;
-            this.startJobFormTruck.patchValue({
-              jobId: ''
-            })
-          } else {
-            this.isDisabled = false;
-            this.allJobs = of([]); // to clear array
-            this.jobUL = false; // to hide the UL
-          }
-        }
+
         if (e.target !== this.machineryInput.nativeElement) {
-          if (this.machineSearchValue === '' || this.isMachineSelected === true) {
-            this.machineUL = false; // to hide the UL
-            this.isMachineSelected = true;
-          } else {
-            this.machineUL = false; // to hide the UL
-            this.allMachinery = of([]); // to clear array
-          }
+          this.allMachinery = of([]);
+          this.machineUL = false; // to hide the UL
+        }
+        if (e.target !== this.jobInput.nativeElement) {
+          this.allJobs = of([]);
+          this.jobUL = false; // to hide the UL
         }
       });
     }
 
     if (localStorage.getItem('role').includes('Truck Driver')) {
       this.renderer.listen('window', 'click', (e) => {
+
         if (e.target !== this.customerInput.nativeElement) {
           if (this.customerSearchValue === '' || this.isCustomerSelected === true) {
             this.customerUL = false; // to hide the UL
@@ -700,7 +688,6 @@ export class StartJobPage implements OnInit {
 
     // subscribing to show/hide field UL
     this.allMachinery.subscribe((machinery) => {
-      console.log('--', machinery);
       if (machinery.count === 0) {
         // hiding UL
         this.machineUL = false;
@@ -712,7 +699,6 @@ export class StartJobPage implements OnInit {
   }
 
   listClickedMachiney(machinery) {
-    console.log('Machinery Object:', machinery);
     // hiding UL
     this.machineUL = false;
 
@@ -763,8 +749,8 @@ export class StartJobPage implements OnInit {
 
     }
     else if (this.role.includes('Cart Operator')) {
+      console.log(machinery);
       if (machinery.odometer_reading_end !== '' && machinery.odometer_reading_end !== null && machinery.odometer_reading_end !== 'null') {
-
         // patching
         this.startJobFormKart.patchValue({
           machineryId: machinery.id,
@@ -786,7 +772,6 @@ export class StartJobPage implements OnInit {
       }
     }
     else if (this.role.includes('Truck Driver')) {
-
       if (machinery.odometer_reading_end !== '' && machinery.odometer_reading_end !== null && machinery.odometer_reading_end !== 'null') {
 
         // patching
@@ -828,9 +813,6 @@ export class StartJobPage implements OnInit {
         // for asterik to look required
         if (value === '') {
           this.isJobSelected = true;
-          this.startJobFormTruck.patchValue({
-            jobId: ''
-          })
         }
 
         // calling API
