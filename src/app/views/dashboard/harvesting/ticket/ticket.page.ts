@@ -236,7 +236,8 @@ export class TicketPage implements OnInit {
       deliveryTicketNumber: [''],
       farmers_bin_check: [this.isFarmersBin],
       farmers_bin_weight: [''],
-      destinationId: ['']
+      destinationId: [''],
+      is_email_provided: [true]
     });
 
     // custom validation for 'farmers_bin_weight'
@@ -555,10 +556,10 @@ export class TicketPage implements OnInit {
 
     // calling API
     this.allTruckDrivers = this.harvestingService.getEmployees(
-          value,
-          'allEmployees',
-          'Truck Driver'
-        );
+      value,
+      'allEmployees',
+      'Truck Driver'
+    );
 
     // subscribing to show/hide field UL
     this.allTruckDrivers.subscribe((truckDrivers) => {
@@ -576,6 +577,7 @@ export class TicketPage implements OnInit {
   listClickedTruckDriver(truckdriver) {
     this.deliveryTicketForm.patchValue({
       truckDriverId: truckdriver.id,
+      is_email_provided: truckdriver.is_email_provided
     });
     // hiding UL
     this.truckDriverUL = false;
