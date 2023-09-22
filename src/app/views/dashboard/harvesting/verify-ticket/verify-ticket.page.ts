@@ -118,7 +118,8 @@ export class VerifyTicketPage implements OnInit {
     this.driverSetupForm = this.formBuilder.group({
       truckDriverId: ['', [Validators.required]],
       id: [''],
-      operation: ['reAssignTruckDrivers']
+      operation: ['reAssignTruckDrivers'],
+      is_email_provided: [true]
     });
 
     this.driverSearchSubscription();
@@ -352,10 +353,10 @@ export class VerifyTicketPage implements OnInit {
         }
 
         // calling API
-        this.allTruckDrivers = this.harvestingService.getKartOperatorTruckDrivers(
-          'kartOperatorTruckDrivers',
-          localStorage.getItem('employeeId'),
-          value
+        this.allTruckDrivers = this.harvestingService.getEmployees(
+          value,
+          'allEmployees',
+          'Truck Driver'
         );
 
         // subscribing to show/hide field UL
@@ -388,10 +389,10 @@ export class VerifyTicketPage implements OnInit {
         : this.driverSearchValue;
 
     // calling API
-    this.allTruckDrivers = this.harvestingService.getKartOperatorTruckDrivers(
-      'kartOperatorTruckDrivers',
-      localStorage.getItem('employeeId'),
-      ''
+    this.allTruckDrivers = this.harvestingService.getEmployees(
+      value,
+      'allEmployees',
+      'Truck Driver'
     );
 
     this.allTruckDrivers.subscribe((driver) => {
@@ -407,9 +408,10 @@ export class VerifyTicketPage implements OnInit {
 
   selectedDriver(driver) {
     this.driverUL = false;
-    this.driverInput.nativeElement.value = driver.name;
+    this.driverInput.nativeElement.value = driver.first_name + ' ' + driver.last_name;
     this.isTruckDriverSelected = false;
     this.driverSetupForm.controls.truckDriverId.setValue(driver.id ?? '');
+    this.driverSetupForm.controls.is_email_provided.setValue(driver.is_email_provided);
   }
   //#endregion
 
