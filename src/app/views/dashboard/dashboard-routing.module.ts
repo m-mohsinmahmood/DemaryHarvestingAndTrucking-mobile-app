@@ -36,7 +36,11 @@ const routes: Routes = [
   {
     path: 'maintenance-repair',
     loadChildren: () => import('./maintenance-repair/maintenance-repair.module').then( m => m.MaintenanceRepairPageModule)
+  },  {
+    path: 'harvesting-guest',
+    loadChildren: () => import('./harvesting-guest/harvesting-guest.module').then( m => m.HarvestingGuestPageModule)
   },
+
 
 
 ];

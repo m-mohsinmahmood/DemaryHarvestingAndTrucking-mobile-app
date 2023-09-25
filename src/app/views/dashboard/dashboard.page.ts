@@ -22,6 +22,7 @@ export class DashboardPage implements OnInit {
   isModalOpen = false;
   toShow = true;
   actualRoles;
+  isGuestUser: boolean;
   rolesDropdown = [{
     value: ''
   }]
@@ -63,45 +64,60 @@ export class DashboardPage implements OnInit {
 
     if (localStorage.getItem("actualRole") !== null && localStorage.getItem("role") !== null && localStorage.getItem("logedIn") !== null) {
       this.actualRoles = localStorage.getItem("actualRole");
+      if (localStorage.getItem('is_guest_user') == 'true')
+        this.isGuestUser = true;
+      else
+        this.isGuestUser = false;
 
-      try {
-        if (this.actualRoles.includes(',')) {
-          this.actualRoles = this.actualRoles.split(',');
-          this.role = this.actualRoles[0];
-          localStorage.setItem("role", this.role);
-        }
-        else {
-          this.role = this.actualRoles;
-          localStorage.setItem("role", this.role);
-        }
-
-        this.selectform.patchValue({ select: this.role })
-        this.roleToShow = this.actualRoles;
-        this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
-          this.activeDwr = workOrder.dwr;
-
-          this.empName = localStorage.getItem('employeeName');
-
-          if (this.activeDwr.length <= 0) {
-            // to stop loading
-            this.loading.next(false);
-            this.isModalOpen = false;
-            this.checkMultipleRoles();
+      if (!this.isGuestUser) {
+        try {
+          if (this.actualRoles.includes(',')) {
+            this.actualRoles = this.actualRoles.split(',');
+            this.role = this.actualRoles[0];
+            localStorage.setItem("role", this.role);
           }
           else {
-            this.role = this.activeDwr[0].role;
-            this.selectform.patchValue({ select: this.role });
-            localStorage.setItem('role', this.activeDwr[0].role);
-            localStorage.setItem('employeeId', this.activeDwr[0].employee_id);
-            this.isModalOpen = true;
-            // to stop loading
-            this.loading.next(false);
+            this.role = this.actualRoles;
+            localStorage.setItem("role", this.role);
           }
-        });
+
+          this.selectform.patchValue({ select: this.role })
+          this.roleToShow = this.actualRoles;
+          this.dwrServices.getDWR(localStorage.getItem('employeeId')).subscribe(workOrder => {
+            this.activeDwr = workOrder.dwr;
+
+            this.empName = localStorage.getItem('employeeName');
+
+            if (this.activeDwr.length <= 0) {
+              // to stop loading
+              this.loading.next(false);
+              this.isModalOpen = false;
+              this.checkMultipleRoles();
+            }
+            else {
+              this.role = this.activeDwr[0].role;
+              this.selectform.patchValue({ select: this.role });
+              localStorage.setItem('role', this.activeDwr[0].role);
+              localStorage.setItem('employeeId', this.activeDwr[0].employee_id);
+              this.isModalOpen = true;
+              // to stop loading
+              this.loading.next(false);
+            }
+          });
+        }
+        catch {
+          this.logout();
+        }
       }
-      catch {
-        this.logout();
+      else {
+        this.loading.next(false);
+        this.role = this.actualRoles;
+        this.roleToShow = this.actualRoles;
+        this.selectform.patchValue({ select: this.role })
+        this.empName = localStorage.getItem('employeeName');
+        this.isModalOpen = false;
       }
+
     }
     else {
       this.logout();

@@ -52,7 +52,7 @@
     <ion-row>
       <!-- <div *ngIf="!toShow"> -->
         <ion-col size="4" class="flex flex-col"
-          *ngIf="role.includes('Crew Chief')  || role.includes('Cart Operator') || role.includes('Combine Operator') || role.includes('Truck Driver')">
+          *ngIf="(role.includes('Crew Chief')  || role.includes('Cart Operator') || role.includes('Combine Operator') || role.includes('Truck Driver')&& !isGuestUser)">
           <div class="h-28 flex justify-center items-center">
             <ion-card class="card" [routerLink]="['harvesting']" [ngStyle]="{'background-color':'#129476'}">
               <ion-card-content>
@@ -66,9 +66,25 @@
         </ion-col>
       <!-- </div> -->
 
+       <!-- <div *ngIf="!toShow"> -->
+        <ion-col size="4" class="flex flex-col"
+          *ngIf="isGuestUser">
+          <div class="h-28 flex justify-center items-center">
+            <ion-card class="card" [routerLink]="['harvesting-guest']" [ngStyle]="{'background-color':'#129476'}">
+              <ion-card-content>
+                <img src="../../../assets/images/harvest.svg" alt="">
+              </ion-card-content>
+            </ion-card>
+          </div>
+          <div class="ion-text-center flex flex-col">
+            <ion-text class="font-Lato">Harvesting</ion-text>
+          </div>
+        </ion-col>
+      <!-- </div> -->
+
 
       <div *ngIf="!toShow">
-        <ion-col class="flex flex-col" size="4" *ngIf="role.includes('Dispatcher') || role.includes('Tractor Driver')">
+        <ion-col class="flex flex-col" size="4" *ngIf="(role.includes('Dispatcher') || role.includes('Tractor Driver')&& !isGuestUser)">
           <div class="h-28 flex justify-center items-center">
             <ion-card class="card" [routerLink]="['farming']" [ngStyle]="{'background-color':'#961818'}">
               <ion-card-content>
@@ -84,7 +100,7 @@
 
 
       <!-- <div *ngIf="!toShow"> -->
-        <ion-col size="4" *ngIf="role.includes('Dispatcher')  || role.includes('Truck Driver')" class="flex flex-col">
+        <ion-col size="4" *ngIf="(role.includes('Dispatcher')  || role.includes('Truck Driver')) && !isGuestUser" class="flex flex-col">
           <div class="h-28 flex justify-center items-center">
             <ion-card class="card" [routerLink]="['trucking']" [ngStyle]="{'background-color':'#4256F9'}">
               <ion-card-content>
@@ -99,7 +115,7 @@
       <!-- </div> -->
 
       <div *ngIf="!toShow">
-        <ion-col size="4" class="flex flex-col" *ngIf="role.includes('Mechanic')">
+        <ion-col size="4" class="flex flex-col" *ngIf="(role.includes('Mechanic'))&& !isGuestUser">
           <div class="h-28 flex justify-center items-center">
             <ion-card class="card " [routerLink]="['maintenance-repair']" [ngStyle]="{'background-color':'#FF7272'}">
               <ion-card-content>
@@ -114,7 +130,7 @@
       </div>
 
       <!-- <div *ngIf="!toShow"> -->
-      <ion-col size="4" class="flex flex-col" *ngIf="role.includes('Trainer') || role.includes('Director')">
+      <ion-col size="4" class="flex flex-col" *ngIf="(role.includes('Trainer') || role.includes('Director'))&& !isGuestUser">
         <div class="h-28 flex justify-center items-center">
           <ion-card class="card" [routerLink]="['training']" [ngStyle]="{'background-color':'#0CA3C7'}">
             <ion-card-content>
@@ -129,7 +145,7 @@
       <!-- </div> -->
 
       <!-- <div *ngIf="toShow"> -->
-      <ion-col size="4" class="flex flex-col">
+      <ion-col size="4" *ngIf="!isGuestUser" class="flex flex-col">
         <div class="h-28 flex justify-center items-center">
           <ion-card class="card" [routerLink]="['others']" [ngStyle]="{'background-color':'#455769'}">
             <ion-card-content>
@@ -144,7 +160,7 @@
       <!-- </div> -->
 
       <div *ngIf="!toShow">
-        <ion-col size="4" class="flex flex-col justify-center items-center">
+        <ion-col *ngIf="!isGuestUser" size="4" class="flex flex-col justify-center items-center">
           <div class="h-28 flex justify-center items-center">
             <ion-card class="card" [ngStyle]="{'background-color':'#D33F3F'}">
               <ion-card-content>
@@ -160,7 +176,7 @@
       </div>
 
       <div *ngIf="!toShow">
-        <ion-col size="4" class="flex flex-col justify-center items-center">
+        <ion-col *ngIf="!isGuestUser" size="4" class="flex flex-col justify-center items-center">
           <div class="h-28 flex justify-center items-center">
             <ion-card class="card" [ngStyle]="{'background-color':'#9F58E7'}">
               <ion-card-content>
@@ -175,7 +191,7 @@
         </ion-col>
       </div>
       <div *ngIf="!toShow">
-        <ion-col size="4" class="flex flex-col justify-center items-center">
+        <ion-col *ngIf="!isGuestUser" size="4" class="flex flex-col justify-center items-center">
           <div class="h-28 flex justify-center items-center">
             <ion-card class="card" [ngStyle]="{'background-color':'#9393F4'}">
               <ion-card-content>
