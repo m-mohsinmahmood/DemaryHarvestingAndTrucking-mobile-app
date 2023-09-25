@@ -7,6 +7,10 @@ const routes: Routes = [
   {
     path: '',
     component: HarvestingGuestPage
+  },
+  {
+    path: 'complete-delivery-ticket',
+    loadChildren: () => import('./complete-delivery-ticket/complete-delivery-ticket.module').then( m => m.CompleteDeliveryTicketPageModule)
   }
 ];
 

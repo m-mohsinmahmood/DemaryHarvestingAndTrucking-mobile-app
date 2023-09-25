@@ -1,9 +1,19 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>harvesting-guest</ion-title>
-  </ion-toolbar>
-</ion-header>
+<app-header [title]="role.includes('Truck Driver') ? 'Truck Driver Tasks' : ''" [color]="'harvesting'"
+  [routeValue]="'harvesting'"></app-header>
 
-<ion-content>
-
+<!-- Truck Driver Tasks -->
+<ion-content *ngIf="role === 'Truck Driver'">
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12">
+        <ion-card class="card" [routerLink]="['complete-delivery-ticket']">
+          <ion-card-content>
+            <div class="flex justify-center items-center">
+              <p class="font-15px font-bold font-Lato">Complete Delivery Tickets</p>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
