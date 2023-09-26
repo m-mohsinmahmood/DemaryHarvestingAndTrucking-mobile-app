@@ -1,9 +1,156 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>complete-delivery-ticket</ion-title>
-  </ion-toolbar>
-</ion-header>
+<app-header [title]="'Complete Delivery Ticket'" [color]="'harvesting'"></app-header>
 
-<ion-content>
+<ion-content *ngIf="role.includes('Truck Driver')">
+  <div class="py-2">
+    <div class="segment-style">
+      <ion-segment [(ngModel)]="segment" scrollable (ionChange)="segmentChangeDetect($event)">
+        <ion-segment-button value="received"> Received </ion-segment-button>
+        <ion-segment-button value="completed"> Completed </ion-segment-button>
+      </ion-segment>
+      <div [ngSwitch]="segment">
 
+        <div *ngSwitchCase="'received'">
+          <div *ngIf="(sentTicketLoading$ | async) === false">
+            <ion-card *ngFor="let sentTicket of sentTicketData$ | async" class="sentTicket px-4 py-2"
+              (click)="navigate(sentTicket)">
+              <div class="flex flex-col">
+                <div class="flex flex-row py-2">
+
+                  <div class="flex w-8/12 flex-col">
+                    <span *ngIf="!sentTicket.split_load_check" class="font-Lato text-base">Ticket# <span
+                        class="font-Lato bg-0165c31a ml-1 h-5 rounded-xl px-2 text-base text-black">{{sentTicket.delivery_ticket_name}}</span></span>
+                    <span *ngIf="sentTicket.split_load_check" class="font-Lato text-base">Ticket# <span
+                        class="font-Lato bg-0165c31a ml-1 h-5 rounded-xl px-2 text-base text-black">{{sentTicket.delivery_ticket_name}}
+                        - SL</span></span>
+                    <span class="font-Lato text-base text-gray-900 font-semibold">Farm: <span
+                        class="font-Lato font-medium text-gray-700 text-sm">{{sentTicket?.farm_name}}</span> </span>
+                    <span class="font-Lato text-base text-gray-900 font-semibold">Crop: <span
+                        class="font-Lato font-medium text-gray-700 text-sm">{{sentTicket?.crop_name}}</span></span>
+                  </div>
+
+                  <div class="flex-col w-4/12">
+                    <div>
+                      <span
+                        class="font-Lato rounded-full border bg-orange-100 px-3 py-1 text-base text-orange-400">Pending</span>
+                    </div>
+                    <div class="mt-3">
+                      <ion-text class="font-Lato text-base text-gray-900 font-semibold">Field: <span
+                          class="font-Lato font-medium text-gray-700 text-sm">{{sentTicket?.field_name}}</span>
+                      </ion-text>
+                    </div>
+                  </div>
+                </div>
+                <div class="flex flex-col">
+                  <div class="flex flex-row py-2">
+                    <div class="flex w-8/12 flex-col">
+                      <span class="font-Lato text-base text-gray-900 font-semibold">Truck Driver: </span>
+                      <span class="font-Lato font-medium text-gray-700 text-sm">{{sentTicket.truck_driver_name}}</span>
+                    </div>
+
+                    <div class="flex-col w-4/12">
+                      <span class="font-Lato text-base text-gray-900 font-semibold">State: </span>
+                      <span class="font-Lato font-medium text-gray-700 text-sm">{{sentTicket.state}}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ion-card>
+          </div>
+          <div *ngIf="(sentTicketLoading$ | async) === true">
+            <ion-card class="sentTicket px-4 py-2">
+              <div class="flex flex-col">
+                <div class="flex flex-row py-2">
+                  <div class="flex w-8/12 flex-col">
+                    <span class="font-Lato flex items-center justify-start text-base">Ticket# <ion-skeleton-text
+                        [animated]="true" style="width: 30%; margin-left: 5px;"></ion-skeleton-text></span>
+                    <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
+                  </div>
+                  <div class="flex w-4/12 justify-end">
+                    <div>
+                      <span
+                        class="font-Lato rounded-full border bg-orange-100 px-3 py-1 text-sm text-orange-400">Pending</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="flex justify-between">
+                  <div>
+                    <span class="font-Lato text-sm">Truck Driver: </span>
+                    <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
+                  </div>
+                  <div>
+                    <span class="font-Lato text-sm">Destination: </span>
+                    <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
+                  </div>
+                </div>
+              </div>
+            </ion-card>
+          </div>
+        </div>
+
+        <div *ngSwitchCase="'completed'">
+          <div *ngIf="(completedTicketLoading$ | async) === false">
+            <ion-card class="verifiedTicket px-4 py-2" *ngFor="let completedTicket of completedTicketData$ |async">
+              <div class="flex flex-col">
+                <div class="flex flex-row py-2">
+                  <div class="flex w-8/12 flex-col">
+                    <span class="font-Lato text-base">Ticket#
+                      <span *ngIf="!completedTicket.split_load_check" class="font-Lato bg-0165c31a ml-1 h-5 rounded-xl px-2 text-base text-black">{{completedTicket?.delivery_ticket_name}}</span>
+                      <span *ngIf="completedTicket.split_load_check" class="font-Lato bg-0165c31a ml-1 h-5 rounded-xl px-2 text-base text-black">{{completedTicket?.delivery_ticket_name}} - SL</span>
+                    </span>
+
+                    <span class="text-lg font-bold">{{completedTicket?.crop_name}}, {{completedTicket?.state}}</span>
+                  </div>
+                  <div class="flex w-4/12 justify-end">
+                    <div>
+                      <span class="font-Lato rounded-full border bg-green-500 px-3 py-1 text-sm text-white">Completed
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div class="flex justify-between">
+                  <div>
+                    <span class="font-Lato text-sm">Truck Driver: </span>
+                    <span class="font-Lato text-sm text-black">{{completedTicket.truck_driver_name}}</span>
+                  </div>
+                  <div>
+                    <span class="font-Lato text-sm">Destination: </span>
+                    <span class="font-Lato text-sm text-black">{{completedTicket.destination}}</span>
+                  </div>
+                </div>
+              </div>
+            </ion-card>
+          </div>
+          <div *ngIf="(completedTicketLoading$ | async) === true">
+            <ion-card class="verifiedTicket px-4 py-2">
+              <div class="flex flex-col">
+                <div class="flex flex-row py-2">
+                  <div class="flex w-8/12 flex-col">
+                    <span class="font-Lato flex items-center justify-start text-base">Ticket# <ion-skeleton-text
+                        [animated]="true" style="width: 30%; margin-left: 5px;"></ion-skeleton-text></span>
+                    <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
+                  </div>
+                  <div class="flex w-4/12 justify-end">
+                    <div>
+                      <span class="font-Lato rounded-full border bg-green-500 px-3 py-1 text-sm text-white"> Completed
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div class="flex justify-between">
+                  <div>
+                    <span class="font-Lato text-sm">Truck Driver: </span>
+                    <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
+                  </div>
+                  <div>
+                    <span class="font-Lato text-sm">Destination: </span>
+                    <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
+                  </div>
+                </div>
+              </div>
+            </ion-card>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </ion-content>

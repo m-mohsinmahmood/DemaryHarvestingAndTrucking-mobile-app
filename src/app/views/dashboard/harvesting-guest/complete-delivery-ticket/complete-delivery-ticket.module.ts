@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { CompleteDeliveryTicketPageRoutingModule } from './complete-delivery-ticket-routing.module';
 
 import { CompleteDeliveryTicketPage } from './complete-delivery-ticket.page';
+import { HeaderModule } from 'src/app/components/header/header.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    CompleteDeliveryTicketPageRoutingModule
+    CompleteDeliveryTicketPageRoutingModule,
+    HeaderModule
   ],
   declarations: [CompleteDeliveryTicketPage]
 })
