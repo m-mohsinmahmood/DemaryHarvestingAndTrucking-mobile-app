@@ -109,7 +109,7 @@ export class CompleteDeliveryTicketPage implements OnInit {
   navigate(ticket) {
     const stringifyTicket = JSON.stringify(ticket);
     this.router.navigateByUrl(
-      '/tabs/home/harvesting/verify-ticket/generated-ticket',
+      '/tabs/home/harvesting-guest/complete-delivery-ticket/generated-ticket',
       {
         state: {
           ticket: stringifyTicket,

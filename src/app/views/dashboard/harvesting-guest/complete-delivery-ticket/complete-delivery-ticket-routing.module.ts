@@ -7,6 +7,10 @@ const routes: Routes = [
   {
     path: '',
     component: CompleteDeliveryTicketPage
+  },
+  {
+    path: 'generated-ticket',
+    loadChildren: () => import('./generated-ticket/generated-ticket.module').then( m => m.GeneratedTicketPageModule)
   }
 ];
 

@@ -1,0 +1,207 @@
+<app-header [title]="'Complete Delivery Ticket'" [color]="'harvesting'"></app-header>
+
+<ion-content *ngIf="role.includes('Truck Driver')">
+  <ion-card>
+    <ion-card-header class="bg-3D8AA4">
+      <ion-card-title *ngIf="!slCheck" class="font-Lato flex justify-center text-2xl text-white">Delivery Ticket#
+        {{ticketName}}</ion-card-title>
+        <ion-card-title *ngIf="slCheck" class="font-Lato flex justify-center text-2xl text-white">Delivery Ticket#
+          {{ticketName}} - SL</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-card class="m-0 mb-4 mt-4">
+        <ion-card-header>
+          <ion-card-title class="font-Lato">Job Profile</ion-card-title>
+        </ion-card-header>
+        <ion-card-content >
+          <ion-grid>
+            <ion-row>
+              <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Customer</ion-col>
+              <ion-col size="6" class="text-sm flex font-Lato ">{{this.ticket?.customerName}}</ion-col>
+              <ion-col size="6" class="text-sm text-black font-Lato font-semibold">State</ion-col>
+              <ion-col size="6" class="text-sm flex font-Lato">{{this?.ticket?.state}}</ion-col>
+              <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Farm</ion-col>
+              <ion-col size="6" class="text-sm flex font-Lato">{{this?.ticket?.farm_name}}
+              </ion-col>
+              <ion-col size="6" class="text-sm text-black font-Lato font-semibold">Crop</ion-col>
+              <ion-col size="6" class="text-sm flex font-Lato">{{this?.ticket?.crop_name}}</ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-card-content>
+      </ion-card>
+      <form [formGroup]="generateTicketFormTruck">
+
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">{{(this.generateTicketFormTruck.get('farmers_bin_weight_initial').value == '') ? 'Scale Ticket Number':'Delivery Ticket Number'}}
+            <span *ngIf="this.generateTicketFormTruck.get('scaleTicket').hasError('required')"
+              class="text-red-400">*</span></label>
+          <input
+          type="number"
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="scaleTicket" [placeholder]="(this.generateTicketFormTruck.get('farmers_bin_weight_initial').value == '') ? 'Scale Ticket Number':'Delivery Ticket Number'" />
+        </div>
+
+        <label class="block text-sm font-medium text-gray-700">Add Photo of Delivery/Scale Ticket <span
+            *ngIf="this.generateTicketFormTruck.get('image_2').hasError('required')"
+            class="text-red-400">*</span></label>
+
+            <div *ngIf="uploaded" class="border-2 border-solid border-gray-500"><img class="w-80 h-80 object-contain" [src]="upload_2_url" ></div>
+
+        <div class="mr-2">
+          <ion-card class="w-16 h-16 ml-0"
+            (click)="upload__2.click()">
+            <ion-card-content class="w-16 h-16 p-0 flex justify-center items-center">
+              <ion-segment scrollable value="done" class="bg-none">
+                <ion-segment-button class="w-16 h-16" value="done" >
+                  <ion-icon [ngStyle]="{'color' : uploaded ? '#3D8AA4' : '#aaaaaa'}" [name]="uploaded ? 'cloud-done-outline':'cloud-upload-outline'">
+                  </ion-icon>
+                </ion-segment-button>
+                <input #upload__2 type="file" class="invisible hidden" (change)="onSelectedFiles($event, 'upload_2')" />
+              </ion-segment>
+            </ion-card-content>
+          </ion-card>
+        </div>
+
+        <div [hidden]="this.generateTicketFormTruck.get('farmers_bin_weight_initial').value == ''" class="col-span-12 mb-2">
+          <label class="block text-sm font-medium text-gray-700">Farmers Bin Cart Weight (lbs.)
+          </label>
+          <input type="number"
+            class="mt-1 block w-full pointer-events-none  rounded-md border border-gray-300  text-gray-400 focus:text-gray-700
+            bg-gray-200 py-2 px-3 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="farmers_bin_weight_initial" placeholder="Farmers Bin Weight" />
+        </div>
+
+        <div [hidden]="this.generateTicketFormTruck.get('farmers_bin_weight_initial').value != ''"  class="col-span-12 mb-2">
+          <label class="block text-sm font-medium text-gray-700">Scale Ticket 'Net' Weight (lbs.)
+            <span *ngIf="this.generateTicketFormTruck.get('NetWeight').hasError('required')"
+              class="text-red-400">*</span></label>
+          <input type="number"
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="NetWeight" placeholder="Enter Weight" />
+        </div>
+
+        <div [hidden]="this.generateTicketFormTruck.get('farmers_bin_weight_initial').value != ''"  class="col-span-12 mb-2">
+          <label class="block text-sm font-medium text-gray-700">Scale Ticket 'Net' Weight (lbs.)
+            <span *ngIf="this.generateTicketFormTruck.get('NetWeight2').hasError('required')"
+              class="text-red-400">*</span></label>
+          <input type="number"
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="NetWeight2" placeholder="Enter Weight" />
+        </div>
+        <ion-text *ngIf="this.generateTicketFormTruck.get('NetWeight2').hasError('mustMatch')" class="text-sm text-red-500">
+          Scale ticket weight should match
+        </ion-text>
+
+        <!-- Machinery -->
+          <div
+          class="opacity-100 visible ease-in duration-200"
+          role="dialog" aria-modal="true">
+
+          <div
+            class="opacity-100 visible scale-100 ease-in duration-200"
+            class="mb-4 relative z-30">
+            <div class="mx-auto max-w-full transform rounded-xl px-0 transition-all">
+              <label class="block text-sm font-medium text-gray-700 mb-1">Truck ID: <span *ngIf="isMachineSelected"
+                  class="text-red-400">*</span></label>
+              <div class="flex items-center justify-between gap-x-2 rounded-md">
+                <input (keyup)="machine_search$.next($event.target.value)" (click)="inputClickedMachinery()"
+                  [value]="machine_name" #machineryInput
+                  class="w-full px-4 py-2 text-gray-900 placeholder:text-base rounded-md border border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
+                  placeholder="Select Truck" role="" aria-expanded="false" aria-controls="options"
+                  [disabled]="isGuestUser == 'true'">
+              </div>
+
+              <div *ngIf="allMachinery | withLoading | async as allMachinery">
+                <div class="flex justify-center items-center">
+                  <ion-spinner *ngIf="allMachinery?.loading" name="crescent" mode="indeterminate"
+                    color="primary"></ion-spinner>
+                </div>
+                <ul *ngIf="allMachinery?.value && machineUL"
+                  class="-mb-2 max-h-48 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800 bg-white absolute w-full"
+                  id="options" role="listbox">
+                  <ng-container *ngFor="let machinery of allMachinery?.value.machinery">
+                    <li (click)="listClickedMachiney(machinery)"
+                    class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200" role="option"
+                    *ngIf="isGuestUser == 'false' && !machinery.guest_vehicle"
+                    tabindex="-1">
+                    <div class="flex items-center p-2">
+                      {{machinery.name}}
+                    </div>
+                  </li>
+                </ng-container>
+              </ul>
+                <div *ngIf="allMachinery?.value?.machinery?.length === 0">
+                  <p disabled
+                    class="cursor-pointer select-none rounded-md px-4 py-2 hover:bg-gray-200 text-gray-500 hover:text-gray-700 hover:font-semibold">
+                    No Machinery(s) found </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Farmers Bin -->
+        <div [hidden]="this.generateTicketFormTruck.get('farmers_bin_weight_initial').value == ''" class="col-span-12 mb-2">
+          <label class="block text-sm font-medium text-gray-700">Farmers Bin Cart Weight (lbs.)
+            <span
+              class="text-red-400" *ngIf="this.generateTicketFormTruck.get('farmers_bin_weight').hasError('required')">*</span></label>
+          <input type="number"
+            class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm
+            disabled:bg-gray-200"
+            formControlName="farmers_bin_weight" placeholder="Farmers Bin Weight" />
+        </div>
+        <ion-text *ngIf="this.generateTicketFormTruck.get('farmers_bin_weight').hasError('mustMatch')" class="text-sm text-red-500">
+          Farmers Bin Weight should be equal to {{this.generateTicketFormTruck.get('farmers_bin_weight_initial').value}}
+        </ion-text>
+
+        <!-- Field/Pivot -->
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Field/Pivot
+          </label>
+          <input class="mt-1 block w-full pointer-events-none  rounded-md border border-gray-300  text-gray-400 focus:text-gray-700
+          bg-gray-200 py-2 px-3 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            [value]="fieldPivot" />
+        </div>
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Field/Pivot -SL
+          </label>
+          <input class="mt-1 block w-full pointer-events-none  rounded-md border border-gray-300  text-gray-400 focus:text-gray-700
+          bg-gray-200 py-2 px-3 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            [value]="fieldPivotSL" />
+        </div>
+
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Protein Content (Optional)
+            <span *ngIf="this.generateTicketFormTruck.get('proteinContent').hasError('required')"
+              class="text-red-400">*</span></label>
+          <input
+            type="number" class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="proteinContent" placeholder="Protein Content" />
+        </div>
+
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Moisture Content (Optional)
+            <span *ngIf="this.generateTicketFormTruck.get('moistureContent').hasError('required')"
+              class="text-red-400">*</span></label>
+          <input
+            type="number" class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="moistureContent" placeholder="Moisture Content" />
+        </div>
+
+        <div class="col-span-12 mb-4">
+          <label class="block text-sm font-medium text-gray-700">Test Weight (Optional)
+            <span *ngIf="this.generateTicketFormTruck.get('testWeight').hasError('required')"
+              class="text-red-400">*</span></label>
+          <input
+            type="number" class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            formControlName="testWeight" placeholder="Test Weight" />
+        </div>
+
+        <ion-button expand="block" class="font-Lato mt-5 text-white" (click)="submit()"
+          [disabled]="generateTicketFormTruck.invalid || (loadingSpinner | async)">
+          <ion-spinner [hidden]="!(loadingSpinner | async)" name="crescent" mode="indeterminate"></ion-spinner>
+          <span [hidden]="(loadingSpinner | async)" class="text-white"> Save and Send to Cart Operator</span>
+        </ion-button>
+      </form>
+    </ion-card-content>
+  </ion-card></ion-content>
