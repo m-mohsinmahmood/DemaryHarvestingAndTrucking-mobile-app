@@ -139,7 +139,7 @@
         <ion-button expand="block" class="mt-5 font-Lato text-white"
           [disabled]="showValidationMessage_1 || showValidationMessage_2 || startJobFormCombine.invalid || isJobSelected || isMachineSelected || (loadingSpinner | async)"
           (click)="submit()">
-          <div *ngIf="(loadingSpinner | async) === false">Save</div>
+          <div *ngIf="(loadingSpinner | async) === false">Check-In</div>
           <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
         </ion-button>
       </div>
@@ -273,7 +273,7 @@
         </div>
         <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="submit()"
           [disabled]="showValidationMessage_1 || startJobFormKart.invalid || isJobSelected || isMachineSelected || (loadingSpinner | async)">
-          <div *ngIf="(loadingSpinner | async) === false">Save</div>
+          <div *ngIf="(loadingSpinner | async) === false">Check-In</div>
           <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
         </ion-button>
       </div>
@@ -469,7 +469,7 @@
         </div>
         <ion-button expand="block" class="mt-5 font-Lato text-white" (click)="submit()"
           [disabled]="isFormInvalid || startJobFormTruck.invalid || showValidationMessage_1 || (loadingSpinner | async)">
-          <div *ngIf="(loadingSpinner | async) === false">Save</div>
+          <div *ngIf="(loadingSpinner | async) === false">Check-In</div>
           <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
         </ion-button>
       </div>

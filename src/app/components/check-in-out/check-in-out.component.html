@@ -23,7 +23,7 @@
         <div class="h-full w-full flex flex-col items-center">
           <ion-button [disabled]=" (loadingSpinner | async)" class="text-white w-full"
             (click)="checkIn(); model.dismiss();">
-            <div *ngIf="(loadingSpinner | async) === false"> Check-In</div>
+            <div *ngIf="(loadingSpinner | async) === false">Proceed to Check-In</div>
             <ion-spinner name="crescent" *ngIf="(loadingSpinner | async)"></ion-spinner>
           </ion-button>
           <ion-button class="text-white w-full" (click)="model.dismiss(); closePopup()">
