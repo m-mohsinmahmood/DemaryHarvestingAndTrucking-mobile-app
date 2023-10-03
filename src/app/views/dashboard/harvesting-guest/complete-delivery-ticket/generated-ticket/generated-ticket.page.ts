@@ -50,7 +50,6 @@ export class GeneratedTicketPage implements OnInit {
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
   constructor(
-    private location: Location,
     private formBuilder: FormBuilder,
     private router: Router,
     private harvestingService: HarvestingService,
@@ -274,7 +273,7 @@ export class GeneratedTicketPage implements OnInit {
             this.fieldPivotSL = '';
 
             // navigate
-            this.router.navigate(['/tabs/home/harvesting/verify-ticket']);
+            this.router.navigate(['/tabs/home/harvesting-guest/complete-delivery-ticket']);
 
             //toast
             this.toastService.presentToast(response.message, 'success');

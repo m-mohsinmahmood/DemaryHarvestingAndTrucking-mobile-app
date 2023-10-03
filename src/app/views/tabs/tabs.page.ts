@@ -12,12 +12,19 @@ export class TabsPage implements OnInit {
   activeDWR = false;
   activeMessage = false;
   activeProfile = false;
+  isGuestUser: boolean;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) { }
 
   ngOnInit() {
+    if (localStorage.getItem('is_guest_user') == 'true')
+      this.isGuestUser = true;
+    else
+      this.isGuestUser = false;
+
     this.activeHome = !this.activeHome;
   }
+
   navigate(route: any) {
     if (route === 'home') {
       this.resetAll();
